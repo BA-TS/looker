@@ -10,7 +10,28 @@ datagroup: toolstation_dev_default_datagroup {
 
 persist_with: toolstation_dev_default_datagroup
 
-explore: transactions {}
+explore: transactions {
+  join: products {
+    type:  inner
+    relationship: many_to_one
+    sql_on: ${transactions.product_uid}=${products.product_uid} ;;
+  }
+  join: customers {
+    type :  inner
+    relationship: many_to_one
+    sql_on: ${transactions.customer_uid}=${customers.customer_uid} ;;
+  }
+  join: suppliers {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${products.product_default_supplier}=${suppliers.supplier_uid} ;;
+  }
+  join: sites {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.site_uid}=${sites.site_uid} ;;
+  }
+}
 
 # explore: app_trolley_sales {}
 
@@ -33,4 +54,3 @@ explore: transactions {}
 # explore: transactions_pending {}
 
 # explore: transactions_tp {}
-

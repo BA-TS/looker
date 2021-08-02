@@ -1,4 +1,4 @@
-view: all_customers {
+view: customers {
   sql_table_name: `toolstation-data-storage.customer.allCustomers`
     ;;
 
@@ -309,8 +309,4 @@ view: all_customers {
     sql: ${TABLE}.updatedDate ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [customer__last_name, customer__first_name]
-  }
 }

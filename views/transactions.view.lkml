@@ -3,8 +3,18 @@ view: transactions {
     ;;
   drill_fields: [transaction_uid]
 
+  dimension: order_line_key {
+    primary_key:  yes
+    type:  string
+    sql: concat(${parent_order_uid},${product_uid},${transaction_line_type}) ;;
+  }
+
+  dimension: parent_order_uid {
+    type: string
+    sql: ${TABLE}.parentOrderUID ;;
+  }
+
   dimension: transaction_uid {
-    primary_key: yes
     type: string
     sql: ${TABLE}.transactionUID ;;
   }
@@ -119,10 +129,6 @@ view: transactions {
     sql: ${TABLE}.originatingSiteUID ;;
   }
 
-  dimension: parent_order_uid {
-    type: string
-    sql: ${TABLE}.parentOrderUID ;;
-  }
 
   dimension: payment_type {
     type: string
@@ -232,8 +238,55 @@ view: transactions {
     sql: ${TABLE}.vatRate ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [transaction_uid]
+  measure:  total_net_sales {
+    type:  sum
+    sql: ${net_sales_value} ;;
+    value_format: "\£#,##0.00;(\£\#,##0.00)"
+  }
+
+  measure:  total_gross_sales {
+    type:  sum
+    sql: ${gross_sales_value} ;;
+    value_format: "\£#,##0.00;(\£\#,##0.00)"
+
+  }
+
+  measure:  total_cogs {
+    type:  sum
+    sql: ${cogs} ;;
+    value_format: "\£#,##0.00;(\£#,##0.00)"
+  }
+
+  measure:  total_margin_excl_funding {
+    type:  sum
+    sql: ${margin_excl_funding} ;;
+    value_format: "\£#,##0.00;(\£\#,##0.00)"
+
+  }
+
+  measure:  total_margin_incl_funding {
+    type:  sum
+    sql: ${margin_incl_funding} ;;
+    value_format: "\£#,##0.00;(\£\#,##0.00)"
+
+  }
+
+  measure:  total_unit_funding {
+    type:  sum
+    sql: ${unit_funding} ;;
+    value_format: "\£#,##0.00;(\£\#,##0.00)"
+
+  }
+
+  measure:  total_units {
+    type:  sum
+    sql: case when ${product_code} like '0%' then 0 else ${quantity} end ;;
+    value_format: "#,##0;(#,##0)"
+  }
+
+  measure:  total_units_incl_system_codes {
+    type:  sum
+    sql: ${quantity} ;;
+    value_format: "#,##0;(#,##0)"
   }
 }
