@@ -315,9 +315,4 @@ view: transactions {
     sql: (sum(${gross_sales_value})/count(distinct ${parent_order_uid})) ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
   }
-
-  measure: log10_net_sales {
-    type:  number
-    sql:  log10(if(sum(${net_sales_value})<0,0,sum(${net_sales_value}))) ;;
-  }
 }
