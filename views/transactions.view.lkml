@@ -255,13 +255,13 @@ view: transactions {
   measure:  total_net_sales {
     type:  sum
     sql: ${net_sales_value} ;;
-    value_format: "\£#,##0.00;(\£\#,##0.00)"
+    value_format: "\£#,##0.00;(\£#,##0.00)"
   }
 
   measure:  total_gross_sales {
     type:  sum
     sql: ${gross_sales_value} ;;
-    value_format: "\£#,##0.00;(\£\#,##0.00)"
+    value_format: "\£#,##0.00;(\£#,##0.00)"
 
   }
 
@@ -274,21 +274,21 @@ view: transactions {
   measure:  total_margin_excl_funding {
     type:  sum
     sql: ${margin_excl_funding} ;;
-    value_format: "\£#,##0.00;(\£\#,##0.00)"
+    value_format: "\£#,##0.00;(\£#,##0.00)"
 
   }
 
   measure:  total_margin_incl_funding {
     type:  sum
     sql: ${margin_incl_funding} ;;
-    value_format: "\£#,##0.00;(\£\#,##0.00)"
+    value_format: "\£#,##0.00;(\£#,##0.00)"
 
   }
 
   measure:  total_unit_funding {
     type:  sum
     sql: ${unit_funding} ;;
-    value_format: "\£#,##0.00;(\£\#,##0.00)"
+    value_format: "\£#,##0.00;(\£#,##0.00)"
 
   }
 
@@ -307,12 +307,17 @@ view: transactions {
   measure: net_sales_AOV {
     type:  number
     sql: (sum(${net_sales_value})/count(distinct ${parent_order_uid})) ;;
-    value_format: "\£#,##0.00;(\£\#,##0.00)"
+    value_format: "\£#,##0.00;(\£#,##0.00)"
   }
 
   measure: gross_sales_AOV {
     type:  number
     sql: (sum(${gross_sales_value})/count(distinct ${parent_order_uid})) ;;
-    value_format: "\£#,##0.00;(\£\#,##0.00)"
+    value_format: "\£#,##0.00;(\£#,##0.00)"
+  }
+
+  measure: log10_net_sales {
+    type:  number
+    sql:  log10(sum(${net_sales_value})) ;;
   }
 }
