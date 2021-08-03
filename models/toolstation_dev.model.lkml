@@ -31,6 +31,18 @@ explore: transactions {
     relationship: many_to_one
     sql_on: ${transactions.site_uid}=${sites.site_uid} ;;
   }
+  join: completed_date_calendar{
+    from:  calendar
+    type:  inner
+    relationship:  many_to_one
+    sql_on: date(${transactions.transaction_date})=${completed_date_calendar.date} ;;
+  }
+  join: placed_date_calendar{
+    from:  calendar
+    type:  inner
+    relationship:  many_to_one
+    sql_on: date(${transactions.placed_date})=${placed_date_calendar.date} ;;
+  }
 }
 
 # explore: app_trolley_sales {}

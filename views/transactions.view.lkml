@@ -1,12 +1,13 @@
 view: transactions {
   sql_table_name: `sales.transactions`
     ;;
-  drill_fields: [transaction_uid]
+  # drill_fields: [transaction_uid]
 
   dimension: order_line_key {
     primary_key:  yes
     type:  string
     sql: concat(${parent_order_uid},${product_uid},${transaction_line_type}) ;;
+    hidden:  yes
   }
 
   dimension: parent_order_uid {
@@ -22,6 +23,7 @@ view: transactions {
   dimension: cogs {
     type: number
     sql: ${TABLE}.COGS ;;
+    hidden:  yes
   }
 
   dimension: customer_uid {
@@ -37,6 +39,7 @@ view: transactions {
   dimension: fulfillment_channel {
     type: string
     sql: ${TABLE}.fulfillmentChannel ;;
+    hidden:  yes
   }
 
   dimension: gross_sale_price {
@@ -47,11 +50,13 @@ view: transactions {
   dimension: gross_sales_value {
     type: number
     sql: ${TABLE}.grossSalesValue ;;
+    hidden:  yes
   }
 
   dimension: is_cancelled {
     type: number
     sql: ${TABLE}.isCancelled ;;
+    hidden:  yes
   }
 
   dimension: is_lfl {
@@ -87,21 +92,25 @@ view: transactions {
   dimension: line_discount {
     type: number
     sql: ${TABLE}.lineDiscount ;;
+    hidden:  yes
   }
 
   dimension: margin_excl_funding {
     type: number
     sql: ${TABLE}.marginExclFunding ;;
+    hidden:  yes
   }
 
   dimension: margin_incl_funding {
     type: number
     sql: ${TABLE}.marginInclFunding ;;
+    hidden:  yes
   }
 
   dimension: master_customer_uid {
     type: string
     sql: ${TABLE}.masterCustomerUID ;;
+    hidden:  yes
   }
 
   dimension: net_sale_price {
@@ -112,6 +121,7 @@ view: transactions {
   dimension: net_sales_value {
     type: number
     sql: ${TABLE}.netSalesValue ;;
+    hidden:  yes
   }
 
   dimension: order_reason {
@@ -128,7 +138,6 @@ view: transactions {
     type: string
     sql: ${TABLE}.originatingSiteUID ;;
   }
-
 
   dimension: payment_type {
     type: string
@@ -172,11 +181,13 @@ view: transactions {
   dimension: quantity {
     type: number
     sql: ${TABLE}.quantity ;;
+    hidden:  yes
   }
 
   dimension: row_id {
     type: number
     sql: ${TABLE}.rowID ;;
+    hidden:  yes
   }
 
   dimension: sales_channel {
@@ -207,11 +218,13 @@ view: transactions {
     type: string
     description: "Field is currently under review - please do not use"
     sql: ${TABLE}.transactionLineType ;;
+    hidden:  yes
   }
 
   dimension: unit_funding {
     type: number
     sql: ${TABLE}.unitFunding ;;
+    hidden:  yes
   }
 
   dimension_group: updated {
@@ -226,6 +239,7 @@ view: transactions {
       year
     ]
     sql: ${TABLE}.updatedDate ;;
+    hidden:  yes
   }
 
   dimension: user_uid {
@@ -288,5 +302,17 @@ view: transactions {
     type:  sum
     sql: ${quantity} ;;
     value_format: "#,##0;(#,##0)"
+  }
+
+  measure: net_sales_AOV {
+    type:  number
+    sql: (sum(${net_sales_value})/count(distinct ${parent_order_uid})) ;;
+    value_format: "\£#,##0.00;(\£\#,##0.00)"
+  }
+
+  measure: gross_sales_AOV {
+    type:  number
+    sql: (sum(${gross_sales_value})/count(distinct ${parent_order_uid})) ;;
+    value_format: "\£#,##0.00;(\£\#,##0.00)"
   }
 }
