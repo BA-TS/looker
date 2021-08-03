@@ -43,6 +43,9 @@ explore: transactions {
     relationship:  many_to_one
     sql_on: date(${transactions.placed_date})=${placed_date_calendar.date} ;;
   }
+
+  # Exclude cancelled orders and the charity SKU
+  sql_always_where: ${is_cancelled} = 0 and ${product_code} <> '85699' ;;
 }
 
 # explore: app_trolley_sales {}
