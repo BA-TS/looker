@@ -318,6 +318,6 @@ view: transactions {
 
   measure: log10_net_sales {
     type:  number
-    sql:  log10(coalesce(sum(${net_sales_value}),0)) ;;
+    sql:  log10(if(sum(${net_sales_value})<0,0,sum(${net_sales_value}))) ;;
   }
 }
