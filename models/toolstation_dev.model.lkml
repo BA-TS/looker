@@ -24,7 +24,7 @@ explore: transactions {
   join: suppliers {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${products.product_default_supplier}=${suppliers.supplier_uid} ;;
+    sql_on: ${products.default_supplier}=${suppliers.supplier_uid} ;;
   }
   join: sites {
     type: left_outer

@@ -30,7 +30,7 @@ view: products {
   #   sql: ${TABLE}.activeTo ;;
   # }
 
-  dimension: buyer_name {
+  dimension: buyer {
     type: string
     sql: ${TABLE}.buyerName ;;
   }
@@ -60,12 +60,12 @@ view: products {
     sql: ${TABLE}.manufacturerID ;;
   }
 
-  dimension: product_brand {
+  dimension: brand {
     type: string
     sql: ${TABLE}.productBrand ;;
   }
 
-  dimension: product_buying_status {
+  dimension: buying_status {
     type: string
     sql: ${TABLE}.productBuyingStatus ;;
   }
@@ -80,28 +80,28 @@ view: products {
     sql: ${TABLE}.productCode ;;
   }
 
-  dimension: product_default_supplier {
+  dimension: default_supplier {
     type: string
     sql: ${TABLE}.productDefaultSupplier ;;
   }
 
-  dimension: product_department {
+  dimension: department {
     type: string
     sql: ${TABLE}.productDepartment ;;
   }
 
-  dimension: product_department_uid {
+  dimension: department_uid {
     type: number
     value_format_name: id
     sql: ${TABLE}.productDepartmentUID ;;
   }
 
-  dimension: product_description {
+  dimension: description {
     type: string
     sql: ${TABLE}.productDescription ;;
   }
 
-  dimension: product_name {
+  dimension: name {
     type: string
     sql: ${TABLE}.productName ;;
   }
@@ -135,12 +135,12 @@ view: products {
     sql: ${TABLE}.productStatus ;;
   }
 
-  dimension: product_subdepartment {
+  dimension: subdepartment {
     type: string
     sql: ${TABLE}.productSubdepartment ;;
   }
 
-  dimension: product_subdepartment_uid {
+  dimension: subdepartment_uid {
     type: number
     value_format_name: id
     sql: ${TABLE}.productSubdepartmentUID ;;
