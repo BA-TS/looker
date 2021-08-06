@@ -157,12 +157,12 @@ view: stock_intake {
 
   measure: total_value_ordered {
     type:  number
-    sql: ${total_units_ordered}*${unit_cost} ;;
+    sql: sum(${quantity_ordered}*(safe_divide(${pack_cost_gbp},${pack_quantity}))) ;;
   }
 
   measure: total_value_received {
     type:  number
-    sql: ${total_units_received}*${unit_cost} ;;
+    sql: sum(${quantity_received}*(safe_divide(${pack_cost_gbp},${pack_quantity}))) ;;
   }
 
 }
