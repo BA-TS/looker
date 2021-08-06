@@ -64,9 +64,4 @@ explore: stock_intake {
     relationship: many_to_one
     sql_on: ${stock_intake.destination_site_uid}=${disctribution_centre_names.site_uid} ;;
   }
-  join: aac {
-    type:  left_outer
-    relationship: many_to_one
-    sql_on: ${stock_intake.order_placed_date}=${aac.date} and ${stock_intake.product_uid}=${aac.product_uid} ;;
-  }
 }
