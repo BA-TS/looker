@@ -7,14 +7,18 @@
 
 ### Models ###
 
-#### Transactions ####
+##### Transactions #####
+
+###### Core: sales.transactions ######
+###### joins: range.products, ts_finance.dim_date, customer.allCustomers, locations.sites, supplier.suppliers ######
+
+##### Stock Holding #####
 
 
+##### Stock Intake #####
 
-#### Stock Holding ####
-
-
-
+###### Core: stock.purchaseOrders ######
+###### joins: range.products, locations.sites, locations.distributionCentreNames #####
 
 ### How do I get set up? ###
 
