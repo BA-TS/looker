@@ -315,4 +315,10 @@ view: transactions {
     sql: (sum(${gross_sales_value})/count(distinct ${parent_order_uid})) ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
   }
+
+  measure: transactions {
+    type: count_distinct
+    sql: ${transaction_uid} ;;
+    value_format: "#,##0;(#,##0)"
+  }
 }
