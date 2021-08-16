@@ -318,7 +318,7 @@ view: transactions {
 
   measure: transactions {
     type: count_distinct
-    sql: ${transaction_uid} ;;
+    sql: ${parent_order_uid} ;;
     value_format: "#,##0;(#,##0)"
   }
 }
