@@ -1,10 +1,11 @@
 view: site_budget {
-  sql_table_name: `toolstation-data-storage.ts_finance.AOPBySiteAndDate`
+  sql_table_name: `toolstation-data-storage.ts_finance.site_budget`
     ;;
 
   dimension: aop {
     type: number
     sql: ${TABLE}.AOP ;;
+    hidden: yes
   }
 
   dimension_group: date {
@@ -29,21 +30,13 @@ view: site_budget {
     sql: ${date_date}||${site_uid} ;;
   }
 
-  dimension: original_site_uid {
-    type: string
-    sql: ${TABLE}.originalSiteUID ;;
-    hidden: yes
-  }
-
-  dimension: site_name {
-    type: string
-    sql: ${TABLE}.siteName ;;
-    hidden:  yes
-  }
-
   dimension: site_uid {
     type: string
     sql: ${TABLE}.siteUID ;;
   }
 
+  measure: site_net_sales_budget {
+    type: sum
+    sql: ${aop} ;;
+  }
 }

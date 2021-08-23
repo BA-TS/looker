@@ -42,5 +42,11 @@ view: category_budget {
   dimension: net_sales {
     type: number
     sql: ${TABLE}.netSales ;;
+    hidden:  yes
+  }
+
+  measure: department_net_sales_budget {
+    type:  sum
+    sql: ${net_sales} ;;
   }
 }

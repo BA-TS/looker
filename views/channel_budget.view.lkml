@@ -42,6 +42,7 @@ view: channel_budget {
   dimension: net_sales {
     type: number
     sql: ${TABLE}.netSales ;;
+    hidden: yes
   }
 
   dimension: retro_funding {
@@ -49,4 +50,8 @@ view: channel_budget {
     sql: ${TABLE}.retroFunding ;;
   }
 
+  measure: channel_net_sales_budget {
+    type: sum
+    sql: ${net_sales} ;;
+  }
 }
