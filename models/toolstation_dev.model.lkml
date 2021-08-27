@@ -43,10 +43,32 @@ explore: transactions {
     relationship:  many_to_one
     sql_on: date(${transactions.placed_date})=${placed_date_calendar.date} ;;
   }
+  join: category_budget {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: date(${transactions.transaction_date})=${category_budget.date_date} and ${products.department}=${category_budget.department} ;;
+  }
+  join: channel_budget {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: date(${transactions.transaction_date})=${channel_budget.date_date} and upper(${transactions.sales_channel})=${channel_budget.channel} ;;
+  }
+  join: site_budget {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.site_uid}=${site_budget.site_uid} and date(${transactions.transaction_date})=${site_budget.date_date} ;;
+  }
+  join: trade_customers {
+    type:  left_outer
+    relationship: many_to_one
+    sql_on: ${customers.customer_uid} = ${trade_customers.customer_number} ;;
+  }
 
   # Exclude cancelled orders and the charity SKU
   sql_always_where: ${is_cancelled} = 0 and ${product_code} <> '85699' ;;
 }
+
+
 
 explore: stock_intake {
   join: products {
