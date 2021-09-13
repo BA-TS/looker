@@ -9,6 +9,7 @@ view: site_budget {
   }
 
   dimension_group: date {
+    hidden: yes
     type: time
     timeframes: [
       raw,
@@ -31,11 +32,13 @@ view: site_budget {
   }
 
   dimension: site_uid {
+    hidden: yes
     type: string
     sql: ${TABLE}.siteUID ;;
   }
 
   measure: site_net_sales_budget {
+    description: "Budget Net Sales at Site level only"
     type: sum
     sql: ${aop} ;;
   }

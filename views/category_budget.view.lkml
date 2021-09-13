@@ -13,6 +13,7 @@ view: category_budget {
       year
     ]
     convert_tz: no
+    hidden: yes
     datatype: date
     sql: ${TABLE}.date ;;
   }
@@ -25,16 +26,19 @@ view: category_budget {
   }
 
   dimension: department {
+    hidden: yes
     type: string
     sql: ${TABLE}.department ;;
   }
 
   dimension: fixed_funding {
+    hidden: yes
     type: number
     sql: ${TABLE}.fixedFunding ;;
   }
 
   dimension: gross_margin_inc_retro {
+    hidden: yes
     type: number
     sql: ${TABLE}.grossMarginIncRetro ;;
   }
@@ -46,6 +50,7 @@ view: category_budget {
   }
 
   measure: department_net_sales_budget {
+    description: "Budget Net Sales at Department level only"
     type:  sum
     sql: ${net_sales} ;;
   }

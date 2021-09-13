@@ -3,11 +3,13 @@ view: channel_budget {
     ;;
 
   dimension: channel {
+    hidden: yes
     type: string
     sql: ${TABLE}.channel ;;
   }
 
   dimension_group: date {
+    hidden: yes
     type: time
     timeframes: [
       raw,
@@ -30,11 +32,13 @@ view: channel_budget {
   }
 
   dimension: fixed_funding {
+    hidden: yes
     type: number
     sql: ${TABLE}.fixedFunding ;;
   }
 
   dimension: gross_profit {
+    hidden: yes
     type: number
     sql: ${TABLE}.grossProfit ;;
   }
@@ -46,11 +50,13 @@ view: channel_budget {
   }
 
   dimension: retro_funding {
+    hidden: yes
     type: number
     sql: ${TABLE}.retroFunding ;;
   }
 
   measure: channel_net_sales_budget {
+    description: "Budget Net Sales at Channel level only"
     type: sum
     sql: ${net_sales} ;;
   }
