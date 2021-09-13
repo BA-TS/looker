@@ -54,4 +54,10 @@ view: category_budget {
     type:  sum
     sql: ${net_sales} ;;
   }
+
+  measure: department_margin_inc_all_funding_budget {
+    description: "Budget MArgin Inc Retro at Department level only"
+    type:  sum
+    sql: ${gross_margin_inc_retro} + ${fixed_funding} ;;
+  }
 }
