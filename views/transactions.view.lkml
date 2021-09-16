@@ -254,6 +254,7 @@ view: transactions {
 
   measure:  total_net_sales {
     type:  sum
+    group_item_label: "Sales Measures"
     sql: ${net_sales_value} ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
   }

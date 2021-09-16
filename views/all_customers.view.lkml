@@ -295,6 +295,11 @@ view: customers {
     group_item_label: "Order Query Telephone Opt In"
   }
 
+  dimension: flags__trade_customer {
+    type:  string
+    sql: case when ${trade_customers.customer_number} is null then False else True end ;;
+  }
+
   dimension_group: updated {
     type: time
     timeframes: [
