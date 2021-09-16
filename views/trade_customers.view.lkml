@@ -1,4 +1,5 @@
 view: trade_customers {
+  view_label: "Customers"
   sql_table_name: `toolstation-data-storage.ts_marketing.CRM_DBS_Trade_Type_Master`
     ;;
 
@@ -25,13 +26,15 @@ view: trade_customers {
     hidden: yes
   }
 
-  dimension: trade_flag {
+  dimension: trade_segment {
     type: string
+    group_label: "Flags"
     sql: ${TABLE}.Trade_Flag ;;
   }
 
   dimension: trade_type {
     type: string
+    group_label: "Flags"
     sql: ${TABLE}.Trade_Type ;;
   }
 

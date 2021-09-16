@@ -295,8 +295,9 @@ view: customers {
     group_item_label: "Order Query Telephone Opt In"
   }
 
-  dimension: flags__trade_customer {
+  dimension: trade_customer {
     type:  string
+    group_label: "Flags"
     sql: case when ${trade_customers.customer_number} is null then False else True end ;;
   }
 
