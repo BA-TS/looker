@@ -11,6 +11,40 @@ datagroup: toolstation_dev_default_datagroup {
 persist_with: toolstation_dev_default_datagroup
 
 explore: transactions {
+  sql_always_where:
+  {% if transactions.current_date_range._is_filtered %}
+  {% condition transactions.current_date_range %} ${event_raw} {% endcondition %}
+
+  {% if transactions.previous_date_range._is_filtered or transactions.compare_to._in_query %}
+  {% if transactions.comparison_periods._parameter_value == "2" %}
+  or
+  ${event_raw} between ${period_2_start} and ${period_2_end}
+
+  {% elsif transactions.comparison_periods._parameter_value == "3" %}
+  or
+  ${event_raw} between ${period_2_start} and ${period_2_end}
+  or
+  ${event_raw} between ${period_3_start} and ${period_3_end}
+
+  {% endif %}
+  {% else %} 1 = 1
+  {% endif %}
+  {% endif %}
+
+  AND  ${is_cancelled} = 0 AND ${product_code} <> '85699' ;;
+
+
+  # {% elsif transactions.comparison_periods._parameter_value == "4" %}
+  # or
+  # ${event_raw} between ${period_2_start} and ${period_2_end}
+  # or
+  # ${event_raw} between ${period_3_start} and ${period_3_end}
+  # or
+  # ${event_raw} between ${period_4_start} and ${period_4_end}
+
+  # {% else %} 1 = 1
+  # {% endif %}
+
   join: products {
     type:  inner
     relationship: many_to_one
@@ -68,7 +102,7 @@ explore: transactions {
   }
 
   # Exclude cancelled orders and the charity SKU
-  sql_always_where: ${is_cancelled} = 0 and ${product_code} <> '85699' ;;
+  # sql_always_where: ${is_cancelled} = 0 and ${product_code} <> '85699' ;;
 }
 
 

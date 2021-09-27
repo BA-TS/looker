@@ -1,7 +1,17 @@
+include: "/custom_views/**/*.view"
+
 view: transactions {
   sql_table_name: `sales.transactions`
     ;;
   # drill_fields: [transaction_uid]
+
+  extends: [pop_date_comparison]
+
+  dimension: event_raw {
+    type: date_raw
+    sql: ${transaction_raw} ;;
+    hidden: yes
+  }
 
   dimension: order_line_key {
     primary_key:  yes
