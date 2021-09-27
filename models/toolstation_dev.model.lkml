@@ -12,6 +12,7 @@ persist_with: toolstation_dev_default_datagroup
 
 explore: transactions {
   sql_always_where:
+  ${is_cancelled} = 0 AND ${product_code} <> '85699' AND
   {% if transactions.current_date_range._is_filtered %}
   {% condition transactions.current_date_range %} ${event_raw} {% endcondition %}
 
@@ -31,7 +32,7 @@ explore: transactions {
   {% endif %}
   {% endif %}
 
-  ${is_cancelled} = 0 AND ${product_code} <> '85699' ;;
+   ;;
 
 
   # {% elsif transactions.comparison_periods._parameter_value == "4" %}
