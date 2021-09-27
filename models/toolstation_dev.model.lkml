@@ -27,8 +27,9 @@ explore: transactions {
             ${event_raw} between ${period_3_start} and ${period_3_end}
 
         {% endif %}
-      {% else %} 1 = 1 AND
+      {% else %} 1 = 1
       {% endif %}
+    AND
     {% endif %}
 
     ${is_cancelled} = 0 AND ${product_code} <> '85699'
