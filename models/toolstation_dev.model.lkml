@@ -31,7 +31,7 @@ explore: transactions {
   {% endif %}
   {% endif %}
 
-  AND  ${is_cancelled} = 0 AND ${product_code} <> '85699' ;;
+  ${is_cancelled} = 0 AND ${product_code} <> '85699' ;;
 
 
   # {% elsif transactions.comparison_periods._parameter_value == "4" %}
