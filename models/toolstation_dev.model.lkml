@@ -10,6 +10,8 @@ datagroup: toolstation_dev_default_datagroup {
 
 persist_with: toolstation_dev_default_datagroup
 
+week_start_day: sunday
+
 explore: transactions {
   sql_always_where:
     {% if transactions.current_date_range._is_filtered %}
