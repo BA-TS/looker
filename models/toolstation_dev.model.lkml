@@ -136,3 +136,7 @@ explore: stock_intake {
     sql_on: ${stock_intake.destination_site_uid}=${disctribution_centre_names.site_uid} ;;
   }
 }
+
+########
+explore: view_weeklyconversion_testl {}
+explore: test_dgtl_ds_contibution {}
