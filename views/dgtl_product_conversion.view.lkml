@@ -1,6 +1,7 @@
 view: dgtl_product_conversion {
-  sql_table_name: `toolstation-data-storage.digitalreporting.DGTL_product_conversion`
-    ;;
+  sql_table_name: `toolstation-data-storage.digitalreporting.DGTL_product_conversion`;;
+
+  # DIMENSION GROUPS
 
   dimension_group: date {
     type: time
@@ -17,9 +18,18 @@ view: dgtl_product_conversion {
     sql: ${TABLE}.date ;;
   }
 
+  # DIMENSIONS
+
+
+  dimension: ga_sku {
+    type: string
+    sql: ${TABLE}.ga_SKU ;;
+  }
+
   dimension: exit_rate {
     type: number
     sql: ${TABLE}.exitRate ;;
+    hidden: yes
   }
 
   dimension: ga_brand {
@@ -35,6 +45,7 @@ view: dgtl_product_conversion {
   dimension: ga_entrances {
     type: number
     sql: ${TABLE}.ga_entrances ;;
+    hidden: yes
   }
 
   dimension: ga_page_title {
@@ -45,45 +56,103 @@ view: dgtl_product_conversion {
   dimension: ga_product_conversion {
     type: number
     sql: ${TABLE}.ga_productConversion ;;
+    hidden: yes
   }
 
   dimension: ga_product_exits {
     type: number
     sql: ${TABLE}.ga_productExits ;;
+    hidden: yes
   }
 
-  dimension: ga_sku {
-    type: string
-    sql: ${TABLE}.ga_SKU ;;
-  }
 
   dimension: ga_total_product_page_views {
     type: number
     sql: ${TABLE}.ga_total_product_page_views ;;
+    hidden: yes
   }
 
   dimension: ga_total_product_revenue {
     type: number
     sql: ${TABLE}.ga_total_productRevenue ;;
+    hidden: yes
   }
 
   dimension: ga_total_product_sold {
     type: number
     sql: ${TABLE}.ga_total_product_sold ;;
+    hidden: yes
   }
 
   dimension: ga_total_product_units {
     type: number
     sql: ${TABLE}.ga_total_productUnits ;;
+    hidden: yes
   }
 
   dimension: ga_total_time_on_page_sec {
     type: number
     sql: ${TABLE}.ga_total_time_on_page_sec ;;
+    hidden: yes
   }
 
-  measure: count {
-    type: count
-    drill_fields: []
+  # MEASURES
+
+  measure: conversion_rate {
+    label: "Conversion Rate"
+    type: number
+    sql: ${ga_product_conversion} ;;
+    value_format: "\#,##0.0000000000%"
   }
+
+  measure: rate_of_entrance {
+    label: "Entrance Rate"
+    type: number
+    sql: ${ga_entrances} ;;
+    value_format: "\#,##0.0000000000%"
+  }
+
+  measure: rate_of_exit{
+    label: "Exit Rate"
+    type: number
+    sql: ${ga_product_exits} ;;
+    value_format: "\#,##0.0000000000%"
+  }
+
+  measure: page_views {
+    label: "Page Views"
+    type: number
+    sql: ${ga_total_product_page_views} ;;
+    value_format: "#,##0"
+  }
+
+  measure: product_revenue {
+    label: "Revenue"
+    type: number
+    sql: ${ga_total_product_revenue} ;;
+    value_format: "#,##0.00"
+  }
+
+  measure: product_sold {
+    label: "Product Sold"
+    type: number
+    sql: ${ga_total_product_sold} ;;
+    value_format: "#,##0"
+  }
+
+  measure: product_units {
+    label: "Product Units"
+    type: number
+    sql: ${ga_total_product_units} ;;
+    value_format: "#,##0"
+  }
+
+  measure: time_on_page {
+    label: "Time on Page"
+    type: number
+    sql: ${ga_total_time_on_page_sec} ;;
+    value_format: "#,##0.000000000"
+  }
+
+
 }

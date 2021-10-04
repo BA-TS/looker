@@ -1,10 +1,17 @@
+# HTML - Menu Widget
+
+This documentation file contains the core 'how-to' for including and editing the Menu Widgets housed within the Looker dashboards.
+
+- [x] Create Menu Widgets for:
+  -   [x] Menu
+  -   [x] Sub Menu
+  -   [x] Tertiary Menu
+- [ ] Documentation
+
 # Menu
 
-Put your documentation here! Your text is rendered with [GitHub Flavored Markdown](https://help.github.com/articles/github-flavored-markdown).
-
-Click the "Edit Source" button above to make changes.
-
-# Menu
+In order to use this:
+1. No Action Necessary
 
 <div style="padding: 20px 0 20px 0; border-radius: 5px; background: #ffe200; height: 80px;">
    <div style="background: #004f9f; height: 40px; width:100%">
@@ -19,7 +26,13 @@ Click the "Edit Source" button above to make changes.
    </div>
 </div>
 
+
 # Sub Menu
+
+In order to use this:
+1. Target URL
+2. Menu URL
+3. Menu Name
 
 <div style="padding:20px 0 20px 0;border-radius:5px;background:#ffe200;height: 80px;">
    <div style="background:#004f9f;height: 40px;width:100%;">
@@ -36,6 +49,13 @@ Click the "Edit Source" button above to make changes.
 </div>
 
 # Tertiary Menu
+
+In order to use this:
+1. Target URL
+2. Submenu URL
+3. Submenu Name
+2. Menu URL
+3. Menu Name
 
 <div style="padding:20px 0 20px 0;border-radius:5px;background:#ffe200;height: 80px;">
    <div style="background:#004f9f;height: 40px;width:100%;">
