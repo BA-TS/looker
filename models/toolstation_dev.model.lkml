@@ -3,12 +3,19 @@ connection: "toolstation"
 # include all the views
 include: "/views/**/*.view"
 
-datagroup: toolstation_dev_default_datagroup {
-  # sql_trigger: SELECT MAX(id) FROM etl_log;;
+datagroup: toolstation_transactions_datagroup {
+
+  sql_trigger:
+    SELECT
+      MAX(log_timestamp)
+
+      FROM `toolstation-data-storage.looker_persistent_tables.etl_log`
+      where datagroup_name = 'transactions';;
+
   max_cache_age: "1 hour"
 }
 
-persist_with: toolstation_dev_default_datagroup
+persist_with: toolstation_transactions_datagroup
 
 week_start_day: sunday
 

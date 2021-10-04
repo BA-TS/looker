@@ -1,6 +1,8 @@
 view: base {
   derived_table: {
-    materialized_view: yes
+
+    datagroup_trigger: toolstation_transactions_datagroup
+
     sql:
       SELECT
         d.fullDate as date,
