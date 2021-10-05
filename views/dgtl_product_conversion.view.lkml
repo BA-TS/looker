@@ -1,4 +1,5 @@
 view: dgtl_product_conversion {
+  label: "Digital Product Conversion"
   sql_table_name: `toolstation-data-storage.digitalreporting.DGTL_product_conversion`;;
 
   # DIMENSION GROUPS
