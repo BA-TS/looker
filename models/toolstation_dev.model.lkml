@@ -131,4 +131,12 @@ explore: stock_intake {
 ########
 explore: view_weeklyconversion_testl {}
 explore: test_dgtl_ds_contibution {}
-explore: dgtl_product_conversion {}
+
+
+explore: dgtl_product_conversion {
+  join: products {
+    type: inner
+    relationship: many_to_one
+    sql_on: ${dgtl_product_conversion.ga_sku}=${products.product_code} ;;
+  }
+}
