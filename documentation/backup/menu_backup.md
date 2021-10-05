@@ -1,4 +1,4 @@
-# HTML - Menu Widget
+<h1>HTML - Menu Widget <img style="color: #ffffff;float: right;height: 40px;" src="https://www.toolstation.com/img/toolstation.svg"></h1>
 
 This documentation file contains the core 'how-to' for including and editing the Menu Widgets housed within the Looker dashboards. To use any of the below, please follow the following steps:
 1. Press  and navigate to 'Edit Dashboard' (or press Ctrl + Shift + E)
