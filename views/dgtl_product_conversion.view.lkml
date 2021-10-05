@@ -5,7 +5,7 @@ view: dgtl_product_conversion {
   # DIMENSION GROUPS
 
   dimension_group: date {
-    group_label: "Date"
+    group_label: "??? Date"
     type: time
     timeframes: [
       raw,
@@ -104,14 +104,14 @@ view: dgtl_product_conversion {
 
   measure: conversion_rate {
     label: "Conversion Rate"
-    type: number
+    type: average
     sql: ${ga_product_conversion} ;;
     value_format:  "#,##0.0000000%;(#,##0.0000000%)"
   }
 
   measure: rate_of_exit{
     label: "Exit Rate"
-    type: number
+    type: average
     sql: ${ga_product_exits} ;;
     value_format:  "#,##0.0000000%;(#,##0.0000000%)"
   }
