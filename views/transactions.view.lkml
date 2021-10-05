@@ -21,11 +21,13 @@ view: transactions {
   }
 
   dimension: parent_order_uid {
+    label: "Parent Order UID"
     type: string
     sql: ${TABLE}.parentOrderUID ;;
   }
 
   dimension: transaction_uid {
+    label: "Transaction UID"
     type: string
     sql: ${TABLE}.transactionUID ;;
   }
@@ -37,11 +39,13 @@ view: transactions {
   }
 
   dimension: customer_uid {
+    label: "Customer UID"
     type: string
     sql: ${TABLE}.customerUID ;;
   }
 
   dimension: delivery_address_uid {
+    label: "Delivery Address UID"
     type: string
     sql: ${TABLE}.deliveryAddressUID ;;
   }
@@ -53,6 +57,7 @@ view: transactions {
   }
 
   dimension: gross_sale_price {
+    label: "Gross Sale Price"
     type: number
     sql: ${TABLE}.grossSalePrice ;;
   }
@@ -70,31 +75,37 @@ view: transactions {
   }
 
   dimension: is_lfl {
+    label: "Is LFL"
     type: number
     sql: ${TABLE}.isLFL ;;
   }
 
   dimension: is_mature {
+    label: "Is Mature"
     type: number
     sql: ${TABLE}.isMature ;;
   }
 
   dimension: is_open18_months {
+    label: "Is Open 18 Months"
     type: number
     sql: ${TABLE}.isOpen18Months ;;
   }
 
   dimension: is_originating_lfl {
+    label: "Is Originating LFL"
     type: number
     sql: ${TABLE}.isOriginatingLFL ;;
   }
 
   dimension: is_originating_mature {
+    label: "Is Originating Mature"
     type: number
     sql: ${TABLE}.isOriginatingMature ;;
   }
 
   dimension: is_originating_open18_months {
+    label: "Is Originating Open (18 Months)"
     type: number
     sql: ${TABLE}.isOriginatingOpen18Months ;;
   }
@@ -126,6 +137,7 @@ view: transactions {
   dimension: net_sale_price {
     type: number
     sql: ${TABLE}.netSalePrice ;;
+    hidden: yes
   }
 
   dimension: net_sales_value {
@@ -135,21 +147,25 @@ view: transactions {
   }
 
   dimension: order_reason {
+    label: "Reason for Order"
     type: string
     sql: ${TABLE}.orderReason ;;
   }
 
   dimension: order_special_requests {
+    label: "Special Requests"
     type: string
     sql: ${TABLE}.orderSpecialRequests ;;
   }
 
   dimension: originating_site_uid {
+    label: "Originating Site UID"
     type: string
     sql: ${TABLE}.originatingSiteUID ;;
   }
 
   dimension: payment_type {
+    label: "Payment Type"
     type: string
     sql: ${TABLE}.paymentType ;;
   }
@@ -169,21 +185,25 @@ view: transactions {
   }
 
   dimension: postal_area {
+    label: "Postal Area"
     type: string
     sql: ${TABLE}.postalArea ;;
   }
 
   dimension: postal_district {
+    label: "Postal District"
     type: string
     sql: ${TABLE}.postalDistrict ;;
   }
 
   dimension: product_code {
+    label: "Product Code"
     type: string
     sql: ${TABLE}.productCode ;;
   }
 
   dimension: product_uid {
+    label: "Product UID"
     type: string
     sql: ${TABLE}.productUID ;;
   }
@@ -201,11 +221,13 @@ view: transactions {
   }
 
   dimension: sales_channel {
+    label: "Sales Channel"
     type: string
     sql: ${TABLE}.salesChannel ;;
   }
 
   dimension: site_uid {
+    label: "Site UID"
     type: string
     sql: ${TABLE}.siteUID ;;
   }
@@ -253,16 +275,19 @@ view: transactions {
   }
 
   dimension: user_uid {
+    label: "User UID"
     type: string
     sql: ${TABLE}.userUID ;;
   }
 
   dimension: vat_rate {
+    label: "VAT Rate"
     type: number
     sql: ${TABLE}.vatRate ;;
   }
 
   measure:  total_net_sales {
+    label: "Total Net Sales"
     type:  sum
     group_item_label: "Sales Measures"
     sql: ${net_sales_value} ;;
@@ -270,6 +295,7 @@ view: transactions {
   }
 
   measure:  total_gross_sales {
+    label: "Total Gross Sales"
     type:  sum
     sql: ${gross_sales_value} ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
@@ -277,12 +303,14 @@ view: transactions {
   }
 
   measure:  total_cogs {
+    label: "Total COGS"
     type:  sum
     sql: ${cogs} ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
   }
 
   measure:  total_margin_excl_funding {
+    label: "Total Margin (Excluding Funding)"
     type:  sum
     sql: ${margin_excl_funding} ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
@@ -290,6 +318,7 @@ view: transactions {
   }
 
   measure:  total_margin_incl_funding {
+    label: "Total Margin (Including Funding)"
     type:  sum
     sql: ${margin_incl_funding} ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
@@ -297,6 +326,7 @@ view: transactions {
   }
 
   measure:  total_unit_funding {
+    label: "Total Unit Funding"
     type:  sum
     sql: ${unit_funding} ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
@@ -304,30 +334,35 @@ view: transactions {
   }
 
   measure:  total_units {
+    label: "Total Units"
     type:  sum
     sql: case when ${product_code} like '0%' then 0 else ${quantity} end ;;
     value_format: "#,##0;(#,##0)"
   }
 
   measure:  total_units_incl_system_codes {
+    label: "Total Units (Including System Codes)"
     type:  sum
     sql: ${quantity} ;;
     value_format: "#,##0;(#,##0)"
   }
 
   measure: net_sales_AOV {
+    label: "Net Sales AOV"
     type:  number
     sql: (sum(${net_sales_value})/count(distinct ${parent_order_uid})) ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
   }
 
   measure: gross_sales_AOV {
+    label: "Gross Sales AOV"
     type:  number
     sql: (sum(${gross_sales_value})/count(distinct ${parent_order_uid})) ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
   }
 
   measure: transactions {
+    label: "Number of Transactions"
     type: count_distinct
     sql: ${parent_order_uid} ;;
     value_format: "#,##0;(#,##0)"
