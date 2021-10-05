@@ -67,7 +67,7 @@ view: dgtl_product_conversion {
   dimension: ga_product_exits {
     type: number
     sql: ${TABLE}.ga_productExits ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: ga_total_product_page_views {
@@ -112,15 +112,22 @@ view: dgtl_product_conversion {
   measure: rate_of_exit{
     label: "Exit Rate"
     type: average
-    sql: ${ga_product_exits} ;;
+    sql: ${exit_rate} ;;
     value_format:  "#,##0.0000000%;(#,##0.0000000%)"
   }
 
-  measure: rate_of_entrance {
+  measure: sum_of_entrance {
     label: "Entrances"
     type: sum
     sql: ${ga_entrances} ;;
-    value_format:  "#,##0.0000000;(#,##0.0000000)"
+    value_format:  "#,##0;(#,##0)"
+  }
+
+  measure: sum_of_exits{
+    label: "Exits"
+    type: sum
+    sql: ${ga_product_exits} ;;
+    value_format:  "#,##0;(#,##0)"
   }
 
   measure: page_views {
