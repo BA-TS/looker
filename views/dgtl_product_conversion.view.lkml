@@ -103,21 +103,21 @@ view: dgtl_product_conversion {
 
   measure: conversion_rate {
     label: "Conversion Rate"
-    type: average
+    type: number
     sql: ${ga_product_conversion} ;;
     value_format:  "#,##0.0000000%;(#,##0.0000000%)"
   }
 
   measure: rate_of_entrance {
     label: "Entrance Rate"
-    type: average
+    type: number
     sql: ${ga_entrances} ;;
     value_format:  "#,##0.0000000%;(#,##0.0000000%)"
   }
 
   measure: rate_of_exit{
     label: "Exit Rate"
-    type: average
+    type: number
     sql: ${ga_product_exits} ;;
     value_format:  "#,##0.0000000%;(#,##0.0000000%)"
   }
