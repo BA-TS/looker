@@ -67,7 +67,7 @@ view: dgtl_product_conversion {
   dimension: ga_product_exits {
     type: number
     sql: ${TABLE}.ga_productExits ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: ga_total_product_page_views {
@@ -159,8 +159,9 @@ view: dgtl_product_conversion {
   }
 
   measure: time_on_page {
-    label: "Time on Page"
-    type: average
+    label: "Total Time on Page"
+    description: "Summation time on page"
+    type: sum
     sql: ${ga_total_time_on_page_sec} ;;
     value_format:  "#,##0.0000000;(#,##0.0000000)"
   }
