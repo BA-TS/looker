@@ -100,56 +100,56 @@ view: dgtl_product_conversion {
 
   measure: conversion_rate {
     label: "Conversion Rate"
-    type: number
+    type: average
     sql: ${ga_product_conversion} ;;
     value_format: "\#,##0.0000000000%"
   }
 
   measure: rate_of_entrance {
     label: "Entrance Rate"
-    type: number
+    type: average
     sql: ${ga_entrances} ;;
     value_format: "\#,##0.0000000000%"
   }
 
   measure: rate_of_exit{
     label: "Exit Rate"
-    type: number
+    type: average
     sql: ${ga_product_exits} ;;
     value_format: "\#,##0.0000000000%"
   }
 
   measure: page_views {
     label: "Page Views"
-    type: number
+    type: sum
     sql: ${ga_total_product_page_views} ;;
     value_format: "#,##0"
   }
 
   measure: product_revenue {
     label: "Revenue"
-    type: number
+    type: sum
     sql: ${ga_total_product_revenue} ;;
     value_format: "#,##0.00"
   }
 
   measure: product_sold {
     label: "Product Sold"
-    type: number
+    type: sum
     sql: ${ga_total_product_sold} ;;
     value_format: "#,##0"
   }
 
   measure: product_units {
     label: "Product Units"
-    type: number
+    type: sum
     sql: ${ga_total_product_units} ;;
     value_format: "#,##0"
   }
 
   measure: time_on_page {
     label: "Time on Page"
-    type: number
+    type: average
     sql: ${ga_total_time_on_page_sec} ;;
     value_format: "#,##0.000000000"
   }
