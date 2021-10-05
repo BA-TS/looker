@@ -20,8 +20,8 @@ view: dgtl_product_conversion {
 
   # DIMENSIONS
 
-
   dimension: ga_sku {
+    label: "Product Code (SKU)"
     type: string
     sql: ${TABLE}.ga_SKU ;;
   }
@@ -33,11 +33,13 @@ view: dgtl_product_conversion {
   }
 
   dimension: ga_brand {
+    label: "Brand"
     type: string
     sql: ${TABLE}.ga_brand ;;
   }
 
   dimension: ga_category {
+    label: "Category"
     type: string
     sql: ${TABLE}.ga_category ;;
   }
@@ -49,6 +51,7 @@ view: dgtl_product_conversion {
   }
 
   dimension: ga_page_title {
+    label: "Page Title"
     type: string
     sql: ${TABLE}.ga_pageTitle ;;
   }
@@ -64,7 +67,6 @@ view: dgtl_product_conversion {
     sql: ${TABLE}.ga_productExits ;;
     hidden: yes
   }
-
 
   dimension: ga_total_product_page_views {
     type: number
@@ -102,21 +104,21 @@ view: dgtl_product_conversion {
     label: "Conversion Rate"
     type: average
     sql: ${ga_product_conversion} ;;
-    value_format: "\#,##0.0000000000%"
+    value_format:  "#,##0.0000000%;(#,##0.0000000%)"
   }
 
   measure: rate_of_entrance {
     label: "Entrance Rate"
     type: average
     sql: ${ga_entrances} ;;
-    value_format: "\#,##0.0000000000%"
+    value_format:  "#,##0.0000000%;(#,##0.0000000%)"
   }
 
   measure: rate_of_exit{
     label: "Exit Rate"
     type: average
     sql: ${ga_product_exits} ;;
-    value_format: "\#,##0.0000000000%"
+    value_format:  "#,##0.0000000%;(#,##0.0000000%)"
   }
 
   measure: page_views {
@@ -130,29 +132,28 @@ view: dgtl_product_conversion {
     label: "Revenue"
     type: sum
     sql: ${ga_total_product_revenue} ;;
-    value_format: "#,##0.00"
+    value_format:  "#,##0.00;(#,##0.00)"
   }
 
   measure: product_sold {
     label: "Product Sold"
     type: sum
     sql: ${ga_total_product_sold} ;;
-    value_format: "#,##0"
+    value_format:  "#,##0;(#,##0)"
   }
 
   measure: product_units {
     label: "Product Units"
     type: sum
     sql: ${ga_total_product_units} ;;
-    value_format: "#,##0"
+    value_format:  "#,##0;(#,##0)"
   }
 
   measure: time_on_page {
     label: "Time on Page"
     type: average
     sql: ${ga_total_time_on_page_sec} ;;
-    value_format: "#,##0.000000000"
+    value_format:  "#,##0.0000000;(#,##0.0000000)"
   }
-
 
 }
