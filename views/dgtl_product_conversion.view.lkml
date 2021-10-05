@@ -106,14 +106,14 @@ view: dgtl_product_conversion {
     label: "Conversion Rate"
     type: average
     sql: ${ga_product_conversion} ;;
-    value_format:  "#,##0.0000000%;(#,##0.0000000%)"
+    value_format:  "#,##0.00%;(#,##0.00%)"
   }
 
   measure: rate_of_exit{
     label: "Exit Rate"
     type: average
     sql: ${exit_rate} ;;
-    value_format:  "#,##0.0000000%;(#,##0.0000000%)"
+    value_format:  "#,##0.00%;(#,##0.00%)"
   }
 
   measure: sum_of_entrance {
@@ -163,7 +163,7 @@ view: dgtl_product_conversion {
     description: "Summation time on page"
     type: sum
     sql: ${ga_total_time_on_page_sec} ;;
-    value_format:  "#,##0.0000000;(#,##0.0000000)"
+    value_format:  "#,##0.00;(#,##0.00)"
   }
 
 }
