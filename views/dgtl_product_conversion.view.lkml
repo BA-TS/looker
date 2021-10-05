@@ -5,6 +5,7 @@ view: dgtl_product_conversion {
   # DIMENSION GROUPS
 
   dimension_group: date {
+    group_label: "Date"
     type: time
     timeframes: [
       raw,
@@ -108,18 +109,18 @@ view: dgtl_product_conversion {
     value_format:  "#,##0.0000000%;(#,##0.0000000%)"
   }
 
-  measure: rate_of_entrance {
-    label: "Entrance Rate"
-    type: number
-    sql: ${ga_entrances} ;;
-    value_format:  "#,##0.0000000%;(#,##0.0000000%)"
-  }
-
   measure: rate_of_exit{
     label: "Exit Rate"
     type: number
     sql: ${ga_product_exits} ;;
     value_format:  "#,##0.0000000%;(#,##0.0000000%)"
+  }
+
+  measure: rate_of_entrance {
+    label: "Entrances"
+    type: sum
+    sql: ${ga_entrances} ;;
+    value_format:  "#,##0.0000000;(#,##0.0000000)"
   }
 
   measure: page_views {
