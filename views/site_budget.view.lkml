@@ -42,4 +42,15 @@ view: site_budget {
     type: sum
     sql: ${aop} ;;
   }
+
+  # measure: site_net_sales_budget_liquid {
+  #   description: "Budget Net Sales at Site level only (liquid)"
+  #   type: sum
+  #   sql: {% if sites._in_query %}
+  #           ${aop}
+  #         {% else %}
+  #           0
+  #         {% endif %} ;;
+  # }
+
 }

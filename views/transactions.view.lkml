@@ -286,30 +286,31 @@ view: transactions {
     sql: ${TABLE}.vatRate ;;
   }
 
-  measure:  total_net_sales {
+  measure: total_net_sales {
     label: "Total Net Sales"
+    group_label: "Sales Measures"
     type:  sum
-    group_item_label: "Sales Measures"
     sql: ${net_sales_value} ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
   }
 
-  measure:  total_gross_sales {
+  measure: total_gross_sales {
     label: "Total Gross Sales"
+    group_label: "Sales Measures"
     type:  sum
     sql: ${gross_sales_value} ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
 
   }
 
-  measure:  total_cogs {
+  measure: total_cogs {
     label: "Total COGS"
     type:  sum
     sql: ${cogs} ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
   }
 
-  measure:  total_margin_excl_funding {
+  measure: total_margin_excl_funding {
     label: "Total Margin (Excluding Funding)"
     type:  sum
     sql: ${margin_excl_funding} ;;
@@ -317,7 +318,7 @@ view: transactions {
 
   }
 
-  measure:  total_margin_incl_funding {
+  measure: total_margin_incl_funding {
     label: "Total Margin (Including Funding)"
     type:  sum
     sql: ${margin_incl_funding} ;;
@@ -325,7 +326,7 @@ view: transactions {
 
   }
 
-  measure:  total_unit_funding {
+  measure: total_unit_funding {
     label: "Total Unit Funding"
     type:  sum
     sql: ${unit_funding} ;;
@@ -333,14 +334,14 @@ view: transactions {
 
   }
 
-  measure:  total_units {
+  measure: total_units {
     label: "Total Units"
     type:  sum
     sql: case when ${product_code} like '0%' then 0 else ${quantity} end ;;
     value_format: "#,##0;(#,##0)"
   }
 
-  measure:  total_units_incl_system_codes {
+  measure: total_units_incl_system_codes {
     label: "Total Units (Including System Codes)"
     type:  sum
     sql: ${quantity} ;;
