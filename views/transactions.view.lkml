@@ -181,7 +181,7 @@ view: transactions {
       quarter,
       year
     ]
-    sql: ${TABLE}.placedDate ;;
+    sql: ${TABLE}.placeddate ;;
   }
 
   dimension: postal_area {
@@ -241,9 +241,11 @@ view: transactions {
       week,
       month,
       quarter,
-      year
+      year,
+      day_of_week,
+      day_of_week_index
     ]
-    sql: ${TABLE}.transactionDate ;;
+    sql: ${TABLE}.transactiondate ;;
   }
 
   dimension: transaction_line_type {
@@ -270,7 +272,7 @@ view: transactions {
       quarter,
       year
     ]
-    sql: ${TABLE}.updatedDate ;;
+    sql: ${TABLE}.updateddate ;;
     hidden:  yes
   }
 
@@ -367,4 +369,295 @@ view: transactions {
     sql: ${parent_order_uid} ;;
     value_format: "#,##0;(#,##0)"
   }
+
+  ############################################
+               # CJG TESTING #
+
+  # WEEK TO DATE
+
+  dimension: week_to_date {
+    description: "WTD looks at all dates from the most recent previous Sunday until the following Saturday (financial week). Recommend NOT using the NO filter with this."
+    type: yesno
+    sql:
+
+
+      EXTRACT(DAYOFWEEK FROM ${transaction_date}) <= EXTRACT(DAYOFWEEK FROM CURRENT_DATE())
+      AND (${transaction_date} > (CURRENT_DATE() - 7))
+
+
+    ;;
+  }
+
+  dimension: week_to_date_LY {
+    description: "WTD looks at all dates from the most recent previous Sunday until the following Saturday, as well as the same dates (financial week) in the previous year. Recommend NOT using the NO filter with this."
+    type:  yesno
+    sql:
+
+
+
+      ${week_to_date}
+
+    OR
+
+      (
+        EXTRACT(DAYOFWEEK FROM ${transaction_date}) <= EXTRACT(DAYOFWEEK FROM (CURRENT_DATE() - (364+6)))
+        AND ${transaction_date} > CURRENT_DATE() - (364+6) -- 364 + 6 (DUE TO BEING AT MOST 6 DAYS PRIOR FOR EQUIVALENT WTD)
+        AND ${transaction_date} <= CURRENT_DATE() - 1 - 364 -- 364 AS COULD NOT BE ANY 'NEWER' THAN 6 DAYS DUE TO WTD
+      )
+
+
+
+      ;;
+  }
+
+  dimension: week_to_date_2LY {
+    description: "WTD looks at all dates from the most recent previous Sunday until the following Saturday, as well as the same dates (financial week) in the previous 2 years. Recommend NOT using the NO filter with this."
+    type: yesno
+    sql:
+
+
+
+     ${week_to_date_LY}
+
+    OR
+
+      (
+        EXTRACT(DAYOFWEEK FROM ${transaction_date}) <= EXTRACT(DAYOFWEEK FROM (CURRENT_DATE() - ((364*2)+6)))
+        AND ${transaction_date} > CURRENT_DATE() - ((364*2)+6) -- 364 + 6 (DUE TO BEING AT MOST 6 DAYS PRIOR FOR EQUIVALENT WTD)
+        AND ${transaction_date} <= CURRENT_DATE() - 1 - (364*2) -- 364 AS COULD NOT BE ANY 'NEWER' THAN 6 DAYS DUE TO WTD
+      )
+
+
+
+    ;;
+  }
+
+  # MONTH TO DATE
+
+  dimension: month_to_date {
+    description: ""
+    type: yesno
+    sql:
+
+    (
+      ${transaction_date} > CURRENT_DATE() - EXTRACT(DAY FROM CURRENT_DATE())
+    )
+
+    ;;
+  }
+
+  dimension: month_to_date_LY {
+    description: ""
+    type: yesno
+    sql:
+    (
+
+      ${month_to_date}
+
+    OR
+
+      (
+
+        ${transaction_date} < DATE(EXTRACT(YEAR FROM CURRENT_DATE())-1,EXTRACT(MONTH FROM CURRENT_DATE()),EXTRACT(DAY FROM CURRENT_DATE()))
+        AND ${transaction_date} >= DATE(EXTRACT(YEAR FROM CURRENT_DATE())-1,EXTRACT(MONTH FROM CURRENT_DATE()),1)
+
+      )
+
+    )
+
+    ;;
+  }
+
+  dimension: month_to_date_2LY {
+    description: ""
+    type: yesno
+    sql:
+    (
+
+      ${month_to_date_LY}
+
+    OR
+
+      (
+        ${transaction_date} < DATE(EXTRACT(YEAR FROM CURRENT_DATE())-2,EXTRACT(MONTH FROM CURRENT_DATE()),EXTRACT(DAY FROM CURRENT_DATE()))
+        AND ${transaction_date} >= DATE(EXTRACT(YEAR FROM CURRENT_DATE())-2,EXTRACT(MONTH FROM CURRENT_DATE()),1)
+      )
+
+    )
+
+    ;;
+  }
+
+  # YEAR TO DATE
+
+  dimension: year_to_date {
+    description: "YTD looks at all the dates from the first (1st) day of the first month of the year. Recommend NOT using the NO filter with this."
+    type: yesno
+    sql:
+
+    (
+      ${transaction_date} > DATE(EXTRACT(YEAR FROM CURRENT_DATE()),1,1)
+    )
+
+    ;;
+
+  }
+
+  dimension: year_to_date_LY {
+    description: ""
+    type: yesno
+    sql:
+
+    (
+
+      ${year_to_date}
+
+    OR
+
+      (
+
+         ${transaction_date} < DATE(EXTRACT(YEAR FROM CURRENT_DATE())-1,EXTRACT(MONTH FROM CURRENT_DATE()),EXTRACT(DAY FROM CURRENT_DATE()))
+        AND ${transaction_date} >= DATE(EXTRACT(YEAR FROM CURRENT_DATE())-1,1,1)
+
+      )
+
+    )
+
+    ;;
+
+  }
+
+  dimension: year_to_date_2LY {
+    description: ""
+    type: yesno
+    sql:
+
+    (
+
+      ${year_to_date_LY}
+
+    OR
+
+      (
+
+         ${transaction_date} < DATE(EXTRACT(YEAR FROM CURRENT_DATE())-2,EXTRACT(MONTH FROM CURRENT_DATE()),EXTRACT(DAY FROM CURRENT_DATE()))
+        AND ${transaction_date} >= DATE(EXTRACT(YEAR FROM CURRENT_DATE())-2,1,1)
+
+      )
+
+    )
+
+    ;;
+
+    }
+
+
+  #####
+
+
+  parameter: period_to_date{
+    description: "Choose the period you would like to compare to."
+    label: "Period to Date:"
+    type: unquoted
+    allowed_value: {
+      label: "Week to Date (WTD)"
+      value: "WTD"
+    }
+    allowed_value: {
+      label: "Month to Date (MTD)"
+      value: "MTD"
+    }
+    allowed_value: {
+      label: "Year to Date (YTD)"
+      value: "YTD"
+    }
+    default_value: "WTD"
+    view_label: "Period To Date and YoY Filters"
+  }
+
+
+  parameter: previous_period_to_date {
+    description: "Choose the number of previous periods you would like to compare."
+    label: "Number of Period(s):"
+    type: unquoted
+    allowed_value: {
+      label: "Current Year"
+      value: "CY"
+    }
+    allowed_value: {
+      label: "Previous Year"
+      value: "LY"
+    }
+    allowed_value: {
+      label: "Preview 2 Year(s)"
+      value: "2LY"
+    }
+    default_value: "CY"
+    view_label: "Period To Date and YoY Filters"
+  }
+
+  filter: pivot_period {
+
+    view_label: "Period To Date and YoY Filters"
+    label: "Apply Filter"
+    description: ""
+    type:  yesno
+    sql:
+
+    {%if period_to_date._in_query and previous_period_to_date._in_query %}
+
+      {% if period_to_date._parameter_value == "WTD" %}
+
+        {% if previous_period_to_date._parameter_value == "CY" %}
+          ${week_to_date}
+        {% elsif previous_period_to_date._parameter_value == "LY" %}
+          ${week_to_date_LY}
+        {% elsif previous_period_to_date._parameter_value == "2LY" %}
+          ${week_to_date_2LY}
+        {% endif %}
+
+      {% elsif period_to_date._parameter_value == "MTD" %}
+
+        {% if previous_period_to_date._parameter_value == "CY" %}
+          ${month_to_date}
+        {% elsif previous_period_to_date._parameter_value == "LY" %}
+          ${month_to_date_LY}
+        {% elsif previous_period_to_date._parameter_value == "2LY" %}
+          ${month_to_date_2LY}
+        {% endif %}
+
+      {% elsif period_to_date._parameter_value == "YTD" %}
+
+        {% if previous_period_to_date._parameter_value == "CY" %}
+          ${year_to_date}
+        {% elsif previous_period_to_date._parameter_value == "LY" %}
+          ${year_to_date_LY}
+        {% elsif previous_period_to_date._parameter_value == "2LY" %}
+          ${year_to_date_2LY}
+        {% endif %}
+
+      {% endif %}
+
+
+
+
+    {% else %}
+
+      {% if period_to_date._parameter_value == "WTD" %}
+        ${week_to_date}
+      {% elsif period_to_date._parameter_value == "MTD" %}
+        ${month_to_date}
+      {% elsif period_to_date._parameter_value == "YTD" %}
+        ${year_to_date}
+      {% else %}
+        ERROR - YOU NEED TO ADD THE 'PREVIOUS PERIOD' FILTER FOR THIS TO WORK!
+      {% endif %}
+
+    {% endif %}
+
+    ;;
+
+  }
+
+
 }
