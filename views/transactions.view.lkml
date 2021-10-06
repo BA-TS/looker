@@ -325,7 +325,6 @@ view: transactions {
     type:  sum
     sql: ${margin_incl_funding} ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
-
   }
 
   measure: total_unit_funding {
@@ -373,6 +372,22 @@ view: transactions {
 
   ############################################
                # CJG TESTING #
+
+
+  measure: total_margin_rate_excl_funding {
+    label: "Total Margin Rate (Excluding Funding)"
+    type:  number
+    sql: ${total_margin_excl_funding} / ${total_net_sales} ;;
+    value_format: "##0.00%;(##0.00%)"
+
+  }
+
+  measure: total_margin_rate_incl_funding {
+    label: "Total Margin Rate (Including Funding)"
+    type:  number
+    sql: ${total_margin_incl_funding} / ${total_net_sales} ;;
+    value_format: "0.00%;(0.00%)"
+  }
 
 
 

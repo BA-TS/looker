@@ -52,12 +52,6 @@ view: dgtl_product_conversion {
     hidden: yes
   }
 
-  dimension: ga_page_title {
-    label: "Page Title"
-    type: string
-    sql: ${TABLE}.ga_pageTitle ;;
-  }
-
   dimension: ga_product_conversion {
     type: number
     sql: ${TABLE}.ga_productConversion ;;
