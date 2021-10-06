@@ -638,9 +638,6 @@ view: transactions {
 
       {% endif %}
 
-
-
-
     {% else %}
 
       {% if period_to_date._parameter_value == "WTD" %}
