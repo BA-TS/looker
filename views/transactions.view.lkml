@@ -374,6 +374,54 @@ view: transactions {
   ############################################
                # CJG TESTING #
 
+
+
+
+
+  # PREVIOUS DAY
+
+  dimension: previous_full_day {
+    description: "PFD looks at the 'yesterday'"
+    type: yesno
+    sql:
+
+    ${transaction_date} = (CURRENT_DATE() - 1)
+
+    ;;
+    hidden: yes
+  }
+
+  dimension: previous_full_day_LY {
+    description: "PFD looks at the 'yesterday' and same day last year"
+    type: yesno
+    sql:
+
+    ${previous_full_day}
+
+    OR
+
+    ${transaction_date} = (CURRENT_DATE() - 1 - 364)
+    ;;
+    hidden: yes
+
+  }
+
+  dimension: previous_full_day_2LY {
+    description: "PFD looks at the 'yesterday' and same day 2 years"
+    type: yesno
+    sql:
+
+    ${previous_full_day}
+
+    OR
+
+    ${transaction_date} = (CURRENT_DATE() - 1 - (364*2))
+
+    ;;
+    hidden: yes
+  }
+
+
   # WEEK TO DATE
 
   dimension: week_to_date {
@@ -381,20 +429,17 @@ view: transactions {
     type: yesno
     sql:
 
-
       EXTRACT(DAYOFWEEK FROM ${transaction_date}) <= EXTRACT(DAYOFWEEK FROM CURRENT_DATE())
       AND (${transaction_date} > (CURRENT_DATE() - 7))
 
-
     ;;
+    hidden: yes
   }
 
   dimension: week_to_date_LY {
     description: "WTD looks at all dates from the most recent previous Sunday until the following Saturday, as well as the same dates (financial week) in the previous year. Recommend NOT using the NO filter with this."
     type:  yesno
     sql:
-
-
 
       ${week_to_date}
 
@@ -406,9 +451,8 @@ view: transactions {
         AND ${transaction_date} <= CURRENT_DATE() - 1 - 364 -- 364 AS COULD NOT BE ANY 'NEWER' THAN 6 DAYS DUE TO WTD
       )
 
-
-
       ;;
+    hidden: yes
   }
 
   dimension: week_to_date_2LY {
@@ -416,9 +460,7 @@ view: transactions {
     type: yesno
     sql:
 
-
-
-     ${week_to_date_LY}
+     ${week_to_date}
 
     OR
 
@@ -428,9 +470,8 @@ view: transactions {
         AND ${transaction_date} <= CURRENT_DATE() - 1 - (364*2) -- 364 AS COULD NOT BE ANY 'NEWER' THAN 6 DAYS DUE TO WTD
       )
 
-
-
     ;;
+    hidden: yes
   }
 
   # MONTH TO DATE
@@ -445,6 +486,7 @@ view: transactions {
     )
 
     ;;
+    hidden: yes
   }
 
   dimension: month_to_date_LY {
@@ -467,6 +509,7 @@ view: transactions {
     )
 
     ;;
+    hidden: yes
   }
 
   dimension: month_to_date_2LY {
@@ -475,7 +518,7 @@ view: transactions {
     sql:
     (
 
-      ${month_to_date_LY}
+      ${month_to_date}
 
     OR
 
@@ -487,6 +530,7 @@ view: transactions {
     )
 
     ;;
+    hidden: yes
   }
 
   # YEAR TO DATE
@@ -501,6 +545,7 @@ view: transactions {
     )
 
     ;;
+    hidden: yes
 
   }
 
@@ -525,6 +570,7 @@ view: transactions {
     )
 
     ;;
+    hidden: yes
 
   }
 
@@ -535,7 +581,7 @@ view: transactions {
 
     (
 
-      ${year_to_date_LY}
+      ${year_to_date}
 
     OR
 
@@ -549,6 +595,7 @@ view: transactions {
     )
 
     ;;
+    hidden: yes
 
     }
 
@@ -561,6 +608,10 @@ view: transactions {
     label: "Period to Date:"
     type: unquoted
     allowed_value: {
+      label: "Previous Day"
+      value: "PD"
+    }
+    allowed_value: {
       label: "Week to Date (WTD)"
       value: "WTD"
     }
@@ -572,7 +623,7 @@ view: transactions {
       label: "Year to Date (YTD)"
       value: "YTD"
     }
-    default_value: "WTD"
+    default_value: "PD"
     view_label: "Period To Date and YoY Filters"
   }
 
@@ -590,7 +641,7 @@ view: transactions {
       value: "LY"
     }
     allowed_value: {
-      label: "Preview 2 Year(s)"
+      label: "Previous 2 Year"
       value: "2LY"
     }
     default_value: "CY"
@@ -607,7 +658,17 @@ view: transactions {
 
     {%if period_to_date._in_query and previous_period_to_date._in_query %}
 
-      {% if period_to_date._parameter_value == "WTD" %}
+      {% if period_to_date._parameter_value == "PD" %}
+
+        {% if previous_period_to_date._parameter_value == "CY" %}
+          ${previous_full_day}
+        {% elsif previous_period_to_date._parameter_value == "LY" %}
+          ${previous_full_day_LY}
+        {% elsif previous_period_to_date._parameter_value == "2LY" %}
+          ${previous_full_day_2LY}
+        {% endif %}
+
+      {% elsif period_to_date._parameter_value == "WTD" %}
 
         {% if previous_period_to_date._parameter_value == "CY" %}
           ${week_to_date}
@@ -641,7 +702,10 @@ view: transactions {
 
     {% else %}
 
-      {% if period_to_date._parameter_value == "WTD" %}
+
+      {% if period_to_date._parameter_value == "PD" %}
+        ${previous_full_day}
+      {% elsif period_to_date._parameter_value == "WTD" %}
         ${week_to_date}
       {% elsif period_to_date._parameter_value == "MTD" %}
         ${month_to_date}
