@@ -5,7 +5,6 @@ view: dgtl_product_conversion {
   # DIMENSION GROUPS
 
   dimension_group: date {
-    group_label: "Record Date"
     type: time
     timeframes: [
       raw,
