@@ -5,7 +5,7 @@ view: dgtl_product_conversion {
   # DIMENSION GROUPS
 
   dimension_group: date {
-    group_label: "??? Date"
+    group_label: "Record Date"
     type: time
     timeframes: [
       raw,
@@ -184,14 +184,14 @@ view: dgtl_product_conversion {
     value_format:  "#,##0.00;(#,##0.00)"
   }
   measure: cc_oos {
-    label: "Total Delivery OOS Previews"
+    label: "Total CC OOS Previews"
     description: "Summation cc oos previews"
     type: sum
     sql: ${cc_oos_pviews} ;;
     value_format:  "#,##0.00;(#,##0.00)"
   }
   measure: dual_oos {
-    label: "Total Delivery OOS Previews"
+    label: "Total Dual OOS Previews"
     description: "Summation dual oos previews"
     type: sum
     sql: ${dual_oos_pviews} ;;
