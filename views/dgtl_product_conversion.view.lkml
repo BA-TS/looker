@@ -22,6 +22,7 @@ view: dgtl_product_conversion {
   # DIMENSIONS
 
   dimension: ga_sku {
+    primary_key: yes
     label: "Product Code (SKU)"
     type: string
     sql: ${TABLE}.ga_SKU ;;
