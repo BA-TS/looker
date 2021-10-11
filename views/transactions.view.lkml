@@ -39,13 +39,16 @@ view: transactions {
   }
 
   dimension: customer_uid {
+    description: "Used as KEY for joins."
     label: "Customer UID"
+    group_label: "UID"
     type: string
     sql: ${TABLE}.customerUID ;;
   }
 
   dimension: delivery_address_uid {
     label: "Delivery Address UID"
+    group_label: "UID"
     type: string
     sql: ${TABLE}.deliveryAddressUID ;;
   }
@@ -57,9 +60,9 @@ view: transactions {
   }
 
   dimension: gross_sale_price {
-    label: "Gross Sale Price"
     type: number
     sql: ${TABLE}.grossSalePrice ;;
+    hidden: yes
   }
 
   dimension: gross_sales_value {
@@ -75,36 +78,42 @@ view: transactions {
   }
 
   dimension: is_lfl {
+    group_label: "Flags"
     label: "Is LFL"
     type: number
     sql: ${TABLE}.isLFL ;;
   }
 
   dimension: is_mature {
+    group_label: "Flags"
     label: "Is Mature"
     type: number
     sql: ${TABLE}.isMature ;;
   }
 
   dimension: is_open18_months {
+    group_label: "Flags"
     label: "Is Open 18 Months"
     type: number
     sql: ${TABLE}.isOpen18Months ;;
   }
 
   dimension: is_originating_lfl {
+    group_label: "Flags"
     label: "Is Originating LFL"
     type: number
     sql: ${TABLE}.isOriginatingLFL ;;
   }
 
   dimension: is_originating_mature {
+    group_label: "Flags"
     label: "Is Originating Mature"
     type: number
     sql: ${TABLE}.isOriginatingMature ;;
   }
 
   dimension: is_originating_open18_months {
+    group_label: "Flags"
     label: "Is Originating Open (18 Months)"
     type: number
     sql: ${TABLE}.isOriginatingOpen18Months ;;
@@ -160,6 +169,7 @@ view: transactions {
 
   dimension: originating_site_uid {
     label: "Originating Site UID"
+    group_label: "UID"
     type: string
     sql: ${TABLE}.originatingSiteUID ;;
   }
@@ -204,6 +214,7 @@ view: transactions {
 
   dimension: product_uid {
     label: "Product UID"
+    group_label: "UID"
     type: string
     sql: ${TABLE}.productUID ;;
   }
@@ -228,6 +239,7 @@ view: transactions {
 
   dimension: site_uid {
     label: "Site UID"
+    group_label: "UID"
     type: string
     sql: ${TABLE}.siteUID ;;
   }
@@ -278,6 +290,7 @@ view: transactions {
 
   dimension: user_uid {
     label: "User UID"
+    group_label: "UID"
     type: string
     sql: ${TABLE}.userUID ;;
   }
@@ -314,6 +327,7 @@ view: transactions {
 
   measure: total_margin_excl_funding {
     label: "Total Margin (Excluding Funding)"
+    group_label: "Margin Measures"
     type:  sum
     sql: ${margin_excl_funding} ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
@@ -322,6 +336,7 @@ view: transactions {
 
   measure: total_margin_incl_funding {
     label: "Total Margin (Including Funding)"
+    group_label: "Margin Measures"
     type:  sum
     sql: ${margin_incl_funding} ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
@@ -349,8 +364,17 @@ view: transactions {
     value_format: "#,##0;(#,##0)"
   }
 
+  measure: net_units_AOV {
+    label: "Net Units AOV"
+    group_label: "AOV Measures"
+    type: number
+    sql: ${quantity} / ${transactions} ;;
+    value_format: "#,##0;(\#,##0)"
+  }
+
   measure: net_sales_AOV {
     label: "Net Sales AOV"
+    group_label: "AOV Measures"
     type:  number
     sql: (sum(${net_sales_value})/count(distinct ${parent_order_uid})) ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
@@ -358,6 +382,7 @@ view: transactions {
 
   measure: gross_sales_AOV {
     label: "Gross Sales AOV"
+    group_label: "AOV Measures"
     type:  number
     sql: (sum(${gross_sales_value})/count(distinct ${parent_order_uid})) ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
@@ -376,6 +401,7 @@ view: transactions {
 
   measure: total_margin_rate_excl_funding {
     label: "Total Margin Rate (Excluding Funding)"
+    group_label: "Margin Measures"
     type:  number
     sql: ${total_margin_excl_funding} / ${total_net_sales} ;;
     value_format: "##0.00%;(##0.00%)"
@@ -384,6 +410,7 @@ view: transactions {
 
   measure: total_margin_rate_incl_funding {
     label: "Total Margin Rate (Including Funding)"
+    group_label: "Margin Measures"
     type:  number
     sql: ${total_margin_incl_funding} / ${total_net_sales} ;;
     value_format: "0.00%;(0.00%)"
@@ -398,12 +425,12 @@ view: transactions {
 
 
 
-
-
-
-
-
-
+  measure: unique_customer {
+    label: "Total Customers"
+    type: count_distinct
+    sql: ${customer_uid} ;;
+    value_format: "#,##0;(#,##0)"
+  }
 
 
 
@@ -414,6 +441,7 @@ view: transactions {
     description: ""
     type:  date
     convert_tz: yes
+    hidden: yes
   }
 
   dimension: range_CY {
@@ -441,6 +469,7 @@ view: transactions {
     sql:
     WHEN ${transaction_raw} BETWEEN ({% date_start date_range%} - (364*2)) and ({% date_end date_range %} - (364*2))
   ;;
+  hidden: yes
   }
 
 
@@ -453,6 +482,7 @@ view: transactions {
 
   dimension: __target_date__ {
     sql: ${transaction_date} ;;
+    hidden: yes
   }
 
 
@@ -733,17 +763,20 @@ view: transactions {
       value: "CY"
     }
     allowed_value: {
-      label: "Previous Year"
+      label: "Last Year"
       value: "LY"
     }
     allowed_value: {
-      label: "Previous 2 Year"
+      label: "2 Years Ago"
       value: "2LY"
+    }
+    allowed_value: {
+      label: "Last 2 Years"
+      value: "LY2LY"
     }
     default_value: "CY"
     view_label: "Period To Date and YoY Filters"
   }
-
 
   filter: pivot_period {
     view_label: "Period To Date and YoY Filters"
@@ -766,6 +799,8 @@ view: transactions {
           ${previous_full_day_LY}
         {% elsif previous_period_to_date._parameter_value == "2LY" %}
           ${previous_full_day_2LY}
+        {% elsif previous_period_to_date._parameter_value == "LY2LY" %}
+          ${previous_full_day_LY} OR ${previous_full_day_2LY}
         {% endif %}
 
       {% elsif period_to_date._parameter_value == "WTD" %}
@@ -776,6 +811,8 @@ view: transactions {
           ${week_to_date_LY}
         {% elsif previous_period_to_date._parameter_value == "2LY" %}
           ${week_to_date_2LY}
+        {% elsif previous_period_to_date._parameter_value == "LY2LY" %}
+          ${week_to_date_LY} OR ${week_to_date_2LY}
         {% endif %}
 
       {% elsif period_to_date._parameter_value == "MTD" %}
@@ -786,6 +823,8 @@ view: transactions {
           ${month_to_date_LY}
         {% elsif previous_period_to_date._parameter_value == "2LY" %}
           ${month_to_date_2LY}
+        {% elsif previous_period_to_date._parameter_value == "LY2LY" %}
+          ${month_to_date_LY} OR ${month_to_date_2LY}
         {% endif %}
 
       {% elsif period_to_date._parameter_value == "YTD" %}
@@ -796,6 +835,8 @@ view: transactions {
           ${year_to_date_LY}
         {% elsif previous_period_to_date._parameter_value == "2LY" %}
           ${year_to_date_2LY}
+        {% elsif previous_period_to_date._parameter_value == "LY2LY" %}
+          ${year_to_date_LY} OR ${year_to_date_2LY}
         {% endif %}
 
       {% elsif period_to_date._parameter_value == "CP" %}
@@ -821,6 +862,5 @@ view: transactions {
     ;;
 
   }
-
 
 }
