@@ -5,7 +5,6 @@ view: dgtl_product_conversion {
   # DIMENSION GROUPS
 
   dimension_group: date {
-    group_label: "??? Date"
     type: time
     timeframes: [
       raw,
@@ -52,12 +51,6 @@ view: dgtl_product_conversion {
     hidden: yes
   }
 
-  dimension: ga_page_title {
-    label: "Page Title"
-    type: string
-    sql: ${TABLE}.ga_pageTitle ;;
-  }
-
   dimension: ga_product_conversion {
     type: number
     sql: ${TABLE}.ga_productConversion ;;
@@ -97,6 +90,22 @@ view: dgtl_product_conversion {
   dimension: ga_total_time_on_page_sec {
     type: number
     sql: ${TABLE}.ga_total_time_on_page_sec ;;
+    hidden: yes
+  }
+
+  dimension: delivery_oos_pviews {
+    type: number
+    sql: ${TABLE}.delivery_oos_pviews ;;
+    hidden: yes
+  }
+  dimension: cc_oos_pviews {
+    type: number
+    sql: ${TABLE}.cc_oos_pviews ;;
+    hidden: yes
+  }
+  dimension: dual_oos_pviews {
+    type: number
+    sql: ${TABLE}.dual_oos_pviews ;;
     hidden: yes
   }
 
@@ -163,6 +172,28 @@ view: dgtl_product_conversion {
     description: "Summation time on page"
     type: sum
     sql: ${ga_total_time_on_page_sec} ;;
+    value_format:  "#,##0.00;(#,##0.00)"
+  }
+
+  measure: delivery_oos {
+    label: "Total Delivery OOS Previews"
+    description: "Summation delivery oos previews"
+    type: sum
+    sql: ${delivery_oos_pviews} ;;
+    value_format:  "#,##0.00;(#,##0.00)"
+  }
+  measure: cc_oos {
+    label: "Total CC OOS Previews"
+    description: "Summation cc oos previews"
+    type: sum
+    sql: ${cc_oos_pviews} ;;
+    value_format:  "#,##0.00;(#,##0.00)"
+  }
+  measure: dual_oos {
+    label: "Total Dual OOS Previews"
+    description: "Summation dual oos previews"
+    type: sum
+    sql: ${dual_oos_pviews} ;;
     value_format:  "#,##0.00;(#,##0.00)"
   }
 

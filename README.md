@@ -26,3 +26,8 @@ View allows for drilling of BigQuery 'purchaseOrders'. Committed joins are liste
 - Jack Diamond
 - Charles Granville
 - Iqra Naz
+
+### Interesting Links ###
+
+Here are some links which may be useful for development:
+- [https://customformats.com/](https://customformats.com/) (Rebeca)

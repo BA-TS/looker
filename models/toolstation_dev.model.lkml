@@ -142,6 +142,7 @@ explore: test_dgtl_ds_contibution {}
 
 
 explore: dgtl_product_conversion {
+  label: "Product Conversion (DIGITAL)"
   join: products {
     type: inner
     relationship: many_to_one
