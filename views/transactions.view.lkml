@@ -391,6 +391,84 @@ view: transactions {
 
 
 
+######################################### ROX
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  filter: date_range {
+    view_label: "Period To Date and YoY Filters"
+    label: "Date Range Filter"
+    description: ""
+    type:  date
+    convert_tz: yes
+  }
+
+  dimension: range_CY {
+    label: "Range CY"
+    type: yesno
+    sql:
+    WHEN ${transaction_raw} BETWEEN {% date_start date_range %} and {% date_end date_range %}
+  ;;
+    hidden: yes
+  }
+
+  dimension: range_LY {
+
+    label: "Range LY"
+    type: yesno
+    sql:
+    WHEN ${transaction_raw} BETWEEN ({% date_start date_range%} - 364) and ({% date_end date_range %} - 364)
+  ;;
+    hidden: yes
+  }
+
+  dimension: range_2LY {
+    label: "Range 2LY"
+    type:  yesno
+    sql:
+    WHEN ${transaction_raw} BETWEEN ({% date_start date_range%} - (364*2)) and ({% date_end date_range %} - (364*2))
+  ;;
+  }
+
+
+
+
+
+
+
+
+
+  dimension: __target_date__ {
+    sql: ${transaction_date} ;;
+  }
+
+
+
+
+
+
+
+
+
+
+
+#########################################
+
+
+  # PREVIOUS PERIOD
 
 
   # PREVIOUS DAY
@@ -400,7 +478,7 @@ view: transactions {
     type: yesno
     sql:
 
-    ${transaction_date} = (CURRENT_DATE() - 1)
+    ${__target_date__} = (CURRENT_DATE() - 1)
 
     ;;
     hidden: yes
@@ -415,7 +493,7 @@ view: transactions {
 
     OR
 
-    ${transaction_date} = (CURRENT_DATE() - 1 - 364)
+    ${__target_date__} = (CURRENT_DATE() - 1 - 364)
     ;;
     hidden: yes
 
@@ -430,12 +508,11 @@ view: transactions {
 
     OR
 
-    ${transaction_date} = (CURRENT_DATE() - 1 - (364*2))
+    ${__target_date__} = (CURRENT_DATE() - 1 - (364*2))
 
     ;;
     hidden: yes
   }
-
 
   # WEEK TO DATE
 
@@ -444,8 +521,8 @@ view: transactions {
     type: yesno
     sql:
 
-      EXTRACT(DAYOFWEEK FROM ${transaction_date}) <= EXTRACT(DAYOFWEEK FROM CURRENT_DATE())
-      AND (${transaction_date} > (CURRENT_DATE() - 7))
+      EXTRACT(DAYOFWEEK FROM ${__target_date__}) <= EXTRACT(DAYOFWEEK FROM CURRENT_DATE())
+      AND (${__target_date__} > (CURRENT_DATE() - 7))
 
     ;;
     hidden: yes
@@ -461,9 +538,9 @@ view: transactions {
     OR
 
       (
-        EXTRACT(DAYOFWEEK FROM ${transaction_date}) <= EXTRACT(DAYOFWEEK FROM (CURRENT_DATE() - (364+6)))
-        AND ${transaction_date} > CURRENT_DATE() - (364+6) -- 364 + 6 (DUE TO BEING AT MOST 6 DAYS PRIOR FOR EQUIVALENT WTD)
-        AND ${transaction_date} <= CURRENT_DATE() - 1 - 364 -- 364 AS COULD NOT BE ANY 'NEWER' THAN 6 DAYS DUE TO WTD
+        EXTRACT(DAYOFWEEK FROM ${__target_date__}) <= EXTRACT(DAYOFWEEK FROM (CURRENT_DATE() - (364+6)))
+        AND ${__target_date__} > CURRENT_DATE() - (364+6) -- 364 + 6 (DUE TO BEING AT MOST 6 DAYS PRIOR FOR EQUIVALENT WTD)
+        AND ${__target_date__} <= CURRENT_DATE() - 1 - 364 -- 364 AS COULD NOT BE ANY 'NEWER' THAN 6 DAYS DUE TO WTD
       )
 
       ;;
@@ -480,9 +557,9 @@ view: transactions {
     OR
 
       (
-        EXTRACT(DAYOFWEEK FROM ${transaction_date}) <= EXTRACT(DAYOFWEEK FROM (CURRENT_DATE() - ((364*2)+6)))
-        AND ${transaction_date} > CURRENT_DATE() - ((364*2)+6) -- 364 + 6 (DUE TO BEING AT MOST 6 DAYS PRIOR FOR EQUIVALENT WTD)
-        AND ${transaction_date} <= CURRENT_DATE() - 1 - (364*2) -- 364 AS COULD NOT BE ANY 'NEWER' THAN 6 DAYS DUE TO WTD
+        EXTRACT(DAYOFWEEK FROM ${__target_date__}) <= EXTRACT(DAYOFWEEK FROM (CURRENT_DATE() - ((364*2)+6)))
+        AND ${__target_date__} > CURRENT_DATE() - ((364*2)+6) -- 364 + 6 (DUE TO BEING AT MOST 6 DAYS PRIOR FOR EQUIVALENT WTD)
+        AND ${__target_date__} <= CURRENT_DATE() - 1 - (364*2) -- 364 AS COULD NOT BE ANY 'NEWER' THAN 6 DAYS DUE TO WTD
       )
 
     ;;
@@ -497,7 +574,7 @@ view: transactions {
     sql:
 
     (
-      ${transaction_date} > CURRENT_DATE() - EXTRACT(DAY FROM CURRENT_DATE())
+      ${__target_date__} > CURRENT_DATE() - EXTRACT(DAY FROM CURRENT_DATE())
     )
 
     ;;
@@ -516,8 +593,8 @@ view: transactions {
 
       (
 
-        ${transaction_date} < DATE(EXTRACT(YEAR FROM CURRENT_DATE())-1,EXTRACT(MONTH FROM CURRENT_DATE()),EXTRACT(DAY FROM CURRENT_DATE()))
-        AND ${transaction_date} >= DATE(EXTRACT(YEAR FROM CURRENT_DATE())-1,EXTRACT(MONTH FROM CURRENT_DATE()),1)
+        ${__target_date__} < DATE(EXTRACT(YEAR FROM CURRENT_DATE())-1,EXTRACT(MONTH FROM CURRENT_DATE()),EXTRACT(DAY FROM CURRENT_DATE()))
+        AND ${__target_date__} >= DATE(EXTRACT(YEAR FROM CURRENT_DATE())-1,EXTRACT(MONTH FROM CURRENT_DATE()),1)
 
       )
 
@@ -538,8 +615,8 @@ view: transactions {
     OR
 
       (
-        ${transaction_date} < DATE(EXTRACT(YEAR FROM CURRENT_DATE())-2,EXTRACT(MONTH FROM CURRENT_DATE()),EXTRACT(DAY FROM CURRENT_DATE()))
-        AND ${transaction_date} >= DATE(EXTRACT(YEAR FROM CURRENT_DATE())-2,EXTRACT(MONTH FROM CURRENT_DATE()),1)
+        ${__target_date__} < DATE(EXTRACT(YEAR FROM CURRENT_DATE())-2,EXTRACT(MONTH FROM CURRENT_DATE()),EXTRACT(DAY FROM CURRENT_DATE()))
+        AND ${__target_date__} >= DATE(EXTRACT(YEAR FROM CURRENT_DATE())-2,EXTRACT(MONTH FROM CURRENT_DATE()),1)
       )
 
     )
@@ -556,7 +633,7 @@ view: transactions {
     sql:
 
     (
-      ${transaction_date} > DATE(EXTRACT(YEAR FROM CURRENT_DATE()),1,1)
+      ${__target_date__} > DATE(EXTRACT(YEAR FROM CURRENT_DATE()),1,1)
     )
 
     ;;
@@ -577,8 +654,8 @@ view: transactions {
 
       (
 
-         ${transaction_date} < DATE(EXTRACT(YEAR FROM CURRENT_DATE())-1,EXTRACT(MONTH FROM CURRENT_DATE()),EXTRACT(DAY FROM CURRENT_DATE()))
-        AND ${transaction_date} >= DATE(EXTRACT(YEAR FROM CURRENT_DATE())-1,1,1)
+         ${__target_date__} < DATE(EXTRACT(YEAR FROM CURRENT_DATE())-1,EXTRACT(MONTH FROM CURRENT_DATE()),EXTRACT(DAY FROM CURRENT_DATE()))
+        AND ${__target_date__} >= DATE(EXTRACT(YEAR FROM CURRENT_DATE())-1,1,1)
 
       )
 
@@ -602,8 +679,8 @@ view: transactions {
 
       (
 
-         ${transaction_date} < DATE(EXTRACT(YEAR FROM CURRENT_DATE())-2,EXTRACT(MONTH FROM CURRENT_DATE()),EXTRACT(DAY FROM CURRENT_DATE()))
-        AND ${transaction_date} >= DATE(EXTRACT(YEAR FROM CURRENT_DATE())-2,1,1)
+         ${__target_date__} < DATE(EXTRACT(YEAR FROM CURRENT_DATE())-2,EXTRACT(MONTH FROM CURRENT_DATE()),EXTRACT(DAY FROM CURRENT_DATE()))
+        AND ${__target_date__} >= DATE(EXTRACT(YEAR FROM CURRENT_DATE())-2,1,1)
 
       )
 
@@ -638,6 +715,10 @@ view: transactions {
       label: "Year to Date (YTD)"
       value: "YTD"
     }
+    allowed_value: {
+      label: "Custom Period (add filter)"
+      value: "CP"
+    }
     default_value: "PD"
     view_label: "Period To Date and YoY Filters"
   }
@@ -663,17 +744,21 @@ view: transactions {
     view_label: "Period To Date and YoY Filters"
   }
 
-  filter: pivot_period {
 
+  filter: pivot_period {
     view_label: "Period To Date and YoY Filters"
     label: "Apply Filter"
     description: ""
     type:  yesno
     sql:
 
-    {%if period_to_date._in_query and previous_period_to_date._in_query %}
+    {% if period_to_date._in_query and previous_period_to_date._in_query %}
 
-      {% if period_to_date._parameter_value == "PD" %}
+      {% if period_to_date._parameter_value == "CP" %}
+
+        true
+
+      {% elsif period_to_date._parameter_value == "PD" %}
 
         {% if previous_period_to_date._parameter_value == "CY" %}
           ${previous_full_day}
@@ -713,12 +798,15 @@ view: transactions {
           ${year_to_date_2LY}
         {% endif %}
 
+      {% elsif period_to_date._parameter_value == "CP" %}
+        NULL
       {% endif %}
 
     {% else %}
 
-
-      {% if period_to_date._parameter_value == "PD" %}
+      {% if period_to_date._parameter_value == "CP" %}
+        true
+      {% elsif period_to_date._parameter_value == "PD" %}
         ${previous_full_day}
       {% elsif period_to_date._parameter_value == "WTD" %}
         ${week_to_date}
@@ -726,8 +814,6 @@ view: transactions {
         ${month_to_date}
       {% elsif period_to_date._parameter_value == "YTD" %}
         ${year_to_date}
-      {% else %}
-        ERROR - YOU NEED TO ADD THE 'PREVIOUS PERIOD' FILTER FOR THIS TO WORK!
       {% endif %}
 
     {% endif %}
