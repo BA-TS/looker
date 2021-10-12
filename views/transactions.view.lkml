@@ -7,6 +7,8 @@ view: transactions {
 
   extends: [pop_date_comparison]
 
+  ##############################################
+
   dimension: event_raw {
     type: date_raw
     sql: ${transaction_raw} ;;
@@ -301,6 +303,8 @@ view: transactions {
     sql: ${TABLE}.vatRate ;;
   }
 
+  ##########################################################
+
   measure: total_net_sales {
     label: "Total Net Sales"
     group_label: "Sales Measures"
@@ -396,8 +400,6 @@ view: transactions {
   }
 
   ############################################
-               # CJG TESTING #
-
 
   measure: total_margin_rate_excl_funding {
     label: "Total Margin Rate (Excluding Funding)"
@@ -416,15 +418,6 @@ view: transactions {
     value_format: "0.00%;(0.00%)"
   }
 
-
-
-######################################### ROX
-
-
-
-
-
-
   measure: unique_customer {
     label: "Total Customers"
     type: count_distinct
@@ -432,73 +425,7 @@ view: transactions {
     value_format: "#,##0;(#,##0)"
   }
 
-
-
-
-  filter: date_range {
-    view_label: "Period To Date and YoY Filters"
-    label: "Date Range Filter"
-    description: ""
-    type:  date
-    convert_tz: yes
-    hidden: yes
-  }
-
-  dimension: range_CY {
-    label: "Range CY"
-    type: yesno
-    sql:
-    WHEN ${transaction_raw} BETWEEN {% date_start date_range %} and {% date_end date_range %}
-  ;;
-    hidden: yes
-  }
-
-  dimension: range_LY {
-
-    label: "Range LY"
-    type: yesno
-    sql:
-    WHEN ${transaction_raw} BETWEEN ({% date_start date_range%} - 364) and ({% date_end date_range %} - 364)
-  ;;
-    hidden: yes
-  }
-
-  dimension: range_2LY {
-    label: "Range 2LY"
-    type:  yesno
-    sql:
-    WHEN ${transaction_raw} BETWEEN ({% date_start date_range%} - (364*2)) and ({% date_end date_range %} - (364*2))
-  ;;
-  hidden: yes
-  }
-
-
-
-
-
-
-
-
-
-  dimension: __target_date__ {
-    sql: ${transaction_date} ;;
-    hidden: yes
-  }
-
-
-
-
-
-
-
-
-
-
-
-#########################################
-
-
-  # PREVIOUS PERIOD
+##############################################
 
 
   # PREVIOUS DAY
@@ -719,11 +646,66 @@ view: transactions {
     ;;
     hidden: yes
 
-    }
+  }
 
+  # PREVIOUS PERIOD
+
+  dimension: current_period {
+    type: yesno
+    sql:
+
+    ${__target_date__} >= DATE({%date_start custom_date_period%}) and ${__target_date__} < DATE({%date_end custom_date_period%})
+
+    ;;
+    hidden: yes
+  }
+
+  dimension: current_period_LY {
+    type: yesno
+    sql:
+
+      ${current_period}
+
+      OR
+
+       (
+
+         ${__target_date__} < DATE(EXTRACT(YEAR FROM DATE({%date_end custom_date_period%}))-1,EXTRACT(MONTH FROM DATE({%date_end custom_date_period%})),EXTRACT(DAY FROM DATE({%date_end custom_date_period%})))
+        AND ${__target_date__} >= DATE(EXTRACT(YEAR FROM DATE({%date_start custom_date_period%}))-1,EXTRACT(MONTH FROM DATE({%date_start custom_date_period%})),EXTRACT(DAY FROM DATE({%date_start custom_date_period%})))
+
+      )
+
+    ;;
+    hidden: yes
+  }
+
+  dimension: current_period_2LY {
+    type: yesno
+    sql:
+
+      ${current_period}
+
+      OR
+
+       (
+
+         ${__target_date__} < DATE(EXTRACT(YEAR FROM DATE({%date_end custom_date_period%}))-2,EXTRACT(MONTH FROM DATE({%date_end custom_date_period%})),EXTRACT(DAY FROM DATE({%date_end custom_date_period%})))
+        AND ${__target_date__} >= DATE(EXTRACT(YEAR FROM DATE({%date_start custom_date_period%}))-2,EXTRACT(MONTH FROM DATE({%date_start custom_date_period%})),EXTRACT(DAY FROM DATE({%date_start custom_date_period%})))
+
+      )
+
+    ;;
+    hidden: yes
+  }
 
   #####
 
+  # FILTERS
+
+  dimension: __target_date__ {
+    sql: ${transaction_date} ;;
+    hidden: yes
+  }
 
   parameter: period_to_date{
     description: "Choose the period you would like to compare to."
@@ -753,7 +735,6 @@ view: transactions {
     view_label: "Period To Date and YoY Filters"
   }
 
-
   parameter: previous_period_to_date {
     description: "Choose the number of previous periods you would like to compare."
     label: "Number of Period(s):"
@@ -778,20 +759,31 @@ view: transactions {
     view_label: "Period To Date and YoY Filters"
   }
 
+  filter: date_range {
+    view_label: "Period To Date and YoY Filters"
+    label: "Date Range Filter"
+    description: ""
+    type:  date
+    convert_tz: yes
+    hidden: yes
+  }
+
+  filter: custom_date_period {
+    view_label: "Period To Date and YoY Filters"
+    label: "Custom Period (Date)"
+    type: date
+  }
+
   filter: pivot_period {
     view_label: "Period To Date and YoY Filters"
-    label: "Apply Filter"
-    description: ""
+    label: "Apply Filter - MUST INCLUDE"
     type:  yesno
     sql:
 
+
     {% if period_to_date._in_query and previous_period_to_date._in_query %}
 
-      {% if period_to_date._parameter_value == "CP" %}
-
-        true
-
-      {% elsif period_to_date._parameter_value == "PD" %}
+      {% if period_to_date._parameter_value == "PD" %}
 
         {% if previous_period_to_date._parameter_value == "CY" %}
           ${previous_full_day}
@@ -839,14 +831,28 @@ view: transactions {
           ${year_to_date_LY} OR ${year_to_date_2LY}
         {% endif %}
 
-      {% elsif period_to_date._parameter_value == "CP" %}
-        NULL
+      {% elsif period_to_date._parameter_value == "CP" and custom_date_period._in_query %}
+
+        {% if previous_period_to_date._parameter_value == "CY" %}
+          ${current_period}
+        {% elsif previous_period_to_date._parameter_value == "LY" %}
+          ${current_period_LY}
+        {% elsif previous_period_to_date._parameter_value == "2LY" %}
+          ${current_period_2LY}
+        {% elsif previous_period_to_date._parameter_value == "LY2LY" %}
+          ${current_period_LY} OR ${current_period_2LY}
+        {% endif %}
+
       {% endif %}
 
     {% else %}
 
       {% if period_to_date._parameter_value == "CP" %}
-        true
+        {%  if custom_date_period._in_query %}
+          ${current_period}
+        {% else %}
+          false
+        {% endif %}
       {% elsif period_to_date._parameter_value == "PD" %}
         ${previous_full_day}
       {% elsif period_to_date._parameter_value == "WTD" %}
@@ -861,6 +867,6 @@ view: transactions {
 
     ;;
 
-  }
+    }
 
-}
+  }
