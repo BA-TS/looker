@@ -5,6 +5,7 @@ view: digital_product_conversion {
   # DIMENSION GROUPS
 
   dimension_group: date {
+    label: "Conversion"
     type: time
     timeframes: [
       raw,
