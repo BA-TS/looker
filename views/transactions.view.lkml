@@ -255,9 +255,7 @@ view: transactions {
       week,
       month,
       quarter,
-      year,
-      day_of_week,
-      day_of_week_index
+      year
     ]
     sql: ${TABLE}.transactiondate ;;
   }
