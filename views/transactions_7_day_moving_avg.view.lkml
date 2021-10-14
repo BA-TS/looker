@@ -8,7 +8,7 @@ include: "/custom_views/**/*.view"
         derived_column: net_sales_7day_avg {sql: AVG (net_sales) OVER ( ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
         column: margin_incl_funding {field: transactions.total_margin_incl_funding}
         derived_column: margin_incl_funding_7day_avg {sql: AVG (margin_incl_funding) OVER ( ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
-        column: transactions {}
+        column: transactions {field: transactions.number_of_transactions}
         derived_column: transactions_7day_avg {sql: AVG (transactions) OVER ( ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
         column: units {field: transactions.total_units}
         derived_column: units_7day_avg {sql: AVG (units) OVER ( ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
@@ -249,25 +249,17 @@ include: "/custom_views/**/*.view"
       explore_source: transactions {
         column: transaction_date {}
         column: sales_channel {}
-        #column: site_uid { field: sites.site_uid }
-        #column: site_name { field: sites.site_name }
-        #column: department_uid { field: products.department_uid }
-        #column: department { field: products.department }
         column: net_sales {field: transactions.total_net_sales}
         derived_column: net_sales_7day_avg {sql: AVG (net_sales) OVER ( PARTITION BY sales_channel ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
         column: margin_incl_funding {field: transactions.total_margin_incl_funding}
         derived_column: margin_incl_funding_7day_avg {sql: AVG (margin_incl_funding) OVER ( PARTITION BY sales_channel ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
-        column: transactions {}
+        column: transactions {field: transactions.number_of_transactions}
         derived_column: transactions_7day_avg {sql: AVG (transactions) OVER ( PARTITION BY sales_channel ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
         column: units {field: transactions.total_units}
         derived_column: units_7day_avg {sql: AVG (units) OVER ( PARTITION BY sales_channel ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
         column: channel_net_sales_budget { field: channel_budget.channel_net_sales_budget }
         derived_column: channel_net_sales_budget_7day_avg {sql: AVG (channel_net_sales_budget) OVER ( PARTITION BY sales_channel ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
-        #column: department_net_sales_budget { field: category_budget.department_net_sales_budget }
-        #derived_column: department_net_sales_budget_7day_avg {sql: AVG (department_net_sales_budget) OVER ( PARTITION BY sales_channel ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
-        #column: site_net_sales_budget { field: site_budget.site_net_sales_budget }
-        #derived_column: site_net_sales_budget_7day_avg {sql: AVG (site_net_sales_budget) OVER ( PARTITION BY sales_channel ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
-      }
+        }
       datagroup_trigger: toolstation_transactions_datagroup
     }
 
@@ -397,7 +389,7 @@ include: "/custom_views/**/*.view"
         derived_column: net_sales_7day_avg {sql: AVG (net_sales) OVER ( PARTITION BY department_uid ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
         column: margin_incl_funding {field: transactions.total_margin_incl_funding}
         derived_column: margin_incl_funding_7day_avg {sql: AVG (margin_incl_funding) OVER ( PARTITION BY department_uid ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
-        column: transactions {}
+        column: transactions {field: transactions.number_of_transactions}
         derived_column: transactions_7day_avg {sql: AVG (transactions) OVER ( PARTITION BY department_uid ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
         column: units {field: transactions.total_units}
         derived_column: units_7day_avg {sql: AVG (units) OVER ( PARTITION BY department_uid ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
@@ -526,7 +518,7 @@ include: "/custom_views/**/*.view"
         derived_column: net_sales_7day_avg {sql: AVG (net_sales) OVER ( PARTITION BY site_uid ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
         column: margin_incl_funding {field: transactions.total_margin_incl_funding}
         derived_column: margin_incl_funding_7day_avg {sql: AVG (margin_incl_funding) OVER ( PARTITION BY site_uid ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
-        column: transactions {}
+        column: transactions {field: transactions.number_of_transactions}
         derived_column: transactions_7day_avg {sql: AVG (transactions) OVER ( PARTITION BY site_uid ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
         column: units {field: transactions.total_units}
         derived_column: units_7day_avg {sql: AVG (units) OVER ( PARTITION BY site_uid ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
@@ -659,7 +651,7 @@ include: "/custom_views/**/*.view"
         derived_column: net_sales_7day_avg {sql: AVG (net_sales) OVER ( PARTITION BY sales_channel,department_uid ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
         column: margin_incl_funding {field: transactions.total_margin_incl_funding}
         derived_column: margin_incl_funding_7day_avg {sql: AVG (margin_incl_funding) OVER ( PARTITION BY sales_channel,department_uid ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
-        column: transactions {}
+        column: transactions {field: transactions.number_of_transactions}
         derived_column: transactions_7day_avg {sql: AVG (transactions) OVER ( PARTITION BY sales_channel,department_uid ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
         column: units {field: transactions.total_units}
         derived_column: units_7day_avg {sql: AVG (units) OVER ( PARTITION BY sales_channel,department_uid ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
@@ -775,7 +767,7 @@ include: "/custom_views/**/*.view"
         derived_column: net_sales_7day_avg {sql: AVG (net_sales) OVER ( PARTITION BY sales_channel,site_uid ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
         column: margin_incl_funding {field: transactions.total_margin_incl_funding}
         derived_column: margin_incl_funding_7day_avg {sql: AVG (margin_incl_funding) OVER ( PARTITION BY sales_channel,site_uid ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
-        column: transactions {}
+        column: transactions {field: transactions.number_of_transactions}
         derived_column: transactions_7day_avg {sql: AVG (transactions) OVER ( PARTITION BY sales_channel,site_uid ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
         column: units {field: transactions.total_units}
         derived_column: units_7day_avg {sql: AVG (units) OVER ( PARTITION BY sales_channel,site_uid ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
@@ -892,7 +884,7 @@ include: "/custom_views/**/*.view"
         derived_column: net_sales_7day_avg {sql: AVG (net_sales) OVER ( PARTITION BY site_uid,department_uid ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
         column: margin_incl_funding {field: transactions.total_margin_incl_funding}
         derived_column: margin_incl_funding_7day_avg {sql: AVG (margin_incl_funding) OVER ( PARTITION BY site_uid,department_uid ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
-        column: transactions {}
+        column: transactions {field: transactions.number_of_transactions}
         derived_column: transactions_7day_avg {sql: AVG (transactions) OVER ( PARTITION BY site_uid,department_uid ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
         column: units {field: transactions.total_units}
         derived_column: units_7day_avg {sql: AVG (units) OVER ( PARTITION BY site_uid,department_uid ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
@@ -1011,7 +1003,7 @@ include: "/custom_views/**/*.view"
         derived_column: net_sales_7day_avg {sql: AVG (net_sales) OVER ( PARTITION BY sales_channel,department_uid,site_uid ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
         column: margin_incl_funding {field: transactions.total_margin_incl_funding}
         derived_column: margin_incl_funding_7day_avg {sql: AVG (margin_incl_funding) OVER ( PARTITION BY sales_channel,department_uid,site_uid ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
-        column: transactions {}
+        column: transactions {field: transactions.number_of_transactions}
         derived_column: transactions_7day_avg {sql: AVG (transactions) OVER ( PARTITION BY sales_channel,department_uid,site_uid ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
         column: units {field: transactions.total_units}
         derived_column: units_7day_avg {sql: AVG (units) OVER ( PARTITION BY sales_channel,department_uid,site_uid ORDER BY transaction_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) ;; }
