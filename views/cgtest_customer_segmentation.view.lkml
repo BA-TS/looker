@@ -127,6 +127,4 @@ view: customer_segmentation {
   }
 
 
-
-
 }

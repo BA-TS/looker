@@ -61,24 +61,23 @@ explore: transactions {
     relationship: many_to_one
     sql_on: ${transactions.product_uid}=${products.product_uid} ;;
   }
+  join: suppliers {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${products.default_supplier}=${suppliers.supplier_uid} ;;
+  }
   join: customers {
     type :  inner
     relationship: many_to_one
     sql_on: ${transactions.customer_uid}=${customers.customer_uid} ;;
   }
 
-  # join: customer_segmentation {
-  #   type: inner
-  #   relationship: many_to_one
-  #   sql_on: ${transactions.customer_uid}=${customer_segmentation.ucu_uid} ;;
-  # }
-
-
-  join: suppliers {
+  join: customer_segmentation {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${products.default_supplier}=${suppliers.supplier_uid} ;;
+    sql_on: ${transactions.customer_uid} = ${customer_segmentation.ucu_uid} ;;
   }
+
   join: sites {
     type: left_outer
     relationship: many_to_one

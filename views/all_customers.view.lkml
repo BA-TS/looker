@@ -1,3 +1,5 @@
+include: "/views/transactions.view"
+
 view: customers {
   sql_table_name: `toolstation-data-storage.customer.allCustomers`
     ;;
@@ -314,5 +316,6 @@ view: customers {
     ]
     sql: ${TABLE}.updatedDate ;;
   }
+
 
 }

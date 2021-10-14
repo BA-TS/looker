@@ -56,8 +56,10 @@ view: category_budget {
   }
 
   measure: department_margin_inc_all_funding_budget {
-    description: "Budget MArgin Inc Retro at Department level only"
+    description: "Budget Margin Inc Retro at Department level only"
     type:  sum
     sql: ${gross_margin_inc_retro} + ${fixed_funding} ;;
   }
+
+
 }
