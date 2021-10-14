@@ -1,10 +1,11 @@
-view: dgtl_product_conversion {
+view: digital_product_conversion {
   label: "Digital Product Conversion"
   sql_table_name: `toolstation-data-storage.digitalreporting.DGTL_product_conversion`;;
 
   # DIMENSION GROUPS
 
   dimension_group: date {
+    label: "Conversion"
     type: time
     timeframes: [
       raw,
@@ -22,6 +23,7 @@ view: dgtl_product_conversion {
   # DIMENSIONS
 
   dimension: ga_sku {
+    primary_key: yes
     label: "Product Code (SKU)"
     type: string
     sql: ${TABLE}.ga_SKU ;;
@@ -44,6 +46,19 @@ view: dgtl_product_conversion {
     type: string
     sql: ${TABLE}.ga_category ;;
   }
+
+  dimension: channel_grouping {
+    label: "Channel Grouping"
+    type: string
+    sql: ${TABLE}.channelgrouping ;;
+  }
+
+  dimension: device {
+    label: "Device"
+    type: string
+    sql: ${TABLE}.device ;;
+  }
+
 
   dimension: ga_entrances {
     type: number

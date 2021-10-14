@@ -66,6 +66,14 @@ explore: transactions {
     relationship: many_to_one
     sql_on: ${transactions.customer_uid}=${customers.customer_uid} ;;
   }
+
+  # join: customer_segmentation {
+  #   type: inner
+  #   relationship: many_to_one
+  #   sql_on: ${transactions.customer_uid}=${customer_segmentation.ucu_uid} ;;
+  # }
+
+
   join: suppliers {
     type: left_outer
     relationship: many_to_one
@@ -141,11 +149,11 @@ explore: view_weeklyconversion_testl {}
 explore: test_dgtl_ds_contibution {}
 
 
-explore: dgtl_product_conversion {
+explore: digital_product_conversion {
   label: "Product Conversion (DIGITAL)"
   join: products {
     type: inner
     relationship: many_to_one
-    sql_on: ${dgtl_product_conversion.ga_sku}=${products.product_code} ;;
+    sql_on: ${digital_product_conversion.ga_sku}=${products.product_code} ;;
   }
 }
