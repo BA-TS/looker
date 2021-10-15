@@ -3,19 +3,6 @@ connection: "toolstation"
 # include all the views
 include: "/views/**/*.view"
 
-datagroup: toolstation_transactions_datagroup {
-
-  sql_trigger:
-    SELECT
-      MAX(log_timestamp)
-
-      FROM `toolstation-data-storage.looker_persistent_tables.etl_log`
-      where datagroup_name = 'transactions';;
-
-  max_cache_age: "1 hour"
-}
-
-
 persist_with: toolstation_transactions_datagroup
 
 week_start_day: sunday
@@ -26,10 +13,7 @@ datagroup: toolstation_transactions_datagroup {
         FROM      toolstation-data-storage.looker_persistent_tables.etl_log
         WHERE     datagroup_name = 'transactions';;
   max_cache_age: "1 hour"
-  }
-
-persist_with: toolstation_transactions_datagroup
-
+}
 
 explore: transactions {
   sql_always_where:
@@ -74,30 +58,35 @@ explore: transactions {
     relationship: many_to_one
     sql_on: ${transactions.product_uid}=${products.product_uid} ;;
   }
+
   join: calendar_completed_date{
     from:  calendar
     type:  inner
     relationship:  many_to_one
     sql_on: date(${transactions.transaction_date})=${calendar_completed_date.date} ;;
   }
+
   join: calendar_placed_date{
     from:  calendar
     type:  inner
     relationship:  many_to_one
     sql_on: date(${transactions.placed_date})=${calendar_placed_date.date} ;;
   }
+
   join: category_budget {
     view_label: "Budget"
     type: full_outer
     relationship: many_to_one
     sql_on: date(${transactions.transaction_date})=${category_budget.date} and upper(${products.department})=upper(${category_budget.department}) ;;
   }
+
   join: channel_budget {
     view_label: "Budget"
     type: full_outer
     relationship: many_to_one
     sql_on: date(${transactions.transaction_date})=${channel_budget.date} and upper(${transactions.sales_channel})=upper(${channel_budget.channel}) ;;
   }
+
   join: customers {
     type :  inner
     relationship: many_to_one
@@ -108,11 +97,6 @@ explore: transactions {
     type: left_outer
     relationship: many_to_one
     sql_on: ${products.default_supplier}=${suppliers.supplier_uid} ;;
-  }
-  join: customers {
-    type :  inner
-    relationship: many_to_one
-    sql_on: ${transactions.customer_uid}=${customers.customer_uid} ;;
   }
 
   join: customer_segmentation {

@@ -26,13 +26,6 @@ view: transactions {
     hidden: yes
   }
 
-  dimension: order_line_key {
-    primary_key:  yes
-    type:  string
-    sql: concat(${parent_order_uid},${product_uid},${transaction_line_type}) ;;
-    hidden:  yes
-  }
-
   dimension: parent_order_uid {
     label: "Parent Order UID"
     type: string
@@ -339,7 +332,7 @@ view: transactions {
     group_label: "Margin Measures"
     type:  sum
     sql: ${margin_excl_funding} ;;
-
+  }
 
   measure: total_cogs {
     label: "Total COGS"
@@ -371,25 +364,11 @@ view: transactions {
     value_format: "#,##0;(#,##0)"
   }
 
-  measure: net_sales_AOV {
-    type:  number
-    view_label: "Sales Measures"
-    sql: (sum(${net_sales_value})/count(distinct ${parent_order_uid})) ;;
-    value_format: "\£#,##0.00;(\£#,##0.00)"
-  }
-
   measure: total_units_incl_system_codes {
     label: "Total Units (Including System Codes)"
     type:  sum
     sql: ${quantity} ;;
     value_format: "#,##0;(#,##0)"
-  }
-
-  measure: gross_sales_AOV {
-    type:  number
-    view_label: "Sales Measures"
-    sql: (sum(${gross_sales_value})/count(distinct ${parent_order_uid})) ;;
-    value_format: "\£#,##0.00;(\£#,##0.00)"
   }
 
   measure: average_units_AOV {
@@ -1035,4 +1014,4 @@ view: transactions {
         sql: CASE WHEN ${customer_type} != "Trade" THEN ${quantity} else 0 END ;;
       }
 
-}}}
+}
