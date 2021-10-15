@@ -311,6 +311,21 @@ view: transactions {
     sql: ${TABLE}.vatRate ;;
   }
 
+  dimension: promo_in_main_catalogue {
+    type: yesno
+    sql: case when ${promo_main_catalogue.product_code} is null then 0 else 1 end ;;
+  }
+
+  dimension: promo_in_extra {
+    type: yesno
+    sql: case when ${promo_extra.product_code} is null then 0 else 1 end ;;
+  }
+
+  dimension: promo_in_any {
+    type: yesno
+    sql: case when ${promo_extra.product_code} is null and ${promo_main_catalogue.product_code} is null then 0 else 1 end ;;
+  }
+
   measure:  total_gross_sales {
     label: "Total Gross Sales"
     type:  sum
