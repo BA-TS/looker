@@ -39,6 +39,7 @@ view: site_budget {
 
   measure: site_net_sales_budget {
     description: "Budget Net Sales at Site level only"
+    group_label: "Sites"
     type: sum
     sql: ${aop} ;;
   }

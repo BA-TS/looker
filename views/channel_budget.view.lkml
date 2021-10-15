@@ -8,19 +8,9 @@ view: channel_budget {
     sql: ${TABLE}.channel ;;
   }
 
-  dimension_group: date {
+  dimension: date {
     hidden: yes
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
+    type: date
     sql: ${TABLE}.date ;;
   }
 
@@ -28,7 +18,7 @@ view: channel_budget {
     type: string
     primary_key: yes
     hidden: yes
-    sql: ${date_date}||${channel} ;;
+    sql: ${date}||${channel} ;;
   }
 
   dimension: fixed_funding {
@@ -56,8 +46,44 @@ view: channel_budget {
   }
 
   measure: channel_net_sales_budget {
-    description: "Budget Net Sales at Channel level only"
+    description: "Budget - Net Sales at Channel level only"
+    group_label: "Sales Channel"
     type: sum
     sql: ${net_sales} ;;
+  }
+
+  measure: channel_gross_profit_Excl_funding_budget {
+    description: "Budget - Gross Profit at Channel level only"
+    group_label: "Sales Channel"
+    type: sum
+    sql: ${gross_profit} ;;
+  }
+
+  measure: channel_retro_funding_budget {
+    description: "Budget - Retro Funding at Channel level only"
+    group_label: "Sales Channel"
+    type: sum
+    sql: ${retro_funding} ;;
+  }
+
+  measure: channel_fixed_funding_budget {
+    description: "Budget - fixed Funding at Channel level only"
+    group_label: "Sales Channel"
+    type: sum
+    sql: ${fixed_funding} ;;
+  }
+
+  measure: channel_gross_margin_inc_unit_funding_budget {
+    description: "Budget - Retro Funding at Channel level only"
+    group_label: "Sales Channel"
+    type: number
+    sql: sum(${gross_profit}+${retro_funding}) ;;
+  }
+
+  measure: channel_gross_margin_inc_all_funding_budget {
+    description: "Budget - Gross Margin Inc All Funding at Channel level only"
+    group_label: "Sales Channel"
+    type: number
+    sql: sum(${gross_profit}+${retro_funding}+${fixed_funding}) ;;
   }
 }

@@ -13,6 +13,12 @@ view: transactions {
     hidden: yes
   }
 
+  dimension: date{
+    view_label: "Calendar Completed Date"
+    type: date
+    sql: coalesce(date(${TABLE}.transactionDate),${channel_budget.date}) ;;
+  }
+
   dimension: order_line_key {
     primary_key:  yes
     type:  string
@@ -202,7 +208,7 @@ view: transactions {
 
   dimension: sales_channel {
     type: string
-    sql: ${TABLE}.salesChannel ;;
+    sql: coalesce(${TABLE}.salesChannel,${channel_budget.channel}) ;;
   }
 
   dimension: site_uid {
@@ -262,15 +268,22 @@ view: transactions {
     sql: ${TABLE}.vatRate ;;
   }
 
+  dimension: department {
+    view_label: "Products"
+    type:  string
+    sql: coalesce(${products.department},${category_budget.department}) ;;
+  }
+
   measure:  total_net_sales {
     type:  sum
-    group_item_label: "Sales Measures"
+    view_label: "Sales Measures"
     sql: ${net_sales_value} ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
   }
 
   measure:  total_gross_sales {
     type:  sum
+    view_label: "Sales Measures"
     sql: ${gross_sales_value} ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
 
@@ -278,12 +291,14 @@ view: transactions {
 
   measure:  total_cogs {
     type:  sum
+    view_label: "Sales Measures"
     sql: ${cogs} ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
   }
 
   measure:  total_margin_excl_funding {
     type:  sum
+    view_label: "Sales Measures"
     sql: ${margin_excl_funding} ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
 
@@ -291,6 +306,7 @@ view: transactions {
 
   measure:  total_margin_incl_funding {
     type:  sum
+    view_label: "Sales Measures"
     sql: ${margin_incl_funding} ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
 
@@ -298,6 +314,7 @@ view: transactions {
 
   measure:  total_unit_funding {
     type:  sum
+    view_label: "Sales Measures"
     sql: ${unit_funding} ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
 
@@ -305,30 +322,35 @@ view: transactions {
 
   measure:  total_units {
     type:  sum
+    view_label: "Sales Measures"
     sql: case when ${product_code} like '0%' then 0 else ${quantity} end ;;
     value_format: "#,##0;(#,##0)"
   }
 
   measure:  total_units_incl_system_codes {
     type:  sum
+    view_label: "Sales Measures"
     sql: ${quantity} ;;
     value_format: "#,##0;(#,##0)"
   }
 
   measure: net_sales_AOV {
     type:  number
+    view_label: "Sales Measures"
     sql: (sum(${net_sales_value})/count(distinct ${parent_order_uid})) ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
   }
 
   measure: gross_sales_AOV {
     type:  number
+    view_label: "Sales Measures"
     sql: (sum(${gross_sales_value})/count(distinct ${parent_order_uid})) ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
   }
 
   measure: transactions {
     type: count_distinct
+    view_label: "Sales Measures"
     sql: ${parent_order_uid} ;;
     value_format: "#,##0;(#,##0)"
   }

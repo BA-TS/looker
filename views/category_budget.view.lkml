@@ -2,19 +2,9 @@ view: category_budget {
   sql_table_name: `toolstation-data-storage.ts_finance.categoryBudget`
     ;;
 
-  dimension_group: date {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
+  dimension: date {
     hidden: yes
-    datatype: date
+    type: date
     sql: ${TABLE}.date ;;
   }
 
@@ -22,7 +12,7 @@ view: category_budget {
     type:  string
     primary_key: yes
     hidden: yes
-    sql: ${date_date}||${department} ;;
+    sql: ${date}||${department} ;;
   }
 
   dimension: department {
@@ -51,12 +41,14 @@ view: category_budget {
 
   measure: department_net_sales_budget {
     description: "Budget Net Sales at Department level only"
+    group_label: "Department"
     type:  sum
     sql: ${net_sales} ;;
   }
 
   measure: department_margin_inc_all_funding_budget {
-    description: "Budget MArgin Inc Retro at Department level only"
+    description: "Budget Margin Inc Retro at Department level only"
+    group_label: "Department"
     type:  sum
     sql: ${gross_margin_inc_retro} + ${fixed_funding} ;;
   }

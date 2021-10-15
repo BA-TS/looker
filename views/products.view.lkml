@@ -88,6 +88,7 @@ view: products {
   dimension: department {
     type: string
     sql: ${TABLE}.productDepartment ;;
+    hidden:  yes
   }
 
   dimension: department_uid {

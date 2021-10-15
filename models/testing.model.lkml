@@ -18,20 +18,20 @@ include: "/views/*.view.lkml"                # include all views in the views/ f
 #     sql_on: ${users.id} = ${orders.user_id} ;;
 #   }
 # }
-explore: stock_intake {
-  join: products {
-    type:  inner
-    relationship: many_to_one
-    sql_on: ${stock_intake.product_uid}=${products.product_uid} ;;
-  }
-  join: sites {
-    type:  inner
-    relationship:  many_to_one
-    sql_on: ${stock_intake.destination_site_uid}=${sites.site_uid} ;;
-  }
-  join: disctribution_centre_names {
-    type:  left_outer
-    relationship: many_to_one
-    sql_on: ${stock_intake.destination_site_uid}=${disctribution_centre_names.site_uid} ;;
-  }
-}
+# explore: stock_intake {
+#   join: products {
+#     type:  inner
+#     relationship: many_to_one
+#     sql_on: ${stock_intake.product_uid}=${products.product_uid} ;;
+#   }
+#   join: sites {
+#     type:  inner
+#     relationship:  many_to_one
+#     sql_on: ${stock_intake.destination_site_uid}=${sites.site_uid} ;;
+#   }
+#   join: disctribution_centre_names {
+#     type:  left_outer
+#     relationship: many_to_one
+#     sql_on: ${stock_intake.destination_site_uid}=${disctribution_centre_names.site_uid} ;;
+#   }
+# }
