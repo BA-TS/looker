@@ -1,4 +1,5 @@
-view: site_budget {
+
+ view: site_budget_bckp {
   sql_table_name: `toolstation-data-storage.ts_finance.site_budget`
     ;;
 
@@ -39,7 +40,6 @@ view: site_budget {
 
   measure: site_net_sales_budget {
     description: "Budget Net Sales at Site level only"
-    group_label: "Sites"
     type: sum
     sql: ${aop} ;;
   }

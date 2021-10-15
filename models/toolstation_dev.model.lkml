@@ -15,9 +15,21 @@ datagroup: toolstation_transactions_datagroup {
   max_cache_age: "1 hour"
 }
 
+
 persist_with: toolstation_transactions_datagroup
 
 week_start_day: sunday
+
+datagroup: toolstation_transactions_datagroup {
+  sql_trigger:
+        SELECT    MAX(log_timestamp)
+        FROM      toolstation-data-storage.looker_persistent_tables.etl_log
+        WHERE     datagroup_name = 'transactions';;
+  max_cache_age: "1 hour"
+  }
+
+persist_with: toolstation_transactions_datagroup
+
 
 explore: transactions {
   sql_always_where:
@@ -91,11 +103,24 @@ explore: transactions {
     relationship: many_to_one
     sql_on: ${transactions.customer_uid}=${customers.customer_uid} ;;
   }
+
   join: suppliers {
     type: left_outer
     relationship: many_to_one
     sql_on: ${products.default_supplier}=${suppliers.supplier_uid} ;;
   }
+  join: customers {
+    type :  inner
+    relationship: many_to_one
+    sql_on: ${transactions.customer_uid}=${customers.customer_uid} ;;
+  }
+
+  join: customer_segmentation {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.customer_uid} = ${customer_segmentation.ucu_uid} ;;
+  }
+
   join: sites {
     type: left_outer
     relationship: many_to_one
@@ -147,3 +172,13 @@ explore: transactions {
 ########
 explore: view_weeklyconversion_testl {}
 explore: test_dgtl_ds_contibution {}
+
+
+explore: digital_product_conversion {
+  label: "Product Conversion (DIGITAL)"
+  join: products {
+    type: inner
+    relationship: many_to_one
+    sql_on: ${digital_product_conversion.ga_sku}=${products.product_code} ;;
+  }
+}
