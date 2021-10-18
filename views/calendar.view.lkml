@@ -2,6 +2,14 @@ view: calendar {
   sql_table_name: `toolstation-data-storage.ts_finance.dim_date`
     ;;
 
+
+  dimension: date{
+    type: date
+    primary_key: yes
+    hidden: yes
+    sql: ${TABLE}.fullDate ;;
+  }
+
   dimension: calendar_quarter {
     type: number
     sql: ${TABLE}.calendarQuarter ;;
@@ -98,11 +106,6 @@ view: calendar {
     value_format: "#"
   }
 
-  dimension: date{
-    type: date
-    primary_key: yes
-    sql: ${TABLE}.fullDate ;;
-  }
 
   dimension: holiday_name {
     type: string

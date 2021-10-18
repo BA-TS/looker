@@ -5,433 +5,450 @@ view: transactions {
     ;;
 # drill_fields: [transaction_uid]
 
-    extends: [pop_date_comparison]
-
-##############################################
-
-    dimension: event_raw {
-      type: date_raw
-      sql: ${transaction_raw} ;;
-      hidden: yes
-    }
-
-    dimension: order_line_key {
-      primary_key:  yes
-      type:  string
-      sql: concat(${parent_order_uid},${product_uid},${transaction_line_type}) ;;
-      hidden:  yes
-    }
-
-    dimension: parent_order_uid {
-      label: "Parent Order UID"
-      type: string
-      sql: ${TABLE}.parentOrderUID ;;
-    }
-
-    dimension: transaction_uid {
-      label: "Transaction UID"
-      type: string
-      sql: ${TABLE}.transactionUID ;;
-    }
-
-    dimension: cogs {
-      type: number
-      sql: ${TABLE}.COGS ;;
-      hidden:  yes
-    }
-
-    dimension: customer_uid {
-      description: "Used as KEY for joins."
-      label: "Customer UID"
-      group_label: "UID"
-      type: string
-      sql: ${TABLE}.customerUID ;;
-    }
-
-    dimension: delivery_address_uid {
-      label: "Delivery Address UID"
-      group_label: "UID"
-      type: string
-      sql: ${TABLE}.deliveryAddressUID ;;
-    }
-
-    dimension: fulfillment_channel {
-      type: string
-      sql: ${TABLE}.fulfillmentChannel ;;
-      hidden:  yes
-    }
-
-    dimension: gross_sale_price {
-      type: number
-      sql: ${TABLE}.grossSalePrice ;;
-      hidden: yes
-    }
-
-    dimension: gross_sales_value {
-      type: number
-      sql: ${TABLE}.grossSalesValue ;;
-      hidden:  yes
-    }
-
-    dimension: is_cancelled {
-      type: number
-      sql: ${TABLE}.isCancelled ;;
-      hidden:  yes
-    }
-
-    dimension: is_lfl {
-      group_label: "Flags"
-      label: "Is LFL"
-      type: number
-      sql: ${TABLE}.isLFL ;;
-    }
-
-    dimension: is_mature {
-      group_label: "Flags"
-      label: "Is Mature"
-      type: number
-      sql: ${TABLE}.isMature ;;
-    }
-
-    dimension: is_open18_months {
-      group_label: "Flags"
-      label: "Is Open 18 Months"
-      type: number
-      sql: ${TABLE}.isOpen18Months ;;
-    }
-
-    dimension: is_originating_lfl {
-      group_label: "Flags"
-      label: "Is Originating LFL"
-      type: number
-      sql: ${TABLE}.isOriginatingLFL ;;
-    }
-
-    dimension: is_originating_mature {
-      group_label: "Flags"
-      label: "Is Originating Mature"
-      type: number
-      sql: ${TABLE}.isOriginatingMature ;;
-    }
-
-    dimension: is_originating_open18_months {
-      group_label: "Flags"
-      label: "Is Originating Open (18 Months)"
-      type: number
-      sql: ${TABLE}.isOriginatingOpen18Months ;;
-    }
-
-    dimension: line_discount {
-      type: number
-      sql: ${TABLE}.lineDiscount ;;
-      hidden:  yes
-    }
-
-    dimension: margin_excl_funding {
-      type: number
-      sql: ${TABLE}.marginExclFunding ;;
-      hidden:  yes
-    }
-
-    dimension: margin_incl_funding {
-      type: number
-      sql: ${TABLE}.marginInclFunding ;;
-      hidden:  yes
-    }
-
-    dimension: master_customer_uid {
-      type: string
-      sql: ${TABLE}.masterCustomerUID ;;
-      hidden:  yes
-    }
-
-    dimension: net_sale_price {
-      type: number
-      sql: ${TABLE}.netSalePrice ;;
-      hidden: yes
-    }
-
-    dimension: net_sales_value {
-      type: number
-      sql: ${TABLE}.netSalesValue ;;
-      hidden:  yes
-    }
-
-    dimension: order_reason {
-      label: "Reason for Order"
-      type: string
-      sql: ${TABLE}.orderReason ;;
-    }
-
-    dimension: order_special_requests {
-      label: "Special Requests"
-      type: string
-      sql: ${TABLE}.orderSpecialRequests ;;
-    }
-
-    dimension: originating_site_uid {
-      label: "Originating Site UID"
-      group_label: "UID"
-      type: string
-      sql: ${TABLE}.originatingSiteUID ;;
-    }
-
-    dimension: payment_type {
-      label: "Payment Type"
-      type: string
-      sql: ${TABLE}.paymentType ;;
-    }
-
-    dimension_group: placed {
-      type: time
-      timeframes: [
-        raw,
-        time,
-        date,
-        week,
-        month,
-        quarter,
-        year
-      ]
-      sql: ${TABLE}.placeddate ;;
-    }
-
-    dimension: postal_area {
-      label: "Postal Area"
-      type: string
-      sql: ${TABLE}.postalArea ;;
-    }
-
-    dimension: postal_district {
-      label: "Postal District"
-      type: string
-      sql: ${TABLE}.postalDistrict ;;
-    }
-
-    dimension: product_code {
-      label: "Product Code"
-      type: string
-      sql: ${TABLE}.productCode ;;
-    }
-
-    dimension: product_uid {
-      label: "Product UID"
-      group_label: "UID"
-      type: string
-      sql: ${TABLE}.productUID ;;
-    }
-
-    dimension: quantity {
-      type: number
-      sql: ${TABLE}.quantity ;;
-      hidden:  yes
-    }
-
-    dimension: row_id {
-      type: number
-      sql: ${TABLE}.rowID ;;
-      hidden:  yes
-    }
-
-    dimension: sales_channel {
-      label: "Sales Channel"
-      type: string
-      sql: ${TABLE}.salesChannel ;;
-    }
-
-    dimension: site_uid {
-      label: "Site UID"
-      group_label: "UID"
-      type: string
-      sql: ${TABLE}.siteUID ;;
-    }
-
-    dimension_group: transaction {
-      type: time
-      timeframes: [
-        raw,
-        time,
-        date,
-        week,
-        month,
-        quarter,
-        year
-      ]
-      sql: ${TABLE}.transactiondate ;;
-    }
-
-    dimension: transaction_line_type {
-      type: string
-      description: "Field is currently under review - please do not use"
-      sql: ${TABLE}.transactionLineType ;;
-      hidden:  yes
-    }
-
-    dimension: unit_funding {
-      type: number
-      sql: ${TABLE}.unitFunding ;;
-      hidden:  yes
-    }
-
-    dimension_group: updated {
-      type: time
-      timeframes: [
-        raw,
-        time,
-        date,
-        week,
-        month,
-        quarter,
-        year
-      ]
-      sql: ${TABLE}.updateddate ;;
-      hidden:  yes
-    }
-
-    dimension: user_uid {
-      label: "User UID"
-      group_label: "UID"
-      type: string
-      sql: ${TABLE}.userUID ;;
-    }
-
-    dimension: vat_rate {
-      label: "VAT Rate"
-      type: number
-      sql: ${TABLE}.vatRate ;;
-    }
-
-##########################################################
-
-    measure: total_net_sales {
-      label: "Total Net Sales"
-      group_label: "Sales Measures"
-      type:  sum
-      sql: ${net_sales_value} ;;
-      value_format: "\£#,##0.00;(\£#,##0.00)"
-    }
-
-    measure: total_gross_sales {
-      label: "Total Gross Sales"
-      group_label: "Sales Measures"
-      type:  sum
-      sql: ${gross_sales_value} ;;
-      value_format: "\£#,##0.00;(\£#,##0.00)"
-
-    }
-
-    measure: total_cogs {
-      label: "Total COGS"
-      type:  sum
-      sql: ${cogs} ;;
-      value_format: "\£#,##0.00;(\£#,##0.00)"
-    }
-
-    measure: total_margin_excl_funding {
-      label: "Total Margin (Excluding Funding)"
-      group_label: "Margin Measures"
-      type:  sum
-      sql: ${margin_excl_funding} ;;
-      value_format: "\£#,##0.00;(\£#,##0.00)"
-
-    }
-
-    measure: total_margin_incl_funding {
-      label: "Total Margin (Including Funding)"
-      group_label: "Margin Measures"
-      type:  sum
-      sql: ${margin_incl_funding} ;;
-      value_format: "\£#,##0.00;(\£#,##0.00)"
-    }
-
-    measure: total_unit_funding {
-      label: "Total Unit Funding"
-      type:  sum
-      sql: ${unit_funding} ;;
-      value_format: "\£#,##0.00;(\£#,##0.00)"
-    }
-
-    ###############################
-
-    measure: total_units {
-      label: "Total Units"
-      type:  sum
-      sql: case when ${product_code} like '0%' then 0 else ${quantity} end ;;
-      value_format: "#,##0;(#,##0)"
-    }
-
-    measure: total_units_incl_system_codes {
-      label: "Total Units (Including System Codes)"
-      type:  sum
-      sql: ${quantity} ;;
-      value_format: "#,##0;(#,##0)"
-    }
-
-    measure: average_units_AOV {
-      label: "Average Units (Transaction)"
-      group_label: "AOV Measures"
-      type: number
-      sql: ${total_units} / ${number_of_transactions} ;;
-      value_format: "#,##0.0;(\#,##0.0)"
-    }
-
-    measure: average_sales_AOV {
-      label: "Net ASP (Transaction)"
-      group_label: "AOV Measures"
-      description: "Net Sales AOV / Average Units"
-      type: number
-      sql: ${net_sales_AOV} / ${average_units_AOV} ;;
-    }
-
-    measure: net_sales_AOV {
-      label: "Net Sales AOV"
-      group_label: "AOV Measures"
-      type:  number
-      sql: ${total_net_sales}  / ${number_of_transactions} ;;
-      value_format: "\£#,##0.00;(\£#,##0.00)"
-    }
-
-    measure: gross_sales_AOV {
-      label: "Gross Sales AOV"
-      group_label: "AOV Measures"
-      type:  number
-      sql: ${total_gross_sales}  / ${number_of_transactions} ;;
-      value_format: "\£#,##0.00;(\£#,##0.00)"
-    }
-
-    measure: number_of_transactions {
-      label: "Number of Transactions"
-      type: count_distinct
-      sql: ${parent_order_uid} ;;
-      value_format: "#,##0;(#,##0)"
-    }
-
-############################################
-
-    measure: total_margin_rate_excl_funding {
-      label: "Total Margin Rate (Excluding Funding)"
-      group_label: "Margin Measures"
-      type:  number
-      sql: ${total_margin_excl_funding} / ${total_net_sales} ;;
-      value_format: "##0.00%;(##0.00%)"
-    }
-
-    measure: total_margin_rate_incl_funding {
-      label: "Total Margin Rate (Including Funding)"
-      group_label: "Margin Measures"
-      type:  number
-      sql: ${total_margin_incl_funding} / ${total_net_sales} ;;
-      value_format: "0.00%;(0.00%)"
-    }
-
-    measure: unique_customer {
-      label: "Total Customers"
-      type: count_distinct
-      sql: ${customer_uid} ;;
-      value_format: "#,##0;(#,##0)"
-    }
-
-##############################################
+  extends: [pop_date_comparison]
+
+  dimension: date{
+    view_label: "Calendar Completed Date"
+    type: date
+    sql: coalesce(date(${TABLE}.transactionDate),${channel_budget.date}) ;;
+  }
+
+  dimension: order_line_key {
+    primary_key:  yes
+    type:  string
+    sql: concat(${parent_order_uid},${product_uid},${transaction_line_type}) ;;
+    hidden:  yes
+  }
+
+  dimension: event_raw {
+    type: date_raw
+    sql: ${transaction_raw} ;;
+    hidden: yes
+  }
+
+  dimension: parent_order_uid {
+    label: "Parent Order UID"
+    type: string
+    sql: ${TABLE}.parentOrderUID ;;
+  }
+
+  dimension: transaction_uid {
+    label: "Transaction UID"
+    type: string
+    sql: ${TABLE}.transactionUID ;;
+  }
+
+  dimension: cogs {
+    type: number
+    sql: ${TABLE}.COGS ;;
+    hidden:  yes
+  }
+
+  dimension: customer_uid {
+    description: "Used as KEY for joins."
+    label: "Customer UID"
+    group_label: "UID"
+    type: string
+    sql: ${TABLE}.customerUID ;;
+  }
+
+  dimension: delivery_address_uid {
+    label: "Delivery Address UID"
+    group_label: "UID"
+    type: string
+    sql: ${TABLE}.deliveryAddressUID ;;
+  }
+
+  dimension: fulfillment_channel {
+    type: string
+    sql: ${TABLE}.fulfillmentChannel ;;
+    hidden:  yes
+  }
+
+  dimension: gross_sale_price {
+    type: number
+    sql: ${TABLE}.grossSalePrice ;;
+    hidden: yes
+  }
+
+  dimension: gross_sales_value {
+    type: number
+    sql: ${TABLE}.grossSalesValue ;;
+    hidden:  yes
+  }
+
+  dimension: is_cancelled {
+    type: number
+    sql: ${TABLE}.isCancelled ;;
+    hidden:  yes
+  }
+
+  dimension: is_lfl {
+    group_label: "Flags"
+    label: "Is LFL"
+    type: number
+    sql: ${TABLE}.isLFL ;;
+  }
+
+  dimension: is_mature {
+    group_label: "Flags"
+    label: "Is Mature"
+    type: number
+    sql: ${TABLE}.isMature ;;
+  }
+
+  dimension: is_open18_months {
+    group_label: "Flags"
+    label: "Is Open 18 Months"
+    type: number
+    sql: ${TABLE}.isOpen18Months ;;
+  }
+
+  dimension: is_originating_lfl {
+    group_label: "Flags"
+    label: "Is Originating LFL"
+    type: number
+    sql: ${TABLE}.isOriginatingLFL ;;
+  }
+
+  dimension: is_originating_mature {
+    group_label: "Flags"
+    label: "Is Originating Mature"
+    type: number
+    sql: ${TABLE}.isOriginatingMature ;;
+  }
+
+  dimension: is_originating_open18_months {
+    group_label: "Flags"
+    label: "Is Originating Open (18 Months)"
+    type: number
+    sql: ${TABLE}.isOriginatingOpen18Months ;;
+  }
+
+  dimension: line_discount {
+    type: number
+    sql: ${TABLE}.lineDiscount ;;
+    hidden:  yes
+  }
+
+  dimension: margin_excl_funding {
+    type: number
+    sql: ${TABLE}.marginExclFunding ;;
+    hidden:  yes
+  }
+
+  dimension: margin_incl_funding {
+    type: number
+    sql: ${TABLE}.marginInclFunding ;;
+    hidden:  yes
+  }
+
+  dimension: master_customer_uid {
+    type: string
+    sql: ${TABLE}.masterCustomerUID ;;
+    hidden:  yes
+  }
+
+  dimension: net_sale_price {
+    type: number
+    sql: ${TABLE}.netSalePrice ;;
+    hidden: yes
+  }
+
+  dimension: net_sales_value {
+    type: number
+    sql: ${TABLE}.netSalesValue ;;
+    hidden:  yes
+  }
+
+  dimension: order_reason {
+    label: "Reason for Order"
+    type: string
+    sql: ${TABLE}.orderReason ;;
+  }
+
+  dimension: order_special_requests {
+    label: "Special Requests"
+    type: string
+    sql: ${TABLE}.orderSpecialRequests ;;
+  }
+
+  dimension: originating_site_uid {
+    label: "Originating Site UID"
+    group_label: "UID"
+    type: string
+    sql: ${TABLE}.originatingSiteUID ;;
+  }
+
+  dimension: payment_type {
+    label: "Payment Type"
+    type: string
+    sql: ${TABLE}.paymentType ;;
+  }
+
+  dimension_group: placed {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.placeddate ;;
+  }
+
+  dimension: postal_area {
+    label: "Postal Area"
+    type: string
+    sql: ${TABLE}.postalArea ;;
+  }
+
+  dimension: postal_district {
+    label: "Postal District"
+    type: string
+    sql: ${TABLE}.postalDistrict ;;
+  }
+
+  dimension: product_code {
+    label: "Product Code"
+    type: string
+    sql: ${TABLE}.productCode ;;
+  }
+
+  dimension: product_uid {
+    label: "Product UID"
+    group_label: "UID"
+    type: string
+    sql: ${TABLE}.productUID ;;
+  }
+
+  dimension: quantity {
+    type: number
+    sql: ${TABLE}.quantity ;;
+    hidden:  yes
+  }
+
+  dimension: sales_channel {
+    label: "Sales Channel"
+    type: string
+    sql: coalesce(${TABLE}.salesChannel,${channel_budget.channel}) ;;
+  }
+
+  dimension: row_id {
+    type: number
+    sql: ${TABLE}.rowID ;;
+    hidden:  yes
+  }
+
+  dimension: site_uid {
+    label: "Site UID"
+    group_label: "UID"
+    type: string
+    sql: ${TABLE}.siteUID ;;
+  }
+
+  dimension_group: transaction {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.transactiondate ;;
+  }
+
+  dimension: transaction_line_type {
+    type: string
+    description: "Field is currently under review - please do not use"
+    sql: ${TABLE}.transactionLineType ;;
+    hidden:  yes
+  }
+
+  dimension: unit_funding {
+    type: number
+    sql: ${TABLE}.unitFunding ;;
+    hidden:  yes
+  }
+
+  dimension_group: updated {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.updateddate ;;
+    hidden:  yes
+  }
+
+  dimension: user_uid {
+    label: "User UID"
+    group_label: "UID"
+    type: string
+    sql: ${TABLE}.userUID ;;
+  }
+
+  dimension: department {
+    view_label: "Products"
+    type:  string
+    sql: coalesce(${products.department},${category_budget.department}) ;;
+  }
+
+  dimension: vat_rate {
+    label: "VAT Rate"
+    type: number
+    sql: ${TABLE}.vatRate ;;
+  }
+
+  dimension: promo_in_main_catalogue {
+    type: yesno
+    sql: case when ${promo_main_catalogue.product_code} is null then 0 else 1 end ;;
+  }
+
+  dimension: promo_in_extra {
+    type: yesno
+    sql: case when ${promo_extra.product_code} is null then 0 else 1 end ;;
+  }
+
+  dimension: promo_in_any {
+    type: yesno
+    sql: case when ${promo_extra.product_code} is null and ${promo_main_catalogue.product_code} is null then 0 else 1 end ;;
+  }
+
+  measure:  total_gross_sales {
+    label: "Total Gross Sales"
+    type:  sum
+    view_label: "Sales Measures"
+    sql: ${gross_sales_value} ;;
+    value_format: "\£#,##0.00;(\£#,##0.00)"
+  }
+
+  measure: total_net_sales {
+    label: "Total Net Sales"
+    group_label: "Sales Measures"
+    type:  sum
+    sql: ${net_sales_value} ;;
+    value_format: "\£#,##0.00;(\£#,##0.00)"
+  }
+
+  measure: total_margin_excl_funding {
+    label: "Total Margin (Excluding Funding)"
+    group_label: "Margin Measures"
+    type:  sum
+    sql: ${margin_excl_funding} ;;
+  }
+
+  measure: total_cogs {
+    label: "Total COGS"
+    type:  sum
+    sql: ${cogs} ;;
+    value_format: "\£#,##0.00;(\£#,##0.00)"
+  }
+
+
+  measure: total_margin_incl_funding {
+    label: "Total Margin (Including Funding)"
+    group_label: "Margin Measures"
+    type:  sum
+    sql: ${margin_incl_funding} ;;
+    value_format: "\£#,##0.00;(\£#,##0.00)"
+  }
+
+  measure: total_unit_funding {
+    label: "Total Unit Funding"
+    type:  sum
+    sql: ${unit_funding} ;;
+    value_format: "\£#,##0.00;(\£#,##0.00)"
+  }
+
+  measure: total_units {
+    label: "Total Units"
+    type:  sum
+    sql: case when ${product_code} like '0%' then 0 else ${quantity} end ;;
+    value_format: "#,##0;(#,##0)"
+  }
+
+  measure: total_units_incl_system_codes {
+    label: "Total Units (Including System Codes)"
+    type:  sum
+    sql: ${quantity} ;;
+    value_format: "#,##0;(#,##0)"
+  }
+
+  measure: average_units_AOV {
+    label: "Average Units (Transaction)"
+    group_label: "AOV Measures"
+    type: number
+    sql: ${total_units} / ${number_of_transactions} ;;
+    value_format: "#,##0.0;(\#,##0.0)"
+  }
+
+  measure: average_sales_AOV {
+    label: "Net ASP (Transaction)"
+    group_label: "AOV Measures"
+    description: "Net Sales AOV / Average Units"
+    type: number
+    sql: ${net_sales_AOV} / ${average_units_AOV} ;;
+  }
+
+  measure: net_sales_AOV {
+    label: "Net Sales AOV"
+    group_label: "AOV Measures"
+    type:  number
+    sql: ${total_net_sales}  / ${number_of_transactions} ;;
+    value_format: "\£#,##0.00;(\£#,##0.00)"
+  }
+
+  measure: gross_sales_AOV {
+    label: "Gross Sales AOV"
+    group_label: "AOV Measures"
+    type:  number
+    sql: ${total_gross_sales}  / ${number_of_transactions} ;;
+    value_format: "\£#,##0.00;(\£#,##0.00)"
+  }
+
+  measure: number_of_transactions {
+    label: "Number of Transactions"
+    type: count_distinct
+    sql: ${parent_order_uid} ;;
+    value_format: "#,##0;(#,##0)"
+  }
+
+  measure: total_margin_rate_excl_funding {
+    label: "Total Margin Rate (Excluding Funding)"
+    group_label: "Margin Measures"
+    type:  number
+    sql: ${total_margin_excl_funding} / ${total_net_sales} ;;
+    value_format: "##0.00%;(##0.00%)"
+  }
+
+  measure: total_margin_rate_incl_funding {
+    label: "Total Margin Rate (Including Funding)"
+    group_label: "Margin Measures"
+    type:  number
+    sql: ${total_margin_incl_funding} / ${total_net_sales} ;;
+    value_format: "0.00%;(0.00%)"
+  }
+
+  measure: unique_customer {
+    label: "Total Customers"
+    type: count_distinct
+    sql: ${customer_uid} ;;
+    value_format: "#,##0;(#,##0)"
+  }
+
+
 
 
 # PREVIOUS DAY
