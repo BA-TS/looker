@@ -86,9 +86,10 @@ view: products {
   }
 
   dimension: department {
+    label: "department raw"
     type: string
     sql: ${TABLE}.productDepartment ;;
-    hidden:  yes
+    # hidden:  yes
   }
 
   dimension: department_uid {

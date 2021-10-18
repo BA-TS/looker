@@ -5,6 +5,8 @@ view: sites {
 
   dimension: site_uid {
     primary_key: yes
+    hidden:  yes
+    label: "Site UID - Sites"
     type: string
     sql: ${TABLE}.siteUID ;;
   }

@@ -37,7 +37,7 @@ explore: transactions {
     AND
     {% endif %}
 
-    ${is_cancelled} = 0 AND ${product_code} <> '85699'
+    (${is_cancelled} = 0 or ${is_cancelled} is null) AND (${product_code} <> '85699' or ${product_code} is null)
 
   ;;
 
@@ -59,27 +59,6 @@ explore: transactions {
     sql_on: ${transactions.product_uid}=${products.product_uid} ;;
   }
 
-  join: calendar_completed_date{
-    from:  calendar
-    type:  inner
-    relationship:  many_to_one
-    sql_on: date(${transactions.transaction_date})=${calendar_completed_date.date} ;;
-  }
-
-  join: calendar_placed_date{
-    from:  calendar
-    type:  inner
-    relationship:  many_to_one
-    sql_on: date(${transactions.placed_date})=${calendar_placed_date.date} ;;
-  }
-
-  join: category_budget {
-    view_label: "Budget"
-    type: full_outer
-    relationship: many_to_one
-    sql_on: date(${transactions.transaction_date})=${category_budget.date} and upper(${products.department})=upper(${category_budget.department}) ;;
-  }
-
   join: channel_budget {
     view_label: "Budget"
     type: full_outer
@@ -91,13 +70,36 @@ explore: transactions {
     view_label: "Budget"
     type: full_outer
     relationship: many_to_one
-    sql_on: ${transactions.site_uid}=${site_budget.site_uid} and date(${transactions.transaction_date})=${site_budget.date_date} ;;
+    sql_on: date(${transactions.transaction_date})=${site_budget.date_date} and ${transactions.site_uid}=${site_budget.site_uid};;
+  }
+
+  join: category_budget {
+    view_label: "Budget"
+    type: full_outer
+    relationship: many_to_one
+    sql_on: date(${transactions.transaction_date})=${category_budget.date} and initcap(${products.department})=initcap(${category_budget.department}) ;;
   }
 
   join: sites {
     type: left_outer
     relationship: many_to_one
     sql_on: ${transactions.site_uid}=${sites.site_uid} ;;
+  }
+
+  join: calendar_completed_date{
+    from:  calendar
+    view_label: "Calendar - Completed Date"
+    type:  inner
+    relationship:  many_to_one
+    sql_on: ${transactions.transaction_date_coalesce}=${calendar_completed_date.date} ;;
+  }
+
+  join: calendar_placed_date{
+    from:  calendar
+    view_label: "Calendar - Placed Date"
+    type:  inner
+    relationship:  many_to_one
+    sql_on: date(${transactions.placed_date})=${calendar_placed_date.date} ;;
   }
 
   join: customers {

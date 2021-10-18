@@ -8,6 +8,12 @@ view: site_budget {
     hidden: yes
   }
 
+  dimension: raw_date {
+    hidden: yes
+    type: date
+    sql: ${TABLE}.date ;;
+  }
+
   dimension_group: date {
     hidden: yes
     type: time
