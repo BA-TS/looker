@@ -182,4 +182,13 @@ view: products {
     sql: ${TABLE}.warrantyYears ;;
   }
 
+  #####
+
+
+  dimension: trade_department{
+    type: yesno
+    sql: ${buying_manager} <> "Matt Rockliff" ;;
+  }
+
+
 }
