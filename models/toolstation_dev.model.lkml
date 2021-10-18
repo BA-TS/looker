@@ -87,6 +87,19 @@ explore: transactions {
     sql_on: date(${transactions.transaction_date})=${channel_budget.date} and upper(${transactions.sales_channel})=upper(${channel_budget.channel}) ;;
   }
 
+  join: site_budget {
+    view_label: "Budget"
+    type: full_outer
+    relationship: many_to_one
+    sql_on: ${transactions.site_uid}=${site_budget.site_uid} and date(${transactions.transaction_date})=${site_budget.date_date} ;;
+  }
+
+  join: sites {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.site_uid}=${sites.site_uid} ;;
+  }
+
   join: customers {
     type :  inner
     relationship: many_to_one
@@ -105,17 +118,6 @@ explore: transactions {
     sql_on: ${transactions.customer_uid} = ${customer_segmentation.ucu_uid} ;;
   }
 
-  join: sites {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${transactions.site_uid}=${sites.site_uid} ;;
-  }
-  join: site_budget {
-    view_label: "Budget"
-    type: full_outer
-    relationship: many_to_one
-    sql_on: ${transactions.site_uid}=${site_budget.site_uid} and date(${transactions.transaction_date})=${site_budget.date_date} ;;
-  }
   join: trade_customers {
     type:  left_outer
     relationship: many_to_one
