@@ -1,48 +1,12 @@
 include: "/custom_views/**/*.view"
 
 view: transactions {
-  sql_table_name: `sales.transactions`
-    ;;
-# drill_fields: [transaction_uid]
 
+  sql_table_name: `sales.transactions`;;
+  # drill_fields: [transaction_uid]
   extends: [pop_date_comparison]
 
-# fields coalesced to make budget work
-  dimension: sales_channel_coalesce {
-    label: "Sales Channel"
-    type: string
-    sql: coalesce(upper(${TABLE}.salesChannel),upper(${channel_budget.channel})) ;;
-  }
-
-  dimension: site_uid_coalesce {
-    label: "Site UID"
-    view_label: "Sites"
-    type: string
-    sql: coalesce(${TABLE}.siteUID,${site_budget.site_uid}) ;;
-  }
-
-  dimension: department_coalesce {
-    view_label: "Products"
-    label: "Department"
-    type:  string
-    sql: coalesce(INITCAP(${products.department}),initcap(${category_budget.department})) ;;
-  }
-
-  dimension: transaction_date_coalesce {
-    type: date
-    label: "Date"
-    view_label: "Calendar Completed Date"
-    sql: coalesce(date(${TABLE}.transactiondate),${site_budget.raw_date},${category_budget.date},${channel_budget.date}) ;;
-    # hidden: yes
-  }
-
-# Don't think this is needed anymore
-  # dimension: date{
-  #   view_label: "Calendar Completed Date"
-  #   type: date
-  #   sql: coalesce(date(${TABLE}.transactionDate),${channel_budget.date}) ;;
-  #   hidden:  yes
-  # }
+  ########## HIDDEN DIMENSIONS ##########
 
   dimension: order_line_key {
     primary_key:  yes
@@ -57,37 +21,10 @@ view: transactions {
     hidden: yes
   }
 
-  dimension: parent_order_uid {
-    label: "Parent Order UID"
-    type: string
-    sql: ${TABLE}.parentOrderUID ;;
-  }
-
-  dimension: transaction_uid {
-    label: "Transaction UID"
-    type: string
-    sql: ${TABLE}.transactionUID ;;
-  }
-
   dimension: cogs {
     type: number
     sql: ${TABLE}.COGS ;;
     hidden:  yes
-  }
-
-  dimension: customer_uid {
-    description: "Used as KEY for joins."
-    label: "Customer UID"
-    group_label: "UID"
-    type: string
-    sql: ${TABLE}.customerUID ;;
-  }
-
-  dimension: delivery_address_uid {
-    label: "Delivery Address UID"
-    group_label: "UID"
-    type: string
-    sql: ${TABLE}.deliveryAddressUID ;;
   }
 
   dimension: fulfillment_channel {
@@ -114,47 +51,6 @@ view: transactions {
     hidden:  yes
   }
 
-  dimension: is_lfl {
-    group_label: "Flags"
-    label: "Is LFL"
-    type: number
-    sql: ${TABLE}.isLFL ;;
-  }
-
-  dimension: is_mature {
-    group_label: "Flags"
-    label: "Is Mature"
-    type: number
-    sql: ${TABLE}.isMature ;;
-  }
-
-  dimension: is_open18_months {
-    group_label: "Flags"
-    label: "Is Open 18 Months"
-    type: number
-    sql: ${TABLE}.isOpen18Months ;;
-  }
-
-  dimension: is_originating_lfl {
-    group_label: "Flags"
-    label: "Is Originating LFL"
-    type: number
-    sql: ${TABLE}.isOriginatingLFL ;;
-  }
-
-  dimension: is_originating_mature {
-    group_label: "Flags"
-    label: "Is Originating Mature"
-    type: number
-    sql: ${TABLE}.isOriginatingMature ;;
-  }
-
-  dimension: is_originating_open18_months {
-    group_label: "Flags"
-    label: "Is Originating Open (18 Months)"
-    type: number
-    sql: ${TABLE}.isOriginatingOpen18Months ;;
-  }
 
   dimension: line_discount {
     type: number
@@ -192,60 +88,11 @@ view: transactions {
     hidden:  yes
   }
 
-  dimension: order_reason {
-    label: "Reason for Order"
-    type: string
-    sql: ${TABLE}.orderReason ;;
-  }
-
-  dimension: order_special_requests {
-    label: "Special Requests"
-    type: string
-    sql: ${TABLE}.orderSpecialRequests ;;
-  }
-
-  dimension: originating_site_uid {
-    label: "Originating Site UID"
-    group_label: "UID"
-    type: string
-    sql: ${TABLE}.originatingSiteUID ;;
-  }
-
-  dimension: payment_type {
-    label: "Payment Type"
-    type: string
-    sql: ${TABLE}.paymentType ;;
-  }
-
-  dimension_group: placed {
-    label: "Placed Timestamp"
-    view_label: "Calendar - Placed Date"
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date
-    ]
-    sql: ${TABLE}.placeddate ;;
-
-  }
-
-  dimension: postal_area {
-    label: "Postal Area"
-    type: string
-    sql: ${TABLE}.postalArea ;;
-  }
-
-  dimension: postal_district {
-    label: "Postal District"
-    type: string
-    sql: ${TABLE}.postalDistrict ;;
-  }
-
   dimension: product_code {
     label: "Product Code"
     type: string
     sql: ${TABLE}.productCode ;;
+    hidden: yes
   }
 
   dimension: product_uid {
@@ -253,6 +100,7 @@ view: transactions {
     group_label: "UID"
     type: string
     sql: ${TABLE}.productUID ;;
+    hidden: yes
   }
 
   dimension: quantity {
@@ -267,7 +115,6 @@ view: transactions {
     sql: upper(${TABLE}.salesChannel) ;;
   }
 
-
   dimension: row_id {
     type: number
     sql: ${TABLE}.rowID ;;
@@ -279,21 +126,6 @@ view: transactions {
     type: string
     sql: ${TABLE}.siteUID ;;
   }
-
-
-  dimension_group: transaction {
-    label: "Completed Timestamp"
-    view_label: "Calendar - Completed Date"
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      year
-    ]
-    sql: ${TABLE}.transactiondate ;;
-  }
-
 
   dimension: transaction_line_type {
     type: string
@@ -323,161 +155,342 @@ view: transactions {
     hidden:  yes
   }
 
-  dimension: user_uid {
-    label: "User UID"
-    group_label: "UID"
-    type: string
-    sql: ${TABLE}.userUID ;;
-  }
+
+  # NOTE - JD commented the below (18/10/2021) -- REASON: don't think this is needed anymore.
+  # dimension: date{
+  #   view_label: "Calendar Completed Date"
+  #   type: date
+  #   sql: coalesce(date(${TABLE}.transactionDate),${channel_budget.date}) ;;
+  #   hidden:  yes
+  # }
+
+  ########## VISIBLE DIMENSIONS ##########
+
+  # NOTE - JD modified sales_channel, site_uid, department and transaction_date to COALESCE (17/10/2021) -- REASON: budget.
+
+    dimension: sales_channel_coalesce {
+      label: "Sales Channel"
+      type: string
+      sql: coalesce(upper(${TABLE}.salesChannel),upper(${channel_budget.channel})) ;;
+    }
+
+    dimension: site_uid_coalesce {
+      label: "Site UID"
+      view_label: "Sites"
+      type: string
+      sql: coalesce(${TABLE}.siteUID,${site_budget.site_uid}) ;;
+    }
+
+    dimension: department_coalesce {
+      view_label: "Products"
+      group_label: "Commercial Details"
+      label: "Department"
+      type:  string
+      sql: coalesce(INITCAP(${products.department}),initcap(${category_budget.department})) ;;
+    }
+
+    dimension: transaction_date_coalesce {
+      type: date
+      label: "Date"
+      view_label: "Calendar - Completed Date"
+      sql: coalesce(date(${TABLE}.transactiondate),${site_budget.raw_date},${category_budget.date},${channel_budget.date}) ;;
+    }
 
 
-  dimension: vat_rate {
-    label: "VAT Rate"
-    type: number
-    sql: ${TABLE}.vatRate ;;
-  }
+    dimension: parent_order_uid {
+      label: "Parent Order UID"
+      type: string
+      sql: ${TABLE}.parentOrderUID ;;
+    }
 
-  dimension: promo_in_main_catalogue {
-    type: yesno
-    sql: case when ${promo_main_catalogue.product_code} is null then false else true end ;;
-  }
+    dimension: transaction_uid {
+      label: "Transaction UID"
+      group_label: "UID"
+      type: string
+      sql: ${TABLE}.transactionUID ;;
+    }
 
-  dimension: promo_in_extra {
-    type: yesno
-    sql: case when ${promo_extra.product_code} is null then false else true end ;;
-  }
+    dimension: customer_uid {
+      description: "Used as KEY for joins."
+      label: "Customer UID"
+      group_label: "UID"
+      type: string
+      sql: ${TABLE}.customerUID ;;
+    }
 
-  dimension: promo_in_any {
-    type: yesno
-    sql: case when ${promo_extra.product_code} is null and ${promo_main_catalogue.product_code} is null then false else true end ;;
-  }
-
-  measure:  total_gross_sales {
-    label: "Total Gross Sales"
-    type:  sum
-    view_label: "Sales Measures"
-    sql: ${gross_sales_value} ;;
-    value_format: "\£#,##0.00;(\£#,##0.00)"
-  }
-
-  measure: total_net_sales {
-    label: "Total Net Sales"
-    group_label: "Sales Measures"
-    type:  sum
-    sql: ${net_sales_value} ;;
-    value_format: "\£#,##0.00;(\£#,##0.00)"
-  }
-
-  measure: total_margin_excl_funding {
-    label: "Total Margin (Excluding Funding)"
-    group_label: "Margin Measures"
-    type:  sum
-    sql: ${margin_excl_funding} ;;
-  }
-
-  measure: total_cogs {
-    label: "Total COGS"
-    type:  sum
-    sql: ${cogs} ;;
-    value_format: "\£#,##0.00;(\£#,##0.00)"
-  }
+    dimension: delivery_address_uid {
+      label: "Delivery Address UID"
+      group_label: "UID"
+      type: string
+      sql: ${TABLE}.deliveryAddressUID ;;
+    }
 
 
-  measure: total_margin_incl_funding {
-    label: "Total Margin (Including Funding)"
-    group_label: "Margin Measures"
-    type:  sum
-    sql: ${margin_incl_funding} ;;
-    value_format: "\£#,##0.00;(\£#,##0.00)"
-  }
+    dimension: is_lfl {
+      group_label: "Flags"
+      label: "Is LFL"
+      type: number
+      sql: ${TABLE}.isLFL ;;
+    }
 
-  measure: total_unit_funding {
-    label: "Total Unit Funding"
-    type:  sum
-    sql: ${unit_funding} ;;
-    value_format: "\£#,##0.00;(\£#,##0.00)"
-  }
+    dimension: is_mature {
+      group_label: "Flags"
+      label: "Is Mature"
+      type: number
+      sql: ${TABLE}.isMature ;;
+    }
 
-  measure: total_units {
-    label: "Total Units"
-    type:  sum
-    sql: case when ${product_code} like '0%' then 0 else ${quantity} end ;;
-    value_format: "#,##0;(#,##0)"
-  }
+    dimension: is_open18_months {
+      group_label: "Flags"
+      label: "Is Open 18 Months"
+      type: number
+      sql: ${TABLE}.isOpen18Months ;;
+    }
 
-  measure: total_units_incl_system_codes {
-    label: "Total Units (Including System Codes)"
-    type:  sum
-    sql: ${quantity} ;;
-    value_format: "#,##0;(#,##0)"
-  }
+    dimension: is_originating_lfl {
+      group_label: "Flags"
+      label: "Is Originating LFL"
+      type: number
+      sql: ${TABLE}.isOriginatingLFL ;;
+    }
 
-  measure: average_units_AOV {
-    label: "Average Units (Transaction)"
-    group_label: "AOV Measures"
-    type: number
-    sql: ${total_units} / ${number_of_transactions} ;;
-    value_format: "#,##0.0;(\#,##0.0)"
-  }
+    dimension: is_originating_mature {
+      group_label: "Flags"
+      label: "Is Originating Mature"
+      type: number
+      sql: ${TABLE}.isOriginatingMature ;;
+    }
 
-  measure: average_sales_AOV {
-    label: "Net ASP (Transaction)"
-    group_label: "AOV Measures"
-    description: "Net Sales AOV / Average Units"
-    type: number
-    sql: ${net_sales_AOV} / ${average_units_AOV} ;;
-  }
+    dimension: is_originating_open18_months {
+      group_label: "Flags"
+      label: "Is Originating Open (18 Months)"
+      type: number
+      sql: ${TABLE}.isOriginatingOpen18Months ;;
+    }
 
-  measure: net_sales_AOV {
-    label: "Net Sales AOV"
-    group_label: "AOV Measures"
-    type:  number
-    sql: ${total_net_sales}  / ${number_of_transactions} ;;
-    value_format: "\£#,##0.00;(\£#,##0.00)"
-  }
+    dimension: order_reason {
+      label: "Reason for Order"
+      type: string
+      sql: ${TABLE}.orderReason ;;
+    }
 
-  measure: gross_sales_AOV {
-    label: "Gross Sales AOV"
-    group_label: "AOV Measures"
-    type:  number
-    sql: ${total_gross_sales}  / ${number_of_transactions} ;;
-    value_format: "\£#,##0.00;(\£#,##0.00)"
-  }
+    dimension: order_special_requests {
+      label: "Special Requests"
+      type: string
+      sql: ${TABLE}.orderSpecialRequests ;;
+    }
 
-  measure: number_of_transactions {
-    label: "Number of Transactions"
-    type: count_distinct
-    sql: ${parent_order_uid} ;;
-    value_format: "#,##0;(#,##0)"
-  }
+    dimension: originating_site_uid {
+      label: "Originating Site UID"
+      group_label: "UID"
+      type: string
+      sql: ${TABLE}.originatingSiteUID ;;
+    }
 
-  measure: total_margin_rate_excl_funding {
-    label: "Total Margin Rate (Excluding Funding)"
-    group_label: "Margin Measures"
-    type:  number
-    sql: ${total_margin_excl_funding} / ${total_net_sales} ;;
-    value_format: "##0.00%;(##0.00%)"
-  }
+    dimension: payment_type {
+      label: "Payment Type"
+      type: string
+      sql: ${TABLE}.paymentType ;;
+    }
 
-  measure: total_margin_rate_incl_funding {
-    label: "Total Margin Rate (Including Funding)"
-    group_label: "Margin Measures"
-    type:  number
-    sql: ${total_margin_incl_funding} / ${total_net_sales} ;;
-    value_format: "0.00%;(0.00%)"
-  }
+    dimension_group: placed {
+      label: "Placed Timestamp"
+      view_label: "Calendar - Placed Date"
+      type: time
+      timeframes: [
+        raw,
+        time,
+        date
+      ]
+      sql: ${TABLE}.placeddate ;;
 
-  measure: unique_customer {
-    label: "Total Customers"
-    type: count_distinct
-    sql: ${customer_uid} ;;
-    value_format: "#,##0;(#,##0)"
-  }
+    }
+
+    dimension: postal_area {
+      label: "Postal Area"
+      type: string
+      sql: ${TABLE}.postalArea ;;
+    }
+
+    dimension: postal_district {
+      label: "Postal District"
+      type: string
+      sql: ${TABLE}.postalDistrict ;;
+    }
+
+
+    dimension_group: transaction {
+      label: "Completed Timestamp"
+      view_label: "Calendar - Completed Date"
+      type: time
+      timeframes: [
+        raw,
+        time,
+        date,
+        year
+      ]
+      sql: ${TABLE}.transactiondate ;;
+    }
+
+    dimension: user_uid {
+      label: "User UID"
+      group_label: "UID"
+      type: string
+      sql: ${TABLE}.userUID ;;
+    }
+
+
+    dimension: vat_rate {
+      label: "VAT Rate"
+      type: number
+      sql: ${TABLE}.vatRate ;;
+    }
+
+    dimension: promo_in_main_catalogue {
+      label: "In Main Catalogue"
+      group_label: "Promo"
+      type: yesno
+      sql: case when ${promo_main_catalogue.product_code} is null then false else true end ;;
+    }
+
+    dimension: promo_in_extra {
+      label: "In Extra"
+      group_label: "Promo"
+      type: yesno
+      sql: case when ${promo_extra.product_code} is null then false else true end ;;
+    }
+
+    dimension: promo_in_any {
+      label: "In Any"
+      group_label: "Promo"
+      type: yesno
+      sql: case when ${promo_extra.product_code} is null and ${promo_main_catalogue.product_code} is null then false else true end ;;
+    }
+
+    measure:  total_gross_sales {
+      label: "Total Gross Sales"
+      type:  sum
+      group_label: "Sales Measures"
+      sql: ${gross_sales_value} ;;
+      value_format: "\£#,##0.00;(\£#,##0.00)"
+    }
+
+    measure: total_net_sales {
+      label: "Total Net Sales"
+      group_label: "Sales Measures"
+      type:  sum
+      sql: ${net_sales_value} ;;
+      value_format: "\£#,##0.00;(\£#,##0.00)"
+    }
+
+    measure: total_margin_excl_funding {
+      label: "Total Margin (Excluding Funding)"
+      group_label: "Margin Measures"
+      type:  sum
+      sql: ${margin_excl_funding} ;;
+    }
+
+    measure: total_cogs {
+      label: "Total COGS"
+      type:  sum
+      sql: ${cogs} ;;
+      value_format: "\£#,##0.00;(\£#,##0.00)"
+    }
+
+
+    measure: total_margin_incl_funding {
+      label: "Total Margin (Including Funding)"
+      group_label: "Margin Measures"
+      type:  sum
+      sql: ${margin_incl_funding} ;;
+      value_format: "\£#,##0.00;(\£#,##0.00)"
+    }
+
+    measure: total_unit_funding {
+      label: "Total Unit Funding"
+      type:  sum
+      sql: ${unit_funding} ;;
+      value_format: "\£#,##0.00;(\£#,##0.00)"
+    }
+
+    measure: total_units {
+      label: "Total Units"
+      type:  sum
+      sql: case when ${product_code} like '0%' then 0 else ${quantity} end ;;
+      value_format: "#,##0;(#,##0)"
+    }
+
+    measure: total_units_incl_system_codes {
+      label: "Total Units (Including System Codes)"
+      type:  sum
+      sql: ${quantity} ;;
+      value_format: "#,##0;(#,##0)"
+    }
+
+    measure: average_units_AOV {
+      label: "Average Units (Transaction)"
+      group_label: "AOV Measures"
+      type: number
+      sql: ${total_units} / ${number_of_transactions} ;;
+      value_format: "#,##0.0;(\#,##0.0)"
+    }
+
+    measure: average_sales_AOV {
+      label: "Net ASP (Transaction)"
+      group_label: "AOV Measures"
+      description: "Net Sales AOV / Average Units"
+      type: number
+      sql: ${net_sales_AOV} / ${average_units_AOV} ;;
+    }
+
+    measure: net_sales_AOV {
+      label: "Net Sales AOV"
+      group_label: "AOV Measures"
+      type:  number
+      sql: ${total_net_sales}  / ${number_of_transactions} ;;
+      value_format: "\£#,##0.00;(\£#,##0.00)"
+    }
+
+    measure: gross_sales_AOV {
+      label: "Gross Sales AOV"
+      group_label: "AOV Measures"
+      type:  number
+      sql: ${total_gross_sales}  / ${number_of_transactions} ;;
+      value_format: "\£#,##0.00;(\£#,##0.00)"
+    }
+
+    measure: number_of_transactions {
+      label: "Number of Transactions"
+      type: count_distinct
+      sql: ${parent_order_uid} ;;
+      value_format: "#,##0;(#,##0)"
+    }
+
+    measure: total_margin_rate_excl_funding {
+      label: "Total Margin Rate (Excluding Funding)"
+      group_label: "Margin Measures"
+      type:  number
+      sql: ${total_margin_excl_funding} / ${total_net_sales} ;;
+      value_format: "##0.00%;(##0.00%)"
+    }
+
+    measure: total_margin_rate_incl_funding {
+      label: "Total Margin Rate (Including Funding)"
+      group_label: "Margin Measures"
+      type:  number
+      sql: ${total_margin_incl_funding} / ${total_net_sales} ;;
+      value_format: "0.00%;(0.00%)"
+    }
+
+    measure: unique_customer {
+      label: "Total Customers"
+      type: count_distinct
+      sql: ${customer_uid} ;;
+      value_format: "#,##0;(#,##0)"
+    }
 
 
 
-
-# PREVIOUS DAY
 
     dimension: previous_full_day {
       description: "PFD looks at the 'yesterday'"
@@ -832,331 +845,328 @@ view: transactions {
       type:  yesno
       sql:
 
-
       {% if period_to_date._in_query and previous_period_to_date._in_query %}
 
-        {% if period_to_date._parameter_value == "PD" %}
+      {% if period_to_date._parameter_value == "PD" %}
 
-          {% if previous_period_to_date._parameter_value == "CY" %}
-          ${previous_full_day}
-          {% elsif previous_period_to_date._parameter_value == "LY" %}
-          ${previous_full_day_LY}
-          {% elsif previous_period_to_date._parameter_value == "2LY" %}
-          ${previous_full_day_2LY}
-          {% elsif previous_period_to_date._parameter_value == "LY2LY" %}
-          ${previous_full_day_LY} OR ${previous_full_day_2LY}
-          {% endif %}
+      {% if previous_period_to_date._parameter_value == "CY" %}
+      ${previous_full_day}
+      {% elsif previous_period_to_date._parameter_value == "LY" %}
+      ${previous_full_day_LY}
+      {% elsif previous_period_to_date._parameter_value == "2LY" %}
+      ${previous_full_day_2LY}
+      {% elsif previous_period_to_date._parameter_value == "LY2LY" %}
+      ${previous_full_day_LY} OR ${previous_full_day_2LY}
+      {% endif %}
 
-        {% elsif period_to_date._parameter_value == "WTD" %}
+      {% elsif period_to_date._parameter_value == "WTD" %}
 
-          {% if previous_period_to_date._parameter_value == "CY" %}
-          ${week_to_date}
-          {% elsif previous_period_to_date._parameter_value == "LY" %}
-          ${week_to_date_LY}
-          {% elsif previous_period_to_date._parameter_value == "2LY" %}
-          ${week_to_date_2LY}
-          {% elsif previous_period_to_date._parameter_value == "LY2LY" %}
-          ${week_to_date_LY} OR ${week_to_date_2LY}
-          {% endif %}
+      {% if previous_period_to_date._parameter_value == "CY" %}
+      ${week_to_date}
+      {% elsif previous_period_to_date._parameter_value == "LY" %}
+      ${week_to_date_LY}
+      {% elsif previous_period_to_date._parameter_value == "2LY" %}
+      ${week_to_date_2LY}
+      {% elsif previous_period_to_date._parameter_value == "LY2LY" %}
+      ${week_to_date_LY} OR ${week_to_date_2LY}
+      {% endif %}
 
-        {% elsif period_to_date._parameter_value == "MTD" %}
+      {% elsif period_to_date._parameter_value == "MTD" %}
 
-          {% if previous_period_to_date._parameter_value == "CY" %}
-          ${month_to_date}
-          {% elsif previous_period_to_date._parameter_value == "LY" %}
-          ${month_to_date_LY}
-          {% elsif previous_period_to_date._parameter_value == "2LY" %}
-          ${month_to_date_2LY}
-          {% elsif previous_period_to_date._parameter_value == "LY2LY" %}
-          ${month_to_date_LY} OR ${month_to_date_2LY}
-          {% endif %}
+      {% if previous_period_to_date._parameter_value == "CY" %}
+      ${month_to_date}
+      {% elsif previous_period_to_date._parameter_value == "LY" %}
+      ${month_to_date_LY}
+      {% elsif previous_period_to_date._parameter_value == "2LY" %}
+      ${month_to_date_2LY}
+      {% elsif previous_period_to_date._parameter_value == "LY2LY" %}
+      ${month_to_date_LY} OR ${month_to_date_2LY}
+      {% endif %}
 
-        {% elsif period_to_date._parameter_value == "YTD" %}
+      {% elsif period_to_date._parameter_value == "YTD" %}
 
-          {% if previous_period_to_date._parameter_value == "CY" %}
-          ${year_to_date}
-          {% elsif previous_period_to_date._parameter_value == "LY" %}
-          ${year_to_date_LY}
-          {% elsif previous_period_to_date._parameter_value == "2LY" %}
-          ${year_to_date_2LY}
-          {% elsif previous_period_to_date._parameter_value == "LY2LY" %}
-          ${year_to_date_LY} OR ${year_to_date_2LY}
-          {% endif %}
+      {% if previous_period_to_date._parameter_value == "CY" %}
+      ${year_to_date}
+      {% elsif previous_period_to_date._parameter_value == "LY" %}
+      ${year_to_date_LY}
+      {% elsif previous_period_to_date._parameter_value == "2LY" %}
+      ${year_to_date_2LY}
+      {% elsif previous_period_to_date._parameter_value == "LY2LY" %}
+      ${year_to_date_LY} OR ${year_to_date_2LY}
+      {% endif %}
 
-        {% elsif period_to_date._parameter_value == "CP" and custom_date_period._in_query %}
+      {% elsif period_to_date._parameter_value == "CP" and custom_date_period._in_query %}
 
-          {% if previous_period_to_date._parameter_value == "CY" %}
-          ${current_period}
-          {% elsif previous_period_to_date._parameter_value == "LY" %}
-          ${current_period_LY}
-          {% elsif previous_period_to_date._parameter_value == "2LY" %}
-          ${current_period_2LY}
-          {% elsif previous_period_to_date._parameter_value == "LY2LY" %}
-          ${current_period_LY} OR ${current_period_2LY}
-          {% endif %}
-
-        {% endif %}
-
-      {% else %}
-
-        {% if period_to_date._parameter_value == "CP" %}
-          {%  if custom_date_period._in_query %}
-            ${current_period}
-          {% else %}
-            false
-          {% endif %}
-        {% elsif period_to_date._parameter_value == "PD" %}
-          ${previous_full_day}
-        {% elsif period_to_date._parameter_value == "WTD" %}
-          ${week_to_date}
-        {% elsif period_to_date._parameter_value == "MTD" %}
-          ${month_to_date}
-        {% elsif period_to_date._parameter_value == "YTD" %}
-          ${year_to_date}
-        {% endif %}
+      {% if previous_period_to_date._parameter_value == "CY" %}
+      ${current_period}
+      {% elsif previous_period_to_date._parameter_value == "LY" %}
+      ${current_period_LY}
+      {% elsif previous_period_to_date._parameter_value == "2LY" %}
+      ${current_period_2LY}
+      {% elsif previous_period_to_date._parameter_value == "LY2LY" %}
+      ${current_period_LY} OR ${current_period_2LY}
+      {% endif %}
 
       {% endif %}
 
-      ;;
+      {% else %}
 
-    }
+      {% if period_to_date._parameter_value == "CP" %}
+      {%  if custom_date_period._in_query %}
+      ${current_period}
+      {% else %}
+      false
+      {% endif %}
+      {% elsif period_to_date._parameter_value == "PD" %}
+      ${previous_full_day}
+      {% elsif period_to_date._parameter_value == "WTD" %}
+      ${week_to_date}
+      {% elsif period_to_date._parameter_value == "MTD" %}
+      ${month_to_date}
+      {% elsif period_to_date._parameter_value == "YTD" %}
+      ${year_to_date}
+      {% endif %}
+      {% endif %}     ;;
 
 
-    dimension: transaction_testing_do_not_use {
-      type: date
-      description: "Converts transaction_date to relative date (e.g. same year). Use this with Period Comparator for YoY comparison."
-      sql:
+      }
 
-      {% if pivot_period._in_query and previous_period_to_date._is_filtered %}
+
+      dimension: transaction_testing_do_not_use {
+        type: date
+        description: "Converts transaction_date to relative date (e.g. same year). Use this with Period Comparator for YoY comparison."
+        sql:
+
+        {% if pivot_period._in_query and previous_period_to_date._is_filtered %}
 
         CASE
-          WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM CURRENT_DATE()) - 1
-          THEN ${__target_date__} + 364
-          WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM CURRENT_DATE()) - 2
-          THEN ${__target_date__} + 728
-          ELSE ${__target_date__}
+        WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM CURRENT_DATE()) - 1
+        THEN ${__target_date__} + 364
+        WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM CURRENT_DATE()) - 2
+        THEN ${__target_date__} + 728
+        ELSE ${__target_date__}
         END
 
-      {% else %}
+        {% else %}
 
         ${__target_date__}
 
-      {% endif %}
+        {% endif %}
 
-      ;;
-    }
+        ;;
+      }
 
 
 
-    dimension: period_comparator{
-      view_label: "Period To Date and YoY Filters"
-      label: "Period Comparator"
-      description: "Use with pivot_period (or it's actual name... TODO)"
-      type: string
-      order_by_field: transaction_year
-      sql:
-      {% if pivot_period._is_filtered %}
+      dimension: period_comparator{
+        view_label: "Period To Date and YoY Filters"
+        label: "Period Comparator"
+        description: "Use with pivot_period (or it's actual name... TODO)"
+        type: string
+        order_by_field: transaction_year
+        sql:
+        {% if pivot_period._is_filtered %}
 
         CASE
-          WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM CURRENT_DATE())
-          THEN "CY"
-          WHEN EXTRACT(YEAR FROM ${__target_date__} + 364) = EXTRACT(YEAR FROM CURRENT_DATE())
-          THEN "LY"
-          WHEN EXTRACT(YEAR FROM ${__target_date__} + 728) = EXTRACT(YEAR FROM CURRENT_DATE())
-          THEN "2LY"
-          ELSE "FAILED"
+        WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM CURRENT_DATE())
+        THEN "CY"
+        WHEN EXTRACT(YEAR FROM ${__target_date__} + 364) = EXTRACT(YEAR FROM CURRENT_DATE())
+        THEN "LY"
+        WHEN EXTRACT(YEAR FROM ${__target_date__} + 728) = EXTRACT(YEAR FROM CURRENT_DATE())
+        THEN "2LY"
+        ELSE "FAILED"
         END
 
-      {%else%}
+        {%else%}
         "NULL"
-      {%endif%}
+        {%endif%}
 
-      ;;
+        ;;
 
-      }
-
-
-      dimension: customer_cluster{
-        type: string
-        description: "Placed in Transactions due to potential permissions requirement on Customers"
-        sql: ${customer_segmentation.cluster};;
-      }
-
-      dimension: customer_type {
-        type: string
-        description: "Placed in Transactions due to potential permissions requirement on Customers"
-        sql: CASE WHEN ${customer_cluster} LIKE "T%" THEN "Trade" else "DIY" END ;;
-      }
+        }
 
 
+        dimension: customer_cluster{
+          type: string
+          description: "Placed in Transactions due to potential permissions requirement on Customers"
+          sql: ${customer_segmentation.cluster};;
+        }
 
-      measure: trade_net_sales {
-        type: sum
-        label: "Total Net Sales (Trade Only)"
-        group_label: "Sales Measures"
-        description: "Placed in Transactions due to potential permissions requirement on Customers"
-        sql: CASE WHEN ${customer_type} = "Trade" THEN ${net_sales_value} else 0 END ;;
-      }
-
-      measure: diy_net_sales {
-        type: sum
-        label: "Total Net Sales (DIY Only)"
-        group_label: "Sales Measures"
-        description: "Placed in Transactions due to potential permissions requirement on Customers; Where is not %T then assuming trade to avoid dropping data"
-        sql: CASE WHEN ${customer_type} != "Trade" THEN ${net_sales_value} else 0 END ;;
-      }
-
-      measure: trade_net_sales_mix {
-        type: number
-        label: "Total Net Sales Mix (Trade Only)"
-        group_label: "Sales Measures"
-        sql: ${trade_net_sales} / ${total_net_sales} ;;
-        value_format: "##0.00%;(##0.00%)"
-      }
-
-      measure: diy_net_sales_mix {
-        type: number
-        label: "Total Net Sales Mix (DIY Only)"
-        group_label: "Sales Measures"
-        sql: ${diy_net_sales} / ${total_net_sales} ;;
-        value_format: "##0.00%;(##0.00%)"
-      }
-
-      measure: trade_net_margin {
-        type: sum
-        label: "Total Margin inc (Trade Only)"
-        group_label: "Margin Measures"
-        description: "Placed in Transactions due to potential permissions requirement on Customers"
-        sql: CASE WHEN ${customer_type} = "Trade" THEN ${margin_incl_funding} else 0 END ;;
-      }
-
-      measure: diy_net_margin {
-        type: sum
-        label: "Total Margin inc (DIY Only)"
-        group_label: "Margin Measures"
-        description: "Placed in Transactions due to potential permissions requirement on Customers; Where is not %T then assuming trade to avoid dropping data"
-        sql: CASE WHEN ${customer_type} != "Trade" THEN ${margin_incl_funding} else 0 END ;;
-      }
+        dimension: customer_type {
+          type: string
+          description: "Placed in Transactions due to potential permissions requirement on Customers"
+          sql: CASE WHEN ${customer_cluster} LIKE "T%" THEN "Trade" else "DIY" END ;;
+        }
 
 
-      measure: trade_net_units {
-        type: sum
-        label: "Total Net Units (Trade Only)"
-        group_label: "Unit Measures"
-        description: "Placed in Transactions due to potential permissions requirement on Customers"
-        sql: CASE WHEN ${customer_type} = "Trade" THEN ${quantity} else 0 END ;;
-      }
 
-      measure: diy_net_units {
-        type: sum
-        label: "Total Net Units (DIY Only)"
-        group_label: "Unit Measures"
-        description: "Placed in Transactions due to potential permissions requirement on Customers; Where is not %T then assuming trade to avoid dropping data"
-        sql: CASE WHEN ${customer_type} != "Trade" THEN ${quantity} else 0 END ;;
-      }
+        measure: trade_net_sales {
+          type: sum
+          label: "Total Net Sales (Trade Only)"
+          group_label: "Sales Measures"
+          description: "Placed in Transactions due to potential permissions requirement on Customers"
+          sql: CASE WHEN ${customer_type} = "Trade" THEN ${net_sales_value} else 0 END ;;
+        }
+
+        measure: diy_net_sales {
+          type: sum
+          label: "Total Net Sales (DIY Only)"
+          group_label: "Sales Measures"
+          description: "Placed in Transactions due to potential permissions requirement on Customers; Where is not %T then assuming trade to avoid dropping data"
+          sql: CASE WHEN ${customer_type} != "Trade" THEN ${net_sales_value} else 0 END ;;
+        }
+
+        measure: trade_net_sales_mix {
+          type: number
+          label: "Total Net Sales Mix (Trade Only)"
+          group_label: "Sales Measures"
+          sql: ${trade_net_sales} / ${total_net_sales} ;;
+          value_format: "##0.00%;(##0.00%)"
+        }
+
+        measure: diy_net_sales_mix {
+          type: number
+          label: "Total Net Sales Mix (DIY Only)"
+          group_label: "Sales Measures"
+          sql: ${diy_net_sales} / ${total_net_sales} ;;
+          value_format: "##0.00%;(##0.00%)"
+        }
+
+        measure: trade_net_margin {
+          type: sum
+          label: "Total Margin inc (Trade Only)"
+          group_label: "Margin Measures"
+          description: "Placed in Transactions due to potential permissions requirement on Customers"
+          sql: CASE WHEN ${customer_type} = "Trade" THEN ${margin_incl_funding} else 0 END ;;
+        }
+
+        measure: diy_net_margin {
+          type: sum
+          label: "Total Margin inc (DIY Only)"
+          group_label: "Margin Measures"
+          description: "Placed in Transactions due to potential permissions requirement on Customers; Where is not %T then assuming trade to avoid dropping data"
+          sql: CASE WHEN ${customer_type} != "Trade" THEN ${margin_incl_funding} else 0 END ;;
+        }
 
 
-    #####
+        measure: trade_net_units {
+          type: sum
+          label: "Total Net Units (Trade Only)"
+          group_label: "Unit Measures"
+          description: "Placed in Transactions due to potential permissions requirement on Customers"
+          sql: CASE WHEN ${customer_type} = "Trade" THEN ${quantity} else 0 END ;;
+        }
 
-    measure: net_sales_promo_mix {
-      type: number
-      sql:
-      sum(CASE
-        WHEN ${promo_in_any}
+        measure: diy_net_units {
+          type: sum
+          label: "Total Net Units (DIY Only)"
+          group_label: "Unit Measures"
+          description: "Placed in Transactions due to potential permissions requirement on Customers; Where is not %T then assuming trade to avoid dropping data"
+          sql: CASE WHEN ${customer_type} != "Trade" THEN ${quantity} else 0 END ;;
+        }
+
+
+#####
+
+        measure: net_sales_promo_mix {
+          type: number
+          sql:
+          sum(CASE
+          WHEN ${promo_in_any}
+            THEN ${net_sales_value}
+          ELSE 0
+          END) / sum(${net_sales_value})
+
+          ;;
+          value_format: "##0.0%;(##0.0%)"
+        }
+
+        measure: margin_rate_promo {
+          type: number
+          group_label: "Margin Measures"
+          sql:
+
+          sum(CASE
+          WHEN ${promo_in_any}
+            THEN ${margin_incl_funding}
+          ELSE 0
+          END) /
+          sum(CASE
+          WHEN ${promo_in_any}
+            THEN ${net_sales_value}
+          ELSE 0
+          END)
+          ;;
+          value_format: "##0.0%;(##0.0%)"
+        }
+
+        measure: margin_rate_core {
+          type: number
+          group_label: "Margin Measures"
+          sql:
+
+
+          sum(CASE
+          WHEN not ${promo_in_any}
+            THEN ${margin_incl_funding}
+          ELSE 0
+          END) /
+          sum(CASE
+          WHEN not ${promo_in_any}
+            THEN ${net_sales_value}
+          ELSE 0
+          END)
+
+          ;;
+          value_format: "##0.0%;(##0.0%)"
+        }
+
+#########################################
+
+
+        measure: net_sales_PT {
+          label: "% Net Sales - PT"
+          type: number
+          sql:
+
+          sum(CASE
+          WHEN ${department_coalesce} = "Power Tools"
           THEN ${net_sales_value}
-        ELSE 0
-      END) / sum(${net_sales_value})
+          ELSE 0
+          END) / sum(${net_sales_value})
 
-      ;;
-      value_format: "##0.0%;(##0.0%)"
-    }
+          ;;
+          value_format: "##0.0%;(##0.0%)"
+        }
 
-    measure: margin_rate_promo {
-      type: number
-      group_label: "Margin Measures"
-      sql:
+        measure: net_sales_trade_category{
+          type: number
+          sql:
 
-      sum(CASE
-        WHEN ${promo_in_any}
-          THEN ${margin_incl_funding}
-        ELSE 0
-      END) /
-      sum(CASE
-        WHEN ${promo_in_any}
+          sum(CASE
+          WHEN ${products.trade_department}
           THEN ${net_sales_value}
-        ELSE 0
-      END)
-      ;;
-      value_format: "##0.0%;(##0.0%)"
-    }
+          ELSE 0
+          END) / sum(${net_sales_value})
 
-    measure: margin_rate_core {
-      type: number
-      group_label: "Margin Measures"
-      sql:
+          ;;
+          value_format: "##0.0%;(##0.0%)"
+        }
 
 
-      sum(CASE
-        WHEN not ${promo_in_any}
-          THEN ${margin_incl_funding}
-        ELSE 0
-      END) /
-      sum(CASE
-        WHEN not ${promo_in_any}
+        measure: net_sales_non_trade_category{
+          type: number
+          sql:
+
+          sum(CASE
+          WHEN not ${products.trade_department}
           THEN ${net_sales_value}
-        ELSE 0
-      END)
+          ELSE 0
+          END) / sum(${net_sales_value})
 
-      ;;
-      value_format: "##0.0%;(##0.0%)"
-    }
-
-  #########################################
+          ;;
+          value_format: "##0.0%;(##0.0%)"
+        }
 
 
-  measure: net_sales_PT {
-    label: "% Net Sales - PT"
-    type: number
-    sql:
-
-    sum(CASE
-      WHEN ${department} = "Power Tools"
-        THEN ${net_sales_value}
-      ELSE 0
-    END) / sum(${net_sales_value})
-
-    ;;
-    value_format: "##0.0%;(##0.0%)"
-  }
-
-  measure: net_sales_trade_category{
-    type: number
-    sql:
-
-    sum(CASE
-      WHEN ${products.trade_department}
-        THEN ${net_sales_value}
-      ELSE 0
-    END) / sum(${net_sales_value})
-
-    ;;
-    value_format: "##0.0%;(##0.0%)"
-  }
-
-
-  measure: net_sales_non_trade_category{
-    type: number
-    sql:
-
-    sum(CASE
-      WHEN not ${products.trade_department}
-        THEN ${net_sales_value}
-      ELSE 0
-    END) / sum(${net_sales_value})
-
-    ;;
-    value_format: "##0.0%;(##0.0%)"
-  }
-
-
-}
+      }

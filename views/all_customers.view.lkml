@@ -8,42 +8,42 @@ view: customers {
     type: string
     sql: ${TABLE}.address.addressLine1 ;;
     group_label: "Address"
-    group_item_label: "Address Line1"
+    group_item_label: "Address Line 1"
   }
 
   dimension: address__address_line2 {
     type: string
     sql: ${TABLE}.address.addressLine2 ;;
     group_label: "Address"
-    group_item_label: "Address Line2"
+    group_item_label: "Address Line 2"
   }
 
   dimension: address__address_line3 {
     type: string
     sql: ${TABLE}.address.addressLine3 ;;
     group_label: "Address"
-    group_item_label: "Address Line3"
+    group_item_label: "Address Line 3"
   }
 
   dimension: address__address_line4 {
     type: string
     sql: ${TABLE}.address.addressLine4 ;;
     group_label: "Address"
-    group_item_label: "Address Line4"
+    group_item_label: "Address Line 4"
   }
 
   dimension: address__address_line5 {
     type: string
     sql: ${TABLE}.address.addressLine5 ;;
     group_label: "Address"
-    group_item_label: "Address Line5"
+    group_item_label: "Address Line 5"
   }
 
   dimension: address__address_uid {
     type: string
     sql: ${TABLE}.address.addressUID ;;
     group_label: "Address"
-    group_item_label: "Address Uid"
+    group_item_label: "Address UID"
   }
 
   dimension: address__country {
@@ -64,7 +64,7 @@ view: customers {
     type: string
     sql: ${TABLE}.address.countryCode2 ;;
     group_label: "Address"
-    group_item_label: "Country Code2"
+    group_item_label: "Country Code 2"
   }
 
   dimension: address__postcode {
@@ -141,6 +141,7 @@ view: customers {
     type: string
     primary_key: yes
     sql: ${TABLE}.customerUID ;;
+    label: "Customer UID"
   }
 
   dimension: flags__active_account {

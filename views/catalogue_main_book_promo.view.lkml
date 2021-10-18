@@ -1,6 +1,7 @@
 view: promo_main_catalogue {
   sql_table_name: `toolstation-data-storage.range.catalogue_main_book_promo`
     ;;
+  fields_hidden_by_default: yes
 
   dimension: end_date {
     type: date

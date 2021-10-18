@@ -3,6 +3,8 @@ view: trade_customers {
   sql_table_name: `toolstation-data-storage.ts_marketing.CRM_DBS_Trade_Type_Master`
     ;;
 
+  fields_hidden_by_default: yes # pending review of segment, type
+
   dimension: customer_number {
     type: string
     primary_key: yes
@@ -25,6 +27,8 @@ view: trade_customers {
     sql: ${TABLE}.Load_Date ;;
     hidden: yes
   }
+
+  ########## Flags ##########
 
   dimension: trade_segment {
     type: string

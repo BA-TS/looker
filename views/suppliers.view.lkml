@@ -4,59 +4,15 @@ view: suppliers {
   drill_fields: [supplier_uid]
 
   dimension: supplier_uid {
+    label: "Supplier UID"
     primary_key: yes
     type: string
     sql: ${TABLE}.supplierUID ;;
   }
 
-  dimension: account_credit_limit {
-    type: number
-    sql: ${TABLE}.accountCreditLimit ;;
-  }
-
-  dimension: account_held {
-    type: number
-    sql: ${TABLE}.accountHeld ;;
-  }
-
-  dimension: account_number {
-    type: string
-    sql: ${TABLE}.accountNumber ;;
-  }
-
   dimension: advertising_contribution {
     type: number
     sql: ${TABLE}.advertisingContribution ;;
-  }
-
-  dimension: autogen_max_order_lines {
-    type: number
-    sql: ${TABLE}.autogenMaxOrderLines ;;
-  }
-
-  dimension: autogen_min_order_value {
-    type: number
-    sql: ${TABLE}.autogenMinOrderValue ;;
-  }
-
-  dimension: autogen_safety_net_value {
-    type: number
-    sql: ${TABLE}.autogenSafetyNetValue ;;
-  }
-
-  dimension: is_active {
-    type: number
-    sql: ${TABLE}.isActive ;;
-  }
-
-  dimension: is_do_not_use {
-    type: number
-    sql: ${TABLE}.isDoNotUse ;;
-  }
-
-  dimension: lead_time {
-    type: number
-    sql: ${TABLE}.leadTime ;;
   }
 
   dimension: master_supplier_name {
@@ -71,88 +27,15 @@ view: suppliers {
   }
 
   dimension: mcp {
+    label: "MCP"
     type: number
     sql: ${TABLE}.mcp ;;
   }
 
   dimension: mcp_type {
+    label: "MCP Type"
     type: string
     sql: ${TABLE}.mcpType ;;
-  }
-
-  dimension: non_returns_agreement {
-    type: number
-    sql: ${TABLE}.nonReturnsAgreement ;;
-  }
-
-  dimension: non_returns_agreement_percentage {
-    type: number
-    sql: ${TABLE}.nonReturnsAgreementPercentage ;;
-  }
-
-  dimension: order_type {
-    type: string
-    sql: ${TABLE}.orderType ;;
-  }
-
-  dimension: payment_terms {
-    type: number
-    sql: ${TABLE}.paymentTerms ;;
-  }
-
-  dimension: preferred_reorder_day {
-    type: string
-    sql: ${TABLE}.preferredReorderDay ;;
-  }
-
-  dimension: rebate_max {
-    type: number
-    sql: ${TABLE}.rebateMax ;;
-  }
-
-  dimension: rebate_min {
-    type: number
-    sql: ${TABLE}.rebateMin ;;
-  }
-
-  dimension: rebate_percentage {
-    type: number
-    sql: ${TABLE}.rebatePercentage ;;
-  }
-
-  dimension: reorder_frequency {
-    type: number
-    sql: ${TABLE}.reorderFrequency ;;
-  }
-
-  dimension: sage_supplier_code {
-    type: string
-    sql: ${TABLE}.sageSupplierCode ;;
-  }
-
-  dimension: settlement_discount_days {
-    type: number
-    sql: ${TABLE}.settlementDiscountDays ;;
-  }
-
-  dimension: settlement_discount_percentage {
-    type: number
-    sql: ${TABLE}.settlementDiscountPercentage ;;
-  }
-
-  dimension: supplier_contact {
-    type: string
-    sql: ${TABLE}.supplierContact ;;
-  }
-
-  dimension: supplier_email {
-    type: string
-    sql: ${TABLE}.supplierEmail ;;
-  }
-
-  dimension: supplier_fax {
-    type: string
-    sql: ${TABLE}.supplierFax ;;
   }
 
   dimension: supplier_name {
@@ -161,18 +44,174 @@ view: suppliers {
   }
 
   dimension: supplier_planner {
+    label: "SC Planner"
     type: string
     sql: ${TABLE}.supplierPlanner ;;
   }
 
+  ########## Contact Details ##########
+
+  dimension: supplier_contact {
+    group_label: "Contact Details"
+    type: string
+    sql: ${TABLE}.supplierContact ;;
+  }
+
+  dimension: supplier_email {
+    group_label: "Contact Details"
+    type: string
+    sql: ${TABLE}.supplierEmail ;;
+  }
+
+  dimension: supplier_fax {
+    group_label: "Contact Details"
+    type: string
+    sql: ${TABLE}.supplierFax ;;
+  }
+
   dimension: supplier_telephone {
+    group_label: "Contact Details"
     type: string
     sql: ${TABLE}.supplierTelephone ;;
   }
 
   dimension: supplier_website {
+    group_label: "Contact Details"
     type: string
     sql: ${TABLE}.supplierWebsite ;;
+  }
+
+  ########## Rebate ##########
+
+  dimension: rebate_max {
+    group_label: "Rebates"
+    type: number
+    sql: ${TABLE}.rebateMax ;;
+  }
+
+  dimension: rebate_min {
+    group_label: "Rebates"
+    type: number
+    sql: ${TABLE}.rebateMin ;;
+  }
+
+  dimension: rebate_percentage {
+    group_label: "Rebates"
+    type: number
+    sql: ${TABLE}.rebatePercentage ;;
+  }
+
+  ########## Flags ##########
+
+  dimension: is_active {
+    group_label: "Flags"
+    type: number
+    sql: ${TABLE}.isActive ;;
+  }
+
+  dimension: is_do_not_use {
+    group_label: "Flags"
+    type: number
+    sql: ${TABLE}.isDoNotUse ;;
+  }
+
+  ########## Accounting ##########
+
+  dimension: payment_terms {
+    group_label: "Accounting"
+    type: number
+    sql: ${TABLE}.paymentTerms ;;
+  }
+
+  dimension: sage_supplier_code {
+    group_label: "Accounting"
+    type: string
+    sql: ${TABLE}.sageSupplierCode ;;
+  }
+
+  dimension: settlement_discount_days {
+    group_label: "Accounting"
+    type: number
+    sql: ${TABLE}.settlementDiscountDays ;;
+  }
+
+  dimension: settlement_discount_percentage {
+    group_label: "Accounting"
+    type: number
+    sql: ${TABLE}.settlementDiscountPercentage ;;
+  }
+
+  dimension: account_credit_limit {
+    group_label: "Accounting"
+    type: number
+    sql: ${TABLE}.accountCreditLimit ;;
+  }
+
+  dimension: account_held {
+    group_label: "Accounting"
+    type: number
+    sql: ${TABLE}.accountHeld ;;
+  }
+
+  dimension: account_number {
+    group_label: "Accounting"
+    type: string
+    sql: ${TABLE}.accountNumber ;;
+  }
+
+  ########## Supply Chain ##########
+
+  dimension: non_returns_agreement {
+    group_label: "Supply Chain"
+    type: number
+    sql: ${TABLE}.nonReturnsAgreement ;;
+  }
+
+  dimension: non_returns_agreement_percentage {
+    group_label: "Supply Chain"
+    type: number
+    sql: ${TABLE}.nonReturnsAgreementPercentage ;;
+  }
+
+  dimension: order_type {
+    group_label: "Supply Chain"
+    type: string
+    sql: ${TABLE}.orderType ;;
+  }
+  dimension: autogen_max_order_lines {
+    group_label: "Supply Chain"
+    type: number
+    sql: ${TABLE}.autogenMaxOrderLines ;;
+  }
+
+  dimension: autogen_min_order_value {
+    group_label: "Supply Chain"
+    type: number
+    sql: ${TABLE}.autogenMinOrderValue ;;
+  }
+
+  dimension: autogen_safety_net_value {
+    group_label: "Supply Chain"
+    type: number
+    sql: ${TABLE}.autogenSafetyNetValue ;;
+  }
+
+  dimension: lead_time {
+    group_label: "Supply Chain"
+    type: number
+    sql: ${TABLE}.leadTime ;;
+  }
+
+  dimension: preferred_reorder_day {
+    group_label: "Supply Chain"
+    type: string
+    sql: ${TABLE}.preferredReorderDay ;;
+  }
+
+  dimension: reorder_frequency {
+    group_label: "Supply Chain"
+    type: number
+    sql: ${TABLE}.reorderFrequency ;;
   }
 
 }
