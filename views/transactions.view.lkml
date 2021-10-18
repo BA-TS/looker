@@ -7,11 +7,42 @@ view: transactions {
 
   extends: [pop_date_comparison]
 
-  dimension: date{
-    view_label: "Calendar Completed Date"
-    type: date
-    sql: coalesce(date(${TABLE}.transactionDate),${channel_budget.date}) ;;
+# fields coalesced to make budget work
+  dimension: sales_channel_coalesce {
+    label: "Sales Channel"
+    type: string
+    sql: coalesce(upper(${TABLE}.salesChannel),upper(${channel_budget.channel})) ;;
   }
+
+  dimension: site_uid_coalesce {
+    label: "Site UID"
+    view_label: "Sites"
+    type: string
+    sql: coalesce(${TABLE}.siteUID,${site_budget.site_uid}) ;;
+  }
+
+  dimension: department_coalesce {
+    view_label: "Products"
+    label: "Department"
+    type:  string
+    sql: coalesce(INITCAP(${products.department}),initcap(${category_budget.department})) ;;
+  }
+
+  dimension: transaction_date_coalesce {
+    type: date
+    label: "Date"
+    view_label: "Calendar Completed Date"
+    sql: coalesce(date(${TABLE}.transactiondate),${site_budget.raw_date},${category_budget.date},${channel_budget.date}) ;;
+    # hidden: yes
+  }
+
+# Don't think this is needed anymore
+  # dimension: date{
+  #   view_label: "Calendar Completed Date"
+  #   type: date
+  #   sql: coalesce(date(${TABLE}.transactionDate),${channel_budget.date}) ;;
+  #   hidden:  yes
+  # }
 
   dimension: order_line_key {
     primary_key:  yes
@@ -187,17 +218,16 @@ view: transactions {
   }
 
   dimension_group: placed {
+    label: "Placed Timestamp"
+    view_label: "Calendar - Placed Date"
     type: time
     timeframes: [
       raw,
       time,
-      date,
-      week,
-      month,
-      quarter,
-      year
+      date
     ]
     sql: ${TABLE}.placeddate ;;
+
   }
 
   dimension: postal_area {
@@ -232,10 +262,11 @@ view: transactions {
   }
 
   dimension: sales_channel {
-    label: "Sales Channel"
+    hidden: yes
     type: string
-    sql: coalesce(${TABLE}.salesChannel,${channel_budget.channel}) ;;
+    sql: upper(${TABLE}.salesChannel) ;;
   }
+
 
   dimension: row_id {
     type: number
@@ -244,25 +275,25 @@ view: transactions {
   }
 
   dimension: site_uid {
-    label: "Site UID"
-    group_label: "UID"
+    hidden: yes
     type: string
     sql: ${TABLE}.siteUID ;;
   }
 
+
   dimension_group: transaction {
+    label: "Completed Timestamp"
+    view_label: "Calendar - Completed Date"
     type: time
     timeframes: [
       raw,
       time,
       date,
-      week,
-      month,
-      quarter,
       year
     ]
     sql: ${TABLE}.transactiondate ;;
   }
+
 
   dimension: transaction_line_type {
     type: string
@@ -299,11 +330,6 @@ view: transactions {
     sql: ${TABLE}.userUID ;;
   }
 
-  dimension: department {
-    view_label: "Products"
-    type:  string
-    sql: coalesce(${products.department},${category_budget.department}) ;;
-  }
 
   dimension: vat_rate {
     label: "VAT Rate"

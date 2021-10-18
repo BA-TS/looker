@@ -6,7 +6,7 @@ view: calendar {
   dimension: date{
     type: date
     primary_key: yes
-    hidden: yes
+    hidden:  yes
     sql: ${TABLE}.fullDate ;;
   }
 

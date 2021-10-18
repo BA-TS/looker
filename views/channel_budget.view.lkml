@@ -5,7 +5,7 @@ view: channel_budget {
   dimension: channel {
     hidden: yes
     type: string
-    sql: ${TABLE}.channel ;;
+    sql: upper(${TABLE}.channel) ;;
   }
 
   dimension: date {
