@@ -1085,4 +1085,52 @@ view: transactions {
       value_format: "##0.0%;(##0.0%)"
     }
 
+  #########################################
+
+
+  measure: net_sales_PT {
+    label: "% Net Sales - PT"
+    type: number
+    sql:
+
+    sum(CASE
+      WHEN ${department} = "Power Tools"
+        THEN ${net_sales_value}
+      ELSE 0
+    END) / sum(${net_sales_value})
+
+    ;;
+    value_format: "##0.0%;(##0.0%)"
+  }
+
+  measure: net_sales_trade_category{
+    type: number
+    sql:
+
+    sum(CASE
+      WHEN ${products.trade_department}
+        THEN ${net_sales_value}
+      ELSE 0
+    END) / sum(${net_sales_value})
+
+    ;;
+    value_format: "##0.0%;(##0.0%)"
+  }
+
+
+  measure: net_sales_non_trade_category{
+    type: number
+    sql:
+
+    sum(CASE
+      WHEN not ${products.trade_department}
+        THEN ${net_sales_value}
+      ELSE 0
+    END) / sum(${net_sales_value})
+
+    ;;
+    value_format: "##0.0%;(##0.0%)"
+  }
+
+
 }

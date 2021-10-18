@@ -44,6 +44,7 @@ view: category_budget {
     group_label: "Department"
     type:  sum
     sql: ${net_sales} ;;
+    value_format: "\£#,##0.00;(\£#,##0.00)"
   }
 
   measure: department_margin_inc_Retro_funding_budget {
@@ -51,6 +52,7 @@ view: category_budget {
     group_label: "Department"
     type:  sum
     sql: ${gross_margin_inc_retro} ;;
+    value_format: "\£#,##0.00;(\£#,##0.00)"
   }
 
   measure: department_margin_inc_all_funding_budget {
@@ -58,5 +60,14 @@ view: category_budget {
     group_label: "Department"
     type:  sum
     sql: ${gross_margin_inc_retro} + ${fixed_funding} ;;
+    value_format: "\£#,##0.00;(\£#,##0.00)"
   }
+
+  measure: department_margin_rate_inc_retro_funding_budget {
+    type: number
+    group_label: "Department"
+    sql:  sum(${gross_margin_inc_retro}) / sum(${net_sales}) ;;
+    value_format: "##0.0%;(##0.0%)"
+  }
+
 }
