@@ -191,5 +191,4 @@ view: products {
     sql: ${buying_manager} <> "Matt Rockliff" ;;
   }
 
-
 }

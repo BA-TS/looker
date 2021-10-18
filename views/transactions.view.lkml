@@ -313,17 +313,17 @@ view: transactions {
 
   dimension: promo_in_main_catalogue {
     type: yesno
-    sql: case when ${promo_main_catalogue.product_code} is null then 0 else 1 end ;;
+    sql: case when ${promo_main_catalogue.product_code} is null then false else true end ;;
   }
 
   dimension: promo_in_extra {
     type: yesno
-    sql: case when ${promo_extra.product_code} is null then 0 else 1 end ;;
+    sql: case when ${promo_extra.product_code} is null then false else true end ;;
   }
 
   dimension: promo_in_any {
     type: yesno
-    sql: case when ${promo_extra.product_code} is null and ${promo_main_catalogue.product_code} is null then 0 else 1 end ;;
+    sql: case when ${promo_extra.product_code} is null and ${promo_main_catalogue.product_code} is null then false else true end ;;
   }
 
   measure:  total_gross_sales {
@@ -1028,5 +1028,61 @@ view: transactions {
         description: "Placed in Transactions due to potential permissions requirement on Customers; Where is not %T then assuming trade to avoid dropping data"
         sql: CASE WHEN ${customer_type} != "Trade" THEN ${quantity} else 0 END ;;
       }
+
+
+    #####
+
+    measure: net_sales_promo_mix {
+      type: number
+      sql:
+      sum(CASE
+        WHEN ${promo_in_any}
+          THEN ${net_sales_value}
+        ELSE 0
+      END) / sum(${net_sales_value})
+
+      ;;
+      value_format: "##0.0%;(##0.0%)"
+    }
+
+    measure: margin_rate_promo {
+      type: number
+      group_label: "Margin Measures"
+      sql:
+
+      sum(CASE
+        WHEN ${promo_in_any}
+          THEN ${margin_incl_funding}
+        ELSE 0
+      END) /
+      sum(CASE
+        WHEN ${promo_in_any}
+          THEN ${net_sales_value}
+        ELSE 0
+      END)
+      ;;
+      value_format: "##0.0%;(##0.0%)"
+    }
+
+    measure: margin_rate_core {
+      type: number
+      group_label: "Margin Measures"
+      sql:
+
+
+      sum(CASE
+        WHEN not ${promo_in_any}
+          THEN ${margin_incl_funding}
+        ELSE 0
+      END) /
+      sum(CASE
+        WHEN not ${promo_in_any}
+          THEN ${net_sales_value}
+        ELSE 0
+      END)
+
+      ;;
+      value_format: "##0.0%;(##0.0%)"
+    }
 
 }
