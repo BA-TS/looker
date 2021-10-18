@@ -46,8 +46,15 @@ view: category_budget {
     sql: ${net_sales} ;;
   }
 
+  measure: department_margin_inc_Retro_funding_budget {
+    description: "Budget Margin Inc Retro Funding at Department level only"
+    group_label: "Department"
+    type:  sum
+    sql: ${gross_margin_inc_retro} ;;
+  }
+
   measure: department_margin_inc_all_funding_budget {
-    description: "Budget Margin Inc Retro at Department level only"
+    description: "Budget Margin Inc Retro & Fixed Funding at Department level only"
     group_label: "Department"
     type:  sum
     sql: ${gross_margin_inc_retro} + ${fixed_funding} ;;
