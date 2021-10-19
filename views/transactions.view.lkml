@@ -470,7 +470,12 @@ view: transactions {
       label: "Total Margin Rate (Excluding Funding)"
       group_label: "Margin Measures"
       type:  number
-      sql: ${total_margin_excl_funding} / ${total_net_sales} ;;
+      sql:
+      CASE
+        WHEN ${total_net_sales} <> 0 AND ${total_margin_excl_funding} <> 0
+          THEN (${total_margin_excl_funding} / ${total_net_sales})
+        ELSE 0
+      END ;;
       value_format: "##0.00%;(##0.00%)"
     }
 
@@ -478,7 +483,13 @@ view: transactions {
       label: "Total Margin Rate (Including Funding)"
       group_label: "Margin Measures"
       type:  number
-      sql: ${total_margin_incl_funding} / ${total_net_sales} ;;
+      sql:
+
+      CASE
+        WHEN ${total_net_sales} <> 0 AND ${total_margin_incl_funding} <> 0
+          THEN (${total_margin_incl_funding} / ${total_net_sales})
+        ELSE 0
+      END ;;
       value_format: "0.00%;(0.00%)"
     }
 
@@ -493,7 +504,7 @@ view: transactions {
 
 
     dimension: previous_full_day {
-      description: "PFD looks at the 'yesterday'"
+      description: "PFD looks at 'yesterday'"
       type: yesno
       sql:
 
@@ -504,7 +515,7 @@ view: transactions {
     }
 
     dimension: previous_full_day_LY {
-      description: "PFD looks at the 'yesterday' and same day last year"
+      description: "PFD looks at 'yesterday' and same day last year"
       type: yesno
       sql:
 
@@ -520,7 +531,7 @@ view: transactions {
     }
 
     dimension: previous_full_day_2LY {
-      description: "PFD looks at the 'yesterday' and same day 2 years"
+      description: "PFD looks at 'yesterday' and same day 2 years ago"
       type: yesno
       sql:
 
@@ -532,6 +543,40 @@ view: transactions {
 
       ;;
       hidden: yes
+    }
+
+
+    dimension: previous_full_day_LW {
+      description: "PDF looks at 'yesterday' and the same day last week"
+      type: yesno
+      sql:
+
+      ${previous_full_day}
+
+      OR
+
+      ${__target_date__} = ((CURRENT_DATE() - 1) - 7)
+
+      ;;
+
+      hidden: yes
+
+    }
+
+    dimension: previous_full_day_LM {
+
+      description: "PDF looks at 'yesterday' and the same day last month"
+      type: yesno
+      sql:
+
+      ${previous_full_day}
+
+      OR
+
+      ${__target_date__} = ((CURRENT_DATE() - 1) - 0) -- TODO !
+
+      ;;
+
     }
 
 # WEEK TO DATE
@@ -674,7 +719,7 @@ view: transactions {
 
       (
 
-      ${__target_date__} < DATE(EXTRACT(YEAR FROM CURRENT_DATE())-1,EXTRACT(MONTH FROM CURRENT_DATE()),EXTRACT(DAY FROM CURRENT_DATE()))
+      ${__target_date__} <= DATE(EXTRACT(YEAR FROM CURRENT_DATE())-1,EXTRACT(MONTH FROM CURRENT_DATE()),EXTRACT(DAY FROM CURRENT_DATE()))
       AND ${__target_date__} >= DATE(EXTRACT(YEAR FROM CURRENT_DATE())-1,1,1)
 
       )
@@ -805,6 +850,14 @@ view: transactions {
       label: "Number of Period(s):"
       type: unquoted
       allowed_value: {
+        label: "Last Week - USE WITH PREVIOUS DAY ONLY"
+        value: "LW"
+      }
+      allowed_value: {
+        label: "Last Month - USE WITH PREVIOUS DAY ONLY"
+        value: "LM"
+      }
+      allowed_value: {
         label: "Current Year"
         value: "CY"
       }
@@ -857,6 +910,14 @@ view: transactions {
       ${previous_full_day_2LY}
       {% elsif previous_period_to_date._parameter_value == "LY2LY" %}
       ${previous_full_day_LY} OR ${previous_full_day_2LY}
+
+
+      {% elsif previous_period_to_date._parameter_value == "LW" %}
+      ${previous_full_day_LW}
+      {% elsif previous_period_to_date._parameter_value == "LM" %}
+      ${previous_full_day_LM}
+
+
       {% endif %}
 
       {% elsif period_to_date._parameter_value == "WTD" %}
@@ -963,9 +1024,18 @@ view: transactions {
         label: "Period Comparator"
         description: "Use with pivot_period (or it's actual name... TODO)"
         type: string
-        order_by_field: transaction_year
+        order_by_field: __target_date__
         sql:
         {% if pivot_period._is_filtered %}
+
+        {% if period_to_date._parameter_value == "PD" %}
+          CASE
+            WHEN ${__target_date__} < CURRENT_DATE() and ${__target_date__} > (CURRENT_DATE() - 7)
+              THEN "This Week"
+            ELSE "Last Week"
+          END
+
+        {% else %}
 
         CASE
         WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM CURRENT_DATE())
@@ -976,6 +1046,8 @@ view: transactions {
         THEN "2LY"
         ELSE "FAILED"
         END
+
+        {% endif %}
 
         {%else%}
         "NULL"
