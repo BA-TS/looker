@@ -17,9 +17,11 @@ view: stock_intake {
   dimension: destination_address_uid {
     type: string
     sql: ${TABLE}.destinationAddressUID ;;
+    hidden: yes
   }
 
   dimension: destination_site_uid {
+    label: "Destination Site UID"
     type: string
     sql: ${TABLE}.destinationSiteUID ;;
   }
@@ -157,11 +159,13 @@ view: stock_intake {
   measure: total_value_ordered {
     type:  number
     sql: sum(${quantity_ordered}*(safe_divide(${pack_cost_gbp},${pack_quantity}))) ;;
+    value_format: "\£#,##0.00;(\£#,##0.00)"
   }
 
   measure: total_value_received {
     type:  number
     sql: sum(${quantity_received}*(safe_divide(${pack_cost_gbp},${pack_quantity}))) ;;
+    value_format: "\£#,##0.00;(\£#,##0.00)"
   }
 
 }
