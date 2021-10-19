@@ -108,6 +108,7 @@ view: stock_intake {
   dimension: product_uid {
     type: string
     sql: ${TABLE}.productUID ;;
+    hidden: yes
   }
 
   dimension: quantity_ordered {
@@ -122,27 +123,25 @@ view: stock_intake {
 
   dimension: received_quantity_tally {
     type: number
+    hidden:  yes
     sql: ${TABLE}.receivedQuantityTally ;;
   }
 
   dimension: supplier_address_uid {
     type: string
+    hidden:  yes
     sql: ${TABLE}.supplierAddressUID ;;
   }
 
   dimension: supplier_uid {
     type: string
     sql: ${TABLE}.supplierUID ;;
+    hidden: yes
   }
 
   dimension: unit_cost {
     type:  number
     sql: ${pack_cost_gbp}/${pack_quantity} ;;
-  }
-
-  measure: count {
-    type: count
-    drill_fields: []
   }
 
   measure: total_units_ordered {
