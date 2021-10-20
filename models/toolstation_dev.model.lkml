@@ -140,6 +140,11 @@ explore: transactions {
     relationship: many_to_one
     sql_on: ${transactions.parent_order_uid} = ${single_line_transactions.parent_order_uid} ;;
   }
+  join: product_first_sale_date {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.product_code} = ${product_first_sale_date.product_code} ;;
+  }
 }
 
 
