@@ -135,6 +135,11 @@ explore: transactions {
       relationship: many_to_one
       sql_on: ${transactions.product_code} = ${promo_extra.product_code} and date(${transactions.transaction_date}) between ${promo_extra.live_date} and ${promo_extra.end_date} ;;
   }
+  join: single_line_transactions {
+    type:  left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.parent_order_uid} = ${single_line_transactions.parent_order_uid} ;;
+  }
 }
 
 
