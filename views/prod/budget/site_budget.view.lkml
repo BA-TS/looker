@@ -44,6 +44,7 @@ view: site_budget {
   }
 
   measure: site_net_sales_budget {
+    label: "Net Sales Budget"
     description: "Budget Net Sales at Site level only"
     group_label: "Sites"
     type: sum

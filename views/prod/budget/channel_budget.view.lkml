@@ -47,6 +47,7 @@ view: channel_budget {
   }
 
   measure: channel_net_sales_budget {
+    label: "Net Sales Budget"
     description: "Budget - Net Sales at Channel level only"
     group_label: "Sales Channel"
     type: sum
@@ -54,6 +55,7 @@ view: channel_budget {
   }
 
   measure: channel_gross_profit_Excl_funding_budget {
+    label: "Gross Profit Budget"
     description: "Budget - Gross Profit at Channel level only"
     group_label: "Sales Channel"
     type: sum
@@ -61,6 +63,7 @@ view: channel_budget {
   }
 
   measure: channel_retro_funding_budget {
+    label: "Retro Funding Budget"
     description: "Budget - Retro Funding at Channel level only"
     group_label: "Sales Channel"
     type: sum
@@ -68,6 +71,7 @@ view: channel_budget {
   }
 
   measure: channel_fixed_funding_budget {
+    label: "Fixed Funding Budget"
     description: "Budget - fixed Funding at Channel level only"
     group_label: "Sales Channel"
     type: sum
@@ -75,6 +79,7 @@ view: channel_budget {
   }
 
   measure: channel_gross_margin_inc_unit_funding_budget {
+    label: "Gross Margin Inc Unit Funding Budget"
     description: "Budget - Retro Funding at Channel level only"
     group_label: "Sales Channel"
     type: number
@@ -82,6 +87,7 @@ view: channel_budget {
   }
 
   measure: channel_gross_margin_inc_all_funding_budget {
+    label: "Gross Margin Inc All Funding Budget"
     description: "Budget - Gross Margin Inc All Funding at Channel level only"
     group_label: "Sales Channel"
     type: number

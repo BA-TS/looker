@@ -156,7 +156,7 @@ view: products {
 
   dimension: subdepartment {
     label: "Sub Department"
-    group_label: "Commercial Details"
+    group_label: "Product Details"
     type: string
     sql: ${TABLE}.productSubdepartment ;;
   }
@@ -170,7 +170,7 @@ view: products {
   # HIDDEN #
 
   dimension: department {
-    group_label: "Commercial Details"
+    group_label: "Product Details"
     label: "Department" # department raw
     type: string
     sql: ${TABLE}.productDepartment ;;

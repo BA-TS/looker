@@ -6,9 +6,12 @@ view: customer_segmentation {
     group_label: "Opt In"
     type: yesno
     sql: ${TABLE}.Catalogue_Opt_In ;;
+    hidden: yes # duplicated with customer
   }
 
   dimension: cluster {
+    view_label: "Customers"
+    group_label: "Segmentation"
     type: string
     sql: ${TABLE}.cluster ;;
   }
@@ -35,6 +38,7 @@ view: customer_segmentation {
     group_label: "Opt In"
     type: yesno
     sql: ${TABLE}.Email_Opt_In ;;
+    hidden: yes # duplicated with customer
   }
 
   dimension: frequency {
@@ -83,6 +87,7 @@ view: customer_segmentation {
     group_label: "Opt In"
     type: yesno
     sql: ${TABLE}.SMS_Opt_in ;;
+    hidden: yes # duplicated with customer
   }
 
   dimension: toolstation {
@@ -92,16 +97,22 @@ view: customer_segmentation {
   }
 
   dimension: trade_flag {
+    view_label: "Customers"
+    group_label: "Flags"
     type: string
     sql: ${TABLE}.Trade_Flag ;;
   }
 
   dimension: trade_type {
+    view_label: "Customers"
+    group_label: "Segmentation"
     type: string
     sql: ${TABLE}.Trade_Type ;;
   }
 
   dimension: trade_type_grouping {
+    view_label: "Customers"
+    group_label: "Segmentation"
     type: string
     sql: ${TABLE}.Trade_Type_Grouping ;;
   }

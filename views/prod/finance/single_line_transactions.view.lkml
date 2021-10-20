@@ -30,9 +30,9 @@ view: single_line_transactions {
   }
 
   measure: single_line_transactions {
-    view_label: "Transactions"
     type: sum
     sql: CASE WHEN ${single_line_transaction_flag} = true THEN 1 ELSE 0 END ;;
+    hidden: yes
   }
 
 }

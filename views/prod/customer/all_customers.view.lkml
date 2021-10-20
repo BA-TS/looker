@@ -142,6 +142,7 @@ view: customers {
     primary_key: yes
     sql: ${TABLE}.customerUID ;;
     label: "Customer UID"
+    group_label: "Customer"
   }
 
   dimension: flags__active_account {
