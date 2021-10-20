@@ -156,6 +156,13 @@ view: stock_intake {
     sql:  ${quantity_received} ;;
   }
 
+  dimension: department {
+    view_label: "Products"
+    group_label: "Product Details"
+    type:  string
+    sql:  ${products.department} ;;
+  }
+
   measure: total_value_ordered {
     type:  number
     sql: sum(${quantity_ordered}*(safe_divide(${pack_cost_gbp},${pack_quantity}))) ;;
