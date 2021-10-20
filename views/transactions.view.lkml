@@ -191,6 +191,7 @@ view: transactions {
 
     dimension: transaction_date_coalesce {
       type: date
+      datatype: date
       label: "Date"
       view_label: "Calendar - Completed Date"
       sql: coalesce(date(${TABLE}.transactiondate),${site_budget.raw_date},${category_budget.date},${channel_budget.date}) ;;
