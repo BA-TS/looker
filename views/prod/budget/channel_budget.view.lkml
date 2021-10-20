@@ -1,3 +1,4 @@
+
 view: channel_budget {
   sql_table_name: `toolstation-data-storage.ts_finance.channelBudget`
     ;;

@@ -1,4 +1,4 @@
-include: "/views/transactions.view"
+include: "/views/prod/finance/transactions.view"
 
 view: customers {
   sql_table_name: `toolstation-data-storage.customer.allCustomers`
