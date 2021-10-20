@@ -229,43 +229,43 @@ view: transactions {
     dimension: is_lfl {
       group_label: "Flags"
       label: "Is LFL"
-      type: number
-      sql: ${TABLE}.isLFL ;;
+      type: yesno
+      sql: ${TABLE}.isLFL = 1 ;;
     }
 
     dimension: is_mature {
       group_label: "Flags"
       label: "Is Mature"
-      type: number
-      sql: ${TABLE}.isMature ;;
+      type: yesno
+      sql: ${TABLE}.isMature = 1 ;;
     }
 
     dimension: is_open18_months {
       group_label: "Flags"
       label: "Is Open 18 Months"
-      type: number
-      sql: ${TABLE}.isOpen18Months ;;
+      type: yesno
+      sql: ${TABLE}.isOpen18Months = 1 ;;
     }
 
     dimension: is_originating_lfl {
       group_label: "Flags"
       label: "Is Originating LFL"
-      type: number
-      sql: ${TABLE}.isOriginatingLFL ;;
+      type: yesno
+      sql: ${TABLE}.isOriginatingLFL = 1 ;;
     }
 
     dimension: is_originating_mature {
       group_label: "Flags"
       label: "Is Originating Mature"
-      type: number
-      sql: ${TABLE}.isOriginatingMature ;;
+      type: yesno
+      sql: ${TABLE}.isOriginatingMature = 1 ;;
     }
 
     dimension: is_originating_open18_months {
       group_label: "Flags"
       label: "Is Originating Open (18 Months)"
-      type: number
-      sql: ${TABLE}.isOriginatingOpen18Months ;;
+      type: yesno
+      sql: ${TABLE}.isOriginatingOpen18Months = 1 ;;
     }
 
     dimension: order_reason {
@@ -432,7 +432,7 @@ view: transactions {
       group_label: "AOV Measures"
       type: number
       sql: ${total_units} / ${number_of_transactions} ;;
-      value_format: "#,##0.0;(\#,##0.0)"
+      value_format: "#,##0.00;(\#,##0.00)"
     }
 
     measure: average_sales_AOV {
@@ -639,7 +639,7 @@ view: transactions {
       sql:
 
       (
-      ${__target_date__} > CURRENT_DATE() - EXTRACT(DAY FROM CURRENT_DATE())
+      ${__target_date__} >= CURRENT_DATE() - EXTRACT(DAY FROM CURRENT_DATE())
       )
 
       ;;
@@ -698,7 +698,7 @@ view: transactions {
       sql:
 
       (
-      ${__target_date__} > DATE(EXTRACT(YEAR FROM CURRENT_DATE()),1,1)
+      ${__target_date__} >= DATE(EXTRACT(YEAR FROM CURRENT_DATE()),1,1)
       )
 
       ;;
@@ -1024,7 +1024,7 @@ view: transactions {
         label: "Period Comparator"
         description: "Use with pivot_period (or it's actual name... TODO)"
         type: string
-        order_by_field: __target_date__
+        order_by_field: transaction_year
         sql:
         {% if pivot_period._is_filtered %}
 
@@ -1032,7 +1032,15 @@ view: transactions {
           CASE
             WHEN ${__target_date__} < CURRENT_DATE() and ${__target_date__} > (CURRENT_DATE() - 7)
               THEN "This Week"
-            ELSE "Last Week"
+            WHEN ${__target_date__} < CURRENT_DATE() - 7 and ${__target_date__} > (CURRENT_DATE() - 14)
+              THEN "Last Week"
+            WHEN false
+              THEN "Last Month"
+            WHEN EXTRACT(YEAR FROM ${__target_date__} + 364) = EXTRACT(YEAR FROM CURRENT_DATE())
+              THEN "LY"
+            WHEN EXTRACT(YEAR FROM ${__target_date__} + 728) = EXTRACT(YEAR FROM CURRENT_DATE())
+              THEN "2LY"
+            ELSE "FAILED"
           END
 
         {% else %}
