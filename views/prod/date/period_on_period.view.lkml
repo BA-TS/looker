@@ -70,6 +70,7 @@ view: period_on_period {
     EXTRACT(YEAR FROM ${__target_date__})
 
     ;;
+    hidden: no
   }
 
 
@@ -390,6 +391,7 @@ view: period_on_period {
     label: "Date"
     type: date
     can_filter: no
+    hidden: no
     sql:
 
     {% if pivot_period._in_query and previous_period_to_date._is_filtered and false %}

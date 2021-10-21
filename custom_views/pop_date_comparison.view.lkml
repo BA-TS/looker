@@ -11,6 +11,7 @@ view: pop_date_comparison {
     description: "Select the date range you are interested in using this filter, can be used by itself. Make sure any filter on Event Date covers this period, or is removed."
     type: date
     convert_tz: yes
+    hidden:  yes
   }
   filter: previous_date_range {
     view_label: "Period Comparison Fields"
@@ -18,6 +19,7 @@ view: pop_date_comparison {
     description: "Use this if you want to specify a custom date range to compare to (limited to 2 comparison periods). Always use with '1. Date Range' filter (or it will error). Make sure any filter on Event Date covers this period, or is removed."
     type: date
     convert_tz: yes
+    hidden:  yes
   }
 
   dimension_group: in_period {
@@ -151,6 +153,7 @@ view: pop_date_comparison {
     }
     default_value: "Period"
     view_label: "Period Comparison Fields"
+    hidden:  yes
   }
 
   parameter: comparison_periods {
@@ -171,6 +174,7 @@ view: pop_date_comparison {
     # }
     default_value: "2"
     view_label: "Period Comparison Fields"
+    hidden:  yes
   }
 
   dimension: period {
@@ -194,6 +198,7 @@ view: pop_date_comparison {
          NULL
        {% endif %}
        ;;
+    hidden:  yes
   }
 
           # WHEN ${event_raw} between ${period_4_start} and ${period_4_end}
@@ -231,6 +236,7 @@ view: pop_date_comparison {
     sql: TIMESTAMP_ADD({% date_start current_date_range %},INTERVAL (${day_in_period}-1) DAY) ;;
     view_label: "Period Comparison Fields"
     timeframes: [date, week, month, quarter, year]
+    hidden:  yes
   }
 
   #week - should be Sunday to Saturday
@@ -256,7 +262,7 @@ view: pop_date_comparison {
     {% else %} NULL
     {% endif %}
     ;;
-    hidden: no
+    hidden: yes #no
   }
 
         # WHEN ${event_raw} between ${period_4_start} and ${period_4_end}
