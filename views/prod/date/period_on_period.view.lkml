@@ -398,10 +398,10 @@ view: period_on_period {
 
       CASE
 
-        WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${__target_date__}) - 1
+        WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${__current_date__}) - 1
         THEN ${__target_date__} + ${__length_of_year__}
 
-        WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${__target_date__}) - 2
+        WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${__current_date__}) - 2
         THEN ${__target_date__} + ${__length_of_year__} * 2
 
         ELSE ${__target_date__}
@@ -622,7 +622,7 @@ view: period_on_period {
 
         {% else %}
 
-          false
+          false -- catch transaction date filter and apply (create new dimension to cover off)
 
         {% endif %}
 
