@@ -10,16 +10,16 @@ view: period_on_period {
 # ░░╚██╔╝░░██║░░██║██║░░██║██║██║░░██║██████╦╝███████╗███████╗██████╔╝
 # ░░░╚═╝░░░╚═╝░░╚═╝╚═╝░░╚═╝╚═╝╚═╝░░╚═╝╚═════╝░╚══════╝╚══════╝╚═════╝░
 
-  dimension: __current_date__ {
+  dimension: __current_timestamp__ {
     type: date_time
     datatype: datetime
     sql: CURRENT_DATE() - 1 ;;
     hidden: yes
   }
-  dimension: __formatted_current_date__ {
+  dimension: __current_date__ {
     type: date
     datatype: date
-    sql: DATE(${__current_date__}) ;;
+    sql: DATE(CURRENT_DATE() - 1) ;;
     hidden: yes
   }
 
@@ -28,8 +28,8 @@ view: period_on_period {
     sql: 364 ;;
     hidden: yes
   }
-  dimension: __target_date__ {
-    type: date_time
+  dimension: __target_timestamp__ {
+    type: date
     datatype: datetime
     sql:
 
@@ -38,22 +38,33 @@ view: period_on_period {
     ;;
     hidden: yes
   }
-  dimension: __formatted_target_date__ {
+  dimension: __target_date__ {
     type: date
     datatype: date
     sql:
 
-    DATE(${__target_date__})
+    DATE(${transaction_date_coalesce})
 
     ;;
     hidden: yes
   }
 
-# CASE
-#       WHEN FORMAT_TIME("%T", CAST(${transaction_date_coalesce} AS TIME)) = '00:00:00'
-#         THEN DATE_ADD(CAST(${transaction_date_coalesce} AS TIMESTAMP), INTERVAL 12 HOUR)
-#       ELSE CAST(${transaction_date_coalesce} AS TIMESTAMP)
-#     END
+  dimension: __target_year__ {
+    view_label: "Calendar - Completed Date"
+    group_label: "Transaction Date"
+    label: "Year"
+    can_filter: no
+    order_by_field: __target_year__
+    sql: EXTRACT(YEAR FROM ${__target_date__}) ;;
+  }
+
+  filter: __filtered_date__ {
+    view_label: "Calendar - Completed Date"
+    group_label: "Period Comparison"
+    label: "Custom Period"
+    type: date
+    convert_tz: yes
+  }
 
 
 # ██╗░░██╗██╗██████╗░██████╗░███████╗███╗░░██╗
@@ -85,7 +96,7 @@ view: period_on_period {
 
     ${previous_full_day}
     OR
-    ${__formatted_target_date__} = DATE((${__formatted_current_date__} - ${length_of_year}))
+    ${__target_date__} = ${__current_date__} - ${length_of_year}
 
     ;;
     hidden: yes
@@ -96,11 +107,13 @@ view: period_on_period {
 
     ${previous_full_day}
     OR
-    ${__target_date__} = (${__current_date__} - (${length_of_year} * 2))
+    ${__target_date__} = ${__current_date__} - (${length_of_year} * 2)
 
     ;;
     hidden: yes
   }
+
+  # TODO
   dimension: previous_full_day_LW {
     type: yesno
     sql:
@@ -112,6 +125,8 @@ view: period_on_period {
     ;;
     hidden: yes
   }
+
+  # TODO
   dimension: previous_full_day_LM {
     type: yesno
     sql:
@@ -130,8 +145,8 @@ view: period_on_period {
     type: yesno
     sql:
 
-    EXTRACT(DAYOFWEEK FROM ${__formatted_target_date__}) <= EXTRACT(DAYOFWEEK FROM ${__formatted_current_date__})
-    AND (${__formatted_target_date__} > ${__formatted_current_date__} - 7) AND (${__target_date__} <= ${__current_date__})
+    EXTRACT(DAYOFWEEK FROM ${__target_date__}) <= EXTRACT(DAYOFWEEK FROM ${__current_date__})
+    AND (${__target_date__} > ${__current_date__} - 7) AND (${__target_date__} <= ${__current_date__})
 
     ;;
     hidden: yes
@@ -173,7 +188,7 @@ view: period_on_period {
     type: yesno
     sql:
 
-    (${__formatted_target_date__} > ${__formatted_current_date__} - EXTRACT(DAY FROM ${__formatted_current_date__}))AND (${__target_date__} <= ${__current_date__})
+    (${__target_date__} > ${__current_date__} - EXTRACT(DAY FROM ${__current_date__}))AND (${__target_date__} <= ${__current_date__})
 
     ;;
     hidden: yes
@@ -213,7 +228,7 @@ view: period_on_period {
     type: yesno
     sql:
 
-    (${__formatted_target_date__} >= DATE(EXTRACT(YEAR FROM ${__formatted_current_date__}),1,1))  AND (${__target_date__} <= ${__current_date__})
+    (${__target_date__} >= DATE(EXTRACT(YEAR FROM ${__current_date__}),1,1))  AND (${__target_date__} <= ${__current_date__})
 
     ;;
     hidden: yes
@@ -254,7 +269,7 @@ view: period_on_period {
     type: yesno
     sql:
 
-    ${__target_date__} > DATE({%date_start __target_date__%}) and ${__target_date__} < DATE({%date_end __target_date__%})
+    ${__target_date__} >= DATE({%date_start __filtered_date__%}) and ${__target_date__} < DATE({%date_end __filtered_date__%})
 
     ;;
     hidden: yes
@@ -266,8 +281,8 @@ view: period_on_period {
     ${current_period}
     OR
     (
-      ${__target_date__} < date({%date_end __target_date__%}) - ${length_of_year}
-      AND ${__target_date__} > date({% date_start __target_date__ %}) - ${length_of_year}
+      ${__target_date__} < date({%date_end __filtered_date__%}) - ${length_of_year}
+      AND ${__target_date__} >= date({% date_start __filtered_date__ %}) - ${length_of_year}
     )
 
     ;;
@@ -280,8 +295,8 @@ view: period_on_period {
     ${current_period}
     OR
     (
-      ${__target_date__} < date({%date_end __target_date__%}) - ${length_of_year} * 2
-      AND ${__target_date__} > date({% date_start __target_date__ %}) - ${length_of_year} * 2
+      ${__target_date__} < date({%date_end __filtered_date__%}) - ${length_of_year} * 2
+      AND ${__target_date__} >= date({% date_start __filtered_date__ %}) - ${length_of_year} * 2
     )
 
     ;;
@@ -305,9 +320,12 @@ view: period_on_period {
 
   dimension: period_comparator{
     view_label: "Calendar - Completed Date"
+    group_label: "Transaction Date"
     label: "Period Comparator"
     type: string
-    order_by_field: transactions.transaction_year
+    order_by_field: __target_year__
+    can_filter: no
+    hidden: yes # TO FIX THIS FIRST
     sql:
 
     {% if pivot_period._is_filtered %}
@@ -363,21 +381,23 @@ view: period_on_period {
     ;;
   }
 
-  dimension: transaction_testing_do_not_use {
+  dimension: period_enabled_transaction_date {
     view_label: "Calendar - Completed Date"
-    label: "Testing Date Completed"
+    group_label: "Transaction Date"
+    label: "Date"
     type: date
+    can_filter: no
     sql:
 
     {% if pivot_period._in_query and previous_period_to_date._is_filtered and false %}
 
       CASE
 
-        WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${__formatted_current_date__}) - 1
-        THEN ${__formatted_target_date__} + ${length_of_year}
+        WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${__target_date__}) - 1
+        THEN ${__target_date__} + ${length_of_year}
 
-        WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${__formatted_current_date__}) - 2
-        THEN ${__formatted_target_date__} + ${length_of_year} * 2
+        WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${__target_date__}) - 2
+        THEN ${__target_date__} + ${length_of_year} * 2f
 
         ELSE ${__target_date__}
 
@@ -392,20 +412,6 @@ view: period_on_period {
     ;;
   }
 
-
-    # {% condition pivot_period %} -- not
-    #   CASE
-    #     WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${__current_date__}) - 1
-    #     THEN ${__target_date__}
-
-    #     WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${__current_date__}) - 2
-    #     THEN ${__target_date__}
-
-    #     ELSE ${__target_date__}
-
-    #   END
-
-    # {% endcondition %}
 
 
 
@@ -422,7 +428,6 @@ view: period_on_period {
 # ██╔══██║██║╚████║██║░░██║  ██╔═══╝░██╔══██║██╔══██╗██╔══██║██║╚██╔╝██║██╔══╝░░░░░██║░░░██╔══╝░░██╔══██╗░╚═══██╗
 # ██║░░██║██║░╚███║██████╔╝  ██║░░░░░██║░░██║██║░░██║██║░░██║██║░╚═╝░██║███████╗░░░██║░░░███████╗██║░░██║██████╔╝
 # ╚═╝░░╚═╝╚═╝░░╚══╝╚═════╝░  ╚═╝░░░░░╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░░░░╚═╝╚══════╝░░░╚═╝░░░╚══════╝╚═╝░░╚═╝╚═════╝░
-
 
   parameter: period_to_date{
     view_label: "Calendar - Completed Date"
@@ -451,6 +456,7 @@ view: period_on_period {
     }
     default_value: "PD"
   }
+
   parameter: previous_period_to_date {
     view_label: "Calendar - Completed Date"
     group_label: "Period Comparison"
@@ -482,10 +488,12 @@ view: period_on_period {
     }
     default_value: "CY"
   }
+
   filter: pivot_period { #
     view_label: "Calendar - Completed Date"
     group_label: "Period Comparison"
-    label: "Comparable Date Period"
+    label: "Run Filter"
+    description: "MUST BE ADDED, to be discussed by CG,JD for logical improvements."
     type:  yesno
     sql:
 
@@ -579,7 +587,7 @@ view: period_on_period {
 
         {% endif %}
 
-      {% elsif period_to_date._parameter_value == "CP" and __target_date__._in_query %}
+      {% elsif period_to_date._parameter_value == "CP" and __filtered_date__._in_query %}
 
         {% if previous_period_to_date._parameter_value == "CY" %}
 

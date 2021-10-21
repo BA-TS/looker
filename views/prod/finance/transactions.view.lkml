@@ -219,8 +219,7 @@ view: transactions {
     timeframes: [
       raw,
       time,
-      date,
-      year
+      date
     ]
     sql: ${TABLE}.transactiondate ;;
     hidden: yes
@@ -234,13 +233,13 @@ view: transactions {
   }
   dimension: transaction_date_coalesce {
     type: date # can we change this to timeframes ? CG 20/10
-    datatype: datetime
+    datatype: timestamp
     label: "1. USE ME Completed Date" # 1 to move to top
     view_label: "Calendar - Completed Date"
     sql:
     COALESCE(${TABLE}.transactiondate,DATE_ADD(CAST(${site_budget.raw_date} AS TIMESTAMP), INTERVAL 12 HOUR), DATE_ADD(CAST(${category_budget.date} AS TIMESTAMP), INTERVAL 12 HOUR), DATE_ADD(CAST(${channel_budget.date} AS TIMESTAMP), INTERVAL 12 HOUR))
     ;;
-    hidden: no #!
+    hidden: yes #!
   }
   # coalesce(date(${TABLE}.transactiondate),DATE_ADD(${site_budget.raw_date},${category_budget.date},${channel_budget.date})
 
