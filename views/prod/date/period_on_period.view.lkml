@@ -394,7 +394,7 @@ view: period_on_period {
     hidden: no
     sql:
 
-    {% if pivot_period._in_query and previous_period_to_date._is_filtered and false %}
+    {% if pivot_period._in_query and previous_period_to_date._is_filtered %}
 
       CASE
 
