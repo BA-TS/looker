@@ -1,5 +1,3 @@
-
-
 view: single_line_transactions {
   derived_table: {
     sql:
@@ -19,7 +17,6 @@ view: single_line_transactions {
     type: string
     sql: ${TABLE}.parentOrderUID ;;
   }
-
   dimension: single_line_transaction_flag {
     view_label: "Transactions"
     group_label: "Flags"
@@ -28,7 +25,6 @@ view: single_line_transactions {
     type: yesno
     sql: ${TABLE}.single_line_transaction_flag ;;
   }
-
   measure: single_line_transactions {
     type: sum
     sql: CASE WHEN ${single_line_transaction_flag} = true THEN 1 ELSE 0 END ;;

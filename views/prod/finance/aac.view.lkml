@@ -6,12 +6,10 @@ view: aac {
     type: number
     sql: ${TABLE}.averageCostPrice ;;
   }
-
   dimension: date {
     type: number
     sql: ${TABLE}.date ;;
   }
-
   dimension: product_uid {
     type: string
     sql: ${TABLE}.productUID ;;
