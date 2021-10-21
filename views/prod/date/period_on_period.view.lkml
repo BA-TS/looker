@@ -10,12 +10,19 @@ view: period_on_period {
 # ░░╚██╔╝░░██║░░██║██║░░██║██║██║░░██║██████╦╝███████╗███████╗██████╔╝
 # ░░░╚═╝░░░╚═╝░░╚═╝╚═╝░░╚═╝╚═╝╚═╝░░╚═╝╚═════╝░╚══════╝╚══════╝╚═════╝░
 
-  dimension: current_date {
+  dimension: __current_date__ {
     type: date_time
     datatype: datetime
     sql: CURRENT_DATE() - 1 ;;
     hidden: yes
   }
+  dimension: __formatted_current_date__ {
+    type: date
+    datatype: date
+    sql: DATE(${__current_date__}) ;;
+    hidden: yes
+  }
+
   dimension: length_of_year {
     type: number
     sql: 364 ;;
@@ -27,6 +34,16 @@ view: period_on_period {
     sql:
 
     ${transaction_date_coalesce}
+
+    ;;
+    hidden: yes
+  }
+  dimension: __formatted_target_date__ {
+    type: date
+    datatype: date
+    sql:
+
+    DATE(${__target_date__})
 
     ;;
     hidden: yes
@@ -57,7 +74,7 @@ view: period_on_period {
     type: yesno
     sql:
 
-    ${__target_date__} >= ${current_date}
+    ${__target_date__} = ${__current_date__}
 
     ;;
     hidden: yes
@@ -68,7 +85,7 @@ view: period_on_period {
 
     ${previous_full_day}
     OR
-    ${__target_date__} = (${current_date} - ${length_of_year})
+    ${__formatted_target_date__} = DATE((${__formatted_current_date__} - ${length_of_year}))
 
     ;;
     hidden: yes
@@ -79,7 +96,7 @@ view: period_on_period {
 
     ${previous_full_day}
     OR
-    ${__target_date__} = (${current_date} - (${length_of_year} * 2))
+    ${__target_date__} = (${__current_date__} - (${length_of_year} * 2))
 
     ;;
     hidden: yes
@@ -90,7 +107,7 @@ view: period_on_period {
 
     ${previous_full_day}
     OR
-    ${__target_date__} = (${current_date} - 7)
+    ${__target_date__} = (${__current_date__} - 7)
 
     ;;
     hidden: yes
@@ -101,7 +118,7 @@ view: period_on_period {
 
     ${previous_full_day}
     OR
-    ${__target_date__} = (${current_date} - 0) -- TODO !
+    ${__target_date__} = (${__current_date__} - 0) -- TODO !
 
     ;;
     hidden: yes
@@ -113,8 +130,8 @@ view: period_on_period {
     type: yesno
     sql:
 
-    EXTRACT(DAYOFWEEK FROM ${__target_date__}) <= EXTRACT(DAYOFWEEK FROM ${current_date})
-    AND (${__target_date__} > (${current_date} - 7)) AND (${__target_date__} <= ${current_date})
+    EXTRACT(DAYOFWEEK FROM ${__formatted_target_date__}) <= EXTRACT(DAYOFWEEK FROM ${__formatted_current_date__})
+    AND (${__formatted_target_date__} > ${__formatted_current_date__} - 7) AND (${__target_date__} <= ${__current_date__})
 
     ;;
     hidden: yes
@@ -126,9 +143,9 @@ view: period_on_period {
     ${week_to_date}
     OR
     (
-      EXTRACT(DAYOFWEEK FROM ${__target_date__}) <= EXTRACT(DAYOFWEEK FROM (${current_date} - (${length_of_year}+6)))
-      AND ${__target_date__} > ${current_date} - (${length_of_year}+6) -- ${length_of_year} + 6 (DUE TO BEING AT MOST 6 DAYS PRIOR FOR EQUIVALENT WTD)
-      AND ${__target_date__} <= ${current_date} - ${length_of_year} -- ${length_of_year} AS COULD NOT BE ANY 'NEWER' THAN 6 DAYS DUE TO WTD
+      EXTRACT(DAYOFWEEK FROM ${__target_date__}) <= EXTRACT(DAYOFWEEK FROM (${__current_date__} - (${length_of_year}+6)))
+      AND ${__target_date__} > ${__current_date__} - (${length_of_year}+6) -- ${length_of_year} + 6 (DUE TO BEING AT MOST 6 DAYS PRIOR FOR EQUIVALENT WTD)
+      AND ${__target_date__} <= ${__current_date__} - ${length_of_year} -- ${length_of_year} AS COULD NOT BE ANY 'NEWER' THAN 6 DAYS DUE TO WTD
     )
 
     ;;
@@ -141,9 +158,9 @@ view: period_on_period {
     ${week_to_date}
     OR
     (
-      EXTRACT(DAYOFWEEK FROM ${__target_date__}) <= EXTRACT(DAYOFWEEK FROM (${current_date} - ((${length_of_year}*2)+6)))
-      AND ${__target_date__} > ${current_date} - ((${length_of_year}*2)+6) -- ${length_of_year} + 6 (DUE TO BEING AT MOST 6 DAYS PRIOR FOR EQUIVALENT WTD)
-      AND ${__target_date__} <= ${current_date} - (${length_of_year}*2) -- ${length_of_year} AS COULD NOT BE ANY 'NEWER' THAN 6 DAYS DUE TO WTD
+      EXTRACT(DAYOFWEEK FROM ${__target_date__}) <= EXTRACT(DAYOFWEEK FROM (${__current_date__} - ((${length_of_year}*2)+6)))
+      AND ${__target_date__} > ${__current_date__} - ((${length_of_year}*2)+6) -- ${length_of_year} + 6 (DUE TO BEING AT MOST 6 DAYS PRIOR FOR EQUIVALENT WTD)
+      AND ${__target_date__} <= ${__current_date__} - (${length_of_year}*2) -- ${length_of_year} AS COULD NOT BE ANY 'NEWER' THAN 6 DAYS DUE TO WTD
     )
 
     ;;
@@ -156,7 +173,7 @@ view: period_on_period {
     type: yesno
     sql:
 
-    (${__target_date__} > ${current_date} - EXTRACT(DAY FROM ${current_date}))AND (${__target_date__} <= ${current_date})
+    (${__formatted_target_date__} > ${__formatted_current_date__} - EXTRACT(DAY FROM ${__formatted_current_date__}))AND (${__target_date__} <= ${__current_date__})
 
     ;;
     hidden: yes
@@ -168,8 +185,8 @@ view: period_on_period {
     ${month_to_date}
     OR
     (
-      ${__target_date__} < DATE(EXTRACT(YEAR FROM ${current_date})-1,EXTRACT(MONTH FROM ${current_date}),EXTRACT(DAY FROM ${current_date}))
-      AND ${__target_date__} > DATE(EXTRACT(YEAR FROM ${current_date})-1,EXTRACT(MONTH FROM ${current_date}),1)
+      ${__target_date__} < DATE(EXTRACT(YEAR FROM ${__current_date__})-1,EXTRACT(MONTH FROM ${__current_date__}),EXTRACT(DAY FROM ${__current_date__}))
+      AND ${__target_date__} > DATE(EXTRACT(YEAR FROM ${__current_date__})-1,EXTRACT(MONTH FROM ${__current_date__}),1)
     )
 
     ;;
@@ -182,8 +199,8 @@ view: period_on_period {
     ${month_to_date}
     OR
     (
-      ${__target_date__} < DATE(EXTRACT(YEAR FROM ${current_date})-2,EXTRACT(MONTH FROM ${current_date}),EXTRACT(DAY FROM ${current_date}))
-      AND ${__target_date__} > DATE(EXTRACT(YEAR FROM ${current_date})-2,EXTRACT(MONTH FROM ${current_date}),1)
+      ${__target_date__} < DATE(EXTRACT(YEAR FROM ${__current_date__})-2,EXTRACT(MONTH FROM ${__current_date__}),EXTRACT(DAY FROM ${__current_date__}))
+      AND ${__target_date__} > DATE(EXTRACT(YEAR FROM ${__current_date__})-2,EXTRACT(MONTH FROM ${__current_date__}),1)
     )
 
     ;;
@@ -196,7 +213,7 @@ view: period_on_period {
     type: yesno
     sql:
 
-    (${__target_date__} >= DATE(EXTRACT(YEAR FROM ${current_date}),1,1))  AND (${__target_date__} <= ${current_date})
+    (${__formatted_target_date__} >= DATE(EXTRACT(YEAR FROM ${__formatted_current_date__}),1,1))  AND (${__target_date__} <= ${__current_date__})
 
     ;;
     hidden: yes
@@ -209,8 +226,8 @@ view: period_on_period {
     ${year_to_date}
     OR
     (
-      ${__target_date__} <= DATE(EXTRACT(YEAR FROM ${current_date})-1,EXTRACT(MONTH FROM ${current_date}),EXTRACT(DAY FROM ${current_date}))
-      AND ${__target_date__} > DATE(EXTRACT(YEAR FROM ${current_date})-1,1,1)
+      ${__target_date__} <= DATE(EXTRACT(YEAR FROM ${__current_date__})-1,EXTRACT(MONTH FROM ${__current_date__}),EXTRACT(DAY FROM ${__current_date__}))
+      AND ${__target_date__} > DATE(EXTRACT(YEAR FROM ${__current_date__})-1,1,1)
     )
 
     ;;
@@ -223,8 +240,8 @@ view: period_on_period {
     ${year_to_date}
     OR
     (
-      ${__target_date__} < DATE(EXTRACT(YEAR FROM ${current_date})-2,EXTRACT(MONTH FROM ${current_date}),EXTRACT(DAY FROM ${current_date}))
-      AND ${__target_date__} > DATE(EXTRACT(YEAR FROM ${current_date})-2,1,1)
+      ${__target_date__} < DATE(EXTRACT(YEAR FROM ${__current_date__})-2,EXTRACT(MONTH FROM ${__current_date__}),EXTRACT(DAY FROM ${__current_date__}))
+      AND ${__target_date__} > DATE(EXTRACT(YEAR FROM ${__current_date__})-2,1,1)
     )
 
     ;;
@@ -299,19 +316,19 @@ view: period_on_period {
 
         CASE
 
-          WHEN ${__target_date__} < ${current_date} and ${__target_date__} > (${current_date} - 7)
+          WHEN ${__target_date__} < ${__current_date__} and ${__target_date__} > (${__current_date__} - 7)
             THEN "This Week"
 
-          WHEN ${__target_date__} < ${current_date} - 7 and ${__target_date__} > (${current_date}4)
+          WHEN ${__target_date__} < ${__current_date__} - 7 and ${__target_date__} > (${__current_date__}4)
             THEN "Last Week"
 
           WHEN false -- TODO
             THEN "Last Month"
 
-          WHEN EXTRACT(YEAR FROM ${__target_date__} + ${length_of_year}) = EXTRACT(YEAR FROM ${current_date})
+          WHEN EXTRACT(YEAR FROM ${__target_date__} + ${length_of_year}) = EXTRACT(YEAR FROM ${__current_date__})
             THEN "LY"
 
-          WHEN EXTRACT(YEAR FROM ${__target_date__} + ${length_of_year} * 2) = EXTRACT(YEAR FROM ${current_date})
+          WHEN EXTRACT(YEAR FROM ${__target_date__} + ${length_of_year} * 2) = EXTRACT(YEAR FROM ${__current_date__})
             THEN "2LY"
 
           ELSE "FAILED"
@@ -322,13 +339,13 @@ view: period_on_period {
 
         CASE
 
-          WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${current_date})
+          WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${__current_date__})
           THEN "CY"
 
-          WHEN EXTRACT(YEAR FROM ${__target_date__} + ${length_of_year}) = EXTRACT(YEAR FROM ${current_date})
+          WHEN EXTRACT(YEAR FROM ${__target_date__} + ${length_of_year}) = EXTRACT(YEAR FROM ${__current_date__})
           THEN "LY"
 
-          WHEN EXTRACT(YEAR FROM ${__target_date__} + ${length_of_year} * 2) = EXTRACT(YEAR FROM ${current_date})
+          WHEN EXTRACT(YEAR FROM ${__target_date__} + ${length_of_year} * 2) = EXTRACT(YEAR FROM ${__current_date__})
           THEN "2LY"
 
           ELSE "FAILED"
@@ -352,15 +369,15 @@ view: period_on_period {
     type: date
     sql:
 
-    {% if pivot_period._in_query and previous_period_to_date._is_filtered %}
+    {% if pivot_period._in_query and previous_period_to_date._is_filtered and false %}
 
       CASE
 
-        WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${current_date}) - 1
-        THEN ${__target_date__} + ${length_of_year}
+        WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${__formatted_current_date__}) - 1
+        THEN ${__formatted_target_date__} + ${length_of_year}
 
-        WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${current_date}) - 2
-        THEN ${__target_date__} + ${length_of_year} * 2
+        WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${__formatted_current_date__}) - 2
+        THEN ${__formatted_target_date__} + ${length_of_year} * 2
 
         ELSE ${__target_date__}
 
@@ -378,10 +395,10 @@ view: period_on_period {
 
     # {% condition pivot_period %} -- not
     #   CASE
-    #     WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${current_date}) - 1
+    #     WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${__current_date__}) - 1
     #     THEN ${__target_date__}
 
-    #     WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${current_date}) - 2
+    #     WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${__current_date__}) - 2
     #     THEN ${__target_date__}
 
     #     ELSE ${__target_date__}
@@ -645,9 +662,9 @@ view: period_on_period {
   #           {% if pivot_period._in_query and previous_period_to_date._is_filtered %}
 
   #           CASE
-  #           WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${current_date}) - 1
+  #           WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${__current_date__}) - 1
   #           THEN ${__target_date__} + ${length_of_year}
-  #           WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${current_date}) - 2
+  #           WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${__current_date__}) - 2
   #           THEN ${__target_date__} + ${length_of_year} * 2
   #           ELSE ${__target_date__}
   #           END

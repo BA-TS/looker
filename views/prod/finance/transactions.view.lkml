@@ -232,6 +232,18 @@ view: transactions {
     sql: ${TABLE}.userUID ;;
     hidden: yes
   }
+  dimension: transaction_date_coalesce {
+    type: date # can we change this to timeframes ? CG 20/10
+    datatype: datetime
+    label: "1. USE ME Completed Date" # 1 to move to top
+    view_label: "Calendar - Completed Date"
+    sql:
+    COALESCE(${TABLE}.transactiondate,DATE_ADD(CAST(${site_budget.raw_date} AS TIMESTAMP), INTERVAL 12 HOUR), DATE_ADD(CAST(${category_budget.date} AS TIMESTAMP), INTERVAL 12 HOUR), DATE_ADD(CAST(${channel_budget.date} AS TIMESTAMP), INTERVAL 12 HOUR))
+    ;;
+    hidden: no #!
+  }
+  # coalesce(date(${TABLE}.transactiondate),DATE_ADD(${site_budget.raw_date},${category_budget.date},${channel_budget.date})
+
 
 
 # ██╗░░░██╗██╗░██████╗██╗██████╗░██╗░░░░░███████╗
@@ -250,14 +262,6 @@ view: transactions {
 
   # EXTERNAL - CALENDAR #
 
-  dimension: transaction_date_coalesce {
-    type: date # can we change this to timeframes ? CG 20/10
-    datatype: datetime
-    label: "1. Completed Date" # 1 to move to top
-    view_label: "Calendar - Completed Date"
-    sql: coalesce(date(${TABLE}.transactiondate),${site_budget.raw_date},${category_budget.date},${channel_budget.date}) ;;
-    hidden: yes
-  }
   dimension: placed_date { # _group
     label: "1. Placed Date" # 1 to move to top
     view_label: "Calendar - Placed Date"
