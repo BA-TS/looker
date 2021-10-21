@@ -159,26 +159,6 @@ view: transactions {
 # ██║░░██║██║██████╔╝██████╔╝███████╗██║░╚███║
 # ╚═╝░░╚═╝╚═╝╚═════╝░╚═════╝░╚══════╝╚═╝░░╚══╝
 
-  dimension: sales_channel_coalesce {
-    label: "Sales Channel"
-    type: string
-    sql: coalesce(upper(${TABLE}.salesChannel),upper(${channel_budget.channel})) ;;
-    hidden: yes #!
-  }
-  dimension: site_uid_coalesce {
-    label: "Site UID"
-    view_label: "Sites"
-    type: string
-    sql: coalesce(${TABLE}.siteUID,${site_budget.site_uid}) ;;
-    hidden: yes #!
-  }
-  dimension: department_coalesce {
-    view_label: "Products"
-    group_label: "Product Details"
-    label: "Department"
-    type:  string
-    sql: coalesce(INITCAP(${products.department}),initcap(${category_budget.department})) ;;
-  }
   dimension: customer_uid {
     label: "Customer UID"
     group_label: "UID"
@@ -212,9 +192,15 @@ view: transactions {
     sql: ${TABLE}.postalDistrict ;;
     hidden: yes #!
   }
+  dimension: user_uid {
+    label: "User UID"
+    group_label: "UID"
+    type: string
+    sql: ${TABLE}.userUID ;;
+    hidden: yes
+  }
   dimension_group: transaction {
-    label: "Completed Timestamp"
-    view_label: "Calendar - Completed Date"
+    description: "Please use the date available in period_on_period.view."
     type: time
     timeframes: [
       raw,
@@ -224,24 +210,15 @@ view: transactions {
     sql: ${TABLE}.transactiondate ;;
     hidden: yes
   }
-  dimension: user_uid {
-    label: "User UID"
-    group_label: "UID"
-    type: string
-    sql: ${TABLE}.userUID ;;
-    hidden: yes
-  }
   dimension: transaction_date_coalesce {
-    type: date # can we change this to timeframes ? CG 20/10
+    type: date
     datatype: timestamp
-    label: "1. USE ME Completed Date" # 1 to move to top
-    view_label: "Calendar - Completed Date"
+    description: "Please use the date available in period_on_period.view."
     sql:
     COALESCE(${TABLE}.transactiondate,DATE_ADD(CAST(${site_budget.raw_date} AS TIMESTAMP), INTERVAL 12 HOUR), DATE_ADD(CAST(${category_budget.date} AS TIMESTAMP), INTERVAL 12 HOUR), DATE_ADD(CAST(${channel_budget.date} AS TIMESTAMP), INTERVAL 12 HOUR))
     ;;
-    hidden: yes #!
+    hidden: yes
   }
-  # coalesce(date(${TABLE}.transactiondate),DATE_ADD(${site_budget.raw_date},${category_budget.date},${channel_budget.date})
 
 
 
@@ -258,6 +235,27 @@ view: transactions {
 # ██║░░██║██║██║╚██╔╝██║██╔══╝░░██║╚████║░╚═══██╗██║██║░░██║██║╚████║░╚═══██╗
 # ██████╔╝██║██║░╚═╝░██║███████╗██║░╚███║██████╔╝██║╚█████╔╝██║░╚███║██████╔╝
 # ╚═════╝░╚═╝╚═╝░░░░░╚═╝╚══════╝╚═╝░░╚══╝╚═════╝░╚═╝░╚════╝░╚═╝░░╚══╝╚═════╝░
+
+
+  dimension: sales_channel_coalesce {
+    label: "Sales Channel"
+    group_label: "Purchase Details"
+    type: string
+    sql: coalesce(upper(${TABLE}.salesChannel),upper(${channel_budget.channel})) ;;
+  }
+  dimension: site_uid_coalesce {
+    label: "Site UID"
+    view_label: "Sites"
+    type: string
+    sql: coalesce(${TABLE}.siteUID,${site_budget.site_uid}) ;;
+  }
+  dimension: department_coalesce {
+    view_label: "Products"
+    group_label: "Product Details"
+    label: "Department"
+    type:  string
+    sql: coalesce(INITCAP(${products.department}),initcap(${category_budget.department})) ;;
+  }
 
   # EXTERNAL - CALENDAR #
 
@@ -282,7 +280,7 @@ view: transactions {
 
   dimension: is_new_product {
     view_label: "Products"
-    group_label: "Product Details"
+    group_label: "Flags"
     label: "New Product"
     type:  yesno
     sql: (${product_first_sale_date.first_sale_date} + 182) <= ${__target_date__}    ;;
