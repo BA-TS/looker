@@ -64,7 +64,6 @@ view: period_on_period {
     group_label: "Transaction Date"
     label: "Year"
     can_filter: no
-    order_by_field: __target_year__
     sql:
 
     EXTRACT(YEAR FROM ${__target_date__})
@@ -193,7 +192,7 @@ view: period_on_period {
     type: yesno
     sql:
 
-    (${__target_date__} > ${__current_date__} - EXTRACT(DAY FROM ${__current_date__}))AND (${__target_date__} <= ${__current_date__})
+    ${__target_date__} > ${__current_date__} - EXTRACT(DAY FROM ${__current_date__}) AND ${__target_date__} <= ${__current_date__}
 
     ;;
     hidden: yes
@@ -205,9 +204,10 @@ view: period_on_period {
     ${month_to_date}
     OR
     (
-      ${__target_date__} < DATE(EXTRACT(YEAR FROM ${__current_date__}) - 1,EXTRACT(MONTH FROM ${__current_date__}),EXTRACT(DAY FROM ${__current_date__}))
-      AND ${__target_date__} > DATE(EXTRACT(YEAR FROM ${__current_date__}) - 1,EXTRACT(MONTH FROM ${__current_date__}), 1)
+      ${__target_date__} < ${__current_date__} - ${__length_of_year__}
+      AND ${__target_date__} > DATE(${__current_date__} - (EXTRACT(DAY FROM ${__current_date__}) + 1)) - ${__length_of_year__}
     )
+
 
     ;;
     hidden: yes
@@ -219,8 +219,8 @@ view: period_on_period {
     ${month_to_date}
     OR
     (
-      ${__target_date__} < DATE(EXTRACT(YEAR FROM ${__current_date__}) - 2,EXTRACT(MONTH FROM ${__current_date__}),EXTRACT(DAY FROM ${__current_date__}))
-      AND ${__target_date__} > DATE(EXTRACT(YEAR FROM ${__current_date__}) - 2,EXTRACT(MONTH FROM ${__current_date__}), 1)
+      ${__target_date__} < ${__current_date__} - (${__length_of_year__} * 2)
+      AND ${__target_date__} > DATE(${__current_date__} - (EXTRACT(DAY FROM ${__current_date__}) + 1)) - (${__length_of_year__} * 2)
     )
 
     ;;
@@ -246,8 +246,8 @@ view: period_on_period {
     ${year_to_date}
     OR
     (
-      ${__target_date__} <= DATE(EXTRACT(YEAR FROM ${__current_date__}) - 1,EXTRACT(MONTH FROM ${__current_date__}),EXTRACT(DAY FROM ${__current_date__}))
-      AND ${__target_date__} > DATE(EXTRACT(YEAR FROM ${__current_date__}) - 1, 1, 1)
+      ${__target_date__} < ${__current_date__} - ${__length_of_year__}
+      AND ${__target_date__} > DATE(EXTRACT(YEAR FROM ${__current_date__}), 1, 1) - ${__length_of_year__}
     )
 
     ;;
@@ -260,8 +260,8 @@ view: period_on_period {
     ${year_to_date}
     OR
     (
-      ${__target_date__} < DATE(EXTRACT(YEAR FROM ${__current_date__}) - 2,EXTRACT(MONTH FROM ${__current_date__}),EXTRACT(DAY FROM ${__current_date__}))
-      AND ${__target_date__} > DATE(EXTRACT(YEAR FROM ${__current_date__}) - 2, 1, 1)
+      ${__target_date__} < ${__current_date__} - (${__length_of_year__} * 2)
+      AND ${__target_date__} > DATE(EXTRACT(YEAR FROM ${__current_date__}), 1, 1) - (${__length_of_year__} * 2)
     )
 
     ;;
@@ -286,8 +286,8 @@ view: period_on_period {
     ${current_period}
     OR
     (
-      ${__target_date__} < date({%date_end __filtered_date__%}) - ${__length_of_year__}
-      AND ${__target_date__} >= date({% date_start __filtered_date__ %}) - ${__length_of_year__}
+      ${__target_date__} < DATE({%date_end __filtered_date__%}) - ${__length_of_year__}
+      AND ${__target_date__} >= DATE({% date_start __filtered_date__ %}) - ${__length_of_year__}
     )
 
     ;;
@@ -300,8 +300,8 @@ view: period_on_period {
     ${current_period}
     OR
     (
-      ${__target_date__} < date({%date_end __filtered_date__%}) - ${__length_of_year__} * 2
-      AND ${__target_date__} >= date({% date_start __filtered_date__ %}) - ${__length_of_year__} * 2
+      ${__target_date__} < DATE({%date_end __filtered_date__%}) - (${__length_of_year__} * 2)
+      AND ${__target_date__} >= DATE({% date_start __filtered_date__ %}) - (${__length_of_year__} * 2)
     )
 
     ;;

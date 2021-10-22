@@ -630,11 +630,8 @@ view: transactions {
     group_label: "Core"
     type:  number
     sql:
-      CASE
-        WHEN ${total_net_sales} <> 0 AND ${total_margin_excl_funding} <> 0
-          THEN (${total_margin_excl_funding} / ${total_net_sales})
-        ELSE 0
-      END ;;
+      SAFE_DIVIDE(${total_margin_excl_funding}, ${total_net_sales})
+     ;;
     value_format: "##0.00%;(##0.00%)"
   }
   measure: total_margin_rate_incl_funding {
@@ -642,12 +639,7 @@ view: transactions {
     group_label: "Core"
     type:  number
     sql:
-
-      CASE
-        WHEN ${total_net_sales} <> 0 AND ${total_margin_incl_funding} <> 0
-          THEN (${total_margin_incl_funding} / ${total_net_sales})
-        ELSE 0
-      END ;;
+    SAFE_DIVIDE(${total_margin_incl_funding}, ${total_net_sales}) ;;
     value_format: "0.00%;(0.00%)"
   }
   measure: total_units {
@@ -863,7 +855,7 @@ view: transactions {
     CASE
       WHEN ${customer_type} = "Trade"
         THEN ${parent_order_uid}
-      ELSE false
+      ELSE ""
     END
 
     ;;
@@ -891,7 +883,7 @@ view: transactions {
     type: number
     sql:
 
-    ${trade_gross_sales} / ${total_gross_sales}
+    SAFE_DIVIDE(${trade_gross_sales}, ${total_gross_sales})
 
     ;;
     value_format: "##0.00%;(##0.00%)"
@@ -902,7 +894,7 @@ view: transactions {
     type: number
     sql:
 
-    ${diy_gross_sales} / ${total_gross_sales}
+    SAFE_DIVIDE(${diy_gross_sales}, ${total_gross_sales})
 
     ;;
     value_format: "##0.00%;(##0.00%)"
@@ -913,7 +905,7 @@ view: transactions {
     type: number
     sql:
 
-    ${trade_net_sales} / ${total_net_sales}
+    SAFE_DIVIDE(${trade_net_sales}, ${total_net_sales})
 
     ;;
     value_format: "##0.00%;(##0.00%)"
@@ -924,7 +916,7 @@ view: transactions {
     type: number
     sql:
 
-    ${diy_net_sales} / ${total_net_sales}
+    SAFE_DIVIDE(${diy_net_sales}, ${total_net_sales})
 
     ;;
     value_format: "##0.00%;(##0.00%)"
@@ -935,7 +927,7 @@ view: transactions {
     type: number
     sql:
 
-    ${trade_margin_excl_funding} / ${total_margin_excl_funding}
+    SAFE_DIVIDE(${trade_margin_excl_funding}, ${total_margin_excl_funding})
 
     ;;
     value_format: "##0.00%;(##0.00%)"
@@ -946,7 +938,7 @@ view: transactions {
     type: number
     sql:
 
-    ${diy_margin_excl_funding} / ${total_margin_excl_funding}
+    SAFE_DIVIDE(${diy_margin_excl_funding}, ${total_margin_excl_funding})
 
     ;;
     value_format: "##0.00%;(##0.00%)"
@@ -957,7 +949,7 @@ view: transactions {
     type: number
     sql:
 
-    ${trade_margin_incl_funding} / ${total_margin_incl_funding}
+    SAFE_DIVIDE(${trade_margin_incl_funding}, ${total_margin_incl_funding})
 
     ;;
     value_format: "##0.00%;(##0.00%)"
@@ -968,7 +960,7 @@ view: transactions {
     type: number
     sql:
 
-    ${diy_margin_incl_funding} / ${total_margin_incl_funding}
+    SAFE_DIVIDE(${diy_margin_incl_funding}, ${total_margin_incl_funding})
 
     ;;
     value_format: "##0.00%;(##0.00%)"
@@ -980,7 +972,7 @@ view: transactions {
     type: number
     sql:
 
-    ${trade_net_units} / ${total_units}
+    SAFE_DIVIDE(${trade_net_units}, ${total_units})
 
     ;;
     value_format: "##0.00%;(##0.00%)"
@@ -991,7 +983,7 @@ view: transactions {
     type: number
     sql:
 
-    ${diy_net_units} / ${total_units}
+    SAFE_DIVIDE(${diy_net_units}, ${total_units})
 
     ;;
     value_format: "##0.00%;(##0.00%)"
@@ -1002,7 +994,7 @@ view: transactions {
     type: number
     sql:
 
-    ${trade_units_incl_system_codes} / ${total_units_incl_system_codes}
+    SAFE_DIVIDE(${trade_units_incl_system_codes}, ${total_units_incl_system_codes})
 
     ;;
     value_format: "##0.00%;(##0.00%)"
@@ -1013,7 +1005,7 @@ view: transactions {
     type: number
     sql:
 
-    ${diy_units_incl_system_codes} / ${total_units_incl_system_codes}
+    SAFE_DIVIDE(${diy_units_incl_system_codes}, ${total_units_incl_system_codes})
 
     ;;
     value_format: "##0.00%;(##0.00%)"
@@ -1024,7 +1016,7 @@ view: transactions {
     type: number
     sql:
 
-    ${trade_number_of_transactions} / ${number_of_transactions}
+    SAFE_DIVIDE(${trade_number_of_transactions}, ${number_of_transactions})
 
     ;;
     value_format: "##0.00%;(##0.00%)"
@@ -1035,7 +1027,7 @@ view: transactions {
     type: number
     sql:
 
-    ${diy_number_of_transactions} / ${number_of_transactions}
+    SAFE_DIVIDE(${diy_number_of_transactions}, ${number_of_transactions})
 
     ;;
     value_format: "##0.00%;(##0.00%)"
@@ -1092,7 +1084,7 @@ view: transactions {
     type: number
     sql:
 
-    ${total_gross_sales_main} / ${total_gross_sales}
+    SAFE_DIVIDE(${total_gross_sales_main}, ${total_gross_sales})
 
     ;;
   }
@@ -1103,7 +1095,7 @@ view: transactions {
     type: number
     sql:
 
-    ${total_gross_sales_extra} / ${total_gross_sales}
+    SAFE_DIVIDE(${total_gross_sales_extra}, ${total_gross_sales})
 
     ;;
   }
@@ -1157,7 +1149,7 @@ view: transactions {
     type: number
     sql:
 
-    ${total_net_sales_main} / ${total_net_sales}
+    SAFE_DIVIDE(${total_net_sales_main}, ${total_net_sales})
 
     ;;
   }
@@ -1168,7 +1160,7 @@ view: transactions {
     type: number
     sql:
 
-    ${total_net_sales_extra} / ${total_net_sales}
+    SAFE_DIVIDE(${total_net_sales_extra}, ${total_net_sales})
 
     ;;
   }
@@ -1222,7 +1214,7 @@ view: transactions {
     type: number
     sql:
 
-    ${total_margin_excl_funding_main} / ${total_margin_excl_funding}
+    SAFE_DIVIDE(${total_margin_excl_funding_main}, ${total_margin_excl_funding})
 
     ;;
   }
@@ -1233,7 +1225,7 @@ view: transactions {
     type: number
     sql:
 
-    ${total_margin_excl_funding_extra} / ${total_margin_excl_funding}
+    SAFE_DIVIDE(${total_margin_excl_funding_extra}, ${total_margin_excl_funding})
 
     ;;
   }
@@ -1287,7 +1279,7 @@ view: transactions {
     type: number
     sql:
 
-    ${total_margin_incl_funding_main} / ${total_margin_incl_funding}
+    SAFE_DIVIDE(${total_margin_incl_funding_main}, ${total_margin_incl_funding})
 
     ;;
   }
@@ -1298,7 +1290,7 @@ view: transactions {
     type: number
     sql:
 
-    ${total_margin_incl_funding_extra} / ${total_margin_incl_funding}
+    SAFE_DIVIDE(${total_margin_incl_funding_extra}, ${total_margin_incl_funding})
 
     ;;
   }
@@ -1352,7 +1344,7 @@ view: transactions {
     type: number
     sql:
 
-    ${total_units_main} / ${total_units}
+    SAFE_DIVIDE(${total_units_main}, ${total_units})
 
     ;;
   }
@@ -1363,7 +1355,7 @@ view: transactions {
     type: number
     sql:
 
-    ${total_units_extra} / ${total_units}
+    SAFE_DIVIDE(${total_units_extra}, ${total_units})
 
     ;;
   }
@@ -1417,7 +1409,7 @@ view: transactions {
     type: number
     sql:
 
-    ${total_number_of_transactions_main} / ${number_of_transactions}
+    SAFE_DIVIDE(${total_number_of_transactions_main}, ${number_of_transactions})
 
     ;;
   }
@@ -1428,7 +1420,7 @@ view: transactions {
     type: number
     sql:
 
-    ${total_number_of_transactions_extra} / ${number_of_transactions}
+    SAFE_DIVIDE(${total_number_of_transactions_extra}, ${number_of_transactions})
 
     ;;
   }
@@ -1439,46 +1431,42 @@ view: transactions {
     label: "Gross Sales AOV"
     group_label: "AOV"
     type:  number
-    sql: ${total_gross_sales}  / ${number_of_transactions} ;;
+    sql: SAFE_DIVIDE(${total_gross_sales}, ${number_of_transactions}) ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
   }
   measure: aov_net_sales {
     label: "Net Sales AOV"
     group_label: "AOV"
     type:  number
-    sql: ${total_net_sales}  / ${number_of_transactions} ;;
+    sql: SAFE_DIVIDE(${total_net_sales}, ${number_of_transactions}) ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
   }
   measure: aov_margin_excl_funding {
     label: "Margin Excl Funding AOV"
     group_label: "AOV"
     type:  number
-    sql: ${total_margin_excl_funding}  / ${number_of_transactions} ;;
+    sql: SAFE_DIVIDE(${total_margin_excl_funding}, ${number_of_transactions}) ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
   }
   measure: aov_margin_incl_funding {
     label: "Margin Inc Funding AOV"
     group_label: "AOV"
     type:  number
-    sql: ${total_margin_incl_funding}  / ${number_of_transactions} ;;
+    sql: SAFE_DIVIDE(${total_margin_incl_funding}, ${number_of_transactions}) ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
   }
   measure: aov_units{
     label: "Average Units" #  (Transaction)
     group_label: "AOV"
     type: number
-    sql:
-
-      ${total_units} / ${number_of_transactions}
-
-     ;;
+    sql:SAFE_DIVIDE(${total_units}, ${number_of_transactions}) ;;
     value_format: "#,##0.00;(\#,##0.00)"
   }
   measure: aov_units_incl_system_codes{
     label: "Average Units Inc System" # (Transaction)
     group_label: "AOV"
     type: number
-    sql: ${total_units_incl_system_codes} / ${number_of_transactions} ;;
+    sql: SAFE_DIVIDE(${total_units_incl_system_codes}, ${number_of_transactions}) ;;
     value_format: "#,##0.00;(\#,##0.00)"
   }
   measure: aov_price {
@@ -1486,7 +1474,7 @@ view: transactions {
     group_label: "AOV"
     description: "Net Sales AOV / Average Units"
     type: number
-    sql: ${aov_net_sales} / ${aov_units} ;;
+    sql: SAFE_DIVIDE(${aov_net_sales}, ${aov_units}) ;;
   }
 
 }
