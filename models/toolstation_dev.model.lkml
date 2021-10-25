@@ -16,31 +16,24 @@ datagroup: toolstation_transactions_datagroup {
 }
 
 explore: transactions {
+
+  conditionally_filter: {
+    filters: [transactions.period_to_date: "CP", transactions.previous_period_to_date: "CY"]
+  }
+
   sql_always_where:
-    {% if transactions.current_date_range._is_filtered %}
-      {% condition transactions.current_date_range %} ${event_raw} {% endcondition %}
 
-      {% if transactions.previous_date_range._is_filtered or transactions.compare_to._in_query %}
-        {% if transactions.comparison_periods._parameter_value == "2" %}
-          or
-          ${event_raw} between ${period_2_start} and ${period_2_end}
+    ${pivot_period}
 
-          {% elsif transactions.comparison_periods._parameter_value == "3" %}
-            or
-            ${event_raw} between ${period_2_start} and ${period_2_end}
-            or
-            ${event_raw} between ${period_3_start} and ${period_3_end}
-
-        {% endif %}
-      {% else %} 1 = 1
-      {% endif %}
     AND
-    {% endif %}
 
     (${is_cancelled} = 0 or ${is_cancelled} is null) AND (${product_code} <> '85699' or ${product_code} is null)
 
   ;;
 
+    # ${transactions.pivot_period}
+
+    # AND
 
   # {% elsif transactions.comparison_periods._parameter_value == "4" %}
   # or
