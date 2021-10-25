@@ -458,7 +458,7 @@ view: period_on_period {
       label: "Custom Period (add filter)"
       value: "CP"
     }
-    default_value: "PD"
+    # default_value: "PD"
   }
   parameter: previous_period_to_date {
     view_label: "Calendar - Completed Date"
@@ -489,7 +489,7 @@ view: period_on_period {
       label: "Last 2 Years"
       value: "LY2LY"
     }
-    default_value: "CY"
+    # default_value: "CY"
   }
 
   filter: pivot_period { #

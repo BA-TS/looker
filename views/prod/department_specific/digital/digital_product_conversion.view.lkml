@@ -68,7 +68,7 @@ view: digital_product_conversion {
 
   dimension: ga_product_conversion {
     type: number
-    sql: ${TABLE}.ga_productConversion ;;
+    sql: ${TABLE}.ga_productConversion / 100 ;;
     hidden: yes
   }
 

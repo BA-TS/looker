@@ -12,14 +12,15 @@ datagroup: toolstation_transactions_datagroup {
         SELECT    MAX(log_timestamp)
         FROM      toolstation-data-storage.looker_persistent_tables.etl_log
         WHERE     datagroup_name = 'transactions';;
-  max_cache_age: "1 hour"
+  max_cache_age: "1 hour" # could this be linked to issue?
 }
 
 explore: transactions {
 
-  conditionally_filter: {
-    filters: [transactions.period_to_date: "CP", transactions.previous_period_to_date: "CY"]
+  always_filter: {
+    filters: [period_to_date: "PD", previous_period_to_date: "CY"]
   }
+  # access_filter: {} -- to look at
 
   sql_always_where:
 
