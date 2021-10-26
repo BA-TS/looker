@@ -158,7 +158,7 @@ view: products {
     label: "Department" # department raw
     type: string
     sql: ${TABLE}.productDepartment ;;
-    hidden: yes # replaced by transactions.department coalesce
+    hidden: no ## readded due to DIGITAL # replaced by transactions.department coalesce
   }
   dimension: department_uid {
     group_label: "Commercial Details"
