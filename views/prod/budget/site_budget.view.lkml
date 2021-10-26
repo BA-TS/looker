@@ -5,6 +5,17 @@ view: site_budget {
 
   ;;
 
+  dimension: site_budget_in_query {
+    hidden: yes
+    sql:
+      {% if site_budget.site_net_sales_budget._in_query %}
+      TRUE
+      {% else %}
+      FALSE
+      {% endif %};;
+
+    }
+
   dimension: aop {
     type: number
     sql: ${TABLE}.AOP ;;

@@ -214,9 +214,36 @@ view: transactions {
     datatype: timestamp
     description: "Please use the date available in period_on_period.view."
     sql:
-    COALESCE(${TABLE}.transactiondate,DATE_ADD(CAST(${site_budget.raw_date} AS TIMESTAMP), INTERVAL 12 HOUR), DATE_ADD(CAST(${category_budget.date} AS TIMESTAMP), INTERVAL 12 HOUR), DATE_ADD(CAST(${channel_budget.date} AS TIMESTAMP), INTERVAL 12 HOUR))
+
+    {% if
+        category_budget.category_budget_in_query == 'TRUE'
+        and channel_budget.channel_budget_in_query == 'TRUE'
+        and site_budget.site_budget_in_query == 'TRUE'
+        %}
+        COALESCE(${TABLE}.transactiondate,timestamp_add(timestamp(${site_budget.raw_date}), INTERVAL 12 HOUR), timestamp_add(timestamp(${category_budget.date}), INTERVAL 12 HOUR), timestamp_add(timestamp(${channel_budget.date}), INTERVAL 12 HOUR))
+      {% elsif
+        category_budget.category_budget_in_query == 'TRUE'
+        and channel_budget.channel_budget_in_query == 'TRUE'
+        %}
+        COALESCE(${TABLE}.transactiondate, timestamp_add(timestamp(${category_budget.date}), INTERVAL 12 HOUR), timestamp_add(timestamp(${channel_budget.date}), INTERVAL 12 HOUR))
+      {% elsif
+        category_budget.category_budget_in_query == 'TRUE'
+        and site_budget.site_budget_in_query == 'TRUE'
+        %}
+        COALESCE(${TABLE}.transactiondate,timestamp_add(timestamp(${site_budget.raw_date}), INTERVAL 12 HOUR), timestamp_add(timestamp(${category_budget.date}), INTERVAL 12 HOUR))
+      {% elsif
+        site_budget.site_budget_in_query == 'TRUE'
+        and channel_budget.channel_budget_in_query == 'TRUE'
+        %}
+        COALESCE(${TABLE}.transactiondate,timestamp_add(timestamp(${site_budget.raw_date}), INTERVAL 12 HOUR), timestamp_add(timestamp(${channel_budget.date}), INTERVAL 12 HOUR))
+      {% else %}
+        ${TABLE}.transactiondate
+      {% endif %}
+
+
     ;;
     hidden: yes
+    # COALESCE(${TABLE}.transactiondate,DATE_ADD(CAST(${site_budget.raw_date} AS TIMESTAMP), INTERVAL 12 HOUR), DATE_ADD(CAST(${category_budget.date} AS TIMESTAMP), INTERVAL 12 HOUR), DATE_ADD(CAST(${channel_budget.date} AS TIMESTAMP), INTERVAL 12 HOUR))
   }
 
 
@@ -240,20 +267,45 @@ view: transactions {
     label: "Sales Channel"
     group_label: "Purchase Details"
     type: string
-    sql: coalesce(upper(${TABLE}.salesChannel),upper(${channel_budget.channel})) ;;
+    sql:
+
+    {% if channel_budget.channel_budget_in_query == 'TRUE' %}
+        initCap(coalesce(upper(${TABLE}.salesChannel),upper(${channel_budget.channel})))
+      {% else %}
+        initCap(upper(${TABLE}.salesChannel))
+      {% endif %}
+
+    ;;
+    # coalesce(upper(${TABLE}.salesChannel),upper(${channel_budget.channel}))
   }
   dimension: site_uid_coalesce {
     label: "Site UID"
     view_label: "Sites"
     type: string
-    sql: coalesce(${TABLE}.siteUID,${site_budget.site_uid}) ;;
+    sql:
+
+    {% if site_budget.site_budget_in_query == 'TRUE' %}
+        coalesce(${TABLE}.siteUID,${site_budget.site_uid})
+      {% else %}
+        ${TABLE}.siteUID
+      {% endif %}
+
+    ;; #coalesce(${TABLE}.siteUID,${site_budget.site_uid})
   }
   dimension: department_coalesce {
     view_label: "Products"
     group_label: "Product Details"
     label: "Department"
     type:  string
-    sql: coalesce(INITCAP(${products.department}),initcap(${category_budget.department})) ;;
+    sql:
+
+    {% if category_budget.category_budget_in_query == 'TRUE' %}
+        coalesce(INITCAP(${products.department}),initcap(${category_budget.department}))
+      {% else %}
+        INITCAP(${products.department})
+      {% endif %}
+
+    ;; # coalesce(INITCAP(${products.department}),initcap(${category_budget.department}))
   }
 
   # EXTERNAL - CALENDAR #

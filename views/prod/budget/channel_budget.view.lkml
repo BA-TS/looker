@@ -5,6 +5,24 @@ view: channel_budget {
 
   ;;
 
+  dimension: channel_budget_in_query {
+    hidden: yes
+    sql:
+      {% if
+        channel_budget.channel_net_sales_budget._in_query
+        or channel_budget.channel_gross_profit_Excl_funding_budget._in_query
+        or channel_budget.channel_retro_funding_budget._in_query
+        or channel_budget.channel_fixed_funding_budget._in_query
+        or channel_budget.channel_gross_margin_inc_unit_funding_budget._in_query
+        or channel_budget.channel_gross_margin_inc_all_funding_budget._in_query
+      %}
+      TRUE
+      {% else %}
+      FALSE
+      {% endif %};;
+  }
+
+
   dimension: channel {
     hidden: yes
     type: string

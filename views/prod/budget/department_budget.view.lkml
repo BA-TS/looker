@@ -6,6 +6,21 @@ view: category_budget {
 
   ;;
 
+  dimension: category_budget_in_query {
+    hidden: yes
+    sql:
+      {% if
+        category_budget.department_net_sales_budget._in_query
+        or category_budget.department_margin_inc_Retro_funding_budget._in_query
+        or category_budget.department_margin_inc_all_funding_budget._in_query
+        or category_budget.department_margin_rate_inc_retro_funding_budget._in_query
+      %}
+      TRUE
+      {% else %}
+      FALSE
+      {% endif %};;
+  }
+
   dimension: date {
     hidden: yes
     type: date
