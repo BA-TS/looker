@@ -247,7 +247,7 @@ view: period_on_period {
     OR
     (
       ${__target_date__} < ${__current_date__} - ${__length_of_year__}
-      AND ${__target_date__} > DATE(EXTRACT(YEAR FROM ${__current_date__}), 1, 1) - ${__length_of_year__}
+      AND ${__target_date__} >= DATE(EXTRACT(YEAR FROM ${__current_date__}), 1, 1) - ${__length_of_year__}
     )
 
     ;;
@@ -261,7 +261,7 @@ view: period_on_period {
     OR
     (
       ${__target_date__} < ${__current_date__} - (${__length_of_year__} * 2)
-      AND ${__target_date__} > DATE(EXTRACT(YEAR FROM ${__current_date__}), 1, 1) - (${__length_of_year__} * 2)
+      AND ${__target_date__} >= DATE(EXTRACT(YEAR FROM ${__current_date__}), 1, 1) - (${__length_of_year__} * 2)
     )
 
     ;;
@@ -394,7 +394,7 @@ view: period_on_period {
     hidden: no
     sql:
 
-    {% if pivot_period._in_query and previous_period_to_date._is_filtered %}
+    {% if previous_period_to_date._parameter_value == "LY" or previous_period_to_date._parameter_value == "2LY" or previous_period_to_date._parameter_value == "LY2LY" %}
 
       CASE
 
@@ -414,7 +414,7 @@ view: period_on_period {
 
     {% endif %}
 
-    ;;
+    ;; # need to include more validation i.e. return target_date unless LY, 2LY    # pivot_period._in_query and
   }
 
 
@@ -465,14 +465,14 @@ view: period_on_period {
     group_label: "Period Comparison"
     label: "Number of Period(s):"
     type: unquoted
-    allowed_value: {
-      label: "Last Week - PREVIOUS DAY ONLY"
-      value: "LW"
-    }
-    allowed_value: {
-      label: "Last Month - PREVIOUS DAY ONLY"
-      value: "LM"
-    }
+    # allowed_value: {
+    #   label: "Last Week - PREVIOUS DAY ONLY"
+    #   value: "LW"
+    # }
+    # allowed_value: {
+    #   label: "Last Month - PREVIOUS DAY ONLY"
+    #   value: "LM"
+    # }
     allowed_value: {
       label: "Current Year"
       value: "CY"
