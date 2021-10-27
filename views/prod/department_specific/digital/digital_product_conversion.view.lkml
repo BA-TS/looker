@@ -128,9 +128,13 @@ view: digital_product_conversion {
 
   measure: conversion_rate {
     label: "Conversion Rate"
-    type: average
-    sql: ${ga_product_conversion} ;;
-    value_format:  "#,##0.00%;(#,##0.00%)"
+    type: number
+    sql:
+
+    (${product_sold} / ${page_views})
+
+     ;; # (${ga_total_product_sold} / ${ga_total_product_page_views}) / 100 # ${ga_product_conversion}
+    value_format:  "#,##0.0000%;(#,##0.0000%)"
   }
 
   measure: rate_of_exit{
