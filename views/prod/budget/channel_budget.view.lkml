@@ -6,7 +6,8 @@ view: channel_budget {
   ;;
 
   dimension: channel_budget_in_query {
-    hidden: yes
+    view_label: "Hello!"
+    hidden: no
     sql:
       {% if
         channel_budget.channel_net_sales_budget._in_query

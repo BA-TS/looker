@@ -35,17 +35,17 @@ view: digital_product_conversion {
     hidden: yes
   }
 
-  dimension: ga_brand {
-    label: "Brand"
-    type: string
-    sql: ${TABLE}.ga_brand ;;
-  }
+  # dimension: ga_brand {
+  #   label: "Brand"
+  #   type: string
+  #   sql: ${TABLE}.ga_brand ;;
+  # }
 
-  dimension: ga_category {
-    label: "Category"
-    type: string
-    sql: ${TABLE}.ga_category ;;
-  }
+  # dimension: ga_category {
+  #   label: "Category"
+  #   type: string
+  #   sql: ${TABLE}.ga_category ;;
+  # }
 
   dimension: channel_grouping {
     label: "Channel Grouping"

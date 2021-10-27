@@ -249,7 +249,7 @@ view: transactions {
       {% elsif
         site_budget.site_budget_in_query == 'TRUE'
        %}
-      COALESCE(${TABLE}.transactiondate,timestamp_add(timestamp(${site_budget.raw_date}), INTERVAL 12 HOUR))
+      COALESCE(${TABLE}.transactiondate, timestamp_add(timestamp(${site_budget.raw_date}), INTERVAL 12 HOUR))
       {% else %}
         ${TABLE}.transactiondate
     {% endif %}
