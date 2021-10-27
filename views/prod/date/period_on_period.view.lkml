@@ -246,7 +246,7 @@ view: period_on_period {
     ${year_to_date}
     OR
     (
-      ${__target_date__} < ${__current_date__} - ${__length_of_year__}
+      ${__target_date__} =< ${__current_date__} - ${__length_of_year__}
       AND ${__target_date__} >= DATE(EXTRACT(YEAR FROM ${__current_date__}), 1, 1) - ${__length_of_year__}
     )
 
@@ -260,7 +260,7 @@ view: period_on_period {
     ${year_to_date}
     OR
     (
-      ${__target_date__} < ${__current_date__} - (${__length_of_year__} * 2)
+      ${__target_date__} =< ${__current_date__} - (${__length_of_year__} * 2)
       AND ${__target_date__} >= DATE(EXTRACT(YEAR FROM ${__current_date__}), 1, 1) - (${__length_of_year__} * 2)
     )
 
