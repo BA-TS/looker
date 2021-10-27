@@ -22,14 +22,14 @@ explore: transactions {
   # }
   # access_filter: {} -- to look at
 
-# ${pivot_period}
+  # ${pivot_period}
 
-#     AND
+  # AND
 
   sql_always_where:
 
 
-    (${is_cancelled} = 0 or ${is_cancelled} is null) AND (${product_code} <> '85699' or ${product_code} is null)
+  (${is_cancelled} = 0 or ${is_cancelled} is null) AND (${product_code} <> '85699' or ${product_code} is null)
 
   ;;
 

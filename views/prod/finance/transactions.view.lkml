@@ -238,14 +238,25 @@ view: transactions {
         and channel_budget.channel_budget_in_query == 'TRUE'
         %}
         COALESCE(${TABLE}.transactiondate,timestamp_add(timestamp(${site_budget.raw_date}), INTERVAL 12 HOUR), timestamp_add(timestamp(${channel_budget.date}), INTERVAL 12 HOUR))
+      {% elsif
+        category_budget.category_budget_in_query == 'TRUE'
+        %}
+      COALESCE(${TABLE}.transactiondate, timestamp_add(timestamp(${category_budget.date}), INTERVAL 12 HOUR))
+      {% elsif
+        channel_budget.channel_budget_in_query == 'TRUE'
+        %}
+      COALESCE(${TABLE}.transactiondate, timestamp_add(timestamp(${channel_budget.date}), INTERVAL 12 HOUR))
+      {% elsif
+        site_budget.site_budget_in_query == 'TRUE'
+       %}
+      COALESCE(${TABLE}.transactiondate,timestamp_add(timestamp(${site_budget.raw_date}))
       {% else %}
         ${TABLE}.transactiondate
-      {% endif %}
+    {% endif %}
 
 
     ;;
     hidden: no
-    # COALESCE(${TABLE}.transactiondate,DATE_ADD(CAST(${site_budget.raw_date} AS TIMESTAMP), INTERVAL 12 HOUR), DATE_ADD(CAST(${category_budget.date} AS TIMESTAMP), INTERVAL 12 HOUR), DATE_ADD(CAST(${channel_budget.date} AS TIMESTAMP), INTERVAL 12 HOUR))
   }
 
 
