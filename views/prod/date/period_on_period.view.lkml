@@ -205,7 +205,7 @@ view: period_on_period {
     OR
     (
       ${__target_date__} <= ${__current_date__} - ${__length_of_year__}
-      AND ${__target_date__} >= DATE(${__current_date__} - (EXTRACT(DAY FROM ${__current_date__}) + 1)) - ${__length_of_year__}
+      AND ${__target_date__} > DATE(${__current_date__} - (EXTRACT(DAY FROM ${__current_date__}) + 0)) - ${__length_of_year__}
     )
 
 
@@ -220,7 +220,7 @@ view: period_on_period {
     OR
     (
       ${__target_date__} <= ${__current_date__} - (${__length_of_year__} * 2)
-      AND ${__target_date__} >= DATE(${__current_date__} - (EXTRACT(DAY FROM ${__current_date__}) + 1)) - (${__length_of_year__} * 2)
+      AND ${__target_date__} > DATE(${__current_date__} - (EXTRACT(DAY FROM ${__current_date__}) + 0)) - (${__length_of_year__} * 2)
     )
 
     ;;
@@ -384,7 +384,7 @@ view: period_on_period {
     {%endif%}
 
     ;;
-  } # double check -14 as was partially deleted 13:14 21/10
+  }
   dimension: period_enabled_transaction_date {
     view_label: "Calendar - Completed Date"
     group_label: "Transaction Date"
@@ -394,7 +394,7 @@ view: period_on_period {
     hidden: no
     sql:
 
-    {% if previous_period_to_date._parameter_value == "LY" or previous_period_to_date._parameter_value == "2LY" or previous_period_to_date._parameter_value == "LY2LY" %}
+    {% if __target_year__._in_query %}
 
       CASE
 
@@ -414,7 +414,10 @@ view: period_on_period {
 
     {% endif %}
 
-    ;; # need to include more validation i.e. return target_date unless LY, 2LY    # pivot_period._in_query and
+    ;; # if pivot on year, then merge dates otherwise keep to actual
+
+    # need to include more validation i.e. return target_date unless LY, 2LY    # pivot_period._in_query and
+    #  previous_period_to_date._parameter_value == "LY" or previous_period_to_date._parameter_value == "2LY" or previous_period_to_date._parameter_value == "LY2LY"
   }
 
 
@@ -492,15 +495,13 @@ view: period_on_period {
     # default_value: "CY"
   }
 
-  filter: pivot_period { #
+  filter: pivot_period {
     view_label: "Calendar - Completed Date"
     group_label: "Period Comparison"
     label: "Run Filter"
-    description: "MUST BE ADDED, to be discussed by CG,JD for logical improvements."
     type:  yesno
+    hidden: yes
     sql:
-
-    {% if period_to_date._in_query and previous_period_to_date._in_query %}
 
       {% if period_to_date._parameter_value == "PD" %}
 
@@ -520,13 +521,9 @@ view: period_on_period {
 
           ${previous_full_day_LY} OR ${previous_full_day_2LY}
 
-        {% elsif previous_period_to_date._parameter_value == "LW" %}
+        {% else %}
 
-          ${previous_full_day_LW}
-
-        {% elsif previous_period_to_date._parameter_value == "LM" %}
-
-          ${previous_full_day_LM}
+          ${previous_full_day}
 
         {% endif %}
 
@@ -548,6 +545,10 @@ view: period_on_period {
 
           ${week_to_date_LY} OR ${week_to_date_2LY}
 
+        {% else %}
+
+          ${week_to_date}
+
         {% endif %}
 
       {% elsif period_to_date._parameter_value == "MTD" %}
@@ -567,6 +568,10 @@ view: period_on_period {
         {% elsif previous_period_to_date._parameter_value == "LY2LY" %}
 
           ${month_to_date_LY} OR ${month_to_date_2LY}
+
+        {% else %}
+
+          ${month_to_date}
 
         {% endif %}
 
@@ -588,65 +593,91 @@ view: period_on_period {
 
           ${year_to_date_LY} OR ${year_to_date_2LY}
 
-        {% endif %}
+        {% else %}
 
-      {% elsif period_to_date._parameter_value == "CP" and __filtered_date__._in_query %}
-
-        {% if previous_period_to_date._parameter_value == "CY" %}
-
-          ${current_period}
-
-        {% elsif previous_period_to_date._parameter_value == "LY" %}
-
-          ${current_period_LY}
-
-        {% elsif previous_period_to_date._parameter_value == "2LY" %}
-
-          ${current_period_2LY}
-
-        {% elsif previous_period_to_date._parameter_value == "LY2LY" %}
-
-          ${current_period_LY} OR ${current_period_2LY}
+          ${year_to_date}
 
         {% endif %}
 
-      {% endif %}
+      {% elsif period_to_date._parameter_value == "CP" %}
 
-    {% else %}
+        {% if __filtered_date__._is_filtered %}
 
-      {% if period_to_date._parameter_value == "CP" %}
+          {% if previous_period_to_date._parameter_value == "CY" %}
 
-        {%  if __target_date__._in_query %}
+            ${current_period}
 
-          ${current_period}
+          {% elsif previous_period_to_date._parameter_value == "LY" %}
+
+            ${current_period_LY}
+
+          {% elsif previous_period_to_date._parameter_value == "2LY" %}
+
+            ${current_period_2LY}
+
+          {% elsif previous_period_to_date._parameter_value == "LY2LY" %}
+
+            ${current_period_LY} OR ${current_period_2LY}
+
+          {% endif %}
 
         {% else %}
 
-          false -- catch transaction date filter and apply (create new dimension to cover off)
-
-        {% endif %}
-
-      {% elsif period_to_date._parameter_value == "PD" %}
-
-        ${previous_full_day}
-
-      {% elsif period_to_date._parameter_value == "WTD" %}
-
-        ${week_to_date}
-
-      {% elsif period_to_date._parameter_value == "MTD" %}
-
-        ${month_to_date}
-
-      {% elsif period_to_date._parameter_value == "YTD" %}
-
-        ${year_to_date}
+          false -- CUSTOM PERIOD FILTER REQUIRED / Calendar options handled here --
 
       {% endif %}
 
     {% endif %}
 
     ;;
+
+    ## cannot fail on if
+    # {% else %}
+
+    #   {% if period_to_date._parameter_value == "CP" %}
+
+    #   false
+
+
+
+    #   {% elsif period_to_date._parameter_value == "PD" %}
+
+    #     ${previous_full_day}
+
+    #   {% elsif period_to_date._parameter_value == "WTD" %}
+
+    #     ${week_to_date}
+
+    #   {% elsif period_to_date._parameter_value == "MTD" %}
+
+    #     ${month_to_date}
+
+    #   {% elsif period_to_date._parameter_value == "YTD" %}
+
+    #     ${year_to_date}
+
+    #   {% endif %}
+
+
+    # see `false`
+    # {%  if __target_date__._in_query %}
+
+    #       ${current_period}
+
+    #     {% else %}
+
+    #       false -- catch transaction date filter and apply (create new dimension to cover off)
+
+    #     {% endif %}
+
+    # PD removed
+        # {% elsif previous_period_to_date._parameter_value == "LW" %}
+
+        #   ${previous_full_day_LW}
+
+        # {% elsif previous_period_to_date._parameter_value == "LM" %}
+
+        #   ${previous_full_day_LM}
     }
   filter: __filtered_date__ {
     view_label: "Calendar - Completed Date"

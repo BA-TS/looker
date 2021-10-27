@@ -210,9 +210,11 @@ view: transactions {
     hidden: yes
   }
   dimension: transaction_date_coalesce {
+    view_label: "Hello!"
     type: date
     datatype: timestamp
     description: "Please use the date available in period_on_period.view."
+    # sql: COALESCE(${TABLE}.transactiondate,DATE_ADD(CAST(${site_budget.raw_date} AS TIMESTAMP), INTERVAL 12 HOUR), DATE_ADD(CAST(${category_budget.date} AS TIMESTAMP), INTERVAL 12 HOUR), DATE_ADD(CAST(${channel_budget.date} AS TIMESTAMP), INTERVAL 12 HOUR)) ;;
     sql:
 
     {% if
@@ -242,7 +244,7 @@ view: transactions {
 
 
     ;;
-    hidden: yes
+    hidden: no
     # COALESCE(${TABLE}.transactiondate,DATE_ADD(CAST(${site_budget.raw_date} AS TIMESTAMP), INTERVAL 12 HOUR), DATE_ADD(CAST(${category_budget.date} AS TIMESTAMP), INTERVAL 12 HOUR), DATE_ADD(CAST(${channel_budget.date} AS TIMESTAMP), INTERVAL 12 HOUR))
   }
 

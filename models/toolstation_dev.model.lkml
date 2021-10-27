@@ -12,40 +12,26 @@ datagroup: toolstation_transactions_datagroup {
         SELECT    MAX(log_timestamp)
         FROM      toolstation-data-storage.looker_persistent_tables.etl_log
         WHERE     datagroup_name = 'transactions';;
-  max_cache_age: "22 hour" # could this be linked to issue?
+  max_cache_age: "22 hour"
 }
 
 explore: transactions {
 
-  always_filter: {
-    filters: [period_to_date: "PD", previous_period_to_date: "CY"]
-  }
+  # always_filter: {
+  #   filters: [period_to_date: "PD", previous_period_to_date: "CY"]
+  # }
   # access_filter: {} -- to look at
+
+# ${pivot_period}
+
+#     AND
 
   sql_always_where:
 
-    ${pivot_period}
-
-    AND
 
     (${is_cancelled} = 0 or ${is_cancelled} is null) AND (${product_code} <> '85699' or ${product_code} is null)
 
   ;;
-
-    # ${transactions.pivot_period}
-
-    # AND
-
-  # {% elsif transactions.comparison_periods._parameter_value == "4" %}
-  # or
-  # ${event_raw} between ${period_2_start} and ${period_2_end}
-  # or
-  # ${event_raw} between ${period_3_start} and ${period_3_end}
-  # or
-  # ${event_raw} between ${period_4_start} and ${period_4_end}
-
-  # {% else %} 1 = 1
-  # {% endif %}
 
   join: products {
     type:  inner
