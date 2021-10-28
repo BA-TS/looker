@@ -529,7 +529,7 @@ view: transactions {
     label: "Total Margin inc (Trade Only)"
     group_label: "Margin"
     description: "Placed in Transactions due to potential permissions requirement on Customers"
-    sql: CASE WHEN ${customer_type} = "Trade" THEN ${margin_incl_funding} else 0 END ;;
+    sql: CASE WHEN ${is_trade_customer} THEN ${margin_incl_funding} else 0 END ;;
     hidden: yes
   }
   measure: diy_net_margin {
@@ -537,7 +537,7 @@ view: transactions {
     label: "Total Margin inc (DIY Only)"
     group_label: "Margin"
     description: "Placed in Transactions due to potential permissions requirement on Customers; Where is not %T then assuming trade to avoid dropping data"
-    sql: CASE WHEN ${customer_type} != "Trade" THEN ${margin_incl_funding} else 0 END ;;
+    sql: CASE WHEN NOT ${is_trade_customer} THEN ${margin_incl_funding} else 0 END ;;
     hidden: yes
   }
   measure: trade_net_units {
@@ -545,7 +545,7 @@ view: transactions {
     label: "Total Net Units (Trade Only)"
     group_label: "Unit"
     description: "Placed in Transactions due to potential permissions requirement on Customers"
-    sql: CASE WHEN ${customer_type} = "Trade" THEN ${quantity} else 0 END ;;
+    sql: CASE WHEN ${is_trade_customer} THEN ${quantity} else 0 END ;;
     hidden: yes
   }
   measure: diy_net_units {
@@ -553,7 +553,7 @@ view: transactions {
     label: "Total Net Units (DIY Only)"
     group_label: "Unit"
     description: "Placed in Transactions due to potential permissions requirement on Customers; Where is not %T then assuming trade to avoid dropping data"
-    sql: CASE WHEN ${customer_type} != "Trade" THEN ${quantity} else 0 END ;;
+    sql: CASE WHEN NOT ${is_trade_customer} THEN ${quantity} else 0 END ;;
     hidden: yes
   }
   measure: margin_rate_core {
@@ -640,10 +640,10 @@ view: transactions {
     sql: ${customer_segmentation.cluster};;
     hidden: yes #!
   } #!
-  dimension: customer_type {
-    type: string
+  dimension: is_trade_customer {
+    type: yesno
     description: "Placed in Transactions due to potential permissions requirement on Customers"
-    sql: CASE WHEN ${customer_cluster} LIKE "T%" THEN "Trade" else "DIY" END ;;
+    sql: CASE WHEN ${customer_cluster} LIKE "T%" THEN true else false END ;;
     hidden: yes #!
   } #!
 
@@ -740,6 +740,61 @@ view: transactions {
 
   # Detail SEGMENT (T/D only) #
 
+  measure: number_of_trade_customers {
+    group_label: "Segmentation"
+    label: "Number of Customers (Trade)"
+    type: count_distinct
+    sql:
+
+    CASE
+      WHEN ${is_trade_customer}
+        THEN ${customer_uid}
+      ELSE NULL
+    END
+
+    ;;
+  }
+  measure: number_of_diy_customers {
+    group_label: "Segmentation"
+    label: "Number of Customers (DIY)"
+    type: count_distinct
+    sql:
+
+    CASE
+      WHEN NOT ${is_trade_customer}
+        THEN ${customer_uid}
+      ELSE NULL
+    END
+
+    ;;
+  }
+
+  measure: percentage_of_customers_trade {
+    group_label: "Segmentation"
+    label: "Percentage of Customers (Trade)"
+    type: number
+    sql:
+
+    SAFE_DIVIDE(${number_of_trade_customers}, ${number_of_unique_customers})
+
+    ;;
+    value_format: "##0.0%;(##0.0%)"
+  }
+  measure: percentage_of_customers_diy {
+    group_label: "Segmentation"
+    label: "Percentage of Customers (DIY)"
+    type: number
+    sql:
+
+    SAFE_DIVIDE(${number_of_diy_customers}, ${number_of_unique_customers})
+
+    ;;
+    value_format: "##0.0%;(##0.0%)"
+  }
+
+
+
+
   measure: trade_gross_sales {
     label: "Gross Sales"
     type: sum
@@ -747,7 +802,7 @@ view: transactions {
     sql:
 
     CASE
-      WHEN ${customer_type} = "Trade"
+      WHEN ${is_trade_customer}
         THEN ${gross_sales_value}
       ELSE 0
     END
@@ -761,7 +816,7 @@ view: transactions {
     sql:
 
     CASE
-      WHEN ${customer_type} != "Trade"
+      WHEN NOT ${is_trade_customer}
         THEN ${gross_sales_value}
       ELSE 0
     END
@@ -775,7 +830,7 @@ view: transactions {
     sql:
 
     CASE
-      WHEN ${customer_type} = "Trade"
+      WHEN ${is_trade_customer}
         THEN ${net_sales_value}
       ELSE 0
     END
@@ -790,7 +845,7 @@ view: transactions {
     sql:
 
     CASE
-      WHEN ${customer_type} != "Trade"
+      WHEN NOT ${is_trade_customer}
         THEN ${net_sales_value}
       ELSE 0
     END
@@ -804,7 +859,7 @@ view: transactions {
     sql:
 
     CASE
-      WHEN ${customer_type} = "Trade"
+      WHEN ${is_trade_customer}
         THEN ${margin_excl_funding}
       ELSE 0
     END
@@ -819,7 +874,7 @@ view: transactions {
     sql:
 
     CASE
-      WHEN ${customer_type} != "Trade"
+      WHEN NOT ${is_trade_customer}
         THEN ${margin_excl_funding}
       ELSE 0
     END
@@ -833,7 +888,7 @@ view: transactions {
     sql:
 
     CASE
-      WHEN ${customer_type} = "Trade"
+      WHEN ${is_trade_customer}
         THEN ${margin_incl_funding}
       ELSE 0
     END
@@ -847,7 +902,7 @@ view: transactions {
     sql:
 
     CASE
-      WHEN ${customer_type} != "Trade"
+      WHEN NOT ${is_trade_customer}
         THEN ${margin_incl_funding}
       ELSE 0
     END
@@ -864,7 +919,7 @@ view: transactions {
     sql:
 
     CASE
-      WHEN ${customer_type} = "Trade" AND ${product_code} NOT LIKE '0%'
+      WHEN ${is_trade_customer} AND ${product_code} NOT LIKE '0%'
         THEN ${quantity}
       ELSE 0
     END
@@ -878,7 +933,7 @@ view: transactions {
     sql:
 
     CASE
-      WHEN ${customer_type} != "Trade" AND ${product_code} NOT LIKE '0%'
+      WHEN NOT ${is_trade_customer} AND ${product_code} NOT LIKE '0%'
         THEN ${quantity}
       ELSE 0
     END
@@ -892,7 +947,7 @@ view: transactions {
     sql:
 
     CASE
-      WHEN ${customer_type} = "Trade"
+      WHEN ${is_trade_customer}
         THEN ${quantity}
       ELSE 0
     END
@@ -906,7 +961,7 @@ view: transactions {
     sql:
 
     CASE
-      WHEN ${customer_type} != "Trade"
+      WHEN NOT ${is_trade_customer}
         THEN ${quantity}
       ELSE 0
     END
@@ -920,7 +975,7 @@ view: transactions {
     sql:
 
     CASE
-      WHEN ${customer_type} = "Trade"
+      WHEN ${is_trade_customer}
         THEN ${parent_order_uid}
       ELSE ""
     END
@@ -936,7 +991,7 @@ view: transactions {
     sql:
 
     CASE
-      WHEN ${customer_type} != "Trade"
+      WHEN NOT ${is_trade_customer}
         THEN ${parent_order_uid}
       ELSE false
     END
@@ -1045,7 +1100,7 @@ view: transactions {
     value_format: "##0.00%;(##0.00%)"
   }
   measure: diy_units_mix {
-    label: "Units Mix (DIY)"
+    label: "Unit Mix (DIY)"
     group_label: "Segmentation"
     type: number
     sql:
@@ -1145,7 +1200,7 @@ view: transactions {
     ;;
   }
   measure: total_gross_sales_main_mix {
-    label: "Gross Sales Mix (Trade)"
+    label: "Gross Sales Main Mix (Trade)"
     group_label: "Promo"
     description: "Mix is % vs Total Gross Sales"
     type: number
@@ -1156,7 +1211,7 @@ view: transactions {
     ;;
   }
   measure: total_gross_sales_extra_mix {
-    label: "Gross Sales Mix (Trade)"
+    label: "Gross Sales Extra Mix (Trade)"
     group_label: "Promo"
     description: "Mix is % vs Total Gross Sales"
     type: number
@@ -1198,19 +1253,20 @@ view: transactions {
   measure: total_net_sales_promo {
     label: "Net Sales (All)"
     group_label: "Promo"
-    type: number
+    description: "This needs fixing! 28/10"
+    type: sum
     sql:
 
     CASE
       WHEN ${promo_in_any}
-        THEN ${total_net_sales_main} + ${total_net_sales_extra}
+        THEN ${net_sales_value}
       ELSE 0
     END
 
     ;;
   }
   measure: total_net_sales_main_mix {
-    label: "Net Sales Mix (Trade)"
+    label: "Net Sales Main Mix (Trade)"
     group_label: "Promo"
     description: "Mix is % vs Total Net Sales"
     type: number
@@ -1221,7 +1277,7 @@ view: transactions {
     ;;
   }
   measure: total_net_sales_extra_mix {
-    label: "Net Sales Mix (Trade)"
+    label: "Net Sales Extra Mix (Trade)"
     group_label: "Promo"
     description: "Mix is % vs Total Net Sales"
     type: number
@@ -1275,7 +1331,7 @@ view: transactions {
     ;;
   }
   measure: total_margin_excl_funding_main_mix {
-    label: "Margin Exc Funding  Mix (Trade)"
+    label: "Margin Exc Funding Main Mix (Trade)"
     group_label: "Promo"
     description: "Mix is % vs Total Margin Exc Funding "
     type: number
@@ -1286,7 +1342,7 @@ view: transactions {
     ;;
   }
   measure: total_margin_excl_funding_extra_mix {
-    label: "Margin Exc Funding  Mix (Trade)"
+    label: "Margin Exc Funding Extra Mix (Trade)"
     group_label: "Promo"
     description: "Mix is % vs Total Margin Exc Funding "
     type: number
@@ -1328,19 +1384,19 @@ view: transactions {
   measure: total_margin_incl_funding_promo {
     label: "Margin Inc Funding  (All)"
     group_label: "Promo"
-    type: number
+    type: sum
     sql:
 
     CASE
       WHEN ${promo_in_any}
-        THEN ${total_margin_incl_funding_main} + ${total_margin_incl_funding_extra}
+        THEN ${margin_incl_funding}
       ELSE 0
     END
 
     ;;
   }
   measure: total_margin_incl_funding_main_mix {
-    label: "Margin Inc Funding  Mix (Trade)"
+    label: "Margin Inc Funding Main Mix (Trade)"
     group_label: "Promo"
     description: "Mix is % vs Total Margin Inc Funding "
     type: number
@@ -1351,7 +1407,7 @@ view: transactions {
     ;;
   }
   measure: total_margin_incl_funding_extra_mix {
-    label: "Margin Inc Funding  Mix (Trade)"
+    label: "Margin Inc Funding Extra Mix (Trade)"
     group_label: "Promo"
     description: "Mix is % vs Total Margin Inc Funding "
     type: number
@@ -1405,7 +1461,7 @@ view: transactions {
     ;;
   }
   measure: total_units_main_mix {
-    label: "Units  Mix (Trade)"
+    label: "Units Main Mix (Trade)"
     group_label: "Promo"
     description: "Mix is % vs Total Units "
     type: number
@@ -1416,7 +1472,7 @@ view: transactions {
     ;;
   }
   measure: total_units_extra_mix {
-    label: "Units  Mix (Trade)"
+    label: "Units Extra Mix (Trade)"
     group_label: "Promo"
     description: "Mix is % vs Total Units "
     type: number
@@ -1428,7 +1484,7 @@ view: transactions {
   }
 
   measure: total_number_of_transactions_main {
-    label: "Transactions  (Main)"
+    label: "Transactions (Main)"
     group_label: "Promo"
     type: number
     sql:
@@ -1442,7 +1498,7 @@ view: transactions {
     ;;
   }
   measure: total_number_of_transactions_extra {
-    label: "Transactions  (Extra)"
+    label: "Transactions (Extra)"
     group_label: "Promo"
     type: number
     sql:
@@ -1456,7 +1512,7 @@ view: transactions {
     ;;
   }
   measure: total_number_of_transactions_promo {
-    label: "Transactions  (All)"
+    label: "Transactions (All)"
     group_label: "Promo"
     type: number
     sql:
@@ -1470,7 +1526,7 @@ view: transactions {
     ;;
   }
   measure: total_number_of_transactions_main_mix {
-    label: "Transactions  Mix (Trade)"
+    label: "Transactions Main Mix (Trade)"
     group_label: "Promo"
     description: "Mix is % vs Total Transactions "
     type: number
@@ -1481,7 +1537,7 @@ view: transactions {
     ;;
   }
   measure: total_number_of_transactions_extra_mix {
-    label: "Transactions  Mix (Trade)"
+    label: "Transactions Extra Mix (Trade)"
     group_label: "Promo"
     description: "Mix is % vs Total Transactions "
     type: number

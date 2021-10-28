@@ -468,14 +468,14 @@ view: period_on_period {
     group_label: "Period Comparison"
     label: "Number of Period(s):"
     type: unquoted
-    # allowed_value: {
-    #   label: "Last Week - PREVIOUS DAY ONLY"
-    #   value: "LW"
-    # }
-    # allowed_value: {
-    #   label: "Last Month - PREVIOUS DAY ONLY"
-    #   value: "LM"
-    # }
+    allowed_value: {
+      label: "Last Week - PREVIOUS DAY ONLY"
+      value: "LW"
+    }
+    allowed_value: {
+      label: "Last Month - PREVIOUS DAY ONLY"
+      value: "LM"
+    }
     allowed_value: {
       label: "Current Year"
       value: "CY"
@@ -521,7 +521,16 @@ view: period_on_period {
 
           ${previous_full_day_LY} OR ${previous_full_day_2LY}
 
+        {% elsif previous_period_to_date._parameter_value == "LW" %}
+
+          ${previous_full_day_LW}
+
+        {% elsif previous_period_to_date._parameter_value == "LM" %}
+
+          ${previous_full_day_LM}
+
         {% else %}
+
 
           ${previous_full_day}
 
@@ -670,14 +679,7 @@ view: period_on_period {
 
     #     {% endif %}
 
-    # PD removed
-        # {% elsif previous_period_to_date._parameter_value == "LW" %}
 
-        #   ${previous_full_day_LW}
-
-        # {% elsif previous_period_to_date._parameter_value == "LM" %}
-
-        #   ${previous_full_day_LM}
     }
   filter: __filtered_date__ {
     view_label: "Calendar - Completed Date"

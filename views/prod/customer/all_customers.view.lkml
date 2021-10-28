@@ -134,6 +134,7 @@ view: customers {
     sql: ${TABLE}.flags.activeAccount ;;
     group_label: "Flags"
     group_item_label: "Active Account"
+    hidden: yes
   }
   dimension: flags__address_do_not_use {
     type: yesno
@@ -278,6 +279,18 @@ view: customers {
       year
     ]
     sql: ${TABLE}.updatedDate ;;
+  }
+
+  #####################
+
+  dimension: is_new_customer {
+    type: yesno
+    group_label: "Flags"
+    sql:
+
+    ${creation_date} >= CURRENT_DATE() - 30
+
+    ;;
   }
 
 }
