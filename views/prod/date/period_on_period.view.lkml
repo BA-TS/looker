@@ -72,6 +72,20 @@ view: period_on_period {
     hidden: no
   }
 
+  dimension: __target_week__ {
+    view_label: "Calendar - Completed Date"
+    group_label: "Transaction Date"
+    label: "Week"
+    can_filter: no
+    sql:
+
+    EXTRACT(WEEK FROM ${__target_date__})
+
+    ;;
+    hidden: no
+  }
+
+
 
 # ██╗░░██╗██╗██████╗░██████╗░███████╗███╗░░██╗
 # ██║░░██║██║██╔══██╗██╔══██╗██╔════╝████╗░██║
