@@ -256,7 +256,7 @@ view: transactions {
 
 
     # ;;
-    hidden: no
+    hidden: yes
   }
 
 
