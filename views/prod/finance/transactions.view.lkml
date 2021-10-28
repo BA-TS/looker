@@ -620,20 +620,6 @@ view: transactions {
     value_format: "##0.0%;(##0.0%)"
     hidden: yes
   }
-  measure: total_cogs {
-    label: "Total COGS"
-    type:  sum
-    sql: ${cogs} ;;
-    value_format: "\£#,##0.00;(\£#,##0.00)"
-    hidden: yes
-  }
-  measure: total_unit_funding {
-    label: "Total Unit Funding"
-    type:  sum
-    sql: ${unit_funding} ;;
-    value_format: "\£#,##0.00;(\£#,##0.00)"
-    hidden: yes
-  }
   dimension: customer_cluster{
     type: string
     description: "Placed in Transactions due to potential permissions requirement on Customers"
@@ -678,6 +664,20 @@ view: transactions {
     type:  sum
     sql: ${net_sales_value} ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
+  }
+  measure: total_cogs {
+    label: "Total COGS"
+    type:  sum
+    sql: ${cogs} ;;
+    value_format: "\£#,##0.00;(\£#,##0.00)"
+    hidden: no
+  }
+  measure: total_unit_funding {
+    label: "Total Unit Funding"
+    type:  sum
+    sql: ${unit_funding} ;;
+    value_format: "\£#,##0.00;(\£#,##0.00)"
+    hidden: no
   }
   measure: total_margin_excl_funding {
     label: "Margin (Excluding Funding)"
