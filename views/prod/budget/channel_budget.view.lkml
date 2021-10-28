@@ -89,18 +89,26 @@ view: channel_budget {
     sql: ${fixed_funding} ;;
   }
   measure: channel_gross_margin_inc_unit_funding_budget {
+
     label: "Gross Margin Inc Unit Funding Budget"
     description: "Budget - Retro Funding at Channel level only"
     group_label: "Sales Channel"
     type: number
-    sql: sum(${gross_profit}+${retro_funding}) ;;
+    sql: ${channel_gross_profit_Excl_funding_budget} + ${channel_retro_funding_budget}  ;;
   }
   measure: channel_gross_margin_inc_all_funding_budget {
     label: "Gross Margin Inc All Funding Budget"
     description: "Budget - Gross Margin Inc All Funding at Channel level only"
     group_label: "Sales Channel"
     type: number
-    sql: sum(${gross_profit}+${retro_funding}+${fixed_funding}) ;;
+    sql: ${channel_gross_profit_Excl_funding_budget} + ${channel_retro_funding_budget} + ${channel_fixed_funding_budget} ;;
+  }
+  measure: channel_margin_rate_inc_retro_funding_budget {
+    label: "Margin Rate Inc Retro Funding Budget"
+    type: number
+    group_label: "Sales Channel"
+    sql:  SAFE_DIVIDE(${channel_gross_margin_inc_unit_funding_budget}, ${channel_net_sales_budget}) ;;
+    value_format: "##0.0%;(##0.0%)"
   }
 
 }
