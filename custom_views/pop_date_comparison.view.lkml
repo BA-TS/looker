@@ -5,6 +5,7 @@ view: pop_date_comparison {
 #week timeframe - what days is it defined on by default??
 
   extension: required
+  extends: [transactions]
 
   filter: current_date_range {
     view_label: "Period Comparison Fields"
