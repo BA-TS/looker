@@ -134,8 +134,13 @@ view: calendar {
   }
   dimension: is_last_day_of_month {
     group_label: "Flags"
-    type: number
-    sql: ${TABLE}.isLastDayOfMonth ;;
+    type: yesno
+    sql: ${TABLE}.isLastDayOfMonth = 1 ;;
+  }
+  dimension: is_first_day_of_month {
+    group_label: "Flags"
+    type: yesno
+    sql: ${TABLE}.dayInMonth = 1 ;;
   }
   dimension: is_weekend {
     group_label: "Flags"
