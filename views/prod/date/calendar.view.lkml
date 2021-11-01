@@ -12,22 +12,22 @@ view: calendar {
     sql: ${TABLE}.fullDate ;;
   }
   dimension: calendar_quarter {
-    group_label: "Core"
+    group_label: "Calendar"
     type: number
     sql: ${TABLE}.calendarQuarter ;;
   }
   dimension: calendar_year {
-    group_label: "Core"
+    group_label: "Calendar"
     type: number
     sql: ${TABLE}.calendarYear ;;
   }
   dimension: calendar_year_month {
-    group_label: "Core"
+    group_label: "Calendar"
     type: string
     sql: ${TABLE}.calendarYearMonth ;;
   }
   dimension: calendar_year_quarter {
-    group_label: "Core"
+    group_label: "Calendar"
     type: string
     sql: ${TABLE}.calendarYearQuarter ;;
   }
@@ -35,21 +35,25 @@ view: calendar {
     group_label: "Date"
     type: number
     sql: ${TABLE}.dateKey ;;
+    hidden: yes
   }
   dimension: date_name {
     group_label: "Date"
     type: string
     sql: ${TABLE}.dateName ;;
+    hidden: yes
   }
   dimension: date_name_eu {
     group_label: "Date"
     type: string
     sql: ${TABLE}.dateNameEU ;;
+    hidden: yes
   }
   dimension: date_name_usa {
     group_label: "Date"
     type: string
     sql: ${TABLE}.dateNameUSA ;;
+    hidden: yes
   }
   dimension: day_in_month {
     group_label: "Day"
@@ -75,6 +79,7 @@ view: calendar {
     group_label: "Fiscal"
     type: number
     sql: ${TABLE}.fiscalMonthOfYear ;;
+    can_filter: no
   }
   dimension: fiscal_quarter {
     group_label: "Fiscal"
@@ -138,18 +143,36 @@ view: calendar {
     sql: ${TABLE}.isWeekend ;;
   }
   dimension: month_in_year {
-    group_label: "Core"
+    group_label: "Calendar"
     type: number
     sql: ${TABLE}.monthInYear ;;
   }
   dimension: month_name_in_year {
-    group_label: "Core"
+    group_label: "Calendar"
     type: string
     sql: ${TABLE}.monthNameInYear ;;
   }
   dimension: week_in_year {
-    group_label: "Core"
+    group_label: "Calendar"
     type: number
     sql: ${TABLE}.weekInYear ;;
   }
+
+  ###############################
+
+
+
+
+  filter: fiscal_month_of_year_filter{
+    group_label: "Fiscal"
+    type: number
+    sql: ${fiscal_month_of_year} ;;
+  }
+
+
+
+
+
+
+
 }
