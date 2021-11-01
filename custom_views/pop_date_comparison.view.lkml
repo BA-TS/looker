@@ -5,6 +5,7 @@ view: pop_date_comparison {
 #week timeframe - what days is it defined on by default??
 
   extension: required
+
   filter: current_date_range {
     view_label: "Period Comparison Fields"
     label: "1. Date Range"
@@ -23,12 +24,19 @@ view: pop_date_comparison {
   }
 
   dimension_group: in_period {
+    view_label: "TEST"
     type: duration
     intervals: [day]
     description: "Gives the number of days in the current period date range"
     sql_start: {% date_start current_date_range %} ;;
     sql_end: {% date_end current_date_range %} ;;
-    hidden:  yes
+    hidden:  no
+  }
+
+  dimension: period_start {
+    type: date
+    view_label: "TEST"
+    sql:  {% date_start transactions.transaction_date_coalesce_date %};;
   }
 
   dimension: period_2_start {

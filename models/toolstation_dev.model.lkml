@@ -17,14 +17,15 @@ datagroup: toolstation_transactions_datagroup {
 
 explore: transactions {
 
-  always_filter: {
-    filters: [period_to_date: "PD", previous_period_to_date: "CY"]
-  }
+  # always_filter: {
+  #   filters: [period_to_date: "PD", previous_period_to_date: "CY"]
+  # }
   # access_filter: {} -- to look at
 
 
+  # ${pivot_period}
   sql_always_where:
-  ${pivot_period}
+  TRUE
   AND
   (${is_cancelled} = 0 or ${is_cancelled} is null) AND (${product_code} <> '85699' or ${product_code} is null)
 

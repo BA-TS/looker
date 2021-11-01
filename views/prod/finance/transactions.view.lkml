@@ -210,7 +210,7 @@ view: transactions {
     hidden: yes
   }
   dimension: transaction_date_coalesce {
-    view_label: "Hello!"
+    view_label: "TEST!"
     type: date
     datatype: timestamp
     description: "Please use the date available in period_on_period.view."
@@ -256,7 +256,15 @@ view: transactions {
 
 
     # ;;
-    hidden: yes
+    hidden: no
+  }
+
+  dimension: transaction_date_coalesce_date {
+    view_label: "TEST"
+    type: date
+    datatype: date
+    description: "Please use the date available in period_on_period.view."
+    sql: date(${transaction_date_coalesce});;
   }
 
 
