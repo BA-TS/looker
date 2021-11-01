@@ -44,21 +44,23 @@ view: period_on_period {
     datatype: datetime
     sql:
 
-    ${transaction_date_coalesce}
+    CURRENT_DATE()
 
     ;;
     hidden: yes
   }
+  # ${transaction_date_coalesce}
   dimension: __target_date__ {
     type: date
     datatype: date
     sql:
 
-    DATE(${transaction_date_coalesce})
+    CURRENT_DATE()
 
     ;;
     hidden: yes
   }
+  # DATE(${transaction_date_coalesce})
   dimension: __target_year__ {
     view_label: "Calendar - Completed Date"
     group_label: "Transaction Date"
