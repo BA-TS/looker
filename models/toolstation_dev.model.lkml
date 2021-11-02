@@ -15,7 +15,20 @@ datagroup: toolstation_transactions_datagroup {
   max_cache_age: "22 hour"
 }
 
+access_grant: can_view_tstdtlcont {
+  user_attribute: ts_transactions
+  allowed_values: ["Y"]
+}
+
+
+
+
+
+
+
+
 explore: transactions {
+
 
   always_filter: {
     filters: [period_to_date: "PD", previous_period_to_date: "CY"]
@@ -173,7 +186,9 @@ explore: stock_level_date_site_product {
 
 ########
 explore: view_weeklyconversion_testl {}
-explore: test_dgtl_ds_contibution {}
+explore: test_dgtl_ds_contibution {
+  required_access_grants: [can_view_tstdtlcont]
+}
 
 
 explore: digital_product_conversion {
