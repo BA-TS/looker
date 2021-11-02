@@ -97,6 +97,7 @@ view: customers {
     sql: ${TABLE}.customer.firstName ;;
     group_label: "Customer"
     group_item_label: "First Name"
+    required_access_grants: [can_use_customer_information]
   }
   dimension: customer__last_name {
     type: string

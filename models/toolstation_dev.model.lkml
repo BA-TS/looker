@@ -24,7 +24,7 @@ access_grant: can_use_customers {
   allowed_values: ["CUSTOMERS"]
 }
 access_grant: can_use_customer_information {
-  user_attribute: gdpr_approved
+  user_attribute: ts_sensitive
   allowed_values: ["Y"]
 }
 
@@ -191,9 +191,9 @@ explore: stock_level_date_site_product {
 
 ########
 # explore: view_weeklyconversion_testl {}
-explore: test_dgtl_ds_contibution {
-  required_access_grants: [can_use_transactions]
-}
+# explore: test_dgtl_ds_contibution {
+  # required_access_grants: [can_use_transactions] # works!!
+# }
 
 
 explore: digital_product_conversion {
