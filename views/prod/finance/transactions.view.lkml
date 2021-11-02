@@ -667,6 +667,7 @@ view: transactions {
   }
   measure: total_cogs {
     label: "Total COGS"
+    group_label: "Core"
     type:  sum
     sql: ${cogs} ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
@@ -674,6 +675,7 @@ view: transactions {
   }
   measure: total_unit_funding {
     label: "Total Unit Funding"
+    group_label: "Core"
     type:  sum
     sql: ${unit_funding} ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
