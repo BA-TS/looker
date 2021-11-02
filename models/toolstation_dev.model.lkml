@@ -27,7 +27,10 @@ access_grant: can_use_customer_information {
   user_attribute: ts_sensitive
   allowed_values: ["Y"]
 }
-
+access_grant: is_developer {
+  user_attribute: ts_developer
+  allowed_values: ["Y"]
+}
 
 
 
@@ -189,11 +192,12 @@ explore: stock_level_date_site_product {
 
 }
 
-########
+
 # explore: view_weeklyconversion_testl {}
-# explore: test_dgtl_ds_contibution {
-  # required_access_grants: [can_use_transactions] # works!!
-# }
+
+explore: test_dgtl_ds_contibution {
+  required_access_grants: [is_developer]
+}
 
 
 explore: digital_product_conversion {
