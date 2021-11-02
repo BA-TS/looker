@@ -1111,6 +1111,9 @@ include: "/custom_views/**/*.view"
   }
 
   explore: trans_7_day_moving_avg_all {
+
+    required_access_grants: [is_developer] #!
+
     label: "Sales - 7 Day Moving Averages"
     view_label: "Sales - 7 Day Moving Averages"
     persist_with: toolstation_transactions_datagroup

@@ -194,10 +194,7 @@ explore: stock_level_date_site_product {
 
 
 # explore: view_weeklyconversion_testl {}
-
-explore: test_dgtl_ds_contibution {
-  required_access_grants: [is_developer]
-}
+# explore: test_dgtl_ds_contibution {}
 
 
 explore: digital_product_conversion {
