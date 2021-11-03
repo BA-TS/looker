@@ -80,16 +80,19 @@ view: calendar {
     type: number
     sql: ${TABLE}.fiscalMonthOfYear ;;
     can_filter: no
+    hidden:  yes
   }
   dimension: fiscal_quarter {
     group_label: "Fiscal"
     type: number
     sql: ${TABLE}.fiscalQuarter ;;
+    hidden:  yes
   }
   dimension: fiscal_week_of_year {
     group_label: "Fiscal"
     type: number
     sql: ${TABLE}.fiscalWeekOfYear ;;
+    hidden:  yes
   }
   dimension: fiscal_year {
     group_label: "Fiscal"
@@ -100,11 +103,13 @@ view: calendar {
     group_label: "Fiscal"
     type: string
     sql: ${TABLE}.fiscalYearMonth ;;
+    hidden:  yes
   }
   dimension: fiscal_year_quarter {
     group_label: "Fiscal"
     type: string
     sql: ${TABLE}.fiscalYearQuarter ;;
+    hidden:  yes
   }
   dimension: fiscal_year_week {
     group_label: "Fiscal"
@@ -161,6 +166,7 @@ view: calendar {
     group_label: "Calendar"
     type: number
     sql: ${TABLE}.weekInYear ;;
+    hidden:  yes
   }
 
   ###############################
