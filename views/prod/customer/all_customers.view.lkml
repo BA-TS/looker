@@ -12,60 +12,70 @@ view: customers {
     sql: ${TABLE}.address.addressLine1 ;;
     group_label: "Address"
     group_item_label: "Address Line 1"
+    required_access_grants: [can_use_customer_information]
   }
   dimension: address__address_line2 {
     type: string
     sql: ${TABLE}.address.addressLine2 ;;
     group_label: "Address"
     group_item_label: "Address Line 2"
+    required_access_grants: [can_use_customer_information]
   }
   dimension: address__address_line3 {
     type: string
     sql: ${TABLE}.address.addressLine3 ;;
     group_label: "Address"
     group_item_label: "Address Line 3"
+    required_access_grants: [can_use_customer_information]
   }
   dimension: address__address_line4 {
     type: string
     sql: ${TABLE}.address.addressLine4 ;;
     group_label: "Address"
     group_item_label: "Address Line 4"
+    required_access_grants: [can_use_customer_information]
   }
   dimension: address__address_line5 {
     type: string
     sql: ${TABLE}.address.addressLine5 ;;
     group_label: "Address"
     group_item_label: "Address Line 5"
+    required_access_grants: [can_use_customer_information]
   }
   dimension: address__address_uid {
     type: string
     sql: ${TABLE}.address.addressUID ;;
     group_label: "Address"
     group_item_label: "Address UID"
+    required_access_grants: [can_use_customer_information]
   }
   dimension: address__country {
     type: string
     sql: ${TABLE}.address.country ;;
     group_label: "Address"
     group_item_label: "Country"
+    required_access_grants: [can_use_customer_information]
   }
   dimension: address__country_code {
     type: string
     sql: ${TABLE}.address.countryCode ;;
     group_label: "Address"
     group_item_label: "Country Code"
+    required_access_grants: [can_use_customer_information]
   }
   dimension: address__country_code2 {
     type: string
     sql: ${TABLE}.address.countryCode2 ;;
     group_label: "Address"
     group_item_label: "Country Code 2"
+    required_access_grants: [can_use_customer_information]
   }
   dimension: address__postcode {
     type: string
     sql: ${TABLE}.address.postcode ;;
     group_label: "Address"
     group_item_label: "Postcode"
+    required_access_grants: [can_use_customer_information]
   }
   dimension_group: creation {
     type: time
@@ -85,42 +95,49 @@ view: customers {
     sql: ${TABLE}.customer.company ;;
     group_label: "Customer"
     group_item_label: "Company"
+    required_access_grants: [can_use_customer_information]
   }
   dimension: customer__email {
     type: string
     sql: ${TABLE}.customer.email ;;
     group_label: "Customer"
     group_item_label: "Email"
+    required_access_grants: [can_use_customer_information]
   }
   dimension: customer__first_name {
     type: string
     sql: ${TABLE}.customer.firstName ;;
     group_label: "Customer"
     group_item_label: "First Name"
+    required_access_grants: [can_use_customer_information]
   }
   dimension: customer__last_name {
     type: string
     sql: ${TABLE}.customer.lastName ;;
     group_label: "Customer"
     group_item_label: "Last Name"
+    required_access_grants: [can_use_customer_information]
   }
   dimension: customer__mobile {
     type: string
     sql: ${TABLE}.customer.mobile ;;
     group_label: "Customer"
     group_item_label: "Mobile"
+    required_access_grants: [can_use_customer_information]
   }
   dimension: customer__telephone {
     type: string
     sql: ${TABLE}.customer.telephone ;;
     group_label: "Customer"
     group_item_label: "Telephone"
+    required_access_grants: [can_use_customer_information]
   }
   dimension: customer__title {
     type: string
     sql: ${TABLE}.customer.title ;;
     group_label: "Customer"
     group_item_label: "Title"
+    required_access_grants: [can_use_customer_information]
   }
   dimension: customer_uid {
     type: string

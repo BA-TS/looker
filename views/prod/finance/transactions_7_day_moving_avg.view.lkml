@@ -1110,30 +1110,34 @@
 #     }
 #   }
 
-#   explore: trans_7_day_moving_avg_all {
-#     label: "Sales - 7 Day Moving Averages"
-#     view_label: "Sales - 7 Day Moving Averages"
-#     persist_with: toolstation_transactions_datagroup
-#     always_join: [trans_7_day_moving_avg_channel_department,trans_7_day_moving_avg_channel_site,trans_7_day_moving_avg_department_site,trans_7_day_moving_avg_channel_department_site]
-#     sql_always_where:
-#     {% if trans_7_day_moving_avg_all.current_date_range._is_filtered %}
-#     {% condition trans_7_day_moving_avg_all.current_date_range %} ${event_raw} {% endcondition %}
+  # explore: trans_7_day_moving_avg_all {
 
-#     {% if trans_7_day_moving_avg_all.previous_date_range._is_filtered or trans_7_day_moving_avg_all.compare_to._in_query %}
-#     {% if trans_7_day_moving_avg_all.comparison_periods._parameter_value == "2" %}
-#     or
-#     ${event_raw} between ${period_2_start} and ${period_2_end}
+  #   required_access_grants: [is_developer] #!
 
-#     {% elsif trans_7_day_moving_avg_all.comparison_periods._parameter_value == "3" %}
-#     or
-#     ${event_raw} between ${period_2_start} and ${period_2_end}
-#     or
-#     ${event_raw} between ${period_3_start} and ${period_3_end}
+  #   label: "Sales - 7 Day Moving Averages"
+  #   view_label: "Sales - 7 Day Moving Averages"
+  #   persist_with: toolstation_transactions_datagroup
+  #   always_join: [trans_7_day_moving_avg_channel_department,trans_7_day_moving_avg_channel_site,trans_7_day_moving_avg_department_site,trans_7_day_moving_avg_channel_department_site]
+  #   sql_always_where:
+  #   {% if trans_7_day_moving_avg_all.current_date_range._is_filtered %}
+  #   {% condition trans_7_day_moving_avg_all.current_date_range %} ${event_raw} {% endcondition %}
 
-#     {% endif %}
-#     {% else %} 1 = 1
-#     {% endif %}
-#     {% endif %};;
+
+  #   {% if trans_7_day_moving_avg_all.previous_date_range._is_filtered or trans_7_day_moving_avg_all.compare_to._in_query %}
+  #   {% if trans_7_day_moving_avg_all.comparison_periods._parameter_value == "2" %}
+  #   or
+  #   ${event_raw} between ${period_2_start} and ${period_2_end}
+
+  #   {% elsif trans_7_day_moving_avg_all.comparison_periods._parameter_value == "3" %}
+  #   or
+  #   ${event_raw} between ${period_2_start} and ${period_2_end}
+  #   or
+  #   ${event_raw} between ${period_3_start} and ${period_3_end}
+
+  #   {% endif %}
+  #   {% else %} 1 = 1
+  #   {% endif %}
+  #   {% endif %};;
 
 #     join: trans_7_day_moving_avg_channel {
 #       view_label: "Sales - 7 Day Moving Averages"

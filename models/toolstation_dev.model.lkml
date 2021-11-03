@@ -15,13 +15,34 @@ datagroup: toolstation_transactions_datagroup {
   max_cache_age: "22 hour"
 }
 
+access_grant: can_use_transactions {
+  user_attribute: ts_permissions
+  allowed_values: ["TRANSACTIONS"]
+}
+access_grant: can_use_customers {
+  user_attribute: ts_permissions
+  allowed_values: ["CUSTOMERS"]
+}
+access_grant: can_use_customer_information {
+  user_attribute: ts_sensitive # CG - considering wider group option of BU_sensitive flag
+  allowed_values: ["Y"]
+}
+access_grant: is_developer {
+  user_attribute: ts_developer
+  allowed_values: ["Y"]
+}
+
+
+
+
+
+
 explore: transactions {
 
   # always_filter: {
   #   filters: [period_to_date: "PD", previous_period_to_date: "CY"]
   # }
   # access_filter: {} -- to look at
-
 
   # ${pivot_period}
   sql_always_where:
@@ -172,9 +193,9 @@ explore: stock_level_date_site_product {
 
 }
 
-########
-explore: view_weeklyconversion_testl {}
-explore: test_dgtl_ds_contibution {}
+
+# explore: view_weeklyconversion_testl {}
+# explore: test_dgtl_ds_contibution {}
 
 
 explore: digital_product_conversion {
