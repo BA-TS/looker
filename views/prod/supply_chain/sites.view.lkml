@@ -4,6 +4,7 @@ view: sites {
   drill_fields: [site_uid]
 
   dimension: site_uid {
+    required_access_grants: [is_developer]
     primary_key: yes
     hidden:  yes
     label: "Site UID - Sites"

@@ -44,7 +44,7 @@ view: period_on_period {
     datatype: datetime
     sql:
 
-    CURRENT_DATE()
+    ${transaction_date_coalesce}
 
     ;;
     hidden: yes
@@ -55,7 +55,7 @@ view: period_on_period {
     datatype: date
     sql:
 
-    CURRENT_DATE()
+    DATE(${transaction_date_coalesce})
 
     ;;
     hidden: yes
@@ -519,6 +519,8 @@ view: period_on_period {
     hidden: yes
     sql:
 
+    {% if period_to_date._in_query %}
+
       {% if period_to_date._parameter_value == "PD" %}
 
         {% if previous_period_to_date._parameter_value == "CY" %}
@@ -653,6 +655,12 @@ view: period_on_period {
       {% endif %}
 
     {% endif %}
+
+    {% else %}
+
+    true
+
+    {%endif%}
 
     ;;
 

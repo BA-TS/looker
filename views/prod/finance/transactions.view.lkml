@@ -199,7 +199,8 @@ view: transactions {
     hidden: yes
   }
   dimension_group: transaction {
-    description: "Please use the date available in period_on_period.view."
+    label: "Transaction"
+    description: "This has been temporarily added and should not be relied upon long term."
     type: time
     timeframes: [
       raw,
@@ -207,10 +208,12 @@ view: transactions {
       date
     ]
     sql: ${TABLE}.transactiondate ;;
-    hidden: yes
+    hidden: no
   }
   dimension: transaction_date_coalesce {
+    required_access_grants: [is_developer]
     view_label: "TEST!"
+    hidden:  yes
     type: date
     datatype: timestamp
     description: "Please use the date available in period_on_period.view."
@@ -256,7 +259,6 @@ view: transactions {
 
 
     # ;;
-    hidden: no
   }
 
   dimension: transaction_date_coalesce_date {
@@ -265,6 +267,7 @@ view: transactions {
     datatype: date
     description: "Please use the date available in period_on_period.view."
     sql: date(${transaction_date_coalesce});;
+    hidden: yes
   }
 
 
@@ -386,30 +389,35 @@ view: transactions {
     sql: ${TABLE}.isLFL = 1 ;;
   }
   dimension: is_mature {
+
     group_label: "Flags"
     label: "Mature"
     type: yesno
     sql: ${TABLE}.isMature = 1 ;;
   }
   dimension: is_open18_months {
+    required_access_grants: [is_developer]
     group_label: "Flags"
     label: "Open 18 Months"
     type: yesno
     sql: ${TABLE}.isOpen18Months = 1 ;;
   }
   dimension: is_originating_lfl {
+    required_access_grants: [is_developer]
     group_label: "Flags"
     label: "Originating LFL"
     type: yesno
     sql: ${TABLE}.isOriginatingLFL = 1 ;;
   }
   dimension: is_originating_mature {
+    required_access_grants: [is_developer]
     group_label: "Flags"
     label: "Originating Mature"
     type: yesno
     sql: ${TABLE}.isOriginatingMature = 1 ;;
   }
   dimension: is_originating_open18_months {
+    required_access_grants: [is_developer]
     group_label: "Flags"
     label: "Originating Open (18 Months)"
     type: yesno
@@ -419,12 +427,14 @@ view: transactions {
   # ORDER DETAILS #
 
   dimension: order_reason {
+    required_access_grants: [is_developer]
     group_label: "Order Details"
     label: "Reason for Order"
     type: string
     sql: ${TABLE}.orderReason ;;
   }
   dimension: order_special_requests {
+    required_access_grants: [is_developer]
     group_label: "Order Details"
     label: "Special Requests"
     type: string
@@ -451,18 +461,21 @@ view: transactions {
   dimension: promo_in_main_catalogue {
     label: "In Main Catalogue"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     type: yesno
     sql: case when ${promo_main_catalogue.product_code} is null then false else true end ;;
   }
   dimension: promo_in_extra {
     label: "In Extra"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     type: yesno
     sql: case when ${promo_extra.product_code} is null then false else true end ;;
   }
   dimension: promo_in_any {
     label: "In Any"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     type: yesno
     sql: case when ${promo_main_catalogue.product_code} is null and ${promo_extra.product_code} is null then false else true end ;;
   }
@@ -751,6 +764,7 @@ view: transactions {
   # Detail SEGMENT (T/D only) #
 
   measure: number_of_trade_customers {
+    required_access_grants: [is_expert]
     group_label: "Segmentation"
     label: "Number of Customers (Trade)"
     type: count_distinct
@@ -765,6 +779,7 @@ view: transactions {
     ;;
   }
   measure: number_of_diy_customers {
+    required_access_grants: [is_expert]
     group_label: "Segmentation"
     label: "Number of Customers (DIY)"
     type: count_distinct
@@ -780,6 +795,7 @@ view: transactions {
   }
 
   measure: percentage_of_customers_trade {
+    required_access_grants: [is_expert]
     group_label: "Segmentation"
     label: "Percentage of Customers (Trade)"
     type: number
@@ -791,6 +807,7 @@ view: transactions {
     value_format: "##0.0%;(##0.0%)"
   }
   measure: percentage_of_customers_diy {
+    required_access_grants: [is_expert]
     group_label: "Segmentation"
     label: "Percentage of Customers (DIY)"
     type: number
@@ -806,6 +823,7 @@ view: transactions {
 
 
   measure: trade_gross_sales {
+    required_access_grants: [is_expert]
     label: "Gross Sales"
     type: sum
     group_label: "Trade"
@@ -820,6 +838,7 @@ view: transactions {
     ;;
   }
   measure: diy_gross_sales {
+    required_access_grants: [is_expert]
     label: "Gross Sales"
     type: sum
     group_label: "DIY"
@@ -834,6 +853,7 @@ view: transactions {
      ;;
   }
   measure: trade_net_sales {
+    required_access_grants: [is_expert]
     label: "Net Sales"
     type: sum
     group_label: "Trade"
@@ -848,6 +868,7 @@ view: transactions {
     ;;
   }
   measure: diy_net_sales {
+    required_access_grants: [is_expert]
     type: sum
     label: "Total Net Sales"
     group_label: "DIY"
@@ -863,6 +884,7 @@ view: transactions {
      ;;
   }
   measure: trade_margin_excl_funding {
+    required_access_grants: [is_expert]
     label: "Margin Exc Funding"
     type: sum
     group_label: "Trade"
@@ -877,6 +899,7 @@ view: transactions {
     ;;
   }
   measure: diy_margin_excl_funding {
+    required_access_grants: [is_expert]
     label: "Margin Exc Funding"
     type: sum
     group_label: "DIY"
@@ -892,6 +915,7 @@ view: transactions {
     ;;
   }
   measure: trade_margin_incl_funding {
+    required_access_grants: [is_expert]
     label: "Margin Inc Funding"
     type: sum
     group_label: "Trade"
@@ -906,6 +930,7 @@ view: transactions {
     ;;
   }
   measure: diy_margin_incl_funding {
+    required_access_grants: [is_expert]
     label: "Margin Inc Funding"
     type: sum
     group_label: "DIY"
@@ -923,6 +948,7 @@ view: transactions {
   ## MR % x 2
 
   measure: trade_units {
+    required_access_grants: [is_expert]
     label: "Units"
     type: sum
     group_label: "Trade"
@@ -937,6 +963,7 @@ view: transactions {
     ;;
   }
   measure: diy_units {
+    required_access_grants: [is_expert]
     label: "Units"
     type: sum
     group_label: "DIY"
@@ -951,6 +978,7 @@ view: transactions {
     ;;
   }
   measure: trade_units_incl_system_codes {
+    required_access_grants: [is_expert]
     label: "Units Inc System"
     type: sum
     group_label: "Trade"
@@ -965,6 +993,7 @@ view: transactions {
     ;;
   }
   measure: diy_units_incl_system_codes {
+    required_access_grants: [is_expert]
     label: "Units Inc System"
     type: sum
     group_label: "DIY"
@@ -979,6 +1008,7 @@ view: transactions {
     ;;
   }
   measure: trade_number_of_transactions {
+    required_access_grants: [is_expert]
     label: "Number of Transactions"
     type: count_distinct
     group_label: "Trade"
@@ -995,6 +1025,7 @@ view: transactions {
 
   }
   measure: diy_number_of_transactions {
+    required_access_grants: [is_expert]
     label: "Number of Transactions"
     type: sum
     group_label: "DIY"
@@ -1010,6 +1041,7 @@ view: transactions {
   }
 
   measure: trade_gross_sales_mix {
+    required_access_grants: [is_expert]
     label: "Gross Sales Mix (Trade)"
     group_label: "Segmentation"
     type: number
@@ -1021,6 +1053,7 @@ view: transactions {
     value_format: "##0.00%;(##0.00%)"
   }
   measure: diy_gross_sales_mix {
+    required_access_grants: [is_expert]
     label: "Gross Sales Mix (DIY)"
     group_label: "Segmentation"
     type: number
@@ -1032,6 +1065,7 @@ view: transactions {
     value_format: "##0.00%;(##0.00%)"
   }
   measure: trade_net_sales_mix {
+    required_access_grants: [is_expert]
     label: "Net Sales Mix (Trade)"
     group_label: "Segmentation"
     type: number
@@ -1043,6 +1077,7 @@ view: transactions {
     value_format: "##0.00%;(##0.00%)"
   }
   measure: diy_net_sales_mix {
+    required_access_grants: [is_expert]
     label: "Net Sales Mix (DIY)"
     group_label: "Segmentation"
     type: number
@@ -1054,6 +1089,7 @@ view: transactions {
     value_format: "##0.00%;(##0.00%)"
   }
   measure: trade_margin_excl_funding_mix {
+    required_access_grants: [is_expert]
     label: "Margin Excl Funding Mix (Trade)"
     group_label: "Segmentation"
     type: number
@@ -1065,6 +1101,7 @@ view: transactions {
     value_format: "##0.00%;(##0.00%)"
   }
   measure: diy_margin_excl_funding_mix {
+    required_access_grants: [is_expert]
     label: "Margin Excl Funding Mix (DIY)"
     group_label: "Segmentation"
     type: number
@@ -1076,6 +1113,7 @@ view: transactions {
     value_format: "##0.00%;(##0.00%)"
   }
   measure: trade_margin_incl_funding_mix {
+    required_access_grants: [is_expert]
     label: "Margin Inc Funding Mix (Trade)"
     group_label: "Segmentation"
     type: number
@@ -1087,6 +1125,7 @@ view: transactions {
     value_format: "##0.00%;(##0.00%)"
   }
   measure: diy_margin_incl_funding_mix {
+    required_access_grants: [is_expert]
     label: "Margin Inc Funding Mix (DIY)"
     group_label: "Segmentation"
     type: number
@@ -1099,6 +1138,7 @@ view: transactions {
   }
   # MR % x 2
   measure: trade_units_mix {
+    required_access_grants: [is_expert]
     label: "Unit Mix (Trade)"
     group_label: "Segmentation"
     type: number
@@ -1110,6 +1150,7 @@ view: transactions {
     value_format: "##0.00%;(##0.00%)"
   }
   measure: diy_units_mix {
+    required_access_grants: [is_expert]
     label: "Unit Mix (DIY)"
     group_label: "Segmentation"
     type: number
@@ -1121,6 +1162,7 @@ view: transactions {
     value_format: "##0.00%;(##0.00%)"
   }
   measure: trade_units_incl_system_codes_mix {
+    required_access_grants: [is_expert]
     label: "Unit System Codes Mix (Trade)"
     group_label: "Segmentation"
     type: number
@@ -1132,6 +1174,7 @@ view: transactions {
     value_format: "##0.00%;(##0.00%)"
   }
   measure: diy_units_incl_system_codes_mix {
+    required_access_grants: [is_expert]
     label: "Unit System Codes Mix (DIY)"
     group_label: "Segmentation"
     type: number
@@ -1143,6 +1186,7 @@ view: transactions {
     value_format: "##0.00%;(##0.00%)"
   }
   measure: trade_number_of_transactions_mix {
+    required_access_grants: [is_expert]
     label: "Number of Transactions Mix (Trade)"
     group_label: "Segmentation"
     type: number
@@ -1154,6 +1198,7 @@ view: transactions {
     value_format: "##0.00%;(##0.00%)"
   }
   measure: diy_number_of_transactions_mix {
+    required_access_grants: [is_expert]
     label: "Number of Transactions Mix (DIY)"
     group_label: "Segmentation"
     type: number
@@ -1170,6 +1215,7 @@ view: transactions {
   measure: total_gross_sales_main {
     label: "Gross Sales (Main)"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     type: number
     sql:
 
@@ -1184,6 +1230,7 @@ view: transactions {
   measure: total_gross_sales_extra {
     label: "Gross Sales (Extra)"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     type: number
     sql:
 
@@ -1198,6 +1245,7 @@ view: transactions {
   measure: total_gross_sales_promo {
     label: "Gross Sales (All)"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     type: number
     sql:
 
@@ -1212,6 +1260,7 @@ view: transactions {
   measure: total_gross_sales_main_mix {
     label: "Gross Sales Main Mix (Trade)"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     description: "Mix is % vs Total Gross Sales"
     type: number
     sql:
@@ -1223,6 +1272,7 @@ view: transactions {
   measure: total_gross_sales_extra_mix {
     label: "Gross Sales Extra Mix (Trade)"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     description: "Mix is % vs Total Gross Sales"
     type: number
     sql:
@@ -1235,6 +1285,7 @@ view: transactions {
   measure: total_net_sales_main {
     label: "Net Sales (Main)"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     type: sum
     sql:
 
@@ -1249,6 +1300,7 @@ view: transactions {
   measure: total_net_sales_extra {
     label: "Net Sales (Extra)"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     type: sum
     sql:
 
@@ -1263,6 +1315,7 @@ view: transactions {
   measure: total_net_sales_promo {
     label: "Net Sales (All)"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     description: "This needs fixing! 28/10"
     type: sum
     sql:
@@ -1278,6 +1331,7 @@ view: transactions {
   measure: total_net_sales_main_mix {
     label: "Net Sales Main Mix (Trade)"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     description: "Mix is % vs Total Net Sales"
     type: number
     sql:
@@ -1289,6 +1343,7 @@ view: transactions {
   measure: total_net_sales_extra_mix {
     label: "Net Sales Extra Mix (Trade)"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     description: "Mix is % vs Total Net Sales"
     type: number
     sql:
@@ -1301,6 +1356,7 @@ view: transactions {
   measure: total_margin_excl_funding_main {
     label: "Margin Exc Funding  (Main)"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     type: sum
     sql:
 
@@ -1315,6 +1371,7 @@ view: transactions {
   measure: total_margin_excl_funding_extra {
     label: "Margin Exc Funding  (Extra)"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     type: sum
     sql:
 
@@ -1329,6 +1386,7 @@ view: transactions {
   measure: total_margin_excl_funding_promo {
     label: "Margin Exc Funding  (All)"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     type: number
     sql:
 
@@ -1343,6 +1401,7 @@ view: transactions {
   measure: total_margin_excl_funding_main_mix {
     label: "Margin Exc Funding Main Mix (Trade)"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     description: "Mix is % vs Total Margin Exc Funding "
     type: number
     sql:
@@ -1354,6 +1413,7 @@ view: transactions {
   measure: total_margin_excl_funding_extra_mix {
     label: "Margin Exc Funding Extra Mix (Trade)"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     description: "Mix is % vs Total Margin Exc Funding "
     type: number
     sql:
@@ -1366,6 +1426,7 @@ view: transactions {
   measure: total_margin_incl_funding_main {
     label: "Margin Inc Funding  (Main)"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     type: sum
     sql:
 
@@ -1380,6 +1441,7 @@ view: transactions {
   measure: total_margin_incl_funding_extra {
     label: "Margin Inc Funding  (Extra)"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     type: sum
     sql:
 
@@ -1394,6 +1456,7 @@ view: transactions {
   measure: total_margin_incl_funding_promo {
     label: "Margin Inc Funding  (All)"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     type: sum
     sql:
 
@@ -1408,6 +1471,7 @@ view: transactions {
   measure: total_margin_incl_funding_main_mix {
     label: "Margin Inc Funding Main Mix (Trade)"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     description: "Mix is % vs Total Margin Inc Funding "
     type: number
     sql:
@@ -1419,6 +1483,7 @@ view: transactions {
   measure: total_margin_incl_funding_extra_mix {
     label: "Margin Inc Funding Extra Mix (Trade)"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     description: "Mix is % vs Total Margin Inc Funding "
     type: number
     sql:
@@ -1431,6 +1496,7 @@ view: transactions {
   measure: total_units_main {
     label: "Units  (Main)"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     type: sum
     sql:
 
@@ -1445,6 +1511,7 @@ view: transactions {
   measure: total_units_extra {
     label: "Units  (Extra)"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     type: sum
     sql:
 
@@ -1459,6 +1526,7 @@ view: transactions {
   measure: total_units_promo {
     label: "Units  (All)"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     type: number
     sql:
 
@@ -1473,6 +1541,7 @@ view: transactions {
   measure: total_units_main_mix {
     label: "Units Main Mix (Trade)"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     description: "Mix is % vs Total Units "
     type: number
     sql:
@@ -1484,6 +1553,7 @@ view: transactions {
   measure: total_units_extra_mix {
     label: "Units Extra Mix (Trade)"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     description: "Mix is % vs Total Units "
     type: number
     sql:
@@ -1496,6 +1566,7 @@ view: transactions {
   measure: total_number_of_transactions_main {
     label: "Transactions (Main)"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     type: number
     sql:
 
@@ -1510,6 +1581,7 @@ view: transactions {
   measure: total_number_of_transactions_extra {
     label: "Transactions (Extra)"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     type: number
     sql:
 
@@ -1524,6 +1596,7 @@ view: transactions {
   measure: total_number_of_transactions_promo {
     label: "Transactions (All)"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     type: number
     sql:
 
@@ -1538,6 +1611,7 @@ view: transactions {
   measure: total_number_of_transactions_main_mix {
     label: "Transactions Main Mix (Trade)"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     description: "Mix is % vs Total Transactions "
     type: number
     sql:
@@ -1549,6 +1623,7 @@ view: transactions {
   measure: total_number_of_transactions_extra_mix {
     label: "Transactions Extra Mix (Trade)"
     group_label: "Promo"
+    required_access_grants: [is_expert]
     description: "Mix is % vs Total Transactions "
     type: number
     sql:
