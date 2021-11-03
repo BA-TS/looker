@@ -24,7 +24,7 @@ access_grant: can_use_customers {
   allowed_values: ["CUSTOMERS"]
 }
 access_grant: can_use_customer_information {
-  user_attribute: ts_sensitive # CG - considering wider group option of BU_sensitive flag
+  user_attribute: ts_sensitive # CG - consider wider group option of BU_sensitive flag (to propose)
   allowed_values: ["Y"]
 }
 access_grant: is_developer {
@@ -38,6 +38,16 @@ access_grant: is_developer {
 
 
 explore: transactions {
+
+  aggregate_table: test_table {
+    query: {
+      dimensions: [transaction_date, sales_channel_coalesce]
+      measures: [total_net_sales]
+    }
+    materialization: {
+      datagroup_trigger: toolstation_transactions_datagroup
+    }
+  }
 
   # always_filter: {
   #   filters: [period_to_date: "PD", previous_period_to_date: "CY"]
@@ -172,6 +182,7 @@ explore: stock_intake {
 }
 
 explore: stock_level_date_site_product {
+
   label: "Stock Holding By Date, Site, Product"
 
   join: aac {
