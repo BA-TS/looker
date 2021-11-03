@@ -41,7 +41,7 @@ explore: transactions {
 
   aggregate_table: test_table {
     query: {
-      dimensions: [transaction_date, sales_channel_coalesce]
+      dimensions: [transaction_date, sales_channel]
       measures: [total_net_sales]
     }
     materialization: {
