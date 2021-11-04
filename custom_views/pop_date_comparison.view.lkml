@@ -29,7 +29,7 @@ view: pop {
     description: "Gives the number of days in the current period date range"
     sql_start: {% date_start base.current_date_range %} ;;
     sql_end: {% date_end base.current_date_range %} ;;
-    hidden:  yes
+    # hidden:  yes
   }
 
   dimension: period_2_start {
@@ -48,7 +48,7 @@ view: pop {
     {% else %}
       {% date_start previous_date_range %}
     {% endif %};;
-    hidden:  yes
+    # hidden:  yes
   }
 
   dimension: period_2_end {
@@ -67,7 +67,7 @@ view: pop {
     {% else %}
       {% date_end previous_date_range %}
     {% endif %};;
-    hidden:  yes
+    # hidden:  yes
   }
 
 #have a look at adjusting this for same day last year (not date) and also account for leap year
