@@ -247,14 +247,21 @@ view: transactions {
 
 
 
-  dimension: transaction_date_coalesce {
-    required_access_grants: [is_developer]
-    view_label: "TEST!"
-    hidden:  yes
-    type: date
+  dimension_group: transaction_date_coalesce {
+    # required_access_grants: [is_developer]
+    view_label: "Calendar - Completed Date"
+    group_label: "Date/Time"
+    label: "Date"
+    type: time
     datatype: timestamp
-    description: "Please use the date available in period_on_period.view."
-    sql: COALESCE(${TABLE}.transactiondate,DATE_ADD(CAST(${site_budget.raw_date} AS TIMESTAMP), INTERVAL 12 HOUR), DATE_ADD(CAST(${category_budget.date} AS TIMESTAMP), INTERVAL 12 HOUR), DATE_ADD(CAST(${channel_budget.date} AS TIMESTAMP), INTERVAL 12 HOUR)) ;;
+    timeframes: [
+      date,
+      time,
+      time_of_day,
+      raw
+    ]
+    description: "Date that order reached complete status"
+    sql: COALESCE(${TABLE}.transactiondate,TIMESTAMP_ADD(CAST(${site_budget.raw_date} AS TIMESTAMP), INTERVAL 12 HOUR), TIMESTAMP_ADD(CAST(${category_budget.date} AS TIMESTAMP), INTERVAL 12 HOUR), TIMESTAMP_ADD(CAST(${channel_budget.date} AS TIMESTAMP), INTERVAL 12 HOUR)) ;;
     # sql:
 
     # {% if
@@ -296,14 +303,6 @@ view: transactions {
 
 
     # ;;
-  }
-  dimension: transaction_date_coalesce_date {
-    view_label: "TEST"
-    type: date
-    datatype: date
-    description: "Please use the date available in period_on_period.view."
-    sql: date(${transaction_date_coalesce});;
-    hidden: yes
   }
 
 

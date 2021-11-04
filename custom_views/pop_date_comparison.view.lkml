@@ -8,13 +8,14 @@ view: pop_date_comparison {
   extends: [transactions]
 
   filter: current_date_range {
-    view_label: "Period Comparison Fields"
-    label: "1. Date Range"
-    description: "Select the date range you are interested in using this filter, can be used by itself. Make sure any filter on Event Date covers this period, or is removed."
+    view_label: "Calendar - Completed Date"
+    label: "Date Filter"
+    description: "Filter Transactions by Completed Date"
     type: date
     convert_tz: yes
-    hidden:  yes
+    hidden:  no
   }
+
   filter: previous_date_range {
     view_label: "Period Comparison Fields"
     label: "2b. Compare To (Custom):"
@@ -32,13 +33,6 @@ view: pop_date_comparison {
     sql_start: {% date_start current_date_range %} ;;
     sql_end: {% date_end current_date_range %} ;;
     hidden:  yes
-  }
-
-  dimension: period_start {
-    type: date
-    view_label: "TEST"
-    sql:  {% date_start transactions.transaction_date_coalesce_date %};;
-    hidden: yes
   }
 
   dimension: period_2_start {
@@ -138,8 +132,10 @@ view: pop_date_comparison {
   # }
 
   parameter: compare_to {
+    view_label: "Calendar - Completed Date"
+    group_label: "Period-Over-Period"
+    label: "Comparison Period"
     description: "Choose the period you would like to compare to. Must be used with Current Date Range filter"
-    label: "2a. Compare To (Templated):"
     type: unquoted
     allowed_value: {
       label: "Previous Period"
@@ -162,12 +158,12 @@ view: pop_date_comparison {
       value: "Year"
     }
     default_value: "Period"
-    view_label: "Period Comparison Fields"
-    hidden:  yes
   }
 
   parameter: comparison_periods {
-    label: "3. Number of Periods"
+    view_label: "Calendar - Completed Date"
+    group_label: "Period-Over-Period"
+    label: "Number of Periods"
     description: "Choose the number of periods you would like to compare - defaults to 2. Only works with templated periods from step 2."
     type: unquoted
     allowed_value: {
@@ -183,13 +179,12 @@ view: pop_date_comparison {
     #   value: "4"
     # }
     default_value: "2"
-    view_label: "Period Comparison Fields"
-    hidden:  yes
   }
 
   dimension: period {
-    view_label: "Period Comparison Fields"
-    label: "Period"
+    view_label: "Calendar - Completed Date"
+    group_label: "Period-Over-Period"
+    label: "Pivot This Field"
     description: "Pivot me! Returns the period the metric covers, i.e. either the 'This Period', 'Previous Period' or '3 Periods Ago'"
     type: string
     order_by_field: order_for_period
@@ -208,7 +203,6 @@ view: pop_date_comparison {
          NULL
        {% endif %}
        ;;
-    hidden:  yes
   }
 
           # WHEN ${event_raw} between ${period_4_start} and ${period_4_end}

@@ -9,15 +9,32 @@ explore: transactions {
 
 
 
-  # always_filter: {
-  #   filters: [period_to_date: "PD", previous_period_to_date: "CY"]
-  # }
+  always_filter: {
+    filters: [current_date_range: "Last 7 Days"]
+  }
   # access_filter: {} -- to look at
 
 
   sql_always_where:
-  ${pivot_period}
-  AND
+    {% if transactions.current_date_range._is_filtered %}
+     {% condition transactions.current_date_range %} ${transaction_date_coalesce_raw} {% endcondition %}
+
+       {% if transactions.previous_date_range._is_filtered or transactions.compare_to._in_query %}
+         {% if transactions.comparison_periods._parameter_value == "2" %}
+
+            or ${transaction_date_coalesce_raw} between ${period_2_start} and ${period_2_end}
+
+          {% elsif transactions.comparison_periods._parameter_value == "3" %}
+             or ${transaction_date_coalesce_raw} between ${period_2_start} and ${period_2_end}
+             or ${transaction_date_coalesce_raw} between ${period_3_start} and ${period_3_end}
+
+         {% endif %}
+
+       {% endif %}
+    AND
+    {% endif %}
+
+
   (${is_cancelled} = 0 or ${is_cancelled} is null) AND (${product_code} <> '85699' or ${product_code} is null)
 
   ;;
@@ -60,7 +77,7 @@ explore: transactions {
       view_label: "Calendar - Completed Date"
       type:  inner
       relationship:  many_to_one
-      sql_on: ${transactions.transaction_date_coalesce}=${calendar_completed_date.date} ;;
+      sql_on: ${transactions.transaction_date_coalesce_date}=${calendar_completed_date.date} ;;
     }
 
     join: calendar_placed_date{

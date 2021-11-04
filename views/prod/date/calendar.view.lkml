@@ -174,11 +174,11 @@ view: calendar {
 
 
 
-  filter: fiscal_month_of_year_filter{
-    group_label: "Fiscal"
-    type: number
-    sql: ${fiscal_month_of_year} ;;
-  }
+  # filter: fiscal_month_of_year_filter{
+  #   group_label: "Fiscal"
+  #   type: number
+  #   sql: ${fiscal_month_of_year} ;;
+  # }
 
 
 
