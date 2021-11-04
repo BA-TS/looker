@@ -16,16 +16,16 @@ explore: base {
   # access_filter: {} -- to look at
 
   sql_always_where:
-    {% condition base.current_date_range %} ${base.date_raw} {% endcondition %}
+    {% condition base.current_date_range %} ${base.base_date_raw} {% endcondition %}
 
       {% if base.previous_date_range._is_filtered or base.compare_to._in_query %}
         {% if base.comparison_periods._parameter_value == "2" %}
 
-            or ${base.date_raw} between ${period_2_start} and ${period_2_end}
+            or ${base.base_date_raw} >= ${period_2_start} and ${base.base_date_raw} < ${period_2_end}
 
           {% elsif base.comparison_periods._parameter_value == "3" %}
-            or ${base.date_raw} between ${period_2_start} and ${period_2_end}
-            or ${base.date_raw} between ${period_3_start} and ${period_3_end}
+            or ${base.base_date_raw} >= ${period_2_start} and ${base.base_date_raw} < ${period_2_end}
+            or ${base.base_date_raw} >= ${period_3_start} and ${base.base_date_raw} < ${period_3_end}
 
         {% endif %}
 
