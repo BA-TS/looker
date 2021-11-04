@@ -210,6 +210,43 @@ view: transactions {
     sql: ${TABLE}.transactiondate ;;
     hidden: no
   }
+
+
+  dimension: __core_date__ {
+    view_label: "UNDER DEVELOPMENT"
+    type: date
+    datatype: timestamp
+    sql:
+
+    COALESCE(${TABLE}.transactiondate,DATE_ADD(CAST(${site_budget.raw_date} AS TIMESTAMP), INTERVAL 12 HOUR), DATE_ADD(CAST(${category_budget.date} AS TIMESTAMP), INTERVAL 12 HOUR), DATE_ADD(CAST(${channel_budget.date} AS TIMESTAMP), INTERVAL 12 HOUR))
+
+    ;;
+  }
+
+  dimension: __enduser_date__ {
+    view_label: "UNDER DEVELOPMENT"
+    type: date
+    datatype: timestamp
+    sql:
+
+    ${__core_date__}
+
+    ;;
+  }
+
+  dimension: __pop_date__ {
+    view_label: "UNDER DEVELOPMENT"
+    type: date
+    datatype: timestamp
+    sql:
+
+    ${__core_date__}
+
+    ;;
+  }
+
+
+
   dimension: transaction_date_coalesce {
     required_access_grants: [is_developer]
     view_label: "TEST!"
@@ -817,7 +854,6 @@ view: transactions {
     ;;
     value_format: "##0.0%;(##0.0%)"
   }
-
 
 
 
