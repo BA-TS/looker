@@ -203,9 +203,6 @@ view: pop {
       ;;
   }
 
-          # WHEN ${base_date_raw} between ${period_4_start} and ${period_4_end}
-          # THEN "3 {% parameter compare_to %}s Ago"
-
   dimension: order_for_period {
     hidden: no
     view_label: "Period Comparison Fields"
@@ -227,9 +224,6 @@ view: pop {
       {% endif %}
       ;;
   }
-
-          # WHEN ${base_date_raw} between ${period_4_start} and ${period_4_end}
-          # THEN 4
 
   dimension_group: date {
     view_label: "Calendar - Completed Date"
@@ -253,10 +247,10 @@ view: pop {
         WHEN {% condition current_date_range %} ${base_date_raw} {% endcondition %}
         THEN TIMESTAMP_DIFF(${base_date_raw},{% date_start current_date_range %},DAY)+1
 
-        WHEN ${base_date_raw} between ${period_2_start} and ${period_2_end}
+        WHEN ${base_date_raw} >= ${period_2_start} and ${base_date_raw} < ${period_2_end}
         THEN TIMESTAMP_DIFF(${base_date_raw}, ${period_2_start},DAY)+1
 
-        WHEN ${base_date_raw} between ${period_3_start} and ${period_3_end}
+        WHEN ${base_date_raw} >= ${period_3_start} and ${base_date_raw} < ${period_3_end}
         THEN TIMESTAMP_DIFF(${base_date_raw}, ${period_3_start},DAY)+1
 
       END
@@ -266,7 +260,4 @@ view: pop {
     ;;
     hidden: no
   }
-
-        # WHEN ${base_date_raw} between ${period_4_start} and ${period_4_end}
-        # THEN TIMESTAMP_DIFF(${base_date_raw}, ${period_4_start},DAY)+1
 }
