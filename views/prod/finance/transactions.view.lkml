@@ -3,8 +3,8 @@ include: "/views/prod/date/fixed_PoP.view"
 
 view: transactions {
 
-  sql_table_name: `sales.transactions`;;
-  extends: [pop_date_comparison, period_on_period]
+  sql_table_name:`sales.transactions`;;
+  # extends: [pop_date_comparison, period_on_period]
 
 
 # ██╗░░██╗██╗██████╗░██████╗░███████╗███╗░░██╗
@@ -251,11 +251,10 @@ view: transactions {
     # required_access_grants: [is_developer]
     view_label: "Calendar - Completed Date"
     group_label: "Date/Time"
-    label: "Date"
+    label: ""
     type: time
     datatype: timestamp
     timeframes: [
-      date,
       time,
       time_of_day,
       raw
@@ -397,7 +396,7 @@ view: transactions {
     group_label: "Flags"
     label: "New Product"
     type:  yesno
-    sql: (${product_first_sale_date.first_sale_date} + 182) <= ${__target_date__}    ;;
+    sql: (${product_first_sale_date.first_sale_date} + 182) <= ${base.date_date}    ;;
   }
 
   # UID #

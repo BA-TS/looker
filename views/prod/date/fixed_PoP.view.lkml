@@ -54,10 +54,10 @@ view: period_on_period {
     type: date
     datatype: date
     sql:
-
-    DATE(${transaction_date_coalesce_date})
+    ${transactions.date_date}
 
     ;;
+    # DATE(${transaction_date_coalesce_date})
     hidden: yes
   }
   # DATE(${transaction_date_coalesce})
