@@ -63,7 +63,7 @@ view: pop {
       {% elsif compare_to._parameter_value == "Year" %}
         TIMESTAMP_SUB({% date_end current_date_range %} , INTERVAL 364 DAY)
       {% else %}
-        TIMESTAMP(DATETIME_SUB(DATETIME_SUB(DATETIME({% date_end current_date_range %}), INTERVAL 1 DAY), INTERVAL 1 {% parameter compare_to %}))
+        TIMESTAMP(DATETIME_SUB(DATETIME_SUB(DATETIME({% date_end current_date_range %}), INTERVAL 0 DAY), INTERVAL 1 {% parameter compare_to %}))
       {% endif %}
     {% else %}
       {% date_end previous_date_range %}
@@ -98,7 +98,7 @@ view: pop {
     {% elsif compare_to._parameter_value == "Year" %}
         TIMESTAMP_SUB({% date_end current_date_range %} , INTERVAL 364*2 DAY)
     {% else %}
-      TIMESTAMP(DATETIME_SUB(DATETIME_SUB(DATETIME({% date_end current_date_range %}), INTERVAL 1 DAY), INTERVAL 2 {% parameter compare_to %}))
+      TIMESTAMP(DATETIME_SUB(DATETIME_SUB(DATETIME({% date_end current_date_range %}), INTERVAL 0 DAY), INTERVAL 2 {% parameter compare_to %}))
     {% endif %};;
     hidden: no
   }
@@ -210,7 +210,7 @@ view: pop {
     description: "Pivot me! Returns the period the metric covers, i.e. either the 'This Period', 'Previous Period' or '3 Periods Ago'"
     type: string
     sql:
-      {% if current_date_range._is_filtered %}
+      {% if base.previous_date_range._is_filtered or base.compare_to._in_query %}
         CASE
           WHEN {% condition current_date_range %} ${base_date_raw} /*findme6*/{% endcondition %}
           THEN 1
@@ -219,8 +219,6 @@ view: pop {
           WHEN ${base_date_raw} >= ${period_3_start} and ${base_date_raw} < ${period_3_end}
           THEN 3
         END
-      {% else %}
-        NULL
       {% endif %}
       ;;
   }
@@ -232,7 +230,12 @@ view: pop {
     # label: "Completed"
     description: "Use this as your date dimension when comparing periods. Aligns the all previous periods onto the current period"
     type: time
-    sql: TIMESTAMP_ADD({% date_start current_date_range %},INTERVAL (${day_in_period}) -1 DAY);;
+    sql:
+      {% if base.previous_date_range._is_filtered or base.compare_to._in_query %}
+        TIMESTAMP_ADD({% date_start current_date_range %},INTERVAL (${day_in_period}) -1 DAY)
+      {% else %}
+        ${base.base_date_raw}
+      {% endif %};;
     timeframes: [date]
     hidden:  no
   }
@@ -242,7 +245,7 @@ view: pop {
     description: "Gives the number of days since the start of each periods. Use this to align the event dates onto the same axis, the axes will read 1,2,3, etc."
     type: number
     sql:
-    {% if current_date_range._is_filtered %}
+    {% if base.previous_date_range._is_filtered or base.compare_to._in_query %}
       CASE
         WHEN {% condition current_date_range %} ${base_date_raw} {% endcondition %}
         THEN TIMESTAMP_DIFF(${base_date_raw},{% date_start current_date_range %},DAY)+1
@@ -254,8 +257,6 @@ view: pop {
         THEN TIMESTAMP_DIFF(${base_date_raw}, ${period_3_start},DAY)+1
 
       END
-
-    {% else %} NULL
     {% endif %}
     ;;
     hidden: no
