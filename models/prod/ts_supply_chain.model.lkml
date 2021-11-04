@@ -1,4 +1,4 @@
-include: "/models/backend/permissions.model"
+include: "/models/backend/config.model"
 include: "/views/**/*.view"
 
 label: "TS - Supply Chain"

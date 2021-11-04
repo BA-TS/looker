@@ -62,8 +62,9 @@ view: period_on_period {
   }
   # DATE(${transaction_date_coalesce})
   dimension: __target_year__ {
-    view_label: "Calendar - Completed Date"
-    group_label: "Transaction Date"
+    required_access_grants: [is_developer]
+    view_label: "Period on Period"
+    group_label: "PoP Date"
     label: "Year"
     can_filter: no
     sql:
@@ -75,8 +76,9 @@ view: period_on_period {
   }
 
   dimension: __target_week__ {
-    view_label: "Calendar - Completed Date"
-    group_label: "Transaction Date"
+    required_access_grants: [is_developer]
+    view_label: "Period on Period"
+    group_label: "PoP Date"
     label: "Week"
     can_filter: no
     sql:
@@ -340,8 +342,9 @@ view: period_on_period {
 # ╚═════╝░╚═╝╚═╝░░░░░╚═╝╚══════╝╚═╝░░╚══╝╚═════╝░╚═╝░╚════╝░╚═╝░░╚══╝╚═════╝░
 
   dimension: period_comparator{
-    view_label: "Calendar - Completed Date"
-    group_label: "Transaction Date"
+    required_access_grants: [is_developer]
+    view_label: "Period on Period"
+    group_label: "PoP Date"
     label: "Period Comparator"
     type: string
     order_by_field: __target_year__
@@ -402,12 +405,12 @@ view: period_on_period {
     ;;
   }
   dimension: period_enabled_transaction_date {
-    view_label: "Calendar - Completed Date"
-    group_label: "Transaction Date"
+    required_access_grants: [is_developer]
+    view_label: "Period on Period"
+    group_label: "PoP Date"
     label: "Date"
     type: date
     can_filter: no
-    hidden: no
     sql:
 
     {% if __target_year__._in_query %}
@@ -453,7 +456,8 @@ view: period_on_period {
 # ╚═╝░░╚═╝╚═╝░░╚══╝╚═════╝░  ╚═╝░░░░░╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░░░░╚═╝╚══════╝░░░╚═╝░░░╚══════╝╚═╝░░╚═╝╚═════╝░
 
   parameter: period_to_date{
-    view_label: "Calendar - Completed Date"
+    required_access_grants: [is_developer]
+    view_label: "Period on Period"
     group_label: "Period Comparison"
     label: "Period to Date"
     type: unquoted
@@ -480,7 +484,8 @@ view: period_on_period {
     # default_value: "PD"
   }
   parameter: previous_period_to_date {
-    view_label: "Calendar - Completed Date"
+    required_access_grants: [is_developer]
+    view_label: "Period on Period"
     group_label: "Period Comparison"
     label: "Number of Period(s):"
     type: unquoted
@@ -512,11 +517,13 @@ view: period_on_period {
   }
 
   filter: pivot_period {
-    view_label: "Calendar - Completed Date"
+    required_access_grants: [is_developer]
+    view_label: "Period on Period"
     group_label: "Period Comparison"
     label: "Run Filter"
+    description: "Must be included to enable PoP."
     type:  yesno
-    hidden: yes
+    hidden: no
     sql:
 
     {% if period_to_date._in_query %}
@@ -706,7 +713,8 @@ view: period_on_period {
 
     }
   filter: __filtered_date__ {
-    view_label: "Calendar - Completed Date"
+    required_access_grants: [is_developer]
+    view_label: "Period on Period"
     group_label: "Period Comparison"
     label: "Custom Period"
     type: date

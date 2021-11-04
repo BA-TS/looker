@@ -1,5 +1,5 @@
 include: "/custom_views/**/*.view"
-include: "/views/prod/date/period_on_period.view"
+include: "/views/prod/date/fixed_PoP.view"
 
 view: transactions {
 
@@ -260,7 +260,6 @@ view: transactions {
 
     # ;;
   }
-
   dimension: transaction_date_coalesce_date {
     view_label: "TEST"
     type: date
