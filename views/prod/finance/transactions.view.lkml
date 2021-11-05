@@ -1,7 +1,7 @@
 # include: "/custom_views/**/*.view"
 include: "/views/**/base.view"
 
-view: transactions {
+view: transactions_data {
 
   sql_table_name:`sales.transactions`;;
   # extends: [pop_date_comparison, period_on_period]
@@ -360,7 +360,9 @@ view: transactions {
     group_label: "Flags"
     label: "New Product"
     type:  yesno
+
     sql: (${product_first_sale_date.first_sale_date} + 182) <= ${base.base_date_date}    ;;
+
   }
 
   # UID #

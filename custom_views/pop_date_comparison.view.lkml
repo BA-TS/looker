@@ -2,7 +2,7 @@ view: pop {
 #  label: "Period Comparison Fields"
 
   extension: required
-  extends: [base]
+  extends: [transactions]
 
   filter: current_date_range {
     view_label: "Calendar - Completed Date"
@@ -210,7 +210,7 @@ view: pop {
     description: "Pivot me! Returns the period the metric covers, i.e. either the 'This Period', 'Previous Period' or '3 Periods Ago'"
     type: string
     sql:
-      {% if base.previous_date_range._is_filtered or base.compare_to._in_query %}
+      {% if transactions.previous_date_range._is_filtered or transactions.compare_to._in_query %}
         CASE
           WHEN {% condition current_date_range %} ${base_date_raw} /*findme6*/{% endcondition %}
           THEN 1
@@ -231,10 +231,10 @@ view: pop {
     description: "Use this as your date dimension when comparing periods. Aligns the all previous periods onto the current period"
     type: time
     sql:
-      {% if base.previous_date_range._is_filtered or base.compare_to._in_query %}
+      {% if transactions.previous_date_range._is_filtered or transactions.compare_to._in_query %}
         TIMESTAMP_ADD({% date_start current_date_range %},INTERVAL (${day_in_period}) -1 DAY)
       {% else %}
-        ${base.base_date_raw}
+        ${transactions.base_date_raw}
       {% endif %};;
     timeframes: [date]
     hidden:  no
@@ -245,7 +245,7 @@ view: pop {
     description: "Gives the number of days since the start of each periods. Use this to align the event dates onto the same axis, the axes will read 1,2,3, etc."
     type: number
     sql:
-    {% if base.previous_date_range._is_filtered or base.compare_to._in_query %}
+    {% if transactions.previous_date_range._is_filtered or transactions.compare_to._in_query %}
       CASE
         WHEN {% condition current_date_range %} ${base_date_raw} {% endcondition %}
         THEN TIMESTAMP_DIFF(${base_date_raw},{% date_start current_date_range %},DAY)+1
