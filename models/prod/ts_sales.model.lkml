@@ -1,10 +1,13 @@
 include: "/models/backend/config.model"
-include: "/custom_views/**/*.view"
+# include: "/custom_views/**/*.view"
 include: "/views/**/*.view"
+include: "/views/prod/date/period_over_period.view"
 
 label: "TS - Sales"
 
 explore: base {
+
+  extends: []
 
   label: "Transactions"
   description: ""

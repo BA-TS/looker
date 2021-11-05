@@ -1,7 +1,7 @@
 # include: "/custom_views/**/*.view"
-include: "/views/**/base.view"
+include: "/views/**/*base*.view"
 
-view: transactions_data {
+view: transactions {
 
   sql_table_name:`sales.transactions`;;
   # extends: [pop_date_comparison, period_on_period]
