@@ -6,7 +6,6 @@ view: period_on_period_new {
 
   filter: period_over_period {
     required_access_grants: [is_developer]
-    view_label: "UNDER DEVELOPMENT"
     hidden: yes # in always_where
     type: yesno
     sql:
@@ -120,7 +119,7 @@ view: period_on_period_new {
   }
   dimension: pivot_dimension {
     view_label: "Date"
-    label: "Pivot"
+    label: "Pivot Dimension"
     type: string
     # order_by_field:
     sql:
