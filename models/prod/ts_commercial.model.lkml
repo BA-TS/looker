@@ -4,7 +4,7 @@ include: "/views/**/*.view"
 
 label: "TS - Commercial"
 
-explore: base {
+explore: transactions {
 
   label: "Transactions"
 
@@ -16,16 +16,16 @@ explore: base {
   # access_filter: {} -- to look at
 
   sql_always_where:
-    {% condition base.current_date_range %} ${base.base_date_raw} {% endcondition %}
+    {% condition transactions.current_date_range %} ${transactions.base_date_raw} {% endcondition %}
 
-      {% if base.previous_date_range._is_filtered or base.compare_to._in_query %}
-        {% if base.comparison_periods._parameter_value == "2" %}
+      {% if transactions.previous_date_range._is_filtered or transactions.compare_to._in_query %}
+        {% if transactions.comparison_periods._parameter_value == "2" %}
 
-            or ${base.base_date_raw} >= ${period_2_start} and ${base.base_date_raw} < ${period_2_end}
+            or ${transactions.base_date_raw} >= ${period_2_start} and ${transactions.base_date_raw} < ${period_2_end}
 
-          {% elsif base.comparison_periods._parameter_value == "3" %}
-            or ${base.base_date_raw} >= ${period_2_start} and ${base.base_date_raw} < ${period_2_end}
-            or ${base.base_date_raw} >= ${period_3_start} and ${base.base_date_raw} < ${period_3_end}
+          {% elsif transactions.comparison_periods._parameter_value == "3" %}
+            or ${transactions.base_date_raw} >= ${period_2_start} and ${transactions.base_date_raw} < ${period_2_end}
+            or ${transactions.base_date_raw} >= ${period_3_start} and ${transactions.base_date_raw} < ${period_3_end}
 
         {% endif %}
 
@@ -35,43 +35,44 @@ explore: base {
 
 
 
-    join: transactions {
+    join: transactions_data {
+      view_label: "Transaction"
       type: left_outer
       relationship: one_to_many
-      sql_on: ${base.base_date_date} = date(${transactions.transaction_date}) and ${transactions.is_cancelled} = 0 and ${transactions.product_code} <> '85699'  ;;
+      sql_on: ${transactions.base_date_date} = date(${transactions_data.transaction_date}) and ${transactions_data.is_cancelled} = 0 and ${transactions_data.product_code} <> '85699'  ;;
     }
 
     join: products {
       type:  inner
       relationship: many_to_one
-      sql_on: ${transactions.product_uid}=${products.product_uid} ;;
+      sql_on: ${transactions_data.product_uid}=${products.product_uid} ;;
     }
 
     join: channel_budget {
       view_label: "Budget"
       type: full_outer
       relationship: many_to_one
-      sql_on: ${base.base_date_date}=${channel_budget.date} and upper(${transactions.sales_channel})=upper(${channel_budget.channel}) ;;
+      sql_on: ${transactions.base_date_date}=${channel_budget.date} and upper(${transactions_data.sales_channel})=upper(${channel_budget.channel}) ;;
     }
 
     join: site_budget {
       view_label: "Budget"
       type: full_outer
       relationship: many_to_one
-      sql_on: ${base.base_date_date} = ${site_budget.date_date} and ${transactions.site_uid}=${site_budget.site_uid};;
+      sql_on: ${transactions.base_date_date} = ${site_budget.date_date} and ${transactions_data.site_uid}=${site_budget.site_uid};;
     }
 
     join: category_budget {
       view_label: "Budget"
       type: full_outer
       relationship: many_to_one
-      sql_on: ${base.base_date_date}=${category_budget.date} and initcap(${products.department})=initcap(${category_budget.department}) ;;
+      sql_on: ${transactions.base_date_date}=${category_budget.date} and initcap(${products.department})=initcap(${category_budget.department}) ;;
     }
 
     join: sites {
       type: left_outer
       relationship: many_to_one
-      sql_on: ${transactions.site_uid_coalesce}=${sites.site_uid} ;;
+      sql_on: ${transactions_data.site_uid_coalesce}=${sites.site_uid} ;;
     }
 
     join: calendar_completed_date{
@@ -79,7 +80,7 @@ explore: base {
       view_label: "Calendar - Completed Date"
       type:  inner
       relationship:  many_to_one
-      sql_on: ${base.base_date_date}=${calendar_completed_date.date} ;;
+      sql_on: ${transactions.base_date_date}=${calendar_completed_date.date} ;;
     }
 
     join: calendar_placed_date{
@@ -87,13 +88,13 @@ explore: base {
       view_label: "Calendar - Placed Date"
       type:  inner
       relationship:  many_to_one
-      sql_on: date(${transactions.placed_date})=${calendar_placed_date.date} ;;
+      sql_on: date(${transactions_data.placed_date})=${calendar_placed_date.date} ;;
     }
 
     join: customers {
       type :  inner
       relationship: many_to_one
-      sql_on: ${transactions.customer_uid}=${customers.customer_uid} ;;
+      sql_on: ${transactions_data.customer_uid}=${customers.customer_uid} ;;
     }
 
     join: suppliers {
@@ -105,7 +106,7 @@ explore: base {
     join: customer_segmentation {
       type: left_outer
       relationship: many_to_one
-      sql_on: ${transactions.customer_uid} = ${customer_segmentation.ucu_uid} ;;
+      sql_on: ${transactions_data.customer_uid} = ${customer_segmentation.ucu_uid} ;;
     }
 
     join: trade_customers {
@@ -116,22 +117,22 @@ explore: base {
     join: promo_main_catalogue {
       type: left_outer
       relationship: many_to_one
-      sql_on: ${transactions.product_code} = ${promo_main_catalogue.product_code} and ${base.base_date_date} between ${promo_main_catalogue.live_date} and ${promo_main_catalogue.end_date} ;;
+      sql_on: ${transactions_data.product_code} = ${promo_main_catalogue.product_code} and ${transactions.base_date_date} between ${promo_main_catalogue.live_date} and ${promo_main_catalogue.end_date} ;;
     }
     join: promo_extra {
       type: left_outer
       relationship: many_to_one
-      sql_on: ${transactions.product_code} = ${promo_extra.product_code} and ${base.base_date_date} between ${promo_extra.live_date} and ${promo_extra.end_date} ;;
+      sql_on: ${transactions_data.product_code} = ${promo_extra.product_code} and ${transactions.base_date_date} between ${promo_extra.live_date} and ${promo_extra.end_date} ;;
     }
     join: single_line_transactions {
       type:  left_outer
       relationship: many_to_one
-      sql_on: ${transactions.parent_order_uid} = ${single_line_transactions.parent_order_uid} ;;
+      sql_on: ${transactions_data.parent_order_uid} = ${single_line_transactions.parent_order_uid} ;;
     }
     join: product_first_sale_date {
       type: left_outer
       relationship: many_to_one
-      sql_on: ${transactions.product_code} = ${product_first_sale_date.product_code} ;;
+      sql_on: ${transactions_data.product_code} = ${product_first_sale_date.product_code} ;;
     }
   }
 
@@ -145,25 +146,25 @@ explore: base {
   #       dimensions: [transaction_date]
   #       measures: [
 
-  #         transactions.total_gross_sales,
-  #         transactions.total_margin_excl_funding,
-  #         transactions.total_margin_incl_funding,
-  #         transactions.total_margin_rate_excl_funding,
-  #         transactions.total_margin_rate_incl_funding,
-  #         transactions.total_net_sales,
-  #         transactions.number_of_unique_customers,
-  #         transactions.number_of_transactions,
-  #         transactions.total_cogs,
-  #         transactions.total_unit_funding,
-  #         transactions.total_units,
-  #         transactions.total_units_incl_system_codes,
-  #         transactions.aov_units,
-  #         transactions.aov_units_incl_system_codes,
-  #         transactions.aov_gross_sales,
-  #         transactions.aov_margin_excl_funding,
-  #         transactions.aov_margin_incl_funding,
-  #         transactions.aov_price,
-  #         transactions.aov_net_sales
+  #         transactions_data.total_gross_sales,
+  #         transactions_data.total_margin_excl_funding,
+  #         transactions_data.total_margin_incl_funding,
+  #         transactions_data.total_margin_rate_excl_funding,
+  #         transactions_data.total_margin_rate_incl_funding,
+  #         transactions_data.total_net_sales,
+  #         transactions_data.number_of_unique_customers,
+  #         transactions_data.number_of_transactions,
+  #         transactions_data.total_cogs,
+  #         transactions_data.total_unit_funding,
+  #         transactions_data.total_units,
+  #         transactions_data.total_units_incl_system_codes,
+  #         transactions_data.aov_units,
+  #         transactions_data.aov_units_incl_system_codes,
+  #         transactions_data.aov_gross_sales,
+  #         transactions_data.aov_margin_excl_funding,
+  #         transactions_data.aov_margin_incl_funding,
+  #         transactions_data.aov_price,
+  #         transactions_data.aov_net_sales
 
   #       ]
   #     }
@@ -176,25 +177,25 @@ explore: base {
   #       dimensions: [transaction_date, sales_channel]
   #       measures: [
 
-  #         transactions.total_gross_sales,
-  #         transactions.total_margin_excl_funding,
-  #         transactions.total_margin_incl_funding,
-  #         transactions.total_margin_rate_excl_funding,
-  #         transactions.total_margin_rate_incl_funding,
-  #         transactions.total_net_sales,
-  #         transactions.number_of_unique_customers,
-  #         transactions.number_of_transactions,
-  #         transactions.total_cogs,
-  #         transactions.total_unit_funding,
-  #         transactions.total_units,
-  #         transactions.total_units_incl_system_codes,
-  #         transactions.aov_units,
-  #         transactions.aov_units_incl_system_codes,
-  #         transactions.aov_gross_sales,
-  #         transactions.aov_margin_excl_funding,
-  #         transactions.aov_margin_incl_funding,
-  #         transactions.aov_price,
-  #         transactions.aov_net_sales
+  #         transactions_data.total_gross_sales,
+  #         transactions_data.total_margin_excl_funding,
+  #         transactions_data.total_margin_incl_funding,
+  #         transactions_data.total_margin_rate_excl_funding,
+  #         transactions_data.total_margin_rate_incl_funding,
+  #         transactions_data.total_net_sales,
+  #         transactions_data.number_of_unique_customers,
+  #         transactions_data.number_of_transactions,
+  #         transactions_data.total_cogs,
+  #         transactions_data.total_unit_funding,
+  #         transactions_data.total_units,
+  #         transactions_data.total_units_incl_system_codes,
+  #         transactions_data.aov_units,
+  #         transactions_data.aov_units_incl_system_codes,
+  #         transactions_data.aov_gross_sales,
+  #         transactions_data.aov_margin_excl_funding,
+  #         transactions_data.aov_margin_incl_funding,
+  #         transactions_data.aov_price,
+  #         transactions_data.aov_net_sales
 
   #       ]
   #     }
@@ -207,25 +208,25 @@ explore: base {
   #       dimensions: [transaction_date, parent_order_uid]
   #       measures: [
 
-  #         transactions.total_gross_sales,
-  #         transactions.total_margin_excl_funding,
-  #         transactions.total_margin_incl_funding,
-  #         transactions.total_margin_rate_excl_funding,
-  #         transactions.total_margin_rate_incl_funding,
-  #         transactions.total_net_sales,
-  #         transactions.number_of_unique_customers,
-  #         transactions.number_of_transactions,
-  #         transactions.total_cogs,
-  #         transactions.total_unit_funding,
-  #         transactions.total_units,
-  #         transactions.total_units_incl_system_codes,
-  #         transactions.aov_units,
-  #         transactions.aov_units_incl_system_codes,
-  #         transactions.aov_gross_sales,
-  #         transactions.aov_margin_excl_funding,
-  #         transactions.aov_margin_incl_funding,
-  #         transactions.aov_price,
-  #         transactions.aov_net_sales
+  #         transactions_data.total_gross_sales,
+  #         transactions_data.total_margin_excl_funding,
+  #         transactions_data.total_margin_incl_funding,
+  #         transactions_data.total_margin_rate_excl_funding,
+  #         transactions_data.total_margin_rate_incl_funding,
+  #         transactions_data.total_net_sales,
+  #         transactions_data.number_of_unique_customers,
+  #         transactions_data.number_of_transactions,
+  #         transactions_data.total_cogs,
+  #         transactions_data.total_unit_funding,
+  #         transactions_data.total_units,
+  #         transactions_data.total_units_incl_system_codes,
+  #         transactions_data.aov_units,
+  #         transactions_data.aov_units_incl_system_codes,
+  #         transactions_data.aov_gross_sales,
+  #         transactions_data.aov_margin_excl_funding,
+  #         transactions_data.aov_margin_incl_funding,
+  #         transactions_data.aov_price,
+  #         transactions_data.aov_net_sales
 
   #       ]
   #     }
@@ -238,25 +239,25 @@ explore: base {
   #       dimensions: [transaction_date, customers.customer_uid]
   #       measures: [
 
-  #         transactions.total_gross_sales,
-  #         transactions.total_margin_excl_funding,
-  #         transactions.total_margin_incl_funding,
-  #         transactions.total_margin_rate_excl_funding,
-  #         transactions.total_margin_rate_incl_funding,
-  #         transactions.total_net_sales,
-  #         transactions.number_of_unique_customers,
-  #         transactions.number_of_transactions,
-  #         transactions.total_cogs,
-  #         transactions.total_unit_funding,
-  #         transactions.total_units,
-  #         transactions.total_units_incl_system_codes,
-  #         transactions.aov_units,
-  #         transactions.aov_units_incl_system_codes,
-  #         transactions.aov_gross_sales,
-  #         transactions.aov_margin_excl_funding,
-  #         transactions.aov_margin_incl_funding,
-  #         transactions.aov_price,
-  #         transactions.aov_net_sales
+  #         transactions_data.total_gross_sales,
+  #         transactions_data.total_margin_excl_funding,
+  #         transactions_data.total_margin_incl_funding,
+  #         transactions_data.total_margin_rate_excl_funding,
+  #         transactions_data.total_margin_rate_incl_funding,
+  #         transactions_data.total_net_sales,
+  #         transactions_data.number_of_unique_customers,
+  #         transactions_data.number_of_transactions,
+  #         transactions_data.total_cogs,
+  #         transactions_data.total_unit_funding,
+  #         transactions_data.total_units,
+  #         transactions_data.total_units_incl_system_codes,
+  #         transactions_data.aov_units,
+  #         transactions_data.aov_units_incl_system_codes,
+  #         transactions_data.aov_gross_sales,
+  #         transactions_data.aov_margin_excl_funding,
+  #         transactions_data.aov_margin_incl_funding,
+  #         transactions_data.aov_price,
+  #         transactions_data.aov_net_sales
 
   #       ]
   #     }
@@ -266,28 +267,28 @@ explore: base {
   #   }
   #   aggregate_table: aggtable-tdate_pcode {
   #     query: {
-  #       dimensions: [transactions.transaction_date, products.product_code]
+  #       dimensions: [transactions_data.transaction_date, products.product_code]
   #       measures: [
 
-  #         transactions.total_gross_sales,
-  #         transactions.total_margin_excl_funding,
-  #         transactions.total_margin_incl_funding,
-  #         transactions.total_margin_rate_excl_funding,
-  #         transactions.total_margin_rate_incl_funding,
-  #         transactions.total_net_sales,
-  #         transactions.number_of_unique_customers,
-  #         transactions.number_of_transactions,
-  #         transactions.total_cogs,
-  #         transactions.total_unit_funding,
-  #         transactions.total_units,
-  #         transactions.total_units_incl_system_codes,
-  #         transactions.aov_units,
-  #         transactions.aov_units_incl_system_codes,
-  #         transactions.aov_gross_sales,
-  #         transactions.aov_margin_excl_funding,
-  #         transactions.aov_margin_incl_funding,
-  #         transactions.aov_price,
-  #         transactions.aov_net_sales
+  #         transactions_data.total_gross_sales,
+  #         transactions_data.total_margin_excl_funding,
+  #         transactions_data.total_margin_incl_funding,
+  #         transactions_data.total_margin_rate_excl_funding,
+  #         transactions_data.total_margin_rate_incl_funding,
+  #         transactions_data.total_net_sales,
+  #         transactions_data.number_of_unique_customers,
+  #         transactions_data.number_of_transactions,
+  #         transactions_data.total_cogs,
+  #         transactions_data.total_unit_funding,
+  #         transactions_data.total_units,
+  #         transactions_data.total_units_incl_system_codes,
+  #         transactions_data.aov_units,
+  #         transactions_data.aov_units_incl_system_codes,
+  #         transactions_data.aov_gross_sales,
+  #         transactions_data.aov_margin_excl_funding,
+  #         transactions_data.aov_margin_incl_funding,
+  #         transactions_data.aov_price,
+  #         transactions_data.aov_net_sales
 
   #       ]
   #     }
@@ -300,25 +301,25 @@ explore: base {
   #       dimensions: [transaction_date, products.product_code,products.department, products.subdepartment]
   #       measures: [
 
-  #         transactions.total_gross_sales,
-  #         transactions.total_margin_excl_funding,
-  #         transactions.total_margin_incl_funding,
-  #         transactions.total_margin_rate_excl_funding,
-  #         transactions.total_margin_rate_incl_funding,
-  #         transactions.total_net_sales,
-  #         transactions.number_of_unique_customers,
-  #         transactions.number_of_transactions,
-  #         transactions.total_cogs,
-  #         transactions.total_unit_funding,
-  #         transactions.total_units,
-  #         transactions.total_units_incl_system_codes,
-  #         transactions.aov_units,
-  #         transactions.aov_units_incl_system_codes,
-  #         transactions.aov_gross_sales,
-  #         transactions.aov_margin_excl_funding,
-  #         transactions.aov_margin_incl_funding,
-  #         transactions.aov_price,
-  #         transactions.aov_net_sales
+  #         transactions_data.total_gross_sales,
+  #         transactions_data.total_margin_excl_funding,
+  #         transactions_data.total_margin_incl_funding,
+  #         transactions_data.total_margin_rate_excl_funding,
+  #         transactions_data.total_margin_rate_incl_funding,
+  #         transactions_data.total_net_sales,
+  #         transactions_data.number_of_unique_customers,
+  #         transactions_data.number_of_transactions,
+  #         transactions_data.total_cogs,
+  #         transactions_data.total_unit_funding,
+  #         transactions_data.total_units,
+  #         transactions_data.total_units_incl_system_codes,
+  #         transactions_data.aov_units,
+  #         transactions_data.aov_units_incl_system_codes,
+  #         transactions_data.aov_gross_sales,
+  #         transactions_data.aov_margin_excl_funding,
+  #         transactions_data.aov_margin_incl_funding,
+  #         transactions_data.aov_price,
+  #         transactions_data.aov_net_sales
 
   #       ]
   #     }
@@ -331,25 +332,25 @@ explore: base {
   #       dimensions: [transaction_date, sites.site_uid]
   #       measures: [
 
-  #         transactions.total_gross_sales,
-  #         transactions.total_margin_excl_funding,
-  #         transactions.total_margin_incl_funding,
-  #         transactions.total_margin_rate_excl_funding,
-  #         transactions.total_margin_rate_incl_funding,
-  #         transactions.total_net_sales,
-  #         transactions.number_of_unique_customers,
-  #         transactions.number_of_transactions,
-  #         transactions.total_cogs,
-  #         transactions.total_unit_funding,
-  #         transactions.total_units,
-  #         transactions.total_units_incl_system_codes,
-  #         transactions.aov_units,
-  #         transactions.aov_units_incl_system_codes,
-  #         transactions.aov_gross_sales,
-  #         transactions.aov_margin_excl_funding,
-  #         transactions.aov_margin_incl_funding,
-  #         transactions.aov_price,
-  #         transactions.aov_net_sales
+  #         transactions_data.total_gross_sales,
+  #         transactions_data.total_margin_excl_funding,
+  #         transactions_data.total_margin_incl_funding,
+  #         transactions_data.total_margin_rate_excl_funding,
+  #         transactions_data.total_margin_rate_incl_funding,
+  #         transactions_data.total_net_sales,
+  #         transactions_data.number_of_unique_customers,
+  #         transactions_data.number_of_transactions,
+  #         transactions_data.total_cogs,
+  #         transactions_data.total_unit_funding,
+  #         transactions_data.total_units,
+  #         transactions_data.total_units_incl_system_codes,
+  #         transactions_data.aov_units,
+  #         transactions_data.aov_units_incl_system_codes,
+  #         transactions_data.aov_gross_sales,
+  #         transactions_data.aov_margin_excl_funding,
+  #         transactions_data.aov_margin_incl_funding,
+  #         transactions_data.aov_price,
+  #         transactions_data.aov_net_sales
 
   #       ]
 
@@ -361,28 +362,28 @@ explore: base {
   #   }
   #   aggregate_table: aggtable-tparentuid_ttransactionuid {
   #     query: {
-  #       dimensions: [transactions.parent_order_uid, transactions.transaction_uid]
+  #       dimensions: [transactions_data.parent_order_uid, transactions_data.transaction_uid]
   #       measures: [
 
-  #         transactions.total_gross_sales,
-  #         transactions.total_margin_excl_funding,
-  #         transactions.total_margin_incl_funding,
-  #         transactions.total_margin_rate_excl_funding,
-  #         transactions.total_margin_rate_incl_funding,
-  #         transactions.total_net_sales,
-  #         transactions.number_of_unique_customers,
-  #         transactions.number_of_transactions,
-  #         transactions.total_cogs,
-  #         transactions.total_unit_funding,
-  #         transactions.total_units,
-  #         transactions.total_units_incl_system_codes,
-  #         transactions.aov_units,
-  #         transactions.aov_units_incl_system_codes,
-  #         transactions.aov_gross_sales,
-  #         transactions.aov_margin_excl_funding,
-  #         transactions.aov_margin_incl_funding,
-  #         transactions.aov_price,
-  #         transactions.aov_net_sales
+  #         transactions_data.total_gross_sales,
+  #         transactions_data.total_margin_excl_funding,
+  #         transactions_data.total_margin_incl_funding,
+  #         transactions_data.total_margin_rate_excl_funding,
+  #         transactions_data.total_margin_rate_incl_funding,
+  #         transactions_data.total_net_sales,
+  #         transactions_data.number_of_unique_customers,
+  #         transactions_data.number_of_transactions,
+  #         transactions_data.total_cogs,
+  #         transactions_data.total_unit_funding,
+  #         transactions_data.total_units,
+  #         transactions_data.total_units_incl_system_codes,
+  #         transactions_data.aov_units,
+  #         transactions_data.aov_units_incl_system_codes,
+  #         transactions_data.aov_gross_sales,
+  #         transactions_data.aov_margin_excl_funding,
+  #         transactions_data.aov_margin_incl_funding,
+  #         transactions_data.aov_price,
+  #         transactions_data.aov_net_sales
 
   #       ]
   #     }
@@ -394,8 +395,8 @@ explore: base {
   #   aggregate_table: aggtable-dailysales_summary {
 
   #     query: {
-  #       filters: [transactions.period_to_date: "YTD", transactions.previous_period_to_date: "LY2LY"]
-  #       dimensions: [transactions.__target_year__, transactions.period_enabled_transaction_date]
+  #       filters: [transactions_data.period_to_date: "YTD", transactions_data.previous_period_to_date: "LY2LY"]
+  #       dimensions: [transactions_data.__target_year__, transactions_data.period_enabled_transaction_date]
   #       measures: [
 
   #       category_budget.department_net_sales_budget,
@@ -416,28 +417,28 @@ explore: base {
   #   aggregate_table: aggtable-dailysalesreport {
   #     query: {
   #       filters: []
-  #       dimensions: [transactions.department_coalesce,products.product_code,sales_channel, products.description ,transactions.__target_year__, transactions.period_enabled_transaction_date]
+  #       dimensions: [transactions_data.department_coalesce,products.product_code,sales_channel, products.description ,transactions_data.__target_year__, transactions_data.period_enabled_transaction_date]
   #       measures: [
 
-  #         transactions.total_gross_sales,
-  #         transactions.total_margin_excl_funding,
-  #         transactions.total_margin_incl_funding,
-  #         transactions.total_margin_rate_excl_funding,
-  #         transactions.total_margin_rate_incl_funding,
-  #         transactions.total_net_sales,
-  #         transactions.number_of_unique_customers,
-  #         transactions.number_of_transactions,
-  #         transactions.total_cogs,
-  #         transactions.total_unit_funding,
-  #         transactions.total_units,
-  #         transactions.total_units_incl_system_codes,
-  #         transactions.aov_units,
-  #         transactions.aov_units_incl_system_codes,
-  #         transactions.aov_gross_sales,
-  #         transactions.aov_margin_excl_funding,
-  #         transactions.aov_margin_incl_funding,
-  #         transactions.aov_price,
-  #         transactions.aov_net_sales,
+  #         transactions_data.total_gross_sales,
+  #         transactions_data.total_margin_excl_funding,
+  #         transactions_data.total_margin_incl_funding,
+  #         transactions_data.total_margin_rate_excl_funding,
+  #         transactions_data.total_margin_rate_incl_funding,
+  #         transactions_data.total_net_sales,
+  #         transactions_data.number_of_unique_customers,
+  #         transactions_data.number_of_transactions,
+  #         transactions_data.total_cogs,
+  #         transactions_data.total_unit_funding,
+  #         transactions_data.total_units,
+  #         transactions_data.total_units_incl_system_codes,
+  #         transactions_data.aov_units,
+  #         transactions_data.aov_units_incl_system_codes,
+  #         transactions_data.aov_gross_sales,
+  #         transactions_data.aov_margin_excl_funding,
+  #         transactions_data.aov_margin_incl_funding,
+  #         transactions_data.aov_price,
+  #         transactions_data.aov_net_sales,
   #         category_budget.department_net_sales_budget
 
   #       ]

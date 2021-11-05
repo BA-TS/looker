@@ -1,6 +1,6 @@
 include: "/custom_views/**/*.view"
 
-view: base {
+view: transactions {
 
   derived_table: {
     sql: select date from UNNEST(GENERATE_DATE_ARRAY('2015-01-01', date(extract(year from current_date), 12, 31))) date ;;
