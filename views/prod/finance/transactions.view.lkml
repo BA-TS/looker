@@ -212,7 +212,7 @@ view: transactions_data {
   }
 
 
-  dimension: __core_date__ {
+  dimension: __core_date__ { # to delete
     view_label: "UNDER DEVELOPMENT"
     type: date
     datatype: timestamp
@@ -223,7 +223,7 @@ view: transactions_data {
     ;;
   }
 
-  dimension: __enduser_date__ {
+  dimension: __enduser_date__ { # to delete
     view_label: "UNDER DEVELOPMENT"
     type: date
     datatype: timestamp
@@ -234,7 +234,7 @@ view: transactions_data {
     ;;
   }
 
-  dimension: __pop_date__ {
+  dimension: __pop_date__ { # to delete
     view_label: "UNDER DEVELOPMENT"
     type: date
     datatype: timestamp
@@ -247,7 +247,7 @@ view: transactions_data {
 
 
 
-  dimension_group: transaction_date_coalesce {
+  dimension_group: transaction_date_coalesce { # to delete
     # required_access_grants: [is_developer]
     view_label: "Calendar - Completed Date"
     group_label: "Date/Time"
