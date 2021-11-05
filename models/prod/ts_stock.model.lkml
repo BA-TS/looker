@@ -1,7 +1,7 @@
 include: "/models/backend/config.model"
 include: "/views/**/*.view"
 
-label: "TS - Supply Chain"
+label: "TS - Stock"
 
 explore: stock_intake {
   join: products {

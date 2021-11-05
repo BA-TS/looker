@@ -1,5 +1,5 @@
-include: "/custom_views/**/*.view"
-include: "/views/prod/date/fixed_PoP.view"
+# include: "/custom_views/**/*.view"
+include: "/views/**/base.view"
 
 view: transactions {
 
@@ -200,7 +200,6 @@ view: transactions {
   }
   dimension_group: transaction {
     label: "Transaction"
-    description: "This has been temporarily added and should not be relied upon long term."
     type: time
     timeframes: [
       raw,
@@ -208,101 +207,66 @@ view: transactions {
       date
     ]
     sql: ${TABLE}.transactiondate ;;
-    hidden: no
+    hidden: yes
   }
 
 
-  dimension: __core_date__ { # to delete
-    view_label: "UNDER DEVELOPMENT"
-    type: date
-    datatype: timestamp
-    sql:
+  # dimension_group: transaction_date_coalesce {
+  #   # required_access_grants: [is_developer]
+  #   view_label: "Calendar - Completed Date"
+  #   group_label: "Date/Time"
+  #   label: ""
+  #   type: time
+  #   datatype: timestamp
+  #   timeframes: [
+  #     time,
+  #     time_of_day,
+  #     raw
+  #   ]
+  #   description: "Date that order reached complete status"
+  #   sql: COALESCE(${TABLE}.transactiondate,TIMESTAMP_ADD(CAST(${site_budget.raw_date} AS TIMESTAMP), INTERVAL 12 HOUR), TIMESTAMP_ADD(CAST(${category_budget.date} AS TIMESTAMP), INTERVAL 12 HOUR), TIMESTAMP_ADD(CAST(${channel_budget.date} AS TIMESTAMP), INTERVAL 12 HOUR)) ;;
+  #   # sql:
 
-    COALESCE(${TABLE}.transactiondate,DATE_ADD(CAST(${site_budget.raw_date} AS TIMESTAMP), INTERVAL 12 HOUR), DATE_ADD(CAST(${category_budget.date} AS TIMESTAMP), INTERVAL 12 HOUR), DATE_ADD(CAST(${channel_budget.date} AS TIMESTAMP), INTERVAL 12 HOUR))
-
-    ;;
-  }
-
-  dimension: __enduser_date__ { # to delete
-    view_label: "UNDER DEVELOPMENT"
-    type: date
-    datatype: timestamp
-    sql:
-
-    ${__core_date__}
-
-    ;;
-  }
-
-  dimension: __pop_date__ { # to delete
-    view_label: "UNDER DEVELOPMENT"
-    type: date
-    datatype: timestamp
-    sql:
-
-    ${__core_date__}
-
-    ;;
-  }
-
-
-
-  dimension_group: transaction_date_coalesce { # to delete
-    # required_access_grants: [is_developer]
-    view_label: "Calendar - Completed Date"
-    group_label: "Date/Time"
-    label: ""
-    type: time
-    datatype: timestamp
-    timeframes: [
-      time,
-      time_of_day,
-      raw
-    ]
-    description: "Date that order reached complete status"
-    sql: COALESCE(${TABLE}.transactiondate,TIMESTAMP_ADD(CAST(${site_budget.raw_date} AS TIMESTAMP), INTERVAL 12 HOUR), TIMESTAMP_ADD(CAST(${category_budget.date} AS TIMESTAMP), INTERVAL 12 HOUR), TIMESTAMP_ADD(CAST(${channel_budget.date} AS TIMESTAMP), INTERVAL 12 HOUR)) ;;
-    # sql:
-
-    # {% if
-    #     category_budget.category_budget_in_query == 'TRUE'
-    #     and channel_budget.channel_budget_in_query == 'TRUE'
-    #     and site_budget.site_budget_in_query == 'TRUE'
-    #     %}
-    #     COALESCE(${TABLE}.transactiondate,timestamp_add(timestamp(${site_budget.raw_date}), INTERVAL 12 HOUR), timestamp_add(timestamp(${category_budget.date}), INTERVAL 12 HOUR), timestamp_add(timestamp(${channel_budget.date}), INTERVAL 12 HOUR))
-    #   {% elsif
-    #     category_budget.category_budget_in_query == 'TRUE'
-    #     and channel_budget.channel_budget_in_query == 'TRUE'
-    #     %}
-    #     COALESCE(${TABLE}.transactiondate, timestamp_add(timestamp(${category_budget.date}), INTERVAL 12 HOUR), timestamp_add(timestamp(${channel_budget.date}), INTERVAL 12 HOUR))
-    #   {% elsif
-    #     category_budget.category_budget_in_query == 'TRUE'
-    #     and site_budget.site_budget_in_query == 'TRUE'
-    #     %}
-    #     COALESCE(${TABLE}.transactiondate,timestamp_add(timestamp(${site_budget.raw_date}), INTERVAL 12 HOUR), timestamp_add(timestamp(${category_budget.date}), INTERVAL 12 HOUR))
-    #   {% elsif
-    #     site_budget.site_budget_in_query == 'TRUE'
-    #     and channel_budget.channel_budget_in_query == 'TRUE'
-    #     %}
-    #     COALESCE(${TABLE}.transactiondate,timestamp_add(timestamp(${site_budget.raw_date}), INTERVAL 12 HOUR), timestamp_add(timestamp(${channel_budget.date}), INTERVAL 12 HOUR))
-    #   {% elsif
-    #     category_budget.category_budget_in_query == 'TRUE'
-    #     %}
-    #   COALESCE(${TABLE}.transactiondate, timestamp_add(timestamp(${category_budget.date}), INTERVAL 12 HOUR))
-    #   {% elsif
-    #     channel_budget.channel_budget_in_query == 'TRUE'
-    #     %}
-    #   COALESCE(${TABLE}.transactiondate, timestamp_add(timestamp(${channel_budget.date}), INTERVAL 12 HOUR))
-    #   {% elsif
-    #     site_budget.site_budget_in_query == 'TRUE'
-    #   %}
-    #   COALESCE(${TABLE}.transactiondate, timestamp_add(timestamp(${site_budget.raw_date}), INTERVAL 12 HOUR))
-    #   {% else %}
-    #     ${TABLE}.transactiondate
-    # {% endif %}
+  #   # {% if
+  #   #     category_budget.category_budget_in_query == 'TRUE'
+  #   #     and channel_budget.channel_budget_in_query == 'TRUE'
+  #   #     and site_budget.site_budget_in_query == 'TRUE'
+  #   #     %}
+  #   #     COALESCE(${TABLE}.transactiondate,timestamp_add(timestamp(${site_budget.raw_date}), INTERVAL 12 HOUR), timestamp_add(timestamp(${category_budget.date}), INTERVAL 12 HOUR), timestamp_add(timestamp(${channel_budget.date}), INTERVAL 12 HOUR))
+  #   #   {% elsif
+  #   #     category_budget.category_budget_in_query == 'TRUE'
+  #   #     and channel_budget.channel_budget_in_query == 'TRUE'
+  #   #     %}
+  #   #     COALESCE(${TABLE}.transactiondate, timestamp_add(timestamp(${category_budget.date}), INTERVAL 12 HOUR), timestamp_add(timestamp(${channel_budget.date}), INTERVAL 12 HOUR))
+  #   #   {% elsif
+  #   #     category_budget.category_budget_in_query == 'TRUE'
+  #   #     and site_budget.site_budget_in_query == 'TRUE'
+  #   #     %}
+  #   #     COALESCE(${TABLE}.transactiondate,timestamp_add(timestamp(${site_budget.raw_date}), INTERVAL 12 HOUR), timestamp_add(timestamp(${category_budget.date}), INTERVAL 12 HOUR))
+  #   #   {% elsif
+  #   #     site_budget.site_budget_in_query == 'TRUE'
+  #   #     and channel_budget.channel_budget_in_query == 'TRUE'
+  #   #     %}
+  #   #     COALESCE(${TABLE}.transactiondate,timestamp_add(timestamp(${site_budget.raw_date}), INTERVAL 12 HOUR), timestamp_add(timestamp(${channel_budget.date}), INTERVAL 12 HOUR))
+  #   #   {% elsif
+  #   #     category_budget.category_budget_in_query == 'TRUE'
+  #   #     %}
+  #   #   COALESCE(${TABLE}.transactiondate, timestamp_add(timestamp(${category_budget.date}), INTERVAL 12 HOUR))
+  #   #   {% elsif
+  #   #     channel_budget.channel_budget_in_query == 'TRUE'
+  #   #     %}
+  #   #   COALESCE(${TABLE}.transactiondate, timestamp_add(timestamp(${channel_budget.date}), INTERVAL 12 HOUR))
+  #   #   {% elsif
+  #   #     site_budget.site_budget_in_query == 'TRUE'
+  #   #   %}
+  #   #   COALESCE(${TABLE}.transactiondate, timestamp_add(timestamp(${site_budget.raw_date}), INTERVAL 12 HOUR))
+  #   #   {% else %}
+  #   #     ${TABLE}.transactiondate
+  #   # {% endif %}
 
 
-    # ;;
-  }
+  #   # ;;
+  # }
 
 
 
@@ -396,7 +360,7 @@ view: transactions {
     group_label: "Flags"
     label: "New Product"
     type:  yesno
-    sql: (${product_first_sale_date.first_sale_date} + 182) <= ${base.date_date}    ;;
+    sql: (${product_first_sale_date.first_sale_date} + 182) <= ${base.base_date_date}    ;;
   }
 
   # UID #

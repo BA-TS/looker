@@ -13,25 +13,25 @@ view: pop {
     hidden:  no
   }
 
-  filter: previous_date_range {
-    view_label: "Period Comparison Fields"
-    label: "2b. Compare To (Custom):"
-    description: "Use this if you want to specify a custom date range to compare to (limited to 2 comparison periods). Always use with '1. Date Range' filter (or it will error). Make sure any filter on Event Date covers this period, or is removed."
-    type: date
-    # datatype: date
-    convert_tz: yes
-    hidden:  yes
-  }
+  # filter: previous_date_range {
+  #   view_label: "Period Comparison Fields"
+  #   label: "2b. Compare To (Custom):"
+  #   description: "Use this if you want to specify a custom date range to compare to (limited to 2 comparison periods). Always use with '1. Date Range' filter (or it will error). Make sure any filter on Event Date covers this period, or is removed."
+  #   type: date
+  #   # datatype: date
+  #   convert_tz: yes
+  #   hidden:  yes
+  # }
 
-  dimension_group: in_period {
-    view_label: "Period Comparison Fields"
-    type: duration
-    intervals: [day]
-    description: "Gives the number of days in the current period date range"
-    sql_start: {% date_start current_date_range %} ;;
-    sql_end: {% date_end current_date_range %} ;;
-    # hidden:  yes
-  }
+  # dimension_group: in_period {
+  #   view_label: "Period Comparison Fields"
+  #   type: duration
+  #   intervals: [day]
+  #   description: "Gives the number of days in the current period date range"
+  #   sql_start: {% date_start current_date_range %} ;;
+  #   sql_end: {% date_end current_date_range %} ;;
+  #   # hidden:  yes
+  # }
 
   dimension: period_2_start {
     view_label: "Period Comparison Fields"

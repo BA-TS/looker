@@ -2,37 +2,37 @@ include: "/models/backend/config.model"
 include: "/custom_views/**/*.view"
 include: "/views/**/*.view"
 
-label: "TS - Commercial"
+label: "TS - Sales"
 
 explore: base {
 
   label: "Transactions"
+  description: ""
 
-  # CG 04/11 TODO - look at DS report and try to collate agg table - may need to include period_ attribute TBC
-
-  always_filter: {
-    filters: [current_date_range: "Yesterday"]
+  conditionally_filter: {
+    filters: [base.select_date_range: "Yesterday"]
+    unless: [select_fixed_range]
   }
-  # access_filter: {} -- to look at
 
   sql_always_where:
-    {% condition base.current_date_range %} ${base.base_date_raw} {% endcondition %}
 
-      {% if base.previous_date_range._is_filtered or base.compare_to._in_query %}
-        {% if base.comparison_periods._parameter_value == "2" %}
+  ${period_over_period}
 
-            or ${base.base_date_raw} >= ${period_2_start} and ${base.base_date_raw} < ${period_2_end}
-
-          {% elsif base.comparison_periods._parameter_value == "3" %}
-            or ${base.base_date_raw} >= ${period_2_start} and ${base.base_date_raw} < ${period_2_end}
-            or ${base.base_date_raw} >= ${period_3_start} and ${base.base_date_raw} < ${period_3_end}
-
-        {% endif %}
-
-      {% endif %}
     ;;
+    # {% condition base.current_date_range %} ${base.base_date_raw} {% endcondition %}
 
+    #   {% if base.previous_date_range._is_filtered or base.compare_to._in_query %}
+    #     {% if base.comparison_periods._parameter_value == "2" %}
 
+    #         or ${base.base_date_raw} >= ${period_2_start} and ${base.base_date_raw} < ${period_2_end}
+
+    #       {% elsif base.comparison_periods._parameter_value == "3" %}
+    #         or ${base.base_date_raw} >= ${period_2_start} and ${base.base_date_raw} < ${period_2_end}
+    #         or ${base.base_date_raw} >= ${period_3_start} and ${base.base_date_raw} < ${period_3_end}
+
+    #     {% endif %}
+
+    #   {% endif %}
 
 
     join: transactions {
