@@ -182,13 +182,13 @@ view: period_on_period_new {
     description: "Calculates the start of the previous period"
     type: date_raw
     sql:
-    {% if select_fixed_range._in_query %}
-      {% if select_fixed_range._parameter_value == "Period" %}
+    {% if select_date_range._in_query %}
+      {% if select_comparison_period._parameter_value == "Period" %}
         TIMESTAMP_SUB({% date_start select_date_range %} , INTERVAL ${days_in_period} DAY)
-      {% elsif select_fixed_range._parameter_value == "Year" %}
+      {% elsif select_comparison_period._parameter_value == "Year" %}
         TIMESTAMP_SUB({% date_start select_date_range %} , INTERVAL 364 DAY)
       {% else %}
-        TIMESTAMP(DATETIME_SUB(DATETIME({% date_start select_date_range %}) , INTERVAL 1 {% parameter select_fixed_range %}))
+        TIMESTAMP(DATETIME_SUB(DATETIME({% date_start select_date_range %}) , INTERVAL 1 {% parameter select_comparison_period %}))
       {% endif %}
     {% else %}
       {% date_start select_date_range %}
@@ -201,13 +201,13 @@ view: period_on_period_new {
       description: "Calculates the end of the previous period"
       type: date_raw
       sql:
-          {% if select_fixed_range._in_query %}
-            {% if select_fixed_range._parameter_value == "Period" %}
+          {% if select_date_range._in_query %}
+            {% if select_comparison_period._parameter_value == "Period" %}
               TIMESTAMP_SUB({% date_start select_date_range %}, INTERVAL 1 DAY)
-            {% elsif select_fixed_range._parameter_value == "Year" %}
+            {% elsif select_comparison_period._parameter_value == "Year" %}
               TIMESTAMP_SUB({% date_end select_date_range %} , INTERVAL 364 DAY)
             {% else %}
-              TIMESTAMP(DATETIME_SUB(DATETIME_SUB(DATETIME({% date_end select_date_range %}), INTERVAL 0 DAY), INTERVAL 1 {% parameter select_fixed_range %}))
+              TIMESTAMP(DATETIME_SUB(DATETIME_SUB(DATETIME({% date_end select_date_range %}), INTERVAL 0 DAY), INTERVAL 1 {% parameter select_comparison_period %}))
             {% endif %}
           {% else %}
             {% date_end select_date_range %}
@@ -220,12 +220,12 @@ view: period_on_period_new {
         description: "Calculates the start of 2 periods ago"
         type: date_raw
         sql:
-            {% if select_fixed_range._parameter_value == "Period" %}
+            {% if select_comparison_period._parameter_value == "Period" %}
               TIMESTAMP_SUB({% date_start select_date_range %}, INTERVAL 2*${days_in_period} DAY)
-            {% elsif select_fixed_range._parameter_value == "Year" %}
+            {% elsif select_comparison_period._parameter_value == "Year" %}
                 TIMESTAMP_SUB({% date_start select_date_range %} , INTERVAL 364*2 DAY)
             {% else %}
-              TIMESTAMP(DATETIME_SUB(DATETIME({% date_start select_date_range %}), INTERVAL 2 {% parameter select_fixed_range %}))
+              TIMESTAMP(DATETIME_SUB(DATETIME({% date_start select_date_range %}), INTERVAL 2 {% parameter select_comparison_period %}))
             {% endif %};;
         hidden: no
       }
@@ -235,12 +235,12 @@ view: period_on_period_new {
         description: "Calculates the end of 2 periods ago"
         type: date_raw
         sql:
-            {% if select_fixed_range._parameter_value == "Period" %}
+            {% if select_comparison_period._parameter_value == "Period" %}
               TIMESTAMP_SUB(${period_2_start}, INTERVAL 1 DAY)
-            {% elsif select_fixed_range._parameter_value == "Year" %}
+            {% elsif select_comparison_period._parameter_value == "Year" %}
                 TIMESTAMP_SUB({% date_end select_date_range %} , INTERVAL 364*2 DAY)
             {% else %}
-              TIMESTAMP(DATETIME_SUB(DATETIME_SUB(DATETIME({% date_end select_date_range %}), INTERVAL 0 DAY), INTERVAL 2 {% parameter select_fixed_range %}))
+              TIMESTAMP(DATETIME_SUB(DATETIME_SUB(DATETIME({% date_end select_date_range %}), INTERVAL 0 DAY), INTERVAL 2 {% parameter select_comparison_period %}))
             {% endif %};;
         hidden: no
       }
