@@ -12,9 +12,7 @@ view: base {
 
   dimension_group: base_date {
     view_label: "Date" # Calendar - Completed Date"
-    # group_label: "Date/Time"
-    # description: "Base Date"
-    label: "Transaction Date"
+    label: "Transaction"
     description: "Use this!"
     type: time
     timeframes: [raw, date]

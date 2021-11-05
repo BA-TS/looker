@@ -1,7 +1,6 @@
 include: "/models/backend/config.model"
 # include: "/custom_views/**/*.view"
 include: "/views/**/*.view"
-include: "/views/prod/date/period_over_period.view"
 
 label: "TS - Sales"
 
@@ -13,8 +12,12 @@ explore: base {
   description: ""
 
   conditionally_filter: {
-    filters: [base.select_date_range: "Yesterday"]
-    unless: [select_fixed_range]
+    filters: [
+      base.select_date_range: "Yesterday"
+    ] # could include all date options from calendar
+    unless: [
+      select_fixed_range
+      ]
   }
 
   sql_always_where:
@@ -22,20 +25,6 @@ explore: base {
   ${period_over_period}
 
     ;;
-    # {% condition base.current_date_range %} ${base.base_date_raw} {% endcondition %}
-
-    #   {% if base.previous_date_range._is_filtered or base.compare_to._in_query %}
-    #     {% if base.comparison_periods._parameter_value == "2" %}
-
-    #         or ${base.base_date_raw} >= ${period_2_start} and ${base.base_date_raw} < ${period_2_end}
-
-    #       {% elsif base.comparison_periods._parameter_value == "3" %}
-    #         or ${base.base_date_raw} >= ${period_2_start} and ${base.base_date_raw} < ${period_2_end}
-    #         or ${base.base_date_raw} >= ${period_3_start} and ${base.base_date_raw} < ${period_3_end}
-
-    #     {% endif %}
-
-    #   {% endif %}
 
 
     join: transactions {
