@@ -24,11 +24,12 @@ view: pop {
   }
 
   dimension_group: in_period {
+    view_label: "Period Comparison Fields"
     type: duration
     intervals: [day]
     description: "Gives the number of days in the current period date range"
-    sql_start: {% date_start base.current_date_range %} ;;
-    sql_end: {% date_end base.current_date_range %} ;;
+    sql_start: {% date_start current_date_range %} ;;
+    sql_end: {% date_end current_date_range %} ;;
     # hidden:  yes
   }
 
@@ -39,11 +40,11 @@ view: pop {
     sql:
     {% if compare_to._in_query %}
       {% if compare_to._parameter_value == "Period" %}
-        TIMESTAMP_SUB({% date_start base.current_date_range %} , INTERVAL ${days_in_period} DAY)
+        TIMESTAMP_SUB({% date_start current_date_range %} , INTERVAL ${days_in_period} DAY)
       {% elsif compare_to._parameter_value == "Year" %}
-        TIMESTAMP_SUB({% date_start base.current_date_range %} , INTERVAL 364 DAY)
+        TIMESTAMP_SUB({% date_start current_date_range %} , INTERVAL 364 DAY)
       {% else %}
-        TIMESTAMP(DATETIME_SUB(DATETIME({% date_start base.current_date_range %}) , INTERVAL 1 {% parameter compare_to %}))
+        TIMESTAMP(DATETIME_SUB(DATETIME({% date_start current_date_range %}) , INTERVAL 1 {% parameter compare_to %}))
       {% endif %}
     {% else %}
       {% date_start previous_date_range %}
@@ -58,11 +59,11 @@ view: pop {
     sql:
     {% if compare_to._in_query %}
       {% if compare_to._parameter_value == "Period" %}
-        TIMESTAMP_SUB({% date_start base.current_date_range %}, INTERVAL 1 DAY)
+        TIMESTAMP_SUB({% date_start current_date_range %}, INTERVAL 1 DAY)
       {% elsif compare_to._parameter_value == "Year" %}
-        TIMESTAMP_SUB({% date_end base.current_date_range %} , INTERVAL 364 DAY)
+        TIMESTAMP_SUB({% date_end current_date_range %} , INTERVAL 364 DAY)
       {% else %}
-        TIMESTAMP(DATETIME_SUB(DATETIME_SUB(DATETIME({% date_end base.current_date_range %}), INTERVAL 1 DAY), INTERVAL 1 {% parameter compare_to %}))
+        TIMESTAMP(DATETIME_SUB(DATETIME_SUB(DATETIME({% date_end current_date_range %}), INTERVAL 0 DAY), INTERVAL 1 {% parameter compare_to %}))
       {% endif %}
     {% else %}
       {% date_end previous_date_range %}
@@ -78,11 +79,11 @@ view: pop {
     type: date_raw
     sql:
     {% if compare_to._parameter_value == "Period" %}
-      TIMESTAMP_SUB({% date_start base.current_date_range %}, INTERVAL 2*${days_in_period} DAY)
+      TIMESTAMP_SUB({% date_start current_date_range %}, INTERVAL 2*${days_in_period} DAY)
     {% elsif compare_to._parameter_value == "Year" %}
-        TIMESTAMP_SUB({% date_start base.current_date_range %} , INTERVAL 364*2 DAY)
+        TIMESTAMP_SUB({% date_start current_date_range %} , INTERVAL 364*2 DAY)
     {% else %}
-      TIMESTAMP(DATETIME_SUB(DATETIME({% date_start base.current_date_range %}), INTERVAL 2 {% parameter compare_to %}))
+      TIMESTAMP(DATETIME_SUB(DATETIME({% date_start current_date_range %}), INTERVAL 2 {% parameter compare_to %}))
     {% endif %};;
     hidden: no
   }
@@ -95,9 +96,9 @@ view: pop {
     {% if compare_to._parameter_value == "Period" %}
       TIMESTAMP_SUB(${period_2_start}, INTERVAL 1 DAY)
     {% elsif compare_to._parameter_value == "Year" %}
-        TIMESTAMP_SUB({% date_end base.current_date_range %} , INTERVAL 364*2 DAY)
+        TIMESTAMP_SUB({% date_end current_date_range %} , INTERVAL 364*2 DAY)
     {% else %}
-      TIMESTAMP(DATETIME_SUB(DATETIME_SUB(DATETIME({% date_end base.current_date_range %}), INTERVAL 1 DAY), INTERVAL 2 {% parameter compare_to %}))
+      TIMESTAMP(DATETIME_SUB(DATETIME_SUB(DATETIME({% date_end current_date_range %}), INTERVAL 0 DAY), INTERVAL 2 {% parameter compare_to %}))
     {% endif %};;
     hidden: no
   }
@@ -105,12 +106,12 @@ view: pop {
   # dimension: period_4_start {
   #   view_label: "Period Comparison Fields"
   #   description: "Calculates the start of 4 periods ago"
-  #   type: date_raw
+  #   type: base_date_raw
   #   sql:
   #   {% if compare_to._parameter_value == "Period" %}
-  #     TIMESTAMP_SUB({% date_start base.current_date_range %}, INTERVAL 3*${days_in_period} DAY)
+  #     TIMESTAMP_SUB({% date_start current_date_range %}, INTERVAL 3*${days_in_period} DAY)
   #   {% else %}
-  #     TIMESTAMP(DATETIME_SUB(DATETIME({% date_start base.current_date_range %}), INTERVAL 3 {% parameter compare_to %}))
+  #     TIMESTAMP(DATETIME_SUB(DATETIME({% date_start current_date_range %}), INTERVAL 3 {% parameter compare_to %}))
   #   {% endif %};;
   #   hidden: no
   # }
@@ -118,12 +119,12 @@ view: pop {
   # dimension: period_4_end {
   #   view_label: "Period Comparison Fields"
   #   description: "Calculates the end of 4 periods ago"
-  #   type: date_raw
+  #   type: base_date_raw
   #   sql:
   #     {% if compare_to._parameter_value == "Period" %}
   #       TIMESTAMP_SUB(${period_2_start}, INTERVAL 1 DAY)
   #     {% else %}
-  #       TIMESTAMP(DATETIME_SUB(DATETIME_SUB(DATETIME({% date_end base.current_date_range %}), INTERVAL 1 DAY), INTERVAL 3 {% parameter compare_to %}))
+  #       TIMESTAMP(DATETIME_SUB(DATETIME_SUB(DATETIME({% date_end current_date_range %}), INTERVAL 1 DAY), INTERVAL 3 {% parameter compare_to %}))
   #     {% endif %};;
   #   hidden: no
   # }
@@ -186,13 +187,13 @@ view: pop {
     type: string
     order_by_field: order_for_period
     sql:
-      {% if base.current_date_range._is_filtered %}
+      {% if current_date_range._is_filtered %}
         CASE
-          WHEN {% condition base.current_date_range %}  ${base.date_raw} {% endcondition %}
+          WHEN {% condition current_date_range %}  ${base_date_raw} {% endcondition %}
           THEN "This {% parameter compare_to %}"
-          WHEN ${base.date_raw} between ${period_2_start} and ${period_2_end}
+          WHEN ${base_date_raw} >= ${period_2_start} and ${base_date_raw} < ${period_2_end}
           THEN "Last {% parameter compare_to %}"
-          WHEN ${base.date_raw} between ${period_3_start} and ${period_3_end}
+          WHEN ${base_date_raw}  >= ${period_3_start} and ${base_date_raw} < ${period_3_end}
           THEN "2 {% parameter compare_to %}s Ago"
 
         END
@@ -202,9 +203,6 @@ view: pop {
       ;;
   }
 
-          # WHEN ${base.date_raw} between ${period_4_start} and ${period_4_end}
-          # THEN "3 {% parameter compare_to %}s Ago"
-
   dimension: order_for_period {
     hidden: no
     view_label: "Period Comparison Fields"
@@ -212,23 +210,18 @@ view: pop {
     description: "Pivot me! Returns the period the metric covers, i.e. either the 'This Period', 'Previous Period' or '3 Periods Ago'"
     type: string
     sql:
-      {% if base.current_date_range._is_filtered %}
+      {% if base.previous_date_range._is_filtered or base.compare_to._in_query %}
         CASE
-          WHEN {% condition base.current_date_range %} ${base.date_raw} /*findme6*/{% endcondition %}
+          WHEN {% condition current_date_range %} ${base_date_raw} /*findme6*/{% endcondition %}
           THEN 1
-          WHEN ${base.date_raw} between ${period_2_start} and ${period_2_end}
+          WHEN ${base_date_raw} >= ${period_2_start} and ${base_date_raw} < ${period_2_end}
           THEN 2
-          WHEN ${base.date_raw} between ${period_3_start} and ${period_3_end}
+          WHEN ${base_date_raw} >= ${period_3_start} and ${base_date_raw} < ${period_3_end}
           THEN 3
         END
-      {% else %}
-        NULL
       {% endif %}
       ;;
   }
-
-          # WHEN ${base.date_raw} between ${period_4_start} and ${period_4_end}
-          # THEN 4
 
   dimension_group: date {
     view_label: "Calendar - Completed Date"
@@ -237,38 +230,35 @@ view: pop {
     # label: "Completed"
     description: "Use this as your date dimension when comparing periods. Aligns the all previous periods onto the current period"
     type: time
-    sql: TIMESTAMP_ADD({% date_start current_date_range %},INTERVAL (${day_in_period}) DAY);;
+    sql:
+      {% if base.previous_date_range._is_filtered or base.compare_to._in_query %}
+        TIMESTAMP_ADD({% date_start current_date_range %},INTERVAL (${day_in_period}) -1 DAY)
+      {% else %}
+        ${base.base_date_raw}
+      {% endif %};;
     timeframes: [date]
     hidden:  no
-
   }
-
-
 
   dimension: day_in_period {
     view_label: "Period Comparison Fields"
     description: "Gives the number of days since the start of each periods. Use this to align the event dates onto the same axis, the axes will read 1,2,3, etc."
     type: number
     sql:
-    {% if base.current_date_range._is_filtered %}
+    {% if base.previous_date_range._is_filtered or base.compare_to._in_query %}
       CASE
-        WHEN {% condition base.current_date_range %} ${base.date_raw} {% endcondition %}
-        THEN TIMESTAMP_DIFF(${base.date_raw},{% date_start base.current_date_range %},DAY)+1
+        WHEN {% condition current_date_range %} ${base_date_raw} {% endcondition %}
+        THEN TIMESTAMP_DIFF(${base_date_raw},{% date_start current_date_range %},DAY)+1
 
-        WHEN ${base.date_raw} between ${period_2_start} and ${period_2_end}
-        THEN TIMESTAMP_DIFF(${base.date_raw}, ${period_2_start},DAY)+1
+        WHEN ${base_date_raw} >= ${period_2_start} and ${base_date_raw} < ${period_2_end}
+        THEN TIMESTAMP_DIFF(${base_date_raw}, ${period_2_start},DAY)+1
 
-        WHEN ${base.date_raw} between ${period_3_start} and ${period_3_end}
-        THEN TIMESTAMP_DIFF(${base.date_raw}, ${period_3_start},DAY)+1
+        WHEN ${base_date_raw} >= ${period_3_start} and ${base_date_raw} < ${period_3_end}
+        THEN TIMESTAMP_DIFF(${base_date_raw}, ${period_3_start},DAY)+1
 
       END
-
-    {% else %} NULL
     {% endif %}
     ;;
     hidden: no
   }
-
-        # WHEN ${base.date_raw} between ${period_4_start} and ${period_4_end}
-        # THEN TIMESTAMP_DIFF(${base.date_raw}, ${period_4_start},DAY)+1
 }

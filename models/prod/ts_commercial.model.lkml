@@ -16,16 +16,16 @@ explore: base {
   # access_filter: {} -- to look at
 
   sql_always_where:
-    {% condition base.current_date_range %} ${base.date_raw} {% endcondition %}
+    {% condition base.current_date_range %} ${base.base_date_raw} {% endcondition %}
 
       {% if base.previous_date_range._is_filtered or base.compare_to._in_query %}
         {% if base.comparison_periods._parameter_value == "2" %}
 
-            or ${base.date_raw} between ${period_2_start} and ${period_2_end}
+            or ${base.base_date_raw} >= ${period_2_start} and ${base.base_date_raw} < ${period_2_end}
 
           {% elsif base.comparison_periods._parameter_value == "3" %}
-            or ${base.date_raw} between ${period_2_start} and ${period_2_end}
-            or ${base.date_raw} between ${period_3_start} and ${period_3_end}
+            or ${base.base_date_raw} >= ${period_2_start} and ${base.base_date_raw} < ${period_2_end}
+            or ${base.base_date_raw} >= ${period_3_start} and ${base.base_date_raw} < ${period_3_end}
 
         {% endif %}
 
@@ -38,7 +38,7 @@ explore: base {
     join: transactions {
       type: left_outer
       relationship: one_to_many
-      sql_on: ${base.date_date} = date(${transactions.transaction_date}) and ${transactions.is_cancelled} = 0 and ${transactions.product_code} <> '85699'  ;;
+      sql_on: ${base.base_date_date} = date(${transactions.transaction_date}) and ${transactions.is_cancelled} = 0 and ${transactions.product_code} <> '85699'  ;;
     }
 
     join: products {
@@ -51,21 +51,21 @@ explore: base {
       view_label: "Budget"
       type: full_outer
       relationship: many_to_one
-      sql_on: ${base.date_date}=${channel_budget.date} and upper(${transactions.sales_channel})=upper(${channel_budget.channel}) ;;
+      sql_on: ${base.base_date_date}=${channel_budget.date} and upper(${transactions.sales_channel})=upper(${channel_budget.channel}) ;;
     }
 
     join: site_budget {
       view_label: "Budget"
       type: full_outer
       relationship: many_to_one
-      sql_on: ${base.date_date} = ${site_budget.date_date} and ${transactions.site_uid}=${site_budget.site_uid};;
+      sql_on: ${base.base_date_date} = ${site_budget.date_date} and ${transactions.site_uid}=${site_budget.site_uid};;
     }
 
     join: category_budget {
       view_label: "Budget"
       type: full_outer
       relationship: many_to_one
-      sql_on: ${base.date_date}=${category_budget.date} and initcap(${products.department})=initcap(${category_budget.department}) ;;
+      sql_on: ${base.base_date_date}=${category_budget.date} and initcap(${products.department})=initcap(${category_budget.department}) ;;
     }
 
     join: sites {
@@ -79,7 +79,7 @@ explore: base {
       view_label: "Calendar - Completed Date"
       type:  inner
       relationship:  many_to_one
-      sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
+      sql_on: ${base.base_date_date}=${calendar_completed_date.date} ;;
     }
 
     join: calendar_placed_date{
@@ -116,12 +116,12 @@ explore: base {
     join: promo_main_catalogue {
       type: left_outer
       relationship: many_to_one
-      sql_on: ${transactions.product_code} = ${promo_main_catalogue.product_code} and ${base.date_date} between ${promo_main_catalogue.live_date} and ${promo_main_catalogue.end_date} ;;
+      sql_on: ${transactions.product_code} = ${promo_main_catalogue.product_code} and ${base.base_date_date} between ${promo_main_catalogue.live_date} and ${promo_main_catalogue.end_date} ;;
     }
     join: promo_extra {
       type: left_outer
       relationship: many_to_one
-      sql_on: ${transactions.product_code} = ${promo_extra.product_code} and ${base.date_date} between ${promo_extra.live_date} and ${promo_extra.end_date} ;;
+      sql_on: ${transactions.product_code} = ${promo_extra.product_code} and ${base.base_date_date} between ${promo_extra.live_date} and ${promo_extra.end_date} ;;
     }
     join: single_line_transactions {
       type:  left_outer
