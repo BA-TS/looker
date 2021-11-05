@@ -16,7 +16,11 @@ view: base {
     description: "Use this!"
     type: time
     timeframes: [raw, date]
-    sql: timestamp(${TABLE}.date) ;;
+    sql:
+
+    timestamp(${TABLE}.date)
+
+    ;;
   }
 
 }

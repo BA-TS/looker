@@ -117,21 +117,63 @@ view: period_on_period_new {
 
     default_value: "2"
   }
+
+
+
+  dimension_group: date {
+    view_label: "Calendar - Completed Date"
+    group_label: "Date/Time"
+    label: ""
+    # label: "Completed"
+    description: "Use this as your date dimension when comparing periods. Aligns the all previous periods onto the current period"
+    type: time
+    sql:
+      {% if pivot_dimension._in_query %}
+        {% if select_fixed_range._in_query %}
+
+          CASE
+
+            WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${__current_date__}) - 1
+            THEN ${__target_date__} + ${__length_of_year__}
+
+            WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${__current_date__}) - 2
+            THEN ${__target_date__} + ${__length_of_year__} * 2
+
+            ELSE ${__target_date__}
+
+          END -- double check this
+
+        {% elsif select_date_range._in_query %}
+        TIMESTAMP_ADD({% date_start select_date_range %}, INTERVAL (${day_in_period}) - 1 DAY)
+        {% else %}
+        ${base_date_raw}
+        {% endif %}
+      {% else %}
+        ${base_date_raw}
+      {% endif %}
+        ;;
+    timeframes: [date]
+    hidden:  no
+    allow_fill: no
+  }
+
+
+
   dimension: pivot_dimension {
     view_label: "Date"
     label: "Pivot Dimension"
     type: string
-    # order_by_field:
+    order_by_field: order_for_period # base_date_raw
     sql:
 
      {% if select_date_range._is_filtered %}
         CASE
           WHEN {% condition select_date_range %}  ${base_date_raw} {% endcondition %}
-          THEN "This {% parameter select_fixed_range %}"
+          THEN "This {% parameter select_comparison_period %}"
           WHEN ${base_date_raw} >= ${period_2_start} and ${base_date_raw} < ${period_2_end}
-          THEN "Last {% parameter select_fixed_range %}"
+          THEN "Last {% parameter select_comparison_period %}"
           WHEN ${base_date_raw}  >= ${period_3_start} and ${base_date_raw} < ${period_3_end}
-          THEN "2 {% parameter select_fixed_range %}s Ago"
+          THEN "2 {% parameter select_comparison_period %}s Ago"
 
         END
       {% elsif select_fixed_range._is_filtered %}
@@ -181,6 +223,27 @@ view: period_on_period_new {
   }
 
 
+  dimension: day_in_period {
+    view_label: "Period Comparison Fields"
+    description: "Gives the number of days since the start of each periods. Use this to align the event dates onto the same axis, the axes will read 1,2,3, etc."
+    type: number
+    sql:
+    {% if select_number_of_periods._is_filtered or select_comparison_period._in_query %}
+      CASE
+        WHEN {% condition select_date_range %} ${base_date_raw} {% endcondition %}
+        THEN TIMESTAMP_DIFF(${base_date_raw},{% date_start select_date_range %},DAY)+1
+
+        WHEN ${base_date_raw} >= ${period_2_start} and ${base_date_raw} < ${period_2_end}
+        THEN TIMESTAMP_DIFF(${base_date_raw}, ${period_2_start},DAY)+1
+
+        WHEN ${base_date_raw} >= ${period_3_start} and ${base_date_raw} < ${period_3_end}
+        THEN TIMESTAMP_DIFF(${base_date_raw}, ${period_3_start},DAY)+1
+
+      END
+    {% endif %}
+    ;;
+    hidden: no
+  }
 
   dimension: period_2_start {
     description: "Calculates the start of the previous period"
@@ -206,7 +269,7 @@ view: period_on_period_new {
       sql:
           {% if select_date_range._in_query %}
             {% if select_comparison_period._parameter_value == "Period" %}
-              TIMESTAMP_SUB({% date_start select_date_range %}, INTERVAL 1 DAY)
+              TIMESTAMP_SUB({% date_start select_date_range %}, INTERVAL 0 DAY)
             {% elsif select_comparison_period._parameter_value == "Year" %}
               TIMESTAMP_SUB({% date_end select_date_range %} , INTERVAL 364 DAY)
             {% else %}
@@ -237,7 +300,7 @@ view: period_on_period_new {
         type: date_raw
         sql:
             {% if select_comparison_period._parameter_value == "Period" %}
-              TIMESTAMP_SUB(${period_2_start}, INTERVAL 1 DAY)
+              TIMESTAMP_SUB(${period_2_start}, INTERVAL 0 DAY)
             {% elsif select_comparison_period._parameter_value == "Year" %}
                 TIMESTAMP_SUB({% date_end select_date_range %} , INTERVAL 364*2 DAY)
             {% else %}
@@ -305,6 +368,25 @@ view: period_on_period_new {
 
 
 
+  dimension: order_for_period {
+    hidden: no
+    view_label: "Period Comparison Fields"
+    label: "Period"
+    description: "Pivot me! Returns the period the metric covers, i.e. either the 'This Period', 'Previous Period' or '3 Periods Ago'"
+    type: string
+    sql:
+      {% if select_number_of_periods._is_filtered or select_comparison_period._in_query and select_date_range._in_query %}
+        CASE
+          WHEN {% condition select_date_range %} ${base_date_raw} /*findme6*/{% endcondition %}
+          THEN 1
+          WHEN ${base_date_raw} >= ${period_2_start} and ${base_date_raw} < ${period_2_end}
+          THEN 2
+          WHEN ${base_date_raw} >= ${period_3_start} and ${base_date_raw} < ${period_3_end}
+          THEN 3
+        END
+      {% endif %}
+      ;;
+  }
 
 
 
