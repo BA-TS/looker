@@ -11,10 +11,11 @@ view: base {
   extends: [period_on_period_new]
 
   dimension_group: base_date {
-    view_label: "Calendar - Completed Date"
-    group_label: "Date/Time"
-    description: "Base Date"
-    label: ""
+    view_label: "Date" # Calendar - Completed Date"
+    # group_label: "Date/Time"
+    # description: "Base Date"
+    label: "Transaction Date"
+    description: "Use this!"
     type: time
     timeframes: [raw, date]
     sql: timestamp(${TABLE}.date) ;;

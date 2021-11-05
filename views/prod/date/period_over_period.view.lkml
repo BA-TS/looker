@@ -29,13 +29,16 @@ view: period_on_period_new {
   }
 
   filter: select_date_range {
-    view_label: "Date - DEV"
+    label: "Date Range"
+    view_label: "Date"
     type: date
     convert_tz: yes
   }
   parameter: select_fixed_range {
+    label: "Fixed Range"
     required_access_grants: [is_developer]
-    view_label: "Date - DEV"
+    view_label: "Date"
+    description: "Developer only option."
     type: unquoted
     allowed_value: {
       label: "Previous Day"
@@ -59,7 +62,8 @@ view: period_on_period_new {
     }
   }
   parameter: select_comparison_period {
-    view_label: "Date - DEV"
+    label: "Comparison Period"
+    view_label: "Date"
     type: unquoted
     allowed_value: {
       label: "Previous Period"
@@ -92,7 +96,8 @@ view: period_on_period_new {
     default_value: "Period"
   }
   parameter: select_number_of_periods {
-    view_label: "Date - DEV"
+    label: "Number of Period(s)"
+    view_label: "Date"
     type: unquoted
     # allowed_value: {
     #   label: "Current Period"
@@ -114,7 +119,8 @@ view: period_on_period_new {
     default_value: "2"
   }
   dimension: pivot_dimension {
-    view_label: "Date - DEV"
+    view_label: "Date"
+    label: "Pivot"
     type: string
     # order_by_field:
     sql:
@@ -136,6 +142,7 @@ view: period_on_period_new {
       {% endif %}
 
     ;;
+    can_filter: no
   }
 
 # FLEXIBLE PERIOD ON PERIOD
@@ -166,19 +173,17 @@ view: period_on_period_new {
 
 
   dimension_group: in_period {
-    view_label: "Period Comparison Fields"
     type: duration
     intervals: [day]
     description: "Gives the number of days in the current period date range"
     sql_start: {% date_start select_date_range %} ;;
     sql_end: {% date_end select_date_range %} ;;
-    # hidden:  yes
+    hidden:  yes
   }
 
 
 
   dimension: period_2_start {
-    view_label: "Period Comparison Fields"
     description: "Calculates the start of the previous period"
     type: date_raw
     sql:
@@ -193,11 +198,10 @@ view: period_on_period_new {
     {% else %}
       {% date_start select_date_range %}
     {% endif %};;
-    # hidden:  yes
+    hidden:  yes
     }
 
     dimension: period_2_end {
-      view_label: "Period Comparison Fields"
       description: "Calculates the end of the previous period"
       type: date_raw
       sql:
@@ -212,11 +216,10 @@ view: period_on_period_new {
           {% else %}
             {% date_end select_date_range %}
           {% endif %};;
-          # hidden:  yes
+          hidden:  yes
       }
 
       dimension: period_3_start {
-        view_label: "Period Comparison Fields"
         description: "Calculates the start of 2 periods ago"
         type: date_raw
         sql:
@@ -227,11 +230,10 @@ view: period_on_period_new {
             {% else %}
               TIMESTAMP(DATETIME_SUB(DATETIME({% date_start select_date_range %}), INTERVAL 2 {% parameter select_comparison_period %}))
             {% endif %};;
-        hidden: no
+        hidden: yes
       }
 
       dimension: period_3_end {
-        view_label: "Period Comparison Fields"
         description: "Calculates the end of 2 periods ago"
         type: date_raw
         sql:
@@ -242,7 +244,7 @@ view: period_on_period_new {
             {% else %}
               TIMESTAMP(DATETIME_SUB(DATETIME_SUB(DATETIME({% date_end select_date_range %}), INTERVAL 0 DAY), INTERVAL 2 {% parameter select_comparison_period %}))
             {% endif %};;
-        hidden: no
+        hidden: yes
       }
 
       # FIXED PERIOD ON PERIOD
@@ -284,6 +286,7 @@ view: period_on_period_new {
             ${base.base_date_raw}
 
             ;;
+            hidden: yes
       }
 
       dimension: __target_date__ {
@@ -357,6 +360,7 @@ view: period_on_period_new {
         ${__target_date__} = ${__current_date__} - __length_of_week__
 
         ;;
+        hidden: yes
       }
       dimension: previous_full_day_LY {
         type: yesno
@@ -502,12 +506,8 @@ view: period_on_period_new {
 
       filter: pivot_period {
         required_access_grants: [is_developer]
-        view_label: "Period on Period"
-        group_label: "Period Comparison"
-        label: "Run Filter"
-        description: "Must be included to enable PoP."
         type:  yesno
-        hidden: no
+        hidden: yes
         sql:
 
         {% if select_fixed_range._in_query %}
