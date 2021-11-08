@@ -289,47 +289,58 @@ view: transactions {
     label: "Sales Channel"
     group_label: "Purchase Details"
     type: string
-    # sql:
+    sql:
+    {% if
+        channel_budget.channel_net_sales_budget._is_selected
+        or channel_budget.channel_gross_profit_Excl_funding_budget._is_selected
+        or channel_budget.channel_retro_funding_budget._is_selected
+        or channel_budget.channel_fixed_funding_budget._is_selected
+        or channel_budget.channel_gross_margin_inc_unit_funding_budget._is_selected
+        or channel_budget.channel_gross_margin_inc_all_funding_budget._is_selected
+      %}
+        initCap(coalesce(upper(${TABLE}.salesChannel),upper(${channel_budget.channel})))
+      {% else %}
+        initCap(upper(${TABLE}.salesChannel))
+      {% endif %}
 
-    # {% if channel_budget.channel_budget_in_query == 'TRUE' %}
-    #     initCap(coalesce(upper(${TABLE}.salesChannel),upper(${channel_budget.channel})))
-    #   {% else %}
-    #     initCap(upper(${TABLE}.salesChannel))
-    #   {% endif %}
-
-    # ;;
-    sql: coalesce(upper(${TABLE}.salesChannel),upper(${channel_budget.channel})) ;;
+    ;;
+    # sql: coalesce(upper(${TABLE}.salesChannel),upper(${channel_budget.channel})) ;;
   }
   dimension: site_uid_coalesce {
     label: "Site UID"
     view_label: "Sites"
     type: string
-    # sql:
+    sql:
 
-    # {% if site_budget.site_budget_in_query == 'TRUE' %}
-    #     coalesce(${TABLE}.siteUID,${site_budget.site_uid})
-    #   {% else %}
-    #     ${TABLE}.siteUID
-    #   {% endif %}
+      {% if site_budget.site_net_sales_budget._is_selected  %}
+        coalesce(${TABLE}.siteUID,${site_budget.site_uid})
+      {% else %}
+        ${TABLE}.siteUID
+      {% endif %}
 
-    # ;;
-    sql: coalesce(${TABLE}.siteUID,${site_budget.site_uid}) ;;
+    ;;
+    # sql: coalesce(${TABLE}.siteUID,${site_budget.site_uid}) ;;
   }
   dimension: department_coalesce {
     view_label: "Products"
     group_label: "Product Details"
     label: "Department"
     type:  string
-    # sql:
+    sql:
 
-    # {% if category_budget.category_budget_in_query == 'TRUE' %}
-    #     coalesce(INITCAP(${products.department}),initcap(${category_budget.department}))
-    #   {% else %}
-    #     INITCAP(${products.department})
-    #   {% endif %}
+    {% if
+                category_budget.department_net_sales_budget._in_query
+                or category_budget.department_margin_inc_Retro_funding_budget._in_query
+                or category_budget.department_margin_inc_all_funding_budget._in_query
+                or category_budget.department_margin_rate_inc_retro_funding_budget._in_query
+              %}
+        coalesce(INITCAP(${products.department}),initcap(${category_budget.department}))
+      {% else %}
+        INITCAP(${products.department})
+      {% endif %}
 
-    # ;;
-    sql: coalesce(INITCAP(${products.department}),initcap(${category_budget.department})) ;; # think about DIGITAL
+     ;;
+    # sql: coalesce(INITCAP(${products.department}),initcap(${category_budget.department})) ;; # think about DIGITAL
   }
 
   # EXTERNAL - CALENDAR #

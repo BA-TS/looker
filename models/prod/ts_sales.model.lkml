@@ -27,38 +27,91 @@ explore: base {
     ;;
 
 
-    join: transactions {
-      type: left_outer
-      relationship: one_to_many
-      sql_on: ${base.base_date_date} = date(${transactions.transaction_date}) and ${transactions.is_cancelled} = 0 and ${transactions.product_code} <> '85699'  ;;
-    }
-
-    join: products {
-      type:  inner
-      relationship: many_to_one
-      sql_on: ${transactions.product_uid}=${products.product_uid} ;;
-    }
-
     join: channel_budget {
       view_label: "Budget"
-      type: full_outer
+      type:  full_outer
       relationship: many_to_one
-      sql_on: ${base.base_date_date}=${channel_budget.date} and upper(${transactions.sales_channel})=upper(${channel_budget.channel}) ;;
+      sql_on:
+      {% if
+        channel_budget.channel_net_sales_budget._is_selected
+        or channel_budget.channel_gross_profit_Excl_funding_budget._is_selected
+        or channel_budget.channel_retro_funding_budget._is_selected
+        or channel_budget.channel_fixed_funding_budget._is_selected
+        or channel_budget.channel_gross_margin_inc_unit_funding_budget._is_selected
+        or channel_budget.channel_gross_margin_inc_all_funding_budget._is_selected
+      %}
+        ${base.base_date_date}=${channel_budget.date}
+      {% else %} 1=2
+      {% endif %}
+      ;;
+      # and upper(${transactions.sales_channel})=upper(${channel_budget.channel})
     }
 
     join: site_budget {
       view_label: "Budget"
       type: full_outer
       relationship: many_to_one
-      sql_on: ${base.base_date_date} = ${site_budget.date_date} and ${transactions.site_uid}=${site_budget.site_uid};;
+      sql_on:
+      {% if site_budget.site_net_sales_budget._in_query %}
+
+      ${base.base_date_date} = ${site_budget.date_date}
+
+      {% else %}
+
+      1=2
+
+      {% endif %}
+      ;;
+      # and ${transactions.site_uid}=${site_budget.site_uid}
     }
 
     join: category_budget {
       view_label: "Budget"
       type: full_outer
       relationship: many_to_one
-      sql_on: ${base.base_date_date}=${category_budget.date} and initcap(${products.department})=initcap(${category_budget.department}) ;;
+      sql_on: ${base.base_date_date}=${category_budget.date}
+      ;;
     }
+
+    join: transactions {
+      type: left_outer
+      relationship: one_to_many
+      sql_on:
+      -- core join
+      ${base.base_date_date} = date(${transactions.transaction_date}) and ${transactions.is_cancelled} = 0 and ${transactions.product_code} <> '85699'
+      {% if
+        channel_budget.channel_net_sales_budget._is_selected
+        or channel_budget.channel_gross_profit_Excl_funding_budget._is_selected
+        or channel_budget.channel_retro_funding_budget._is_selected
+        or channel_budget.channel_fixed_funding_budget._is_selected
+        or channel_budget.channel_gross_margin_inc_unit_funding_budget._is_selected
+        or channel_budget.channel_gross_margin_inc_all_funding_budget._is_selected
+      %}
+        and upper(${transactions.sales_channel}) = upper(channel_budget.channel)
+      {% endif %}
+      {% if site_budget.site_net_sales_budget._is_selected %}
+        and site_budget.siteuid = ${transactions.site_uid}
+      {% endif %}
+
+      ;;
+    }
+
+    join: products {
+      type:  inner
+      relationship: many_to_one
+      sql_on: ${transactions.product_uid}=${products.product_uid}
+              -- additional join if department budget fields are used
+              {% if
+                category_budget.department_net_sales_budget._in_query
+                or category_budget.department_margin_inc_Retro_funding_budget._in_query
+                or category_budget.department_margin_inc_all_funding_budget._in_query
+                or category_budget.department_margin_rate_inc_retro_funding_budget._in_query
+              %}
+                and upper(products.productDepartment) = upper(category_budget.department)
+              {% endif %}
+      ;;
+    }
+
 
     join: sites {
       type: left_outer
