@@ -21,6 +21,7 @@ view: base {
     timestamp(${TABLE}.date)
 
     ;;
+    hidden: yes
   }
 
 }

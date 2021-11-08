@@ -329,7 +329,7 @@ view: transactions {
     #   {% endif %}
 
     # ;;
-    sql: coalesce(INITCAP(${products.department}),initcap(${category_budget.department})) ;;
+    sql: coalesce(INITCAP(${products.department}),initcap(${category_budget.department})) ;; # think about DIGITAL
   }
 
   # EXTERNAL - CALENDAR #

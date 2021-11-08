@@ -76,18 +76,18 @@ view: period_on_period_new {
       label: "Previous Month"
       value: "Month"
     }
-    allowed_value: {
-      label: "Previous Quarter"
-      value: "Quarter"
-    }
+    # allowed_value: {
+    #   label: "Previous Quarter"
+    #   value: "Quarter"
+    # }
     allowed_value: {
       label: "Previous Year"
       value: "Year"
     }
-    # allowed_value: {
-    #   label: "Previous 2 Year"
-    #   value: "2YearsAgo"
-    # }
+    allowed_value: {
+      label: "Previous 2 Year"
+      value: "2YearsAgo"
+    }
     # allowed_value: {
     #   label: "Previous 2 Years"
     #   value: "2 Year"
@@ -121,9 +121,9 @@ view: period_on_period_new {
 
 
   dimension_group: date {
-    view_label: "Calendar - Completed Date"
+    view_label: "Date"
     group_label: "Date/Time"
-    label: ""
+    label: "Date"
     # label: "Completed"
     description: "Use this as your date dimension when comparing periods. Aligns the all previous periods onto the current period"
     type: time
@@ -131,17 +131,26 @@ view: period_on_period_new {
       {% if pivot_dimension._in_query %}
         {% if select_fixed_range._in_query %}
 
-          CASE
+          {% if select_fixed_range._parameter_value == "PD" and (select_comparison_period._parameter_value == "Week" or select_comparison_period._parameter_value == "Month") %}
+            ${__current_date__}
 
-            WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${__current_date__}) - 1
-            THEN ${__target_date__} + ${__length_of_year__}
+          {% elsif false %}
+            CURRENT_DATE() + 123
+          {% else %}
 
-            WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${__current_date__}) - 2
-            THEN ${__target_date__} + ${__length_of_year__} * 2
+            CASE
 
-            ELSE ${__target_date__}
+              WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${__current_date__}) - 1
+              THEN ${__target_date__} + ${__length_of_year__}
 
-          END -- double check this
+              WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${__current_date__}) - 2
+              THEN ${__target_date__} + ${__length_of_year__} * 2
+
+              ELSE ${__target_date__}
+
+            END -- double check this
+
+          {% endif %}
 
         {% elsif select_date_range._in_query %}
         TIMESTAMP_ADD({% date_start select_date_range %}, INTERVAL (${day_in_period}) - 1 DAY)
@@ -152,7 +161,7 @@ view: period_on_period_new {
         ${base_date_raw}
       {% endif %}
         ;;
-    timeframes: [date]
+    timeframes: [date, year]
     hidden:  no
     allow_fill: no
   }
@@ -174,10 +183,59 @@ view: period_on_period_new {
           THEN "Last {% parameter select_comparison_period %}"
           WHEN ${base_date_raw}  >= ${period_3_start} and ${base_date_raw} < ${period_3_end}
           THEN "2 {% parameter select_comparison_period %}s Ago"
-
         END
       {% elsif select_fixed_range._is_filtered %}
-        "TBC"
+
+
+
+      CASE
+          WHEN
+
+            {% if select_fixed_range._parameter_value == "PD" %}
+              CASE WHEN ${previous_full_day} THEN true ELSE false END
+            {% elsif select_fixed_range._parameter_value == "WTD" %}
+              CASE WHEN ${week_to_date} THEN true ELSE false END
+            {% elsif select_fixed_range._parameter_value == "MTD" %}
+              CASE WHEN ${month_to_date} THEN true ELSE false END
+            {% elsif select_fixed_range._parameter_value == "YTD" %}
+              CASE WHEN ${year_to_date} THEN true ELSE false END
+            {% else %}
+              false
+            {% endif %}
+
+          THEN "This {% parameter select_comparison_period %}"
+          WHEN
+
+          {% if select_fixed_range._parameter_value == "PD" %}
+              CASE WHEN ${previous_full_day_LY} THEN true WHEN ${previous_full_day_LW} THEN true WHEN ${previous_full_day_LM} THEN true ELSE false END
+            {% elsif select_fixed_range._parameter_value == "WTD" %}
+              CASE WHEN ${week_to_date_LY} THEN true ELSE false END
+            {% elsif select_fixed_range._parameter_value == "MTD" %}
+              CASE WHEN ${month_to_date_LY} THEN true ELSE false END
+            {% elsif select_fixed_range._parameter_value == "YTD" %}
+              CASE WHEN ${year_to_date_LY} THEN true ELSE false END
+            {% else %}
+              false
+            {% endif %}
+
+          THEN "Last {% parameter select_comparison_period %}"
+          WHEN
+          {% if select_fixed_range._parameter_value == "PD" %}
+              CASE WHEN ${previous_full_day_2LY} THEN true ELSE true END
+            {% elsif select_fixed_range._parameter_value == "WTD" %}
+              CASE WHEN ${week_to_date_2LY} THEN true ELSE false END
+            {% elsif select_fixed_range._parameter_value == "MTD" %}
+              CASE WHEN ${month_to_date_2LY} THEN true ELSE false END
+            {% elsif select_fixed_range._parameter_value == "YTD" %}
+              CASE WHEN ${year_to_date_2LY} THEN true ELSE false END
+            {% else %}
+              false
+            {% endif %}
+          THEN "2 {% parameter select_comparison_period %}s Ago"
+          ELSE "UNKNOWN PERIOD!"
+      END
+
+
       {% else %}
         NULL
       {% endif %}
@@ -316,7 +374,7 @@ view: period_on_period_new {
         datatype: date
         sql:
 
-            DATE(CURRENT_DATE() - 1)
+            CURRENT_DATE() - 1
 
             ;;
         hidden: yes
@@ -375,6 +433,7 @@ view: period_on_period_new {
     description: "Pivot me! Returns the period the metric covers, i.e. either the 'This Period', 'Previous Period' or '3 Periods Ago'"
     type: string
     sql:
+
       {% if select_number_of_periods._is_filtered or select_comparison_period._in_query and select_date_range._in_query %}
         CASE
           WHEN {% condition select_date_range %} ${base_date_raw} /*findme6*/{% endcondition %}
@@ -384,6 +443,11 @@ view: period_on_period_new {
           WHEN ${base_date_raw} >= ${period_3_start} and ${base_date_raw} < ${period_3_end}
           THEN 3
         END
+
+      {% else %}
+
+        ${base_date_raw}
+
       {% endif %}
       ;;
   }
@@ -438,17 +502,26 @@ view: period_on_period_new {
         type: yesno
         sql:
 
-        ${__target_date__} = ${__current_date__} - __length_of_week__
+
+
+        ${__target_date__} = ${__current_date__} - ${__length_of_week__}
 
         ;;
         hidden: yes
+      }
+      dimension: previous_full_day_LM {
+        type: yesno
+        sql:
+
+        ${__target_date__} = ${__current_date__} - 29
+
+        ;;
       }
       dimension: previous_full_day_LY {
         type: yesno
         sql:
 
-            ${previous_full_day}
-            OR
+
             ${__target_date__} = ${__current_date__} - ${__length_of_year__}
 
             ;;
@@ -458,8 +531,7 @@ view: period_on_period_new {
         type: yesno
         sql:
 
-            ${previous_full_day}
-            OR
+
             ${__target_date__} = ${__current_date__} - (${__length_of_year__} * 2)
 
             ;;
@@ -479,8 +551,7 @@ view: period_on_period_new {
         type:  yesno
         sql:
 
-            ${week_to_date}
-            OR
+
             (
               EXTRACT(DAYOFWEEK FROM ${__target_date__}) <= EXTRACT(DAYOFWEEK FROM (${__current_date__} - (${__length_of_year__} + 6)))
               AND ${__target_date__} > ${__current_date__} - (${__length_of_year__} + 6) -- ${__length_of_year__} + 6 (DUE TO BEING AT MOST 6 DAYS PRIOR FOR EQUIVALENT WTD)
@@ -494,8 +565,7 @@ view: period_on_period_new {
         type: yesno
         sql:
 
-            ${week_to_date}
-            OR
+
             (
               EXTRACT(DAYOFWEEK FROM ${__target_date__}) <= EXTRACT(DAYOFWEEK FROM (${__current_date__} - ((${__length_of_year__} * 2) + 6)))
               AND ${__target_date__} > ${__current_date__} - ((${__length_of_year__} * 2) + 6) -- ${__length_of_year__} + 6 (DUE TO BEING AT MOST 6 DAYS PRIOR FOR EQUIVALENT WTD)
@@ -518,8 +588,7 @@ view: period_on_period_new {
         type: yesno
         sql:
 
-            ${month_to_date}
-            OR
+
             (
               ${__target_date__} <= ${__current_date__} - ${__length_of_year__}
               AND ${__target_date__} > DATE(${__current_date__} - (EXTRACT(DAY FROM ${__current_date__}) + 0)) - ${__length_of_year__}
@@ -533,8 +602,7 @@ view: period_on_period_new {
         type: yesno
         sql:
 
-            ${month_to_date}
-            OR
+
             (
               ${__target_date__} <= ${__current_date__} - (${__length_of_year__} * 2)
               AND ${__target_date__} > DATE(${__current_date__} - (EXTRACT(DAY FROM ${__current_date__}) + 0)) - (${__length_of_year__} * 2)
@@ -560,8 +628,7 @@ view: period_on_period_new {
         type: yesno
         sql:
 
-            ${year_to_date}
-            OR
+
             (
               ${__target_date__} <= ${__current_date__} - ${__length_of_year__}
               AND ${__target_date__} >= DATE(EXTRACT(YEAR FROM ${__current_date__}), 1, 1) - ${__length_of_year__}
@@ -598,16 +665,20 @@ view: period_on_period_new {
             {% if select_comparison_period._parameter_value == "Period" %}
                 ${previous_full_day}
             {% elsif select_comparison_period._parameter_value == "Week" %}
+              ${previous_full_day} OR ${previous_full_day_LW}
             {% elsif select_comparison_period._parameter_value == "Month" %}
+              ${previous_full_day} OR ${previous_full_day_LM}
             {% elsif select_comparison_period._parameter_value == "Quarter" %}
             {% elsif select_comparison_period._parameter_value == "Year" %}
 
               {% if select_number_of_periods._parameter_value == "3" %}
-                ${previous_full_day_LY} OR ${previous_full_day_2LY}
+              ${previous_full_day} OR ${previous_full_day_LY} OR ${previous_full_day_2LY}
               {% else %}
-                ${previous_full_day_LY}
+                ${previous_full_day} OR ${previous_full_day_LY}
               {% endif %}
 
+            {% elsif select_comparison_period._parameter_value == "2YearsAgo" %}
+              ${previous_full_day} OR ${previous_full_day_2LY}
             {% else %}
               ${previous_full_day}
             {% endif %}
@@ -622,11 +693,13 @@ view: period_on_period_new {
             {% elsif select_comparison_period._parameter_value == "Year" %}
 
               {% if select_number_of_periods._parameter_value == "3" %}
-                ${week_to_date_LY} OR ${week_to_date_2LY}
+                ${week_to_date} OR ${week_to_date_LY} OR ${week_to_date_2LY}
               {% else %}
-                ${week_to_date_LY}
+                ${week_to_date} OR ${week_to_date_LY}
               {% endif %}
 
+            {% elsif select_comparison_period._parameter_value == "2YearsAgo" %}
+              ${week_to_date} OR ${week_to_date_2LY}
             {% else %}
               ${week_to_date}
             {% endif %}
@@ -641,11 +714,13 @@ view: period_on_period_new {
             {% elsif select_comparison_period._parameter_value == "Year" %}
 
               {% if select_number_of_periods._parameter_value == "3" %}
-                ${month_to_date_LY} OR ${month_to_date_2LY}
+                ${month_to_date} OR ${month_to_date_LY} OR ${month_to_date_2LY}
               {% else %}
-                ${month_to_date_LY}
+                ${month_to_date} OR ${month_to_date_LY}
               {% endif %}
 
+            {% elsif select_comparison_period._parameter_value == "2YearsAgo" %}
+              ${month_to_date} OR ${month_to_date_2LY}
             {% else %}
               ${week_to_date}
             {% endif %}
@@ -653,18 +728,20 @@ view: period_on_period_new {
           {% elsif select_fixed_range._parameter_value == "YTD" %}
 
             {% if select_comparison_period._parameter_value == "Period" %}
-                ${week_to_date}
+                ${year_to_date}
             {% elsif select_comparison_period._parameter_value == "Week" %}
             {% elsif select_comparison_period._parameter_value == "Month" %}
             {% elsif select_comparison_period._parameter_value == "Quarter" %}
             {% elsif select_comparison_period._parameter_value == "Year" %}
 
               {% if select_number_of_periods._parameter_value == "3" %}
-                ${year_to_date_LY} OR ${year_to_date_2LY}
+                ${year_to_date} OR ${year_to_date_LY} OR ${year_to_date_2LY}
               {% else %}
-                ${year_to_date_LY}
+                ${year_to_date} OR ${year_to_date_LY}
               {% endif %}
 
+            {% elsif select_comparison_period._parameter_value == "2YearsAgo" %}
+              ${year_to_date} OR ${year_to_date_2LY}
             {% else %}
               ${year_to_date}
             {% endif %}
