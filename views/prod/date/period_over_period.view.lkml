@@ -143,7 +143,7 @@ view: period_on_period_new {
       {% endif %}
 
       ;;
-    timeframes: [date, month, quarter, year]
+    timeframes: [date, month, year]
     can_filter: no
     hidden:  no
     allow_fill: no

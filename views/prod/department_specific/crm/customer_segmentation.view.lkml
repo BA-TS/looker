@@ -99,6 +99,7 @@ view: customer_segmentation {
   dimension: trade_flag {
     view_label: "Customers"
     group_label: "Flags"
+    label: "Trade Type"
     type: string
     sql: ${TABLE}.Trade_Flag ;;
   }

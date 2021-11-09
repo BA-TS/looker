@@ -169,32 +169,32 @@ view: sites {
 
   dimension: is_active {
     group_label: "Flag"
-    type: number
-    sql: ${TABLE}.isActive ;;
+    type: yesno
+    sql: ${TABLE}.isActive = 1 ;;
   }
 
   dimension: is_branch {
     group_label: "Flag"
-    type: number
-    sql: ${TABLE}.isBranch ;;
+    type: yesno
+    sql: ${TABLE}.isBranch = 1 ;;
   }
 
   dimension: is_closed {
     group_label: "Flag"
-    type: number
-    sql: ${TABLE}.isClosed ;;
+    type: yesno
+    sql: ${TABLE}.isClosed = 1`;;
   }
 
   dimension: is_metro {
     group_label: "Flag"
-    type: number
-    sql: ${TABLE}.isMetro ;;
+    type: yesno
+    sql: ${TABLE}.isMetro = 1 ;;
   }
 
   dimension: is_reduced_stock {
     group_label: "Flag"
-    type: number
-    sql: ${TABLE}.isReducedStock ;;
+    type: yesno
+    sql: ${TABLE}.isReducedStock = 1 ;;
   }
 
   ########## Division and Region ##########
