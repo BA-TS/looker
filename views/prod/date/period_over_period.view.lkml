@@ -143,7 +143,7 @@ view: period_on_period_new {
       {% endif %}
 
       ;;
-    timeframes: [date, month, year]
+    timeframes: [date, month, year, month_name, day_of_month, day_of_year]
     can_filter: no
     hidden:  no
     allow_fill: no
@@ -151,7 +151,7 @@ view: period_on_period_new {
 
   dimension: pivot_dimension {
     view_label: "Date"
-    label: "Period"
+    label: "Period for Pivot"
     description: "Pivot this to view direct date comparisons."
     type: string
     order_by_field: order_for_period

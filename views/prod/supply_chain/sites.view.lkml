@@ -168,31 +168,31 @@ view: sites {
   ########## Flag ##########
 
   dimension: is_active {
-    group_label: "Flag"
+    group_label: "Flags"
     type: yesno
     sql: ${TABLE}.isActive = 1 ;;
   }
 
   dimension: is_branch {
-    group_label: "Flag"
+    group_label: "Flags"
     type: yesno
     sql: ${TABLE}.isBranch = 1 ;;
   }
 
   dimension: is_closed {
-    group_label: "Flag"
+    group_label: "Flags"
     type: yesno
     sql: ${TABLE}.isClosed = 1`;;
   }
 
   dimension: is_metro {
-    group_label: "Flag"
+    group_label: "Flags"
     type: yesno
     sql: ${TABLE}.isMetro = 1 ;;
   }
 
   dimension: is_reduced_stock {
-    group_label: "Flag"
+    group_label: "Flags"
     type: yesno
     sql: ${TABLE}.isReducedStock = 1 ;;
   }

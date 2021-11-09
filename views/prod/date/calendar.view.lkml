@@ -15,21 +15,25 @@ view: calendar {
     group_label: "Calendar"
     type: number
     sql: ${TABLE}.calendarQuarter ;;
+    hidden: yes
   }
   dimension: calendar_year {
     group_label: "Calendar"
     type: number
     sql: ${TABLE}.calendarYear ;;
+    hidden: yes
   }
   dimension: calendar_year_month {
     group_label: "Calendar"
     type: string
     sql: ${TABLE}.calendarYearMonth ;;
+    hidden: yes
   }
   dimension: calendar_year_quarter {
     group_label: "Calendar"
     type: string
     sql: ${TABLE}.calendarYearQuarter ;;
+    hidden: yes
   }
   dimension: date_key {
     group_label: "Date"
@@ -59,27 +63,30 @@ view: calendar {
     group_label: "Day"
     type: number
     sql: ${TABLE}.dayInMonth ;;
+    hidden: yes
   }
   dimension: day_in_week {
     group_label: "Day"
     type: number
     sql: ${TABLE}.dayInWeek ;;
+    hidden: yes
   }
   dimension: day_in_year {
     group_label: "Day"
     type: number
     sql: ${TABLE}.dayInYear ;;
+    hidden: yes
   }
   dimension: day_name_in_week {
     group_label: "Day"
     type: string
     sql: ${TABLE}.dayNameInWeek ;;
+    hidden: yes
   }
   dimension: fiscal_month_of_year {
     group_label: "Fiscal"
     type: number
     sql: ${TABLE}.fiscalMonthOfYear ;;
-    can_filter: no
     hidden:  yes
   }
   dimension: fiscal_quarter {
@@ -98,6 +105,7 @@ view: calendar {
     group_label: "Fiscal"
     type: number
     sql: ${TABLE}.fiscalYear ;;
+    hidden: yes
   }
   dimension: fiscal_year_month {
     group_label: "Fiscal"
@@ -112,10 +120,11 @@ view: calendar {
     hidden:  yes
   }
   dimension: fiscal_year_week {
-    group_label: "Fiscal"
+    label: "Fiscal Week"
     type: number
     sql: ${TABLE}.fiscalYearWeek ;;
     value_format: "#"
+    can_filter: no
   }
   dimension: holiday_name {
     group_label: "Holiday"
@@ -129,13 +138,13 @@ view: calendar {
   }
   dimension: is_holiday {
     group_label: "Flags"
-    type: number
-    sql: ${TABLE}.isHoliday ;;
+    type: yesno
+    sql: ${TABLE}.isHoliday = 1;;
   }
   dimension: is_holiday_scotland {
     group_label: "Flags"
-    type: number
-    sql: ${TABLE}.isHolidayScotland ;;
+    type: yesno
+    sql: ${TABLE}.isHolidayScotland = 1;;
   }
   dimension: is_last_day_of_month {
     group_label: "Flags"
@@ -149,18 +158,20 @@ view: calendar {
   }
   dimension: is_weekend {
     group_label: "Flags"
-    type: number
-    sql: ${TABLE}.isWeekend ;;
+    type: yesno
+    sql: ${TABLE}.isWeekend = 1;;
   }
   dimension: month_in_year {
     group_label: "Calendar"
     type: number
     sql: ${TABLE}.monthInYear ;;
+    hidden: yes
   }
   dimension: month_name_in_year {
     group_label: "Calendar"
     type: string
     sql: ${TABLE}.monthNameInYear ;;
+    hidden: yes
   }
   dimension: week_in_year {
     group_label: "Calendar"
@@ -168,22 +179,5 @@ view: calendar {
     sql: ${TABLE}.weekInYear ;;
     hidden:  yes
   }
-
-  ###############################
-
-
-
-
-  # filter: fiscal_month_of_year_filter{
-  #   group_label: "Fiscal"
-  #   type: number
-  #   sql: ${fiscal_month_of_year} ;;
-  # }
-
-
-
-
-
-
 
 }

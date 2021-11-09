@@ -181,6 +181,7 @@ view: products {
     group_label: "Flags"
     type: number
     sql: ${TABLE}.suspended ;;
+    hidden: yes
   }
 
   ########## Supply Chain ##########

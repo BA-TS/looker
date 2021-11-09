@@ -136,7 +136,7 @@ explore: base {
 
     join: calendar_completed_date{
       from:  calendar
-      view_label: "Calendar - Completed Date"
+      view_label: "Date"
       type:  inner
       relationship:  many_to_one
       sql_on: ${base.base_date_date}=${calendar_completed_date.date} ;;
@@ -160,6 +160,7 @@ explore: base {
       type: left_outer
       relationship: many_to_one
       sql_on: ${products.default_supplier}=${suppliers.supplier_uid} ;;
+      fields: [suppliers.master_supplier_name, suppliers.supplier_name, suppliers.supplier_uid, suppliers.supplier_planner, suppliers.sage_supplier_code]
     }
 
     join: customer_segmentation {

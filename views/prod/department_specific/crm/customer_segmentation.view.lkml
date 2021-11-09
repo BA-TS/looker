@@ -102,6 +102,7 @@ view: customer_segmentation {
     label: "Trade Type"
     type: string
     sql: ${TABLE}.Trade_Flag ;;
+    hidden: yes
   }
 
   dimension: trade_type {
@@ -109,6 +110,7 @@ view: customer_segmentation {
     group_label: "Segmentation"
     type: string
     sql: ${TABLE}.Trade_Type ;;
+    hidden: yes
   }
 
   dimension: trade_type_grouping {
@@ -116,6 +118,7 @@ view: customer_segmentation {
     group_label: "Segmentation"
     type: string
     sql: ${TABLE}.Trade_Type_Grouping ;;
+    hidden: yes
   }
 
   dimension: ucu_uid {

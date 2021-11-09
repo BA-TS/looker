@@ -163,21 +163,21 @@ view: transactions {
 
   dimension: customer_uid {
     label: "Customer UID"
-    group_label: "UID"
+    group_label: "Order ID"
     type: string
     sql: ${TABLE}.customerUID ;;
     hidden: yes #!
   }
   dimension: delivery_address_uid {
     label: "Delivery Address UID"
-    group_label: "UID"
+    group_label: "Order ID"
     type: string
     sql: ${TABLE}.deliveryAddressUID ;;
     hidden: yes #!
   }
   dimension: originating_site_uid {
     label: "Originating Site UID"
-    group_label: "UID"
+    group_label: "Order ID"
     type: string
     sql: ${TABLE}.originatingSiteUID ;;
     hidden: yes #!
@@ -196,7 +196,7 @@ view: transactions {
   }
   dimension: user_uid {
     label: "User UID"
-    group_label: "UID"
+    group_label: "Order ID"
     type: string
     sql: ${TABLE}.userUID ;;
     hidden: yes
@@ -374,14 +374,14 @@ view: transactions {
   # UID #
 
   dimension: parent_order_uid {
-    group_label: "UID"
+    group_label: "Order ID"
     label: "Parent Order UID"
     type: string
     sql: ${TABLE}.parentOrderUID ;;
   }
   dimension: transaction_uid {
-    label: "Transaction UID"
-    group_label: "UID"
+    label: "Child Order UID"
+    group_label: "Order ID"
     type: string
     sql: ${TABLE}.transactionUID ;;
   }
@@ -407,6 +407,7 @@ view: transactions {
     label: "Open 18 Months"
     type: yesno
     sql: ${TABLE}.isOpen18Months = 1 ;;
+    hidden: yes
   }
   dimension: is_originating_lfl {
     required_access_grants: [is_developer]
@@ -414,6 +415,7 @@ view: transactions {
     label: "Originating LFL"
     type: yesno
     sql: ${TABLE}.isOriginatingLFL = 1 ;;
+    hidden: yes
   }
   dimension: is_originating_mature {
     required_access_grants: [is_developer]
@@ -421,6 +423,7 @@ view: transactions {
     label: "Originating Mature"
     type: yesno
     sql: ${TABLE}.isOriginatingMature = 1 ;;
+    hidden: yes
   }
   dimension: is_originating_open18_months {
     required_access_grants: [is_developer]
@@ -428,6 +431,7 @@ view: transactions {
     label: "Originating Open (18 Months)"
     type: yesno
     sql: ${TABLE}.isOriginatingOpen18Months = 1 ;;
+    hidden: yes
   }
 
   # ORDER DETAILS #
@@ -438,6 +442,7 @@ view: transactions {
     label: "Reason for Order"
     type: string
     sql: ${TABLE}.orderReason ;;
+    hidden: yes
   }
   dimension: order_special_requests {
     required_access_grants: [is_developer]
@@ -445,6 +450,7 @@ view: transactions {
     label: "Special Requests"
     type: string
     sql: ${TABLE}.orderSpecialRequests ;;
+    hidden: yes
   }
 
   # PURCHASE DETAILS #
@@ -681,48 +687,55 @@ view: transactions {
   measure: total_gross_sales {
     label: "Gross Sales"
     type:  sum
+    view_label: "Measures"
     group_label: "Core"
     sql: ${gross_sales_value} ;;
-    value_format: "\£#,##0.00;(\£#,##0.00)"
+    value_format_name: gbp
   }
   measure: total_net_sales {
     label: "Net Sales"
+    view_label: "Measures"
     group_label: "Core"
     type:  sum
     sql: ${net_sales_value} ;;
-    value_format: "\£#,##0.00;(\£#,##0.00)"
+    value_format_name: gbp
   }
   measure: total_cogs {
     label: "Total COGS"
+    view_label: "Measures"
     group_label: "Core"
     type:  sum
     sql: ${cogs} ;;
-    value_format: "\£#,##0.00;(\£#,##0.00)"
+    value_format_name: gbp
     hidden: no
   }
   measure: total_unit_funding {
     label: "Total Unit Funding"
+    view_label: "Measures"
     group_label: "Core"
     type:  sum
     sql: ${unit_funding} ;;
-    value_format: "\£#,##0.00;(\£#,##0.00)"
+    value_format_name: gbp
     hidden: no
   }
   measure: total_margin_excl_funding {
     label: "Margin (Excluding Funding)"
+    view_label: "Measures"
     group_label: "Core"
     type:  sum
     sql: ${margin_excl_funding} ;;
   }
   measure: total_margin_incl_funding {
     label: "Margin (Including Funding)"
+    view_label: "Measures"
     group_label: "Core"
     type:  sum
     sql: ${margin_incl_funding} ;;
-    value_format: "\£#,##0.00;(\£#,##0.00)"
+    value_format_name: gbp
   }
   measure: total_margin_rate_excl_funding {
     label: "Margin Rate (Excluding Funding)"
+    view_label: "Measures"
     group_label: "Core"
     type:  number
     sql:
@@ -732,6 +745,7 @@ view: transactions {
   }
   measure: total_margin_rate_incl_funding {
     label: "Margin Rate (Including Funding)"
+    view_label: "Measures"
     group_label: "Core"
     type:  number
     sql:
@@ -740,6 +754,7 @@ view: transactions {
   }
   measure: total_units {
     label: "Total Units"
+    view_label: "Measures"
     group_label: "Core"
     type:  sum
     sql: case when ${product_code} like '0%' then 0 else ${quantity} end ;;
@@ -747,6 +762,7 @@ view: transactions {
   }
   measure: total_units_incl_system_codes {
     label: "Total Units (System Codes)"
+    view_label: "Measures"
     group_label: "Core"
     type:  sum
     sql: ${quantity} ;;
@@ -754,6 +770,7 @@ view: transactions {
   }
   measure: number_of_transactions {
     label: "Number of Transactions"
+    view_label: "Measures"
     group_label: "Core"
     type: count_distinct
     sql: ${parent_order_uid} ;;
@@ -761,6 +778,7 @@ view: transactions {
   }
   measure: number_of_unique_customers {
     label: "Number of Customers"
+    view_label: "Measures"
     group_label: "Core"
     type: count_distinct
     sql: ${customer_uid} ;;
@@ -1642,34 +1660,39 @@ view: transactions {
 
   measure: aov_gross_sales{
     label: "Gross Sales AOV"
+    view_label: "Measures"
     group_label: "AOV"
     type:  number
     sql: SAFE_DIVIDE(${total_gross_sales}, ${number_of_transactions}) ;;
-    value_format: "\£#,##0.00;(\£#,##0.00)"
+    value_format_name: gbp
   }
   measure: aov_net_sales {
     label: "Net Sales AOV"
+    view_label: "Measures"
     group_label: "AOV"
     type:  number
     sql: SAFE_DIVIDE(${total_net_sales}, ${number_of_transactions}) ;;
-    value_format: "\£#,##0.00;(\£#,##0.00)"
+    value_format_name: gbp
   }
   measure: aov_margin_excl_funding {
     label: "Margin Excl Funding AOV"
+    view_label: "Measures"
     group_label: "AOV"
     type:  number
     sql: SAFE_DIVIDE(${total_margin_excl_funding}, ${number_of_transactions}) ;;
-    value_format: "\£#,##0.00;(\£#,##0.00)"
+    value_format_name: gbp
   }
   measure: aov_margin_incl_funding {
     label: "Margin Inc Funding AOV"
+    view_label: "Measures"
     group_label: "AOV"
     type:  number
     sql: SAFE_DIVIDE(${total_margin_incl_funding}, ${number_of_transactions}) ;;
-    value_format: "\£#,##0.00;(\£#,##0.00)"
+    value_format_name: gbp
   }
   measure: aov_units{
     label: "Average Units" #  (Transaction)
+    view_label: "Measures"
     group_label: "AOV"
     type: number
     sql:SAFE_DIVIDE(${total_units}, ${number_of_transactions}) ;;
@@ -1677,6 +1700,7 @@ view: transactions {
   }
   measure: aov_units_incl_system_codes{
     label: "Average Units Inc System" # (Transaction)
+    view_label: "Measures"
     group_label: "AOV"
     type: number
     sql: SAFE_DIVIDE(${total_units_incl_system_codes}, ${number_of_transactions}) ;;
@@ -1684,6 +1708,7 @@ view: transactions {
   }
   measure: aov_price {
     label: "Net ASP" # (Transaction)
+    view_label: "Measures"
     group_label: "AOV"
     description: "Net Sales AOV / Average Units"
     type: number

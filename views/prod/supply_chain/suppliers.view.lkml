@@ -118,43 +118,43 @@ view: suppliers {
   ########## Accounting ##########
 
   dimension: payment_terms {
-    group_label: "Accounting"
+
     type: number
     sql: ${TABLE}.paymentTerms ;;
   }
 
   dimension: sage_supplier_code {
-    group_label: "Accounting"
+
     type: string
     sql: ${TABLE}.sageSupplierCode ;;
   }
 
   dimension: settlement_discount_days {
-    group_label: "Accounting"
+
     type: number
     sql: ${TABLE}.settlementDiscountDays ;;
   }
 
   dimension: settlement_discount_percentage {
-    group_label: "Accounting"
+
     type: number
     sql: ${TABLE}.settlementDiscountPercentage ;;
   }
 
   dimension: account_credit_limit {
-    group_label: "Accounting"
+
     type: number
     sql: ${TABLE}.accountCreditLimit ;;
   }
 
   dimension: account_held {
-    group_label: "Accounting"
+
     type: number
     sql: ${TABLE}.accountHeld ;;
   }
 
   dimension: account_number {
-    group_label: "Accounting"
+
     type: string
     sql: ${TABLE}.accountNumber ;;
   }

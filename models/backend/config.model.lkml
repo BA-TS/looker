@@ -26,7 +26,7 @@ access_grant: can_use_customers {
 }
 access_grant: can_use_customer_information {
   user_attribute: ts_sensitive # CG - consider wider group option of BU_sensitive flag (to propose)
-  allowed_values: ["Y"]
+  allowed_values: ["YS"]
 }
 access_grant: is_developer {
   user_attribute: ts_developer
