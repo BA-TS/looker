@@ -1,0 +1,55 @@
+view: total_budget {
+  derived_table: {
+    datagroup_trigger: toolstation_transactions_datagroup
+    sql:
+      select
+        date,
+        sum(netSales) as net_sales_budget,
+        sum(grossProfit) as gross_margin_budget,
+        sum(retroFunding) as retro_funding_budget,
+        sum(fixedFunding) as fixed_funding_budget,
+        sum(grossProfit) + sum(retroFunding) as gross_margin_inc_retro_budget,
+        sum(grossProfit) + sum(retroFunding) + sum(fixedFunding) as gross_margin_inc_retro_and_fixed_budget
+
+       from `toolstation-data-storage.ts_finance.channelBudget`
+
+       group by 1;;
+  }
+
+  dimension: total_budget_date {
+    type: date
+    datatype: date
+    sql: ${TABLE}.date ;;
+  }
+
+  measure: net_sales_budget {
+    type: sum
+    sql: ${TABLE}.net_sales_budget ;;
+  }
+
+  measure: gross_margin_budget {
+    type: sum
+    sql: ${TABLE}.gross_margin_budget ;;
+  }
+
+  measure: retro_funding_budget {
+    type: sum
+    sql: ${TABLE}.retro_funding_budget ;;
+  }
+
+  measure: fixed_funding_budget {
+    type: sum
+    sql: ${TABLE}.fixed_funding_budget ;;
+  }
+
+  measure: gross_margin_inc_retro_budget {
+    type: sum
+    sql: ${TABLE}.gross_margin_inc_retro_budget ;;
+  }
+
+  measure: gross_margin_inc_retro_and_fixed_budget {
+    type: sum
+    sql: ${TABLE}.gross_margin_inc_retro_and_fixed_budget ;;
+  }
+
+}
