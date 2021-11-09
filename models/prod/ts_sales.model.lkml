@@ -38,26 +38,6 @@ explore: base {
       sql_on: ${base.date_date} = ${total_budget.total_budget_date};;
     }
 
-    join: channel_budget {
-      view_label: "Budget"
-      type:  full_outer
-      relationship: many_to_one
-      sql_on:
-      {% if
-        channel_budget.channel_net_sales_budget._is_selected
-        or channel_budget.channel_gross_profit_Excl_funding_budget._is_selected
-        or channel_budget.channel_retro_funding_budget._is_selected
-        or channel_budget.channel_fixed_funding_budget._is_selected
-        or channel_budget.channel_gross_margin_inc_unit_funding_budget._is_selected
-        or channel_budget.channel_gross_margin_inc_all_funding_budget._is_selected
-      %}
-        ${base.base_date_date}=${channel_budget.date}
-      {% else %} 1=2
-      {% endif %}
-      ;;
-      # and upper(${transactions.sales_channel})=upper(${channel_budget.channel})
-    }
-
     join: site_budget {
       view_label: "Budget"
       type: full_outer
@@ -84,28 +64,49 @@ explore: base {
       ;;
     }
 
+    join: channel_budget {
+      view_label: "Budget"
+      type:  full_outer
+      relationship: many_to_one
+      sql_on:
+        {% if
+          channel_budget.channel_net_sales_budget._is_selected
+          or channel_budget.channel_gross_profit_Excl_funding_budget._is_selected
+          or channel_budget.channel_retro_funding_budget._is_selected
+          or channel_budget.channel_fixed_funding_budget._is_selected
+          or channel_budget.channel_gross_margin_inc_unit_funding_budget._is_selected
+          or channel_budget.channel_gross_margin_inc_all_funding_budget._is_selected
+        %}
+          ${base.base_date_date}=${channel_budget.date}
+        {% else %} 1=2
+        {% endif %}
+        ;;
+        # and upper(${transactions.sales_channel})=upper(${channel_budget.channel})
+      }
+
     join: transactions {
-      type: full_outer
+      type: left_outer
       relationship: one_to_many
       sql_on:
       -- core join
       ${base.base_date_date} = date(${transactions.transaction_date}) and ${transactions.is_cancelled} = 0 and ${transactions.product_code} <> '85699'
-      {% if
-        channel_budget.channel_net_sales_budget._is_selected
-        or channel_budget.channel_gross_profit_Excl_funding_budget._is_selected
-        or channel_budget.channel_retro_funding_budget._is_selected
-        or channel_budget.channel_fixed_funding_budget._is_selected
-        or channel_budget.channel_gross_margin_inc_unit_funding_budget._is_selected
-        or channel_budget.channel_gross_margin_inc_all_funding_budget._is_selected
-      %}
-        and upper(${transactions.sales_channel}) = upper(channel_budget.channel)
-      {% endif %}
-      {% if site_budget.site_net_sales_budget._is_selected %}
-        and site_budget.siteuid = ${transactions.site_uid}
-      {% endif %}
 
       ;;
+      # {% if
+      #   channel_budget.channel_net_sales_budget._is_selected
+      #   or channel_budget.channel_gross_profit_Excl_funding_budget._is_selected
+      #   or channel_budget.channel_retro_funding_budget._is_selected
+      #   or channel_budget.channel_fixed_funding_budget._is_selected
+      #   or channel_budget.channel_gross_margin_inc_unit_funding_budget._is_selected
+      #   or channel_budget.channel_gross_margin_inc_all_funding_budget._is_selected
+      # %}
+      #   or (${base.base_date_date} = ${channel_budget.date} and upper(${transactions.sales_channel}) = upper(channel_budget.channel))
+      # {% endif %}
+      # {% if site_budget.site_net_sales_budget._is_selected %}
+      #   and site_budget.siteuid = ${transactions.site_uid}
+      # {% endif %}
     }
+
 
     join: products {
       type:  left_outer
@@ -133,13 +134,13 @@ explore: base {
       sql_on: ${transactions.site_uid_coalesce}=${sites.site_uid} ;;
     }
 
-    # join: calendar_completed_date{
-    #   from:  calendar
-    #   view_label: "Calendar - Completed Date"
-    #   type:  inner
-    #   relationship:  many_to_one
-    #   sql_on: ${base.base_date_date}=${calendar_completed_date.date} ;;
-    # }
+    join: calendar_completed_date{
+      from:  calendar
+      view_label: "Calendar - Completed Date"
+      type:  inner
+      relationship:  many_to_one
+      sql_on: ${base.base_date_date}=${calendar_completed_date.date} ;;
+    }
 
     # join: calendar_placed_date{
     #   from:  calendar
