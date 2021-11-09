@@ -144,6 +144,7 @@ view: sites {
       year
     ]
     sql: ${TABLE}.dateClosed ;;
+    hidden: yes
   }
 
   dimension_group: date_opened {
@@ -160,6 +161,7 @@ view: sites {
       year
     ]
     sql: ${TABLE}.dateOpened ;;
+    hidden: yes
   }
 
 

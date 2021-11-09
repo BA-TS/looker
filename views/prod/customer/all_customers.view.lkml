@@ -89,6 +89,7 @@ view: customers {
       year
     ]
     sql: ${TABLE}.creationDate ;;
+    hidden: yes
   }
   dimension: customer__company {
     type: string
@@ -198,86 +199,86 @@ view: customers {
   dimension: permissions__catalogue_mail_opt_in {
     type: yesno
     sql: ${TABLE}.permissions.catalogue_mail_opt_in ;;
-    group_label: "Permissions"
-    group_item_label: "Catalogue Mail Opt In"
+    group_label: "Permissions (Opt In)"
+    group_item_label: "Catalogue (Mail)"
   }
   dimension: permissions__offers_email_opt_in {
     type: yesno
     sql: ${TABLE}.permissions.offers_email_opt_in ;;
-    group_label: "Permissions"
-    group_item_label: "Offers Email Opt In"
+    group_label: "Permissions (Opt In)"
+    group_item_label: "Email (Offers)"
   }
   dimension: permissions__offers_mail_opt_in {
     type: yesno
     sql: ${TABLE}.permissions.offers_mail_opt_in ;;
-    group_label: "Permissions"
-    group_item_label: "Offers Mail Opt In"
+    group_label: "Permissions (Opt In)"
+    group_item_label: "Mail (Offers)"
   }
   dimension: permissions__offers_mobile_opt_in {
     type: yesno
     sql: ${TABLE}.permissions.offers_mobile_opt_in ;;
-    group_label: "Permissions"
-    group_item_label: "Offers Mobile Opt In"
+    group_label: "Permissions (Opt In)"
+    group_item_label: "Mobile (Offers)"
   }
   dimension: permissions__offers_notif_opt_in {
     type: yesno
     sql: ${TABLE}.permissions.Offers_Notif_Opt_In ;;
-    group_label: "Permissions"
-    group_item_label: "Offers Notif Opt In"
+    group_label: "Permissions (Opt In)"
+    group_item_label: "Notification (Offers)"
   }
   dimension: permissions__offers_sms_opt_in {
     type: yesno
     sql: ${TABLE}.permissions.offers_sms_opt_in ;;
-    group_label: "Permissions"
-    group_item_label: "Offers Sms Opt In"
+    group_label: "Permissions (Opt In)"
+    group_item_label: "SMS (Offers)"
   }
   dimension: permissions__order_process_email_opt_in {
     type: yesno
     sql: ${TABLE}.permissions.order_process_email_opt_in ;;
-    group_label: "Permissions"
-    group_item_label: "Order Process Email Opt In"
+    group_label: "Permissions (Opt In)"
+    group_item_label: "Email (Order Process)"
   }
   dimension: permissions__order_process_notif_opt_in {
     type: yesno
     sql: ${TABLE}.permissions.Order_Process_Notif_Opt_In ;;
-    group_label: "Permissions"
-    group_item_label: "Order Process Notif Opt In"
+    group_label: "Permissions (Opt In)"
+    group_item_label: "Notification (Order Process)"
   }
   dimension: permissions__order_process_sms_opt_in {
     type: yesno
     sql: ${TABLE}.permissions.order_process_sms_opt_in ;;
-    group_label: "Permissions"
-    group_item_label: "Order Process Sms Opt In"
+    group_label: "Permissions (Opt In)"
+    group_item_label: "SMS (Order Process)"
   }
   dimension: permissions__order_query_email_opt_in {
     type: yesno
     sql: ${TABLE}.permissions.order_query_email_opt_in ;;
-    group_label: "Permissions"
-    group_item_label: "Order Query Email Opt In"
+    group_label: "Permissions (Opt In)"
+    group_item_label: "Email (Order Query)"
   }
   dimension: permissions__order_query_mobile_opt_in {
     type: yesno
     sql: ${TABLE}.permissions.order_query_mobile_opt_in ;;
-    group_label: "Permissions"
-    group_item_label: "Order Query Mobile Opt In"
+    group_label: "Permissions (Opt In)"
+    group_item_label: "Mobile (Order Query)"
   }
   dimension: permissions__order_query_notif_opt_in {
     type: yesno
     sql: ${TABLE}.permissions.Order_Query_Notif_Opt_In ;;
-    group_label: "Permissions"
-    group_item_label: "Order Query Notif Opt In"
+    group_label: "Permissions (Opt In)"
+    group_item_label: "Notification (Order Query)"
   }
   dimension: permissions__order_query_sms_opt_in {
     type: yesno
     sql: ${TABLE}.permissions.order_query_sms_opt_in ;;
-    group_label: "Permissions"
-    group_item_label: "Order Query Sms Opt In"
+    group_label: "Permissions (Opt In)"
+    group_item_label: "SMS (Order Query)"
   }
   dimension: permissions__order_query_telephone_opt_in {
     type: yesno
     sql: ${TABLE}.permissions.order_query_telephone_opt_in ;;
-    group_label: "Permissions"
-    group_item_label: "Order Query Telephone Opt In"
+    group_label: "Permissions (Opt In)"
+    group_item_label: "Telephone (Order Query)"
   }
   dimension: trade_customer {
     type:  string
@@ -296,6 +297,7 @@ view: customers {
       year
     ]
     sql: ${TABLE}.updatedDate ;;
+    hidden: yes
   }
 
   #####################

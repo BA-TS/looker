@@ -189,24 +189,26 @@ view: products {
     group_label: "Supply Chain"
     type: string
     sql: ${TABLE}.manufacturer ;;
+    hidden: yes
   }
   dimension: rec_replen_multiple {
     group_label: "Supply Chain"
     type: number
     sql: ${TABLE}.recReplenMultiple ;;
+    hidden: yes
   }
   dimension: stock_shop_replen_delay {
     group_label: "Supply Chain"
     type: string
     sql: ${TABLE}.stockShopReplenDelay ;;
+    hidden: yes
   }
   dimension: supplier_part_number {
     group_label: "Supply Chain"
     type: string
     sql: ${TABLE}.supplierPartNumber ;;
+    hidden: yes
   }
-
-  # HIDDEN #
 
   dimension: manufacturer_id {
     group_label: "Supply Chain"

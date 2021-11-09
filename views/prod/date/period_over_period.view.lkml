@@ -516,6 +516,7 @@ view: period_on_period_new {
         ${__target_date__} = ${__current_date__} - 29
 
         ;;
+        hidden: yes
       }
       dimension: previous_full_day_LY {
         type: yesno
