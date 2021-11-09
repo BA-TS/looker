@@ -7,7 +7,7 @@ label: "TS - Sales"
 explore: base {
 
   extends: []
-  always_join: [transactions, products]
+  # always_join: [transactions, products]
   label: "Transactions"
   description: ""
 
@@ -31,6 +31,12 @@ explore: base {
 
     ;;
 
+    join: total_budget {
+      view_label: "Budget"
+      type: left_outer
+      relationship: one_to_one
+      sql_on: ${base.date_date} = ${total_budget.total_budget_date};;
+    }
 
     join: channel_budget {
       view_label: "Budget"
@@ -79,7 +85,7 @@ explore: base {
     }
 
     join: transactions {
-      type: left_outer
+      type: full_outer
       relationship: one_to_many
       sql_on:
       -- core join
