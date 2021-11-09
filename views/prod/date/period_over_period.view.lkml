@@ -29,12 +29,14 @@ view: period_on_period_new {
 
   filter: select_date_range {
     label: "Date Range"
+    group_label: "Range"
     view_label: "Date"
     type: date
     convert_tz: yes
   }
   parameter: select_fixed_range {
     label: "Fixed Range"
+    group_label: "Range"
     required_access_grants: [is_developer]
     view_label: "Date"
     description: "Developer only option."
@@ -58,6 +60,7 @@ view: period_on_period_new {
   }
   parameter: select_comparison_period {
     label: "Comparison Period"
+    group_label: "Comparison"
     view_label: "Date"
     type: unquoted
     allowed_value: {
@@ -84,6 +87,7 @@ view: period_on_period_new {
   }
   parameter: select_number_of_periods {
     label: "Number of Period(s)"
+    group_label: "Comparison"
     view_label: "Date"
     type: unquoted
     allowed_value: {
@@ -101,7 +105,8 @@ view: period_on_period_new {
 
   dimension_group: date {
     view_label: "Date"
-    label: "Transaction"
+    group_label: ""
+    label: ""
     description: "Use this as your date dimension when comparing periods. Aligns the all previous periods onto the current period"
     type: time
     sql:
@@ -138,14 +143,16 @@ view: period_on_period_new {
       {% endif %}
 
       ;;
-    timeframes: [date]
+    timeframes: [date, month, quarter, year]
+    can_filter: no
     hidden:  no
     allow_fill: no
   }
 
   dimension: pivot_dimension {
     view_label: "Date"
-    label: "Pivot Dimension"
+    label: "Period"
+    description: "Pivot this to view direct date comparisons."
     type: string
     order_by_field: order_for_period
     sql:
