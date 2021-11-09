@@ -3,8 +3,11 @@ include: "/views/**/*base*.view"
 
 view: transactions {
 
-  sql_table_name:`sales.transactions`;;
-  # extends: [pop_date_comparison, period_on_period]
+  sql_table_name:
+
+  `sales.transactions`
+
+  ;;
 
 
 # ██╗░░██╗██╗██████╗░██████╗░███████╗███╗░░██╗
@@ -346,22 +349,10 @@ view: transactions {
   # EXTERNAL - CALENDAR #
 
   dimension: placed_date { # _group
-    label: "Date"
-    view_label: "Calendar - Placed Date"
-    group_label: "Placed Date"
-    description: "DEV - consider changing this to group (current issue with pre-integrated with 7 day moving average works)."
     type: date
     datatype: date
-    # type: time
-    # timeframes: [
-    #   raw,
-    #   time,
-    #   date,
-    #   year,
-    #   month,
-    #   quarter,
-    # ]
     sql: ${TABLE}.placeddate ;;
+    hidden: yes
   }
 
   # EXTERNAL - PRODUCTS #
@@ -372,7 +363,11 @@ view: transactions {
     label: "New Product"
     type:  yesno
 
-    sql: (${product_first_sale_date.first_sale_date} + 182) <= ${base.base_date_date}    ;;
+    sql:
+
+    (${product_first_sale_date.first_sale_date} + 182) <= ${base.base_date_date}
+
+    ;;
 
   }
 
