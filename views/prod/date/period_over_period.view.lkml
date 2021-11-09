@@ -6,7 +6,7 @@ view: period_on_period_new {
 
   filter: period_over_period {
     required_access_grants: [is_developer]
-    hidden: yes # in always_where
+    hidden: yes
     type: yesno
     sql:
 
@@ -51,10 +51,6 @@ view: period_on_period_new {
       label: "Month to Date (MTD)"
       value: "MTD"
     }
-    # allowed_value: {
-    #   label: "Quarter to Date (QTD)"
-    #   value: "QTD"
-    # }
     allowed_value: {
       label: "Year to Date (YTD)"
       value: "YTD"
@@ -76,10 +72,6 @@ view: period_on_period_new {
       label: "Previous Month"
       value: "Month"
     }
-    # allowed_value: {
-    #   label: "Previous Quarter"
-    #   value: "Quarter"
-    # }
     allowed_value: {
       label: "Previous Year"
       value: "Year"
@@ -88,20 +80,12 @@ view: period_on_period_new {
       label: "Previous 2 Year"
       value: "2YearsAgo"
     }
-    # allowed_value: {
-    #   label: "Previous 2 Years"
-    #   value: "2 Year"
-    # }
     default_value: "Period"
   }
   parameter: select_number_of_periods {
     label: "Number of Period(s)"
     view_label: "Date"
     type: unquoted
-    # allowed_value: {
-    #   label: "Current Period"
-    #   value: "1"
-    # }
     allowed_value: {
       label: "1 Period Ago"
       value: "2"
@@ -110,11 +94,6 @@ view: period_on_period_new {
       label: "2 Periods Ago"
       value: "3"
     }
-    # allowed_value: {
-    #   label: "4"
-    #   value: "4"
-    # }
-
     default_value: "2"
   }
 
@@ -122,20 +101,17 @@ view: period_on_period_new {
 
   dimension_group: date {
     view_label: "Date"
-    group_label: "Date/Time"
-    label: "Date"
-    # label: "Completed"
+    label: "Transaction"
     description: "Use this as your date dimension when comparing periods. Aligns the all previous periods onto the current period"
     type: time
     sql:
+
       {% if pivot_dimension._in_query %}
         {% if select_fixed_range._in_query %}
 
           {% if select_fixed_range._parameter_value == "PD" and (select_comparison_period._parameter_value == "Week" or select_comparison_period._parameter_value == "Month") %}
             ${__current_date__}
 
-          {% elsif false %}
-            CURRENT_DATE() + 123
           {% else %}
 
             CASE
@@ -148,7 +124,7 @@ view: period_on_period_new {
 
               ELSE ${__target_date__}
 
-            END -- double check this
+            END
 
           {% endif %}
 
@@ -160,37 +136,38 @@ view: period_on_period_new {
       {% else %}
         ${base_date_raw}
       {% endif %}
-        ;;
-    timeframes: [date, year]
+
+      ;;
+    timeframes: [date]
     hidden:  no
     allow_fill: no
   }
-
-
 
   dimension: pivot_dimension {
     view_label: "Date"
     label: "Pivot Dimension"
     type: string
-    order_by_field: order_for_period # base_date_raw
+    order_by_field: order_for_period
     sql:
 
      {% if select_date_range._is_filtered %}
+
         CASE
           WHEN {% condition select_date_range %}  ${base_date_raw} {% endcondition %}
           THEN "This {% parameter select_comparison_period %}"
+
           WHEN ${base_date_raw} >= ${period_2_start} and ${base_date_raw} < ${period_2_end}
           THEN "Last {% parameter select_comparison_period %}"
+
           WHEN ${base_date_raw}  >= ${period_3_start} and ${base_date_raw} < ${period_3_end}
           THEN "2 {% parameter select_comparison_period %}s Ago"
+
         END
+
       {% elsif select_fixed_range._is_filtered %}
-
-
 
       CASE
           WHEN
-
             {% if select_fixed_range._parameter_value == "PD" %}
               CASE WHEN ${previous_full_day} THEN true ELSE false END
             {% elsif select_fixed_range._parameter_value == "WTD" %}
@@ -202,10 +179,9 @@ view: period_on_period_new {
             {% else %}
               false
             {% endif %}
-
           THEN "This {% parameter select_comparison_period %}"
-          WHEN
 
+          WHEN
           {% if select_fixed_range._parameter_value == "PD" %}
               CASE WHEN ${previous_full_day_LY} THEN true WHEN ${previous_full_day_LW} THEN true WHEN ${previous_full_day_LM} THEN true ELSE false END
             {% elsif select_fixed_range._parameter_value == "WTD" %}
@@ -217,8 +193,8 @@ view: period_on_period_new {
             {% else %}
               false
             {% endif %}
-
           THEN "Last {% parameter select_comparison_period %}"
+
           WHEN
           {% if select_fixed_range._parameter_value == "PD" %}
               CASE WHEN ${previous_full_day_2LY} THEN true ELSE true END
@@ -232,9 +208,10 @@ view: period_on_period_new {
               false
             {% endif %}
           THEN "2 {% parameter select_comparison_period %}s Ago"
-          ELSE "UNKNOWN PERIOD!"
-      END
 
+          ELSE "UNKNOWN PERIOD!"
+
+      END
 
       {% else %}
         NULL
@@ -286,6 +263,7 @@ view: period_on_period_new {
     description: "Gives the number of days since the start of each periods. Use this to align the event dates onto the same axis, the axes will read 1,2,3, etc."
     type: number
     sql:
+
     {% if select_number_of_periods._is_filtered or select_comparison_period._in_query %}
       CASE
         WHEN {% condition select_date_range %} ${base_date_raw} {% endcondition %}
@@ -299,6 +277,7 @@ view: period_on_period_new {
 
       END
     {% endif %}
+
     ;;
     hidden: no
   }
@@ -307,6 +286,7 @@ view: period_on_period_new {
     description: "Calculates the start of the previous period"
     type: date_raw
     sql:
+
     {% if select_date_range._in_query %}
       {% if select_comparison_period._parameter_value == "Period" %}
         TIMESTAMP_SUB({% date_start select_date_range %} , INTERVAL ${days_in_period} DAY)
@@ -317,7 +297,9 @@ view: period_on_period_new {
       {% endif %}
     {% else %}
       {% date_start select_date_range %}
-    {% endif %};;
+    {% endif %}
+
+    ;;
     hidden:  yes
     }
 
@@ -325,6 +307,7 @@ view: period_on_period_new {
       description: "Calculates the end of the previous period"
       type: date_raw
       sql:
+
           {% if select_date_range._in_query %}
             {% if select_comparison_period._parameter_value == "Period" %}
               TIMESTAMP_SUB({% date_start select_date_range %}, INTERVAL 0 DAY)
@@ -335,7 +318,9 @@ view: period_on_period_new {
             {% endif %}
           {% else %}
             {% date_end select_date_range %}
-          {% endif %};;
+          {% endif %}
+
+          ;;
           hidden:  yes
       }
 
@@ -343,13 +328,16 @@ view: period_on_period_new {
         description: "Calculates the start of 2 periods ago"
         type: date_raw
         sql:
+
             {% if select_comparison_period._parameter_value == "Period" %}
               TIMESTAMP_SUB({% date_start select_date_range %}, INTERVAL 2*${days_in_period} DAY)
             {% elsif select_comparison_period._parameter_value == "Year" %}
                 TIMESTAMP_SUB({% date_start select_date_range %} , INTERVAL 364*2 DAY)
             {% else %}
               TIMESTAMP(DATETIME_SUB(DATETIME({% date_start select_date_range %}), INTERVAL 2 {% parameter select_comparison_period %}))
-            {% endif %};;
+            {% endif %}
+
+            ;;
         hidden: yes
       }
 
@@ -357,13 +345,17 @@ view: period_on_period_new {
         description: "Calculates the end of 2 periods ago"
         type: date_raw
         sql:
+
+
             {% if select_comparison_period._parameter_value == "Period" %}
               TIMESTAMP_SUB(${period_2_start}, INTERVAL 0 DAY)
             {% elsif select_comparison_period._parameter_value == "Year" %}
                 TIMESTAMP_SUB({% date_end select_date_range %} , INTERVAL 364*2 DAY)
             {% else %}
               TIMESTAMP(DATETIME_SUB(DATETIME_SUB(DATETIME({% date_end select_date_range %}), INTERVAL 0 DAY), INTERVAL 2 {% parameter select_comparison_period %}))
-            {% endif %};;
+            {% endif %}
+
+            ;;
         hidden: yes
       }
 
@@ -449,45 +441,9 @@ view: period_on_period_new {
         ${base_date_raw}
 
       {% endif %}
+
       ;;
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
       dimension: previous_full_day {
         type: yesno
@@ -501,8 +457,6 @@ view: period_on_period_new {
       dimension: previous_full_day_LW {
         type: yesno
         sql:
-
-
 
         ${__target_date__} = ${__current_date__} - ${__length_of_week__}
 
@@ -522,7 +476,6 @@ view: period_on_period_new {
         type: yesno
         sql:
 
-
             ${__target_date__} = ${__current_date__} - ${__length_of_year__}
 
             ;;
@@ -531,7 +484,6 @@ view: period_on_period_new {
       dimension: previous_full_day_2LY {
         type: yesno
         sql:
-
 
             ${__target_date__} = ${__current_date__} - (${__length_of_year__} * 2)
 
@@ -552,7 +504,6 @@ view: period_on_period_new {
         type:  yesno
         sql:
 
-
             (
               EXTRACT(DAYOFWEEK FROM ${__target_date__}) <= EXTRACT(DAYOFWEEK FROM (${__current_date__} - (${__length_of_year__} + 6)))
               AND ${__target_date__} > ${__current_date__} - (${__length_of_year__} + 6) -- ${__length_of_year__} + 6 (DUE TO BEING AT MOST 6 DAYS PRIOR FOR EQUIVALENT WTD)
@@ -565,7 +516,6 @@ view: period_on_period_new {
       dimension: week_to_date_2LY {
         type: yesno
         sql:
-
 
             (
               EXTRACT(DAYOFWEEK FROM ${__target_date__}) <= EXTRACT(DAYOFWEEK FROM (${__current_date__} - ((${__length_of_year__} * 2) + 6)))
@@ -589,12 +539,10 @@ view: period_on_period_new {
         type: yesno
         sql:
 
-
             (
               ${__target_date__} <= ${__current_date__} - ${__length_of_year__}
               AND ${__target_date__} > DATE(${__current_date__} - (EXTRACT(DAY FROM ${__current_date__}) + 0)) - ${__length_of_year__}
             )
-
 
             ;;
         hidden: yes
@@ -602,7 +550,6 @@ view: period_on_period_new {
       dimension: month_to_date_2LY {
         type: yesno
         sql:
-
 
             (
               ${__target_date__} <= ${__current_date__} - (${__length_of_year__} * 2)
@@ -628,7 +575,6 @@ view: period_on_period_new {
       dimension: year_to_date_LY {
         type: yesno
         sql:
-
 
             (
               ${__target_date__} <= ${__current_date__} - ${__length_of_year__}
@@ -725,7 +671,6 @@ view: period_on_period_new {
             {% else %}
               ${week_to_date}
             {% endif %}
-          {% elsif select_fixed_range._parameter_value == "QTD" %}
           {% elsif select_fixed_range._parameter_value == "YTD" %}
 
             {% if select_comparison_period._parameter_value == "Period" %}
