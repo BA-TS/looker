@@ -279,7 +279,7 @@ view: period_on_period_new {
     {% endif %}
 
     ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: period_2_start {
@@ -419,7 +419,7 @@ view: period_on_period_new {
 
 
   dimension: order_for_period {
-    hidden: no
+    hidden: yes
     view_label: "Period Comparison Fields"
     label: "Period"
     description: "Pivot me! Returns the period the metric covers, i.e. either the 'This Period', 'Previous Period' or '3 Periods Ago'"
