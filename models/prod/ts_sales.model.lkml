@@ -119,21 +119,21 @@ explore: base {
       sql_on: ${transactions.site_uid_coalesce}=${sites.site_uid} ;;
     }
 
-    join: calendar_completed_date{
-      from:  calendar
-      view_label: "Calendar - Completed Date"
-      type:  inner
-      relationship:  many_to_one
-      sql_on: ${base.base_date_date}=${calendar_completed_date.date} ;;
-    }
+    # join: calendar_completed_date{
+    #   from:  calendar
+    #   view_label: "Calendar - Completed Date"
+    #   type:  inner
+    #   relationship:  many_to_one
+    #   sql_on: ${base.base_date_date}=${calendar_completed_date.date} ;;
+    # }
 
-    join: calendar_placed_date{
-      from:  calendar
-      view_label: "Calendar - Placed Date"
-      type:  inner
-      relationship:  many_to_one
-      sql_on: date(${transactions.placed_date})=${calendar_placed_date.date} ;;
-    }
+    # join: calendar_placed_date{
+    #   from:  calendar
+    #   view_label: "Calendar - Placed Date"
+    #   type:  inner
+    #   relationship:  many_to_one
+    #   sql_on: date(${transactions.placed_date})=${calendar_placed_date.date} ;;
+    # }
 
     join: customers {
       type :  inner
