@@ -45,17 +45,20 @@ explore: base {
         ${base.base_date_date} = date(${transactions.transaction_date})
         and (${transactions.is_cancelled} = 0 or ${transactions.is_cancelled} is null)
         and (${transactions.product_code} <> '85699' or ${transactions.product_code} is null)
-        {% if (channel_budget._in_query and site_budget._in_query)
-          or (channel_budget._in_query and category_budget._in_query)
-          or (category_budget._in_query and site_budget._in_query)
-          or (channel_budget._in_query and site_budget._in_query and category_budget._in_query)  %}
+        {% if
+          (category_budget._in_query and site_budget._in_query)
+          or (channel_budget._in_query and category_budget._in_query)  %}
+          MULTIPLE_BUDGETS_SELECTED
+        {% elsif (channel_budget._in_query and site_budget._in_query) %}
+          MULTIPLE_BUDGETS_SELECTED
+        {% elsif (channel_budget._in_query and site_budget._in_query and category_budget._in_query) %}
           MULTIPLE_BUDGETS_SELECTED
         {% elsif channel_budget._in_query %}
           and ${transactions.sales_channel} is not null
-        {% elsif site_budget._in_query %}
-          and ${transactions.site_uid} is not null
         {% elsif category_budget._in_query %}
           and ${transactions.product_department} is not null
+        {% elsif site_budget._in_query %}
+          and ${transactions.site_uid} is not null
         {% else %}
           and (${transactions.sales_channel} is not null and ${transactions.site_uid} is not null and ${transactions.product_department} is not null)
         {% endif %}
