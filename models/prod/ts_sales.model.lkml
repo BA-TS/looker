@@ -20,6 +20,11 @@ explore: base {
       ]
   }
 
+  fields: [
+    ALL_FIELDS*,
+    -products.department
+  ]
+
   sql_always_where:
 
   ${period_over_period}

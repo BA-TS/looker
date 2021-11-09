@@ -146,7 +146,7 @@ view: products {
     sql: ${TABLE}.productSubdepartment ;;
   }
   dimension: trade_department{
-    group_label: "Commercial Details"
+    group_label: "Flags"
     type: yesno
     sql: ${buying_manager} <> "Matt Rockliff" ;;
   }

@@ -2,6 +2,7 @@ view: total_budget {
   derived_table: {
     datagroup_trigger: toolstation_transactions_datagroup
     sql:
+
       select
         date,
         sum(netSales) as net_sales_budget,
@@ -13,7 +14,9 @@ view: total_budget {
 
        from `toolstation-data-storage.ts_finance.channelBudget`
 
-       group by 1;;
+       group by 1
+
+      ;;
   }
 
   dimension: total_budget_date {
