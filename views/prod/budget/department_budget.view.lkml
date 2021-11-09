@@ -6,6 +6,8 @@ view: category_budget {
 
   ;;
 
+  fields_hidden_by_default: yes
+
   dimension: category_budget_in_query {
     hidden: yes
     sql:
