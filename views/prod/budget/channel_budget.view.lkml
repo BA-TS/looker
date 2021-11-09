@@ -9,16 +9,16 @@ view: channel_budget {
     hidden: yes
     sql:
       {% if
-        channel_budget.channel_net_sales_budget._in_query
-        or channel_budget.channel_gross_profit_Excl_funding_budget._in_query
-        or channel_budget.channel_retro_funding_budget._in_query
-        or channel_budget.channel_fixed_funding_budget._in_query
-        or channel_budget.channel_gross_margin_inc_unit_funding_budget._in_query
-        or channel_budget.channel_gross_margin_inc_all_funding_budget._in_query
+        channel_budget.channel_net_sales_budget._is_selected
+        or channel_budget.channel_gross_profit_Excl_funding_budget._is_selected
+        or channel_budget.channel_retro_funding_budget._is_selected
+        or channel_budget.channel_fixed_funding_budget._is_selected
+        or channel_budget.channel_gross_margin_inc_unit_funding_budget._is_selected
+        or channel_budget.channel_gross_margin_inc_all_funding_budget._is_selected
       %}
-      TRUE
+      1
       {% else %}
-      FALSE
+      0
       {% endif %};;
   }
 

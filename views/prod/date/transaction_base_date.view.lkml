@@ -24,4 +24,12 @@ view: base {
     hidden: yes
   }
 
+  dimension: base_date_pk {
+    primary_key: yes
+    type: date
+    sql:
+    date(${TABLE}.date) ;;
+    hidden: yes
+  }
+
 }
