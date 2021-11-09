@@ -7,7 +7,7 @@ label: "TS - Sales"
 explore: base {
 
   extends: []
-
+  always_join: [transactions, products]
   label: "Transactions"
   description: ""
 
@@ -97,9 +97,9 @@ explore: base {
     }
 
     join: products {
-      type:  inner
+      type:  left_outer
       relationship: many_to_one
-      sql_on: ${transactions.product_uid}=${products.product_uid}
+      sql_on:
               -- additional join if department budget fields are used
               {% if
                 category_budget.department_net_sales_budget._in_query
@@ -107,7 +107,10 @@ explore: base {
                 or category_budget.department_margin_inc_all_funding_budget._in_query
                 or category_budget.department_margin_rate_inc_retro_funding_budget._in_query
               %}
+                (${transactions.product_uid}=${products.product_uid} or ${transactions.product_uid} is null)
                 and upper(products.productDepartment) = upper(category_budget.department)
+              {% else %}
+              ${transactions.product_uid}=${products.product_uid}
               {% endif %}
       ;;
     }
