@@ -307,12 +307,12 @@ view: period_on_period_new {
 
     ;;
     hidden:  yes
-    }
+  }
 
-    dimension: period_2_end {
-      description: "Calculates the end of the previous period"
-      type: date_raw
-      sql:
+  dimension: period_2_end {
+    description: "Calculates the end of the previous period"
+    type: date_raw
+    sql:
 
           {% if select_date_range._in_query %}
             {% if select_comparison_period._parameter_value == "Period" %}
@@ -327,13 +327,13 @@ view: period_on_period_new {
           {% endif %}
 
           ;;
-          hidden:  yes
-      }
+    hidden:  yes
+  }
 
-      dimension: period_3_start {
-        description: "Calculates the start of 2 periods ago"
-        type: date_raw
-        sql:
+  dimension: period_3_start {
+    description: "Calculates the start of 2 periods ago"
+    type: date_raw
+    sql:
 
             {% if select_comparison_period._parameter_value == "Period" %}
               TIMESTAMP_SUB({% date_start select_date_range %}, INTERVAL 2*${days_in_period} DAY)
@@ -344,13 +344,13 @@ view: period_on_period_new {
             {% endif %}
 
             ;;
-        hidden: yes
-      }
+    hidden: yes
+  }
 
-      dimension: period_3_end {
-        description: "Calculates the end of 2 periods ago"
-        type: date_raw
-        sql:
+  dimension: period_3_end {
+    description: "Calculates the end of 2 periods ago"
+    type: date_raw
+    sql:
 
 
             {% if select_comparison_period._parameter_value == "Period" %}
@@ -362,30 +362,30 @@ view: period_on_period_new {
             {% endif %}
 
             ;;
-        hidden: yes
-      }
+    hidden: yes
+  }
 
-      # FIXED PERIOD ON PERIOD
+  # FIXED PERIOD ON PERIOD
 
-      dimension: __current_date__ {
-        type: date
-        datatype: date
-        sql:
+  dimension: __current_date__ {
+    type: date
+    datatype: date
+    sql:
 
             CURRENT_DATE() - 1
 
             ;;
-        hidden: yes
-      }
-      dimension: __length_of_year__ {
-        type: number
-        sql:
+    hidden: yes
+  }
+  dimension: __length_of_year__ {
+    type: number
+    sql:
 
             364
 
             ;;
-        hidden: yes
-      }
+    hidden: yes
+  }
   dimension: __length_of_week__ {
     type: number
     sql:
@@ -396,27 +396,27 @@ view: period_on_period_new {
     hidden: yes
   }
 
-      dimension: __target_raw__ {
-        type: date
-        datatype: datetime
-        sql:
+  dimension: __target_raw__ {
+    type: date
+    datatype: datetime
+    sql:
 
             ${base.base_date_raw}
 
             ;;
-            hidden: yes
-      }
+    hidden: yes
+  }
 
-      dimension: __target_date__ {
-        type: date
-        datatype: date
-        sql:
+  dimension: __target_date__ {
+    type: date
+    datatype: date
+    sql:
 
             ${__target_raw__}
 
             ;;
-        hidden: yes
-      }
+    hidden: yes
+  }
 
 
 
@@ -451,64 +451,84 @@ view: period_on_period_new {
       ;;
   }
 
-      dimension: previous_full_day {
-        type: yesno
-        sql:
+  dimension: previous_full_day {
+    type: yesno
+    sql:
 
             ${__target_date__} = ${__current_date__}
 
             ;;
-        hidden: yes
-      }
-      dimension: previous_full_day_LW {
-        type: yesno
-        sql:
+    hidden: yes
+  }
+  dimension: previous_full_day_LW {
+    type: yesno
+    sql:
 
         ${__target_date__} = ${__current_date__} - ${__length_of_week__}
 
         ;;
-        hidden: yes
-      }
-      dimension: previous_full_day_LM {
-        type: yesno
-        sql:
+    hidden: yes
+  }
+  dimension: previous_full_day_LM {
+    type: yesno
+    sql:
 
-        ${__target_date__} = ${__current_date__} - 29
+        false
 
         ;;
-        hidden: yes
-      }
-      dimension: previous_full_day_LY {
-        type: yesno
-        sql:
+    hidden: yes
+  }
+  dimension: previous_full_day_LY {
+    type: yesno
+    sql:
 
             ${__target_date__} = ${__current_date__} - ${__length_of_year__}
 
             ;;
-        hidden: yes
-      }
-      dimension: previous_full_day_2LY {
-        type: yesno
-        sql:
+    hidden: yes
+  }
+  dimension: previous_full_day_2LY {
+    type: yesno
+    sql:
 
             ${__target_date__} = ${__current_date__} - (${__length_of_year__} * 2)
 
             ;;
-        hidden: yes
-      }
-      dimension: week_to_date {
-        type: yesno
-        sql:
+    hidden: yes
+  }
+  dimension: week_to_date {
+    type: yesno
+    sql:
 
             EXTRACT(DAYOFWEEK FROM ${__target_date__}) <= EXTRACT(DAYOFWEEK FROM ${__current_date__})
-            AND (${__target_date__} > ${__current_date__} - 7) AND (${__target_date__} <= ${__current_date__})
+            AND (${__target_date__} > ${__current_date__} - ${__length_of_week__}) AND (${__target_date__} <= ${__current_date__})
 
             ;;
-        hidden: yes
-      }
-      dimension: week_to_date_LY {
-        type:  yesno
-        sql:
+    hidden: yes
+  }
+
+  dimension: week_to_date_LW {
+    type: yesno
+    sql:
+
+          EXTRACT(DAYOFWEEK FROM ${__target_date__}) <= EXTRACT(DAYOFWEEK FROM ${__current_date__}) - ${__length_of_week__}
+          AND (${__target_date__} > ${__current_date__} - (${__length_of_week__} * 2) AND ${__target_date__} <= ${__current_date__} - ${__length_of_week__})
+
+        ;;
+  }
+
+  dimension: week_to_date_LM {
+    type: yesno
+    sql:
+
+          false
+
+        ;;
+  }
+
+  dimension: week_to_date_LY {
+    type:  yesno
+    sql:
 
             (
               EXTRACT(DAYOFWEEK FROM ${__target_date__}) <= EXTRACT(DAYOFWEEK FROM (${__current_date__} - (${__length_of_year__} + 6)))
@@ -517,11 +537,11 @@ view: period_on_period_new {
             )
 
             ;;
-        hidden: yes
-      }
-      dimension: week_to_date_2LY {
-        type: yesno
-        sql:
+    hidden: yes
+  }
+  dimension: week_to_date_2LY {
+    type: yesno
+    sql:
 
             (
               EXTRACT(DAYOFWEEK FROM ${__target_date__}) <= EXTRACT(DAYOFWEEK FROM (${__current_date__} - ((${__length_of_year__} * 2) + 6)))
@@ -530,20 +550,29 @@ view: period_on_period_new {
             )
 
             ;;
-        hidden: yes
-      }
-      dimension: month_to_date {
-        type: yesno
-        sql:
+    hidden: yes
+  }
+  dimension: month_to_date {
+    type: yesno
+    sql:
 
             ${__target_date__} > ${__current_date__} - EXTRACT(DAY FROM ${__current_date__}) AND ${__target_date__} <= ${__current_date__}
 
             ;;
-        hidden: yes
-      }
-      dimension: month_to_date_LY {
-        type: yesno
-        sql:
+    hidden: yes
+  }
+  dimension: month_to_date_LM {
+    type: yesno
+    sql:
+
+    false
+
+    ;;
+
+  }
+  dimension: month_to_date_LY {
+    type: yesno
+    sql:
 
             (
               ${__target_date__} <= ${__current_date__} - ${__length_of_year__}
@@ -551,11 +580,11 @@ view: period_on_period_new {
             )
 
             ;;
-        hidden: yes
-      }
-      dimension: month_to_date_2LY {
-        type: yesno
-        sql:
+    hidden: yes
+  }
+  dimension: month_to_date_2LY {
+    type: yesno
+    sql:
 
             (
               ${__target_date__} <= ${__current_date__} - (${__length_of_year__} * 2)
@@ -563,24 +592,24 @@ view: period_on_period_new {
             )
 
             ;;
-        hidden: yes
-      }
+    hidden: yes
+  }
 
-      # TODO _ quarter_to_date
+  # TODO _ quarter_to_date
 
-      dimension: year_to_date {
-        type: yesno
-        sql:
+  dimension: year_to_date {
+    type: yesno
+    sql:
 
             (${__target_date__} >= DATE(EXTRACT(YEAR FROM ${__current_date__}), 1, 1))  AND (${__target_date__} <= ${__current_date__})
 
             ;;
-        hidden: yes
+    hidden: yes
 
-      }
-      dimension: year_to_date_LY {
-        type: yesno
-        sql:
+  }
+  dimension: year_to_date_LY {
+    type: yesno
+    sql:
 
             (
               ${__target_date__} <= ${__current_date__} - ${__length_of_year__}
@@ -588,11 +617,11 @@ view: period_on_period_new {
             )
 
             ;;
-        hidden: yes
-      }
-      dimension: year_to_date_2LY {
-        type: yesno
-        sql:
+    hidden: yes
+  }
+  dimension: year_to_date_2LY {
+    type: yesno
+    sql:
 
             ${year_to_date}
             OR
@@ -602,13 +631,13 @@ view: period_on_period_new {
             )
 
             ;;
-        hidden: yes
-      }
+    hidden: yes
+  }
 
-      filter: pivot_period {
-        type:  yesno
-        hidden: yes
-        sql:
+  filter: pivot_period {
+    type:  yesno
+    hidden: yes
+    sql:
 
         {% if select_fixed_range._in_query %}
 
@@ -620,11 +649,10 @@ view: period_on_period_new {
               ${previous_full_day} OR ${previous_full_day_LW}
             {% elsif select_comparison_period._parameter_value == "Month" %}
               ${previous_full_day} OR ${previous_full_day_LM}
-            {% elsif select_comparison_period._parameter_value == "Quarter" %}
             {% elsif select_comparison_period._parameter_value == "Year" %}
 
               {% if select_number_of_periods._parameter_value == "3" %}
-              ${previous_full_day} OR ${previous_full_day_LY} OR ${previous_full_day_2LY}
+                ${previous_full_day} OR ${previous_full_day_LY} OR ${previous_full_day_2LY}
               {% else %}
                 ${previous_full_day} OR ${previous_full_day_LY}
               {% endif %}
@@ -640,8 +668,9 @@ view: period_on_period_new {
             {% if select_comparison_period._parameter_value == "Period" %}
                 ${week_to_date}
             {% elsif select_comparison_period._parameter_value == "Week" %}
+                ${week_to_date_LW}
             {% elsif select_comparison_period._parameter_value == "Month" %}
-            {% elsif select_comparison_period._parameter_value == "Quarter" %}
+                ${week_to_date} --${week_to_date_LM}
             {% elsif select_comparison_period._parameter_value == "Year" %}
 
               {% if select_number_of_periods._parameter_value == "3" %}
@@ -661,8 +690,9 @@ view: period_on_period_new {
             {% if select_comparison_period._parameter_value == "Period" %}
                 ${month_to_date}
             {% elsif select_comparison_period._parameter_value == "Week" %}
+                ${month_to_date}
             {% elsif select_comparison_period._parameter_value == "Month" %}
-            {% elsif select_comparison_period._parameter_value == "Quarter" %}
+                ${month_to_date} --${month_to_date_LM}
             {% elsif select_comparison_period._parameter_value == "Year" %}
 
               {% if select_number_of_periods._parameter_value == "3" %}
@@ -681,8 +711,9 @@ view: period_on_period_new {
             {% if select_comparison_period._parameter_value == "Period" %}
                 ${year_to_date}
             {% elsif select_comparison_period._parameter_value == "Week" %}
+              ${year_to_date}
             {% elsif select_comparison_period._parameter_value == "Month" %}
-            {% elsif select_comparison_period._parameter_value == "Quarter" %}
+              ${year_to_date}
             {% elsif select_comparison_period._parameter_value == "Year" %}
 
               {% if select_number_of_periods._parameter_value == "3" %}
