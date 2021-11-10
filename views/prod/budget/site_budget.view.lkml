@@ -5,7 +5,7 @@ view: site_budget {
 
   ;;
 
-  fields_hidden_by_default: yes
+  # fields_hidden_by_default: yes
 
   dimension: site_budget_in_query {
     hidden: yes

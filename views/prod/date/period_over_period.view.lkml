@@ -236,7 +236,7 @@ view: period_on_period_new {
 
     {% condition base.select_date_range %} ${base.base_date_raw} {% endcondition %}
 
-      {% if base.select_date_range._is_filtered and select_number_of_periods._in_query %}
+      {% if base.select_date_range._is_filtered and (select_number_of_periods._in_query or select_comparison_period._in_query) %}
         {% if select_number_of_periods._parameter_value == "2" %}
 
             or ${base.base_date_raw} >= ${period_2_start} and ${base.base_date_raw} < ${period_2_end}
