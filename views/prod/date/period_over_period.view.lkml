@@ -37,7 +37,6 @@ view: period_on_period_new {
   parameter: select_fixed_range {
     label: "Fixed Range"
     group_label: "Range"
-    required_access_grants: [is_developer]
     view_label: "Date"
     description: "Developer only option."
     type: unquoted
