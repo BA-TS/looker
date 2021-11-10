@@ -150,7 +150,7 @@ view: period_on_period_new {
 
   dimension: pivot_dimension {
     view_label: "Date"
-    label: "Period for Pivot"
+    label: "Comparison Period"
     description: "Pivot this to view direct date comparisons."
     type: string
     order_by_field: order_for_period
@@ -515,6 +515,7 @@ view: period_on_period_new {
           AND (${__target_date__} > ${__current_date__} - (${__length_of_week__} * 2) AND ${__target_date__} <= ${__current_date__} - ${__length_of_week__})
 
         ;;
+    hidden: yes
   }
 
   dimension: week_to_date_LM {
@@ -524,6 +525,7 @@ view: period_on_period_new {
           false
 
         ;;
+    hidden: yes
   }
 
   dimension: week_to_date_LY {
@@ -568,7 +570,7 @@ view: period_on_period_new {
     false
 
     ;;
-
+    hidden: yes
   }
   dimension: month_to_date_LY {
     type: yesno
