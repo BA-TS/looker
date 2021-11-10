@@ -606,7 +606,6 @@ view: period_on_period_new {
       }
 
       filter: pivot_period {
-        required_access_grants: [is_developer]
         type:  yesno
         hidden: yes
         sql:
