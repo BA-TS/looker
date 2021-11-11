@@ -317,7 +317,7 @@ view: transactions {
     view_label: "Date"
     group_label: "Time"
     type: time
-    timeframes: [hour,hour2,hour3,hour4,hour6,hour8,hour12,hour_of_day
+    timeframes: [hour_of_day
     ]
     sql: ${TABLE}.transactionDate ;;
   }
