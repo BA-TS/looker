@@ -313,6 +313,14 @@ view: transactions {
 # ██████╔╝██║██║░╚═╝░██║███████╗██║░╚███║██████╔╝██║╚█████╔╝██║░╚███║██████╔╝
 # ╚═════╝░╚═╝╚═╝░░░░░╚═╝╚══════╝╚═╝░░╚══╝╚═════╝░╚═╝░╚════╝░╚═╝░░╚══╝╚═════╝░
 
+  dimension_group: order_completed {
+    view_label: "Date"
+    group_label: "Time"
+    type: time
+    timeframes: [hour,hour2,hour3,hour4,hour6,hour8,hour12,hour_of_day
+    ]
+    sql: ${TABLE}.transactionDate ;;
+  }
 
   # dimension: sales_channel_coalesce {
   #   label: "Sales Channel"
