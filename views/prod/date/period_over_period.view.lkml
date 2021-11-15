@@ -147,7 +147,6 @@ view: period_on_period_new {
     hidden:  no
     allow_fill: no
   }
-
   dimension: pivot_dimension {
     view_label: "Date"
     label: "Comparison Period"
@@ -517,7 +516,16 @@ view: period_on_period_new {
         ;;
     hidden: yes
   }
+  dimension: week_to_date_2LW {
+    type: yesno
+    sql:
 
+          EXTRACT(DAYOFWEEK FROM ${__target_date__}) <= EXTRACT(DAYOFWEEK FROM ${__current_date__}) - (2*${__length_of_week__})
+          AND (${__target_date__} > ${__current_date__} - (${__length_of_week__} * 3) AND ${__target_date__} <= ${__current_date__} - (2*${__length_of_week__}))
+
+        ;;
+    hidden: yes
+  }
   dimension: week_to_date_LM {
     type: yesno
     sql:
@@ -670,6 +678,13 @@ view: period_on_period_new {
             {% if select_comparison_period._parameter_value == "Period" %}
                 ${week_to_date}
             {% elsif select_comparison_period._parameter_value == "Week" %}
+
+              {% if select_number_of_periods._parameter_value == "3" %}
+                ${week_to_date} OR ${week_to_date_LW} OR ${week_to_date_2LW}
+              {% else %}
+                ${week_to_date} OR ${week_to_date_LW}
+              {% endif %}
+
                 ${week_to_date_LW}
             {% elsif select_comparison_period._parameter_value == "Month" %}
                 ${week_to_date} --${week_to_date_LM}
