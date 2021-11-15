@@ -85,5 +85,21 @@ view: sales_alert{
     type: sum
     sql: ${net_sales_2y} ;;
   }
+  measure:  net_sales_1w_change {
+    type: number
+    sql: ${net_sales}-${net_sales_1w_prior} ;;
+  }
+  measure:  net_sales_2w_change {
+    type: number
+    sql: ${net_sales}-${net_sales_2w_prior} ;;
+  }
+  measure:  net_sales_1y_change {
+    type: number
+    sql: ${net_sales}-${net_sales_1y_prior} ;;
+  }
+  measure:  net_sales_2y_change {
+    type: number
+    sql: ${net_sales}-${net_sales_2y_prior} ;;
+  }
 
 }
