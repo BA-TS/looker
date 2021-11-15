@@ -35,13 +35,11 @@ view: sales_alert{
   measure: total_net_sales {
     type: sum
     sql: ${net_sales} ;;
-    hidden: yes
   }
 
   measure: average_net_sales {
     type: average
     sql: ${net_sales} ;;
-    hidden: yes
   }
 
   dimension: net_sales_1w {
