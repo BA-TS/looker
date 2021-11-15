@@ -239,18 +239,6 @@ view: transactions {
     hidden: yes
   }
 
-  dimension: test_timestamp {
-    type: date_time
-    datatype: timestamp
-    sql:
-
-    timestamp(${transaction_raw})
-
-    ;;
-    view_label: "Testing Timestamp"
-}
-
-
 
   # dimension_group: transaction_date_coalesce {
   #   # required_access_grants: [is_developer]
