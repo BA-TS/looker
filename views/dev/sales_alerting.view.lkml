@@ -60,42 +60,49 @@ view: sales_alert{
   measure: net_sales {
     type: sum
     sql: ${net_sales_dim} ;;
+    value_format_name:  gbp_0
   }
 
   measure: net_sales_1w_prior {
     type: sum
     sql: ${net_sales_1w} ;;
-
+    value_format_name:  gbp_0
   }
   measure:  net_sales_2w_prior {
     type: sum
     sql: ${net_sales_2w} ;;
-
+    value_format_name:  gbp_0
   }
   measure: net_sales_1y_prior {
     type: sum
     sql: ${net_sales_1y} ;;
+    value_format_name:  gbp_0
 
   }
   measure:  net_sales_2y_prior {
     type: sum
     sql: ${net_sales_2y} ;;
+    value_format_name:  gbp_0
   }
   measure:  net_sales_1w_change {
     type: number
     sql: ${net_sales}-${net_sales_1w_prior} ;;
+    value_format_name:  gbp_0
   }
   measure:  net_sales_2w_change {
     type: number
     sql: ${net_sales}-${net_sales_2w_prior} ;;
+    value_format_name:  gbp_0
   }
   measure:  net_sales_1y_change {
     type: number
     sql: ${net_sales}-${net_sales_1y_prior} ;;
+    value_format_name:  gbp_0
   }
   measure:  net_sales_2y_change {
     type: number
     sql: ${net_sales}-${net_sales_2y_prior} ;;
+    value_format_name:  gbp_0
   }
 
 }
