@@ -4,7 +4,7 @@ include: "/views/**/*.view"
 label: "TS - Digital"
 
 explore: digital_product_conversion {
-  label: "Product Conversion (DIGITAL)"
+  label: "Product Conversion"
   join: products {
     type: inner
     relationship: many_to_one
