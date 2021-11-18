@@ -1,20 +1,20 @@
 include: "/models/backend/config.model"
-# include: "/custom_views/**/*.view"
 include: "/views/**/*.view"
 
 label: "TS - Sales"
 
 explore: base {
 
+  # required_access_grants: [can_use_transactions]
+
   extends: []
-  # always_join: [transactions, products]
   label: "Transactions"
   description: ""
 
   conditionally_filter: {
     filters: [
       base.select_date_range: "Yesterday"
-    ] # could include all date options from calendar
+    ]
     unless: [
       select_fixed_range
       ]
@@ -67,12 +67,6 @@ explore: base {
 
       ;;
       }
-#  channel_budget.channel_net_sales_budget._in_query
-# or channel_budget.channel_gross_profit_Excl_funding_budget._in_query
-#           or channel_budget.channel_retro_funding_budget._in_query
-#           or channel_budget.channel_fixed_funding_budget._in_query
-#           or channel_budget.channel_gross_margin_inc_unit_funding_budget._in_query
-#           or channel_budget.channel_gross_margin_inc_all_funding_budget._in_query
 
     join: channel_budget {
         view_label: "Budget"
@@ -133,14 +127,6 @@ explore: base {
       relationship:  many_to_one
       sql_on: ${base.base_date_date}=${calendar_completed_date.date} ;;
     }
-
-    # join: calendar_placed_date{
-    #   from:  calendar
-    #   view_label: "Calendar - Placed Date"
-    #   type:  inner
-    #   relationship:  many_to_one
-    #   sql_on: date(${transactions.placed_date})=${calendar_placed_date.date} ;;
-    # }
 
     join: customers {
       type :  inner

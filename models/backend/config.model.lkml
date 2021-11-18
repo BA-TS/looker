@@ -1,7 +1,3 @@
-# include: "/models/backend/aggregate_awareness.model"
-
-# include: "/models/prod/*.model"
-# include: "/models/dev/*.model"
 connection: "toolstation"
 
 persist_with: toolstation_transactions_datagroup
@@ -15,7 +11,6 @@ datagroup: toolstation_transactions_datagroup {
 
 week_start_day: sunday
 
-
 access_grant: can_use_transactions {
   user_attribute: ts_permissions
   allowed_values: ["TRANSACTIONS"]
@@ -25,7 +20,7 @@ access_grant: can_use_customers {
   allowed_values: ["CUSTOMERS"]
 }
 access_grant: can_use_customer_information {
-  user_attribute: ts_sensitive # CG - consider wider group option of BU_sensitive flag (to propose)
+  user_attribute: ts_sensitive
   allowed_values: ["YS"]
 }
 access_grant: is_developer {

@@ -4,4 +4,6 @@ include: "/views/**/*.view"
 label: "TS - Alerts"
 
 explore: sales_alert {
+  label: "Sales Alerts"
+
 }
