@@ -140,7 +140,7 @@ view: sales_alert{
   }
   measure: 1_week_deviation {
     group_label: "Deviation"
-    hidden: yes
+    hidden: no
     type: yesno
     sql:
     {% if 1_week_deviation_parameter._in_query and 1_week_deviation_parameter._parameter_value == "YES" %}
@@ -167,7 +167,7 @@ view: sales_alert{
   }
   measure: 2_week_deviation {
     group_label: "Deviation"
-    hidden: yes
+    hidden: no
     type: yesno
     sql:
     {% if 2_week_deviation_parameter._in_query and 2_week_deviation_parameter._parameter_value == "YES" %}
