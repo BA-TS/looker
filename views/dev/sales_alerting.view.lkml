@@ -83,6 +83,7 @@ view: sales_alert{
     type: sum
     sql: ${net_sales_2y} ;;
     value_format_name:  gbp_0
+    hidden: yes
   }
   measure:  net_sales_1w_change {
     type: number
@@ -103,6 +104,7 @@ view: sales_alert{
     type: number
     sql: ${net_sales}-${net_sales_2y_prior} ;;
     value_format_name:  gbp_0
+    hidden: yes
   }
 
   #######################################
@@ -118,12 +120,13 @@ view: sales_alert{
       (${1_week_deviation}=false
       AND ${2_week_deviation}=false
       AND ${1_year_deviation}=false
-      AND ${2_year_deviation}=false) = false,
+      ) = false,
     1,
     0)
 
 
     ;;
+    # AND ${2_year_deviation}=false
   }
 
   parameter: 1_week_deviation_parameter {
@@ -203,31 +206,31 @@ view: sales_alert{
 
     ;;
   }
-  parameter: 2_year_deviation_parameter {
-    type: unquoted
-    label: "Include 2Y Deviation?"
-    allowed_value: {
-      label: "Yes"
-      value: "YES"
-    }
-    allowed_value: {
-      label: "No"
-      value: "NO"
-    }
-  }
-  measure: 2_year_deviation {
-    group_label: "Deviation"
-    hidden: no
-    type: yesno
-    sql:
-    {% if 2_year_deviation_parameter._in_query and 2_year_deviation_parameter._parameter_value == "YES" %}
-    ABS(${net_sales_2y_change} / ${net_sales_2y_prior}) >= {% parameter minimum_deviation %}
-    {% else %}
-    false
-    {% endif %}
+  # parameter: 2_year_deviation_parameter {
+  #   type: unquoted
+  #   label: "Include 2Y Deviation?"
+  #   allowed_value: {
+  #     label: "Yes"
+  #     value: "YES"
+  #   }
+  #   allowed_value: {
+  #     label: "No"
+  #     value: "NO"
+  #   }
+  # }
+  # measure: 2_year_deviation {
+  #   group_label: "Deviation"
+  #   hidden: no
+  #   type: yesno
+  #   sql:
+  #   {% if 2_year_deviation_parameter._in_query and 2_year_deviation_parameter._parameter_value == "YES" %}
+  #   ABS(${net_sales_2y_change} / ${net_sales_2y_prior}) >= {% parameter minimum_deviation %}
+  #   {% else %}
+  #   false
+  #   {% endif %}
 
-    ;;
-  }
+  #   ;;
+  # }
 
 
 
