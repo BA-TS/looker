@@ -3,6 +3,10 @@ include: "/views/**/*.view"
 
 label: "TS - Sales"
 
+explore: sales_alert {
+  label: "Sales Alerts"
+}
+
 explore: base {
 
   # required_access_grants: [can_use_transactions]
