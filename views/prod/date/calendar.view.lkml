@@ -121,9 +121,9 @@ view: calendar {
   }
   dimension: fiscal_year_week {
     label: "Fiscal Week"
-    type: number
+    type: string
     sql: ${TABLE}.fiscalYearWeek ;;
-    value_format: "#"
+    # value_format: "#"
     can_filter: no
   }
   dimension: holiday_name {
