@@ -67,6 +67,7 @@ view: channel_budget {
     group_label: "Sales Channel"
     type: sum
     sql: ${net_sales} ;;
+    value_format_name: gbp
   }
   measure: channel_gross_profit_Excl_funding_budget {
     label: "Gross Profit Budget"
@@ -74,6 +75,7 @@ view: channel_budget {
     group_label: "Sales Channel"
     type: sum
     sql: ${gross_profit} ;;
+    value_format_name: gbp
   }
   measure: channel_retro_funding_budget {
     label: "Retro Funding Budget"
@@ -81,6 +83,7 @@ view: channel_budget {
     group_label: "Sales Channel"
     type: sum
     sql: ${retro_funding} ;;
+    value_format_name: gbp
   }
   measure: channel_fixed_funding_budget {
     label: "Fixed Funding Budget"
@@ -88,6 +91,7 @@ view: channel_budget {
     group_label: "Sales Channel"
     type: sum
     sql: ${fixed_funding} ;;
+    value_format_name: gbp
   }
   measure: channel_gross_margin_inc_unit_funding_budget {
 
@@ -96,6 +100,7 @@ view: channel_budget {
     group_label: "Sales Channel"
     type: number
     sql: ${channel_gross_profit_Excl_funding_budget} + ${channel_retro_funding_budget}  ;;
+    value_format_name: gbp
   }
   measure: channel_gross_margin_inc_all_funding_budget {
     label: "Gross Margin Inc All Funding Budget"
@@ -103,6 +108,7 @@ view: channel_budget {
     group_label: "Sales Channel"
     type: number
     sql: ${channel_gross_profit_Excl_funding_budget} + ${channel_retro_funding_budget} + ${channel_fixed_funding_budget} ;;
+    value_format_name: gbp
   }
   measure: channel_margin_rate_inc_retro_funding_budget {
     label: "Margin Rate Inc Retro Funding Budget"

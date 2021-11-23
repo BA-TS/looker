@@ -33,36 +33,42 @@ view: total_budget {
     group_label: "Total"
     type: sum
     sql: ${TABLE}.net_sales_budget ;;
+    value_format_name: gbp
   }
 
   measure: gross_margin_budget {
     group_label: "Total"
     type: sum
     sql: ${TABLE}.gross_margin_budget ;;
+    value_format_name: gbp
   }
 
   measure: retro_funding_budget {
     group_label: "Total"
     type: sum
     sql: ${TABLE}.retro_funding_budget ;;
+    value_format_name: gbp
   }
 
   measure: fixed_funding_budget {
     group_label: "Total"
     type: sum
     sql: ${TABLE}.fixed_funding_budget ;;
+    value_format_name: gbp
   }
 
   measure: gross_margin_inc_retro_budget {
     group_label: "Total"
     type: sum
     sql: ${TABLE}.gross_margin_inc_retro_budget ;;
+    value_format_name: gbp
   }
 
   measure: gross_margin_inc_retro_and_fixed_budget {
     group_label: "Total"
     type: sum
     sql: ${TABLE}.gross_margin_inc_retro_and_fixed_budget ;;
+    value_format_name: gbp
   }
 
   measure: gross_margin_rate_inc_retro_funding_budget {

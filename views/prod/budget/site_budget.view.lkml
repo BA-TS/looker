@@ -60,6 +60,7 @@ view: site_budget {
     group_label: "Sites"
     type: sum
     sql: ${aop} ;;
+    value_format_name: gbp
   }
   # measure: site_net_sales_budget_liquid {
   #   description: "Budget Net Sales at Site level only (liquid)"
