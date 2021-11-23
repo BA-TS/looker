@@ -174,10 +174,6 @@ explore: base {
     }
   }
 
-
-
-
-
   # explore: +transactions {
   #   aggregate_table: aggtable-tdate {
   #     query: {
