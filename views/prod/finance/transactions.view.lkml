@@ -1761,4 +1761,50 @@ view: transactions {
     sql: SAFE_DIVIDE(${aov_net_sales}, ${aov_units}) ;;
   }
 
+  # LFL #
+
+  measure: lfl_gross_sales {
+    label: "Gross Sales (LFL)"
+    view_label: "Measures"
+    group_label: "LFL"
+    type: sum
+    sql: case when ${is_lfl} then ${gross_sales_value} else 0 end;;
+  }
+  measure: lfl_net_sales {
+    label: "Net Sales (LFL)"
+    view_label: "Measures"
+    group_label: "LFL"
+    type: sum
+    sql: case when ${is_lfl} then ${net_sales_value} else 0 end;;
+  }
+  measure: lfl_margin_incl_funding {
+    label: "Margin (Including Funding) (LFL)"
+    view_label: "Measures"
+    group_label: "LFL"
+    type: sum
+    sql: case when ${is_lfl} then ${margin_incl_funding} else 0 end;;
+  }
+  measure: lfl_margin_excl_funding{
+    label: "Margin (Excluding Funding) (LFL)"
+    view_label: "Measures"
+    group_label: "LFL"
+    type: sum
+    sql: case when ${is_lfl} then ${margin_excl_funding} else 0 end;;
+  }
+  measure: lfl_number_of_customers{
+    label: "Number of Customers (LFL)"
+    view_label: "Measures"
+    group_label: "LFL"
+    type: sum
+    sql: case when ${is_lfl} then ${customer_uid} else 0 end;;
+  }
+  measure: lfl_number_of_transactions {
+    label: "Number of Transactions (LFL)"
+    view_label: "Measures"
+    group_label: "LFL"
+    type: count_distinct
+    sql: case when ${is_lfl} then ${parent_order_uid} else 0 end;;
+  }
+
+
 }
