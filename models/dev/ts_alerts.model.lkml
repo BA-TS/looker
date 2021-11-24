@@ -3,6 +3,8 @@ include: "/views/**/*.view"
 
 label: "TS - Alerts"
 
-explore: sales_alert {
-  label: "Sales Alerts"
-}
+include: "/explores/dev/alerts/*"
+
+# explore: sales_alert {
+#   label: "Sales Alerts"
+# }

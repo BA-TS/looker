@@ -29,7 +29,7 @@ view: ga_sessions {
   ########## PRIMARY KEYS ##########
 
   dimension: id {
-    primary_key: yes
+    # primary_key: yes # creates 27 errors if uncommented - to investigate
     label: "User/Session ID"
     group_label: "ID"
     description: "Unique ID for Session: Full User ID | Session ID | Session Start Date"
@@ -51,7 +51,6 @@ view: ga_sessions {
     sql: ${TABLE}.fullVisitorId ;;
     hidden: yes
   }
-
 
   dimension: user_id {
     hidden: yes

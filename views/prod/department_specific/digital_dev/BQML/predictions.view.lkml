@@ -6,7 +6,7 @@
 
 ######################## TRAINING/TESTING INPUTS #############################
 include: "/**/user_facts.view"
-
+include: "/**/config.model"
 
 view: training_input {
   extends: [user_facts]
@@ -45,7 +45,7 @@ view: testing_input {
 
 view: future_purchase_model {
   derived_table: {
-    datagroup_trigger: bqml_datagroup
+    datagroup_trigger: ts_googleanalytics_datagroup
     sql_create:
     CREATE OR REPLACE MODEL ${SQL_TABLE_NAME}
     OPTIONS(model_type='logistic_reg'

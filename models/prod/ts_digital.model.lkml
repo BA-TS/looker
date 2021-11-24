@@ -4,49 +4,45 @@ include: "/views/**/*.view"
 label: "TS - Digital"
 
 
-explore: base {
+# explore: base {
 
-  label: "Product Conversion TESTING"
-  description: ""
+#   label: "Product Conversion TESTING"
+#   description: ""
 
-  conditionally_filter: {
-    filters: [
-      base.select_date_range: "Yesterday"
-    ]
-    unless: [
-      select_fixed_range
-    ]
-  }
+#   conditionally_filter: {
+#     filters: [
+#       base.select_date_range: "Yesterday"
+#     ]
+#     unless: [
+#       select_fixed_range
+#     ]
+#   }
 
-  sql_always_where:
+#   sql_always_where:
 
-  ${period_over_period}
+#   ${period_over_period}
 
-    ;;
+#     ;;
 
-    join: digital_product_conversion {
-      type: inner
-      relationship: one_to_many
-      sql_on:
+#     join: digital_product_conversion {
+#       type: inner
+#       relationship: one_to_many
+#       sql_on:
 
-      ${base.base_date_date} = ${digital_product_conversion.date_date}
+#       ${base.base_date_date} = ${digital_product_conversion.date_date}
 
-       ;;
-    }
+#       ;;
+#     }
 
-  join: products {
-    type: inner
-    relationship: many_to_one
-    sql_on: ${digital_product_conversion.ga_sku}=${products.product_code} ;;
-  }
+#   join: products {
+#     type: inner
+#     relationship: many_to_one
+#     sql_on: ${digital_product_conversion.ga_sku}=${products.product_code} ;;
+#   }
 
-}
+# }
 
-explore: digital_product_conversion {
-  label: "Product Conversion"
-  join: products {
-    type: inner
-    relationship: many_to_one
-    sql_on: ${digital_product_conversion.ga_sku}=${products.product_code} ;;
-  }
-}
+
+
+
+include: "/explores/digital/*"

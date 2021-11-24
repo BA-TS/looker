@@ -1,6 +1,6 @@
 
 
-view: calendar {
+view: calendar_ga {
   extension: required
   view_label: "Session"
 

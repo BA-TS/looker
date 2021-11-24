@@ -1,11 +1,14 @@
-include: "/*/*.view.lkml"
-include: "/Google_Analytics/*.view.lkml"
-include: "/Google_Analytics/Sessions/*.view.lkml"
-include: "/Google_Analytics/Custom_Views/*.view.lkml"
+include: "/**/*/*.view.lkml"
+include: "/**/Google_Analytics/*.view.lkml"
+include: "/**/Google_Analytics/Sessions/*.view.lkml"
+include: "/**/Google_Analytics/Custom_Views/*.view.lkml"
+
+
+# include: "/views/prod/department_specific/digital_dev/**/*"
 
 explore: ga_sessions {
   label: "Google Analytics Sessions"
-  description: "Explores Google Analytics sessions data."
+  # description: "Explores Google Analytics sessions data."
 
   aggregate_table: sessions_by_session_start_date {
     query: {
