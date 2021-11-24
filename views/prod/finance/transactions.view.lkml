@@ -1805,6 +1805,29 @@ view: transactions {
     type: count_distinct
     sql: case when ${is_lfl} then ${parent_order_uid} else 0 end;;
   }
+  measure: lfl_number_of_units {
+    label: "Number of Units (LFL)"
+    view_label: "Measures"
+    group_label: "LFL"
+    type: sum
+    sql: case when ${is_lfl} and ${product_code} not like '0%' then ${quantity} else 0 end;;
+  }
+  measure: lfl_margin_rate_incl_funding {
+    label: "Margin Rate (Including Funding) (LFL)"
+    view_label: "Measures"
+    group_label: "LFL"
+    type:  number
+    sql: SAFE_DIVIDE(${lfl_margin_incl_funding}, ${lfl_net_sales}) ;;
+    value_format: "0.00%;(0.00%)"
+  }
+  measure: lfl_margin_rate_excl_funding {
+    label: "Margin Rate (Excluding Funding) (LFL)"
+    view_label: "Measures"
+    group_label: "LFL"
+    type:  number
+    sql: SAFE_DIVIDE(${lfl_margin_excl_funding}, ${lfl_net_sales}) ;;
+    value_format: "0.00%;(0.00%)"
+  }
 
 
 }

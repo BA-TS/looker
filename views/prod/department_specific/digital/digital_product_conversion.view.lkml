@@ -166,7 +166,7 @@ view: digital_product_conversion {
   }
 
   measure: product_revenue {
-    label: "Revenue"
+    label: "Gross Revenue"
     type: sum
     sql: ${ga_total_product_revenue} ;;
     value_format:  "#,##0.00;(#,##0.00)"
