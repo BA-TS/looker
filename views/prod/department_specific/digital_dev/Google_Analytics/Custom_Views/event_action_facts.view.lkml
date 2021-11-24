@@ -1,7 +1,7 @@
 
 
 view: event_action_facts {
-  
+
   derived_table: {
     explore_source: ga_sessions {
       column: hit_number { field: hits.hit_number }
@@ -24,7 +24,7 @@ view: event_action_facts {
       derived_column: current_event_plus_4 {sql: LEAD(event_action,4) OVER (PARTITION BY id ORDER BY hit_time) ;;}
       derived_column: current_event_plus_5 {sql: LEAD(event_action,5) OVER (PARTITION BY id ORDER BY hit_time) ;;}
       derived_column: current_event_plus_6 {sql: LEAD(event_action,6) OVER (PARTITION BY id ORDER BY hit_time) ;;}
-      filters: [hits.event_action: "-NULL", ga_sessions.partition_date: "@{PDT_DATE_FILTER}"]
+      filters: [hits.event_action: "-NULL", ga_sessions.partition_date: "last 30 days"]
     }
     persist_for: "24 hours"
   }

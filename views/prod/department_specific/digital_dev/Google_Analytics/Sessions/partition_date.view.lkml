@@ -20,7 +20,7 @@ view: ga_sessions_partition_date {
 
   # Scenario 1 (S1): You are viewing a single GA 360 property
   # Single property
-    sql_table_name: `@{SCHEMA_NAME}.@{GA360_TABLE_NAME}` ;;
+    sql_table_name: `toolstation-data-storage.4783980.ga_sessions_*` ;;
 
     dimension_group: partition {
       # Date that is parsed from the table name. Required as a filter to avoid accidental massive queries
@@ -82,7 +82,7 @@ view: ga_sessions_partition_date {
   # # S2 TODO: Uncomment field
   #   filter: partition_filter {
   #     type: date
-  #     default_value: "@{EXPLORE_DATE_FILTER}"
+  #     default_value: "last 7 days"
   #   }
 
   # # S2 TODO: Uncomment field and comment out the partition date above

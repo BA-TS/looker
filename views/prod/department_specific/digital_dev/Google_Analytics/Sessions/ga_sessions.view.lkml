@@ -14,7 +14,7 @@ include: "session_goals.view.lkml"
 
 view: ga_sessions {
   view_label: "Session"
-  sql_table_name: `@{SCHEMA_NAME}.@{GA360_TABLE_NAME}` ;;
+  sql_table_name: `toolstation-data-storage.4783980.ga_sessions_*` ;;
   extends: [
     calendar,
     geonetwork,
@@ -230,7 +230,7 @@ view: ga_sessions {
 
   dimension: partition_date_filter {
     type: string
-    sql: CONCAT('This data is from the ','@{PDT_DATE_FILTER} ') ;;
+    sql: CONCAT('This data is from the ','last 30 days') ;;
     hidden: no
     html:  <a style="background: #FFF;float: center; padding:15px; font-weight: bold;font-size: 30%;">{{value}}  </a></strong>
    ;;
