@@ -345,7 +345,7 @@ view: hits {
     type: count
     allow_approximate_optimization: yes
 
-    value_format_name: formatted_number
+    value_format_name: decimal_0
     drill_fields: [detail*]
   }
 
@@ -363,7 +363,7 @@ view: hits {
       value: "Yes"
     }
 
-    value_format_name: formatted_number
+    value_format_name: decimal_0
     drill_fields: [detail*]
   }
   measure: entrance_rate {
@@ -389,7 +389,7 @@ view: hits {
       value: "EVENT"
     }
 
-    value_format_name: formatted_number
+    value_format_name: decimal_0
     drill_fields: [event_category, event_action, event_label, event_value, event_count, unique_event_count]
   }
 
@@ -407,7 +407,7 @@ view: hits {
       value: "Yes"
     }
 
-    value_format_name: formatted_number
+    value_format_name: decimal_0
     drill_fields: [detail*]
   }
 
@@ -436,7 +436,7 @@ view: hits {
       value: "PAGE"
     }
 
-    value_format_name: formatted_number
+    value_format_name: decimal_0
     drill_fields: [ga_sessions.visit_start_date, unique_page_count, entrance_pageviews_total, exit_pageviews_total, time_on_page.average_time_on_page]
   }
 
@@ -465,7 +465,7 @@ view: hits {
       value: "EVENT"
     }
 
-    value_format_name: formatted_number
+    value_format_name: decimal_0
     drill_fields: [detail*]
   }
 
@@ -483,7 +483,7 @@ view: hits {
       value: "PAGE"
     }
 
-    value_format_name: formatted_number
+    value_format_name: decimal_0
     drill_fields: [event_category, event_action, event_label, event_value, event_count, unique_event_count]
   }
 
@@ -501,7 +501,7 @@ view: hits {
       value: "EVENT"
     }
 
-    value_format_name: formatted_number
+    value_format_name: decimal_0
     drill_fields: [detail*]
   }
 

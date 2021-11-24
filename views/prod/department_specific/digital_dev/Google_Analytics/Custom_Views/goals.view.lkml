@@ -104,7 +104,7 @@ view: goals {
       value: "Yes"
     }
 
-    value_format_name: formatted_number
+    value_format_name: decimal_0
     drill_fields: []
   }
 
@@ -122,7 +122,7 @@ view: goals {
       value: "Yes"
     }
 
-    value_format_name: formatted_number
+    value_format_name: decimal_0
     drill_fields: [client_id, visit_number, sessions_with_conversions]
   }
 

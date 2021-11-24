@@ -338,7 +338,7 @@ view: ga_sessions {
       value: "1"
     }
 
-    value_format_name: formatted_number
+    value_format_name: decimal_0
     drill_fields: [source_medium, first_time_sessions]
   }
 
@@ -356,7 +356,7 @@ view: ga_sessions {
       value: "1"
     }
 
-    value_format_name: formatted_number
+    value_format_name: decimal_0
     drill_fields: [source_medium, first_time_visitors]
   }
 
@@ -367,7 +367,7 @@ view: ga_sessions {
     description: "The percentage of sessions by users who had never visited the property before."
     type: number
     sql: ${first_time_sessions}/NULLIF(${visits_total}, 0) ;;
-    value_format_name: percent_1
+    value_format_name: percent_3
     drill_fields: [source_medium,first_time_visitors, visits_total, percent_new_sessions]
   }
 
@@ -379,7 +379,7 @@ view: ga_sessions {
     type: number
     sql: ${first_time_sessions} / ${unique_visitors};;
 
-    value_format_name: percent_1
+    value_format_name: percent_3
     drill_fields: [source_medium, returning_visitors]
   }
 
@@ -391,7 +391,7 @@ view: ga_sessions {
     type: number
     sql: ${returning_visitors} / ${unique_visitors};;
 
-    value_format_name: percent_1
+    value_format_name: percent_3
     drill_fields: [source_medium, returning_visitors]
   }
 
@@ -409,7 +409,7 @@ view: ga_sessions {
       value: "<> 1"
     }
 
-    value_format_name: formatted_number
+    value_format_name: decimal_0
     drill_fields: [source_medium, returning_visitors]
   }
 
@@ -434,7 +434,7 @@ view: ga_sessions {
     allow_approximate_optimization: yes
     sql: ${full_visitor_id} ;;
 
-    value_format_name: formatted_number
+    value_format_name: decimal_0
     drill_fields: [client_id, account.id, visit_number, hits_total, page_views_total, time_on_site_total]
   }
 

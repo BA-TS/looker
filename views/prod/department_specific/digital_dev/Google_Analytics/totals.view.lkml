@@ -53,7 +53,7 @@ view: totals {
     type: sum
     sql: ${TABLE}.totals.bounces ;;
 
-    value_format_name: formatted_number
+    value_format_name: decimal_0
   }
 
   measure: hits_per_session {
@@ -100,8 +100,7 @@ view: totals {
     group_label: "Screens"
     type: sum
     sql: ${TABLE}.totals.screenViews ;;
-
-    value_format_name: formatted_number
+    value_format_name: decimal_0
   }
 
   measure: time_on_site_total {
@@ -150,7 +149,7 @@ view: totals {
     type: sum
     sql: ${TABLE}.totals.transactions ;;
 
-    value_format_name: formatted_number
+    value_format_name: decimal_0
   }
 
   measure: transaction_conversion_rate {
@@ -202,7 +201,7 @@ view: totals {
     type: sum
     sql: ${TABLE}.totals.visits;;
 
-    value_format_name: formatted_number
+    value_format_name: decimal_0
     drill_fields: [source_medium, visits_total, new_visits_total, hits.page_count, bounces_rate, timeonsite_average_per_session]
   }
 }

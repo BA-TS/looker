@@ -2,7 +2,7 @@ include: "/explores/sales/transactions.explore.lkml"
 
 explore: +base {
 
-  aggregate_table: agg_daily_sales_summary {
+  aggregate_table: daily_sales_summary {
     query: {
       dimensions: [date_date]
       measures: [category_budget.department_net_sales_budget, transactions.aov_price, transactions.number_of_unique_customers, transactions.total_margin_rate_incl_funding, transactions.total_net_sales]

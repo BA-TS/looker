@@ -1,4 +1,3 @@
-include: "/models/backend/config.model"
 include: "/views/**/*.view"
 
 explore: stock_level_date_site_product {
