@@ -2,6 +2,10 @@ include: "/admin/*"
 
 connection: "toolstation"
 
+week_start_day: sunday
+
+# DATAGROUP #
+
 persist_with: toolstation_transactions_datagroup
 datagroup: toolstation_transactions_datagroup {
   sql_trigger:
@@ -14,5 +18,3 @@ datagroup: toolstation_transactions_datagroup {
 datagroup: ts_googleanalytics_datagroup {
   sql_trigger: SELECT EXTRACT(month from CURRENT_DATE()) ;;
 }
-
-week_start_day: sunday

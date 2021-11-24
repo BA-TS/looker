@@ -1,16 +1,11 @@
 include: "/models/backend/config.model"
 include: "/views/**/*.view"
 
-# label: "TS - Sales"
-
 explore: base {
-
-  description: "Explore Toolstation transactional data."
-
-  # required_access_grants: [can_use_transactions]
 
   extends: []
   label: "Transactions"
+  description: "Explore Toolstation transactional data."
 
   conditionally_filter: {
     filters: [
