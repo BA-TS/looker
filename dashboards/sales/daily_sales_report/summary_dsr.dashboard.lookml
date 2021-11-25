@@ -863,8 +863,8 @@
     color_application:
       collection_id: toolstation
       palette_id: toolstation-categorical-0
-    value_format: '[>=1000] [$£-en-GB] #,##0.00, "K"; [<=-1000000] [$£-en-GB] #,##0.00,,
-      "M"; [<=-1000] [$£-en-GB] #,##0.00, "K";[$£-en-GB] #,##0.00'
+    value_format: '[>=1000] [$£-en-GB] #,##0.00, "K"; [<=-1000000] - [$£-en-GB] #,##0.00,,
+      "M"; [<=-1000] - [$£-en-GB] #,##0.00, "K";[$£-en-GB] #,##0.00'
     comparison_label: vs Budget
     conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
@@ -911,8 +911,8 @@
     color_application:
       collection_id: toolstation
       palette_id: toolstation-categorical-0
-    value_format: '[>=1000] [$£-en-GB] #,##0.00, "K"; [<=-1000000] [$£-en-GB] #,##0.00,,
-      "M"; [<=-1000] [$£-en-GB] #,##0.00, "K";[$£-en-GB] #,##0.00'
+    value_format: '[>=1000] [$£-en-GB] #,##0.00, "K"; [<=-1000000] - [$£-en-GB] #,##0.00,,
+      "M"; [<=-1000] - [$£-en-GB] #,##0.00, "K";[$£-en-GB] #,##0.00'
     comparison_label: vs Budget
     conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
@@ -959,8 +959,8 @@
     color_application:
       collection_id: toolstation
       palette_id: toolstation-categorical-0
-    value_format: '[>=1000] [$£-en-GB] #,##0.00, "K"; [<=-1000000] [$£-en-GB] #,##0.00,,
-      "M"; [<=-1000] [$£-en-GB] #,##0.00, "K";[$£-en-GB] #,##0.00'
+    value_format: '[>=1000] [$£-en-GB] #,##0.00, "K"; [<=-1000000] - [$£-en-GB] #,##0.00,,
+      "M"; [<=-1000] - [$£-en-GB] #,##0.00, "K";[$£-en-GB] #,##0.00'
     comparison_label: vs Budget
     conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
@@ -1007,8 +1007,7 @@
     color_application:
       collection_id: toolstation
       palette_id: toolstation-categorical-0
-    value_format: '[>=1000000] [$£-en-GB] #,##0.00,, "M"; [>=1000] [$£-en-GB] #,##0.00,
-      "K"; [$£-en-GB] #,##0.00'
+    value_format: '[>=1000000] [$£-en-GB] #,##0.00,, "M"; [>=1000] [$£-en-GB] #,##0.00, "K"; [$£-en-GB] #,##0.00'
     comparison_label: vs Budget
     conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
