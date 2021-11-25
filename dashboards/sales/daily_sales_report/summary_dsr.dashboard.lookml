@@ -1197,7 +1197,7 @@
     color_application:
       collection_id: toolstation
       palette_id: toolstation-categorical-0
-    single_value_title: "% vs LY"
+    single_value_title: "%PTS vs LY"
     conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
@@ -1241,7 +1241,7 @@
     color_application:
       collection_id: toolstation
       palette_id: toolstation-categorical-0
-    single_value_title: "% vs LY"
+    single_value_title: "%PTS vs LY"
     conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
@@ -1285,7 +1285,7 @@
     color_application:
       collection_id: toolstation
       palette_id: toolstation-categorical-0
-    single_value_title: "% vs LY"
+    single_value_title: "%PTS vs LY"
     conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
@@ -1329,7 +1329,7 @@
     color_application:
       collection_id: toolstation
       palette_id: toolstation-categorical-0
-    single_value_title: "% vs 2LY"
+    single_value_title: "%PTS vs 2LY"
     conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
@@ -1374,7 +1374,7 @@
     color_application:
       collection_id: toolstation
       palette_id: toolstation-categorical-0
-    single_value_title: "% vs LY"
+    single_value_title: "%PTS vs LY"
     conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
@@ -1418,7 +1418,7 @@
     color_application:
       collection_id: toolstation
       palette_id: toolstation-categorical-0
-    single_value_title: "% vs 2LY"
+    single_value_title: "%PTS vs 2LY"
     conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
@@ -1463,7 +1463,7 @@
     color_application:
       collection_id: toolstation
       palette_id: toolstation-categorical-0
-    single_value_title: "% vs 2LY"
+    single_value_title: "%PTS vs 2LY"
     conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
@@ -1508,7 +1508,7 @@
     color_application:
       collection_id: toolstation
       palette_id: toolstation-categorical-0
-    single_value_title: "% vs 2LY"
+    single_value_title: "%PTS vs 2LY"
     conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
