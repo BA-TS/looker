@@ -139,15 +139,6 @@
     width: 12
     height: 8
 
-
-
-
-
-
-
-
-
-
   - title: net_salesdayvalue
     name: net_salesdayvalue
     model: ts_sales
@@ -1069,6 +1060,7 @@
     col: 21
     width: 3
     height: 2
+
   - title: net_margindayvalue
     name: net_margindayvalue
     model: ts_sales
@@ -1764,6 +1756,7 @@
     col: 21
     width: 3
     height: 2
+
   - title: aovdayvalue
     name: aovdayvalue
     model: ts_sales
@@ -2625,6 +2618,7 @@
     col: 21
     width: 3
     height: 2
+
   - title: 7 Day Moving Average Trend (Margin)
     name: 7 Day Moving Average Trend (Margin)
     model: ts_sales
@@ -2767,7 +2761,7 @@
     y_axes: [{label: '', orientation: left, series: [{axisId: aov, id: This Year -
               1 - aov, name: This Year}, {axisId: aov, id: Last Year - 2 - aov, name: Last
               Year}, {axisId: aov, id: 2 Years Ago - 3 - aov, name: 2 Years Ago}],
-        showLabels: true, showValues: true, maxValue: 22, minValue: 19, valueFormat: '0',
+        showLabels: true, showValues: true, maxValue: 22, minValue: 18, valueFormat: '0',
         unpinAxis: false, tickDensity: custom, tickDensityCustom: 19, type: linear}]
     limit_displayed_rows_values:
       show_hide: show
