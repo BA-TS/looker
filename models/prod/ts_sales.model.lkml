@@ -4,6 +4,7 @@ include: "/views/**/*.view"
 label: "TS - Sales"
 
 include: "/explores/sales/*"
+include: "/aggregate_awareness/sales/*"
 include: "/dashboards/sales/daily_sales_report/*"
 
 # explore: base {

@@ -822,6 +822,7 @@ view: transactions {
     sql: ${parent_order_uid} ;;
     value_format: "#,##0;(#,##0)"
   }
+
   measure: number_of_unique_customers {
     label: "Number of Customers"
     view_label: "Measures"
@@ -829,6 +830,7 @@ view: transactions {
     type: count_distinct
     sql: ${customer_uid} ;;
     value_format: "#,##0;(#,##0)"
+    allow_approximate_optimization: yes
   }
 
   # Detail SEGMENT (T/D only) #
