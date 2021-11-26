@@ -23,7 +23,6 @@ view: ga_sessions {
     device,
     custom_navigation_buttons,
     ga_sessions_partition_date,
-
   ]
 
   ########## PRIMARY KEYS ##########
