@@ -1066,7 +1066,8 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.total_margin_rate_incl_funding]
+    fields: [transactions.total_margin_rate_incl_funding, base.date_year]
+    sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: PD
       base.select_comparison_period: Year
@@ -1103,7 +1104,8 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.total_margin_rate_incl_funding]
+    fields: [transactions.total_margin_rate_incl_funding, base.date_year]
+    sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: WTD
       base.select_comparison_period: Year
@@ -1141,7 +1143,8 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.total_margin_rate_incl_funding]
+    fields: [transactions.total_margin_rate_incl_funding, base.date_year]
+    sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: MTD
       base.select_comparison_period: Year
@@ -1179,7 +1182,8 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.total_margin_rate_incl_funding]
+    fields: [transactions.total_margin_rate_incl_funding, base.date_year]
+    sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: YTD
       base.select_comparison_period: Year
