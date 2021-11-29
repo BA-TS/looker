@@ -389,7 +389,7 @@ view: transactions {
     group_label: "Product Details"
     label: "Department"
     type:  string
-    sql: ${TABLE}.productDepartment ;;
+    sql: initcap(${TABLE}.productDepartment) ;;
   }
 
   # EXTERNAL - CALENDAR #
