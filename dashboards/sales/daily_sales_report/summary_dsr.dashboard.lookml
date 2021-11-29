@@ -34,7 +34,7 @@
 
                <a style="color: #ffffff; padding: 0 20px ; float: right; line-height: 40px; font-weight: regular" href="https://tpdev.cloud.looker.com/boards/7" >Back to Menu</a>
 
-               <a style="color: #ffffff; padding: 0 20px ; float: right; line-height: 40px; font-weight: regular" href="https://tpdev.cloud.looker.com/embed/dashboards-next/41" target="_blank" fullscreen="yes">View Full Screen</a>
+               <a style="color: #ffffff; padding: 0 20px ; float: right; line-height: 40px; font-weight: regular" href="https://tpdev.cloud.looker.com/embed/dashboards-next/ts_sales::summary_dsr" target="_blank" fullscreen="yes">View Full Screen</a>
               </span>
                <a style="color: #efefef; padding: 0 20px; float: right; line-height: 40px; font-weight: bold; text-decoration: none;"><span style="color: #ffffff;">Daily Sales Report - Summary</span></a>
             </nav>
