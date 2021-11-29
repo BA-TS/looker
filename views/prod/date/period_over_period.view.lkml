@@ -371,7 +371,7 @@ view: period_on_period_new {
     datatype: date
     sql:
 
-            CURRENT_DATE() - 1
+            CURRENT_DATE() - 2
 
             ;;
     hidden: yes
@@ -541,9 +541,9 @@ view: period_on_period_new {
     sql:
 
             (
-              EXTRACT(DAYOFWEEK FROM ${__target_date__}) <= EXTRACT(DAYOFWEEK FROM (${__current_date__} - (${__length_of_year__} + 6)))
-              AND ${__target_date__} > ${__current_date__} - (${__length_of_year__} + 6) -- ${__length_of_year__} + 6 (DUE TO BEING AT MOST 6 DAYS PRIOR FOR EQUIVALENT WTD)
-              AND ${__target_date__} <= ${__current_date__} - ${__length_of_year__} -- ${__length_of_year__} AS COULD NOT BE ANY 'NEWER' THAN 6 DAYS DUE TO WTD
+              EXTRACT(DAYOFWEEK FROM ${__target_date__}) <= EXTRACT(DAYOFWEEK FROM (${__current_date__} - (${__length_of_year__} ))) -- + 6
+              AND ${__target_date__} > ${__current_date__} - (${__length_of_year__} + 7) -- ${__length_of_year__} + 7 (DUE TO BEING AT MOST 7 DAYS PRIOR FOR EQUIVALENT WTD)
+              AND ${__target_date__} <= ${__current_date__} - ${__length_of_year__} -- ${__length_of_year__} AS COULD NOT BE ANY 'NEWER' THAN 7 DAYS DUE TO WTD
             )
 
             ;;
@@ -554,9 +554,9 @@ view: period_on_period_new {
     sql:
 
             (
-              EXTRACT(DAYOFWEEK FROM ${__target_date__}) <= EXTRACT(DAYOFWEEK FROM (${__current_date__} - ((${__length_of_year__} * 2) + 6)))
-              AND ${__target_date__} > ${__current_date__} - ((${__length_of_year__} * 2) + 6) -- ${__length_of_year__} + 6 (DUE TO BEING AT MOST 6 DAYS PRIOR FOR EQUIVALENT WTD)
-              AND ${__target_date__} <= ${__current_date__} - (${__length_of_year__} * 2) -- ${__length_of_year__} AS COULD NOT BE ANY 'NEWER' THAN 6 DAYS DUE TO WTD
+              EXTRACT(DAYOFWEEK FROM ${__target_date__}) <= EXTRACT(DAYOFWEEK FROM (${__current_date__} - ((${__length_of_year__} * 2)))) --  + 6
+              AND ${__target_date__} > ${__current_date__} - ((${__length_of_year__} * 2) + 7) -- ${__length_of_year__} + 6 (DUE TO BEING AT MOST 7 DAYS PRIOR FOR EQUIVALENT WTD)
+              AND ${__target_date__} <= ${__current_date__} - (${__length_of_year__} * 2) -- ${__length_of_year__} AS COULD NOT BE ANY 'NEWER' THAN 7 DAYS DUE TO WTD
             )
 
             ;;
