@@ -18,6 +18,7 @@ view: total_budget {
        group by 1
 
       ;;
+      publish_as_db_view: yes # look at this
   }
 
   dimension: total_budget_date {
