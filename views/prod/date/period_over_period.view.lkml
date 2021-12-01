@@ -371,7 +371,7 @@ view: period_on_period_new {
     datatype: date
     sql:
 
-            CURRENT_DATE() - 2
+            CURRENT_DATE() - 1
 
             ;;
     hidden: yes
