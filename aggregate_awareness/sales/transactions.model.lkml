@@ -4,7 +4,6 @@ explore: +base {
 
   # DAILY SALES #
 
-
   aggregate_table: daily_sales_summary_DATE {
     query: {
       dimensions: [

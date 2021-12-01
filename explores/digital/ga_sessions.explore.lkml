@@ -5,6 +5,8 @@ include: "/**/Google_Analytics/Custom_Views/*.view.lkml"
 
 explore: ga_sessions {
 
+  required_access_grants: [is_developer]
+
   label: "Google Analytics"
   description: "Explores Google Analytics sessions data."
 

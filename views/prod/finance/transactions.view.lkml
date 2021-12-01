@@ -172,21 +172,6 @@ view: transactions {
     hidden:  yes
   }
 
-
-# ██████╗░███████╗███╗░░██╗██████╗░██╗███╗░░██╗░██████╗░
-# ██╔══██╗██╔════╝████╗░██║██╔══██╗██║████╗░██║██╔════╝░
-# ██████╔╝█████╗░░██╔██╗██║██║░░██║██║██╔██╗██║██║░░██╗░
-# ██╔═══╝░██╔══╝░░██║╚████║██║░░██║██║██║╚████║██║░░╚██╗
-# ██║░░░░░███████╗██║░╚███║██████╔╝██║██║░╚███║╚██████╔╝
-# ╚═╝░░░░░╚══════╝╚═╝░░╚══╝╚═════╝░╚═╝╚═╝░░╚══╝░╚═════╝░
-
-# ██╗░░██╗██╗██████╗░██████╗░███████╗███╗░░██╗
-# ██║░░██║██║██╔══██╗██╔══██╗██╔════╝████╗░██║
-# ███████║██║██║░░██║██║░░██║█████╗░░██╔██╗██║
-# ██╔══██║██║██║░░██║██║░░██║██╔══╝░░██║╚████║
-# ██║░░██║██║██████╔╝██████╔╝███████╗██║░╚███║
-# ╚═╝░░╚═╝╚═╝╚═════╝░╚═════╝░╚══════╝╚═╝░░╚══╝
-
   dimension: customer_uid {
     label: "Customer UID"
     group_label: "Order ID"
@@ -240,62 +225,85 @@ view: transactions {
   }
 
 
-  # dimension_group: transaction_date_coalesce {
-  #   # required_access_grants: [is_developer]
-  #   view_label: "Calendar - Completed Date"
-  #   group_label: "Date/Time"
-  #   label: ""
-  #   type: time
-  #   datatype: timestamp
-  #   timeframes: [
-  #     time,
-  #     time_of_day,
-  #     raw
-  #   ]
-  #   description: "Date that order reached complete status"
-  #   sql: COALESCE(${TABLE}.transactiondate,TIMESTAMP_ADD(CAST(${site_budget.raw_date} AS TIMESTAMP), INTERVAL 12 HOUR), TIMESTAMP_ADD(CAST(${category_budget.date} AS TIMESTAMP), INTERVAL 12 HOUR), TIMESTAMP_ADD(CAST(${channel_budget.date} AS TIMESTAMP), INTERVAL 12 HOUR)) ;;
-  #   # sql:
+# ██████╗░███████╗███╗░░██╗██████╗░██╗███╗░░██╗░██████╗░
+# ██╔══██╗██╔════╝████╗░██║██╔══██╗██║████╗░██║██╔════╝░
+# ██████╔╝█████╗░░██╔██╗██║██║░░██║██║██╔██╗██║██║░░██╗░
+# ██╔═══╝░██╔══╝░░██║╚████║██║░░██║██║██║╚████║██║░░╚██╗
+# ██║░░░░░███████╗██║░╚███║██████╔╝██║██║░╚███║╚██████╔╝
+# ╚═╝░░░░░╚══════╝╚═╝░░╚══╝╚═════╝░╚═╝╚═╝░░╚══╝░╚═════╝░
 
-  #   # {% if
-  #   #     category_budget.category_budget_in_query == 'TRUE'
-  #   #     and channel_budget.channel_budget_in_query == 'TRUE'
-  #   #     and site_budget.site_budget_in_query == 'TRUE'
-  #   #     %}
-  #   #     COALESCE(${TABLE}.transactiondate,timestamp_add(timestamp(${site_budget.raw_date}), INTERVAL 12 HOUR), timestamp_add(timestamp(${category_budget.date}), INTERVAL 12 HOUR), timestamp_add(timestamp(${channel_budget.date}), INTERVAL 12 HOUR))
-  #   #   {% elsif
-  #   #     category_budget.category_budget_in_query == 'TRUE'
-  #   #     and channel_budget.channel_budget_in_query == 'TRUE'
-  #   #     %}
-  #   #     COALESCE(${TABLE}.transactiondate, timestamp_add(timestamp(${category_budget.date}), INTERVAL 12 HOUR), timestamp_add(timestamp(${channel_budget.date}), INTERVAL 12 HOUR))
-  #   #   {% elsif
-  #   #     category_budget.category_budget_in_query == 'TRUE'
-  #   #     and site_budget.site_budget_in_query == 'TRUE'
-  #   #     %}
-  #   #     COALESCE(${TABLE}.transactiondate,timestamp_add(timestamp(${site_budget.raw_date}), INTERVAL 12 HOUR), timestamp_add(timestamp(${category_budget.date}), INTERVAL 12 HOUR))
-  #   #   {% elsif
-  #   #     site_budget.site_budget_in_query == 'TRUE'
-  #   #     and channel_budget.channel_budget_in_query == 'TRUE'
-  #   #     %}
-  #   #     COALESCE(${TABLE}.transactiondate,timestamp_add(timestamp(${site_budget.raw_date}), INTERVAL 12 HOUR), timestamp_add(timestamp(${channel_budget.date}), INTERVAL 12 HOUR))
-  #   #   {% elsif
-  #   #     category_budget.category_budget_in_query == 'TRUE'
-  #   #     %}
-  #   #   COALESCE(${TABLE}.transactiondate, timestamp_add(timestamp(${category_budget.date}), INTERVAL 12 HOUR))
-  #   #   {% elsif
-  #   #     channel_budget.channel_budget_in_query == 'TRUE'
-  #   #     %}
-  #   #   COALESCE(${TABLE}.transactiondate, timestamp_add(timestamp(${channel_budget.date}), INTERVAL 12 HOUR))
-  #   #   {% elsif
-  #   #     site_budget.site_budget_in_query == 'TRUE'
-  #   #   %}
-  #   #   COALESCE(${TABLE}.transactiondate, timestamp_add(timestamp(${site_budget.raw_date}), INTERVAL 12 HOUR))
-  #   #   {% else %}
-  #   #     ${TABLE}.transactiondate
-  #   # {% endif %}
+# ██╗░░██╗██╗██████╗░██████╗░███████╗███╗░░██╗
+# ██║░░██║██║██╔══██╗██╔══██╗██╔════╝████╗░██║
+# ███████║██║██║░░██║██║░░██║█████╗░░██╔██╗██║
+# ██╔══██║██║██║░░██║██║░░██║██╔══╝░░██║╚████║
+# ██║░░██║██║██████╔╝██████╔╝███████╗██║░╚███║
+# ╚═╝░░╚═╝╚═╝╚═════╝░╚═════╝░╚══════╝╚═╝░░╚══╝
 
+dimension_group: order_completed {
+    view_label: "Date"
+    group_label: "Time"
+    type: time
+    timeframes: [hour_of_day
+    ]
+    sql: ${TABLE}.transactionDate ;;
+    hidden: yes
+  }
 
-  #   # ;;
-  # }
+  dimension: placed_date { # _group
+    type: date
+    datatype: date
+    sql: ${TABLE}.placeddate ;;
+    hidden: yes
+  }
+  dimension: is_open18_months {
+    required_access_grants: [is_developer]
+    group_label: "Flags"
+    label: "Open 18 Months"
+    type: yesno
+    sql: ${TABLE}.isOpen18Months = 1 ;;
+    hidden: yes
+  }
+  dimension: is_originating_lfl {
+    required_access_grants: [is_developer]
+    group_label: "Flags"
+    label: "Originating LFL"
+    type: yesno
+    sql: ${TABLE}.isOriginatingLFL = 1 ;;
+    hidden: yes
+  }
+  dimension: is_originating_mature {
+    required_access_grants: [is_developer]
+    group_label: "Flags"
+    label: "Originating Mature"
+    type: yesno
+    sql: ${TABLE}.isOriginatingMature = 1 ;;
+    hidden: yes
+  }
+  dimension: is_originating_open18_months {
+    required_access_grants: [is_developer]
+    group_label: "Flags"
+    label: "Originating Open (18 Months)"
+    type: yesno
+    sql: ${TABLE}.isOriginatingOpen18Months = 1 ;;
+    hidden: yes
+  }
+
+  dimension: order_reason {
+    required_access_grants: [is_developer]
+    group_label: "Order Details"
+    label: "Reason for Order"
+    type: string
+    sql: ${TABLE}.orderReason ;;
+    hidden: yes
+  }
+  dimension: order_special_requests {
+    required_access_grants: [is_developer]
+    group_label: "Order Details"
+    label: "Special Requests"
+    type: string
+    sql: ${TABLE}.orderSpecialRequests ;;
+    hidden: yes
+  }
 
 
 
@@ -313,76 +321,6 @@ view: transactions {
 # ██████╔╝██║██║░╚═╝░██║███████╗██║░╚███║██████╔╝██║╚█████╔╝██║░╚███║██████╔╝
 # ╚═════╝░╚═╝╚═╝░░░░░╚═╝╚══════╝╚═╝░░╚══╝╚═════╝░╚═╝░╚════╝░╚═╝░░╚══╝╚═════╝░
 
-  dimension_group: order_completed {
-    view_label: "Date"
-    group_label: "Time"
-    type: time
-    timeframes: [hour_of_day
-    ]
-    sql: ${TABLE}.transactionDate ;;
-  }
-
-  # dimension: sales_channel_coalesce {
-  #   label: "Sales Channel"
-  #   group_label: "Purchase Details"
-  #   type: string
-  #   sql:
-  #   {% if
-  #       channel_budget.channel_net_sales_budget._is_selected
-  #       or channel_budget.channel_gross_profit_Excl_funding_budget._is_selected
-  #       or channel_budget.channel_retro_funding_budget._is_selected
-  #       or channel_budget.channel_fixed_funding_budget._is_selected
-  #       or channel_budget.channel_gross_margin_inc_unit_funding_budget._is_selected
-  #       or channel_budget.channel_gross_margin_inc_all_funding_budget._is_selected
-  #     %}
-  #       initCap(coalesce(upper(${TABLE}.salesChannel),upper(${channel_budget.channel})))
-  #     {% else %}
-  #       initCap(upper(${TABLE}.salesChannel))
-  #     {% endif %}
-
-  #   ;;
-  #   # sql: coalesce(upper(${TABLE}.salesChannel),upper(${channel_budget.channel})) ;;
-  # }
-
-
-  # dimension: site_uid_coalesce {
-  #   label: "Site UID"
-  #   view_label: "Sites"
-  #   type: string
-  #   sql:
-
-  #     {% if site_budget.site_net_sales_budget._is_selected  %}
-  #       coalesce(${TABLE}.siteUID,${site_budget.site_uid})
-  #     {% else %}
-  #       ${TABLE}.siteUID
-  #     {% endif %}
-
-  #   ;;
-    # sql: coalesce(${TABLE}.siteUID,${site_budget.site_uid}) ;;
-  # }
-
-  # dimension: department_coalesce {
-  #   view_label: "Products"
-  #   group_label: "Product Details"
-  #   label: "Department"
-  #   type:  string
-  #   sql:
-
-  #   {% if
-  #               category_budget.department_net_sales_budget._in_query
-  #               or category_budget.department_margin_inc_Retro_funding_budget._in_query
-  #               or category_budget.department_margin_inc_all_funding_budget._in_query
-  #               or category_budget.department_margin_rate_inc_retro_funding_budget._in_query
-  #             %}
-  #       coalesce(INITCAP(${products.department}),initcap(${category_budget.department}))
-  #     {% else %}
-  #       INITCAP(${products.department})
-  #     {% endif %}
-
-  #   ;;
-  #   hidden: yes
-  #   # sql: coalesce(INITCAP(${products.department}),initcap(${category_budget.department})) ;; # think about DIGITAL
-  # }
 
   dimension: product_department {
     view_label: "Products"
@@ -394,12 +332,6 @@ view: transactions {
 
   # EXTERNAL - CALENDAR #
 
-  dimension: placed_date { # _group
-    type: date
-    datatype: date
-    sql: ${TABLE}.placeddate ;;
-    hidden: yes
-  }
 
   # EXTERNAL - PRODUCTS #
 
@@ -447,57 +379,8 @@ view: transactions {
     type: yesno
     sql: ${TABLE}.isMature = 1 ;;
   }
-  dimension: is_open18_months {
-    required_access_grants: [is_developer]
-    group_label: "Flags"
-    label: "Open 18 Months"
-    type: yesno
-    sql: ${TABLE}.isOpen18Months = 1 ;;
-    hidden: yes
-  }
-  dimension: is_originating_lfl {
-    required_access_grants: [is_developer]
-    group_label: "Flags"
-    label: "Originating LFL"
-    type: yesno
-    sql: ${TABLE}.isOriginatingLFL = 1 ;;
-    hidden: yes
-  }
-  dimension: is_originating_mature {
-    required_access_grants: [is_developer]
-    group_label: "Flags"
-    label: "Originating Mature"
-    type: yesno
-    sql: ${TABLE}.isOriginatingMature = 1 ;;
-    hidden: yes
-  }
-  dimension: is_originating_open18_months {
-    required_access_grants: [is_developer]
-    group_label: "Flags"
-    label: "Originating Open (18 Months)"
-    type: yesno
-    sql: ${TABLE}.isOriginatingOpen18Months = 1 ;;
-    hidden: yes
-  }
-
   # ORDER DETAILS #
 
-  dimension: order_reason {
-    required_access_grants: [is_developer]
-    group_label: "Order Details"
-    label: "Reason for Order"
-    type: string
-    sql: ${TABLE}.orderReason ;;
-    hidden: yes
-  }
-  dimension: order_special_requests {
-    required_access_grants: [is_developer]
-    group_label: "Order Details"
-    label: "Special Requests"
-    type: string
-    sql: ${TABLE}.orderSpecialRequests ;;
-    hidden: yes
-  }
 
   # PURCHASE DETAILS #
 
@@ -747,7 +630,7 @@ view: transactions {
     value_format_name: gbp
   }
   measure: total_cogs {
-    label: "Total COGS"
+    label: "COGS"
     view_label: "Measures"
     group_label: "Core"
     type:  sum
@@ -756,7 +639,7 @@ view: transactions {
     hidden: no
   }
   measure: total_unit_funding {
-    label: "Total Unit Funding"
+    label: "Unit Funding"
     view_label: "Measures"
     group_label: "Core"
     type:  sum
@@ -799,7 +682,7 @@ view: transactions {
     value_format: "0.00%;(0.00%)"
   }
   measure: total_units {
-    label: "Total Units"
+    label: "Units"
     view_label: "Measures"
     group_label: "Core"
     type:  sum
@@ -807,7 +690,7 @@ view: transactions {
     value_format: "#,##0;(#,##0)"
   }
   measure: total_units_incl_system_codes {
-    label: "Total Units (System Codes)"
+    label: "Units (System Codes)"
     view_label: "Measures"
     group_label: "Core"
     type:  sum
@@ -830,7 +713,6 @@ view: transactions {
     type: count_distinct
     sql: ${customer_uid} ;;
     value_format: "#,##0;(#,##0)"
-    allow_approximate_optimization: yes
   }
 
   # Detail SEGMENT (T/D only) #
@@ -849,6 +731,7 @@ view: transactions {
     END
 
     ;;
+    hidden: yes
   }
   measure: number_of_diy_customers {
     required_access_grants: [is_expert]
@@ -864,6 +747,7 @@ view: transactions {
     END
 
     ;;
+    hidden: yes
   }
 
   measure: percentage_of_customers_trade {
@@ -876,6 +760,7 @@ view: transactions {
     SAFE_DIVIDE(${number_of_trade_customers}, ${number_of_unique_customers})
 
     ;;
+    hidden: yes
     value_format: "##0.0%;(##0.0%)"
   }
   measure: percentage_of_customers_diy {
@@ -888,6 +773,7 @@ view: transactions {
     SAFE_DIVIDE(${number_of_diy_customers}, ${number_of_unique_customers})
 
     ;;
+    hidden: yes
     value_format: "##0.0%;(##0.0%)"
   }
 
@@ -907,6 +793,7 @@ view: transactions {
     END
 
     ;;
+    hidden: yes
   }
   measure: diy_gross_sales {
     required_access_grants: [is_expert]
@@ -922,6 +809,7 @@ view: transactions {
     END
 
      ;;
+    hidden: yes
   }
   measure: trade_net_sales {
     required_access_grants: [is_expert]
@@ -937,6 +825,7 @@ view: transactions {
     END
 
     ;;
+    hidden: yes
   }
   measure: diy_net_sales {
     required_access_grants: [is_expert]
@@ -953,6 +842,7 @@ view: transactions {
     END
 
      ;;
+    hidden: yes
   }
   measure: trade_margin_excl_funding {
     required_access_grants: [is_expert]
@@ -968,6 +858,7 @@ view: transactions {
     END
 
     ;;
+    hidden: yes
   }
   measure: diy_margin_excl_funding {
     required_access_grants: [is_expert]
@@ -984,6 +875,7 @@ view: transactions {
     END
 
     ;;
+    hidden: yes
   }
   measure: trade_margin_incl_funding {
     required_access_grants: [is_expert]
@@ -999,6 +891,7 @@ view: transactions {
     END
 
     ;;
+    hidden: yes
   }
   measure: diy_margin_incl_funding {
     required_access_grants: [is_expert]
@@ -1014,6 +907,7 @@ view: transactions {
     END
 
     ;;
+    hidden: yes
   }
 
   ## MR % x 2
@@ -1032,6 +926,7 @@ view: transactions {
     END
 
     ;;
+    hidden: yes
   }
   measure: diy_units {
     required_access_grants: [is_expert]
@@ -1062,6 +957,7 @@ view: transactions {
     END
 
     ;;
+    hidden: yes
   }
   measure: diy_units_incl_system_codes {
     required_access_grants: [is_expert]
@@ -1077,6 +973,7 @@ view: transactions {
     END
 
     ;;
+    hidden: yes
   }
   measure: trade_number_of_transactions {
     required_access_grants: [is_expert]
@@ -1092,6 +989,7 @@ view: transactions {
     END
 
     ;;
+    hidden: yes
     value_format: "#,##0;(#,##0)"
 
   }
@@ -1109,6 +1007,7 @@ view: transactions {
     END
 
     ;;
+    hidden: yes
   }
 
   measure: trade_gross_sales_mix {
@@ -1121,6 +1020,7 @@ view: transactions {
     SAFE_DIVIDE(${trade_gross_sales}, ${total_gross_sales})
 
     ;;
+    hidden: yes
     value_format: "##0.00%;(##0.00%)"
   }
   measure: diy_gross_sales_mix {
@@ -1145,6 +1045,7 @@ view: transactions {
     SAFE_DIVIDE(${trade_net_sales}, ${total_net_sales})
 
     ;;
+    hidden: yes
     value_format: "##0.00%;(##0.00%)"
   }
   measure: diy_net_sales_mix {
@@ -1157,6 +1058,7 @@ view: transactions {
     SAFE_DIVIDE(${diy_net_sales}, ${total_net_sales})
 
     ;;
+    hidden: yes
     value_format: "##0.00%;(##0.00%)"
   }
   measure: trade_margin_excl_funding_mix {
@@ -1169,6 +1071,7 @@ view: transactions {
     SAFE_DIVIDE(${trade_margin_excl_funding}, ${total_margin_excl_funding})
 
     ;;
+    hidden: yes
     value_format: "##0.00%;(##0.00%)"
   }
   measure: diy_margin_excl_funding_mix {
@@ -1181,6 +1084,7 @@ view: transactions {
     SAFE_DIVIDE(${diy_margin_excl_funding}, ${total_margin_excl_funding})
 
     ;;
+    hidden: yes
     value_format: "##0.00%;(##0.00%)"
   }
   measure: trade_margin_incl_funding_mix {
@@ -1193,6 +1097,7 @@ view: transactions {
     SAFE_DIVIDE(${trade_margin_incl_funding}, ${total_margin_incl_funding})
 
     ;;
+    hidden: yes
     value_format: "##0.00%;(##0.00%)"
   }
   measure: diy_margin_incl_funding_mix {
@@ -1205,6 +1110,7 @@ view: transactions {
     SAFE_DIVIDE(${diy_margin_incl_funding}, ${total_margin_incl_funding})
 
     ;;
+    hidden: yes
     value_format: "##0.00%;(##0.00%)"
   }
   # MR % x 2
@@ -1218,6 +1124,7 @@ view: transactions {
     SAFE_DIVIDE(${trade_net_units}, ${total_units})
 
     ;;
+    hidden: yes
     value_format: "##0.00%;(##0.00%)"
   }
   measure: diy_units_mix {
@@ -1230,6 +1137,7 @@ view: transactions {
     SAFE_DIVIDE(${diy_net_units}, ${total_units})
 
     ;;
+    hidden: yes
     value_format: "##0.00%;(##0.00%)"
   }
   measure: trade_units_incl_system_codes_mix {
@@ -1242,6 +1150,7 @@ view: transactions {
     SAFE_DIVIDE(${trade_units_incl_system_codes}, ${total_units_incl_system_codes})
 
     ;;
+    hidden: yes
     value_format: "##0.00%;(##0.00%)"
   }
   measure: diy_units_incl_system_codes_mix {
@@ -1254,6 +1163,7 @@ view: transactions {
     SAFE_DIVIDE(${diy_units_incl_system_codes}, ${total_units_incl_system_codes})
 
     ;;
+    hidden: yes
     value_format: "##0.00%;(##0.00%)"
   }
   measure: trade_number_of_transactions_mix {
@@ -1266,6 +1176,7 @@ view: transactions {
     SAFE_DIVIDE(${trade_number_of_transactions}, ${number_of_transactions})
 
     ;;
+    hidden: yes
     value_format: "##0.00%;(##0.00%)"
   }
   measure: diy_number_of_transactions_mix {
@@ -1278,6 +1189,7 @@ view: transactions {
     SAFE_DIVIDE(${diy_number_of_transactions}, ${number_of_transactions})
 
     ;;
+    hidden: yes
     value_format: "##0.00%;(##0.00%)"
   }
 
@@ -1297,6 +1209,7 @@ view: transactions {
     END)
 
     ;;
+    hidden: yes
   }
   measure: total_gross_sales_extra {
     label: "Gross Sales (Extra)"
@@ -1312,6 +1225,7 @@ view: transactions {
     END)
 
     ;;
+    hidden: yes
   }
   measure: total_gross_sales_promo {
     label: "Gross Sales (All)"
@@ -1327,6 +1241,7 @@ view: transactions {
     END
 
     ;;
+    hidden: yes
   }
   measure: total_gross_sales_main_mix {
     label: "Gross Sales Main Mix (Trade)"
@@ -1339,6 +1254,7 @@ view: transactions {
     SAFE_DIVIDE(${total_gross_sales_main}, ${total_gross_sales})
 
     ;;
+    hidden: yes
   }
   measure: total_gross_sales_extra_mix {
     label: "Gross Sales Extra Mix (Trade)"
@@ -1351,6 +1267,7 @@ view: transactions {
     SAFE_DIVIDE(${total_gross_sales_extra}, ${total_gross_sales})
 
     ;;
+    hidden: yes
   }
 
   measure: total_net_sales_main {
@@ -1367,6 +1284,7 @@ view: transactions {
     END
 
     ;;
+    hidden: yes
   }
   measure: total_net_sales_extra {
     label: "Net Sales (Extra)"
@@ -1382,6 +1300,7 @@ view: transactions {
     END
 
     ;;
+    hidden: yes
   }
   measure: total_net_sales_promo {
     label: "Net Sales (All)"
@@ -1398,6 +1317,7 @@ view: transactions {
     END
 
     ;;
+    hidden: yes
   }
   measure: total_net_sales_main_mix {
     label: "Net Sales Main Mix (Trade)"
@@ -1410,6 +1330,7 @@ view: transactions {
     SAFE_DIVIDE(${total_net_sales_main}, ${total_net_sales})
 
     ;;
+    hidden: yes
   }
   measure: total_net_sales_extra_mix {
     label: "Net Sales Extra Mix (Trade)"
@@ -1422,6 +1343,7 @@ view: transactions {
     SAFE_DIVIDE(${total_net_sales_extra}, ${total_net_sales})
 
     ;;
+    hidden: yes
   }
 
   measure: total_margin_excl_funding_main {
@@ -1438,6 +1360,7 @@ view: transactions {
     END
 
     ;;
+    hidden: yes
   }
   measure: total_margin_excl_funding_extra {
     label: "Margin Exc Funding  (Extra)"
@@ -1453,6 +1376,7 @@ view: transactions {
     END
 
     ;;
+    hidden: yes
   }
   measure: total_margin_excl_funding_promo {
     label: "Margin Exc Funding  (All)"
@@ -1468,6 +1392,7 @@ view: transactions {
     END
 
     ;;
+    hidden: yes
   }
   measure: total_margin_excl_funding_main_mix {
     label: "Margin Exc Funding Main Mix (Trade)"
@@ -1480,6 +1405,7 @@ view: transactions {
     SAFE_DIVIDE(${total_margin_excl_funding_main}, ${total_margin_excl_funding})
 
     ;;
+    hidden: yes
   }
   measure: total_margin_excl_funding_extra_mix {
     label: "Margin Exc Funding Extra Mix (Trade)"
@@ -1492,6 +1418,7 @@ view: transactions {
     SAFE_DIVIDE(${total_margin_excl_funding_extra}, ${total_margin_excl_funding})
 
     ;;
+    hidden: yes
   }
 
   measure: total_margin_incl_funding_main {
@@ -1523,6 +1450,7 @@ view: transactions {
     END
 
     ;;
+    hidden: yes
   }
   measure: total_margin_incl_funding_promo {
     label: "Margin Inc Funding  (All)"
@@ -1538,6 +1466,7 @@ view: transactions {
     END
 
     ;;
+    hidden: yes
   }
   measure: total_margin_incl_funding_main_mix {
     label: "Margin Inc Funding Main Mix (Trade)"
@@ -1550,6 +1479,7 @@ view: transactions {
     SAFE_DIVIDE(${total_margin_incl_funding_main}, ${total_margin_incl_funding})
 
     ;;
+    hidden: yes
   }
   measure: total_margin_incl_funding_extra_mix {
     label: "Margin Inc Funding Extra Mix (Trade)"
@@ -1562,6 +1492,7 @@ view: transactions {
     SAFE_DIVIDE(${total_margin_incl_funding_extra}, ${total_margin_incl_funding})
 
     ;;
+    hidden: yes
   }
 
   measure: total_units_main {
@@ -1578,6 +1509,7 @@ view: transactions {
     END
 
     ;;
+    hidden: yes
   }
   measure: total_units_extra {
     label: "Units  (Extra)"
@@ -1593,6 +1525,7 @@ view: transactions {
     END
 
     ;;
+    hidden: yes
   }
   measure: total_units_promo {
     label: "Units  (All)"
@@ -1608,6 +1541,7 @@ view: transactions {
     END
 
     ;;
+    hidden: yes
   }
   measure: total_units_main_mix {
     label: "Units Main Mix (Trade)"
@@ -1620,6 +1554,7 @@ view: transactions {
     SAFE_DIVIDE(${total_units_main}, ${total_units})
 
     ;;
+    hidden: yes
   }
   measure: total_units_extra_mix {
     label: "Units Extra Mix (Trade)"
@@ -1632,6 +1567,7 @@ view: transactions {
     SAFE_DIVIDE(${total_units_extra}, ${total_units})
 
     ;;
+    hidden: yes
   }
 
   measure: total_number_of_transactions_main {
@@ -1648,6 +1584,7 @@ view: transactions {
     END
 
     ;;
+    hidden: yes
   }
   measure: total_number_of_transactions_extra {
     label: "Transactions (Extra)"
@@ -1663,6 +1600,7 @@ view: transactions {
     END
 
     ;;
+    hidden: yes
   }
   measure: total_number_of_transactions_promo {
     label: "Transactions (All)"
@@ -1678,6 +1616,7 @@ view: transactions {
     END
 
     ;;
+    hidden: yes
   }
   measure: total_number_of_transactions_main_mix {
     label: "Transactions Main Mix (Trade)"
@@ -1690,6 +1629,7 @@ view: transactions {
     SAFE_DIVIDE(${total_number_of_transactions_main}, ${number_of_transactions})
 
     ;;
+    hidden: yes
   }
   measure: total_number_of_transactions_extra_mix {
     label: "Transactions Extra Mix (Trade)"
@@ -1702,6 +1642,7 @@ view: transactions {
     SAFE_DIVIDE(${total_number_of_transactions_extra}, ${number_of_transactions})
 
     ;;
+    hidden: yes
   }
 
   # AOV #
@@ -1723,7 +1664,7 @@ view: transactions {
     value_format_name: gbp
   }
   measure: aov_margin_excl_funding {
-    label: "Margin Excl Funding AOV"
+    label: "Margin (Excluding Funding) AOV"
     view_label: "Measures"
     group_label: "AOV"
     type:  number
@@ -1731,7 +1672,7 @@ view: transactions {
     value_format_name: gbp
   }
   measure: aov_margin_incl_funding {
-    label: "Margin Inc Funding AOV"
+    label: "Margin (Including Funding) AOV"
     view_label: "Measures"
     group_label: "AOV"
     type:  number
@@ -1739,7 +1680,7 @@ view: transactions {
     value_format_name: gbp
   }
   measure: aov_units{
-    label: "Average Units" #  (Transaction)
+    label: "Units AOV" #  (Transaction)
     view_label: "Measures"
     group_label: "AOV"
     type: number
@@ -1779,13 +1720,6 @@ view: transactions {
     type: sum
     sql: case when ${is_lfl} then ${net_sales_value} else 0 end;;
   }
-  measure: lfl_margin_incl_funding {
-    label: "Margin (Including Funding) (LFL)"
-    view_label: "Measures"
-    group_label: "LFL"
-    type: sum
-    sql: case when ${is_lfl} then ${margin_incl_funding} else 0 end;;
-  }
   measure: lfl_margin_excl_funding{
     label: "Margin (Excluding Funding) (LFL)"
     view_label: "Measures"
@@ -1793,6 +1727,30 @@ view: transactions {
     type: sum
     sql: case when ${is_lfl} then ${margin_excl_funding} else 0 end;;
   }
+  measure: lfl_margin_incl_funding {
+    label: "Margin (Including Funding) (LFL)"
+    view_label: "Measures"
+    group_label: "LFL"
+    type: sum
+    sql: case when ${is_lfl} then ${margin_incl_funding} else 0 end;;
+  }
+  measure: lfl_margin_rate_excl_funding {
+    label: "Margin Rate (Excluding Funding) (LFL)"
+    view_label: "Measures"
+    group_label: "LFL"
+    type:  number
+    sql: SAFE_DIVIDE(${lfl_margin_excl_funding}, ${lfl_net_sales}) ;;
+    value_format: "0.00%;(0.00%)"
+  }
+  measure: lfl_margin_rate_incl_funding {
+    label: "Margin Rate (Including Funding) (LFL)"
+    view_label: "Measures"
+    group_label: "LFL"
+    type:  number
+    sql: SAFE_DIVIDE(${lfl_margin_incl_funding}, ${lfl_net_sales}) ;;
+    value_format: "0.00%;(0.00%)"
+  }
+
   measure: lfl_number_of_customers{
     label: "Number of Customers (LFL)"
     view_label: "Measures"
@@ -1808,28 +1766,11 @@ view: transactions {
     sql: case when ${is_lfl} then ${parent_order_uid} else 0 end;;
   }
   measure: lfl_number_of_units {
-    label: "Number of Units (LFL)"
+    label: "Units (LFL)"
     view_label: "Measures"
     group_label: "LFL"
     type: sum
     sql: case when ${is_lfl} and ${product_code} not like '0%' then ${quantity} else 0 end;;
   }
-  measure: lfl_margin_rate_incl_funding {
-    label: "Margin Rate (Including Funding) (LFL)"
-    view_label: "Measures"
-    group_label: "LFL"
-    type:  number
-    sql: SAFE_DIVIDE(${lfl_margin_incl_funding}, ${lfl_net_sales}) ;;
-    value_format: "0.00%;(0.00%)"
-  }
-  measure: lfl_margin_rate_excl_funding {
-    label: "Margin Rate (Excluding Funding) (LFL)"
-    view_label: "Measures"
-    group_label: "LFL"
-    type:  number
-    sql: SAFE_DIVIDE(${lfl_margin_excl_funding}, ${lfl_net_sales}) ;;
-    value_format: "0.00%;(0.00%)"
-  }
-
 
 }
