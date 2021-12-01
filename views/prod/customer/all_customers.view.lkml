@@ -1,4 +1,5 @@
 include: "/views/prod/finance/transactions.view"
+include: "/views/prod/department_specific/crm/trade_customers.view"
 
 view: customers {
   sql_table_name:
@@ -302,7 +303,11 @@ view: customers {
     type:  yesno
     group_label: "Flags"
     label: "Is Trade"
-    sql: ${trade_customers.customer_number} is not null ;;
+    sql:
+
+    ${trade_customers.trade_flag} != ""
+
+     ;; # ${trade_customers.customer_number} is not null
   }
   dimension_group: updated {
     type: time

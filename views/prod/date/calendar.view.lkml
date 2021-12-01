@@ -126,6 +126,12 @@ view: calendar {
     # value_format: "#"
     can_filter: no
   }
+  dimension: fiscal_week_testing {
+    required_access_grants: [is_developer]
+    label: "Testing Fiscal Week"
+    type: string
+    sql: RIGHT(CAST(${fiscal_year_week} AS STRING), 2) ;;
+  }
   dimension: holiday_name {
     group_label: "Holiday"
     type: string

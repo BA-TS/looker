@@ -34,7 +34,7 @@
 
                <a style="color: #ffffff; padding: 0 20px ; float: right; line-height: 40px; font-weight: regular" href="https://tpdev.cloud.looker.com/boards/7" >Back to Menu</a>
 
-               <a style="color: #ffffff; padding: 0 20px ; float: right; line-height: 40px; font-weight: regular" href="https://tpdev.cloud.looker.com/embed/dashboards-next/109" target="_blank" fullscreen="yes">View Full Screen</a>
+               <a style="color: #ffffff; padding: 0 20px ; float: right; line-height: 40px; font-weight: regular" href="https://tpdev.cloud.looker.com/embed/dashboards-next/ts_sales::top_10_performances_dsr" target="_blank" fullscreen="yes">View Full Screen</a>
               </span>
                <a style="color: #efefef; padding: 0 20px; float: right; line-height: 40px; font-weight: bold; text-decoration: none;"><span style="color: #ffffff;">Daily Sales Report - Top 10 Performances</span></a>
             </nav>
@@ -164,7 +164,7 @@
     row: 7
     col: 0
     width: 24
-    height: 9
+    height: 10
   - title: Top 10 (Categories)
     name: Top 10 (Categories)
     model: ts_sales

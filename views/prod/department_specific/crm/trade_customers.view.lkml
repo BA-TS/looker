@@ -30,7 +30,7 @@ view: trade_customers {
 
   ########## Flags ##########
 
-  dimension: trade_segment {
+  dimension: trade_flag {
     type: string
     group_label: "Flags"
     sql: ${TABLE}.Trade_Flag ;;
