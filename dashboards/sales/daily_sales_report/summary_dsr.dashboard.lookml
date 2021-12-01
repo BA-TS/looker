@@ -58,7 +58,7 @@
     type: text
     title_text: ''
     subtitle_text: ''
-    body_text: "# Average Order Value (AOV) and Unique Customers"
+    body_text: "# Average Order Value (AOV)"
     row: 23
     col: 0
     width: 24
@@ -585,12 +585,12 @@
     fields: [base.date_year, transactions.total_net_sales]
     filters:
       base.select_fixed_range: PD
-      base.select_comparison_period: 2YearsAgo
+      base.select_comparison_period: Year
       base.select_number_of_periods: '3'
     sorts: [base.date_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
-        value_format_name: percent_1, calculation_type: percent_difference_from_previous,
+        value_format_name: percent_1, expression: "(${transactions.total_net_sales} / offset(${transactions.total_net_sales}, 2) -1)" ,
         table_calculation: vs_ly, args: [transactions.total_net_sales], _kind_hint: measure,
         _type_hint: number}]
     custom_color_enabled: true
@@ -655,14 +655,14 @@
     fields: [base.date_year, transactions.total_net_sales]
     filters:
       base.select_fixed_range: WTD
-      base.select_comparison_period: 2YearsAgo
+      base.select_comparison_period: Year
       base.select_number_of_periods: '3'
     sorts: [base.date_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
-        value_format_name: percent_1, calculation_type: percent_difference_from_previous,
-        table_calculation: vs_ly, args: [transactions.total_net_sales], _kind_hint: measure,
-        _type_hint: number}]
+      value_format_name: percent_1, expression: "(${transactions.total_net_sales} / offset(${transactions.total_net_sales}, 2) -1)" ,
+      table_calculation: vs_ly, args: [transactions.total_net_sales], _kind_hint: measure,
+    _type_hint: number}]
     custom_color_enabled: true
     show_single_value_title: true
     show_comparison: false
@@ -725,14 +725,14 @@
     fields: [base.date_year, transactions.total_net_sales]
     filters:
       base.select_fixed_range: MTD
-      base.select_comparison_period: 2YearsAgo
+      base.select_comparison_period: Year
       base.select_number_of_periods: '3'
     sorts: [base.date_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
-        value_format_name: percent_1, calculation_type: percent_difference_from_previous,
-        table_calculation: vs_ly, args: [transactions.total_net_sales], _kind_hint: measure,
-        _type_hint: number}]
+      value_format_name: percent_1, expression: "(${transactions.total_net_sales} / offset(${transactions.total_net_sales}, 2) -1)" ,
+      table_calculation: vs_ly, args: [transactions.total_net_sales], _kind_hint: measure,
+    _type_hint: number}]
     custom_color_enabled: true
     show_single_value_title: true
     show_comparison: false
@@ -795,14 +795,15 @@
     fields: [base.date_year, transactions.total_net_sales]
     filters:
       base.select_fixed_range: YTD
-      base.select_comparison_period: 2YearsAgo
+      base.select_comparison_period: Year
       base.select_number_of_periods: '3'
     sorts: [base.date_year desc]
     limit: 500
+
     dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
-        value_format_name: percent_1, calculation_type: percent_difference_from_previous,
-        table_calculation: vs_ly, args: [transactions.total_net_sales], _kind_hint: measure,
-        _type_hint: number}]
+      value_format_name: percent_1, expression: "(${transactions.total_net_sales} / offset(${transactions.total_net_sales}, 2) -1)" ,
+      table_calculation: vs_ly, args: [transactions.total_net_sales], _kind_hint: measure,
+    _type_hint: number}]
     custom_color_enabled: true
     show_single_value_title: true
     show_comparison: false
@@ -2466,162 +2467,163 @@
     col: 18
     width: 3
     height: 2
-  - title: aovdaycustomer
-    name: aovdaycustomer
-    model: ts_sales
-    explore: base
-    type: single_value
-    fields: [base.date_year, transactions.number_of_unique_customers]
-    filters:
-      base.select_fixed_range: PD
-      base.select_comparison_period: Year
-      base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
-    limit: 500
-    dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
-        value_format_name: percent_2, calculation_type: percent_difference_from_previous,
-        table_calculation: vs_ly, args: [transactions.number_of_unique_customers],
-        _kind_hint: measure, _type_hint: number}]
-    custom_color_enabled: true
-    show_single_value_title: false
-    show_comparison: true
-    comparison_type: change
-    comparison_reverse_colors: false
-    show_comparison_label: true
-    enable_conditional_formatting: true
-    conditional_formatting_include_totals: false
-    conditional_formatting_include_nulls: false
-    color_application:
-      collection_id: toolstation
-      palette_id: toolstation-categorical-0
-    single_value_title: ''
-    value_format: "#,##0"
-    conditional_formatting: [{type: not null, value: !!null '', background_color: "#000000",
-        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}]
-    series_types: {}
-    defaults_version: 1
-    row: 25
-    col: 21
-    width: 3
-    height: 2
-  - title: aovwtdcustomer
-    name: aovwtdcustomer
-    model: ts_sales
-    explore: base
-    type: single_value
-    fields: [base.date_year, transactions.number_of_unique_customers]
-    filters:
-      base.select_fixed_range: WTD
-      base.select_comparison_period: Year
-      base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
-    limit: 500
-    dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
-        value_format_name: percent_2, calculation_type: percent_difference_from_previous,
-        table_calculation: vs_ly, args: [transactions.number_of_unique_customers],
-        _kind_hint: measure, _type_hint: number}]
-    custom_color_enabled: true
-    show_single_value_title: false
-    show_comparison: true
-    comparison_type: change
-    comparison_reverse_colors: false
-    show_comparison_label: true
-    enable_conditional_formatting: true
-    conditional_formatting_include_totals: false
-    conditional_formatting_include_nulls: false
-    color_application:
-      collection_id: toolstation
-      palette_id: toolstation-categorical-0
-    single_value_title: ''
-    value_format: "#,##0"
-    conditional_formatting: [{type: not null, value: !!null '', background_color: "#000000",
-        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}]
-    series_types: {}
-    defaults_version: 1
-    row: 27
-    col: 21
-    width: 3
-    height: 2
-  - title: aovmtdcustomer
-    name: aovmtdcustomer
-    model: ts_sales
-    explore: base
-    type: single_value
-    fields: [base.date_year, transactions.number_of_unique_customers]
-    filters:
-      base.select_fixed_range: MTD
-      base.select_comparison_period: Year
-      base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
-    limit: 500
-    dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
-        value_format_name: percent_2, calculation_type: percent_difference_from_previous,
-        table_calculation: vs_ly, args: [transactions.number_of_unique_customers],
-        _kind_hint: measure, _type_hint: number}]
-    custom_color_enabled: true
-    show_single_value_title: false
-    show_comparison: true
-    comparison_type: change
-    comparison_reverse_colors: false
-    show_comparison_label: true
-    enable_conditional_formatting: true
-    conditional_formatting_include_totals: false
-    conditional_formatting_include_nulls: false
-    color_application:
-      collection_id: toolstation
-      palette_id: toolstation-categorical-0
-    single_value_title: ''
-    value_format: "#,##0"
-    conditional_formatting: [{type: not null, value: !!null '', background_color: "#000000",
-        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}]
-    series_types: {}
-    defaults_version: 1
-    row: 29
-    col: 21
-    width: 3
-    height: 2
-  - title: aovytdcustomer
-    name: aovytdcustomer
-    model: ts_sales
-    explore: base
-    type: single_value
-    fields: [base.date_year, transactions.number_of_unique_customers]
-    filters:
-      base.select_fixed_range: YTD
-      base.select_comparison_period: Year
-      base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
-    limit: 500
-    dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
-        value_format_name: percent_2, calculation_type: percent_difference_from_previous,
-        table_calculation: vs_ly, args: [transactions.number_of_unique_customers],
-        _kind_hint: measure, _type_hint: number}]
-    custom_color_enabled: true
-    show_single_value_title: false
-    show_comparison: true
-    comparison_type: change
-    comparison_reverse_colors: false
-    show_comparison_label: true
-    enable_conditional_formatting: true
-    conditional_formatting_include_totals: false
-    conditional_formatting_include_nulls: false
-    color_application:
-      collection_id: toolstation
-      palette_id: toolstation-categorical-0
-    single_value_title: ''
-    value_format: "#,##0"
-    conditional_formatting: [{type: not null, value: !!null '', background_color: "#000000",
-        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}]
-    series_types: {}
-    defaults_version: 1
-    row: 31
-    col: 21
-    width: 3
-    height: 2
+
+  # - title: aovdaycustomer
+  #   name: aovdaycustomer
+  #   model: ts_sales
+  #   explore: base
+  #   type: single_value
+  #   fields: [base.date_year, transactions.number_of_unique_customers]
+  #   filters:
+  #     base.select_fixed_range: PD
+  #     base.select_comparison_period: Year
+  #     base.select_number_of_periods: '3'
+  #   sorts: [base.date_year desc]
+  #   limit: 500
+  #   dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
+  #       value_format_name: percent_2, calculation_type: percent_difference_from_previous,
+  #       table_calculation: vs_ly, args: [transactions.number_of_unique_customers],
+  #       _kind_hint: measure, _type_hint: number}]
+  #   custom_color_enabled: true
+  #   show_single_value_title: false
+  #   show_comparison: true
+  #   comparison_type: change
+  #   comparison_reverse_colors: false
+  #   show_comparison_label: true
+  #   enable_conditional_formatting: true
+  #   conditional_formatting_include_totals: false
+  #   conditional_formatting_include_nulls: false
+  #   color_application:
+  #     collection_id: toolstation
+  #     palette_id: toolstation-categorical-0
+  #   single_value_title: ''
+  #   value_format: "#,##0"
+  #   conditional_formatting: [{type: not null, value: !!null '', background_color: "#000000",
+  #       font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
+  #       bold: false, italic: false, strikethrough: false, fields: !!null ''}]
+  #   series_types: {}
+  #   defaults_version: 1
+  #   row: 25
+  #   col: 21
+  #   width: 3
+  #   height: 2
+  # - title: aovwtdcustomer
+  #   name: aovwtdcustomer
+  #   model: ts_sales
+  #   explore: base
+  #   type: single_value
+  #   fields: [base.date_year, transactions.number_of_unique_customers]
+  #   filters:
+  #     base.select_fixed_range: WTD
+  #     base.select_comparison_period: Year
+  #     base.select_number_of_periods: '3'
+  #   sorts: [base.date_year desc]
+  #   limit: 500
+  #   dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
+  #       value_format_name: percent_2, calculation_type: percent_difference_from_previous,
+  #       table_calculation: vs_ly, args: [transactions.number_of_unique_customers],
+  #       _kind_hint: measure, _type_hint: number}]
+  #   custom_color_enabled: true
+  #   show_single_value_title: false
+  #   show_comparison: true
+  #   comparison_type: change
+  #   comparison_reverse_colors: false
+  #   show_comparison_label: true
+  #   enable_conditional_formatting: true
+  #   conditional_formatting_include_totals: false
+  #   conditional_formatting_include_nulls: false
+  #   color_application:
+  #     collection_id: toolstation
+  #     palette_id: toolstation-categorical-0
+  #   single_value_title: ''
+  #   value_format: "#,##0"
+  #   conditional_formatting: [{type: not null, value: !!null '', background_color: "#000000",
+  #       font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
+  #       bold: false, italic: false, strikethrough: false, fields: !!null ''}]
+  #   series_types: {}
+  #   defaults_version: 1
+  #   row: 27
+  #   col: 21
+  #   width: 3
+  #   height: 2
+  # - title: aovmtdcustomer
+  #   name: aovmtdcustomer
+  #   model: ts_sales
+  #   explore: base
+  #   type: single_value
+  #   fields: [base.date_year, transactions.number_of_unique_customers]
+  #   filters:
+  #     base.select_fixed_range: MTD
+  #     base.select_comparison_period: Year
+  #     base.select_number_of_periods: '3'
+  #   sorts: [base.date_year desc]
+  #   limit: 500
+  #   dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
+  #       value_format_name: percent_2, calculation_type: percent_difference_from_previous,
+  #       table_calculation: vs_ly, args: [transactions.number_of_unique_customers],
+  #       _kind_hint: measure, _type_hint: number}]
+  #   custom_color_enabled: true
+  #   show_single_value_title: false
+  #   show_comparison: true
+  #   comparison_type: change
+  #   comparison_reverse_colors: false
+  #   show_comparison_label: true
+  #   enable_conditional_formatting: true
+  #   conditional_formatting_include_totals: false
+  #   conditional_formatting_include_nulls: false
+  #   color_application:
+  #     collection_id: toolstation
+  #     palette_id: toolstation-categorical-0
+  #   single_value_title: ''
+  #   value_format: "#,##0"
+  #   conditional_formatting: [{type: not null, value: !!null '', background_color: "#000000",
+  #       font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
+  #       bold: false, italic: false, strikethrough: false, fields: !!null ''}]
+  #   series_types: {}
+  #   defaults_version: 1
+  #   row: 29
+  #   col: 21
+  #   width: 3
+  #   height: 2
+  # - title: aovytdcustomer
+  #   name: aovytdcustomer
+  #   model: ts_sales
+  #   explore: base
+  #   type: single_value
+  #   fields: [base.date_year, transactions.number_of_unique_customers]
+  #   filters:
+  #     base.select_fixed_range: YTD
+  #     base.select_comparison_period: Year
+  #     base.select_number_of_periods: '3'
+  #   sorts: [base.date_year desc]
+  #   limit: 500
+  #   dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
+  #       value_format_name: percent_2, calculation_type: percent_difference_from_previous,
+  #       table_calculation: vs_ly, args: [transactions.number_of_unique_customers],
+  #       _kind_hint: measure, _type_hint: number}]
+  #   custom_color_enabled: true
+  #   show_single_value_title: false
+  #   show_comparison: true
+  #   comparison_type: change
+  #   comparison_reverse_colors: false
+  #   show_comparison_label: true
+  #   enable_conditional_formatting: true
+  #   conditional_formatting_include_totals: false
+  #   conditional_formatting_include_nulls: false
+  #   color_application:
+  #     collection_id: toolstation
+  #     palette_id: toolstation-categorical-0
+  #   single_value_title: ''
+  #   value_format: "#,##0"
+  #   conditional_formatting: [{type: not null, value: !!null '', background_color: "#000000",
+  #       font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
+  #       bold: false, italic: false, strikethrough: false, fields: !!null ''}]
+  #   series_types: {}
+  #   defaults_version: 1
+  #   row: 31
+  #   col: 21
+  #   width: 3
+  #   height: 2
 
   - title: 7 Day Moving Average Trend (Margin)
     name: 7 Day Moving Average Trend (Margin)

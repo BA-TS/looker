@@ -37,6 +37,7 @@ explore: base {
       type: left_outer
       relationship: one_to_many
       sql_on:
+
         ${base.base_date_date} = date(${transactions.transaction_date})
         and (${transactions.is_cancelled} = 0 or ${transactions.is_cancelled} is null)
         and (${transactions.product_code} <> '85699' or ${transactions.product_code} is null)
@@ -57,8 +58,6 @@ explore: base {
         {% else %}
           and (${transactions.sales_channel} is not null and ${transactions.site_uid} is not null and ${transactions.product_department} is not null)
         {% endif %}
-
-
 
       ;;
     }
@@ -89,6 +88,7 @@ explore: base {
       ${base.base_date_date} = ${site_budget.date_date} and ${transactions.site_uid} = ${site_budget.site_uid}
       ;;
     }
+
     join: products {
       type:  left_outer
       relationship: many_to_one
@@ -107,7 +107,6 @@ explore: base {
               {% endif %}
       ;;
     }
-
 
     join: sites {
       type: left_outer
@@ -147,24 +146,204 @@ explore: base {
       relationship: many_to_one
       sql_on: ${customers.customer_uid} = ${trade_customers.customer_number} ;;
     }
+
     join: promo_main_catalogue {
       type: left_outer
       relationship: many_to_one
       sql_on: ${transactions.product_code} = ${promo_main_catalogue.product_code} and ${base.base_date_date} between ${promo_main_catalogue.live_date} and ${promo_main_catalogue.end_date} ;;
     }
+
     join: promo_extra {
       type: left_outer
       relationship: many_to_one
       sql_on: ${transactions.product_code} = ${promo_extra.product_code} and ${base.base_date_date} between ${promo_extra.live_date} and ${promo_extra.end_date} ;;
     }
+
     join: single_line_transactions {
       type:  left_outer
       relationship: many_to_one
       sql_on: ${transactions.parent_order_uid} = ${single_line_transactions.parent_order_uid} ;;
     }
+
     join: product_first_sale_date {
       type: left_outer
       relationship: many_to_one
       sql_on: ${transactions.product_code} = ${product_first_sale_date.product_code} ;;
     }
+
   }
+
+# EXAMPLES #
+
+explore: +base {
+
+  query: department_weekly_sales {
+
+    label: "Weekly Sales (By Department)"
+    description: "This provides information to user."
+
+    dimensions: [
+      base.date_date, transactions.product_department
+    ]
+    measures: [
+      transactions.total_net_sales
+    ]
+    filters: [
+      base.select_date_range: "28 days ago for 28 days"
+    ]
+    limit: 500
+    sorts: [
+      base.date_date: desc,
+      transactions.product_department: asc
+    ]
+    pivots: [
+      base.date_date
+    ]
+
+  }
+
+  query: channel_weekly_sales {
+
+    label: "Weekly Sales (By Channel)"
+    description: "This provides information to user."
+
+    dimensions: [
+      base.date_date, transactions.sales_channel
+    ]
+    measures: [
+      transactions.total_net_sales
+    ]
+    filters: [
+      base.select_date_range: "28 days ago for 28 days"
+    ]
+    limit: 500
+    sorts: [
+      base.date_date: desc,
+      transactions.sales_channel: asc
+    ]
+    pivots: [
+      base.date_date
+    ]
+
+  }
+
+  query: department_daily_performance {
+
+    label: "7 Day Performance (By Department)"
+    description: "This provides information to user."
+
+    dimensions: [
+      base.date_date, transactions.product_department
+    ]
+    measures: [
+      transactions.total_net_sales,
+      transactions.total_margin_rate_incl_funding
+    ]
+    filters: [
+      base.select_date_range: "7 days ago for 7 days"
+    ]
+    limit: 500
+    sorts: [
+      base.date_date: desc,
+      transactions.product_department: asc,
+      transactions.total_net_sales: desc
+    ]
+    pivots: [
+      base.date_date
+    ]
+
+  }
+
+  query: previous_day_site_performance {
+
+    label: "Store Performance (PTD)"
+    description: "This provides information to user."
+
+    dimensions: [
+      sites.site_uid,
+      sites.site_name
+    ]
+    measures: [
+      transactions.total_net_sales,
+      transactions.total_margin_rate_incl_funding,
+      transactions.number_of_unique_customers,
+      transactions.number_of_transactions
+    ]
+    filters: [
+      base.select_fixed_range: "PD",
+      sites.site_name: "-Website"
+    ]
+    limit: 50
+    sorts: [
+      transactions.total_net_sales: desc
+    ]
+    pivots: [
+
+    ]
+
+  }
+
+  query: ptd_yoy_sales_performance {
+
+    label: "Sales Performance (PTD)"
+    description: "This provides information to user."
+
+    dimensions: [
+      base.date_year
+    ]
+    measures: [
+      transactions.total_net_sales,
+      transactions.total_margin_incl_funding,
+      transactions.total_margin_rate_incl_funding,
+      transactions.total_units
+    ]
+    filters: [
+      base.select_comparison_period: "Year",
+      base.select_fixed_range: "WTD",
+      base.select_number_of_periods: "3"
+    ]
+    limit: 50
+    sorts: [
+      base.date_year: desc,
+      transactions.total_net_sales: desc
+    ]
+    pivots: [
+
+    ]
+
+  }
+
+  query: product_performance {
+
+    label: "Top Performing Products (PTD)"
+    description: "This provides information to user."
+
+    dimensions: [
+      transactions.product_code,
+      products.description,
+      products.department,
+      products.subdepartment
+    ]
+    measures: [
+      transactions.total_net_sales,
+      transactions.margin_incl_funding,
+      transactions.total_margin_rate_incl_funding,
+      transactions.total_units,
+      transactions.number_of_transactions,
+      transactions.number_of_unique_customers
+    ]
+    filters: [
+      base.select_fixed_range: "PD"
+    ]
+    limit: 20
+    sorts: [
+      transactions.total_net_sales: desc,
+      transactions.total_margin_rate_incl_funding: desc
+    ]
+    pivots: [
+
+    ]
+
+  }
+
+}
