@@ -1,9 +1,7 @@
 view: daily_orders_placed_jnl {
   derived_table: {
     datagroup_trigger: toolstation_transactions_datagroup
-    sql: declare jnl_date date;
-      set jnl_date = current_date -1;
-      -- set jnl_date = '2021-12-01';
+    sql:
 
       with base as (
 
@@ -26,7 +24,7 @@ view: daily_orders_placed_jnl {
               on t.parentOrderUID = p.parentOrderUID
 
       where iscancelled = 0
-      and date(placedDate) = jnl_date
+      and date(placedDate) = current_date-1
       and productCode <> '86599'
       and paymentType <> 'account'
 
@@ -52,7 +50,7 @@ view: daily_orders_placed_jnl {
               on t.parentOrderUID = p.parentOrderUID
 
       where lower(t.status) <> 'cancelled'
-      and date(placedDate) = jnl_date
+      and date(placedDate) = current_date-1
       and productCode <> '86599'
       and paymentType <> 'account'
 
@@ -78,7 +76,7 @@ view: daily_orders_placed_jnl {
               on t.parentOrderUID = p.parentOrderUID
 
       where lower(t.status) = 'cancelled'
-      and date(placedDate) = jnl_date
+      and date(placedDate) = current_date-1
       and date(transactionDate) is not null
       and date(transactionDate) > date(placedDate)
       and productCode <> '86599'
@@ -143,11 +141,6 @@ view: daily_orders_placed_jnl {
        ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [detail*]
-  }
-
   dimension: site_uid {
     type: string
     sql: ${TABLE}.siteUID ;;
@@ -173,7 +166,4 @@ view: daily_orders_placed_jnl {
     sql: ${TABLE}.Value ;;
   }
 
-  set: detail {
-    fields: [site_uid, gl, description, cost_centre, value]
-  }
 }
