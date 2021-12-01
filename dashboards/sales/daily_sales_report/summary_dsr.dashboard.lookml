@@ -1608,7 +1608,7 @@
     color_application:
       collection_id: toolstation
       palette_id: toolstation-categorical-0
-    single_value_title: vs Budget
+    single_value_title: "vs Budget %PTS"
     conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
@@ -1653,7 +1653,7 @@
     color_application:
       collection_id: toolstation
       palette_id: toolstation-categorical-0
-    single_value_title: vs Budget
+    single_value_title: "vs Budget %PTS"
     conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
@@ -1698,7 +1698,7 @@
     color_application:
       collection_id: toolstation
       palette_id: toolstation-categorical-0
-    single_value_title: vs Budget
+    single_value_title: "vs Budget %PTS"
     conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
@@ -1743,7 +1743,7 @@
     color_application:
       collection_id: toolstation
       palette_id: toolstation-categorical-0
-    single_value_title: vs Budget
+    single_value_title: "vs Budget %PTS"
     conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
@@ -1767,7 +1767,8 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.aov_net_sales]
+    fields: [transactions.aov_net_sales, base.date_year]
+    sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: PD
       base.select_comparison_period: Year
@@ -1804,7 +1805,8 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.aov_net_sales]
+    fields: [transactions.aov_net_sales, base.date_year]
+    sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: WTD
       base.select_comparison_period: Year
@@ -1841,7 +1843,8 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.aov_net_sales]
+    fields: [transactions.aov_net_sales, base.date_year]
+    sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: MTD
       base.select_comparison_period: Year
@@ -1878,7 +1881,8 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.aov_net_sales]
+    fields: [transactions.aov_net_sales, base.date_year]
+    sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: YTD
       base.select_comparison_period: Year

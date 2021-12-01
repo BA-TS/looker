@@ -40,6 +40,7 @@ explore: +base {
         total_budget.net_sales_budget,
         category_budget.department_net_sales_budget,
         transactions.aov_price,
+        transactions.aov_net_sales,
         transactions.total_margin_rate_incl_funding,
         transactions.total_net_sales
       ]
