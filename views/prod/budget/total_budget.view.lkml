@@ -75,7 +75,7 @@ view: total_budget {
   measure: gross_margin_rate_inc_retro_funding_budget {
     group_label: "Total"
     type: number
-    sql:  SAFE_DIVIDE(${gross_margin_inc_retro_and_fixed_budget}, ${net_sales_budget}) ;;
+    sql:  SAFE_DIVIDE(${gross_margin_inc_retro_budget}, ${net_sales_budget}) ;;
     value_format: "##0.0%;(##0.0%)"
   }
 
