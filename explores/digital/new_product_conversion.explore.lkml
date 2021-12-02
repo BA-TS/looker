@@ -2,6 +2,8 @@ include: "/views/**/*.view"
 
 explore: base {
 
+  required_access_grants: [is_developer]
+
   label: "TEST 1"
 
   conditionally_filter: {
