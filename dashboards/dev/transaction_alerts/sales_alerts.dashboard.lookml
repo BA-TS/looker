@@ -1,10 +1,10 @@
-- dashboard: sales_alerts_summary
+- dashboard: sales_alerts
   title: Sales Alerts
   layout: newspaper
   preferred_viewer: dashboards-next
   elements:
   - title: Sales Channel Warning Breakdown
-    name: sales_channel_warning_breakdown
+    name: Sales Channel Warning Breakdown
     model: ts_alerts
     explore: sales_alerts
     type: looker_grid
@@ -139,7 +139,6 @@
   - name: ''
     type: text
     title_text: ''
-    subtitle_text: ''
     body_text: "# Overall"
     row: 0
     col: 0
@@ -148,7 +147,6 @@
   - name: " (2)"
     type: text
     title_text: ''
-    subtitle_text: ''
     body_text: "# vs LW"
     row: 18
     col: 0
@@ -277,7 +275,6 @@
   - name: " (3)"
     type: text
     title_text: ''
-    subtitle_text: ''
     body_text: "# vs LY"
     row: 27
     col: 0
@@ -286,7 +283,6 @@
   - name: " (4)"
     type: text
     title_text: ''
-    subtitle_text: ''
     body_text: "# vs 2LW"
     row: 18
     col: 12
@@ -355,7 +351,6 @@
   - name: " (5)"
     type: text
     title_text: ''
-    subtitle_text: ''
     body_text: "# Channel Performance"
     row: 36
     col: 0
@@ -646,9 +641,8 @@
     model: ts_alerts
     explore: sales_alerts
     type: looker_grid
-    fields: [sales_alerts.net_sales_value, sales_alerts.net_sales_wow_change,
-      sales_alerts.net_sales_wow_percent, sales_alerts.net_sales_2wow_change,
-      sales_alerts.net_sales_2wow_percent, sales_alerts.net_sales_yoy_change,
+    fields: [sales_alerts.net_sales_value, sales_alerts.net_sales_wow_change, sales_alerts.net_sales_wow_percent,
+      sales_alerts.net_sales_2wow_change, sales_alerts.net_sales_2wow_percent, sales_alerts.net_sales_yoy_change,
       sales_alerts.net_sales_yoy_percent, sales_alerts.sales_channel]
     filters:
       sales_alerts.date_date: Yesterday
@@ -767,24 +761,19 @@
     defaults_version: 1
     series_types: {}
     title_hidden: true
+    listen: {}
     row: 5
     col: 0
     width: 24
     height: 5
-
   - name: " (6)"
     type: text
     title_text: ''
-    subtitle_text: ''
     body_text: "# Past 28 Days #"
     row: 52
     col: 0
     width: 24
     height: 2
-
-
-
-
   - title: Performance History
     name: Performance History
     model: ts_alerts
@@ -838,6 +827,7 @@
       sales_alerts.net_sales_2wow_change: 2WoW £
       sales_alerts.net_sales_yoy_change: YoY £
       sales_alerts.net_sales_2y_change: 2YoY £
+      sales_alerts.net_sales_value: Net Sales
     series_cell_visualizations:
       sales_alerts.net_sales_wow_change:
         is_active: false
@@ -862,14 +852,17 @@
         align: center
       sales_alerts.net_sales:
         align: center
+      sales_alerts.net_sales_value:
+        align: center
     header_font_color: "#FFFFFF"
     header_background_color: "#004f9f"
-    # conditional_formatting: [{type: greater than, value: 0, background_color: '',
-    #     font_color: "#72D16D", color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-    #     bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: less
-    #       than, value: 0, background_color: '', font_color: "#d32f2f", color_application: {
-    #       collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
-    #     italic: false, strikethrough: false, fields: !!null ''}]
+    series_value_format:
+      sales_alerts.net_sales_value:
+        name: gbp
+        decimals: '2'
+        format_string: '"£"#,##0.00'
+        label: British Pounds (2)
+        label_prefix: British Pounds
     custom_color_enabled: true
     show_single_value_title: true
     show_comparison: false
@@ -1507,85 +1500,6 @@
     col: 0
     width: 24
     height: 6
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   filters:
   - name: Sales Channel
     title: Sales Channel
