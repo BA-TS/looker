@@ -1,6 +1,6 @@
 view: trade_customers {
   view_label: "Customers"
-  sql_table_name: `toolstation-data-storage.ts_marketing.CRM_DBS_Trade_Type_Master`
+  sql_table_name: `toolstation-data-storage.customer.dbs_trade_customers`
     ;;
 
   fields_hidden_by_default: yes # pending review of segment, type
