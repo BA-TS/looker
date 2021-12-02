@@ -1586,7 +1586,8 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.total_margin_rate_incl_funding, total_budget.gross_margin_rate_inc_retro_funding_budget]
+    fields: [transactions.total_margin_rate_incl_funding, total_budget.gross_margin_rate_inc_retro_funding_budget, base.date_year]
+    sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: PD
       base.select_comparison_period: Year
@@ -1631,7 +1632,8 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.total_margin_rate_incl_funding, total_budget.gross_margin_rate_inc_retro_funding_budget]
+    fields: [transactions.total_margin_rate_incl_funding, total_budget.gross_margin_rate_inc_retro_funding_budget, base.date_year]
+    sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: WTD
       base.select_comparison_period: Year
@@ -1676,7 +1678,8 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.total_margin_rate_incl_funding, total_budget.gross_margin_rate_inc_retro_funding_budget]
+    fields: [transactions.total_margin_rate_incl_funding, total_budget.gross_margin_rate_inc_retro_funding_budget, base.date_year]
+    sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: MTD
       base.select_comparison_period: Year
@@ -1721,7 +1724,8 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.total_margin_rate_incl_funding, total_budget.gross_margin_rate_inc_retro_funding_budget]
+    fields: [transactions.total_margin_rate_incl_funding, total_budget.gross_margin_rate_inc_retro_funding_budget, base.date_year]
+    sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: YTD
       base.select_comparison_period: Year
@@ -2635,7 +2639,7 @@
     explore: base
     type: looker_line
     fields: [base.date_date, base.pivot_dimension, transactions.total_margin_rate_incl_funding,
-      total_budget.gross_margin_inc_retro_and_fixed_budget, total_budget.net_sales_budget]
+      total_budget.gross_margin_inc_retro_budget, total_budget.net_sales_budget]
     pivots: [base.pivot_dimension]
     filters:
       base.select_date_range: 45 days ago for 59 days
@@ -2643,7 +2647,7 @@
       base.select_comparison_period: Year
     sorts: [base.date_date desc, base.pivot_dimension]
     limit: 500
-    dynamic_fields: [{category: table_calculation, expression: 'pivot_index(mean(offset_list(${total_budget.gross_margin_inc_retro_and_fixed_budget}
+    dynamic_fields: [{category: table_calculation, expression: 'pivot_index(mean(offset_list(${total_budget.gross_margin_inc_retro_and_budget}
           / ${total_budget.net_sales_budget}, 0, 7)),1)
 
           ', label: Budget, value_format: !!null '', value_format_name: percent_2,
@@ -2702,7 +2706,7 @@
       2 Years Ago - 3 - net_margin: 2LY
     defaults_version: 1
     hidden_fields: [transactions.total_margin_rate_incl_funding, total_budget.net_sales_budget,
-      total_budget.gross_margin_inc_retro_and_fixed_budget]
+      total_budget.gross_margin_inc_retro_budget]
     note_state: expanded
     note_display: above
     note_text: 7 Day Moving Average
