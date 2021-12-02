@@ -2647,7 +2647,7 @@
       base.select_comparison_period: Year
     sorts: [base.date_date desc, base.pivot_dimension]
     limit: 500
-    dynamic_fields: [{category: table_calculation, expression: 'pivot_index(mean(offset_list(${total_budget.gross_margin_inc_retro_and_budget}
+    dynamic_fields: [{category: table_calculation, expression: 'pivot_index(mean(offset_list(${total_budget.gross_margin_inc_retro_budget}
           / ${total_budget.net_sales_budget}, 0, 7)),1)
 
           ', label: Budget, value_format: !!null '', value_format_name: percent_2,
