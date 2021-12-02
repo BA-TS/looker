@@ -1,21 +1,93 @@
-- dashboard: sales_alerts
+- dashboard: sales_alerts_summary
   title: Sales Alerts
   layout: newspaper
   preferred_viewer: dashboards-next
-  crossfilter_enabled: true
-  refresh: 1 day
   elements:
-  - title: Period Change
-    name: Period Change
+  - title: Sales Channel Warning Breakdown
+    name: sales_channel_warning_breakdown
     model: ts_alerts
-    explore: sales_alert
-    type: looker_line
-    fields: [sales_alert.net_sales_1w_change, sales_alert.net_sales_1y_change, sales_alert.net_sales_2w_change,
-      sales_alert.date_date]
-    fill_fields: [sales_alert.date_date]
+    explore: sales_alerts
+    type: looker_grid
+    fields: [sales_alerts.sales_channel, sales_alerts.wow_flag, sales_alerts.2wow_flag,
+      sales_alerts.yoy_flag, sales_alerts.any_flag]
     filters:
-      sales_alert.date_date: 28 days ago for 28 days
-    sorts: [sales_alert.date_date desc]
+      sales_alerts.date_date: 1 days ago for 1 days
+    sorts: [sales_alerts.sales_channel]
+    limit: 500
+    show_view_names: false
+    show_row_numbers: false
+    transpose: true
+    truncate_text: false
+    hide_totals: false
+    hide_row_totals: false
+    size_to_fit: true
+    table_theme: white
+    limit_displayed_rows: false
+    enable_conditional_formatting: true
+    header_text_alignment: center
+    header_font_size: '13'
+    rows_font_size: '12'
+    conditional_formatting_include_totals: false
+    conditional_formatting_include_nulls: false
+    color_application:
+      collection_id: toolstation
+      palette_id: toolstation-categorical-0
+    show_sql_query_menu_options: false
+    show_totals: true
+    show_row_totals: true
+    series_cell_visualizations:
+      sales_alerts.wow_flag:
+        is_active: false
+    series_text_format:
+      sales_alerts.wow_flag:
+        align: center
+      sales_alerts.yoy_flag:
+        align: center
+      sales_alerts.2wow_flag:
+        align: center
+      sales_alerts.sales_channel:
+        align: center
+      sales_alerts.any_flag:
+        align: center
+        bold: true
+        bg_color: "#bababa"
+    header_font_color: "#FFFFFF"
+    header_background_color: "#004f9f"
+    conditional_formatting: [{type: equal to, value: 0, background_color: "#72D16D",
+        font_color: '', color_application: {collection_id: toolstation, custom: {
+            id: 2608d1c8-a8e6-cd96-b87f-b06dd00f5181, label: Custom, type: continuous,
+            stops: [{color: "#0be60b", offset: 0}, {color: "#f9fa95", offset: 25},
+              {color: "#ffffff", offset: 50}, {color: "#3EB0D5", offset: 75}, {color: "#004f9f",
+                offset: 100}]}, options: {steps: 5}}, bold: false, italic: false,
+        strikethrough: false, fields: [sales_alerts.wow_flag, sales_alerts.2wow_flag,
+          sales_alerts.yoy_flag, sales_alerts.any_flag]}, {type: equal to, value: 1,
+        background_color: "#d32f2f", font_color: !!null '', color_application: {collection_id: toolstation,
+          palette_id: toolstation-diverging-0}, bold: false, italic: false, strikethrough: false,
+        fields: [sales_alerts.wow_flag, sales_alerts.2wow_flag, sales_alerts.yoy_flag,
+          sales_alerts.any_flag]}]
+    series_value_format:
+      sales_alerts.wow_flag: '[=0]"No";[>0]"Yes"'
+      sales_alerts.2wow_flag: '[=0]"No";[>0]"Yes"'
+      sales_alerts.yoy_flag: '[=0]"No";[>0]"Yes"'
+      sales_alerts.any_flag: '[=0]"No";[>0]"Yes"'
+    defaults_version: 1
+    title_hidden: true
+    listen: {}
+    row: 2
+    col: 0
+    width: 24
+    height: 3
+  - title: Untitled
+    name: Untitled
+    model: ts_alerts
+    explore: sales_alerts
+    type: looker_line
+    fields: [sales_alerts.date_date, sales_alerts.net_sales_wow_percent, sales_alerts.net_sales_2wow_percent,
+      sales_alerts.net_sales_yoy_percent]
+    fill_fields: [sales_alerts.date_date]
+    filters:
+      sales_alerts.date_date: 14 days ago for 14 days
+    sorts: [sales_alerts.date_date desc]
     limit: 500
     x_axis_gridlines: false
     y_axis_gridlines: true
@@ -46,295 +118,52 @@
       palette_id: toolstation-categorical-0
       options:
         steps: 5
-    y_axes: [{label: '', orientation: left, series: [{axisId: sales_alert.net_sales_1w_change,
-            id: sales_alert.net_sales_1w_change, name: WoW Change}, {axisId: sales_alert.net_sales_1y_change,
-            id: sales_alert.net_sales_1y_change, name: YoY Change}, {axisId: sales_alert.net_sales_2w_change,
-            id: sales_alert.net_sales_2w_change, name: 2WoW Change}, {axisId: sales_alert.net_sales_2y_change,
-            id: sales_alert.net_sales_2y_change, name: 2YoY Change}], showLabels: true,
-        showValues: true, unpinAxis: false, tickDensity: default, tickDensityCustom: 5,
-        type: linear}]
-    series_labels:
-      sales_alert.net_sales_1w_change: WoW Change
-      sales_alert.net_sales_1y_change: YoY Change
-      sales_alert.net_sales_2w_change: 2WoW Change
-      sales_alert.net_sales_2y_change: 2YoY Change
-    reference_lines: [{reference_type: line, line_value: '0', range_start: max, range_end: min,
-        margin_top: deviation, margin_value: mean, margin_bottom: deviation, label_position: right,
-        color: "#ff0b27"}]
+    y_axes: [{label: '', orientation: left, series: [{axisId: sales_alerts.net_sales_wow_percent,
+            id: sales_alerts.net_sales_wow_percent, name: WoW Change %}, {axisId: sales_alerts.net_sales_2wow_percent,
+            id: sales_alerts.net_sales_2wow_percent, name: 2WoW Change %}, {axisId: sales_alerts.net_sales_yoy_percent,
+            id: sales_alerts.net_sales_yoy_percent, name: YoY Change %}], showLabels: false,
+        showValues: true, minValue: !!null '', unpinAxis: false, tickDensity: default,
+        tickDensityCustom: 5, type: linear}]
+    series_types: {}
+    reference_lines: [{reference_type: line, line_value: "-0.05", range_start: max,
+        range_end: min, margin_top: deviation, margin_value: mean, margin_bottom: deviation,
+        label_position: right, color: "#000000", label: ''}]
     defaults_version: 1
-    listen: {}
-    row: 27
-    col: 12
-    width: 12
-    height: 6
+    title_hidden: true
+    listen:
+      Sales Channel: sales_alerts.sales_channel
+    row: 10
+    col: 0
+    width: 24
+    height: 8
   - name: ''
     type: text
     title_text: ''
     subtitle_text: ''
-    body_text: "# Performance #"
+    body_text: "# Overall"
     row: 0
     col: 0
     width: 24
-    height: 2
-  - title: 1 Week Deviation 5%
-    name: 1 Week Deviation 5%
-    model: ts_alerts
-    explore: sales_alert
-    type: single_value
-    fields: [sales_alert.alert_required]
-    filters:
-      sales_alert.1_week_deviation_parameter: 'YES'
-      sales_alert.minimum_deviation: '0.05'
-    limit: 500
-    custom_color_enabled: true
-    show_single_value_title: true
-    show_comparison: false
-    comparison_type: value
-    comparison_reverse_colors: false
-    show_comparison_label: true
-    enable_conditional_formatting: true
-    conditional_formatting_include_totals: false
-    conditional_formatting_include_nulls: false
-    color_application:
-      collection_id: toolstation
-      palette_id: toolstation-categorical-0
-    value_format: '[=0]"No";[>0]"Yes"'
-    conditional_formatting: [{type: equal to, value: 0, background_color: "#72D16D",
-        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-sequential-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: not
-          equal to, value: 0, background_color: "#d32f2f", font_color: !!null '',
-        color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}]
-    defaults_version: 1
-    listen: {}
-    row: 4
-    col: 0
-    width: 6
     height: 2
   - name: " (2)"
     type: text
     title_text: ''
     subtitle_text: ''
-    body_text: "## vs LW ##"
-    row: 2
+    body_text: "# vs LW"
+    row: 18
     col: 0
     width: 12
-    height: 2
-  - title: 1 Week Deviation 10%
-    name: 1 Week Deviation 10%
-    model: ts_alerts
-    explore: sales_alert
-    type: single_value
-    fields: [sales_alert.alert_required]
-    filters:
-      sales_alert.1_week_deviation_parameter: 'YES'
-      sales_alert.minimum_deviation: '0.10'
-    limit: 500
-    custom_color_enabled: true
-    show_single_value_title: true
-    show_comparison: false
-    comparison_type: value
-    comparison_reverse_colors: false
-    show_comparison_label: true
-    enable_conditional_formatting: true
-    conditional_formatting_include_totals: false
-    conditional_formatting_include_nulls: false
-    color_application:
-      collection_id: toolstation
-      palette_id: toolstation-categorical-0
-    value_format: '[=0]"No";[>0]"Yes"'
-    conditional_formatting: [{type: equal to, value: 0, background_color: "#72D16D",
-        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-sequential-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: not
-          equal to, value: 0, background_color: "#d32f2f", font_color: !!null '',
-        color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}]
-    defaults_version: 1
-    listen: {}
-    row: 4
-    col: 6
-    width: 6
-    height: 2
-  - name: " (3)"
-    type: text
-    title_text: ''
-    subtitle_text: ''
-    body_text: "## vs 2LW ##"
-    row: 2
-    col: 12
-    width: 12
-    height: 2
-  - title: 2 Week Deviation 5%
-    name: 2 Week Deviation 5%
-    model: ts_alerts
-    explore: sales_alert
-    type: single_value
-    fields: [sales_alert.alert_required, sales_alert.date_date]
-    fill_fields: [sales_alert.date_date]
-    filters:
-      sales_alert.minimum_deviation: '0.05'
-      sales_alert.2_week_deviation_parameter: 'YES'
-      sales_alert.date_date: Yesterday
-    sorts: [sales_alert.date_date desc]
-    limit: 500
-    custom_color_enabled: true
-    show_single_value_title: true
-    show_comparison: false
-    comparison_type: value
-    comparison_reverse_colors: false
-    show_comparison_label: true
-    enable_conditional_formatting: true
-    conditional_formatting_include_totals: false
-    conditional_formatting_include_nulls: false
-    color_application:
-      collection_id: toolstation
-      palette_id: toolstation-categorical-0
-    value_format: '[=0]"No";[>0]"Yes"'
-    conditional_formatting: [{type: equal to, value: 0, background_color: "#72D16D",
-        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-sequential-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: not
-          equal to, value: 0, background_color: "#d32f2f", font_color: !!null '',
-        color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}]
-    defaults_version: 1
-    listen: {}
-    row: 4
-    col: 12
-    width: 6
-    height: 2
-  - title: 2 Week Deviation 10%
-    name: 2 Week Deviation 10%
-    model: ts_alerts
-    explore: sales_alert
-    type: single_value
-    fields: [sales_alert.alert_required, sales_alert.date_date]
-    fill_fields: [sales_alert.date_date]
-    filters:
-      sales_alert.minimum_deviation: '0.10'
-      sales_alert.2_week_deviation_parameter: 'YES'
-      sales_alert.date_date: Yesterday
-    sorts: [sales_alert.date_date desc]
-    limit: 500
-    custom_color_enabled: true
-    show_single_value_title: true
-    show_comparison: false
-    comparison_type: value
-    comparison_reverse_colors: false
-    show_comparison_label: true
-    enable_conditional_formatting: true
-    conditional_formatting_include_totals: false
-    conditional_formatting_include_nulls: false
-    color_application:
-      collection_id: toolstation
-      palette_id: toolstation-categorical-0
-    value_format: '[=0]"No";[>0]"Yes"'
-    conditional_formatting: [{type: equal to, value: 0, background_color: "#72D16D",
-        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-sequential-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: not
-          equal to, value: 0, background_color: "#d32f2f", font_color: !!null '',
-        color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}]
-    defaults_version: 1
-    listen: {}
-    row: 4
-    col: 18
-    width: 6
-    height: 2
-  - name: " (4)"
-    type: text
-    title_text: ''
-    subtitle_text: ''
-    body_text: "## vs LY ##"
-    row: 13
-    col: 0
-    width: 24
-    height: 2
-  - title: 1 Year Deviation 5%
-    name: 1 Year Deviation 5%
-    model: ts_alerts
-    explore: sales_alert
-    type: single_value
-    fields: [sales_alert.alert_required, sales_alert.date_date]
-    fill_fields: [sales_alert.date_date]
-    filters:
-      sales_alert.minimum_deviation: '0.05'
-      sales_alert.date_date: Yesterday
-      sales_alert.1_year_deviation_parameter: 'YES'
-    sorts: [sales_alert.date_date desc]
-    limit: 500
-    custom_color_enabled: true
-    show_single_value_title: true
-    show_comparison: false
-    comparison_type: value
-    comparison_reverse_colors: false
-    show_comparison_label: true
-    enable_conditional_formatting: true
-    conditional_formatting_include_totals: false
-    conditional_formatting_include_nulls: false
-    color_application:
-      collection_id: toolstation
-      palette_id: toolstation-categorical-0
-    value_format: '[=0]"No";[>0]"Yes"'
-    conditional_formatting: [{type: equal to, value: 0, background_color: "#72D16D",
-        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-sequential-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: not
-          equal to, value: 0, background_color: "#d32f2f", font_color: !!null '',
-        color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}]
-    defaults_version: 1
-    listen: {}
-    row: 15
-    col: 0
-    width: 6
-    height: 2
-  - title: 1 Year Deviation 10%
-    name: 1 Year Deviation 10%
-    model: ts_alerts
-    explore: sales_alert
-    type: single_value
-    fields: [sales_alert.alert_required, sales_alert.date_date]
-    fill_fields: [sales_alert.date_date]
-    filters:
-      sales_alert.minimum_deviation: '0.10'
-      sales_alert.date_date: Yesterday
-      sales_alert.1_year_deviation_parameter: 'YES'
-    sorts: [sales_alert.date_date desc]
-    limit: 500
-    custom_color_enabled: true
-    show_single_value_title: true
-    show_comparison: false
-    comparison_type: value
-    comparison_reverse_colors: false
-    show_comparison_label: true
-    enable_conditional_formatting: true
-    conditional_formatting_include_totals: false
-    conditional_formatting_include_nulls: false
-    color_application:
-      collection_id: toolstation
-      palette_id: toolstation-categorical-0
-    value_format: '[=0]"No";[>0]"Yes"'
-    conditional_formatting: [{type: equal to, value: 0, background_color: "#72D16D",
-        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-sequential-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: not
-          equal to, value: 0, background_color: "#d32f2f", font_color: !!null '',
-        color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}]
-    defaults_version: 1
-    listen: {}
-    row: 15
-    col: 6
-    width: 6
     height: 2
   - title: WoW Performance Change (Past 14 Days)
     name: WoW Performance Change (Past 14 Days)
     model: ts_alerts
-    explore: sales_alert
+    explore: sales_alerts
     type: looker_column
-    fields: [sales_alert.net_sales_1w_change, sales_alert.date_date]
-    fill_fields: [sales_alert.date_date]
+    fields: [sales_alerts.net_sales_wow_change, sales_alerts.date_date]
+    fill_fields: [sales_alerts.date_date]
     filters:
-      sales_alert.date_date: 14 days ago for 14 days
-    sorts: [sales_alert.date_date desc]
+      sales_alerts.date_date: 14 days ago for 14 days
+    sorts: [sales_alerts.date_date desc]
     limit: 500
     x_axis_gridlines: false
     y_axis_gridlines: true
@@ -343,7 +172,7 @@
     show_y_axis_ticks: true
     y_axis_tick_density: default
     y_axis_tick_density_custom: 5
-    show_x_axis_label: true
+    show_x_axis_label: false
     show_x_axis_ticks: true
     y_axis_scale_mode: linear
     x_axis_reversed: false
@@ -356,7 +185,7 @@
     point_style: none
     show_value_labels: false
     label_density: 25
-    x_axis_scale: time
+    x_axis_scale: auto
     y_axis_combined: true
     ordering: none
     show_null_labels: false
@@ -368,38 +197,33 @@
       palette_id: toolstation-categorical-0
       options:
         steps: 5
-    y_axes: [{label: '', orientation: left, series: [{axisId: sales_alert.net_sales_1w_change,
-            id: sales_alert.net_sales_1w_change, name: Net Sales 1w Change}], showLabels: false,
+    y_axes: [{label: '', orientation: left, series: [{axisId: sales_alerts.net_sales_wow_change,
+            id: sales_alerts.net_sales_wow_change, name: WoW Change £}], showLabels: false,
         showValues: true, unpinAxis: false, tickDensity: default, tickDensityCustom: 5,
         type: linear}]
-    limit_displayed_rows_values:
-      show_hide: hide
-      first_last: last
-      num_rows: '14'
     series_types: {}
     reference_lines: [{reference_type: line, line_value: '0', range_start: max, range_end: min,
         margin_top: deviation, margin_value: mean, margin_bottom: deviation, label_position: right,
-        color: "#ff2e49"}]
-    trend_lines: []
-    column_spacing_ratio: 0
+        color: "#000000"}]
     show_null_points: true
     interpolation: linear
     defaults_version: 1
-    listen: {}
-    row: 6
+    listen:
+      Sales Channel: sales_alerts.sales_channel
+    row: 20
     col: 0
     width: 12
     height: 7
   - title: 2WoW Performance Change (Past 14 Days)
     name: 2WoW Performance Change (Past 14 Days)
     model: ts_alerts
-    explore: sales_alert
+    explore: sales_alerts
     type: looker_column
-    fields: [sales_alert.date_date, sales_alert.net_sales_2w_change]
-    fill_fields: [sales_alert.date_date]
+    fields: [sales_alerts.date_date, sales_alerts.net_sales_2wow_change]
+    fill_fields: [sales_alerts.date_date]
     filters:
-      sales_alert.date_date: 14 days ago for 14 days
-    sorts: [sales_alert.date_date desc]
+      sales_alerts.date_date: 14 days ago for 14 days
+    sorts: [sales_alerts.date_date desc]
     limit: 500
     x_axis_gridlines: false
     y_axis_gridlines: true
@@ -408,7 +232,7 @@
     show_y_axis_ticks: true
     y_axis_tick_density: default
     y_axis_tick_density_custom: 5
-    show_x_axis_label: true
+    show_x_axis_label: false
     show_x_axis_ticks: true
     y_axis_scale_mode: linear
     x_axis_reversed: false
@@ -421,7 +245,7 @@
     point_style: none
     show_value_labels: false
     label_density: 25
-    x_axis_scale: time
+    x_axis_scale: auto
     y_axis_combined: true
     ordering: none
     show_null_labels: false
@@ -433,38 +257,51 @@
       palette_id: toolstation-categorical-0
       options:
         steps: 5
-    y_axes: [{label: '', orientation: left, series: [{axisId: sales_alert.net_sales_1w_change,
-            id: sales_alert.net_sales_1w_change, name: Net Sales 1w Change}], showLabels: false,
+    y_axes: [{label: '', orientation: left, series: [{axisId: sales_alerts.net_sales_wow_change,
+            id: sales_alerts.net_sales_wow_change, name: WoW Change £}], showLabels: false,
         showValues: true, unpinAxis: false, tickDensity: default, tickDensityCustom: 5,
         type: linear}]
-    limit_displayed_rows_values:
-      show_hide: hide
-      first_last: last
-      num_rows: '14'
     series_types: {}
     reference_lines: [{reference_type: line, line_value: '0', range_start: max, range_end: min,
         margin_top: deviation, margin_value: mean, margin_bottom: deviation, label_position: right,
-        color: "#ff2e49"}]
-    trend_lines: []
-    column_spacing_ratio: 0
+        color: "#000000"}]
     show_null_points: true
     interpolation: linear
     defaults_version: 1
-    listen: {}
-    row: 6
+    listen:
+      Sales Channel: sales_alerts.sales_channel
+    row: 20
     col: 12
     width: 12
     height: 7
+  - name: " (3)"
+    type: text
+    title_text: ''
+    subtitle_text: ''
+    body_text: "# vs LY"
+    row: 27
+    col: 0
+    width: 24
+    height: 2
+  - name: " (4)"
+    type: text
+    title_text: ''
+    subtitle_text: ''
+    body_text: "# vs 2LW"
+    row: 18
+    col: 12
+    width: 12
+    height: 2
   - title: YoY Performance Change (Past 28 Days)
     name: YoY Performance Change (Past 28 Days)
     model: ts_alerts
-    explore: sales_alert
+    explore: sales_alerts
     type: looker_column
-    fields: [sales_alert.date_date, sales_alert.net_sales_1y_change]
-    fill_fields: [sales_alert.date_date]
+    fields: [sales_alerts.date_date, sales_alerts.net_sales_yoy_change]
+    fill_fields: [sales_alerts.date_date]
     filters:
-      sales_alert.date_date: 28 days ago for 28 days
-    sorts: [sales_alert.date_date desc]
+      sales_alerts.date_date: 28 days ago for 28 days
+    sorts: [sales_alerts.date_date desc]
     limit: 500
     x_axis_gridlines: false
     y_axis_gridlines: true
@@ -473,7 +310,7 @@
     show_y_axis_ticks: true
     y_axis_tick_density: default
     y_axis_tick_density_custom: 5
-    show_x_axis_label: true
+    show_x_axis_label: false
     show_x_axis_ticks: true
     y_axis_scale_mode: linear
     x_axis_reversed: false
@@ -486,7 +323,7 @@
     point_style: none
     show_value_labels: false
     label_density: 25
-    x_axis_scale: time
+    x_axis_scale: auto
     y_axis_combined: true
     ordering: none
     show_null_labels: false
@@ -498,62 +335,478 @@
       palette_id: toolstation-categorical-0
       options:
         steps: 5
-    y_axes: [{label: '', orientation: left, series: [{axisId: sales_alert.net_sales_1w_change,
-            id: sales_alert.net_sales_1w_change, name: Net Sales 1w Change}], showLabels: false,
+    y_axes: [{label: '', orientation: left, series: [{axisId: sales_alerts.net_sales_wow_change,
+            id: sales_alerts.net_sales_wow_change, name: WoW Change £}], showLabels: false,
         showValues: true, unpinAxis: false, tickDensity: default, tickDensityCustom: 5,
         type: linear}]
-    limit_displayed_rows_values:
-      show_hide: hide
-      first_last: last
-      num_rows: '14'
     series_types: {}
     reference_lines: [{reference_type: line, line_value: '0', range_start: max, range_end: min,
         margin_top: deviation, margin_value: mean, margin_bottom: deviation, label_position: right,
-        color: "#ff2e49"}]
-    trend_lines: []
-    column_spacing_ratio: 0
+        color: "#000000"}]
     show_null_points: true
     interpolation: linear
     defaults_version: 1
-    listen: {}
-    row: 17
+    listen:
+      Sales Channel: sales_alerts.sales_channel
+    row: 29
     col: 0
     width: 24
-    height: 8
+    height: 7
   - name: " (5)"
     type: text
     title_text: ''
     subtitle_text: ''
-    body_text: "## Past 28 Days ##"
-    row: 25
+    body_text: "# Channel Performance"
+    row: 36
     col: 0
     width: 24
     height: 2
+  - title: Branch and EPOS
+    name: Branch and EPOS
+    model: ts_alerts
+    explore: sales_alerts
+    type: looker_column
+    fields: [sales_alerts.date_date, sales_alerts.net_sales_wow_change, sales_alerts.net_sales_2wow_change,
+      sales_alerts.net_sales_yoy_change]
+    fill_fields: [sales_alerts.date_date]
+    filters:
+      sales_alerts.date_date: 14 days ago for 14 days
+      sales_alerts.sales_channel: Branches,EposAv,EposEr
+    sorts: [sales_alerts.date_date desc]
+    limit: 500
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_view_names: false
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    point_style: none
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: time
+    y_axis_combined: true
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    color_application:
+      collection_id: toolstation
+      palette_id: toolstation-categorical-0
+      options:
+        steps: 5
+    trellis_rows: 2
+    series_types: {}
+    series_colors:
+      EposAv - sales_alerts.net_sales_wow_change: "#0072F0"
+    show_dropoff: false
+    defaults_version: 1
+    listen: {}
+    row: 38
+    col: 0
+    width: 12
+    height: 7
+  - title: Click & Collect and Web
+    name: Click & Collect and Web
+    model: ts_alerts
+    explore: sales_alerts
+    type: looker_column
+    fields: [sales_alerts.date_date, sales_alerts.net_sales_wow_change, sales_alerts.net_sales_2wow_change,
+      sales_alerts.net_sales_yoy_change]
+    fill_fields: [sales_alerts.date_date]
+    filters:
+      sales_alerts.date_date: 14 days ago for 14 days
+      sales_alerts.sales_channel: Click & Collect,Web
+    sorts: [sales_alerts.date_date desc]
+    limit: 500
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_view_names: false
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    point_style: none
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: time
+    y_axis_combined: true
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    color_application:
+      collection_id: toolstation
+      palette_id: toolstation-categorical-0
+      options:
+        steps: 5
+    trellis_rows: 2
+    series_types: {}
+    series_colors:
+      EposAv - sales_alerts.net_sales_wow_change: "#0072F0"
+    show_dropoff: false
+    defaults_version: 1
+    listen: {}
+    row: 38
+    col: 12
+    width: 12
+    height: 7
+  - title: Contact Centre
+    name: Contact Centre
+    model: ts_alerts
+    explore: sales_alerts
+    type: looker_column
+    fields: [sales_alerts.date_date, sales_alerts.net_sales_wow_change, sales_alerts.net_sales_2wow_change,
+      sales_alerts.net_sales_yoy_change]
+    fill_fields: [sales_alerts.date_date]
+    filters:
+      sales_alerts.date_date: 14 days ago for 14 days
+      sales_alerts.sales_channel: Contact Centre
+    sorts: [sales_alerts.date_date desc]
+    limit: 500
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_view_names: false
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    point_style: none
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: time
+    y_axis_combined: true
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    color_application:
+      collection_id: toolstation
+      palette_id: toolstation-categorical-0
+      options:
+        steps: 5
+    trellis_rows: 2
+    series_types: {}
+    series_colors:
+      EposAv - sales_alerts.net_sales_wow_change: "#0072F0"
+    show_dropoff: false
+    defaults_version: 1
+    listen: {}
+    row: 45
+    col: 0
+    width: 8
+    height: 7
+  - title: Dropship
+    name: Dropship
+    model: ts_alerts
+    explore: sales_alerts
+    type: looker_column
+    fields: [sales_alerts.date_date, sales_alerts.net_sales_wow_change, sales_alerts.net_sales_2wow_change,
+      sales_alerts.net_sales_yoy_change]
+    fill_fields: [sales_alerts.date_date]
+    filters:
+      sales_alerts.date_date: 14 days ago for 14 days
+      sales_alerts.sales_channel: Dropship
+    sorts: [sales_alerts.date_date desc]
+    limit: 500
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_view_names: false
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    point_style: none
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: time
+    y_axis_combined: true
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    color_application:
+      collection_id: toolstation
+      palette_id: toolstation-categorical-0
+      options:
+        steps: 5
+    trellis_rows: 2
+    series_types: {}
+    series_colors:
+      EposAv - sales_alerts.net_sales_wow_change: "#0072F0"
+    show_dropoff: false
+    defaults_version: 1
+    listen: {}
+    row: 45
+    col: 8
+    width: 8
+    height: 7
+  - title: eBay
+    name: eBay
+    model: ts_alerts
+    explore: sales_alerts
+    type: looker_column
+    fields: [sales_alerts.date_date, sales_alerts.net_sales_wow_change, sales_alerts.net_sales_2wow_change,
+      sales_alerts.net_sales_yoy_change]
+    fill_fields: [sales_alerts.date_date]
+    filters:
+      sales_alerts.date_date: 14 days ago for 14 days
+      sales_alerts.sales_channel: eBay
+    sorts: [sales_alerts.date_date desc]
+    limit: 500
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_view_names: false
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    point_style: none
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: time
+    y_axis_combined: true
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    color_application:
+      collection_id: toolstation
+      palette_id: toolstation-categorical-0
+      options:
+        steps: 5
+    trellis_rows: 2
+    series_types: {}
+    series_colors:
+      EposAv - sales_alerts.net_sales_wow_change: "#0072F0"
+    show_dropoff: false
+    defaults_version: 1
+    listen: {}
+    row: 45
+    col: 16
+    width: 8
+    height: 7
+  - title: Untitled
+    name: Untitled (2)
+    model: ts_alerts
+    explore: sales_alerts
+    type: looker_grid
+    fields: [sales_alerts.net_sales_value, sales_alerts.net_sales_wow_change,
+      sales_alerts.net_sales_wow_percent, sales_alerts.net_sales_2wow_change,
+      sales_alerts.net_sales_2wow_percent, sales_alerts.net_sales_yoy_change,
+      sales_alerts.net_sales_yoy_percent, sales_alerts.sales_channel]
+    filters:
+      sales_alerts.date_date: Yesterday
+    sorts: [sales_alerts.sales_channel]
+    limit: 500
+    show_view_names: false
+    show_row_numbers: false
+    transpose: true
+    truncate_text: false
+    hide_totals: false
+    hide_row_totals: false
+    size_to_fit: true
+    table_theme: white
+    limit_displayed_rows: false
+    enable_conditional_formatting: true
+    header_text_alignment: center
+    header_font_size: '13'
+    rows_font_size: '12'
+    conditional_formatting_include_totals: false
+    conditional_formatting_include_nulls: false
+    color_application:
+      collection_id: toolstation
+      palette_id: toolstation-categorical-0
+    show_sql_query_menu_options: false
+    show_totals: true
+    show_row_totals: true
+    series_labels:
+      sales_alerts.net_sales_yoy_percent: YoY %
+      sales_alerts.net_sales_yoy_change: YoY £
+      sales_alerts.net_sales_2wow_percent: 2WoW %
+      sales_alerts.net_sales_2wow_change: 2WoW £
+      sales_alerts.net_sales_wow_percent: WoW %
+      sales_alerts.net_sales_wow_change: WoW £
+      sales_alerts.net_sales_value: Net Sales
+      sales_alerts.sales_channel: Sales Channel
+    series_cell_visualizations:
+      sales_alerts.net_sales_value:
+        is_active: false
+      sales_alerts.net_sales_wow_percent:
+        is_active: false
+    series_text_format:
+      sales_alerts.net_sales_value:
+        align: center
+      sales_alerts.net_sales_wow_change:
+        align: center
+      sales_alerts.net_sales_wow_percent:
+        align: center
+      sales_alerts.net_sales_2wow_change:
+        align: center
+      sales_alerts.net_sales_2wow_percent:
+        align: center
+      sales_alerts.net_sales_yoy_change:
+        align: center
+      sales_alerts.net_sales_yoy_percent:
+        align: center
+    header_font_color: "#FFFFFF"
+    header_background_color: "#004f9f"
+    conditional_formatting: [{type: greater than, value: 0, background_color: !!null '',
+        font_color: "#72D16D", color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
+        bold: false, italic: false, strikethrough: false, fields: [sales_alerts.net_sales_wow_percent,
+          sales_alerts.net_sales_2wow_percent, sales_alerts.net_sales_yoy_percent]},
+      {type: less than, value: 0, background_color: !!null '', font_color: "#d32f2f",
+        color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
+        bold: false, italic: false, strikethrough: false, fields: [sales_alerts.net_sales_wow_percent,
+          sales_alerts.net_sales_2wow_percent, sales_alerts.net_sales_yoy_percent]}]
+    series_value_format:
+      sales_alerts.net_sales_value:
+        name: gbp
+        decimals: '2'
+        format_string: '"£"#,##0.00'
+        label: British Pounds (2)
+        label_prefix: British Pounds
+      sales_alerts.net_sales_wow_change:
+        name: gbp
+        decimals: '2'
+        format_string: '"£"#,##0.00'
+        label: British Pounds (2)
+        label_prefix: British Pounds
+      sales_alerts.net_sales_2wow_change:
+        name: gbp
+        decimals: '2'
+        format_string: '"£"#,##0.00'
+        label: British Pounds (2)
+        label_prefix: British Pounds
+      sales_alerts.net_sales_yoy_change:
+        name: gbp
+        decimals: '2'
+        format_string: '"£"#,##0.00'
+        label: British Pounds (2)
+        label_prefix: British Pounds
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    legend_position: center
+    point_style: none
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: auto
+    y_axis_combined: true
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    defaults_version: 1
+    series_types: {}
+    title_hidden: true
+    row: 5
+    col: 0
+    width: 24
+    height: 5
+
+  - name: " (6)"
+    type: text
+    title_text: ''
+    subtitle_text: ''
+    body_text: "# Past 28 Days #"
+    row: 52
+    col: 0
+    width: 24
+    height: 2
+
+
+
+
   - title: Performance History
     name: Performance History
     model: ts_alerts
-    explore: sales_alert
+    explore: sales_alerts
     type: looker_grid
-    fields: [sales_alert.date_date, sales_alert.net_sales, sales_alert.net_sales_1w_change,
-      sales_alert.net_sales_1w_prior, sales_alert.net_sales_2w_change, sales_alert.net_sales_2w_prior,
-      sales_alert.net_sales_1y_change, sales_alert.net_sales_1y_prior]
-    fill_fields: [sales_alert.date_date]
+    fields: [sales_alerts.date_date, sales_alerts.net_sales_value, sales_alerts.net_sales_wow_change,
+      sales_alerts.net_sales_wow_value, sales_alerts.net_sales_2wow_change, sales_alerts.net_sales_2wow_value,
+      sales_alerts.net_sales_yoy_change, sales_alerts.net_sales_yoy_value]
+    fill_fields: [sales_alerts.date_date]
     filters:
-      sales_alert.date_date: 28 days ago for 28 days
-    sorts: [sales_alert.date_date desc]
+      sales_alerts.date_date: 28 days ago for 28 days
+    sorts: [sales_alerts.date_date desc]
     limit: 500
-    dynamic_fields: [{category: table_calculation, expression: "${sales_alert.net_sales_1w_change}/${sales_alert.net_sales_1w_prior}",
+    dynamic_fields: [{category: table_calculation, expression: "${sales_alerts.net_sales_wow_change}/${sales_alerts.net_sales_wow_value}",
         label: WoW %, value_format: !!null '', value_format_name: percent_1, _kind_hint: measure,
         table_calculation: wow, _type_hint: number}, {category: table_calculation,
-        expression: "${sales_alert.net_sales_2w_change}/${sales_alert.net_sales_2w_prior}",
+        expression: "${sales_alerts.net_sales_2wow_change}/${sales_alerts.net_sales_2wow_value}",
         label: 2WoW %, value_format: !!null '', value_format_name: percent_1, _kind_hint: measure,
         table_calculation: 2wow, _type_hint: number}, {category: table_calculation,
-        expression: "${sales_alert.net_sales_1y_change}/${sales_alert.net_sales_1y_prior}",
+        expression: "${sales_alerts.net_sales_yoy_change}/${sales_alerts.net_sales_yoy_value}",
         label: YoY %, value_format: !!null '', value_format_name: percent_1, _kind_hint: measure,
-        table_calculation: yoy, _type_hint: number}, {category: table_calculation,
-        expression: "${sales_alert.net_sales_2y_change}/${sales_alert.net_sales_2y_prior}",
-        label: 2YoY %, value_format: !!null '', value_format_name: percent_1, _kind_hint: measure,
-        table_calculation: 2yoy, _type_hint: number, is_disabled: true}]
+        table_calculation: yoy, _type_hint: number}]
     show_view_names: false
     show_row_numbers: false
     transpose: false
@@ -573,31 +826,31 @@
       collection_id: toolstation
       palette_id: toolstation-categorical-0
     show_sql_query_menu_options: false
-    column_order: [sales_alert.date_date, sales_alert.net_sales, sales_alert.net_sales_1w_change,
-      wow, sales_alert.net_sales_2w_change, 2wow, sales_alert.net_sales_1y_change,
-      yoy, sales_alert.net_sales_2y_change, 2yoy]
+    column_order: [sales_alerts.date_date, sales_alerts.net_sales_value, sales_alerts.net_sales_wow_change,
+      wow, sales_alerts.net_sales_2wow_change, 2wow, sales_alerts.net_sales_yoy_change,
+      yoy, sales_alerts.net_sales_2y_change, 2yoy]
     show_totals: true
     show_row_totals: true
     series_labels:
-      sales_alert.date_date: Date
-      sales_alert.net_sales_1w_change: WoW £
+      sales_alerts.date_date: Date
+      sales_alerts.net_sales_wow_change: WoW £
       net_sales_wow: WoW Change %
-      sales_alert.net_sales_2w_change: 2WoW £
-      sales_alert.net_sales_1y_change: YoY £
-      sales_alert.net_sales_2y_change: 2YoY £
+      sales_alerts.net_sales_2wow_change: 2WoW £
+      sales_alerts.net_sales_yoy_change: YoY £
+      sales_alerts.net_sales_2y_change: 2YoY £
     series_cell_visualizations:
-      sales_alert.net_sales_1w_change:
+      sales_alerts.net_sales_wow_change:
         is_active: false
     series_text_format:
-      sales_alert.date_date:
+      sales_alerts.date_date:
         align: center
-      sales_alert.net_sales_1w_change:
+      sales_alerts.net_sales_wow_change:
         align: center
-      sales_alert.net_sales_2w_change:
+      sales_alerts.net_sales_2wow_change:
         align: center
-      sales_alert.net_sales_1y_change:
+      sales_alerts.net_sales_yoy_change:
         align: center
-      sales_alert.net_sales_2y_change:
+      sales_alerts.net_sales_2y_change:
         align: center
       wow:
         align: center
@@ -607,16 +860,16 @@
         align: center
       2yoy:
         align: center
-      sales_alert.net_sales:
+      sales_alerts.net_sales:
         align: center
     header_font_color: "#FFFFFF"
     header_background_color: "#004f9f"
-    conditional_formatting: [{type: greater than, value: 0, background_color: '',
-        font_color: "#72D16D", color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: less
-          than, value: 0, background_color: '', font_color: "#d32f2f", color_application: {
-          collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
-        italic: false, strikethrough: false, fields: !!null ''}]
+    # conditional_formatting: [{type: greater than, value: 0, background_color: '',
+    #     font_color: "#72D16D", color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
+    #     bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: less
+    #       than, value: 0, background_color: '', font_color: "#d32f2f", color_application: {
+    #       collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
+    #     italic: false, strikethrough: false, fields: !!null ''}]
     custom_color_enabled: true
     show_single_value_title: true
     show_comparison: false
@@ -648,8 +901,8 @@
     interpolation: linear
     defaults_version: 1
     series_types: {}
-    hidden_fields: [sales_alert.net_sales_1w_prior, sales_alert.net_sales_2w_prior,
-      sales_alert.net_sales_1y_prior]
+    hidden_fields: [sales_alerts.net_sales_wow_value, sales_alerts.net_sales_2wow_value,
+      sales_alerts.net_sales_yoy_value]
     query_fields:
       measures:
       - align: right
@@ -669,7 +922,7 @@
         label_from_parameter:
         label_short: Net Sales
         map_layer:
-        name: sales_alert.net_sales
+        name: sales_alerts.net_sales
         strict_value_format: false
         requires_refresh_on_sort: false
         sortable: true
@@ -692,7 +945,7 @@
         primary_key: false
         project_name: toolstation
         scope: sales_alert
-        suggest_dimension: sales_alert.net_sales
+        suggest_dimension: sales_alerts.net_sales
         suggest_explore: sales_alert
         suggestable: false
         is_fiscal: false
@@ -723,7 +976,7 @@
         label_from_parameter:
         label_short: Net Sales 1w Change
         map_layer:
-        name: sales_alert.net_sales_1w_change
+        name: sales_alerts.net_sales_wow_change
         strict_value_format: false
         requires_refresh_on_sort: false
         sortable: true
@@ -746,7 +999,7 @@
         primary_key: false
         project_name: toolstation
         scope: sales_alert
-        suggest_dimension: sales_alert.net_sales_1w_change
+        suggest_dimension: sales_alerts.net_sales_wow_change
         suggest_explore: sales_alert
         suggestable: false
         is_fiscal: false
@@ -757,7 +1010,7 @@
         permanent:
         source_file: views/dev/sales_alerting.view.lkml
         source_file_path: toolstation/views/dev/sales_alerting.view.lkml
-        sql: "${net_sales}-${net_sales_1w_prior} "
+        sql: "${net_sales}-${net_sales_wow_value} "
         sql_case:
         filters:
       - align: right
@@ -777,7 +1030,7 @@
         label_from_parameter:
         label_short: Net Sales 1w Prior
         map_layer:
-        name: sales_alert.net_sales_1w_prior
+        name: sales_alerts.net_sales_wow_value
         strict_value_format: false
         requires_refresh_on_sort: false
         sortable: true
@@ -800,7 +1053,7 @@
         primary_key: false
         project_name: toolstation
         scope: sales_alert
-        suggest_dimension: sales_alert.net_sales_1w_prior
+        suggest_dimension: sales_alerts.net_sales_wow_value
         suggest_explore: sales_alert
         suggestable: false
         is_fiscal: false
@@ -831,7 +1084,7 @@
         label_from_parameter:
         label_short: Net Sales 2w Change
         map_layer:
-        name: sales_alert.net_sales_2w_change
+        name: sales_alerts.net_sales_2wow_change
         strict_value_format: false
         requires_refresh_on_sort: false
         sortable: true
@@ -854,7 +1107,7 @@
         primary_key: false
         project_name: toolstation
         scope: sales_alert
-        suggest_dimension: sales_alert.net_sales_2w_change
+        suggest_dimension: sales_alerts.net_sales_2wow_change
         suggest_explore: sales_alert
         suggestable: false
         is_fiscal: false
@@ -865,7 +1118,7 @@
         permanent:
         source_file: views/dev/sales_alerting.view.lkml
         source_file_path: toolstation/views/dev/sales_alerting.view.lkml
-        sql: "${net_sales}-${net_sales_2w_prior} "
+        sql: "${net_sales}-${net_sales_2wow_value} "
         sql_case:
         filters:
       - align: right
@@ -885,7 +1138,7 @@
         label_from_parameter:
         label_short: Net Sales 2w Prior
         map_layer:
-        name: sales_alert.net_sales_2w_prior
+        name: sales_alerts.net_sales_2wow_value
         strict_value_format: false
         requires_refresh_on_sort: false
         sortable: true
@@ -908,7 +1161,7 @@
         primary_key: false
         project_name: toolstation
         scope: sales_alert
-        suggest_dimension: sales_alert.net_sales_2w_prior
+        suggest_dimension: sales_alerts.net_sales_2wow_value
         suggest_explore: sales_alert
         suggestable: false
         is_fiscal: false
@@ -939,7 +1192,7 @@
         label_from_parameter:
         label_short: Net Sales 1y Change
         map_layer:
-        name: sales_alert.net_sales_1y_change
+        name: sales_alerts.net_sales_yoy_change
         strict_value_format: false
         requires_refresh_on_sort: false
         sortable: true
@@ -962,7 +1215,7 @@
         primary_key: false
         project_name: toolstation
         scope: sales_alert
-        suggest_dimension: sales_alert.net_sales_1y_change
+        suggest_dimension: sales_alerts.net_sales_yoy_change
         suggest_explore: sales_alert
         suggestable: false
         is_fiscal: false
@@ -973,7 +1226,7 @@
         permanent:
         source_file: views/dev/sales_alerting.view.lkml
         source_file_path: toolstation/views/dev/sales_alerting.view.lkml
-        sql: "${net_sales}-${net_sales_1y_prior} "
+        sql: "${net_sales}-${net_sales_yoy_value} "
         sql_case:
         filters:
       - align: right
@@ -993,7 +1246,7 @@
         label_from_parameter:
         label_short: Net Sales 1y Prior
         map_layer:
-        name: sales_alert.net_sales_1y_prior
+        name: sales_alerts.net_sales_yoy_value
         strict_value_format: false
         requires_refresh_on_sort: false
         sortable: true
@@ -1016,7 +1269,7 @@
         primary_key: false
         project_name: toolstation
         scope: sales_alert
-        suggest_dimension: sales_alert.net_sales_1y_prior
+        suggest_dimension: sales_alerts.net_sales_yoy_value
         suggest_explore: sales_alert
         suggestable: false
         is_fiscal: false
@@ -1047,7 +1300,7 @@
         label_from_parameter:
         label_short: Net Sales 2y Change
         map_layer:
-        name: sales_alert.net_sales_2y_change
+        name: sales_alerts.net_sales_2y_change
         strict_value_format: false
         requires_refresh_on_sort: false
         sortable: true
@@ -1070,7 +1323,7 @@
         primary_key: false
         project_name: toolstation
         scope: sales_alert
-        suggest_dimension: sales_alert.net_sales_2y_change
+        suggest_dimension: sales_alerts.net_sales_2y_change
         suggest_explore: sales_alert
         suggestable: false
         is_fiscal: false
@@ -1101,7 +1354,7 @@
         label_from_parameter:
         label_short: Net Sales 2y Prior
         map_layer:
-        name: sales_alert.net_sales_2y_prior
+        name: sales_alerts.net_sales_2y_prior
         strict_value_format: false
         requires_refresh_on_sort: false
         sortable: true
@@ -1124,7 +1377,7 @@
         primary_key: false
         project_name: toolstation
         scope: sales_alert
-        suggest_dimension: sales_alert.net_sales_2y_prior
+        suggest_dimension: sales_alerts.net_sales_2y_prior
         suggest_explore: sales_alert
         suggestable: false
         is_fiscal: false
@@ -1156,7 +1409,7 @@
         label_from_parameter:
         label_short: Date Date
         map_layer:
-        name: sales_alert.date_date
+        name: sales_alerts.date_date
         strict_value_format: false
         requires_refresh_on_sort: false
         sortable: true
@@ -1171,7 +1424,7 @@
         view_label: Sales Alert
         dynamic: false
         week_start_day: sunday
-        dimension_group: sales_alert.date
+        dimension_group: sales_alerts.date
         error:
         field_group_variant: Date
         measure: false
@@ -1179,7 +1432,7 @@
         primary_key: false
         project_name: toolstation
         scope: sales_alert
-        suggest_dimension: sales_alert.date_date
+        suggest_dimension: sales_alerts.date_date
         suggest_explore: sales_alert
         suggestable: false
         is_fiscal: false
@@ -1201,7 +1454,7 @@
       table_calculations:
       - label: WoW %
         name: wow
-        expression: "${sales_alert.net_sales_1w_change}/${sales_alert.net_sales_1w_prior}"
+        expression: "${sales_alerts.net_sales_wow_change}/${sales_alerts.net_sales_wow_value}"
         can_pivot: true
         sortable: true
         type: number
@@ -1213,7 +1466,7 @@
         is_numeric: true
       - label: 2WoW %
         name: 2wow
-        expression: "${sales_alert.net_sales_2w_change}/${sales_alert.net_sales_2w_prior}"
+        expression: "${sales_alerts.net_sales_2wow_change}/${sales_alerts.net_sales_2wow_value}"
         can_pivot: true
         sortable: true
         type: number
@@ -1225,7 +1478,7 @@
         is_numeric: true
       - label: YoY %
         name: yoy
-        expression: "${sales_alert.net_sales_1y_change}/${sales_alert.net_sales_1y_prior}"
+        expression: "${sales_alerts.net_sales_yoy_change}/${sales_alerts.net_sales_yoy_value}"
         can_pivot: true
         sortable: true
         type: number
@@ -1237,7 +1490,7 @@
         is_numeric: true
       - label: 2YoY %
         name: 2yoy
-        expression: "${sales_alert.net_sales_2y_change}/${sales_alert.net_sales_2y_prior}"
+        expression: "${sales_alerts.net_sales_2y_change}/${sales_alerts.net_sales_2y_prior}"
         can_pivot: true
         sortable: true
         type: number
@@ -1250,595 +1503,101 @@
       pivots: []
     title_hidden: true
     listen: {}
-    row: 27
+    row: 54
     col: 0
-    width: 12
+    width: 24
     height: 6
-  - title: Any 5% Deviation
-    name: Any 5% Deviation
-    model: ts_alerts
-    explore: sales_alert
-    type: single_value
-    fields: [sales_alert.date_date, sales_alert.alert_required, sales_alert.1_year_deviation,
-      sales_alert.1_week_deviation, sales_alert.2_week_deviation]
-    fill_fields: [sales_alert.date_date]
-    filters:
-      sales_alert.date_date: 1 days ago for 1 days
-      sales_alert.minimum_deviation: '0.05'
-      sales_alert.2_week_deviation_parameter: 'YES'
-      sales_alert.1_year_deviation_parameter: 'YES'
-      sales_alert.1_week_deviation_parameter: 'YES'
-    sorts: [sales_alert.date_date desc]
-    limit: 500
-    dynamic_fields: [{category: table_calculation, expression: "if(\nabs(${sales_alert.net_sales_2w_change}/${sales_alert.net_sales_2w_prior}\
-          \ ) >= 0.05\nAND \nabs(${sales_alert.net_sales_1y_change}/${sales_alert.net_sales_1y_prior}\
-          \ ) >= 0.05\nAND \nabs(${sales_alert.net_sales_1w_change}/${sales_alert.net_sales_1w_prior}\
-          \ ) >= 0.05\n, 1, 0)\n\n\n", label: 1WOW >  10% & 2WOW > 10% & 1YOY > 10%,
-        value_format: !!null '', value_format_name: percent_1, _kind_hint: measure,
-        table_calculation: 1wow_10_2wow_10_1yoy_10, _type_hint: number, is_disabled: true}]
-    custom_color_enabled: true
-    show_single_value_title: true
-    show_comparison: false
-    comparison_type: value
-    comparison_reverse_colors: false
-    show_comparison_label: true
-    enable_conditional_formatting: true
-    conditional_formatting_include_totals: false
-    conditional_formatting_include_nulls: false
-    color_application:
-      collection_id: toolstation
-      palette_id: toolstation-categorical-0
-    value_format: '[=0]"No";[>0]"Yes"'
-    conditional_formatting: [{type: equal to, value: 1, background_color: "#d32f2f",
-        font_color: "#000000", color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: equal
-          to, value: 0, background_color: "#72D16D", font_color: "#000000", color_application: {
-          collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
-        italic: false, strikethrough: false, fields: !!null ''}, {type: equal to,
-        value: !!null '', background_color: !!null '', font_color: !!null '', color_application: {
-          collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
-        italic: false, strikethrough: false, fields: !!null ''}]
-    x_axis_gridlines: false
-    y_axis_gridlines: true
-    show_view_names: false
-    show_y_axis_labels: true
-    show_y_axis_ticks: true
-    y_axis_tick_density: default
-    y_axis_tick_density_custom: 5
-    show_x_axis_label: true
-    show_x_axis_ticks: true
-    y_axis_scale_mode: linear
-    x_axis_reversed: false
-    y_axis_reversed: false
-    plot_size_by_field: false
-    trellis: ''
-    stacking: ''
-    limit_displayed_rows: false
-    legend_position: center
-    point_style: none
-    show_value_labels: false
-    label_density: 25
-    x_axis_scale: auto
-    y_axis_combined: true
-    show_null_points: true
-    interpolation: linear
-    defaults_version: 1
-    series_types: {}
-    hidden_fields: []
-    note_state: collapsed
-    note_display: above
-    listen: {}
-    row: 33
-    col: 0
-    width: 24
-    height: 2
-  - title: 1 Year Deviation 15%
-    name: 1 Year Deviation 15%
-    model: ts_alerts
-    explore: sales_alert
-    type: single_value
-    fields: [sales_alert.alert_required, sales_alert.date_date]
-    fill_fields: [sales_alert.date_date]
-    filters:
-      sales_alert.minimum_deviation: '0.15'
-      sales_alert.date_date: Yesterday
-      sales_alert.1_year_deviation_parameter: 'YES'
-    sorts: [sales_alert.date_date desc]
-    limit: 500
-    custom_color_enabled: true
-    show_single_value_title: true
-    show_comparison: false
-    comparison_type: value
-    comparison_reverse_colors: false
-    show_comparison_label: true
-    enable_conditional_formatting: true
-    conditional_formatting_include_totals: false
-    conditional_formatting_include_nulls: false
-    color_application:
-      collection_id: toolstation
-      palette_id: toolstation-categorical-0
-    value_format: '[=0]"No";[>0]"Yes"'
-    conditional_formatting: [{type: equal to, value: 0, background_color: "#72D16D",
-        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-sequential-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: not
-          equal to, value: 0, background_color: "#d32f2f", font_color: !!null '',
-        color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}]
-    defaults_version: 1
-    listen: {}
-    row: 15
-    col: 12
-    width: 6
-    height: 2
-  - title: 1 Year Deviation 20%
-    name: 1 Year Deviation 20%
-    model: ts_alerts
-    explore: sales_alert
-    type: single_value
-    fields: [sales_alert.alert_required, sales_alert.date_date]
-    fill_fields: [sales_alert.date_date]
-    filters:
-      sales_alert.minimum_deviation: '0.20'
-      sales_alert.date_date: Yesterday
-      sales_alert.1_year_deviation_parameter: 'YES'
-    sorts: [sales_alert.date_date desc]
-    limit: 500
-    custom_color_enabled: true
-    show_single_value_title: true
-    show_comparison: false
-    comparison_type: value
-    comparison_reverse_colors: false
-    show_comparison_label: true
-    enable_conditional_formatting: true
-    conditional_formatting_include_totals: false
-    conditional_formatting_include_nulls: false
-    color_application:
-      collection_id: toolstation
-      palette_id: toolstation-categorical-0
-    value_format: '[=0]"No";[>0]"Yes"'
-    conditional_formatting: [{type: equal to, value: 0, background_color: "#72D16D",
-        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-sequential-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: not
-          equal to, value: 0, background_color: "#d32f2f", font_color: !!null '',
-        color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}]
-    defaults_version: 1
-    listen: {}
-    row: 15
-    col: 18
-    width: 6
-    height: 2
-  - name: " (6)"
-    type: text
-    title_text: ''
-    subtitle_text: ''
-    body_text: |-
-      # Sales Channel #
 
-      Net Sales performance over the last 14 days.
-    row: 35
-    col: 0
-    width: 24
-    height: 3
-  - title: Branch and EPOS
-    name: Branch and EPOS
-    model: ts_alerts
-    explore: sales_alert
-    type: looker_column
-    fields: [sales_alert.net_sales_1w_change, sales_alert.net_sales_2w_change, sales_alert.net_sales_1y_change,
-      sales_alert.alert_required, sales_alert.date_date]
-    fill_fields: [sales_alert.date_date]
-    filters:
-      sales_alert.sales_channel: Branches,EposAv,EposEr
-      sales_alert.minimum_deviation: '0.05'
-      sales_alert.date_date: 14 days ago for 14 days
-    sorts: [sales_alert.date_date desc]
-    limit: 500
-    x_axis_gridlines: false
-    y_axis_gridlines: true
-    show_view_names: false
-    show_y_axis_labels: true
-    show_y_axis_ticks: true
-    y_axis_tick_density: default
-    y_axis_tick_density_custom: 5
-    show_x_axis_label: false
-    show_x_axis_ticks: true
-    y_axis_scale_mode: linear
-    x_axis_reversed: false
-    y_axis_reversed: false
-    plot_size_by_field: false
-    trellis: ''
-    stacking: ''
-    limit_displayed_rows: false
-    legend_position: center
-    point_style: circle
-    show_value_labels: false
-    label_density: 25
-    x_axis_scale: time
-    y_axis_combined: true
-    ordering: none
-    show_null_labels: false
-    show_totals_labels: false
-    show_silhouette: false
-    totals_color: "#808080"
-    color_application:
-      collection_id: toolstation
-      palette_id: toolstation-categorical-0
-      options:
-        steps: 5
-    y_axes: [{label: '', orientation: left, series: [{axisId: sales_alert.net_sales_1w_change,
-            id: sales_alert.net_sales_1w_change, name: WoW Change}, {axisId: sales_alert.net_sales_2w_change,
-            id: sales_alert.net_sales_2w_change, name: 2WoW Change}, {axisId: sales_alert.net_sales_1y_change,
-            id: sales_alert.net_sales_1y_change, name: YoY Change}], showLabels: true,
-        showValues: true, valueFormat: '0, "K"', unpinAxis: false, tickDensity: default,
-        tickDensityCustom: 5, type: linear}]
-    series_types: {}
-    series_labels:
-      sales_alert.net_sales_1w_change: WoW Change
-      sales_alert.net_sales_2w_change: 2WoW Change
-      sales_alert.net_sales_1y_change: YoY Change
-    defaults_version: 1
-    hidden_fields: [sales_alert.alert_required]
-    listen: {}
-    row: 38
-    col: 0
-    width: 12
-    height: 7
-  - title: Click and Collect and Web
-    name: Click and Collect and Web
-    model: ts_alerts
-    explore: sales_alert
-    type: looker_column
-    fields: [sales_alert.net_sales_1w_change, sales_alert.net_sales_2w_change, sales_alert.net_sales_1y_change,
-      sales_alert.alert_required, sales_alert.date_date]
-    fill_fields: [sales_alert.date_date]
-    filters:
-      sales_alert.sales_channel: Click & Collect,Web
-      sales_alert.minimum_deviation: '0.05'
-      sales_alert.date_date: 14 days ago for 14 days
-    sorts: [sales_alert.date_date desc]
-    limit: 500
-    x_axis_gridlines: false
-    y_axis_gridlines: true
-    show_view_names: false
-    show_y_axis_labels: true
-    show_y_axis_ticks: true
-    y_axis_tick_density: default
-    y_axis_tick_density_custom: 5
-    show_x_axis_label: false
-    show_x_axis_ticks: true
-    y_axis_scale_mode: linear
-    x_axis_reversed: false
-    y_axis_reversed: false
-    plot_size_by_field: false
-    trellis: ''
-    stacking: ''
-    limit_displayed_rows: false
-    legend_position: center
-    point_style: circle
-    show_value_labels: false
-    label_density: 25
-    x_axis_scale: time
-    y_axis_combined: true
-    ordering: none
-    show_null_labels: false
-    show_totals_labels: false
-    show_silhouette: false
-    totals_color: "#808080"
-    color_application:
-      collection_id: toolstation
-      palette_id: toolstation-categorical-0
-      options:
-        steps: 5
-    y_axes: [{label: '', orientation: left, series: [{axisId: sales_alert.net_sales_1w_change,
-            id: sales_alert.net_sales_1w_change, name: WoW Change}, {axisId: sales_alert.net_sales_2w_change,
-            id: sales_alert.net_sales_2w_change, name: 2WoW Change}, {axisId: sales_alert.net_sales_1y_change,
-            id: sales_alert.net_sales_1y_change, name: YoY Change}], showLabels: true,
-        showValues: true, valueFormat: '0, "K"', unpinAxis: false, tickDensity: default,
-        tickDensityCustom: 5, type: linear}]
-    series_types: {}
-    series_labels:
-      sales_alert.net_sales_1w_change: WoW Change
-      sales_alert.net_sales_2w_change: 2WoW Change
-      sales_alert.net_sales_1y_change: YoY Change
-    defaults_version: 1
-    hidden_fields: [sales_alert.alert_required]
-    listen: {}
-    row: 38
-    col: 12
-    width: 12
-    height: 7
-  - title: Contact Centre
-    name: Contact Centre
-    model: ts_alerts
-    explore: sales_alert
-    type: looker_column
-    fields: [sales_alert.net_sales_1w_change, sales_alert.net_sales_2w_change, sales_alert.net_sales_1y_change,
-      sales_alert.alert_required, sales_alert.date_date]
-    fill_fields: [sales_alert.date_date]
-    filters:
-      sales_alert.sales_channel: Contact Centre
-      sales_alert.minimum_deviation: '0.05'
-      sales_alert.date_date: 14 days ago for 14 days
-    sorts: [sales_alert.date_date desc]
-    limit: 500
-    x_axis_gridlines: false
-    y_axis_gridlines: true
-    show_view_names: false
-    show_y_axis_labels: true
-    show_y_axis_ticks: true
-    y_axis_tick_density: default
-    y_axis_tick_density_custom: 5
-    show_x_axis_label: false
-    show_x_axis_ticks: true
-    y_axis_scale_mode: linear
-    x_axis_reversed: false
-    y_axis_reversed: false
-    plot_size_by_field: false
-    trellis: ''
-    stacking: ''
-    limit_displayed_rows: false
-    legend_position: center
-    point_style: circle
-    show_value_labels: false
-    label_density: 25
-    x_axis_scale: time
-    y_axis_combined: true
-    ordering: none
-    show_null_labels: false
-    show_totals_labels: false
-    show_silhouette: false
-    totals_color: "#808080"
-    color_application:
-      collection_id: toolstation
-      palette_id: toolstation-categorical-0
-      options:
-        steps: 5
-    y_axes: [{label: '', orientation: left, series: [{axisId: sales_alert.net_sales_1w_change,
-            id: sales_alert.net_sales_1w_change, name: WoW Change}, {axisId: sales_alert.net_sales_2w_change,
-            id: sales_alert.net_sales_2w_change, name: 2WoW Change}, {axisId: sales_alert.net_sales_1y_change,
-            id: sales_alert.net_sales_1y_change, name: YoY Change}], showLabels: true,
-        showValues: true, valueFormat: '0, "K"', unpinAxis: false, tickDensity: default,
-        tickDensityCustom: 5, type: linear}]
-    series_types: {}
-    series_labels:
-      sales_alert.net_sales_1w_change: WoW Change
-      sales_alert.net_sales_2w_change: 2WoW Change
-      sales_alert.net_sales_1y_change: YoY Change
-    defaults_version: 1
-    hidden_fields: [sales_alert.alert_required]
-    listen: {}
-    row: 48
-    col: 0
-    width: 8
-    height: 7
-  - title: Dropship
-    name: Dropship
-    model: ts_alerts
-    explore: sales_alert
-    type: looker_column
-    fields: [sales_alert.net_sales_1w_change, sales_alert.net_sales_2w_change, sales_alert.net_sales_1y_change,
-      sales_alert.alert_required, sales_alert.date_date]
-    fill_fields: [sales_alert.date_date]
-    filters:
-      sales_alert.sales_channel: Dropship
-      sales_alert.minimum_deviation: '0.05'
-      sales_alert.date_date: 14 days ago for 14 days
-    sorts: [sales_alert.date_date desc]
-    limit: 500
-    x_axis_gridlines: false
-    y_axis_gridlines: true
-    show_view_names: false
-    show_y_axis_labels: true
-    show_y_axis_ticks: true
-    y_axis_tick_density: default
-    y_axis_tick_density_custom: 5
-    show_x_axis_label: false
-    show_x_axis_ticks: true
-    y_axis_scale_mode: linear
-    x_axis_reversed: false
-    y_axis_reversed: false
-    plot_size_by_field: false
-    trellis: ''
-    stacking: ''
-    limit_displayed_rows: false
-    legend_position: center
-    point_style: circle
-    show_value_labels: false
-    label_density: 25
-    x_axis_scale: time
-    y_axis_combined: true
-    ordering: none
-    show_null_labels: false
-    show_totals_labels: false
-    show_silhouette: false
-    totals_color: "#808080"
-    color_application:
-      collection_id: toolstation
-      palette_id: toolstation-categorical-0
-      options:
-        steps: 5
-    y_axes: [{label: '', orientation: left, series: [{axisId: sales_alert.net_sales_1w_change,
-            id: sales_alert.net_sales_1w_change, name: WoW Change}, {axisId: sales_alert.net_sales_2w_change,
-            id: sales_alert.net_sales_2w_change, name: 2WoW Change}, {axisId: sales_alert.net_sales_1y_change,
-            id: sales_alert.net_sales_1y_change, name: YoY Change}], showLabels: true,
-        showValues: true, valueFormat: '0, "K"', unpinAxis: false, tickDensity: default,
-        tickDensityCustom: 5, type: linear}]
-    series_types: {}
-    series_labels:
-      sales_alert.net_sales_1w_change: WoW Change
-      sales_alert.net_sales_2w_change: 2WoW Change
-      sales_alert.net_sales_1y_change: YoY Change
-    defaults_version: 1
-    hidden_fields: [sales_alert.alert_required]
-    listen: {}
-    row: 48
-    col: 8
-    width: 8
-    height: 7
-  - title: eBay
-    name: eBay
-    model: ts_alerts
-    explore: sales_alert
-    type: looker_column
-    fields: [sales_alert.net_sales_1w_change, sales_alert.net_sales_2w_change, sales_alert.net_sales_1y_change,
-      sales_alert.alert_required, sales_alert.date_date]
-    fill_fields: [sales_alert.date_date]
-    filters:
-      sales_alert.sales_channel: eBay
-      sales_alert.minimum_deviation: '0.05'
-      sales_alert.date_date: 14 days ago for 14 days
-    sorts: [sales_alert.date_date desc]
-    limit: 500
-    x_axis_gridlines: false
-    y_axis_gridlines: true
-    show_view_names: false
-    show_y_axis_labels: true
-    show_y_axis_ticks: true
-    y_axis_tick_density: default
-    y_axis_tick_density_custom: 5
-    show_x_axis_label: false
-    show_x_axis_ticks: true
-    y_axis_scale_mode: linear
-    x_axis_reversed: false
-    y_axis_reversed: false
-    plot_size_by_field: false
-    trellis: ''
-    stacking: ''
-    limit_displayed_rows: false
-    legend_position: center
-    point_style: circle
-    show_value_labels: false
-    label_density: 25
-    x_axis_scale: time
-    y_axis_combined: true
-    ordering: none
-    show_null_labels: false
-    show_totals_labels: false
-    show_silhouette: false
-    totals_color: "#808080"
-    color_application:
-      collection_id: toolstation
-      palette_id: toolstation-categorical-0
-      options:
-        steps: 5
-    y_axes: [{label: '', orientation: left, series: [{axisId: sales_alert.net_sales_1w_change,
-            id: sales_alert.net_sales_1w_change, name: WoW Change}, {axisId: sales_alert.net_sales_2w_change,
-            id: sales_alert.net_sales_2w_change, name: 2WoW Change}, {axisId: sales_alert.net_sales_1y_change,
-            id: sales_alert.net_sales_1y_change, name: YoY Change}], showLabels: true,
-        showValues: true, valueFormat: '0, "K"', unpinAxis: false, tickDensity: default,
-        tickDensityCustom: 5, type: linear}]
-    series_types: {}
-    series_labels:
-      sales_alert.net_sales_1w_change: WoW Change
-      sales_alert.net_sales_2w_change: 2WoW Change
-      sales_alert.net_sales_1y_change: YoY Change
-    defaults_version: 1
-    hidden_fields: [sales_alert.alert_required]
-    listen: {}
-    row: 48
-    col: 16
-    width: 8
-    height: 7
-  - title: Channel Alerter - WEBHOOK TESTING
-    name: Channel Alerter - WEBHOOK TESTING
-    model: ts_alerts
-    explore: sales_alert
-    type: single_value
-    fields: [sales_alert.sales_channel, sales_alert.alert_required]
-    pivots: [sales_alert.sales_channel]
-    filters:
-      sales_alert.date_date: 1 days ago for 1 days
-      sales_alert.1_week_deviation_parameter: 'YES'
-      sales_alert.1_year_deviation_parameter: 'NO'
-      sales_alert.2_week_deviation_parameter: 'YES'
-      sales_alert.minimum_deviation: '0.05'
-    sorts: [sales_alert.alert_required desc 0, sales_alert.sales_channel]
-    limit: 500
-    dynamic_fields: [{category: table_calculation, expression: 'pivot_row(${sales_alert.alert_required})',
-        label: Testing Flags, value_format: !!null '', value_format_name: !!null '',
-        _kind_hint: supermeasure, table_calculation: testing_flags, _type_hint: number_list,
-        is_disabled: true}, {category: table_calculation, expression: 'pivot_row(${sales_alert.sales_channel})',
-        label: Test 2, value_format: !!null '', value_format_name: !!null '', _kind_hint: supermeasure,
-        table_calculation: test_2, _type_hint: string_list, is_disabled: true}, {
-        category: table_calculation, expression: "\nif(\n  \n  ${sales_alert.alert_required}\
-          \ != 0,\n  concat(${sales_alert.sales_channel},\":\",${sales_alert.alert_required}),\n\
-          \  null\n  \n)", label: New Calculation, value_format: !!null '', value_format_name: !!null '',
-        _kind_hint: measure, table_calculation: new_calculation, _type_hint: string},
-      {category: table_calculation, expression: 'replace(replace(replace(to_string(pivot_row(${new_calculation})),",,",","),":1",":
-          Yes"),","," | ")', label: New Calculation OUT, value_format: !!null '',
-        value_format_name: !!null '', _kind_hint: supermeasure, table_calculation: new_calculation_out,
-        _type_hint: string}]
-    custom_color_enabled: true
-    show_single_value_title: true
-    show_comparison: false
-    comparison_type: value
-    comparison_reverse_colors: false
-    show_comparison_label: true
-    enable_conditional_formatting: true
-    conditional_formatting_include_totals: false
-    conditional_formatting_include_nulls: false
-    color_application:
-      collection_id: toolstation
-      palette_id: toolstation-categorical-0
-    conditional_formatting: []
-    x_axis_gridlines: false
-    y_axis_gridlines: true
-    show_view_names: false
-    show_y_axis_labels: true
-    show_y_axis_ticks: true
-    y_axis_tick_density: default
-    y_axis_tick_density_custom: 5
-    show_x_axis_label: true
-    show_x_axis_ticks: true
-    y_axis_scale_mode: linear
-    x_axis_reversed: false
-    y_axis_reversed: false
-    plot_size_by_field: false
-    trellis: ''
-    stacking: ''
-    limit_displayed_rows: false
-    legend_position: center
-    point_style: none
-    show_value_labels: false
-    label_density: 25
-    x_axis_scale: auto
-    y_axis_combined: true
-    ordering: none
-    show_null_labels: false
-    show_totals_labels: false
-    show_silhouette: false
-    totals_color: "#808080"
-    defaults_version: 1
-    series_types: {}
-    show_row_numbers: true
-    transpose: false
-    truncate_text: true
-    hide_totals: false
-    hide_row_totals: false
-    size_to_fit: true
-    table_theme: white
-    header_text_alignment: left
-    header_font_size: 12
-    rows_font_size: 12
-    hidden_fields: [sales_alert.alert_required, new_calculation]
-    listen: {}
-    row: 45
-    col: 0
-    width: 24
-    height: 3
-  - name: " (7)"
-    type: text
-    title_text: ''
-    subtitle_text: ''
-    body_text: |-
-      Could we have ID'd the issue with IT?
 
-      Number of Transactions
-      Number of Customers
-      Units
-      AOV
-    row: 55
-    col: 0
-    width: 8
-    height: 3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  filters:
+  - name: Sales Channel
+    title: Sales Channel
+    type: field_filter
+    default_value: ''
+    allow_multiple_values: true
+    required: false
+    ui_config:
+      type: button_group
+      display: inline
+      options: []
+    model: ts_alerts
+    explore: sales_alerts
+    listens_to_filters: []
+    field: sales_alerts.sales_channel

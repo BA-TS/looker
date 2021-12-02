@@ -1,4 +1,4 @@
-view: sales_alert_v2 {
+view: sales_alerts {
 
   sql_table_name:
 
