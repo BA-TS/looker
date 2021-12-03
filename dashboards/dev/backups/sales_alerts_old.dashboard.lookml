@@ -86,7 +86,7 @@
       sales_alerts.net_sales_yoy_percent]
     fill_fields: [sales_alerts.date_date]
     filters:
-      sales_alerts.date_date: 28 days ago for 28 days
+      sales_alerts.date_date: 14 days ago for 14 days
     sorts: [sales_alerts.date_date desc]
     limit: 500
     x_axis_gridlines: false
@@ -132,7 +132,7 @@
     title_hidden: true
     listen:
       Sales Channel: sales_alerts.sales_channel
-    row: 12
+    row: 10
     col: 0
     width: 24
     height: 8
@@ -144,6 +144,498 @@
     col: 0
     width: 24
     height: 2
+  - name: " (2)"
+    type: text
+    title_text: ''
+    body_text: "# vs LW"
+    row: 18
+    col: 0
+    width: 12
+    height: 2
+  - title: WoW Performance Change (Past 14 Days)
+    name: WoW Performance Change (Past 14 Days)
+    model: ts_alerts
+    explore: sales_alerts
+    type: looker_column
+    fields: [sales_alerts.net_sales_wow_change, sales_alerts.date_date]
+    fill_fields: [sales_alerts.date_date]
+    filters:
+      sales_alerts.date_date: 14 days ago for 14 days
+    sorts: [sales_alerts.date_date desc]
+    limit: 500
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_view_names: false
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: false
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    point_style: none
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: auto
+    y_axis_combined: true
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    color_application:
+      collection_id: toolstation
+      palette_id: toolstation-categorical-0
+      options:
+        steps: 5
+    y_axes: [{label: '', orientation: left, series: [{axisId: sales_alerts.net_sales_wow_change,
+            id: sales_alerts.net_sales_wow_change, name: WoW Change £}], showLabels: false,
+        showValues: true, unpinAxis: false, tickDensity: default, tickDensityCustom: 5,
+        type: linear}]
+    series_types: {}
+    reference_lines: [{reference_type: line, line_value: '0', range_start: max, range_end: min,
+        margin_top: deviation, margin_value: mean, margin_bottom: deviation, label_position: right,
+        color: "#000000"}]
+    show_null_points: true
+    interpolation: linear
+    defaults_version: 1
+    listen:
+      Sales Channel: sales_alerts.sales_channel
+    row: 20
+    col: 0
+    width: 12
+    height: 7
+  - title: 2WoW Performance Change (Past 14 Days)
+    name: 2WoW Performance Change (Past 14 Days)
+    model: ts_alerts
+    explore: sales_alerts
+    type: looker_column
+    fields: [sales_alerts.date_date, sales_alerts.net_sales_2wow_change]
+    fill_fields: [sales_alerts.date_date]
+    filters:
+      sales_alerts.date_date: 14 days ago for 14 days
+    sorts: [sales_alerts.date_date desc]
+    limit: 500
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_view_names: false
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: false
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    point_style: none
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: auto
+    y_axis_combined: true
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    color_application:
+      collection_id: toolstation
+      palette_id: toolstation-categorical-0
+      options:
+        steps: 5
+    y_axes: [{label: '', orientation: left, series: [{axisId: sales_alerts.net_sales_wow_change,
+            id: sales_alerts.net_sales_wow_change, name: WoW Change £}], showLabels: false,
+        showValues: true, unpinAxis: false, tickDensity: default, tickDensityCustom: 5,
+        type: linear}]
+    series_types: {}
+    reference_lines: [{reference_type: line, line_value: '0', range_start: max, range_end: min,
+        margin_top: deviation, margin_value: mean, margin_bottom: deviation, label_position: right,
+        color: "#000000"}]
+    show_null_points: true
+    interpolation: linear
+    defaults_version: 1
+    listen:
+      Sales Channel: sales_alerts.sales_channel
+    row: 20
+    col: 12
+    width: 12
+    height: 7
+  - name: " (3)"
+    type: text
+    title_text: ''
+    body_text: "# vs LY"
+    row: 27
+    col: 0
+    width: 24
+    height: 2
+  - name: " (4)"
+    type: text
+    title_text: ''
+    body_text: "# vs 2LW"
+    row: 18
+    col: 12
+    width: 12
+    height: 2
+  - title: YoY Performance Change (Past 28 Days)
+    name: YoY Performance Change (Past 28 Days)
+    model: ts_alerts
+    explore: sales_alerts
+    type: looker_column
+    fields: [sales_alerts.date_date, sales_alerts.net_sales_yoy_change]
+    fill_fields: [sales_alerts.date_date]
+    filters:
+      sales_alerts.date_date: 28 days ago for 28 days
+    sorts: [sales_alerts.date_date desc]
+    limit: 500
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_view_names: false
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: false
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    point_style: none
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: auto
+    y_axis_combined: true
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    color_application:
+      collection_id: toolstation
+      palette_id: toolstation-categorical-0
+      options:
+        steps: 5
+    y_axes: [{label: '', orientation: left, series: [{axisId: sales_alerts.net_sales_wow_change,
+            id: sales_alerts.net_sales_wow_change, name: WoW Change £}], showLabels: false,
+        showValues: true, unpinAxis: false, tickDensity: default, tickDensityCustom: 5,
+        type: linear}]
+    series_types: {}
+    reference_lines: [{reference_type: line, line_value: '0', range_start: max, range_end: min,
+        margin_top: deviation, margin_value: mean, margin_bottom: deviation, label_position: right,
+        color: "#000000"}]
+    show_null_points: true
+    interpolation: linear
+    defaults_version: 1
+    listen:
+      Sales Channel: sales_alerts.sales_channel
+    row: 29
+    col: 0
+    width: 24
+    height: 7
+  - name: " (5)"
+    type: text
+    title_text: ''
+    body_text: "# Channel Performance"
+    row: 36
+    col: 0
+    width: 24
+    height: 2
+  - title: Branch and EPOS
+    name: Branch and EPOS
+    model: ts_alerts
+    explore: sales_alerts
+    type: looker_column
+    fields: [sales_alerts.date_date, sales_alerts.net_sales_wow_change, sales_alerts.net_sales_2wow_change,
+      sales_alerts.net_sales_yoy_change]
+    fill_fields: [sales_alerts.date_date]
+    filters:
+      sales_alerts.date_date: 14 days ago for 14 days
+      sales_alerts.sales_channel: Branches,EposAv,EposEr
+    sorts: [sales_alerts.date_date desc]
+    limit: 500
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_view_names: false
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    point_style: none
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: time
+    y_axis_combined: true
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    color_application:
+      collection_id: toolstation
+      palette_id: toolstation-categorical-0
+      options:
+        steps: 5
+    trellis_rows: 2
+    series_types: {}
+    series_colors:
+      EposAv - sales_alerts.net_sales_wow_change: "#0072F0"
+    show_dropoff: false
+    defaults_version: 1
+    listen: {}
+    row: 38
+    col: 0
+    width: 12
+    height: 7
+  - title: Click & Collect and Web
+    name: Click & Collect and Web
+    model: ts_alerts
+    explore: sales_alerts
+    type: looker_column
+    fields: [sales_alerts.date_date, sales_alerts.net_sales_wow_change, sales_alerts.net_sales_2wow_change,
+      sales_alerts.net_sales_yoy_change]
+    fill_fields: [sales_alerts.date_date]
+    filters:
+      sales_alerts.date_date: 14 days ago for 14 days
+      sales_alerts.sales_channel: Click & Collect,Web
+    sorts: [sales_alerts.date_date desc]
+    limit: 500
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_view_names: false
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    point_style: none
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: time
+    y_axis_combined: true
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    color_application:
+      collection_id: toolstation
+      palette_id: toolstation-categorical-0
+      options:
+        steps: 5
+    trellis_rows: 2
+    series_types: {}
+    series_colors:
+      EposAv - sales_alerts.net_sales_wow_change: "#0072F0"
+    show_dropoff: false
+    defaults_version: 1
+    listen: {}
+    row: 38
+    col: 12
+    width: 12
+    height: 7
+  - title: Contact Centre
+    name: Contact Centre
+    model: ts_alerts
+    explore: sales_alerts
+    type: looker_column
+    fields: [sales_alerts.date_date, sales_alerts.net_sales_wow_change, sales_alerts.net_sales_2wow_change,
+      sales_alerts.net_sales_yoy_change]
+    fill_fields: [sales_alerts.date_date]
+    filters:
+      sales_alerts.date_date: 14 days ago for 14 days
+      sales_alerts.sales_channel: Contact Centre
+    sorts: [sales_alerts.date_date desc]
+    limit: 500
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_view_names: false
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    point_style: none
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: time
+    y_axis_combined: true
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    color_application:
+      collection_id: toolstation
+      palette_id: toolstation-categorical-0
+      options:
+        steps: 5
+    trellis_rows: 2
+    series_types: {}
+    series_colors:
+      EposAv - sales_alerts.net_sales_wow_change: "#0072F0"
+    show_dropoff: false
+    defaults_version: 1
+    listen: {}
+    row: 45
+    col: 0
+    width: 8
+    height: 7
+  - title: Dropship
+    name: Dropship
+    model: ts_alerts
+    explore: sales_alerts
+    type: looker_column
+    fields: [sales_alerts.date_date, sales_alerts.net_sales_wow_change, sales_alerts.net_sales_2wow_change,
+      sales_alerts.net_sales_yoy_change]
+    fill_fields: [sales_alerts.date_date]
+    filters:
+      sales_alerts.date_date: 14 days ago for 14 days
+      sales_alerts.sales_channel: Dropship
+    sorts: [sales_alerts.date_date desc]
+    limit: 500
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_view_names: false
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    point_style: none
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: time
+    y_axis_combined: true
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    color_application:
+      collection_id: toolstation
+      palette_id: toolstation-categorical-0
+      options:
+        steps: 5
+    trellis_rows: 2
+    series_types: {}
+    series_colors:
+      EposAv - sales_alerts.net_sales_wow_change: "#0072F0"
+    show_dropoff: false
+    defaults_version: 1
+    listen: {}
+    row: 45
+    col: 8
+    width: 8
+    height: 7
+  - title: eBay
+    name: eBay
+    model: ts_alerts
+    explore: sales_alerts
+    type: looker_column
+    fields: [sales_alerts.date_date, sales_alerts.net_sales_wow_change, sales_alerts.net_sales_2wow_change,
+      sales_alerts.net_sales_yoy_change]
+    fill_fields: [sales_alerts.date_date]
+    filters:
+      sales_alerts.date_date: 14 days ago for 14 days
+      sales_alerts.sales_channel: eBay
+    sorts: [sales_alerts.date_date desc]
+    limit: 500
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_view_names: false
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    point_style: none
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: time
+    y_axis_combined: true
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    color_application:
+      collection_id: toolstation
+      palette_id: toolstation-categorical-0
+      options:
+        steps: 5
+    trellis_rows: 2
+    series_types: {}
+    series_colors:
+      EposAv - sales_alerts.net_sales_wow_change: "#0072F0"
+    show_dropoff: false
+    defaults_version: 1
+    listen: {}
+    row: 45
+    col: 16
+    width: 8
+    height: 7
   - title: Untitled
     name: Untitled (2)
     model: ts_alerts
@@ -274,11 +766,11 @@
     col: 0
     width: 24
     height: 5
-  - name: " (2)"
+  - name: " (6)"
     type: text
     title_text: ''
     body_text: "# Past 28 Days #"
-    row: 10
+    row: 52
     col: 0
     width: 24
     height: 2
@@ -1003,12 +1495,11 @@
         is_numeric: true
       pivots: []
     title_hidden: true
-    listen:
-      Sales Channel: sales_alerts.sales_channel
-    row: 20
+    listen: {}
+    row: 54
     col: 0
     width: 24
-    height: 16
+    height: 6
   filters:
   - name: Sales Channel
     title: Sales Channel
