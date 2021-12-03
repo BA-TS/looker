@@ -220,27 +220,45 @@
       sales_alerts.net_sales_value:
         name: gbp
         decimals: '2'
-        format_string: '"£"#,##0.00'
-        label: British Pounds (2)
+        format_string: '"£"#,##0'
+        label: British Pounds (0)
         label_prefix: British Pounds
       sales_alerts.net_sales_wow_change:
         name: gbp
         decimals: '2'
-        format_string: '"£"#,##0.00'
-        label: British Pounds (2)
+        format_string: '"£"#,##0'
+        label: British Pounds (0)
         label_prefix: British Pounds
+      sales_alerts.net_sales_wow_percent:
+        name: percent_1
+        decimals: '1'
+        format_string: "#,##0.0%"
+        label: Percent (1)
+        label_prefix: Percent
       sales_alerts.net_sales_2wow_change:
         name: gbp
         decimals: '2'
-        format_string: '"£"#,##0.00'
-        label: British Pounds (2)
+        format_string: '"£"#,##0'
+        label: British Pounds (0)
         label_prefix: British Pounds
+      sales_alerts.net_sales_2wow_percent:
+        name: percent_1
+        decimals: '1'
+        format_string: "#,##0.0%"
+        label: Percent (1)
+        label_prefix: Percent
       sales_alerts.net_sales_yoy_change:
         name: gbp
         decimals: '2'
-        format_string: '"£"#,##0.00'
-        label: British Pounds (2)
+        format_string: '"£"#,##0'
+        label: British Pounds (0)
         label_prefix: British Pounds
+      sales_alerts.net_sales_yoy_percent:
+        name: percent_1
+        decimals: '1'
+        format_string: "#,##0.0%"
+        label: Percent (1)
+        label_prefix: Percent
     x_axis_gridlines: false
     y_axis_gridlines: true
     show_y_axis_labels: true
