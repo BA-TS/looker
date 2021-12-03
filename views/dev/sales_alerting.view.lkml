@@ -16,6 +16,11 @@ view: sales_alerts {
     sql: 1 ;;
     hidden: yes
   }
+  dimension: ok {
+    type: number
+    sql: 0 ;;
+    hidden: yes
+  }
 
   #############################################################
 
@@ -215,10 +220,14 @@ view: sales_alerts {
   }
   measure: any_flag {
     type: number
-    label: "Any Warning"
+    label: "Overall Warning"
     sql:
 
-    if (${wow_flag} = ${flag} or ${2wow_flag} = ${flag} or ${yoy_flag} = ${flag}, ${flag}, 0)
+    if (
+        if (${wow_flag} = ${flag}, ${flag}, ${ok})+
+        if (${2wow_flag} = ${flag}, ${flag}, ${ok})+
+        if (${yoy_flag} = ${flag}, ${flag}, ${ok})
+       >= 2, ${flag}, ${ok})
 
     ;;
   }
