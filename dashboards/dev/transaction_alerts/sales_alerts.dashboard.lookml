@@ -142,7 +142,7 @@
     body_text: "# Overall"
     row: 0
     col: 0
-    width: 22
+    width: 20
     height: 2
   - title: ''
     name: Date_Prompt
@@ -155,8 +155,8 @@
     sorts: [base.date_date desc]
     limit: 1
     row: 0
-    col: 22
-    width: 2
+    col: 20
+    width: 4
     height: 2
 
 
