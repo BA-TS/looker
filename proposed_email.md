@@ -92,7 +92,7 @@
 <tr>
 <td style="overflow-wrap: break-word; word-break: break-word; padding: 0px 10px 0px; font-family: 'Playfair Display',serif;" align="left">
 <div style="line-height: 190%; text-align: left; word-wrap: break-word;">
-<p style="font-size: 14px; line-height: 190%;"><span style="font-family: arial, helvetica, sans-serif; font-size: 14px; line-height: 26.6px; background-color: #169179;"><strong><span style="font-size: 14px; line-height: 26.6px; color: #ffffff; background-color: #169179;">&nbsp; &nbsp;TBC&nbsp; &nbsp;</span></strong></span><br /><span style="color: #34495e; font-family: arial, helvetica, sans-serif; font-size: 14px; line-height: 26.6px;"><strong>Click <span style="font-size: 14px; line-height: 26.6px;"><a href="https://docs.google.com/presentation/d/1Q1kRuqBOVl4lmekCnVcrZJnAsP9Jx55hji6OqLUFY4w/edit#slide=id.g10209598302_0_21" target="_blank" rel="noopener">here</a> </span></strong><strong>to access the 'Getting Started' guide.</strong></span></p>
+<p style="font-size: 14px; line-height: 190%;"><span style="font-family: arial, helvetica, sans-serif; font-size: 14px; line-height: 26.6px; background-color: #169179;"><strong><span style="font-size: 14px; line-height: 26.6px; color: #ffffff; background-color: #169179;">&nbsp; &nbsp;TBC&nbsp; &nbsp;</span></strong></span><br /><span style="color: #34495e; font-family: arial, helvetica, sans-serif; font-size: 14px; line-height: 26.6px;"><strong>TBC</strong></span></p>
 </div>
 </td>
 </tr>
@@ -225,7 +225,7 @@
 <tr>
 <td style="overflow-wrap: break-word; word-break: break-word; padding: 0px 10px 0px; font-family: 'Playfair Display',serif;" align="left">
 <div style="line-height: 190%; text-align: left; word-wrap: break-word;">
-<p style="font-size: 14px; line-height: 190%;"><span style="font-family: arial, helvetica, sans-serif; font-size: 14px; line-height: 26.6px; background-color: #169179;"><strong><span style="font-size: 14px; line-height: 26.6px; color: #ffffff; background-color: #169179;">&nbsp; &nbsp;Access Training Material&nbsp; &nbsp;</span></strong></span><br /><span style="color: #34495e; font-family: arial, helvetica, sans-serif; font-size: 14px; line-height: 26.6px;"><strong>Click <span style="font-size: 14px; line-height: 26.6px;"><a href="https://docs.google.com/presentation/d/1Q1kRuqBOVl4lmekCnVcrZJnAsP9Jx55hji6OqLUFY4w/edit#slide=id.g10209598302_0_21" target="_blank" rel="noopener">here</a> </span></strong><strong>to access the 'Getting Started' guide.</strong></span></p>
+<p style="font-size: 14px; line-height: 190%;"><span style="font-family: arial, helvetica, sans-serif; font-size: 14px; line-height: 26.6px; background-color: #169179;"><strong><span style="font-size: 14px; line-height: 26.6px; color: #ffffff; background-color: #169179;">&nbsp; &nbsp;TBC&nbsp; &nbsp;</span></strong></span><br /><span style="color: #34495e; font-family: arial, helvetica, sans-serif; font-size: 14px; line-height: 26.6px;"><strong>TBC</strong></span></p>
 </div>
 </td>
 </tr>
@@ -291,7 +291,7 @@
 <tr>
 <td style="overflow-wrap: break-word; word-break: break-word; padding: 0px 10px 0px; font-family: 'Playfair Display',serif;" align="left">
 <div style="line-height: 190%; text-align: left; word-wrap: break-word;">
-<p style="font-size: 14px; line-height: 190%;"><span style="font-family: arial, helvetica, sans-serif; font-size: 14px; line-height: 26.6px; background-color: #169179;"><strong><span style="font-size: 14px; line-height: 26.6px; color: #ffffff; background-color: #169179;">&nbsp; &nbsp;Access Training Material&nbsp; &nbsp;</span></strong></span><br /><span style="color: #34495e; font-family: arial, helvetica, sans-serif; font-size: 14px; line-height: 26.6px;"><strong>Click <span style="font-size: 14px; line-height: 26.6px;"><a href="https://docs.google.com/presentation/d/1Q1kRuqBOVl4lmekCnVcrZJnAsP9Jx55hji6OqLUFY4w/edit#slide=id.g10209598302_0_21" target="_blank" rel="noopener">here</a> </span></strong><strong>to access the 'Getting Started' guide.</strong></span></p>
+<p style="font-size: 14px; line-height: 190%;"><span style="font-family: arial, helvetica, sans-serif; font-size: 14px; line-height: 26.6px; background-color: #169179;"><strong><span style="font-size: 14px; line-height: 26.6px; color: #ffffff; background-color: #169179;">&nbsp; &nbsp;TBC&nbsp; &nbsp;</span></strong></span><br /><span style="color: #34495e; font-family: arial, helvetica, sans-serif; font-size: 14px; line-height: 26.6px;"><strong>TBC</strong></span></p>
 </div>
 </td>
 </tr>
@@ -357,7 +357,7 @@
 <tr>
 <td style="overflow-wrap: break-word; word-break: break-word; padding: 0px 10px 0px; font-family: 'Playfair Display',serif;" align="left">
 <div style="line-height: 190%; text-align: left; word-wrap: break-word;">
-<p style="font-size: 14px; line-height: 190%;"><span style="font-family: arial, helvetica, sans-serif; font-size: 14px; line-height: 26.6px; background-color: #169179;"><strong><span style="font-size: 14px; line-height: 26.6px; color: #ffffff; background-color: #169179;">&nbsp; &nbsp;Access Training Material&nbsp; &nbsp;</span></strong></span><br /><span style="color: #34495e; font-family: arial, helvetica, sans-serif; font-size: 14px; line-height: 26.6px;"><strong>Click <span style="font-size: 14px; line-height: 26.6px;"><a href="https://docs.google.com/presentation/d/1Q1kRuqBOVl4lmekCnVcrZJnAsP9Jx55hji6OqLUFY4w/edit#slide=id.g10209598302_0_21" target="_blank" rel="noopener">here</a> </span></strong><strong>to access the 'Getting Started' guide.</strong></span></p>
+<p style="font-size: 14px; line-height: 190%;"><span style="font-family: arial, helvetica, sans-serif; font-size: 14px; line-height: 26.6px; background-color: #169179;"><strong><span style="font-size: 14px; line-height: 26.6px; color: #ffffff; background-color: #169179;">&nbsp; &nbsp;TBC&nbsp; &nbsp;</span></strong></span><br /><span style="color: #34495e; font-family: arial, helvetica, sans-serif; font-size: 14px; line-height: 26.6px;"><strong>TBC</strong></span></p>
 </div>
 </td>
 </tr>
