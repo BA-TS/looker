@@ -5,5 +5,6 @@ include: "/views/**/*.view"
 # }
 
 explore: sales_alerts { # sales_alert_v2
+  required_access_grants: [is_developer, is_super]
   label: "Sales Alerts"
 }

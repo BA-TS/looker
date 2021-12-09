@@ -1,6 +1,7 @@
 include: "/views/**/*.view"
 
 explore: stock_intake {
+  required_access_grants: [is_developer, is_super]
   join: products {
     type:  inner
     relationship: many_to_one

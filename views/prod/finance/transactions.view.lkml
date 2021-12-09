@@ -402,21 +402,21 @@ dimension_group: order_completed {
   dimension: promo_in_main_catalogue {
     label: "In Main Catalogue"
     group_label: "Promo"
-    required_access_grants: [is_expert]
+    required_access_grants: [is_developer]
     type: yesno
     sql: case when ${promo_main_catalogue.product_code} is null then false else true end ;;
   }
   dimension: promo_in_extra {
     label: "In Extra"
     group_label: "Promo"
-    required_access_grants: [is_expert]
+    required_access_grants: [is_developer]
     type: yesno
     sql: case when ${promo_extra.product_code} is null then false else true end ;;
   }
   dimension: promo_in_any {
     label: "In Any"
     group_label: "Promo"
-    required_access_grants: [is_expert]
+    required_access_grants: [is_developer]
     type: yesno
     sql: case when ${promo_main_catalogue.product_code} is null and ${promo_extra.product_code} is null then false else true end ;;
   }
@@ -455,6 +455,9 @@ dimension_group: order_completed {
 # ╚═╝░░╚═╝╚═╝╚═════╝░╚═════╝░╚══════╝╚═╝░░╚══╝
 
   measure: net_sales_promo_mix {
+    required_access_grants: [is_developer]
+    view_label: "Measures"
+    group_label: "Promo"
     type: number
     sql:
               sum(CASE
@@ -468,8 +471,10 @@ dimension_group: order_completed {
     hidden: yes
   }
   measure: margin_rate_promo {
+    required_access_grants: [is_developer]
+    view_label: "Measures"
+    group_label: "Promo"
     type: number
-    group_label: "Margin"
     sql:
 
               sum(CASE
@@ -484,8 +489,130 @@ dimension_group: order_completed {
               END)
               ;;
     value_format: "##0.0%;(##0.0%)"
-    hidden: yes
+    # hidden: yes
   }
+  measure: total_gross_sales_promo {
+    required_access_grants: [is_developer]
+    view_label: "Measures"
+    group_label: "Promo"
+    type: number
+    sql:
+
+    CASE
+      WHEN ${promo_in_any}
+        THEN ${total_gross_sales_main} + ${total_gross_sales_extra}
+      ELSE 0
+    END
+
+    ;;
+    # hidden: yes
+  }
+  measure: total_net_sales_promo {
+    required_access_grants: [is_developer]
+    view_label: "Measures"
+    group_label: "Promo"
+    description: "This needs fixing! 28/10"
+    type: sum
+    sql:
+
+    CASE
+      WHEN ${promo_in_any}
+        THEN ${net_sales_value}
+      ELSE 0
+    END
+
+    ;;
+    # hidden: yes
+  }
+  measure: total_margin_excl_funding_promo {
+    required_access_grants: [is_developer]
+    view_label: "Measures"
+    group_label: "Promo"
+    type: number
+    sql:
+
+    CASE
+      WHEN ${promo_in_any}
+        THEN ${total_margin_excl_funding_main} + ${total_margin_excl_funding_extra}
+      ELSE 0
+    END
+
+    ;;
+    # hidden: yes
+  }
+  measure: total_margin_incl_funding_promo {
+    required_access_grants: [is_developer]
+    view_label: "Measures"
+    group_label: "Promo"
+    type: sum
+    sql:
+
+    CASE
+      WHEN ${promo_in_any}
+        THEN ${margin_incl_funding}
+      ELSE 0
+    END
+
+    ;;
+    # hidden: yes
+  }
+  measure: total_units_promo {
+    required_access_grants: [is_developer]
+    view_label: "Measures"
+    group_label: "Promo"
+    type: number
+    sql:
+
+    CASE
+      WHEN ${promo_in_any}
+        THEN ${total_units_main} + ${total_units_extra}
+      ELSE 0
+    END
+
+    ;;
+    # hidden: yes
+  }
+  measure: total_number_of_transactions_promo {
+    required_access_grants: [is_developer]
+    view_label: "Measures"
+    group_label: "Promo"
+    type: number
+    sql:
+
+    CASE
+      WHEN ${promo_in_any}
+        THEN ${total_number_of_transactions_main} + ${total_number_of_transactions_extra}
+      ELSE 0
+    END
+
+    ;;
+    # hidden: yes
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   measure: trade_net_margin {
     type: sum
     label: "Total Margin inc (Trade Only)"
@@ -1227,22 +1354,7 @@ dimension_group: order_completed {
     ;;
     hidden: yes
   }
-  measure: total_gross_sales_promo {
-    label: "Gross Sales (All)"
-    group_label: "Promo"
-    required_access_grants: [is_expert]
-    type: number
-    sql:
 
-    CASE
-      WHEN ${promo_in_any}
-        THEN ${total_gross_sales_main} + ${total_gross_sales_extra}
-      ELSE 0
-    END
-
-    ;;
-    hidden: yes
-  }
   measure: total_gross_sales_main_mix {
     label: "Gross Sales Main Mix (Trade)"
     group_label: "Promo"
@@ -1302,23 +1414,7 @@ dimension_group: order_completed {
     ;;
     hidden: yes
   }
-  measure: total_net_sales_promo {
-    label: "Net Sales (All)"
-    group_label: "Promo"
-    required_access_grants: [is_expert]
-    description: "This needs fixing! 28/10"
-    type: sum
-    sql:
 
-    CASE
-      WHEN ${promo_in_any}
-        THEN ${net_sales_value}
-      ELSE 0
-    END
-
-    ;;
-    hidden: yes
-  }
   measure: total_net_sales_main_mix {
     label: "Net Sales Main Mix (Trade)"
     group_label: "Promo"
@@ -1378,22 +1474,7 @@ dimension_group: order_completed {
     ;;
     hidden: yes
   }
-  measure: total_margin_excl_funding_promo {
-    label: "Margin Exc Funding  (All)"
-    group_label: "Promo"
-    required_access_grants: [is_expert]
-    type: number
-    sql:
 
-    CASE
-      WHEN ${promo_in_any}
-        THEN ${total_margin_excl_funding_main} + ${total_margin_excl_funding_extra}
-      ELSE 0
-    END
-
-    ;;
-    hidden: yes
-  }
   measure: total_margin_excl_funding_main_mix {
     label: "Margin Exc Funding Main Mix (Trade)"
     group_label: "Promo"
@@ -1452,22 +1533,7 @@ dimension_group: order_completed {
     ;;
     hidden: yes
   }
-  measure: total_margin_incl_funding_promo {
-    label: "Margin Inc Funding  (All)"
-    group_label: "Promo"
-    required_access_grants: [is_expert]
-    type: sum
-    sql:
 
-    CASE
-      WHEN ${promo_in_any}
-        THEN ${margin_incl_funding}
-      ELSE 0
-    END
-
-    ;;
-    hidden: yes
-  }
   measure: total_margin_incl_funding_main_mix {
     label: "Margin Inc Funding Main Mix (Trade)"
     group_label: "Promo"
@@ -1527,22 +1593,6 @@ dimension_group: order_completed {
     ;;
     hidden: yes
   }
-  measure: total_units_promo {
-    label: "Units  (All)"
-    group_label: "Promo"
-    required_access_grants: [is_expert]
-    type: number
-    sql:
-
-    CASE
-      WHEN ${promo_in_any}
-        THEN ${total_units_main} + ${total_units_extra}
-      ELSE 0
-    END
-
-    ;;
-    hidden: yes
-  }
   measure: total_units_main_mix {
     label: "Units Main Mix (Trade)"
     group_label: "Promo"
@@ -1596,22 +1646,6 @@ dimension_group: order_completed {
     CASE
       WHEN ${promo_in_extra}
         THEN ${number_of_transactions}
-      ELSE 0
-    END
-
-    ;;
-    hidden: yes
-  }
-  measure: total_number_of_transactions_promo {
-    label: "Transactions (All)"
-    group_label: "Promo"
-    required_access_grants: [is_expert]
-    type: number
-    sql:
-
-    CASE
-      WHEN ${promo_in_any}
-        THEN ${total_number_of_transactions_main} + ${total_number_of_transactions_extra}
       ELSE 0
     END
 

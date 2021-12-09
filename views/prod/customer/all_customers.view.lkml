@@ -2,6 +2,9 @@ include: "/views/prod/finance/transactions.view"
 include: "/views/prod/department_specific/crm/trade_customers.view"
 
 view: customers {
+
+  required_access_grants: [is_developer]
+
   sql_table_name:
 
   `toolstation-data-storage.customer.allCustomers`
