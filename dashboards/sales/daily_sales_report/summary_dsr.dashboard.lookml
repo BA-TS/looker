@@ -138,7 +138,6 @@
     col: 0
     width: 12
     height: 8
-
   - title: net_salesdayvalue
     name: net_salesdayvalue
     model: ts_sales
@@ -150,7 +149,6 @@
       base.select_fixed_range: PD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
-
     limit: 500
     custom_color_enabled: true
     show_single_value_title: true
@@ -167,8 +165,10 @@
     custom_color: ''
     single_value_title: Day
     value_format: '[>=1000000] [$£-en-GB] #,##0.00,, "M"; [>=1000] [$£-en-GB] #,##0.00,
-      "K"; [$£-en-GB] #,##0.00'
-    conditional_formatting: [{type: not null, value: 0, background_color: "#004f9f",
+      "K"; [=0] "No Data";[$£-en-GB] #,##0.00'
+    conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
+        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
+        bold: false, italic: false, strikethrough: false, fields: !!null ''},{type: not null, value: 0, background_color: "#004f9f",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: 'null',
         value: !!null '', background_color: "#FFE200", font_color: !!null '', color_application: {
@@ -329,7 +329,8 @@
       collection_id: toolstation
       palette_id: toolstation-categorical-0
     single_value_title: "% vs LY"
-    conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
+    value_format: '[=-1] "No Data";'
+    conditional_formatting: [{type: equal to, value: -1, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
           than, value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
@@ -399,7 +400,8 @@
       collection_id: toolstation
       palette_id: toolstation-categorical-0
     single_value_title: "% vs LY"
-    conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
+    value_format: '[=-1] "No Data";'
+    conditional_formatting: [{type: equal to, value: -1, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
           than, value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
@@ -468,7 +470,8 @@
       collection_id: toolstation
       palette_id: toolstation-categorical-0
     single_value_title: "% vs LY"
-    conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
+    value_format: '[=-1] "No Data";'
+    conditional_formatting: [{type: equal to, value: -1, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
           than, value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
@@ -537,7 +540,8 @@
       collection_id: toolstation
       palette_id: toolstation-categorical-0
     single_value_title: "% vs LY"
-    conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
+    value_format: '[=-1] "No Data";'
+    conditional_formatting: [{type: equal to, value: -1, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
           than, value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
@@ -606,7 +610,8 @@
       collection_id: toolstation
       palette_id: toolstation-categorical-0
     single_value_title: "% vs 2LY"
-    conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
+    value_format: '[=-1] "No Data";'
+    conditional_formatting: [{type: equal to, value: -1, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
           than, value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
@@ -676,7 +681,8 @@
       collection_id: toolstation
       palette_id: toolstation-categorical-0
     single_value_title: "% vs 2LY"
-    conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
+    value_format: '[=-1] "No Data";'
+    conditional_formatting: [{type: equal to, value: -1, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
           than, value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
@@ -746,7 +752,8 @@
       collection_id: toolstation
       palette_id: toolstation-categorical-0
     single_value_title: "% vs 2LY"
-    conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
+    value_format: '[=-1] "No Data";'
+    conditional_formatting: [{type: equal to, value: -1, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
           than, value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
@@ -817,7 +824,8 @@
       collection_id: toolstation
       palette_id: toolstation-categorical-0
     single_value_title: "% vs 2LY"
-    conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
+    value_format: '[=-1] "No Data";'
+    conditional_formatting: [{type: equal to, value: -1, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
           than, value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
@@ -1088,8 +1096,10 @@
       palette_id: toolstation-categorical-0
     custom_color: ''
     single_value_title: Day
-    value_format: ''
-    conditional_formatting: [{type: not null, value: 0, background_color: "#004f9f",
+    value_format: '[=0] "No Data";'
+    conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
+        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
+        bold: false, italic: false, strikethrough: false, fields: !!null ''},{type: not null, value: 0, background_color: "#004f9f",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: 'null',
         value: !!null '', background_color: "#FFE200", font_color: !!null '', color_application: {
@@ -1126,8 +1136,10 @@
       palette_id: toolstation-categorical-0
     custom_color: ''
     single_value_title: WTD
-    value_format: ''
-    conditional_formatting: [{type: not null, value: 0, background_color: "#004f9f",
+    value_format: '[=0] "No Data";'
+    conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
+        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
+        bold: false, italic: false, strikethrough: false, fields: !!null ''},{type: not null, value: 0, background_color: "#004f9f",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: 'null',
         value: !!null '', background_color: "#FFE200", font_color: !!null '', color_application: {
@@ -1165,8 +1177,10 @@
       palette_id: toolstation-categorical-0
     custom_color: ''
     single_value_title: MTD
-    value_format: ''
-    conditional_formatting: [{type: not null, value: 0, background_color: "#004f9f",
+    value_format: '[=0] "No Data";'
+    conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
+        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
+        bold: false, italic: false, strikethrough: false, fields: !!null ''},{type: not null, value: 0, background_color: "#004f9f",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: 'null',
         value: !!null '', background_color: "#FFE200", font_color: !!null '', color_application: {
@@ -1204,8 +1218,10 @@
       palette_id: toolstation-categorical-0
     custom_color: ''
     single_value_title: YTD
-    value_format: ''
-    conditional_formatting: [{type: not null, value: 0, background_color: "#004f9f",
+    value_format: '[=0] "No Data";'
+    conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
+        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
+        bold: false, italic: false, strikethrough: false, fields: !!null ''},{type: not null, value: 0, background_color: "#004f9f",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: 'null',
         value: !!null '', background_color: "#FFE200", font_color: !!null '', color_application: {
@@ -1215,6 +1231,59 @@
     listen: {}
     row: 21
     col: 12
+    width: 3
+    height: 2
+  - title: net_margindayvsLY
+    name: net_margindayvsLY
+    model: ts_sales
+    explore: base
+    type: single_value
+    fields: [base.date_year, transactions.total_margin_rate_incl_funding]
+    filters:
+      base.select_fixed_range: PD
+      base.select_comparison_period: Year
+      base.select_number_of_periods: '3'
+    sorts: [base.date_year desc]
+    limit: 500
+    dynamic_fields:
+    - category: table_calculation
+      expression: if(${transactions.total_margin_rate_incl_funding} = 0, -1, (${transactions.total_margin_rate_incl_funding} - offset(${transactions.total_margin_rate_incl_funding}, 1)))
+      label: "% vs LY"
+      value_format:
+      value_format_name: percent_1
+      _kind_hint: measure
+      table_calculation: vs_ly
+      _type_hint: number
+    custom_color_enabled: true
+    show_single_value_title: true
+    show_comparison: false
+    comparison_type: value
+    comparison_reverse_colors: false
+    show_comparison_label: true
+    enable_conditional_formatting: true
+    conditional_formatting_include_totals: false
+    conditional_formatting_include_nulls: false
+    color_application:
+      collection_id: toolstation
+      palette_id: toolstation-categorical-0
+    single_value_title: "%PTS vs LY"
+    value_format: '[=-1] "No Data";'
+    conditional_formatting: [{type: equal to, value: -1, background_color: "#FFE200",
+        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
+        bold: false, italic: false, strikethrough: false, fields: !!null ''},{type: equal to, value: 0, background_color: "#FFE200",
+        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
+        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
+          than, value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
+          collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
+        italic: false, strikethrough: false, fields: !!null ''}, {type: less than,
+        value: 0, background_color: "#d32f2f", font_color: !!null '', color_application: {
+          collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
+        italic: false, strikethrough: false, fields: !!null ''}]
+    hidden_fields: [transactions.total_margin_rate_incl_funding]
+    series_types: {}
+    defaults_version: 1
+    row: 15
+    col: 15
     width: 3
     height: 2
   - title: net_marginwtdvsLY
@@ -1229,10 +1298,15 @@
       base.select_number_of_periods: '3'
     sorts: [base.date_year desc]
     limit: 500
-    dynamic_fields: [{category: table_calculation, expression: "(${transactions.total_margin_rate_incl_funding}\
-          \ - offset(${transactions.total_margin_rate_incl_funding}, 1))", label: "%\
-          \ vs LY", value_format: !!null '', value_format_name: percent_1, _kind_hint: measure,
-        table_calculation: vs_ly, _type_hint: number}]
+    dynamic_fields:
+      - category: table_calculation
+        expression: if(${transactions.total_margin_rate_incl_funding} = 0, -1, (${transactions.total_margin_rate_incl_funding} - offset(${transactions.total_margin_rate_incl_funding}, 1)))
+        label: "% vs LY"
+        value_format:
+        value_format_name: percent_1
+        _kind_hint: measure
+        table_calculation: vs_ly
+        _type_hint: number
     custom_color_enabled: true
     show_single_value_title: true
     show_comparison: false
@@ -1246,7 +1320,10 @@
       collection_id: toolstation
       palette_id: toolstation-categorical-0
     single_value_title: "%PTS vs LY"
-    conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
+    value_format: '[=-1] "No Data";'
+    conditional_formatting: [{type: equal to, value: -1, background_color: "#FFE200",
+        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
+        bold: false, italic: false, strikethrough: false, fields: !!null ''},{type: equal to, value: 0, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
           than, value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
@@ -1291,7 +1368,10 @@
       collection_id: toolstation
       palette_id: toolstation-categorical-0
     single_value_title: "%PTS vs LY"
-    conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
+    value_format: '[=-1] "No Data";'
+    conditional_formatting: [{type: equal to, value: -1, background_color: "#FFE200",
+        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
+        bold: false, italic: false, strikethrough: false, fields: !!null ''},{type: equal to, value: 0, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
           than, value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
@@ -1305,97 +1385,6 @@
     defaults_version: 1
     row: 19
     col: 15
-    width: 3
-    height: 2
-  - title: net_margindayvsLY
-    name: net_margindayvsLY
-    model: ts_sales
-    explore: base
-    type: single_value
-    fields: [base.date_year, transactions.total_margin_rate_incl_funding]
-    filters:
-      base.select_fixed_range: PD
-      base.select_comparison_period: Year
-      base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
-    limit: 500
-    dynamic_fields: [{category: table_calculation, expression: "(${transactions.total_margin_rate_incl_funding}\
-          \ - offset(${transactions.total_margin_rate_incl_funding}, 1))", label: "%\
-          \ vs LY", value_format: !!null '', value_format_name: percent_1, _kind_hint: measure,
-        table_calculation: vs_ly, _type_hint: number}]
-    custom_color_enabled: true
-    show_single_value_title: true
-    show_comparison: false
-    comparison_type: value
-    comparison_reverse_colors: false
-    show_comparison_label: true
-    enable_conditional_formatting: true
-    conditional_formatting_include_totals: false
-    conditional_formatting_include_nulls: false
-    color_application:
-      collection_id: toolstation
-      palette_id: toolstation-categorical-0
-    single_value_title: "%PTS vs LY"
-    conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
-        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
-          than, value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
-          collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
-        italic: false, strikethrough: false, fields: !!null ''}, {type: less than,
-        value: 0, background_color: "#d32f2f", font_color: !!null '', color_application: {
-          collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
-        italic: false, strikethrough: false, fields: !!null ''}]
-    hidden_fields: [transactions.total_margin_rate_incl_funding]
-    series_types: {}
-    defaults_version: 1
-    row: 15
-    col: 15
-    width: 3
-    height: 2
-  - title: net_marginmtdvs2LY
-    name: net_marginmtdvs2LY
-    model: ts_sales
-    explore: base
-    type: single_value
-    fields: [base.date_year, transactions.total_margin_rate_incl_funding]
-    filters:
-      base.select_fixed_range: MTD
-      base.select_comparison_period: 2YearsAgo
-      base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
-    limit: 500
-    dynamic_fields: [{category: table_calculation, expression: "(${transactions.total_margin_rate_incl_funding}\
-          \ - offset(${transactions.total_margin_rate_incl_funding}, 1))", label: "%\
-          \ vs LY", value_format: !!null '', value_format_name: percent_1, _kind_hint: measure,
-        table_calculation: vs_ly, _type_hint: number}]
-    custom_color_enabled: true
-    show_single_value_title: true
-    show_comparison: false
-    comparison_type: value
-    comparison_reverse_colors: false
-    show_comparison_label: true
-    enable_conditional_formatting: true
-    conditional_formatting_include_totals: false
-    conditional_formatting_include_nulls: false
-    color_application:
-      collection_id: toolstation
-      palette_id: toolstation-categorical-0
-    single_value_title: "%PTS vs 2LY"
-    conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
-        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
-          than, value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
-          collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
-        italic: false, strikethrough: false, fields: !!null ''}, {type: less than,
-        value: 0, background_color: "#d32f2f", font_color: !!null '', color_application: {
-          collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
-        italic: false, strikethrough: false, fields: !!null ''}]
-    hidden_fields: [transactions.total_margin_rate_incl_funding]
-    series_types: {}
-    defaults_version: 1
-    listen: {}
-    row: 19
-    col: 18
     width: 3
     height: 2
   - title: net_marginytdvsLY
@@ -1427,6 +1416,7 @@
       collection_id: toolstation
       palette_id: toolstation-categorical-0
     single_value_title: "%PTS vs LY"
+    value_format: '[=-1] "No Data";'
     conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
@@ -1443,52 +1433,6 @@
     col: 15
     width: 3
     height: 2
-  - title: net_marginytdvs2LY
-    name: net_marginytdvs2LY
-    model: ts_sales
-    explore: base
-    type: single_value
-    fields: [base.date_year, transactions.total_margin_rate_incl_funding]
-    filters:
-      base.select_fixed_range: YTD
-      base.select_comparison_period: 2YearsAgo
-      base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
-    limit: 500
-    dynamic_fields: [{category: table_calculation, expression: "(${transactions.total_margin_rate_incl_funding}\
-          \ - offset(${transactions.total_margin_rate_incl_funding}, 1))", label: "%\
-          \ vs LY", value_format: !!null '', value_format_name: percent_1, _kind_hint: measure,
-        table_calculation: vs_ly, _type_hint: number}]
-    custom_color_enabled: true
-    show_single_value_title: true
-    show_comparison: false
-    comparison_type: value
-    comparison_reverse_colors: false
-    show_comparison_label: true
-    enable_conditional_formatting: true
-    conditional_formatting_include_totals: false
-    conditional_formatting_include_nulls: false
-    color_application:
-      collection_id: toolstation
-      palette_id: toolstation-categorical-0
-    single_value_title: "%PTS vs 2LY"
-    conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
-        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
-          than, value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
-          collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
-        italic: false, strikethrough: false, fields: !!null ''}, {type: less than,
-        value: 0, background_color: "#d32f2f", font_color: !!null '', color_application: {
-          collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
-        italic: false, strikethrough: false, fields: !!null ''}]
-    hidden_fields: [transactions.total_margin_rate_incl_funding]
-    series_types: {}
-    defaults_version: 1
-    listen: {}
-    row: 21
-    col: 18
-    width: 3
-    height: 2
   - title: net_margindayvs2LY
     name: net_margindayvs2LY
     model: ts_sales
@@ -1501,10 +1445,15 @@
       base.select_number_of_periods: '3'
     sorts: [base.date_year desc]
     limit: 500
-    dynamic_fields: [{category: table_calculation, expression: "(${transactions.total_margin_rate_incl_funding}\
-          \ - offset(${transactions.total_margin_rate_incl_funding}, 1))", label: "%\
-          \ vs LY", value_format: !!null '', value_format_name: percent_1, _kind_hint: measure,
-        table_calculation: vs_ly, _type_hint: number}]
+    dynamic_fields:
+    - category: table_calculation
+      expression: if(${transactions.total_margin_rate_incl_funding} = 0, -1, (${transactions.total_margin_rate_incl_funding} - offset(${transactions.total_margin_rate_incl_funding}, 1)))
+      label: "% vs 2LY"
+      value_format:
+      value_format_name: percent_1
+      _kind_hint: measure
+      table_calculation: vs_ly
+      _type_hint: number
     custom_color_enabled: true
     show_single_value_title: true
     show_comparison: false
@@ -1518,7 +1467,8 @@
       collection_id: toolstation
       palette_id: toolstation-categorical-0
     single_value_title: "%PTS vs 2LY"
-    conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
+    value_format: '[=-1] "No Data";'
+    conditional_formatting: [{type: equal to, value: -1, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
           than, value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
@@ -1564,6 +1514,7 @@
       collection_id: toolstation
       palette_id: toolstation-categorical-0
     single_value_title: "%PTS vs 2LY"
+    value_format: '[=-1] "No Data";'
     conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
@@ -1578,6 +1529,102 @@
     defaults_version: 1
     listen: {}
     row: 17
+    col: 18
+    width: 3
+    height: 2
+  - title: net_marginmtdvs2LY
+    name: net_marginmtdvs2LY
+    model: ts_sales
+    explore: base
+    type: single_value
+    fields: [base.date_year, transactions.total_margin_rate_incl_funding]
+    filters:
+      base.select_fixed_range: MTD
+      base.select_comparison_period: 2YearsAgo
+      base.select_number_of_periods: '3'
+    sorts: [base.date_year desc]
+    limit: 500
+    dynamic_fields: [{category: table_calculation, expression: "(${transactions.total_margin_rate_incl_funding}\
+          \ - offset(${transactions.total_margin_rate_incl_funding}, 1))", label: "%\
+          \ vs LY", value_format: !!null '', value_format_name: percent_1, _kind_hint: measure,
+        table_calculation: vs_ly, _type_hint: number}]
+    custom_color_enabled: true
+    show_single_value_title: true
+    show_comparison: false
+    comparison_type: value
+    comparison_reverse_colors: false
+    show_comparison_label: true
+    enable_conditional_formatting: true
+    conditional_formatting_include_totals: false
+    conditional_formatting_include_nulls: false
+    color_application:
+      collection_id: toolstation
+      palette_id: toolstation-categorical-0
+    single_value_title: "%PTS vs 2LY"
+    value_format: '[=-1] "No Data";'
+    conditional_formatting: [{type: equal to, value: -1, background_color: "#FFE200",
+        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
+        bold: false, italic: false, strikethrough: false, fields: !!null ''},{type: equal to, value: 0, background_color: "#FFE200",
+        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
+        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
+          than, value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
+          collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
+        italic: false, strikethrough: false, fields: !!null ''}, {type: less than,
+        value: 0, background_color: "#d32f2f", font_color: !!null '', color_application: {
+          collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
+        italic: false, strikethrough: false, fields: !!null ''}]
+    hidden_fields: [transactions.total_margin_rate_incl_funding]
+    series_types: {}
+    defaults_version: 1
+    listen: {}
+    row: 19
+    col: 18
+    width: 3
+    height: 2
+  - title: net_marginytdvs2LY
+    name: net_marginytdvs2LY
+    model: ts_sales
+    explore: base
+    type: single_value
+    fields: [base.date_year, transactions.total_margin_rate_incl_funding]
+    filters:
+      base.select_fixed_range: YTD
+      base.select_comparison_period: 2YearsAgo
+      base.select_number_of_periods: '3'
+    sorts: [base.date_year desc]
+    limit: 500
+    dynamic_fields: [{category: table_calculation, expression: "(${transactions.total_margin_rate_incl_funding}\
+          \ - offset(${transactions.total_margin_rate_incl_funding}, 1))", label: "%\
+          \ vs LY", value_format: !!null '', value_format_name: percent_1, _kind_hint: measure,
+        table_calculation: vs_ly, _type_hint: number}]
+    custom_color_enabled: true
+    show_single_value_title: true
+    show_comparison: false
+    comparison_type: value
+    comparison_reverse_colors: false
+    show_comparison_label: true
+    enable_conditional_formatting: true
+    conditional_formatting_include_totals: false
+    conditional_formatting_include_nulls: false
+    color_application:
+      collection_id: toolstation
+      palette_id: toolstation-categorical-0
+    single_value_title: "%PTS vs 2LY"
+    value_format: '[=-1] "No Data";'
+    conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
+        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
+        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
+          than, value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
+          collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
+        italic: false, strikethrough: false, fields: !!null ''}, {type: less than,
+        value: 0, background_color: "#d32f2f", font_color: !!null '', color_application: {
+          collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
+        italic: false, strikethrough: false, fields: !!null ''}]
+    hidden_fields: [transactions.total_margin_rate_incl_funding]
+    series_types: {}
+    defaults_version: 1
+    listen: {}
+    row: 21
     col: 18
     width: 3
     height: 2
@@ -1792,8 +1839,10 @@
       palette_id: toolstation-categorical-0
     custom_color: ''
     single_value_title: Day
-    value_format: ''
-    conditional_formatting: [{type: not null, value: 0, background_color: "#004f9f",
+    value_format: '[=0] "No Data";'
+    conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
+        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
+        bold: false, italic: false, strikethrough: false, fields: !!null ''},{type: not null, value: 0, background_color: "#004f9f",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: 'null',
         value: !!null '', background_color: "#FFE200", font_color: !!null '', color_application: {
@@ -1948,7 +1997,8 @@
       collection_id: toolstation
       palette_id: toolstation-categorical-0
     single_value_title: "% vs LY"
-    conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
+    value_format: '[=-1] "No Data";'
+    conditional_formatting: [{type: equal to, value: -1, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
           than, value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
@@ -2017,7 +2067,8 @@
       collection_id: toolstation
       palette_id: toolstation-categorical-0
     single_value_title: "% vs LY"
-    conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
+    value_format: '[=-1] "No Data";'
+    conditional_formatting: [{type: equal to, value: -1, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
           than, value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
@@ -2086,7 +2137,8 @@
       collection_id: toolstation
       palette_id: toolstation-categorical-0
     single_value_title: "% vs LY"
-    conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
+    value_format: '[=-1] "No Data";'
+    conditional_formatting: [{type: equal to, value: -1, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
           than, value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
@@ -2155,7 +2207,8 @@
       collection_id: toolstation
       palette_id: toolstation-categorical-0
     single_value_title: "% vs LY"
-    conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
+    value_format: '[=-1] "No Data";'
+    conditional_formatting: [{type: equal to, value: -1, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
           than, value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
@@ -2224,7 +2277,8 @@
       collection_id: toolstation
       palette_id: toolstation-categorical-0
     single_value_title: "% vs 2LY"
-    conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
+    value_format: '[=-1] "No Data";'
+    conditional_formatting: [{type: equal to, value: -1, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
           than, value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
@@ -2294,7 +2348,8 @@
       collection_id: toolstation
       palette_id: toolstation-categorical-0
     single_value_title: "% vs 2LY"
-    conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
+    value_format: '[=-1] "No Data";'
+    conditional_formatting: [{type: equal to, value: -1, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
           than, value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
@@ -2364,7 +2419,8 @@
       collection_id: toolstation
       palette_id: toolstation-categorical-0
     single_value_title: "% vs 2LY"
-    conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
+    value_format: '[=-1] "No Data";'
+    conditional_formatting: [{type: equal to, value: -1, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
           than, value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
@@ -2434,7 +2490,8 @@
       collection_id: toolstation
       palette_id: toolstation-categorical-0
     single_value_title: "% vs 2LY"
-    conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
+    value_format: '[=-1] "No Data";'
+    conditional_formatting: [{type: equal to, value: -1, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
           than, value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {

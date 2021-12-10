@@ -795,7 +795,7 @@ dimension_group: order_completed {
     group_label: "Core"
     type:  number
     sql:
-      SAFE_DIVIDE(${total_margin_excl_funding}, ${total_net_sales})
+      COALESCE(SAFE_DIVIDE(${total_margin_excl_funding}, ${total_net_sales}),0)
      ;;
     value_format: "##0.00%;(##0.00%)"
   }
@@ -805,7 +805,7 @@ dimension_group: order_completed {
     group_label: "Core"
     type:  number
     sql:
-    SAFE_DIVIDE(${total_margin_incl_funding}, ${total_net_sales}) ;;
+    COALESCE(SAFE_DIVIDE(${total_margin_incl_funding}, ${total_net_sales}),0) ;;
     value_format: "0.00%;(0.00%)"
   }
   measure: total_units {
@@ -1686,7 +1686,7 @@ dimension_group: order_completed {
     view_label: "Measures"
     group_label: "AOV"
     type:  number
-    sql: SAFE_DIVIDE(${total_gross_sales}, ${number_of_transactions}) ;;
+    sql: COALESCE(SAFE_DIVIDE(${total_gross_sales}, ${number_of_transactions}),0) ;;
     value_format_name: gbp
   }
   measure: aov_net_sales {
@@ -1694,7 +1694,7 @@ dimension_group: order_completed {
     view_label: "Measures"
     group_label: "AOV"
     type:  number
-    sql: SAFE_DIVIDE(${total_net_sales}, ${number_of_transactions}) ;;
+    sql: COALESCE(SAFE_DIVIDE(${total_net_sales}, ${number_of_transactions}),0) ;;
     value_format_name: gbp
   }
   measure: aov_margin_excl_funding {
@@ -1702,7 +1702,7 @@ dimension_group: order_completed {
     view_label: "Measures"
     group_label: "AOV"
     type:  number
-    sql: SAFE_DIVIDE(${total_margin_excl_funding}, ${number_of_transactions}) ;;
+    sql: COALESCE(SAFE_DIVIDE(${total_margin_excl_funding}, ${number_of_transactions}),0) ;;
     value_format_name: gbp
   }
   measure: aov_margin_incl_funding {
@@ -1710,7 +1710,7 @@ dimension_group: order_completed {
     view_label: "Measures"
     group_label: "AOV"
     type:  number
-    sql: SAFE_DIVIDE(${total_margin_incl_funding}, ${number_of_transactions}) ;;
+    sql: COALESCE(AFE_DIVIDE(${total_margin_incl_funding}, ${number_of_transactions}),0) ;;
     value_format_name: gbp
   }
   measure: aov_units{
@@ -1718,7 +1718,7 @@ dimension_group: order_completed {
     view_label: "Measures"
     group_label: "AOV"
     type: number
-    sql:SAFE_DIVIDE(${total_units}, ${number_of_transactions}) ;;
+    sql: COALESCE(SAFE_DIVIDE(${total_units}, ${number_of_transactions}),0) ;;
     value_format: "#,##0.00;(\#,##0.00)"
   }
   measure: aov_units_incl_system_codes{
@@ -1726,7 +1726,7 @@ dimension_group: order_completed {
     view_label: "Measures"
     group_label: "AOV"
     type: number
-    sql: SAFE_DIVIDE(${total_units_incl_system_codes}, ${number_of_transactions}) ;;
+    sql: COALESCE(SAFE_DIVIDE(${total_units_incl_system_codes}, ${number_of_transactions}),0) ;;
     value_format: "#,##0.00;(\#,##0.00)"
   }
   measure: aov_price {
@@ -1735,7 +1735,7 @@ dimension_group: order_completed {
     group_label: "AOV"
     description: "Net Sales AOV / Average Units"
     type: number
-    sql: SAFE_DIVIDE(${aov_net_sales}, ${aov_units}) ;;
+    sql: COALESCE(SAFE_DIVIDE(${aov_net_sales}, ${aov_units})) ;;
   }
 
   # LFL #
