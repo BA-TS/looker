@@ -1,7 +1,7 @@
 include: "/views/**/*.view"
 
 explore: stock_level_date_site_product {
-  required_access_grants: [is_developer, is_super]
+  required_access_grants: [is_super]
 
   label: "Stock Holding By Date, Site, Product"
 
