@@ -1,13 +1,13 @@
-- dashboard: summary_dsr
-  title: Summary (DSR)
+- dashboard: summary_dsr_fixes
+  title: Summary (DSR) fixes
   layout: newspaper
   preferred_viewer: dashboards-next
-  refresh: 1 day
+  description: ''
+  refresh: 2147484 seconds
   elements:
   - name: ''
     type: text
     title_text: ''
-    subtitle_text: ''
     body_text: "# Net Sales"
     row: 3
     col: 0
@@ -16,7 +16,6 @@
   - name: " (2)"
     type: text
     title_text: ''
-    subtitle_text: ''
     body_text: |-
       <div style="padding: 20px 0 20px 0; border-radius: 5px; background: #ffe200; height: 80px;">
 
@@ -48,7 +47,6 @@
   - name: " (3)"
     type: text
     title_text: ''
-    subtitle_text: ''
     body_text: "# Margin (Including Funding)"
     row: 13
     col: 0
@@ -57,7 +55,6 @@
   - name: " (4)"
     type: text
     title_text: ''
-    subtitle_text: ''
     body_text: "# Average Order Value (AOV)"
     row: 23
     col: 0
@@ -79,9 +76,19 @@
     dynamic_fields: [{category: table_calculation, expression: 'pivot_index(mean(offset_list(${total_budget.net_sales_budget},0,7)),1)',
         label: Budget, value_format: !!null '', value_format_name: gbp_0, _kind_hint: supermeasure,
         table_calculation: budget, _type_hint: number}, {category: table_calculation,
-        expression: "if(${transactions.total_net_sales} > 0,mean(offset_list(${transactions.total_net_sales},0,7)),null)\n\
-          \n", label: Net Sales, value_format: !!null '', value_format_name: gbp_0,
-        _kind_hint: measure, table_calculation: net_sales, _type_hint: number}]
+        expression: "if(\n  ${transactions.total_net_sales} = 0.00 AND \n  (offset(${transactions.total_net_sales},\
+          \ -2) = 0.00 OR offset(${transactions.total_net_sales}, -2) = null), null,\n\
+          \nif(mean(offset_list(${transactions.total_net_sales},0,7)) = 0 , null,\
+          \ mean(offset_list(${net_sales_coalesce},0,7))\n)\n)\n", label: Net Sales,
+        value_format: !!null '', value_format_name: gbp_0, _kind_hint: measure, table_calculation: net_sales,
+        _type_hint: number}, {category: table_calculation, expression: 'if (${transactions.total_net_sales}
+          = 0, null, ${transactions.total_net_sales})', label: Net Sales coalesce,
+        value_format: !!null '', value_format_name: Default formatting, _kind_hint: measure,
+        table_calculation: net_sales_coalesce, _type_hint: number, is_disabled: false},
+      {category: table_calculation, expression: "if(\n  ${transactions.total_net_sales}\
+          \ = 0.00 AND \n  offset(${transactions.total_net_sales}, -2) = 0.00, 0,\
+          \ 1\n)", label: yesno, value_format: !!null '', value_format_name: !!null '',
+        _kind_hint: measure, table_calculation: yesno, _type_hint: number, is_disabled: true}]
     x_axis_gridlines: false
     y_axis_gridlines: true
     show_view_names: false
@@ -116,8 +123,9 @@
               Year - 1 - net_sales, name: CY}, {axisId: net_sales, id: Last Year -
               2 - net_sales, name: LY}, {axisId: net_sales, id: 2 Years Ago - 3 -
               net_sales, name: 2LY}, {axisId: budget, id: budget, name: Budget}],
-        showLabels: true, showValues: true, maxValue: 2500000, minValue: !!null '', valueFormat: '0.0,,
-          "M"', unpinAxis: true, tickDensity: custom, tickDensityCustom: 20, type: linear}]
+        showLabels: true, showValues: true, maxValue: 2500000, minValue: !!null '',
+        valueFormat: '0.0,, "M"', unpinAxis: true, tickDensity: custom, tickDensityCustom: 20,
+        type: linear}]
     limit_displayed_rows_values:
       show_hide: show
       first_last: first
@@ -127,8 +135,10 @@
       This Year - 1 - net_sales: CY
       Last Year - 2 - net_sales: LY
       2 Years Ago - 3 - net_sales: 2LY
+    discontinuous_nulls: true
     defaults_version: 1
-    hidden_fields: [transactions.total_net_sales, total_budget.net_sales_budget]
+    hidden_fields: [transactions.total_net_sales, total_budget.net_sales_budget, net_sales_1,
+      net_sales_coalesce]
     note_state: expanded
     note_display: above
     note_text: 7 Day Moving Average
@@ -144,11 +154,9 @@
     explore: base
     type: single_value
     fields: [transactions.total_net_sales, base.date_year]
-    sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: PD
-      # base.select_comparison_period: Year
-      # base.select_number_of_periods: '3'
+    sorts: [base.date_year desc]
     limit: 500
     custom_color_enabled: true
     show_single_value_title: true
@@ -168,12 +176,13 @@
       "K"; [=0] "No Data";[$£-en-GB] #,##0.00'
     conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''},{type: not null, value: 0, background_color: "#004f9f",
-        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: 'null',
-        value: !!null '', background_color: "#FFE200", font_color: !!null '', color_application: {
+        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: not
+          null, value: 0, background_color: "#004f9f", font_color: !!null '', color_application: {
           collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
-        italic: false, strikethrough: false, fields: !!null ''}]
+        italic: false, strikethrough: false, fields: !!null ''}, {type: 'null', value: !!null '',
+        background_color: "#FFE200", font_color: !!null '', color_application: {collection_id: toolstation,
+          palette_id: toolstation-diverging-0}, bold: false, italic: false, strikethrough: false,
+        fields: !!null ''}]
     defaults_version: 1
     listen: {}
     row: 5
@@ -188,8 +197,6 @@
     fields: [transactions.total_net_sales, base.date_year]
     filters:
       base.select_fixed_range: WTD
-      # base.select_comparison_period: Year
-      # base.select_number_of_periods: '3'
     sorts: [base.date_year desc]
     limit: 500
     custom_color_enabled: true
@@ -226,11 +233,9 @@
     explore: base
     type: single_value
     fields: [transactions.total_net_sales, base.date_year]
-    sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: MTD
-      # base.select_comparison_period: Year
-      # base.select_number_of_periods: '3'
+    sorts: [base.date_year desc]
     limit: 500
     custom_color_enabled: true
     show_single_value_title: true
@@ -266,11 +271,9 @@
     explore: base
     type: single_value
     fields: [transactions.total_net_sales, base.date_year]
-    sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: YTD
-      # base.select_comparison_period: Year
-      # base.select_number_of_periods: '3'
+    sorts: [base.date_year desc]
     limit: 500
     custom_color_enabled: true
     show_single_value_title: true
@@ -437,6 +440,7 @@
     defaults_version: 1
     hidden_fields: [transactions.total_net_sales]
     series_types: {}
+    listen: {}
     row: 7
     col: 15
     width: 3
@@ -507,6 +511,7 @@
     defaults_version: 1
     hidden_fields: [transactions.total_net_sales]
     series_types: {}
+    listen: {}
     row: 9
     col: 15
     width: 3
@@ -577,6 +582,7 @@
     defaults_version: 1
     hidden_fields: [transactions.total_net_sales]
     series_types: {}
+    listen: {}
     row: 11
     col: 15
     width: 3
@@ -594,9 +600,9 @@
     sorts: [base.date_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
-        value_format_name: percent_1, expression: "(${transactions.total_net_sales} / offset(${transactions.total_net_sales}, 2) -1)" ,
-        table_calculation: vs_ly, args: [transactions.total_net_sales], _kind_hint: measure,
-        _type_hint: number}]
+        value_format_name: percent_1, expression: "(${transactions.total_net_sales}\
+          \ / offset(${transactions.total_net_sales}, 2) -1)", table_calculation: vs_ly,
+        args: [transactions.total_net_sales], _kind_hint: measure, _type_hint: number}]
     custom_color_enabled: true
     show_single_value_title: true
     show_comparison: false
@@ -665,9 +671,9 @@
     sorts: [base.date_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
-      value_format_name: percent_1, expression: "(${transactions.total_net_sales} / offset(${transactions.total_net_sales}, 2) -1)" ,
-      table_calculation: vs_ly, args: [transactions.total_net_sales], _kind_hint: measure,
-    _type_hint: number}]
+        value_format_name: percent_1, expression: "(${transactions.total_net_sales}\
+          \ / offset(${transactions.total_net_sales}, 2) -1)", table_calculation: vs_ly,
+        args: [transactions.total_net_sales], _kind_hint: measure, _type_hint: number}]
     custom_color_enabled: true
     show_single_value_title: true
     show_comparison: false
@@ -736,9 +742,9 @@
     sorts: [base.date_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
-      value_format_name: percent_1, expression: "(${transactions.total_net_sales} / offset(${transactions.total_net_sales}, 2) -1)" ,
-      table_calculation: vs_ly, args: [transactions.total_net_sales], _kind_hint: measure,
-    _type_hint: number}]
+        value_format_name: percent_1, expression: "(${transactions.total_net_sales}\
+          \ / offset(${transactions.total_net_sales}, 2) -1)", table_calculation: vs_ly,
+        args: [transactions.total_net_sales], _kind_hint: measure, _type_hint: number}]
     custom_color_enabled: true
     show_single_value_title: true
     show_comparison: false
@@ -806,11 +812,10 @@
       base.select_number_of_periods: '3'
     sorts: [base.date_year desc]
     limit: 500
-
     dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
-      value_format_name: percent_1, expression: "(${transactions.total_net_sales} / offset(${transactions.total_net_sales}, 2) -1)" ,
-      table_calculation: vs_ly, args: [transactions.total_net_sales], _kind_hint: measure,
-    _type_hint: number}]
+        value_format_name: percent_1, expression: "(${transactions.total_net_sales}\
+          \ / offset(${transactions.total_net_sales}, 2) -1)", table_calculation: vs_ly,
+        args: [transactions.total_net_sales], _kind_hint: measure, _type_hint: number}]
     custom_color_enabled: true
     show_single_value_title: true
     show_comparison: false
@@ -872,11 +877,11 @@
     explore: base
     type: single_value
     fields: [transactions.total_net_sales, total_budget.net_sales_budget, base.date_year]
-    sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: PD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
+    sorts: [base.date_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, expression: "${transactions.total_net_sales}\
           \ - ${total_budget.net_sales_budget}", label: vs Budget £, value_format: !!null '',
@@ -923,11 +928,11 @@
     explore: base
     type: single_value
     fields: [transactions.total_net_sales, total_budget.net_sales_budget, base.date_year]
-    sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: WTD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
+    sorts: [base.date_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, expression: "${transactions.total_net_sales}\
           \ - ${total_budget.net_sales_budget}", label: vs Budget £, value_format: !!null '',
@@ -974,11 +979,11 @@
     explore: base
     type: single_value
     fields: [transactions.total_net_sales, total_budget.net_sales_budget, base.date_year]
-    sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: MTD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
+    sorts: [base.date_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, expression: "${transactions.total_net_sales}\
           \ - ${total_budget.net_sales_budget}", label: vs Budget £, value_format: !!null '',
@@ -1025,11 +1030,11 @@
     explore: base
     type: single_value
     fields: [transactions.total_net_sales, total_budget.net_sales_budget, base.date_year]
-    sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: YTD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
+    sorts: [base.date_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, expression: "${transactions.total_net_sales}\
           \ - ${total_budget.net_sales_budget}", label: vs Budget £, value_format: !!null '',
@@ -1050,7 +1055,8 @@
     color_application:
       collection_id: toolstation
       palette_id: toolstation-categorical-0
-    value_format: '[>=1000000] [$£-en-GB] #,##0.00,, "M"; [>=1000] [$£-en-GB] #,##0.00, "K"; [$£-en-GB] #,##0.00'
+    value_format: '[>=1000000] [$£-en-GB] #,##0.00,, "M"; [>=1000] [$£-en-GB] #,##0.00,
+      "K"; [$£-en-GB] #,##0.00'
     comparison_label: vs Budget
     conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
@@ -1069,18 +1075,15 @@
     col: 21
     width: 3
     height: 2
-
   - title: net_margindayvalue
     name: net_margindayvalue
     model: ts_sales
     explore: base
     type: single_value
     fields: [transactions.total_margin_rate_incl_funding, base.date_year]
-    sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: PD
-      # base.select_comparison_period: Year
-      # base.select_number_of_periods: '3'
+    sorts: [base.date_year desc]
     limit: 500
     custom_color_enabled: true
     show_single_value_title: true
@@ -1099,13 +1102,15 @@
     value_format: '[=0] "No Data";'
     conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''},{type: not null, value: 0, background_color: "#004f9f",
-        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: 'null',
-        value: !!null '', background_color: "#FFE200", font_color: !!null '', color_application: {
+        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: not
+          null, value: 0, background_color: "#004f9f", font_color: !!null '', color_application: {
           collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
-        italic: false, strikethrough: false, fields: !!null ''}]
+        italic: false, strikethrough: false, fields: !!null ''}, {type: 'null', value: !!null '',
+        background_color: "#FFE200", font_color: !!null '', color_application: {collection_id: toolstation,
+          palette_id: toolstation-diverging-0}, bold: false, italic: false, strikethrough: false,
+        fields: !!null ''}]
     defaults_version: 1
+    listen: {}
     row: 15
     col: 12
     width: 3
@@ -1116,11 +1121,9 @@
     explore: base
     type: single_value
     fields: [transactions.total_margin_rate_incl_funding, base.date_year]
-    sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: WTD
-      # base.select_comparison_period: Year
-      # base.select_number_of_periods: '3'
+    sorts: [base.date_year desc]
     limit: 500
     custom_color_enabled: true
     show_single_value_title: true
@@ -1139,12 +1142,13 @@
     value_format: '[=0] "No Data";'
     conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''},{type: not null, value: 0, background_color: "#004f9f",
-        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: 'null',
-        value: !!null '', background_color: "#FFE200", font_color: !!null '', color_application: {
+        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: not
+          null, value: 0, background_color: "#004f9f", font_color: !!null '', color_application: {
           collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
-        italic: false, strikethrough: false, fields: !!null ''}]
+        italic: false, strikethrough: false, fields: !!null ''}, {type: 'null', value: !!null '',
+        background_color: "#FFE200", font_color: !!null '', color_application: {collection_id: toolstation,
+          palette_id: toolstation-diverging-0}, bold: false, italic: false, strikethrough: false,
+        fields: !!null ''}]
     defaults_version: 1
     listen: {}
     row: 17
@@ -1157,11 +1161,9 @@
     explore: base
     type: single_value
     fields: [transactions.total_margin_rate_incl_funding, base.date_year]
-    sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: MTD
-      # base.select_comparison_period: Year
-      # base.select_number_of_periods: '3'
+    sorts: [base.date_year desc]
     limit: 500
     custom_color_enabled: true
     show_single_value_title: true
@@ -1180,12 +1182,13 @@
     value_format: '[=0] "No Data";'
     conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''},{type: not null, value: 0, background_color: "#004f9f",
-        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: 'null',
-        value: !!null '', background_color: "#FFE200", font_color: !!null '', color_application: {
+        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: not
+          null, value: 0, background_color: "#004f9f", font_color: !!null '', color_application: {
           collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
-        italic: false, strikethrough: false, fields: !!null ''}]
+        italic: false, strikethrough: false, fields: !!null ''}, {type: 'null', value: !!null '',
+        background_color: "#FFE200", font_color: !!null '', color_application: {collection_id: toolstation,
+          palette_id: toolstation-diverging-0}, bold: false, italic: false, strikethrough: false,
+        fields: !!null ''}]
     defaults_version: 1
     listen: {}
     row: 19
@@ -1198,11 +1201,9 @@
     explore: base
     type: single_value
     fields: [transactions.total_margin_rate_incl_funding, base.date_year]
-    sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: YTD
-      # base.select_comparison_period: Year
-      # base.select_number_of_periods: '3'
+    sorts: [base.date_year desc]
     limit: 500
     custom_color_enabled: true
     show_single_value_title: true
@@ -1221,12 +1222,13 @@
     value_format: '[=0] "No Data";'
     conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''},{type: not null, value: 0, background_color: "#004f9f",
-        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: 'null',
-        value: !!null '', background_color: "#FFE200", font_color: !!null '', color_application: {
+        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: not
+          null, value: 0, background_color: "#004f9f", font_color: !!null '', color_application: {
           collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
-        italic: false, strikethrough: false, fields: !!null ''}]
+        italic: false, strikethrough: false, fields: !!null ''}, {type: 'null', value: !!null '',
+        background_color: "#FFE200", font_color: !!null '', color_application: {collection_id: toolstation,
+          palette_id: toolstation-diverging-0}, bold: false, italic: false, strikethrough: false,
+        fields: !!null ''}]
     defaults_version: 1
     listen: {}
     row: 21
@@ -1245,15 +1247,10 @@
       base.select_number_of_periods: '3'
     sorts: [base.date_year desc]
     limit: 500
-    dynamic_fields:
-    - category: table_calculation
-      expression: if(${transactions.total_margin_rate_incl_funding} = 0, -1, (${transactions.total_margin_rate_incl_funding} - offset(${transactions.total_margin_rate_incl_funding}, 1)))
-      label: "% vs LY"
-      value_format:
-      value_format_name: percent_1
-      _kind_hint: measure
-      table_calculation: vs_ly
-      _type_hint: number
+    dynamic_fields: [{category: table_calculation, expression: 'if(${transactions.total_margin_rate_incl_funding}
+          = 0, -1, (${transactions.total_margin_rate_incl_funding} - offset(${transactions.total_margin_rate_incl_funding},
+          1)))', label: "% vs LY", value_format: !!null '', value_format_name: percent_1,
+        _kind_hint: measure, table_calculation: vs_ly, _type_hint: number}]
     custom_color_enabled: true
     show_single_value_title: true
     show_comparison: false
@@ -1270,10 +1267,11 @@
     value_format: '[=-1] "No Data";'
     conditional_formatting: [{type: equal to, value: -1, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''},{type: equal to, value: 0, background_color: "#FFE200",
-        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
-          than, value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
+        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: equal
+          to, value: 0, background_color: "#FFE200", font_color: !!null '', color_application: {
+          collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
+        italic: false, strikethrough: false, fields: !!null ''}, {type: greater than,
+        value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
           collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
         italic: false, strikethrough: false, fields: !!null ''}, {type: less than,
         value: 0, background_color: "#d32f2f", font_color: !!null '', color_application: {
@@ -1282,6 +1280,7 @@
     hidden_fields: [transactions.total_margin_rate_incl_funding]
     series_types: {}
     defaults_version: 1
+    listen: {}
     row: 15
     col: 15
     width: 3
@@ -1298,15 +1297,10 @@
       base.select_number_of_periods: '3'
     sorts: [base.date_year desc]
     limit: 500
-    dynamic_fields:
-      - category: table_calculation
-        expression: if(${transactions.total_margin_rate_incl_funding} = 0, -1, (${transactions.total_margin_rate_incl_funding} - offset(${transactions.total_margin_rate_incl_funding}, 1)))
-        label: "% vs LY"
-        value_format:
-        value_format_name: percent_1
-        _kind_hint: measure
-        table_calculation: vs_ly
-        _type_hint: number
+    dynamic_fields: [{category: table_calculation, expression: 'if(${transactions.total_margin_rate_incl_funding}
+          = 0, -1, (${transactions.total_margin_rate_incl_funding} - offset(${transactions.total_margin_rate_incl_funding},
+          1)))', label: "% vs LY", value_format: !!null '', value_format_name: percent_1,
+        _kind_hint: measure, table_calculation: vs_ly, _type_hint: number}]
     custom_color_enabled: true
     show_single_value_title: true
     show_comparison: false
@@ -1323,10 +1317,11 @@
     value_format: '[=-1] "No Data";'
     conditional_formatting: [{type: equal to, value: -1, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''},{type: equal to, value: 0, background_color: "#FFE200",
-        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
-          than, value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
+        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: equal
+          to, value: 0, background_color: "#FFE200", font_color: !!null '', color_application: {
+          collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
+        italic: false, strikethrough: false, fields: !!null ''}, {type: greater than,
+        value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
           collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
         italic: false, strikethrough: false, fields: !!null ''}, {type: less than,
         value: 0, background_color: "#d32f2f", font_color: !!null '', color_application: {
@@ -1335,6 +1330,7 @@
     hidden_fields: [transactions.total_margin_rate_incl_funding]
     series_types: {}
     defaults_version: 1
+    listen: {}
     row: 17
     col: 15
     width: 3
@@ -1371,10 +1367,11 @@
     value_format: '[=-1] "No Data";'
     conditional_formatting: [{type: equal to, value: -1, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''},{type: equal to, value: 0, background_color: "#FFE200",
-        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
-          than, value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
+        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: equal
+          to, value: 0, background_color: "#FFE200", font_color: !!null '', color_application: {
+          collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
+        italic: false, strikethrough: false, fields: !!null ''}, {type: greater than,
+        value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
           collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
         italic: false, strikethrough: false, fields: !!null ''}, {type: less than,
         value: 0, background_color: "#d32f2f", font_color: !!null '', color_application: {
@@ -1383,6 +1380,7 @@
     hidden_fields: [transactions.total_margin_rate_incl_funding]
     series_types: {}
     defaults_version: 1
+    listen: {}
     row: 19
     col: 15
     width: 3
@@ -1429,6 +1427,7 @@
     hidden_fields: [transactions.total_margin_rate_incl_funding]
     series_types: {}
     defaults_version: 1
+    listen: {}
     row: 21
     col: 15
     width: 3
@@ -1445,15 +1444,10 @@
       base.select_number_of_periods: '3'
     sorts: [base.date_year desc]
     limit: 500
-    dynamic_fields:
-    - category: table_calculation
-      expression: if(${transactions.total_margin_rate_incl_funding} = 0, -1, (${transactions.total_margin_rate_incl_funding} - offset(${transactions.total_margin_rate_incl_funding}, 1)))
-      label: "% vs 2LY"
-      value_format:
-      value_format_name: percent_1
-      _kind_hint: measure
-      table_calculation: vs_ly
-      _type_hint: number
+    dynamic_fields: [{category: table_calculation, expression: 'if(${transactions.total_margin_rate_incl_funding}
+          = 0, -1, (${transactions.total_margin_rate_incl_funding} - offset(${transactions.total_margin_rate_incl_funding},
+          1)))', label: "% vs 2LY", value_format: !!null '', value_format_name: percent_1,
+        _kind_hint: measure, table_calculation: vs_ly, _type_hint: number}]
     custom_color_enabled: true
     show_single_value_title: true
     show_comparison: false
@@ -1564,10 +1558,11 @@
     value_format: '[=-1] "No Data";'
     conditional_formatting: [{type: equal to, value: -1, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''},{type: equal to, value: 0, background_color: "#FFE200",
-        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
-          than, value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
+        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: equal
+          to, value: 0, background_color: "#FFE200", font_color: !!null '', color_application: {
+          collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
+        italic: false, strikethrough: false, fields: !!null ''}, {type: greater than,
+        value: 0, background_color: "#72D16D", font_color: !!null '', color_application: {
           collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
         italic: false, strikethrough: false, fields: !!null ''}, {type: less than,
         value: 0, background_color: "#d32f2f", font_color: !!null '', color_application: {
@@ -1633,12 +1628,13 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.total_margin_rate_incl_funding, total_budget.gross_margin_rate_inc_retro_funding_budget, base.date_year]
-    sorts: [base.date_year desc]
+    fields: [transactions.total_margin_rate_incl_funding, total_budget.gross_margin_rate_inc_retro_funding_budget,
+      base.date_year]
     filters:
       base.select_fixed_range: PD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
+    sorts: [base.date_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, expression: "${transactions.total_margin_rate_incl_funding}\
           \ - ${total_budget.gross_margin_rate_inc_retro_funding_budget}", label: "%",
@@ -1656,7 +1652,7 @@
     color_application:
       collection_id: toolstation
       palette_id: toolstation-categorical-0
-    single_value_title: "vs Budget %PTS"
+    single_value_title: vs Budget %PTS
     conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
@@ -1679,12 +1675,13 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.total_margin_rate_incl_funding, total_budget.gross_margin_rate_inc_retro_funding_budget, base.date_year]
-    sorts: [base.date_year desc]
+    fields: [transactions.total_margin_rate_incl_funding, total_budget.gross_margin_rate_inc_retro_funding_budget,
+      base.date_year]
     filters:
       base.select_fixed_range: WTD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
+    sorts: [base.date_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, expression: "${transactions.total_margin_rate_incl_funding}\
           \ - ${total_budget.gross_margin_rate_inc_retro_funding_budget}", label: "%",
@@ -1702,7 +1699,7 @@
     color_application:
       collection_id: toolstation
       palette_id: toolstation-categorical-0
-    single_value_title: "vs Budget %PTS"
+    single_value_title: vs Budget %PTS
     conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
@@ -1725,12 +1722,13 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.total_margin_rate_incl_funding, total_budget.gross_margin_rate_inc_retro_funding_budget, base.date_year]
-    sorts: [base.date_year desc]
+    fields: [transactions.total_margin_rate_incl_funding, total_budget.gross_margin_rate_inc_retro_funding_budget,
+      base.date_year]
     filters:
       base.select_fixed_range: MTD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
+    sorts: [base.date_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, expression: "${transactions.total_margin_rate_incl_funding}\
           \ - ${total_budget.gross_margin_rate_inc_retro_funding_budget}", label: "%",
@@ -1748,7 +1746,7 @@
     color_application:
       collection_id: toolstation
       palette_id: toolstation-categorical-0
-    single_value_title: "vs Budget %PTS"
+    single_value_title: vs Budget %PTS
     conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
@@ -1771,12 +1769,13 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.total_margin_rate_incl_funding, total_budget.gross_margin_rate_inc_retro_funding_budget, base.date_year]
-    sorts: [base.date_year desc]
+    fields: [transactions.total_margin_rate_incl_funding, total_budget.gross_margin_rate_inc_retro_funding_budget,
+      base.date_year]
     filters:
       base.select_fixed_range: YTD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
+    sorts: [base.date_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, expression: "${transactions.total_margin_rate_incl_funding}\
           \ - ${total_budget.gross_margin_rate_inc_retro_funding_budget}", label: "%",
@@ -1794,7 +1793,7 @@
     color_application:
       collection_id: toolstation
       palette_id: toolstation-categorical-0
-    single_value_title: "vs Budget %PTS"
+    single_value_title: vs Budget %PTS
     conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: greater
@@ -1812,18 +1811,17 @@
     col: 21
     width: 3
     height: 2
-
   - title: aovdayvalue
     name: aovdayvalue
     model: ts_sales
     explore: base
     type: single_value
     fields: [transactions.aov_net_sales, base.date_year]
-    sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: PD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
+    sorts: [base.date_year desc]
     limit: 500
     custom_color_enabled: true
     show_single_value_title: true
@@ -1842,13 +1840,15 @@
     value_format: '[=0] "No Data";'
     conditional_formatting: [{type: equal to, value: 0, background_color: "#FFE200",
         font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''},{type: not null, value: 0, background_color: "#004f9f",
-        font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: 'null',
-        value: !!null '', background_color: "#FFE200", font_color: !!null '', color_application: {
+        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: not
+          null, value: 0, background_color: "#004f9f", font_color: !!null '', color_application: {
           collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
-        italic: false, strikethrough: false, fields: !!null ''}]
+        italic: false, strikethrough: false, fields: !!null ''}, {type: 'null', value: !!null '',
+        background_color: "#FFE200", font_color: !!null '', color_application: {collection_id: toolstation,
+          palette_id: toolstation-diverging-0}, bold: false, italic: false, strikethrough: false,
+        fields: !!null ''}]
     defaults_version: 1
+    listen: {}
     row: 25
     col: 12
     width: 3
@@ -1859,11 +1859,11 @@
     explore: base
     type: single_value
     fields: [transactions.aov_net_sales, base.date_year]
-    sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: WTD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
+    sorts: [base.date_year desc]
     limit: 500
     custom_color_enabled: true
     show_single_value_title: true
@@ -1887,6 +1887,7 @@
           collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
         italic: false, strikethrough: false, fields: !!null ''}]
     defaults_version: 1
+    listen: {}
     row: 27
     col: 12
     width: 3
@@ -1897,11 +1898,11 @@
     explore: base
     type: single_value
     fields: [transactions.aov_net_sales, base.date_year]
-    sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: MTD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
+    sorts: [base.date_year desc]
     limit: 500
     custom_color_enabled: true
     show_single_value_title: true
@@ -1925,6 +1926,7 @@
           collection_id: toolstation, palette_id: toolstation-diverging-0}, bold: false,
         italic: false, strikethrough: false, fields: !!null ''}]
     defaults_version: 1
+    listen: {}
     row: 29
     col: 12
     width: 3
@@ -1935,11 +1937,11 @@
     explore: base
     type: single_value
     fields: [transactions.aov_net_sales, base.date_year]
-    sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: YTD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
+    sorts: [base.date_year desc]
     limit: 500
     custom_color_enabled: true
     show_single_value_title: true
@@ -2034,6 +2036,7 @@
     defaults_version: 1
     hidden_fields: [transactions.aov_net_sales]
     series_types: {}
+    listen: {}
     row: 25
     col: 15
     width: 3
@@ -2104,6 +2107,7 @@
     defaults_version: 1
     hidden_fields: [transactions.aov_net_sales]
     series_types: {}
+    listen: {}
     row: 27
     col: 15
     width: 3
@@ -2174,6 +2178,7 @@
     defaults_version: 1
     hidden_fields: [transactions.aov_net_sales]
     series_types: {}
+    listen: {}
     row: 29
     col: 15
     width: 3
@@ -2244,6 +2249,7 @@
     defaults_version: 1
     hidden_fields: [transactions.aov_net_sales]
     series_types: {}
+    listen: {}
     row: 31
     col: 15
     width: 3
@@ -2532,164 +2538,6 @@
     col: 18
     width: 3
     height: 2
-
-  # - title: aovdaycustomer
-  #   name: aovdaycustomer
-  #   model: ts_sales
-  #   explore: base
-  #   type: single_value
-  #   fields: [base.date_year, transactions.number_of_unique_customers]
-  #   filters:
-  #     base.select_fixed_range: PD
-  #     base.select_comparison_period: Year
-  #     base.select_number_of_periods: '3'
-  #   sorts: [base.date_year desc]
-  #   limit: 500
-  #   dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
-  #       value_format_name: percent_2, calculation_type: percent_difference_from_previous,
-  #       table_calculation: vs_ly, args: [transactions.number_of_unique_customers],
-  #       _kind_hint: measure, _type_hint: number}]
-  #   custom_color_enabled: true
-  #   show_single_value_title: false
-  #   show_comparison: true
-  #   comparison_type: change
-  #   comparison_reverse_colors: false
-  #   show_comparison_label: true
-  #   enable_conditional_formatting: true
-  #   conditional_formatting_include_totals: false
-  #   conditional_formatting_include_nulls: false
-  #   color_application:
-  #     collection_id: toolstation
-  #     palette_id: toolstation-categorical-0
-  #   single_value_title: ''
-  #   value_format: "#,##0"
-  #   conditional_formatting: [{type: not null, value: !!null '', background_color: "#000000",
-  #       font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-  #       bold: false, italic: false, strikethrough: false, fields: !!null ''}]
-  #   series_types: {}
-  #   defaults_version: 1
-  #   row: 25
-  #   col: 21
-  #   width: 3
-  #   height: 2
-  # - title: aovwtdcustomer
-  #   name: aovwtdcustomer
-  #   model: ts_sales
-  #   explore: base
-  #   type: single_value
-  #   fields: [base.date_year, transactions.number_of_unique_customers]
-  #   filters:
-  #     base.select_fixed_range: WTD
-  #     base.select_comparison_period: Year
-  #     base.select_number_of_periods: '3'
-  #   sorts: [base.date_year desc]
-  #   limit: 500
-  #   dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
-  #       value_format_name: percent_2, calculation_type: percent_difference_from_previous,
-  #       table_calculation: vs_ly, args: [transactions.number_of_unique_customers],
-  #       _kind_hint: measure, _type_hint: number}]
-  #   custom_color_enabled: true
-  #   show_single_value_title: false
-  #   show_comparison: true
-  #   comparison_type: change
-  #   comparison_reverse_colors: false
-  #   show_comparison_label: true
-  #   enable_conditional_formatting: true
-  #   conditional_formatting_include_totals: false
-  #   conditional_formatting_include_nulls: false
-  #   color_application:
-  #     collection_id: toolstation
-  #     palette_id: toolstation-categorical-0
-  #   single_value_title: ''
-  #   value_format: "#,##0"
-  #   conditional_formatting: [{type: not null, value: !!null '', background_color: "#000000",
-  #       font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-  #       bold: false, italic: false, strikethrough: false, fields: !!null ''}]
-  #   series_types: {}
-  #   defaults_version: 1
-  #   row: 27
-  #   col: 21
-  #   width: 3
-  #   height: 2
-  # - title: aovmtdcustomer
-  #   name: aovmtdcustomer
-  #   model: ts_sales
-  #   explore: base
-  #   type: single_value
-  #   fields: [base.date_year, transactions.number_of_unique_customers]
-  #   filters:
-  #     base.select_fixed_range: MTD
-  #     base.select_comparison_period: Year
-  #     base.select_number_of_periods: '3'
-  #   sorts: [base.date_year desc]
-  #   limit: 500
-  #   dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
-  #       value_format_name: percent_2, calculation_type: percent_difference_from_previous,
-  #       table_calculation: vs_ly, args: [transactions.number_of_unique_customers],
-  #       _kind_hint: measure, _type_hint: number}]
-  #   custom_color_enabled: true
-  #   show_single_value_title: false
-  #   show_comparison: true
-  #   comparison_type: change
-  #   comparison_reverse_colors: false
-  #   show_comparison_label: true
-  #   enable_conditional_formatting: true
-  #   conditional_formatting_include_totals: false
-  #   conditional_formatting_include_nulls: false
-  #   color_application:
-  #     collection_id: toolstation
-  #     palette_id: toolstation-categorical-0
-  #   single_value_title: ''
-  #   value_format: "#,##0"
-  #   conditional_formatting: [{type: not null, value: !!null '', background_color: "#000000",
-  #       font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-  #       bold: false, italic: false, strikethrough: false, fields: !!null ''}]
-  #   series_types: {}
-  #   defaults_version: 1
-  #   row: 29
-  #   col: 21
-  #   width: 3
-  #   height: 2
-  # - title: aovytdcustomer
-  #   name: aovytdcustomer
-  #   model: ts_sales
-  #   explore: base
-  #   type: single_value
-  #   fields: [base.date_year, transactions.number_of_unique_customers]
-  #   filters:
-  #     base.select_fixed_range: YTD
-  #     base.select_comparison_period: Year
-  #     base.select_number_of_periods: '3'
-  #   sorts: [base.date_year desc]
-  #   limit: 500
-  #   dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
-  #       value_format_name: percent_2, calculation_type: percent_difference_from_previous,
-  #       table_calculation: vs_ly, args: [transactions.number_of_unique_customers],
-  #       _kind_hint: measure, _type_hint: number}]
-  #   custom_color_enabled: true
-  #   show_single_value_title: false
-  #   show_comparison: true
-  #   comparison_type: change
-  #   comparison_reverse_colors: false
-  #   show_comparison_label: true
-  #   enable_conditional_formatting: true
-  #   conditional_formatting_include_totals: false
-  #   conditional_formatting_include_nulls: false
-  #   color_application:
-  #     collection_id: toolstation
-  #     palette_id: toolstation-categorical-0
-  #   single_value_title: ''
-  #   value_format: "#,##0"
-  #   conditional_formatting: [{type: not null, value: !!null '', background_color: "#000000",
-  #       font_color: !!null '', color_application: {collection_id: toolstation, palette_id: toolstation-diverging-0},
-  #       bold: false, italic: false, strikethrough: false, fields: !!null ''}]
-  #   series_types: {}
-  #   defaults_version: 1
-  #   row: 31
-  #   col: 21
-  #   width: 3
-  #   height: 2
-
   - title: 7 Day Moving Average Trend (Margin)
     name: 7 Day Moving Average Trend (Margin)
     model: ts_sales
@@ -2709,10 +2557,15 @@
 
           ', label: Budget, value_format: !!null '', value_format_name: percent_2,
         _kind_hint: supermeasure, table_calculation: budget, _type_hint: number},
-      {category: table_calculation, expression: "if(${transactions.total_margin_rate_incl_funding}\
-          \ > 0,mean(offset_list(${transactions.total_margin_rate_incl_funding},0,7)),null)\n\
-          \n", label: Net Margin, value_format: !!null '', value_format_name: percent_2,
-        _kind_hint: measure, table_calculation: net_margin, _type_hint: number}]
+      {category: table_calculation, expression: 'if((${net_margin_coalesce} = 0 OR
+          ${net_margin_coalesce} = null OR ${net_margin_coalesce} < 1) OR offset(${net_margin_coalesce},
+          -2) < 1, mean(offset_list(${net_margin_coalesce},0,7)),null)', label: Net
+          Margin, value_format: !!null '', value_format_name: percent_2, _kind_hint: measure,
+        table_calculation: net_margin, _type_hint: number}, {category: table_calculation,
+        expression: 'if (${transactions.total_margin_rate_incl_funding} = 0, null,
+          ${transactions.total_margin_rate_incl_funding})', label: Net Margin coalesce,
+        value_format: !!null '', value_format_name: !!null '', _kind_hint: measure,
+        table_calculation: net_margin_coalesce, _type_hint: number}]
     x_axis_gridlines: false
     y_axis_gridlines: true
     show_view_names: false
@@ -2761,9 +2614,10 @@
       This Year - 1 - net_margin: CY
       Last Year - 2 - net_margin: LY
       2 Years Ago - 3 - net_margin: 2LY
+    discontinuous_nulls: true
     defaults_version: 1
     hidden_fields: [transactions.total_margin_rate_incl_funding, total_budget.net_sales_budget,
-      total_budget.gross_margin_inc_retro_budget]
+      total_budget.gross_margin_inc_retro_budget, new_calculation, net_margin_coalesce]
     note_state: expanded
     note_display: above
     note_text: 7 Day Moving Average
@@ -2791,13 +2645,17 @@
 
           ', label: Budget, value_format: !!null '', value_format_name: percent_2,
         _kind_hint: supermeasure, table_calculation: budget, _type_hint: number, is_disabled: true},
-      {category: table_calculation, expression: "if(${transactions.total_margin_rate_incl_funding}\
-          \ > 0,mean(offset_list(${transactions.total_margin_rate_incl_funding},0,7)),null)\n\
+      {category: table_calculation, expression: "mean(offset_list(${transactions.total_margin_rate_incl_funding},0,7))\n\
           \n", label: Net Margin, value_format: !!null '', value_format_name: percent_2,
         _kind_hint: measure, table_calculation: net_margin, _type_hint: number, is_disabled: true},
-      {category: table_calculation, expression: "if(${transactions.aov_net_sales}\
-          \ > 0,mean(offset_list(${transactions.aov_net_sales},0,7)),null)\n\n", label: AOV,
+      {category: table_calculation, expression: "\nif(\n  ${transactions.aov_net_sales}\
+          \ = 0.00 AND \n  (offset(${transactions.aov_net_sales}, -2) = 0.00 OR offset(${transactions.aov_net_sales},\
+          \ -2) = null), null,\n\nif(mean(offset_list(${transactions.aov_net_sales},0,7))\
+          \ = 0 , null, mean(offset_list(${aov_coalesce},0,7))\n)\n)\n", label: AOV,
         value_format: !!null '', value_format_name: gbp, _kind_hint: measure, table_calculation: aov,
+        _type_hint: number}, {category: table_calculation, expression: 'if(${transactions.aov_net_sales}
+          = 0, null, ${transactions.aov_net_sales})', label: AOV coalesce, value_format: !!null '',
+        value_format_name: !!null '', _kind_hint: measure, table_calculation: aov_coalesce,
         _type_hint: number}]
     x_axis_gridlines: false
     y_axis_gridlines: true
@@ -2847,7 +2705,7 @@
       Last Year - 2 - net_margin: LY
       2 Years Ago - 3 - net_margin: 2LY
     defaults_version: 1
-    hidden_fields: [transactions.aov_net_sales]
+    hidden_fields: [transactions.aov_net_sales, aov_coalesce]
     note_state: expanded
     note_display: above
     note_text: 7 Day Moving Average

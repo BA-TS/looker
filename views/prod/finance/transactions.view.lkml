@@ -753,7 +753,7 @@ dimension_group: order_completed {
     view_label: "Measures"
     group_label: "Core"
     type:  sum
-    sql: ${net_sales_value} ;;
+    sql: coalesce(${net_sales_value},null) ;;
     value_format_name: gbp
   }
   measure: total_cogs {
