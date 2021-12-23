@@ -1,5 +1,5 @@
-- dashboard: summary_dsr_fixes
-  title: Summary (DSR) fixes
+- dashboard: summary_dsr
+  title: Summary (DSR)
   layout: newspaper
   preferred_viewer: dashboards-next
   description: ''
