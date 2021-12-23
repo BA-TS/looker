@@ -4,21 +4,21 @@ view: total_budget {
     datagroup_trigger: toolstation_transactions_datagroup
     sql:
 
-      select
+      SELECT
         date,
-        sum(netSales) as net_sales_budget,
-        sum(grossProfit) as gross_margin_budget,
-        sum(retroFunding) as retro_funding_budget,
-        sum(fixedFunding) as fixed_funding_budget,
-        sum(grossProfit) + sum(retroFunding) as gross_margin_inc_retro_budget,
-        sum(grossProfit) + sum(retroFunding) + sum(fixedFunding) as gross_margin_inc_retro_and_fixed_budget
-
-       from `toolstation-data-storage.ts_finance.channelBudget`
-
-       group by 1
+        sum(netSales) AS net_sales_budget,
+        sum(grossProfit) AS gross_margin_budget,
+        sum(retroFunding) AS retro_funding_budget,
+        sum(fixedFunding) AS fixed_funding_budget,
+        sum(grossProfit) + sum(retroFunding) AS gross_margin_inc_retro_budget,
+        sum(grossProfit) + sum(retroFunding) + sum(fixedFunding) AS gross_margin_inc_retro_and_fixed_budget
+      FROM
+        `toolstation-data-storage.ts_finance.channelBudget`
+      GROUP BY
+        1
 
       ;;
-      publish_as_db_view: yes # look at this
+      # publish_as_db_view: yes # look at this
   }
 
   dimension: total_budget_date {

@@ -795,7 +795,7 @@ dimension_group: order_completed {
     group_label: "Core"
     type:  number
     sql:
-      COALESCE(SAFE_DIVIDE(${total_margin_excl_funding}, ${total_net_sales}),0)
+      COALESCE(SAFE_DIVIDE(${total_margin_excl_funding}, ${total_net_sales}),null)
      ;;
     value_format: "##0.00%;(##0.00%)"
   }
@@ -805,7 +805,7 @@ dimension_group: order_completed {
     group_label: "Core"
     type:  number
     sql:
-    COALESCE(SAFE_DIVIDE(${total_margin_incl_funding}, ${total_net_sales}),0) ;;
+    COALESCE(SAFE_DIVIDE(${total_margin_incl_funding}, ${total_net_sales}),null) ;;
     value_format: "0.00%;(0.00%)"
   }
   measure: total_units {

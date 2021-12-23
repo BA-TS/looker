@@ -116,8 +116,8 @@
               Year - 1 - net_sales, name: CY}, {axisId: net_sales, id: Last Year -
               2 - net_sales, name: LY}, {axisId: net_sales, id: 2 Years Ago - 3 -
               net_sales, name: 2LY}, {axisId: budget, id: budget, name: Budget}],
-        showLabels: true, showValues: true, maxValue: 2500000, minValue: 500000, valueFormat: '0.0,,
-          "M"', unpinAxis: false, tickDensity: custom, tickDensityCustom: 20, type: linear}]
+        showLabels: true, showValues: true, maxValue: 2500000, minValue: !!null '', valueFormat: '0.0,,
+          "M"', unpinAxis: true, tickDensity: custom, tickDensityCustom: 20, type: linear}]
     limit_displayed_rows_values:
       show_hide: show
       first_last: first
@@ -147,8 +147,8 @@
     sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: PD
-      base.select_comparison_period: Year
-      base.select_number_of_periods: '3'
+      # base.select_comparison_period: Year
+      # base.select_number_of_periods: '3'
     limit: 500
     custom_color_enabled: true
     show_single_value_title: true
@@ -188,8 +188,8 @@
     fields: [transactions.total_net_sales, base.date_year]
     filters:
       base.select_fixed_range: WTD
-      base.select_comparison_period: Year
-      base.select_number_of_periods: '3'
+      # base.select_comparison_period: Year
+      # base.select_number_of_periods: '3'
     sorts: [base.date_year desc]
     limit: 500
     custom_color_enabled: true
@@ -229,8 +229,8 @@
     sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: MTD
-      base.select_comparison_period: Year
-      base.select_number_of_periods: '3'
+      # base.select_comparison_period: Year
+      # base.select_number_of_periods: '3'
     limit: 500
     custom_color_enabled: true
     show_single_value_title: true
@@ -269,8 +269,8 @@
     sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: YTD
-      base.select_comparison_period: Year
-      base.select_number_of_periods: '3'
+      # base.select_comparison_period: Year
+      # base.select_number_of_periods: '3'
     limit: 500
     custom_color_enabled: true
     show_single_value_title: true
@@ -1079,8 +1079,8 @@
     sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: PD
-      base.select_comparison_period: Year
-      base.select_number_of_periods: '3'
+      # base.select_comparison_period: Year
+      # base.select_number_of_periods: '3'
     limit: 500
     custom_color_enabled: true
     show_single_value_title: true
@@ -1119,8 +1119,8 @@
     sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: WTD
-      base.select_comparison_period: Year
-      base.select_number_of_periods: '3'
+      # base.select_comparison_period: Year
+      # base.select_number_of_periods: '3'
     limit: 500
     custom_color_enabled: true
     show_single_value_title: true
@@ -1160,8 +1160,8 @@
     sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: MTD
-      base.select_comparison_period: Year
-      base.select_number_of_periods: '3'
+      # base.select_comparison_period: Year
+      # base.select_number_of_periods: '3'
     limit: 500
     custom_color_enabled: true
     show_single_value_title: true
@@ -1201,8 +1201,8 @@
     sorts: [base.date_year desc]
     filters:
       base.select_fixed_range: YTD
-      base.select_comparison_period: Year
-      base.select_number_of_periods: '3'
+      # base.select_comparison_period: Year
+      # base.select_number_of_periods: '3'
     limit: 500
     custom_color_enabled: true
     show_single_value_title: true
@@ -2747,8 +2747,8 @@
               Year - 1 - net_margin, name: CY}, {axisId: net_margin, id: Last Year
               - 2 - net_margin, name: LY}, {axisId: net_margin, id: 2 Years Ago -
               3 - net_margin, name: 2LY}, {axisId: budget, id: budget, name: Budget}],
-        showLabels: true, showValues: true, maxValue: 0.43, minValue: 0.36, valueFormat: 0%,
-        unpinAxis: false, tickDensity: custom, tickDensityCustom: 19, type: linear}]
+        showLabels: true, showValues: true, maxValue: 0.42, minValue: !!null '', valueFormat: 0%,
+        unpinAxis: true, tickDensity: custom, tickDensityCustom: 19, type: linear}]
     limit_displayed_rows_values:
       show_hide: show
       first_last: first
@@ -2832,8 +2832,8 @@
     y_axes: [{label: '', orientation: left, series: [{axisId: aov, id: This Year -
               1 - aov, name: This Year}, {axisId: aov, id: Last Year - 2 - aov, name: Last
               Year}, {axisId: aov, id: 2 Years Ago - 3 - aov, name: 2 Years Ago}],
-        showLabels: true, showValues: true, maxValue: 22, minValue: 18, valueFormat: '0',
-        unpinAxis: false, tickDensity: custom, tickDensityCustom: 19, type: linear}]
+        showLabels: true, showValues: true, maxValue: 22, minValue: !!null '', valueFormat: '0',
+        unpinAxis: true, tickDensity: custom, tickDensityCustom: 19, type: linear}]
     limit_displayed_rows_values:
       show_hide: show
       first_last: first
