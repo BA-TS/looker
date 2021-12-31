@@ -6,7 +6,7 @@ view: base {
     sql:
 
     select date
-    from UNNEST(GENERATE_DATE_ARRAY('2015-01-01', date(greatest(extract(year from current_date),2022), 12, 31))) date
+    from UNNEST(GENERATE_DATE_ARRAY('2015-01-01', date(extract(year from current_date), 12, 31))) date
 
     ;;
     datagroup_trigger: toolstation_transactions_datagroup
