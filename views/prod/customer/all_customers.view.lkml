@@ -3,7 +3,7 @@ include: "/views/prod/department_specific/crm/trade_customers.view"
 
 view: customers {
 
-  required_access_grants: [is_developer]
+  required_access_grants: [can_use_customers]
 
   sql_table_name:
 

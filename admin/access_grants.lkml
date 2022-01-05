@@ -8,7 +8,7 @@ access_grant: can_use_customers {
 }
 access_grant: can_use_customer_information {
   user_attribute: ts_sensitive
-  allowed_values: ["YS"]
+  allowed_values: ["Y"]
 }
 access_grant: is_developer {
   user_attribute: ts_developer
