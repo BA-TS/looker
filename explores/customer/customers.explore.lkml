@@ -7,7 +7,7 @@ explore: customers {
   label: "Customer"
   description: "Explore Toolstation customer data."
 
-  # required_access_grants: [can_use_customers]
+  required_access_grants: [can_use_customer_information]
 
   join: trade_customers {
     view_label: "Budget"
