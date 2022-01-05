@@ -1,4 +1,5 @@
-include: "/views/**/*.view"
+# include: "/views/**/*.view"
+include: "/views/prod/customer/*.view"
 
 explore: customers {
 
