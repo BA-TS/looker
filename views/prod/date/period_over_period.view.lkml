@@ -510,7 +510,7 @@ view: period_on_period_new {
     type: yesno
     sql:
 
-          EXTRACT(DAYOFWEEK FROM ${__target_date__}) <= EXTRACT(DAYOFWEEK FROM ${__current_date__}) - ${__length_of_week__}
+          EXTRACT(DAYOFWEEK FROM ${__target_date__}) <= EXTRACT(DAYOFWEEK FROM ${__current_date__} - ${__length_of_week__})
           AND (${__target_date__} > ${__current_date__} - (${__length_of_week__} * 2) AND ${__target_date__} <= ${__current_date__} - ${__length_of_week__})
 
         ;;
@@ -520,7 +520,7 @@ view: period_on_period_new {
     type: yesno
     sql:
 
-          EXTRACT(DAYOFWEEK FROM ${__target_date__}) <= EXTRACT(DAYOFWEEK FROM ${__current_date__}) - (2*${__length_of_week__})
+          EXTRACT(DAYOFWEEK FROM ${__target_date__}) <= EXTRACT(DAYOFWEEK FROM ${__current_date__} - (2*${__length_of_week__}))
           AND (${__target_date__} > ${__current_date__} - (${__length_of_week__} * 3) AND ${__target_date__} <= ${__current_date__} - (2*${__length_of_week__}))
 
         ;;
@@ -685,7 +685,6 @@ view: period_on_period_new {
                 ${week_to_date} OR ${week_to_date_LW}
               {% endif %}
 
-                ${week_to_date_LW}
             {% elsif select_comparison_period._parameter_value == "Month" %}
                 ${week_to_date} --${week_to_date_LM}
             {% elsif select_comparison_period._parameter_value == "Year" %}
