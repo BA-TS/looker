@@ -210,7 +210,7 @@ view: transactions {
     group_label: "Order ID"
     type: string
     sql: ${TABLE}.userUID ;;
-    hidden: yes
+    hidden: no
   }
   dimension_group: transaction {
     label: "Transaction"
