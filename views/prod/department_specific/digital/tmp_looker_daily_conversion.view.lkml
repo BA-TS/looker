@@ -15,14 +15,16 @@ view: tmp_looker_daily_conversion {
     hidden: yes
   }
 
-  measure: total_conversion {
-    type: sum
-    sql: ${conversion} ;;
-  }
+  # measure: total_conversion {
+  #   type: sum
+  #   sql: ${conversion} ;;
+  #   value_format_name: percent_2
+  # }
 
   measure: average_conversion {
     type: average
     sql: ${conversion} ;;
+    value_format_name: percent_2
   }
 
   dimension: net_sales {
