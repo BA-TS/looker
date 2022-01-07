@@ -61,21 +61,25 @@ view: tmp_looker_daily_conversion {
   measure: average_order_value {
     type: sum
     sql:${aov};;
+    value_format_name: gbp
   }
 
   measure: total_net_sales {
     type: sum
     sql:${net_sales};;
+    value_format_name: gbp
   }
 
   measure: total_orders {
     type: sum
     sql:${orders} ;;
+    value_format_name: decimal_0
   }
 
   measure: total_sessions {
     type: sum
     sql: ${sessions} ;;
+    value_format_name: decimal_0
   }
 
 }
