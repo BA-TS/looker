@@ -1,5 +1,7 @@
 view: open_to_buy_model {
 
+  # https://console.cloud.google.com/bigquery?sq=277683357807:1d3c4ddab5b14c02a28d88d53e3e7a70 #
+
   sql_table_name: `toolstation-data-storage.ts_analytics.open_to_buy_model`;;
 
   # Visible Dimensions #
