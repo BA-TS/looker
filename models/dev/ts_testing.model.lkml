@@ -18,13 +18,3 @@ explore:  base {
     ;;
 
 }
-
-explore: open_to_buy_model {
-  label: "Open to Buy [TESTING]"
-  required_access_grants: [is_developer]
-  # sql_always_where:
-
-  # ${date} > current_date() - 30
-
-  # ;;
-}
