@@ -1,5 +1,5 @@
 - dashboard: channel_performance_dsr
-  title: Channel Performance (DSR)
+  title: Channel Performance
   layout: newspaper
   preferred_viewer: dashboards-next
   refresh: 1 day

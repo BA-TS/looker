@@ -1,5 +1,5 @@
 - dashboard: next_14_days_dsr
-  title: Next 14 Days (DSR)
+  title: Next 14 Days
   layout: newspaper
   preferred_viewer: dashboards-next
   refresh: 1 day

@@ -1,5 +1,5 @@
 - dashboard: digital_daily_sales_report__channel_performance
-  title: Digital Daily Sales Report - Channel Performance
+  title: Channel Performance
   layout: newspaper
   preferred_viewer: dashboards-next
   description: ''

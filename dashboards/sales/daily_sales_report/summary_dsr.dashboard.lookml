@@ -1,5 +1,5 @@
 - dashboard: summary_dsr
-  title: Summary (DSR)
+  title: Summary
   layout: newspaper
   preferred_viewer: dashboards-next
   description: ''

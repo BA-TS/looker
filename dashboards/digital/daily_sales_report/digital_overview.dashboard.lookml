@@ -1,5 +1,5 @@
 - dashboard: digital_daily_sales_report__summary
-  title: Digital Daily Sales Report - Summary
+  title: Summary
   layout: newspaper
   preferred_viewer: dashboards-next
   description: ''

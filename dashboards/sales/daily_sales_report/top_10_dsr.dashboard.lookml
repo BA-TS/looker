@@ -1,5 +1,5 @@
 - dashboard: top_10_performances_dsr
-  title: Top 10 Performances (DSR)
+  title: Top 10 Performances
   layout: newspaper
   preferred_viewer: dashboards-next
   refresh: 1 day
