@@ -27,7 +27,7 @@ view: calendar {
     group_label: "Calendar"
     type: string
     sql: ${TABLE}.calendarYearMonth ;;
-    hidden: yes
+    # hidden: yes
   }
   dimension: calendar_year_quarter {
     group_label: "Calendar"
