@@ -69,10 +69,10 @@
     dynamic_fields: [{category: table_calculation, expression: 'pivot_index(mean(offset_list(${total_budget.net_sales_budget},0,7)),1)',
         label: Budget, value_format: !!null '', value_format_name: gbp_0, _kind_hint: supermeasure,
         table_calculation: budget, _type_hint: number, is_disabled: true}, {category: table_calculation,
-        expression: "if(\n  ${transactions.total_net_sales} = 0.00 AND \n  (offset(${transactions.total_net_sales},\
-          \ -2) = 0.00 OR offset(${transactions.total_net_sales}, -2) = null), null,\n\
-          \nif(mean(offset_list(${transactions.total_net_sales},0,7)) = 0 , null,\
-          \ mean(offset_list(${net_sales_coalesce},0,7))\n)\n)\n", label: Net Sales,
+        expression: "\nif(\n  coalesce(${transactions.total_net_sales},0) = 0.00 AND \n\
+      \  coalesce(offset(${transactions.total_net_sales}, -2),0) = 0.00\n  , null,\n\
+      \nif(mean(offset_list(${transactions.total_net_sales},0,7)) = 0 , null, mean(offset_list(coalesce(${net_sales_coalesce},null),0,7))\n\
+      )\n)\n", label: Net Sales,
         value_format: !!null '', value_format_name: gbp_0, _kind_hint: measure, table_calculation: net_sales,
         _type_hint: number}, {category: table_calculation, expression: 'if (${transactions.total_net_sales}
           = 0, null, ${transactions.total_net_sales})', label: Net Sales coalesce,
@@ -1409,10 +1409,10 @@
       {category: table_calculation, expression: "mean(offset_list(${transactions.total_margin_rate_incl_funding},0,7))\n\
           \n", label: Net Margin, value_format: !!null '', value_format_name: percent_2,
         _kind_hint: measure, table_calculation: net_margin, _type_hint: number, is_disabled: true},
-      {category: table_calculation, expression: "\nif(\n  ${transactions.aov_net_sales}\
-          \ = 0.00 AND \n  (offset(${transactions.aov_net_sales}, -2) = 0.00 OR offset(${transactions.aov_net_sales},\
-          \ -2) = null), null,\n\nif(mean(offset_list(${transactions.aov_net_sales},0,7))\
-          \ = 0 , null, mean(offset_list(${aov_coalesce},0,7))\n)\n)\n", label: AOV,
+      {category: table_calculation, expression: "if(  coalesce(${transactions.aov_net_sales},0) = 0.00 AND
+      coalesce(offset(${transactions.aov_net_sales}, -2),0) = 0.00  , null,
+      if(mean(offset_list(${transactions.aov_net_sales},0,7)) = 0 , null, mean(offset_list(coalesce(${aov_coalesce},null),0,7))
+      ))", label: AOV,
         value_format: !!null '', value_format_name: gbp, _kind_hint: measure, table_calculation: aov,
         _type_hint: number}, {category: table_calculation, expression: 'if(${transactions.aov_net_sales}
           = 0, null, ${transactions.aov_net_sales})', label: AOV coalesce, value_format: !!null '',
