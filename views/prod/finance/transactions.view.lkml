@@ -421,6 +421,13 @@ dimension_group: order_completed {
     sql: case when ${promo_main_catalogue.product_code} is null and ${promo_extra.product_code} is null then false else true end ;;
   }
 
+  dimension: has_trade_account {
+    group_label: "Trade Credit"
+    view_label: "Customers"
+    type: yesno
+    sql: case when ${trade_credit_details.main_trade_credit_account_uid} is not null then true else false end ;;
+  }
+
 
 # ██╗░░██╗██╗██████╗░██████╗░███████╗███╗░░██╗
 # ██║░░██║██║██╔══██╗██╔══██╗██╔════╝████╗░██║
