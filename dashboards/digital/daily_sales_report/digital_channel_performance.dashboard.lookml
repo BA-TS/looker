@@ -685,6 +685,107 @@
     col: 8
     width: 16
     height: 6
+  - title: PPC Data Table
+    name: PPC Data Table
+    model: ga_sessions
+    explore: ga_sessions
+    type: looker_grid
+    fields: [ga_sessions.channel_grouping, ga_sessions.visits_total, ga_sessions.transaction_revenue_total,
+      ga_sessions.transaction_conversion_rate, ga_sessions.transactions_count, ga_sessions.partition_date]
+    pivots: [ga_sessions.channel_grouping]
+    fill_fields: [ga_sessions.partition_date]
+    filters:
+      ga_sessions.partition_date: 60 days ago for 60 days
+      ga_sessions.channel_grouping: Paid
+    sorts: [ga_sessions.channel_grouping, ga_sessions.partition_date desc]
+    limit: 500
+    show_view_names: false
+    show_row_numbers: false
+    transpose: false
+    truncate_text: true
+    hide_totals: false
+    hide_row_totals: false
+    size_to_fit: true
+    table_theme: white
+    limit_displayed_rows: false
+    enable_conditional_formatting: false
+    header_text_alignment: center
+    header_font_size: '13'
+    rows_font_size: '12'
+    conditional_formatting_include_totals: false
+    conditional_formatting_include_nulls: false
+    color_application:
+      collection_id: toolstation
+      palette_id: toolstation-categorical-0
+      options:
+        steps: 5
+    show_sql_query_menu_options: false
+    show_totals: true
+    show_row_totals: true
+    series_labels:
+      ga_sessions.transaction_revenue_total: Revenue
+      ga_sessions.transaction_conversion_rate: Conversion
+    series_cell_visualizations:
+      ga_sessions.visits_total:
+        is_active: false
+    series_text_format:
+      ga_sessions.partition_date:
+        align: center
+      ga_sessions.visits_total:
+        align: center
+      ga_sessions.transaction_revenue_total:
+        align: center
+      ga_sessions.transaction_conversion_rate:
+        align: center
+      ga_sessions.transactions_count:
+        align: center
+      ga_sessions.channel_grouping:
+        align: center
+    header_font_color: "#FFFFFF"
+    header_background_color: "#004f9f"
+    series_value_format:
+      ga_sessions.transaction_revenue_total:
+        name: gbp
+        decimals: '2'
+        format_string: '"£"#,##0.00'
+        label: British Pounds (2)
+        label_prefix: British Pounds
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    legend_position: center
+    point_style: none
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: auto
+    y_axis_combined: true
+    show_null_points: true
+    interpolation: linear
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    series_types: {}
+    ordering: none
+    show_null_labels: false
+    defaults_version: 1
+    hidden_fields:
+    title_hidden: true
+    listen: {}
+    row: 29
+    col: 8
+    width: 16
+    height: 6
   - title: Overall Sessions
     name: Overall Sessions
     model: ga_sessions
