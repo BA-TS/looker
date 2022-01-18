@@ -11,8 +11,16 @@ view: open_to_buy_model {
     timeframes: [
       month,
     ]
-    sql: ${date_raw} ;;
+    sql: timestamp(${date_raw}) ;;
     order_by_field: date_raw
+  }
+
+  ##############################
+
+  dimension: date_raw {
+    type: date_time
+    sql: ${TABLE}.date ;;
+    hidden: yes
   }
 
   dimension: department {
@@ -20,23 +28,15 @@ view: open_to_buy_model {
     sql: ${TABLE}.department ;;
   }
 
-  # Hidden Dimensions #
-
-  dimension: date_raw {
-    type: date
-    sql: ${TABLE}.date ;;
+  dimension: open_to_buy_raw {
+    type: number
+    sql: ${TABLE}.open_to_buy ;;
     hidden: yes
   }
 
-  dimension: cogs_budget {
+  dimension: orders_due_in {
     type: number
-    sql: ${TABLE}.cogs_budget ;;
-    hidden: yes
-  }
-
-  dimension: fixed_stock {
-    type: number
-    sql: ${TABLE}.fixed_stock ;;
+    sql: ${TABLE}.orders_due_in ;;
     hidden: yes
   }
 
@@ -46,39 +46,9 @@ view: open_to_buy_model {
     hidden: yes
   }
 
-  dimension: ongoing_cogs {
+  dimension: cogs_budget {
     type: number
-    sql: ${TABLE}.ongoing_cogs ;;
-    hidden: yes
-  }
-
-  dimension: ongoing_forecast_orders {
-    type: number
-    sql: ${TABLE}.ongoing_forecast_orders ;;
-    hidden: yes
-  }
-
-  dimension: ongoing_orders_due_in {
-    type: number
-    sql: ${TABLE}.ongoing_orders_due_in ;;
-    hidden: yes
-  }
-
-  dimension: ongoing_stock_budget {
-    type: number
-    sql: ${TABLE}.ongoing_stock_budget ;;
-    hidden: yes
-  }
-
-  dimension: open_to_buy_raw {
-    type: number
-    sql: ${TABLE}.open_to_buy_raw ;;
-    hidden: yes
-  }
-
-  dimension: orders_due_in {
-    type: number
-    sql: ${TABLE}.orders_due_in ;;
+    sql: ${TABLE}.cogs_budget ;;
     hidden: yes
   }
 
@@ -93,18 +63,62 @@ view: open_to_buy_model {
     sql: ${TABLE}.stock_budget ;;
     hidden: yes
   }
+  dimension: fixed_stock {
+    type: number
+    sql: ${TABLE}.fixed_stock ;;
+    hidden: yes
+  }
+  dimension: ongoing_orders_due_in {
+    type: number
+    sql: ${TABLE}.rolling_orders_in ;;
+    hidden: yes
+  }
+
+  dimension: ongoing_forecast_orders {
+    type: number
+    sql: ${TABLE}.rolling_forecast_orders ;;
+    hidden: yes
+  }
+
+  dimension: ongoing_cogs {
+    type: number
+    sql: ${TABLE}.rolling_cogs_budget ;;
+    hidden: yes
+  }
+
 
   dimension: stock_forecast {
     type: number
-    sql: ${TABLE}.stock_forecast ;;
+    sql: ${TABLE}.forecast_stock ;;
     hidden: yes
   }
 
-  dimension: stock_forecast_pre_otb {
-    type: number
-    sql: ${TABLE}.stock_forecast_pre_otb ;;
-    hidden: yes
-  }
+
+
+
+
+
+
+
+
+  # Hidden Dimensions #
+
+
+
+
+
+  # dimension: ongoing_stock_budget {
+  #   type: number
+  #   sql: ${TABLE}.ongoing_stock_budget ;;
+  #   hidden: yes
+  # }
+
+
+  # dimension: stock_forecast_pre_otb {
+  #   type: number
+  #   sql: ${TABLE}.stock_forecast_pre_otb ;;
+  #   hidden: yes
+  # }
 
   # Visible Measures #
 
@@ -133,9 +147,8 @@ view: open_to_buy_model {
   }
 
   measure: open_to_buy {
-    description: "FX: stock_budget - (cogs_budget + orders_due_in + forecast_orders)"
     type: sum
-    sql: CASE WHEN ${open_to_buy_raw} < 0 THEN 0 ELSE ${open_to_buy_raw} END ;;
+    sql: ${open_to_buy_raw} ;;
     value_format_name: gbp
   }
 
