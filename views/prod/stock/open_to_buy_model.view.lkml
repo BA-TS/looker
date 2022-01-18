@@ -86,10 +86,15 @@ view: open_to_buy_model {
     hidden: yes
   }
 
-
   dimension: stock_forecast {
     type: number
     sql: ${TABLE}.forecast_stock ;;
+    hidden: yes
+  }
+
+  dimension: stock_days {
+    type: number
+    sql: ${TABLE}.stock_days ;;
     hidden: yes
   }
 
@@ -122,9 +127,15 @@ view: open_to_buy_model {
 
   # Visible Measures #
 
+  measure: average_stock_days {
+    type: average
+    sql: ${stock_days} ;;
+    value_format_name: decimal_0
+  }
+
   measure: total_cogs_budget {
     type: sum
-    sql: ${cogs_budget} ;;
+    sql: ABS(${cogs_budget}) ;;
     value_format_name:gbp
   }
 
@@ -147,6 +158,7 @@ view: open_to_buy_model {
   }
 
   measure: open_to_buy {
+    label: "Total Open to Buy"
     type: sum
     sql: ${open_to_buy_raw} ;;
     value_format_name: gbp
@@ -157,21 +169,5 @@ view: open_to_buy_model {
     sql: ${repeater_buy} ;;
     value_format_name: percent_1
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
