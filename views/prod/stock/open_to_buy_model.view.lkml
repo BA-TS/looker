@@ -17,15 +17,37 @@ view: open_to_buy_model {
 
   ##############################
 
+  dimension: department {
+    type: string
+    sql: ${TABLE}.department ;;
+  }
+
+  # filter: stock_day_filter {
+  #   label: "Stock Day Adjustment"
+  #   description: "State as percentage - e.g. 10% = 0.1 / -5% = -0.05"
+  #   type: string
+  # }
+
+  # dimension: stock_day_modifier{
+  #   type: string
+  #   sql:
+
+  #   {% if stock_day_filter._is_filtered %}
+  #     coalesce(CAST({% parameter stock_day_filter %} AS FLOAT64),0)
+  #   {% else %}
+  #     0
+  #   {% endif %}
+
+  #   ;;
+  #   hidden: yes
+  # }
+
+  # Hidden Dimensions #
+
   dimension: date_raw {
     type: date_time
     sql: ${TABLE}.date ;;
     hidden: yes
-  }
-
-  dimension: department {
-    type: string
-    sql: ${TABLE}.department ;;
   }
 
   dimension: open_to_buy_raw {
@@ -94,36 +116,9 @@ view: open_to_buy_model {
 
   dimension: stock_days {
     type: number
-    sql: ${TABLE}.stock_days ;;
+    sql: ${TABLE}.stock_days  ;; # * (1 + ${stock_day_modifier})
     hidden: yes
   }
-
-
-
-
-
-
-
-
-
-  # Hidden Dimensions #
-
-
-
-
-
-  # dimension: ongoing_stock_budget {
-  #   type: number
-  #   sql: ${TABLE}.ongoing_stock_budget ;;
-  #   hidden: yes
-  # }
-
-
-  # dimension: stock_forecast_pre_otb {
-  #   type: number
-  #   sql: ${TABLE}.stock_forecast_pre_otb ;;
-  #   hidden: yes
-  # }
 
   # Visible Measures #
 
