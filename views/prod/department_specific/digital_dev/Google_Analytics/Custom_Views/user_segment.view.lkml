@@ -67,14 +67,14 @@ view: user_segment {
     group_label: "In Selected Timeframe"
     type: sum
     sql: ${transaction_revenue} ;;
-    value_format_name: usd_0
+    value_format_name: gbp_0
   }
 
   measure: segment_transaction_revenue_per_user {
     group_label: "In Selected Timeframe"
     type: number
     sql: ${segment_transaction_revenue}/NULLIF(${segment_users},0) ;;
-    value_format_name: usd
+    value_format_name: gbp
   }
 
   measure: segment_transaction_count {

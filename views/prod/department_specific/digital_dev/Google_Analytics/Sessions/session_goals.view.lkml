@@ -58,7 +58,7 @@ include: "ga_sessions.view.lkml"
     #   type: number
     #   hidden: yes
     #   sql: 100 ;;
-    #   value_format_name: usd
+    #   value_format_name: gbp
     # }
 
     # # filter for goal completion to mark as converted
@@ -104,7 +104,7 @@ include: "ga_sessions.view.lkml"
     #   group_label: "Goals"
     #   type: number
     #   sql: 1.0 * (${demo_goal_conversions}) * (${value_of_conversion});;
-    #   value_format_name: usd
+    #   value_format_name: gbp
     # }
 
     # measure: company_goal_conversion_value {
@@ -112,7 +112,7 @@ include: "ga_sessions.view.lkml"
     #   group_label: "Goals"
     #   type: number
     #   sql: 1.0 * (${company_goal_conversions}) * (${value_of_conversion});;
-    #   value_format_name: usd
+    #   value_format_name: gbp
     # }
 
     # TODO: you need to add all the goals here as well
@@ -153,6 +153,6 @@ include: "ga_sessions.view.lkml"
     #       {% elsif goal_selection._parameter_value == "'No Selection'" %}NULL
     #         {% endif %} ;;
     #   label_from_parameter: goal_selection
-    #   value_format_name: usd
+    #   value_format_name: gbp
     # }
   }

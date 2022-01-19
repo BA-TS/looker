@@ -169,7 +169,7 @@ view: totals {
     type: sum
     sql: (${TABLE}.totals.totalTransactionRevenue/1000000) ;;
 
-    value_format_name: usd_0
+    value_format_name: gbp_0
     drill_fields: [transactions_count, transaction_revenue_total]
   }
 
@@ -181,7 +181,7 @@ view: totals {
     type: number
     sql: ${transaction_revenue_total}/NULLIF(${ga_sessions.unique_visitors},0);;
 
-    value_format_name: usd_0
+    value_format_name: gbp_0
     drill_fields: [transactions_count, transaction_revenue_total, transaction_revenue_per_user]
   }
 
