@@ -83,7 +83,7 @@ view: open_to_buy_model {
   dimension: stock_budget {
     type: number
     sql: ${TABLE}.stock_budget ;;
-    hidden: yes
+    hidden: no
   }
   dimension: fixed_stock {
     type: number
@@ -138,7 +138,7 @@ view: open_to_buy_model {
     type: sum
     sql: ${stock_budget} ;;
     value_format_name:gbp
-  }
+  } # getting 6.2 instead of 4.4
 
   measure: total_orders_due_in {
     type: sum
