@@ -9,8 +9,7 @@ view: open_to_buy_model {
   dimension_group: period {
     type: time
     timeframes: [
-      month,
-      year
+      month
     ]
     sql: timestamp(${date_raw}) ;;
     order_by_field: date_raw

@@ -11,4 +11,10 @@ explore: open_to_buy_model {
 
   # ;;
 
+  sql_always_where:
+
+  open_to_buy_model.department <> 'Deleted' AND open_to_buy_model.department <> 'Uncatalogued' AND open_to_buy_model.department <> 'Clearance'
+
+  ;;
+
 }
