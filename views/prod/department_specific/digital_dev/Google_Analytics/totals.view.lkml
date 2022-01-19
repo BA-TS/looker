@@ -153,6 +153,7 @@ view: totals {
   }
 
   measure: transaction_conversion_rate {
+    label: "Conversion Rate"
     view_label: "Goals"
     group_label: "Transactions"
     type: number
@@ -162,7 +163,7 @@ view: totals {
   }
 
   measure: transaction_revenue_total {
-    label: "Transaction Revenue Total"
+    label: "Revenue Total"
     view_label: "Goals"
     group_label: "Transactions"
     description: "Total transaction revenue, expressed as the value passed to Analytics multiplied by 10^6 (e.g., 2.40 would be given as 2400000)."
@@ -174,7 +175,7 @@ view: totals {
   }
 
   measure: transaction_revenue_per_user {
-    label: "Transaction Revenue Per User"
+    label: "Revenue Per User"
     view_label: "Goals"
     group_label: "Transactions"
     description: "Total transaction revenue, expressed as the value passed to Analytics multiplied by 10^6 (e.g., 2.40 would be given as 2400000), per unique visitor ID."
