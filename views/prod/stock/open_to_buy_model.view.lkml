@@ -10,6 +10,7 @@ view: open_to_buy_model {
     type: time
     timeframes: [
       month,
+      year
     ]
     sql: timestamp(${date_raw}) ;;
     order_by_field: date_raw
@@ -171,8 +172,8 @@ view: open_to_buy_model {
     value_format_name: percent_1
   }
 
-  measure: total_variance_to_budget {
-    type: sum
+  measure: average_variance_to_budget {
+    type: average
     sql: ${variance_to_budget} ;;
     value_format_name: gbp
   }
@@ -180,7 +181,7 @@ view: open_to_buy_model {
   measure: buying_performance {
     description: "Combines Open to Buy and Variance to Budget to show the combination of where there is still stock availability, versus where overspending has occurred versus the budget."
     type: number
-    sql: case when ${open_to_buy} = 0 then ${total_variance_to_budget} else ${open_to_buy} end  ;;
+    sql: case when ${open_to_buy} = 0 then ${average_variance_to_budget} else ${open_to_buy} end  ;;
     value_format_name: gbp
   }
 
