@@ -120,6 +120,12 @@ view: open_to_buy_model {
     hidden: yes
   }
 
+  dimension: variance_to_budget {
+    type: number
+    sql: ${TABLE}.variance_to_budget ;;
+    hidden: yes
+  }
+
   # Visible Measures #
 
   measure: average_stock_days {
@@ -163,6 +169,19 @@ view: open_to_buy_model {
     type: average
     sql: ${repeater_buy} ;;
     value_format_name: percent_1
+  }
+
+  measure: total_variance_to_budget {
+    type: sum
+    sql: ${variance_to_budget} ;;
+    value_format_name: gbp
+  }
+
+  measure: buying_performance {
+    description: "Combines Open to Buy and Variance to Budget to show the combination of where there is still stock availability, versus where overspending has occurred versus the budget."
+    type: number
+    sql: case when ${open_to_buy} = 0 then ${total_variance_to_budget} else ${open_to_buy} end  ;;
+    value_format_name: gbp
   }
 
 }
