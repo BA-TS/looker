@@ -2,6 +2,7 @@ include: "/**/*/*.view.lkml"
 include: "/**/Google_Analytics/*.view.lkml"
 include: "/**/Google_Analytics/Sessions/*.view.lkml"
 include: "/**/Google_Analytics/Custom_Views/*.view.lkml"
+include: "/views/prod/department_specific/digital_dev/Google_Analytics/ga_period_over_period.view.lkml"
 
 explore: ga_sessions {
 
@@ -9,6 +10,22 @@ explore: ga_sessions {
 
   label: "Google Analytics"
   description: "Explores Google Analytics sessions data."
+
+  # always_join: [base]
+
+  sql_always_where: _table_suffix >= FORMAT_DATE('%Y%m%d',date_sub(date_trunc(current_date, year), interval 2 year)) AND ${ga_pop.period_over_period} ;; # AND ${base.period_over_period}
+
+  conditionally_filter: {
+    filters: [
+      ga_pop.select_date_range: "Yesterday"
+    ]
+    unless: [
+      ga_pop.select_fixed_range
+    ]
+  }
+
+  join: ga_pop {}
+
 
   join: audience_cohorts {
     type: left_outer
