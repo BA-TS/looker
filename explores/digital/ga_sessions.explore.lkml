@@ -13,7 +13,7 @@ explore: ga_sessions {
 
   # always_join: [base]
 
-  sql_always_where: _table_suffix >= FORMAT_DATE('%Y%m%d',date_sub(date_trunc(current_date, year), interval 2 year)) AND ${ga_pop.period_over_period} ;; # AND ${base.period_over_period}
+  sql_always_where: _table_suffix >= FORMAT_DATE('%Y%m%d',date_sub(date_trunc(current_date, year), interval 2 year))  ;; # AND ${ga_pop.period_over_period} # AND ${base.period_over_period}
 
   conditionally_filter: {
     filters: [
