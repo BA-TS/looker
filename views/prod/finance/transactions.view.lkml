@@ -34,6 +34,62 @@ view: transactions {
     }
 
 
+  parameter: include_charity {
+    view_label: "Overrides"
+    label: "Show Charity"
+    description: "By default, SKU 85699 and 00053 are excluded. Selecting 'Yes' will include isolate those SKUs in the query."
+    type: string
+    allowed_value: {
+      label: "Yes"
+      value: "1"
+    }
+    allowed_value: {
+      label: "No"
+      value: "0"
+    }
+    default_value: "0"
+  }
+
+  # parameter: include_cancelled {
+  #   view_label: "Overrides"
+  #   label: "Show Cancelled"
+  #   description: "By default, all cancelled orders are excluded. Selecting 'Yes' will isolate those orders in the query."
+  #   type: string
+  #   allowed_value: {
+  #     label: "Yes"
+  #     value: "1"
+  #   }
+  #   allowed_value: {
+  #     label: "No"
+  #     value: "0"
+  #   }
+  #   default_value: "0"
+  #   hidden: yes
+  # }
+
+  dimension: charity_status {
+    view_label: "Overrides"
+    type: string
+    sql:
+
+    {% parameter include_charity %}
+
+    ;;
+    hidden: yes
+  }
+
+  # dimension: cancelled_status {
+  #   view_label: "Overrides"
+  #   sql:
+
+  #   {% include_cancelled._parameter_value %}
+
+  #   ;;
+  #   hidden: yes
+  # }
+
+
+
 # ██╗░░██╗██╗██████╗░██████╗░███████╗███╗░░██╗
 # ██║░░██║██║██╔══██╗██╔══██╗██╔════╝████╗░██║
 # ███████║██║██║░░██║██║░░██║█████╗░░██╔██╗██║

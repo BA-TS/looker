@@ -36,11 +36,20 @@ explore: base {
     join: transactions {
       type: left_outer
       relationship: one_to_many
+
       sql_on:
 
         ${base.base_date_date} = date(${transactions.transaction_date})
-        and (${transactions.is_cancelled} = 0 or ${transactions.is_cancelled} is null)
-        and (${transactions.product_code} <> '85699' or ${transactions.product_code} is null)
+        and (${transactions.is_cancelled} = 0 and ${transactions.is_cancelled} is null)
+
+       {% if ${transactions.charity_status} == "1" %}
+       and (${transactions.product_code} = '85699' and ${transactions.product_code} = '00053')
+        {% else %}
+      and (${transactions.product_code} <> '85699' and ${transactions.product_code} <> '00053')
+        {% endif %}
+
+        and ${transactions.product_code} is null
+
         {% if
           (category_budget._in_query and site_budget._in_query)
           or (channel_budget._in_query and category_budget._in_query)  %}
