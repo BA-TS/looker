@@ -48,7 +48,7 @@ explore: base {
       and (${transactions.product_code} <> '85699' and ${transactions.product_code} <> '00053')
         {% endif %}
 
-        and ${transactions.product_code} is null
+        and ${transactions.product_code} is not null
 
         {% if
           (category_budget._in_query and site_budget._in_query)
