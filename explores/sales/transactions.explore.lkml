@@ -40,7 +40,7 @@ explore: base {
       sql_on:
 
         ${base.base_date_date} = date(${transactions.transaction_date})
-        and (${transactions.is_cancelled} = 0 and ${transactions.is_cancelled} is null)
+        and (${transactions.is_cancelled} = 0 and ${transactions.is_cancelled} is not null)
 
        {% if ${transactions.charity_status} == "1" %}
        and (${transactions.product_code} = '85699' and ${transactions.product_code} = '00053')
