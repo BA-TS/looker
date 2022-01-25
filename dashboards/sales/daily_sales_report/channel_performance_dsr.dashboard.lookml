@@ -19,27 +19,19 @@
     subtitle_text: ''
     body_text: |-
       <div style="padding: 20px 0 20px 0; border-radius: 5px; background: #ffe200; height: 80px;">
-
          <div style="background: #004f9f; height: 40px; width:100%">
-
               <a href="https://tpdev.cloud.looker.com/boards/7">
-
-                       <img style="color: #ffffff; float: left; height: 40px" src="https://www.toolstation.com/img/toolstation.svg"/>
-
+                 <img style="color: #ffffff; float: left; height: 40px" src="https://www.toolstation.com/img/toolstation.svg"/>
                </a>
-
             <nav style="font-size: 18px;">
-
-               <span style="color: #000000;">
-
-               <a style="color: #ffffff; padding: 0 20px ; float: right; line-height: 40px; font-weight: regular" href="https://tpdev.cloud.looker.com/boards/7" >Back to Menu</a>
-
-               <a style="color: #ffffff; padding: 0 20px ; float: right; line-height: 40px; font-weight: regular" href="https://tpdev.cloud.looker.com/embed/dashboards-next/ts_sales::channel_performance_dsr" target="_blank" fullscreen="yes">View Full Screen</a>
+              <span style="color: #000000;">
+                <a style="color: #ffffff; padding: 0 20px; float: right; line-height: 40px; font_weight: regular" href="https://tpdev.cloud.looker.com/dashboards/ts_sales::next_14_days_dsr" >Next 14 Days</a>
+                <a style="color: #ffffff; padding: 0 20px; float: right; line-height: 40px; font_weight: regular" href="https://tpdev.cloud.looker.com/dashboards/ts_sales::top_10_performances_dsr" >Top 10</a>
+                <a style="color: #efefef; padding: 0 20px; float: right; line-height: 40px; font-weight: bold; text-decoration: none;">Channel Performance</a>
+                <a style="color: #ffffff; padding: 0 20px; float: right; line-height: 40px; font-weight: regular; " href="https://tpdev.cloud.looker.com/dashboards/ts_sales::summary_dsr"  >Summary</a>
               </span>
-               <a style="color: #efefef; padding: 0 20px; float: right; line-height: 40px; font-weight: bold; text-decoration: none;"><span style="color: #ffffff;">Daily Sales Report - Channel Performance</span></a>
             </nav>
          </div>
-
       </div>
     row: 0
     col: 0
@@ -842,15 +834,29 @@
     filters:
       base.select_fixed_range: YTD
       base.select_comparison_period: Year
+      base.select_number_of_periods: '3'
     sorts: [base.date_date desc, transactions.sales_channel]
     limit: 500
-    dynamic_fields: [{category: table_calculation, expression: "(${transactions.total_net_sales}\
-          \ / offset(${transactions.total_net_sales}, 364)) - 1", label: "% vs LY",
-        value_format: !!null '', value_format_name: percent_1, _kind_hint: measure,
-        table_calculation: vs_ly, _type_hint: number}, {category: table_calculation,
-        expression: "(${transactions.total_net_sales} / ${channel_budget.channel_net_sales_budget})\
-          \ - 1", label: "% vs Budget", value_format: !!null '', value_format_name: percent_1,
-        _kind_hint: measure, table_calculation: vs_budget, _type_hint: number}]
+    dynamic_fields:
+    - category: table_calculation
+      expression: |-
+        (${transactions.total_net_sales} / offset(${transactions.total_net_sales}, extract_days(now()) - extract_days(trunc_years(now()))
+        )) - 1
+      label: "% vs LY"
+      value_format:
+      value_format_name: percent_1
+      _kind_hint: measure
+      table_calculation: vs_ly
+      _type_hint: number
+    - category: table_calculation
+      expression: "(${transactions.total_net_sales} / ${channel_budget.channel_net_sales_budget})\
+        \ - 1"
+      label: "% vs Budget"
+      value_format:
+      value_format_name: percent_1
+      _kind_hint: measure
+      table_calculation: vs_budget
+      _type_hint: number
     show_view_names: false
     show_row_numbers: false
     transpose: false

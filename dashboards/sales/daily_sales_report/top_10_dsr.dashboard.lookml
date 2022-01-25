@@ -19,27 +19,19 @@
     subtitle_text: ''
     body_text: |-
       <div style="padding: 20px 0 20px 0; border-radius: 5px; background: #ffe200; height: 80px;">
-
          <div style="background: #004f9f; height: 40px; width:100%">
-
               <a href="https://tpdev.cloud.looker.com/boards/7">
-
-                       <img style="color: #ffffff; float: left; height: 40px" src="https://www.toolstation.com/img/toolstation.svg"/>
-
+                 <img style="color: #ffffff; float: left; height: 40px" src="https://www.toolstation.com/img/toolstation.svg"/>
                </a>
-
             <nav style="font-size: 18px;">
-
-               <span style="color: #000000;">
-
-               <a style="color: #ffffff; padding: 0 20px ; float: right; line-height: 40px; font-weight: regular" href="https://tpdev.cloud.looker.com/boards/7" >Back to Menu</a>
-
-               <a style="color: #ffffff; padding: 0 20px ; float: right; line-height: 40px; font-weight: regular" href="https://tpdev.cloud.looker.com/embed/dashboards-next/ts_sales::top_10_performances_dsr" target="_blank" fullscreen="yes">View Full Screen</a>
+              <span style="color: #000000;">
+                <a style="color: #ffffff; padding: 0 20px; float: right; line-height: 40px; font_weight: regular" href="https://tpdev.cloud.looker.com/dashboards/ts_sales::next_14_days_dsr" >Next 14 Days</a>
+                <a style="color: #efefef; padding: 0 20px; float: right; line-height: 40px; font-weight: bold; text-decoration: none;">Top 10</a>
+                <a style="color: #ffffff; padding: 0 20px; float: right; line-height: 40px; font_weight: regular" href="https://tpdev.cloud.looker.com/dashboards/ts_sales::channel_performance_dsr" >Channel Performance</a>
+                <a style="color: #ffffff; padding: 0 20px; float: right; line-height: 40px; font-weight: regular; " href="https://tpdev.cloud.looker.com/dashboards/ts_sales::summary_dsr"  >Summary</a>
               </span>
-               <a style="color: #efefef; padding: 0 20px; float: right; line-height: 40px; font-weight: bold; text-decoration: none;"><span style="color: #ffffff;">Daily Sales Report - Top 10 Performances</span></a>
             </nav>
          </div>
-
       </div>
     row: 0
     col: 0
