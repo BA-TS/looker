@@ -36,4 +36,10 @@ view: base {
     hidden: yes
   }
 
+  measure: count_of_dates {
+    type: count_distinct
+    sql: ${base_date_date} ;;
+    hidden: yes # only used by Data Tests
+  }
+
 }

@@ -517,140 +517,140 @@ dimension_group: order_completed {
 # ██║░░██║██║██████╔╝██████╔╝███████╗██║░╚███║
 # ╚═╝░░╚═╝╚═╝╚═════╝░╚═════╝░╚══════╝╚═╝░░╚══╝
 
-  measure: net_sales_promo_mix {
-    required_access_grants: [is_developer]
-    view_label: "Measures"
-    group_label: "Promo"
-    type: number
-    sql:
-              sum(CASE
-              WHEN ${promo_in_any}
-                THEN ${net_sales_value}
-              ELSE 0
-              END) / sum(${net_sales_value})
+  # measure: net_sales_promo_mix {
+  #   required_access_grants: [is_developer]
+  #   view_label: "Measures"
+  #   group_label: "Promo"
+  #   type: number
+  #   sql:
+  #             sum(CASE
+  #             WHEN ${promo_in_any}
+  #               THEN ${net_sales_value}
+  #             ELSE 0
+  #             END) / sum(${net_sales_value})
 
-              ;;
-    value_format: "##0.0%;(##0.0%)"
-    hidden: yes
-  }
-  measure: margin_rate_promo {
-    required_access_grants: [is_developer]
-    view_label: "Measures"
-    group_label: "Promo"
-    type: number
-    sql:
+  #             ;;
+  #   value_format: "##0.0%;(##0.0%)"
+  #   hidden: yes
+  # }
+  # measure: margin_rate_promo {
+  #   required_access_grants: [is_developer]
+  #   view_label: "Measures"
+  #   group_label: "Promo"
+  #   type: number
+  #   sql:
 
-              sum(CASE
-              WHEN ${promo_in_any}
-                THEN ${margin_incl_funding}
-              ELSE 0
-              END) /
-              sum(CASE
-              WHEN ${promo_in_any}
-                THEN ${net_sales_value}
-              ELSE 0
-              END)
-              ;;
-    value_format: "##0.0%;(##0.0%)"
-    # hidden: yes
-  }
-  measure: total_gross_sales_promo {
-    required_access_grants: [is_developer]
-    view_label: "Measures"
-    group_label: "Promo"
-    type: number
-    sql:
+  #             sum(CASE
+  #             WHEN ${promo_in_any}
+  #               THEN ${margin_incl_funding}
+  #             ELSE 0
+  #             END) /
+  #             sum(CASE
+  #             WHEN ${promo_in_any}
+  #               THEN ${net_sales_value}
+  #             ELSE 0
+  #             END)
+  #             ;;
+  #   value_format: "##0.0%;(##0.0%)"
+  #   # hidden: yes
+  # }
+  # measure: total_gross_sales_promo {
+  #   required_access_grants: [is_developer]
+  #   view_label: "Measures"
+  #   group_label: "Promo"
+  #   type: number
+  #   sql:
 
-    CASE
-      WHEN ${promo_in_any}
-        THEN ${total_gross_sales_main} + ${total_gross_sales_extra}
-      ELSE 0
-    END
+  #   CASE
+  #     WHEN ${promo_in_any}
+  #       THEN ${total_gross_sales_main} + ${total_gross_sales_extra}
+  #     ELSE 0
+  #   END
 
-    ;;
-    # hidden: yes
-  }
-  measure: total_net_sales_promo {
-    required_access_grants: [is_developer]
-    view_label: "Measures"
-    group_label: "Promo"
-    description: "This needs fixing! 28/10"
-    type: sum
-    sql:
+  #   ;;
+  #   # hidden: yes
+  # }
+  # measure: total_net_sales_promo {
+  #   required_access_grants: [is_developer]
+  #   view_label: "Measures"
+  #   group_label: "Promo"
+  #   description: "This needs fixing! 28/10"
+  #   type: sum
+  #   sql:
 
-    CASE
-      WHEN ${promo_in_any}
-        THEN ${net_sales_value}
-      ELSE 0
-    END
+  #   CASE
+  #     WHEN ${promo_in_any}
+  #       THEN ${net_sales_value}
+  #     ELSE 0
+  #   END
 
-    ;;
-    # hidden: yes
-  }
-  measure: total_margin_excl_funding_promo {
-    required_access_grants: [is_developer]
-    view_label: "Measures"
-    group_label: "Promo"
-    type: number
-    sql:
+  #   ;;
+  #   # hidden: yes
+  # }
+  # measure: total_margin_excl_funding_promo {
+  #   required_access_grants: [is_developer]
+  #   view_label: "Measures"
+  #   group_label: "Promo"
+  #   type: number
+  #   sql:
 
-    CASE
-      WHEN ${promo_in_any}
-        THEN ${total_margin_excl_funding_main} + ${total_margin_excl_funding_extra}
-      ELSE 0
-    END
+  #   CASE
+  #     WHEN ${promo_in_any}
+  #       THEN ${total_margin_excl_funding_main} + ${total_margin_excl_funding_extra}
+  #     ELSE 0
+  #   END
 
-    ;;
-    # hidden: yes
-  }
-  measure: total_margin_incl_funding_promo {
-    required_access_grants: [is_developer]
-    view_label: "Measures"
-    group_label: "Promo"
-    type: sum
-    sql:
+  #   ;;
+  #   # hidden: yes
+  # }
+  # measure: total_margin_incl_funding_promo {
+  #   required_access_grants: [is_developer]
+  #   view_label: "Measures"
+  #   group_label: "Promo"
+  #   type: sum
+  #   sql:
 
-    CASE
-      WHEN ${promo_in_any}
-        THEN ${margin_incl_funding}
-      ELSE 0
-    END
+  #   CASE
+  #     WHEN ${promo_in_any}
+  #       THEN ${margin_incl_funding}
+  #     ELSE 0
+  #   END
 
-    ;;
-    # hidden: yes
-  }
-  measure: total_units_promo {
-    required_access_grants: [is_developer]
-    view_label: "Measures"
-    group_label: "Promo"
-    type: number
-    sql:
+  #   ;;
+  #   # hidden: yes
+  # }
+  # measure: total_units_promo {
+  #   required_access_grants: [is_developer]
+  #   view_label: "Measures"
+  #   group_label: "Promo"
+  #   type: number
+  #   sql:
 
-    CASE
-      WHEN ${promo_in_any}
-        THEN ${total_units_main} + ${total_units_extra}
-      ELSE 0
-    END
+  #   CASE
+  #     WHEN ${promo_in_any}
+  #       THEN ${total_units_main} + ${total_units_extra}
+  #     ELSE 0
+  #   END
 
-    ;;
-    # hidden: yes
-  }
-  measure: total_number_of_transactions_promo {
-    required_access_grants: [is_developer]
-    view_label: "Measures"
-    group_label: "Promo"
-    type: number
-    sql:
+  #   ;;
+  #   # hidden: yes
+  # }
+  # measure: total_number_of_transactions_promo {
+  #   required_access_grants: [is_developer]
+  #   view_label: "Measures"
+  #   group_label: "Promo"
+  #   type: number
+  #   sql:
 
-    CASE
-      WHEN ${promo_in_any}
-        THEN ${total_number_of_transactions_main} + ${total_number_of_transactions_extra}
-      ELSE 0
-    END
+  #   CASE
+  #     WHEN ${promo_in_any}
+  #       THEN ${total_number_of_transactions_main} + ${total_number_of_transactions_extra}
+  #     ELSE 0
+  #   END
 
-    ;;
-    # hidden: yes
-  }
+  #   ;;
+  #   # hidden: yes
+  # }
 
 
 
@@ -907,840 +907,840 @@ dimension_group: order_completed {
 
   # Detail SEGMENT (T/D only) #
 
-  measure: number_of_trade_customers {
-    required_access_grants: [is_expert]
-    group_label: "Segmentation"
-    label: "Number of Customers (Trade)"
-    type: count_distinct
-    sql:
-
-    CASE
-      WHEN ${is_trade_customer}
-        THEN ${customer_uid}
-      ELSE NULL
-    END
-
-    ;;
-    hidden: yes
-  }
-  measure: number_of_diy_customers {
-    required_access_grants: [is_expert]
-    group_label: "Segmentation"
-    label: "Number of Customers (DIY)"
-    type: count_distinct
-    sql:
-
-    CASE
-      WHEN NOT ${is_trade_customer}
-        THEN ${customer_uid}
-      ELSE NULL
-    END
-
-    ;;
-    hidden: yes
-  }
-
-  measure: percentage_of_customers_trade {
-    required_access_grants: [is_expert]
-    group_label: "Segmentation"
-    label: "Percentage of Customers (Trade)"
-    type: number
-    sql:
-
-    SAFE_DIVIDE(${number_of_trade_customers}, ${number_of_unique_customers})
-
-    ;;
-    hidden: yes
-    value_format: "##0.0%;(##0.0%)"
-  }
-  measure: percentage_of_customers_diy {
-    required_access_grants: [is_expert]
-    group_label: "Segmentation"
-    label: "Percentage of Customers (DIY)"
-    type: number
-    sql:
-
-    SAFE_DIVIDE(${number_of_diy_customers}, ${number_of_unique_customers})
-
-    ;;
-    hidden: yes
-    value_format: "##0.0%;(##0.0%)"
-  }
-
-
-
-  measure: trade_gross_sales {
-    required_access_grants: [is_expert]
-    label: "Gross Sales"
-    type: sum
-    group_label: "Trade"
-    sql:
-
-    CASE
-      WHEN ${is_trade_customer}
-        THEN ${gross_sales_value}
-      ELSE 0
-    END
-
-    ;;
-    hidden: yes
-  }
-  measure: diy_gross_sales {
-    required_access_grants: [is_expert]
-    label: "Gross Sales"
-    type: sum
-    group_label: "DIY"
-    sql:
-
-    CASE
-      WHEN NOT ${is_trade_customer}
-        THEN ${gross_sales_value}
-      ELSE 0
-    END
-
-     ;;
-    hidden: yes
-  }
-  measure: trade_net_sales {
-    required_access_grants: [is_expert]
-    label: "Net Sales"
-    type: sum
-    group_label: "Trade"
-    sql:
-
-    CASE
-      WHEN ${is_trade_customer}
-        THEN ${net_sales_value}
-      ELSE 0
-    END
-
-    ;;
-    hidden: yes
-  }
-  measure: diy_net_sales {
-    required_access_grants: [is_expert]
-    type: sum
-    label: "Total Net Sales"
-    group_label: "DIY"
-    description: "Where is not Trade then assuming DIY to avoid dropping data"
-    sql:
-
-    CASE
-      WHEN NOT ${is_trade_customer}
-        THEN ${net_sales_value}
-      ELSE 0
-    END
-
-     ;;
-    hidden: yes
-  }
-  measure: trade_margin_excl_funding {
-    required_access_grants: [is_expert]
-    label: "Margin Exc Funding"
-    type: sum
-    group_label: "Trade"
-    sql:
-
-    CASE
-      WHEN ${is_trade_customer}
-        THEN ${margin_excl_funding}
-      ELSE 0
-    END
-
-    ;;
-    hidden: yes
-  }
-  measure: diy_margin_excl_funding {
-    required_access_grants: [is_expert]
-    label: "Margin Exc Funding"
-    type: sum
-    group_label: "DIY"
-
-    sql:
-
-    CASE
-      WHEN NOT ${is_trade_customer}
-        THEN ${margin_excl_funding}
-      ELSE 0
-    END
-
-    ;;
-    hidden: yes
-  }
-  measure: trade_margin_incl_funding {
-    required_access_grants: [is_expert]
-    label: "Margin Inc Funding"
-    type: sum
-    group_label: "Trade"
-    sql:
-
-    CASE
-      WHEN ${is_trade_customer}
-        THEN ${margin_incl_funding}
-      ELSE 0
-    END
-
-    ;;
-    hidden: yes
-  }
-  measure: diy_margin_incl_funding {
-    required_access_grants: [is_expert]
-    label: "Margin Inc Funding"
-    type: sum
-    group_label: "DIY"
-    sql:
-
-    CASE
-      WHEN NOT ${is_trade_customer}
-        THEN ${margin_incl_funding}
-      ELSE 0
-    END
-
-    ;;
-    hidden: yes
-  }
-
-  ## MR % x 2
-
-  measure: trade_units {
-    required_access_grants: [is_expert]
-    label: "Units"
-    type: sum
-    group_label: "Trade"
-    sql:
-
-    CASE
-      WHEN ${is_trade_customer} AND ${product_code} NOT LIKE '0%'
-        THEN ${quantity}
-      ELSE 0
-    END
-
-    ;;
-    hidden: yes
-  }
-  measure: diy_units {
-    required_access_grants: [is_expert]
-    label: "Units"
-    type: sum
-    group_label: "DIY"
-    sql:
-
-    CASE
-      WHEN NOT ${is_trade_customer} AND ${product_code} NOT LIKE '0%'
-        THEN ${quantity}
-      ELSE 0
-    END
-
-    ;;
-  }
-  measure: trade_units_incl_system_codes {
-    required_access_grants: [is_expert]
-    label: "Units Inc System"
-    type: sum
-    group_label: "Trade"
-    sql:
-
-    CASE
-      WHEN ${is_trade_customer}
-        THEN ${quantity}
-      ELSE 0
-    END
-
-    ;;
-    hidden: yes
-  }
-  measure: diy_units_incl_system_codes {
-    required_access_grants: [is_expert]
-    label: "Units Inc System"
-    type: sum
-    group_label: "DIY"
-    sql:
-
-    CASE
-      WHEN NOT ${is_trade_customer}
-        THEN ${quantity}
-      ELSE 0
-    END
-
-    ;;
-    hidden: yes
-  }
-  measure: trade_number_of_transactions {
-    required_access_grants: [is_expert]
-    label: "Number of Transactions"
-    type: count_distinct
-    group_label: "Trade"
-    sql:
-
-    CASE
-      WHEN ${is_trade_customer}
-        THEN ${parent_order_uid}
-      ELSE ""
-    END
-
-    ;;
-    hidden: yes
-    value_format: "#,##0;(#,##0)"
-
-  }
-  measure: diy_number_of_transactions {
-    required_access_grants: [is_expert]
-    label: "Number of Transactions"
-    type: sum
-    group_label: "DIY"
-    sql:
-
-    CASE
-      WHEN NOT ${is_trade_customer}
-        THEN ${parent_order_uid}
-      ELSE false
-    END
-
-    ;;
-    hidden: yes
-  }
-
-  measure: trade_gross_sales_mix {
-    required_access_grants: [is_expert]
-    label: "Gross Sales Mix (Trade)"
-    group_label: "Segmentation"
-    type: number
-    sql:
-
-    SAFE_DIVIDE(${trade_gross_sales}, ${total_gross_sales})
-
-    ;;
-    hidden: yes
-    value_format: "##0.00%;(##0.00%)"
-  }
-  measure: diy_gross_sales_mix {
-    required_access_grants: [is_expert]
-    label: "Gross Sales Mix (DIY)"
-    group_label: "Segmentation"
-    type: number
-    sql:
-
-    SAFE_DIVIDE(${diy_gross_sales}, ${total_gross_sales})
-
-    ;;
-    value_format: "##0.00%;(##0.00%)"
-  }
-  measure: trade_net_sales_mix {
-    required_access_grants: [is_expert]
-    label: "Net Sales Mix (Trade)"
-    group_label: "Segmentation"
-    type: number
-    sql:
-
-    SAFE_DIVIDE(${trade_net_sales}, ${total_net_sales})
-
-    ;;
-    hidden: yes
-    value_format: "##0.00%;(##0.00%)"
-  }
-  measure: diy_net_sales_mix {
-    required_access_grants: [is_expert]
-    label: "Net Sales Mix (DIY)"
-    group_label: "Segmentation"
-    type: number
-    sql:
-
-    SAFE_DIVIDE(${diy_net_sales}, ${total_net_sales})
-
-    ;;
-    hidden: yes
-    value_format: "##0.00%;(##0.00%)"
-  }
-  measure: trade_margin_excl_funding_mix {
-    required_access_grants: [is_expert]
-    label: "Margin Excl Funding Mix (Trade)"
-    group_label: "Segmentation"
-    type: number
-    sql:
-
-    SAFE_DIVIDE(${trade_margin_excl_funding}, ${total_margin_excl_funding})
-
-    ;;
-    hidden: yes
-    value_format: "##0.00%;(##0.00%)"
-  }
-  measure: diy_margin_excl_funding_mix {
-    required_access_grants: [is_expert]
-    label: "Margin Excl Funding Mix (DIY)"
-    group_label: "Segmentation"
-    type: number
-    sql:
-
-    SAFE_DIVIDE(${diy_margin_excl_funding}, ${total_margin_excl_funding})
-
-    ;;
-    hidden: yes
-    value_format: "##0.00%;(##0.00%)"
-  }
-  measure: trade_margin_incl_funding_mix {
-    required_access_grants: [is_expert]
-    label: "Margin Inc Funding Mix (Trade)"
-    group_label: "Segmentation"
-    type: number
-    sql:
-
-    SAFE_DIVIDE(${trade_margin_incl_funding}, ${total_margin_incl_funding})
-
-    ;;
-    hidden: yes
-    value_format: "##0.00%;(##0.00%)"
-  }
-  measure: diy_margin_incl_funding_mix {
-    required_access_grants: [is_expert]
-    label: "Margin Inc Funding Mix (DIY)"
-    group_label: "Segmentation"
-    type: number
-    sql:
-
-    SAFE_DIVIDE(${diy_margin_incl_funding}, ${total_margin_incl_funding})
-
-    ;;
-    hidden: yes
-    value_format: "##0.00%;(##0.00%)"
-  }
-  # MR % x 2
-  measure: trade_units_mix {
-    required_access_grants: [is_expert]
-    label: "Unit Mix (Trade)"
-    group_label: "Segmentation"
-    type: number
-    sql:
-
-    SAFE_DIVIDE(${trade_net_units}, ${total_units})
-
-    ;;
-    hidden: yes
-    value_format: "##0.00%;(##0.00%)"
-  }
-  measure: diy_units_mix {
-    required_access_grants: [is_expert]
-    label: "Unit Mix (DIY)"
-    group_label: "Segmentation"
-    type: number
-    sql:
-
-    SAFE_DIVIDE(${diy_net_units}, ${total_units})
-
-    ;;
-    hidden: yes
-    value_format: "##0.00%;(##0.00%)"
-  }
-  measure: trade_units_incl_system_codes_mix {
-    required_access_grants: [is_expert]
-    label: "Unit System Codes Mix (Trade)"
-    group_label: "Segmentation"
-    type: number
-    sql:
-
-    SAFE_DIVIDE(${trade_units_incl_system_codes}, ${total_units_incl_system_codes})
-
-    ;;
-    hidden: yes
-    value_format: "##0.00%;(##0.00%)"
-  }
-  measure: diy_units_incl_system_codes_mix {
-    required_access_grants: [is_expert]
-    label: "Unit System Codes Mix (DIY)"
-    group_label: "Segmentation"
-    type: number
-    sql:
-
-    SAFE_DIVIDE(${diy_units_incl_system_codes}, ${total_units_incl_system_codes})
-
-    ;;
-    hidden: yes
-    value_format: "##0.00%;(##0.00%)"
-  }
-  measure: trade_number_of_transactions_mix {
-    required_access_grants: [is_expert]
-    label: "Number of Transactions Mix (Trade)"
-    group_label: "Segmentation"
-    type: number
-    sql:
-
-    SAFE_DIVIDE(${trade_number_of_transactions}, ${number_of_transactions})
-
-    ;;
-    hidden: yes
-    value_format: "##0.00%;(##0.00%)"
-  }
-  measure: diy_number_of_transactions_mix {
-    required_access_grants: [is_expert]
-    label: "Number of Transactions Mix (DIY)"
-    group_label: "Segmentation"
-    type: number
-    sql:
-
-    SAFE_DIVIDE(${diy_number_of_transactions}, ${number_of_transactions})
-
-    ;;
-    hidden: yes
-    value_format: "##0.00%;(##0.00%)"
-  }
-
-  # Detail PROMO #
-
-  measure: total_gross_sales_main {
-    label: "Gross Sales (Main)"
-    group_label: "Promo"
-    required_access_grants: [is_expert]
-    type: number
-    sql:
-
-    sum(CASE
-      WHEN ${promo_in_main_catalogue}
-        THEN ${gross_sales_value}
-      ELSE 0
-    END)
-
-    ;;
-    hidden: yes
-  }
-  measure: total_gross_sales_extra {
-    label: "Gross Sales (Extra)"
-    group_label: "Promo"
-    required_access_grants: [is_expert]
-    type: number
-    sql:
-
-    sum(CASE
-      WHEN ${promo_in_extra}
-        THEN ${gross_sales_value}
-      ELSE 0
-    END)
-
-    ;;
-    hidden: yes
-  }
-
-  measure: total_gross_sales_main_mix {
-    label: "Gross Sales Main Mix (Trade)"
-    group_label: "Promo"
-    required_access_grants: [is_expert]
-    description: "Mix is % vs Total Gross Sales"
-    type: number
-    sql:
-
-    SAFE_DIVIDE(${total_gross_sales_main}, ${total_gross_sales})
-
-    ;;
-    hidden: yes
-  }
-  measure: total_gross_sales_extra_mix {
-    label: "Gross Sales Extra Mix (Trade)"
-    group_label: "Promo"
-    required_access_grants: [is_expert]
-    description: "Mix is % vs Total Gross Sales"
-    type: number
-    sql:
-
-    SAFE_DIVIDE(${total_gross_sales_extra}, ${total_gross_sales})
-
-    ;;
-    hidden: yes
-  }
-
-  measure: total_net_sales_main {
-    label: "Net Sales (Main)"
-    group_label: "Promo"
-    required_access_grants: [is_expert]
-    type: sum
-    sql:
-
-    CASE
-      WHEN ${promo_in_main_catalogue}
-        THEN ${net_sales_value}
-      ELSE 0
-    END
-
-    ;;
-    hidden: yes
-  }
-  measure: total_net_sales_extra {
-    label: "Net Sales (Extra)"
-    group_label: "Promo"
-    required_access_grants: [is_expert]
-    type: sum
-    sql:
-
-    CASE
-      WHEN ${promo_in_extra}
-        THEN ${net_sales_value}
-      ELSE 0
-    END
-
-    ;;
-    hidden: yes
-  }
-
-  measure: total_net_sales_main_mix {
-    label: "Net Sales Main Mix (Trade)"
-    group_label: "Promo"
-    required_access_grants: [is_expert]
-    description: "Mix is % vs Total Net Sales"
-    type: number
-    sql:
-
-    SAFE_DIVIDE(${total_net_sales_main}, ${total_net_sales})
-
-    ;;
-    hidden: yes
-  }
-  measure: total_net_sales_extra_mix {
-    label: "Net Sales Extra Mix (Trade)"
-    group_label: "Promo"
-    required_access_grants: [is_expert]
-    description: "Mix is % vs Total Net Sales"
-    type: number
-    sql:
-
-    SAFE_DIVIDE(${total_net_sales_extra}, ${total_net_sales})
-
-    ;;
-    hidden: yes
-  }
-
-  measure: total_margin_excl_funding_main {
-    label: "Margin Exc Funding  (Main)"
-    group_label: "Promo"
-    required_access_grants: [is_expert]
-    type: sum
-    sql:
-
-    CASE
-      WHEN ${promo_in_main_catalogue}
-        THEN ${margin_excl_funding}
-      ELSE 0
-    END
-
-    ;;
-    hidden: yes
-  }
-  measure: total_margin_excl_funding_extra {
-    label: "Margin Exc Funding  (Extra)"
-    group_label: "Promo"
-    required_access_grants: [is_expert]
-    type: sum
-    sql:
-
-    CASE
-      WHEN ${promo_in_extra}
-        THEN ${margin_excl_funding}
-      ELSE 0
-    END
-
-    ;;
-    hidden: yes
-  }
-
-  measure: total_margin_excl_funding_main_mix {
-    label: "Margin Exc Funding Main Mix (Trade)"
-    group_label: "Promo"
-    required_access_grants: [is_expert]
-    description: "Mix is % vs Total Margin Exc Funding "
-    type: number
-    sql:
-
-    SAFE_DIVIDE(${total_margin_excl_funding_main}, ${total_margin_excl_funding})
-
-    ;;
-    hidden: yes
-  }
-  measure: total_margin_excl_funding_extra_mix {
-    label: "Margin Exc Funding Extra Mix (Trade)"
-    group_label: "Promo"
-    required_access_grants: [is_expert]
-    description: "Mix is % vs Total Margin Exc Funding "
-    type: number
-    sql:
-
-    SAFE_DIVIDE(${total_margin_excl_funding_extra}, ${total_margin_excl_funding})
-
-    ;;
-    hidden: yes
-  }
-
-  measure: total_margin_incl_funding_main {
-    label: "Margin Inc Funding  (Main)"
-    group_label: "Promo"
-    required_access_grants: [is_expert]
-    type: sum
-    sql:
-
-    CASE
-      WHEN ${promo_in_main_catalogue}
-        THEN ${margin_incl_funding}
-      ELSE 0
-    END
-
-    ;;
-  }
-  measure: total_margin_incl_funding_extra {
-    label: "Margin Inc Funding  (Extra)"
-    group_label: "Promo"
-    required_access_grants: [is_expert]
-    type: sum
-    sql:
-
-    CASE
-      WHEN ${promo_in_extra}
-        THEN ${margin_incl_funding}
-      ELSE 0
-    END
-
-    ;;
-    hidden: yes
-  }
-
-  measure: total_margin_incl_funding_main_mix {
-    label: "Margin Inc Funding Main Mix (Trade)"
-    group_label: "Promo"
-    required_access_grants: [is_expert]
-    description: "Mix is % vs Total Margin Inc Funding "
-    type: number
-    sql:
-
-    SAFE_DIVIDE(${total_margin_incl_funding_main}, ${total_margin_incl_funding})
-
-    ;;
-    hidden: yes
-  }
-  measure: total_margin_incl_funding_extra_mix {
-    label: "Margin Inc Funding Extra Mix (Trade)"
-    group_label: "Promo"
-    required_access_grants: [is_expert]
-    description: "Mix is % vs Total Margin Inc Funding "
-    type: number
-    sql:
-
-    SAFE_DIVIDE(${total_margin_incl_funding_extra}, ${total_margin_incl_funding})
-
-    ;;
-    hidden: yes
-  }
-
-  measure: total_units_main {
-    label: "Units  (Main)"
-    group_label: "Promo"
-    required_access_grants: [is_expert]
-    type: sum
-    sql:
-
-    CASE
-      WHEN ${promo_in_main_catalogue}
-        THEN ${quantity}
-      ELSE 0
-    END
-
-    ;;
-    hidden: yes
-  }
-  measure: total_units_extra {
-    label: "Units  (Extra)"
-    group_label: "Promo"
-    required_access_grants: [is_expert]
-    type: sum
-    sql:
-
-    CASE
-      WHEN ${promo_in_extra}
-        THEN ${quantity}
-      ELSE 0
-    END
-
-    ;;
-    hidden: yes
-  }
-  measure: total_units_main_mix {
-    label: "Units Main Mix (Trade)"
-    group_label: "Promo"
-    required_access_grants: [is_expert]
-    description: "Mix is % vs Total Units "
-    type: number
-    sql:
-
-    SAFE_DIVIDE(${total_units_main}, ${total_units})
-
-    ;;
-    hidden: yes
-  }
-  measure: total_units_extra_mix {
-    label: "Units Extra Mix (Trade)"
-    group_label: "Promo"
-    required_access_grants: [is_expert]
-    description: "Mix is % vs Total Units "
-    type: number
-    sql:
-
-    SAFE_DIVIDE(${total_units_extra}, ${total_units})
-
-    ;;
-    hidden: yes
-  }
-
-  measure: total_number_of_transactions_main {
-    label: "Transactions (Main)"
-    group_label: "Promo"
-    required_access_grants: [is_expert]
-    type: number
-    sql:
-
-    CASE
-      WHEN ${promo_in_main_catalogue}
-        THEN ${number_of_transactions}
-      ELSE 0
-    END
-
-    ;;
-    hidden: yes
-  }
-  measure: total_number_of_transactions_extra {
-    label: "Transactions (Extra)"
-    group_label: "Promo"
-    required_access_grants: [is_expert]
-    type: number
-    sql:
-
-    CASE
-      WHEN ${promo_in_extra}
-        THEN ${number_of_transactions}
-      ELSE 0
-    END
-
-    ;;
-    hidden: yes
-  }
-  measure: total_number_of_transactions_main_mix {
-    label: "Transactions Main Mix (Trade)"
-    group_label: "Promo"
-    required_access_grants: [is_expert]
-    description: "Mix is % vs Total Transactions "
-    type: number
-    sql:
-
-    SAFE_DIVIDE(${total_number_of_transactions_main}, ${number_of_transactions})
-
-    ;;
-    hidden: yes
-  }
-  measure: total_number_of_transactions_extra_mix {
-    label: "Transactions Extra Mix (Trade)"
-    group_label: "Promo"
-    required_access_grants: [is_expert]
-    description: "Mix is % vs Total Transactions "
-    type: number
-    sql:
-
-    SAFE_DIVIDE(${total_number_of_transactions_extra}, ${number_of_transactions})
-
-    ;;
-    hidden: yes
-  }
+  # measure: number_of_trade_customers {
+  #   required_access_grants: [is_expert]
+  #   group_label: "Segmentation"
+  #   label: "Number of Customers (Trade)"
+  #   type: count_distinct
+  #   sql:
+
+  #   CASE
+  #     WHEN ${is_trade_customer}
+  #       THEN ${customer_uid}
+  #     ELSE NULL
+  #   END
+
+  #   ;;
+  #   hidden: yes
+  # }
+  # measure: number_of_diy_customers {
+  #   required_access_grants: [is_expert]
+  #   group_label: "Segmentation"
+  #   label: "Number of Customers (DIY)"
+  #   type: count_distinct
+  #   sql:
+
+  #   CASE
+  #     WHEN NOT ${is_trade_customer}
+  #       THEN ${customer_uid}
+  #     ELSE NULL
+  #   END
+
+  #   ;;
+  #   hidden: yes
+  # }
+
+  # measure: percentage_of_customers_trade {
+  #   required_access_grants: [is_expert]
+  #   group_label: "Segmentation"
+  #   label: "Percentage of Customers (Trade)"
+  #   type: number
+  #   sql:
+
+  #   SAFE_DIVIDE(${number_of_trade_customers}, ${number_of_unique_customers})
+
+  #   ;;
+  #   hidden: yes
+  #   value_format: "##0.0%;(##0.0%)"
+  # }
+  # measure: percentage_of_customers_diy {
+  #   required_access_grants: [is_expert]
+  #   group_label: "Segmentation"
+  #   label: "Percentage of Customers (DIY)"
+  #   type: number
+  #   sql:
+
+  #   SAFE_DIVIDE(${number_of_diy_customers}, ${number_of_unique_customers})
+
+  #   ;;
+  #   hidden: yes
+  #   value_format: "##0.0%;(##0.0%)"
+  # }
+
+
+
+  # measure: trade_gross_sales {
+  #   required_access_grants: [is_expert]
+  #   label: "Gross Sales"
+  #   type: sum
+  #   group_label: "Trade"
+  #   sql:
+
+  #   CASE
+  #     WHEN ${is_trade_customer}
+  #       THEN ${gross_sales_value}
+  #     ELSE 0
+  #   END
+
+  #   ;;
+  #   hidden: yes
+  # }
+  # measure: diy_gross_sales {
+  #   required_access_grants: [is_expert]
+  #   label: "Gross Sales"
+  #   type: sum
+  #   group_label: "DIY"
+  #   sql:
+
+  #   CASE
+  #     WHEN NOT ${is_trade_customer}
+  #       THEN ${gross_sales_value}
+  #     ELSE 0
+  #   END
+
+  #   ;;
+  #   hidden: yes
+  # }
+  # measure: trade_net_sales {
+  #   required_access_grants: [is_expert]
+  #   label: "Net Sales"
+  #   type: sum
+  #   group_label: "Trade"
+  #   sql:
+
+  #   CASE
+  #     WHEN ${is_trade_customer}
+  #       THEN ${net_sales_value}
+  #     ELSE 0
+  #   END
+
+  #   ;;
+  #   hidden: yes
+  # }
+  # measure: diy_net_sales {
+  #   required_access_grants: [is_expert]
+  #   type: sum
+  #   label: "Total Net Sales"
+  #   group_label: "DIY"
+  #   description: "Where is not Trade then assuming DIY to avoid dropping data"
+  #   sql:
+
+  #   CASE
+  #     WHEN NOT ${is_trade_customer}
+  #       THEN ${net_sales_value}
+  #     ELSE 0
+  #   END
+
+  #   ;;
+  #   hidden: yes
+  # }
+  # measure: trade_margin_excl_funding {
+  #   required_access_grants: [is_expert]
+  #   label: "Margin Exc Funding"
+  #   type: sum
+  #   group_label: "Trade"
+  #   sql:
+
+  #   CASE
+  #     WHEN ${is_trade_customer}
+  #       THEN ${margin_excl_funding}
+  #     ELSE 0
+  #   END
+
+  #   ;;
+  #   hidden: yes
+  # }
+  # measure: diy_margin_excl_funding {
+  #   required_access_grants: [is_expert]
+  #   label: "Margin Exc Funding"
+  #   type: sum
+  #   group_label: "DIY"
+
+  #   sql:
+
+  #   CASE
+  #     WHEN NOT ${is_trade_customer}
+  #       THEN ${margin_excl_funding}
+  #     ELSE 0
+  #   END
+
+  #   ;;
+  #   hidden: yes
+  # }
+  # measure: trade_margin_incl_funding {
+  #   required_access_grants: [is_expert]
+  #   label: "Margin Inc Funding"
+  #   type: sum
+  #   group_label: "Trade"
+  #   sql:
+
+  #   CASE
+  #     WHEN ${is_trade_customer}
+  #       THEN ${margin_incl_funding}
+  #     ELSE 0
+  #   END
+
+  #   ;;
+  #   hidden: yes
+  # }
+  # measure: diy_margin_incl_funding {
+  #   required_access_grants: [is_expert]
+  #   label: "Margin Inc Funding"
+  #   type: sum
+  #   group_label: "DIY"
+  #   sql:
+
+  #   CASE
+  #     WHEN NOT ${is_trade_customer}
+  #       THEN ${margin_incl_funding}
+  #     ELSE 0
+  #   END
+
+  #   ;;
+  #   hidden: yes
+  # }
+
+  # ## MR % x 2
+
+  # measure: trade_units {
+  #   required_access_grants: [is_expert]
+  #   label: "Units"
+  #   type: sum
+  #   group_label: "Trade"
+  #   sql:
+
+  #   CASE
+  #     WHEN ${is_trade_customer} AND ${product_code} NOT LIKE '0%'
+  #       THEN ${quantity}
+  #     ELSE 0
+  #   END
+
+  #   ;;
+  #   hidden: yes
+  # }
+  # measure: diy_units {
+  #   required_access_grants: [is_expert]
+  #   label: "Units"
+  #   type: sum
+  #   group_label: "DIY"
+  #   sql:
+
+  #   CASE
+  #     WHEN NOT ${is_trade_customer} AND ${product_code} NOT LIKE '0%'
+  #       THEN ${quantity}
+  #     ELSE 0
+  #   END
+
+  #   ;;
+  # }
+  # measure: trade_units_incl_system_codes {
+  #   required_access_grants: [is_expert]
+  #   label: "Units Inc System"
+  #   type: sum
+  #   group_label: "Trade"
+  #   sql:
+
+  #   CASE
+  #     WHEN ${is_trade_customer}
+  #       THEN ${quantity}
+  #     ELSE 0
+  #   END
+
+  #   ;;
+  #   hidden: yes
+  # }
+  # measure: diy_units_incl_system_codes {
+  #   required_access_grants: [is_expert]
+  #   label: "Units Inc System"
+  #   type: sum
+  #   group_label: "DIY"
+  #   sql:
+
+  #   CASE
+  #     WHEN NOT ${is_trade_customer}
+  #       THEN ${quantity}
+  #     ELSE 0
+  #   END
+
+  #   ;;
+  #   hidden: yes
+  # }
+  # measure: trade_number_of_transactions {
+  #   required_access_grants: [is_expert]
+  #   label: "Number of Transactions"
+  #   type: count_distinct
+  #   group_label: "Trade"
+  #   sql:
+
+  #   CASE
+  #     WHEN ${is_trade_customer}
+  #       THEN ${parent_order_uid}
+  #     ELSE ""
+  #   END
+
+  #   ;;
+  #   hidden: yes
+  #   value_format: "#,##0;(#,##0)"
+
+  # }
+  # measure: diy_number_of_transactions {
+  #   required_access_grants: [is_expert]
+  #   label: "Number of Transactions"
+  #   type: sum
+  #   group_label: "DIY"
+  #   sql:
+
+  #   CASE
+  #     WHEN NOT ${is_trade_customer}
+  #       THEN ${parent_order_uid}
+  #     ELSE false
+  #   END
+
+  #   ;;
+  #   hidden: yes
+  # }
+
+  # measure: trade_gross_sales_mix {
+  #   required_access_grants: [is_expert]
+  #   label: "Gross Sales Mix (Trade)"
+  #   group_label: "Segmentation"
+  #   type: number
+  #   sql:
+
+  #   SAFE_DIVIDE(${trade_gross_sales}, ${total_gross_sales})
+
+  #   ;;
+  #   hidden: yes
+  #   value_format: "##0.00%;(##0.00%)"
+  # }
+  # measure: diy_gross_sales_mix {
+  #   required_access_grants: [is_expert]
+  #   label: "Gross Sales Mix (DIY)"
+  #   group_label: "Segmentation"
+  #   type: number
+  #   sql:
+
+  #   SAFE_DIVIDE(${diy_gross_sales}, ${total_gross_sales})
+
+  #   ;;
+  #   value_format: "##0.00%;(##0.00%)"
+  # }
+  # measure: trade_net_sales_mix {
+  #   required_access_grants: [is_expert]
+  #   label: "Net Sales Mix (Trade)"
+  #   group_label: "Segmentation"
+  #   type: number
+  #   sql:
+
+  #   SAFE_DIVIDE(${trade_net_sales}, ${total_net_sales})
+
+  #   ;;
+  #   hidden: yes
+  #   value_format: "##0.00%;(##0.00%)"
+  # }
+  # measure: diy_net_sales_mix {
+  #   required_access_grants: [is_expert]
+  #   label: "Net Sales Mix (DIY)"
+  #   group_label: "Segmentation"
+  #   type: number
+  #   sql:
+
+  #   SAFE_DIVIDE(${diy_net_sales}, ${total_net_sales})
+
+  #   ;;
+  #   hidden: yes
+  #   value_format: "##0.00%;(##0.00%)"
+  # }
+  # measure: trade_margin_excl_funding_mix {
+  #   required_access_grants: [is_expert]
+  #   label: "Margin Excl Funding Mix (Trade)"
+  #   group_label: "Segmentation"
+  #   type: number
+  #   sql:
+
+  #   SAFE_DIVIDE(${trade_margin_excl_funding}, ${total_margin_excl_funding})
+
+  #   ;;
+  #   hidden: yes
+  #   value_format: "##0.00%;(##0.00%)"
+  # }
+  # measure: diy_margin_excl_funding_mix {
+  #   required_access_grants: [is_expert]
+  #   label: "Margin Excl Funding Mix (DIY)"
+  #   group_label: "Segmentation"
+  #   type: number
+  #   sql:
+
+  #   SAFE_DIVIDE(${diy_margin_excl_funding}, ${total_margin_excl_funding})
+
+  #   ;;
+  #   hidden: yes
+  #   value_format: "##0.00%;(##0.00%)"
+  # }
+  # measure: trade_margin_incl_funding_mix {
+  #   required_access_grants: [is_expert]
+  #   label: "Margin Inc Funding Mix (Trade)"
+  #   group_label: "Segmentation"
+  #   type: number
+  #   sql:
+
+  #   SAFE_DIVIDE(${trade_margin_incl_funding}, ${total_margin_incl_funding})
+
+  #   ;;
+  #   hidden: yes
+  #   value_format: "##0.00%;(##0.00%)"
+  # }
+  # measure: diy_margin_incl_funding_mix {
+  #   required_access_grants: [is_expert]
+  #   label: "Margin Inc Funding Mix (DIY)"
+  #   group_label: "Segmentation"
+  #   type: number
+  #   sql:
+
+  #   SAFE_DIVIDE(${diy_margin_incl_funding}, ${total_margin_incl_funding})
+
+  #   ;;
+  #   hidden: yes
+  #   value_format: "##0.00%;(##0.00%)"
+  # }
+  # # MR % x 2
+  # measure: trade_units_mix {
+  #   required_access_grants: [is_expert]
+  #   label: "Unit Mix (Trade)"
+  #   group_label: "Segmentation"
+  #   type: number
+  #   sql:
+
+  #   SAFE_DIVIDE(${trade_net_units}, ${total_units})
+
+  #   ;;
+  #   hidden: yes
+  #   value_format: "##0.00%;(##0.00%)"
+  # }
+  # measure: diy_units_mix {
+  #   required_access_grants: [is_expert]
+  #   label: "Unit Mix (DIY)"
+  #   group_label: "Segmentation"
+  #   type: number
+  #   sql:
+
+  #   SAFE_DIVIDE(${diy_net_units}, ${total_units})
+
+  #   ;;
+  #   hidden: yes
+  #   value_format: "##0.00%;(##0.00%)"
+  # }
+  # measure: trade_units_incl_system_codes_mix {
+  #   required_access_grants: [is_expert]
+  #   label: "Unit System Codes Mix (Trade)"
+  #   group_label: "Segmentation"
+  #   type: number
+  #   sql:
+
+  #   SAFE_DIVIDE(${trade_units_incl_system_codes}, ${total_units_incl_system_codes})
+
+  #   ;;
+  #   hidden: yes
+  #   value_format: "##0.00%;(##0.00%)"
+  # }
+  # measure: diy_units_incl_system_codes_mix {
+  #   required_access_grants: [is_expert]
+  #   label: "Unit System Codes Mix (DIY)"
+  #   group_label: "Segmentation"
+  #   type: number
+  #   sql:
+
+  #   SAFE_DIVIDE(${diy_units_incl_system_codes}, ${total_units_incl_system_codes})
+
+  #   ;;
+  #   hidden: yes
+  #   value_format: "##0.00%;(##0.00%)"
+  # }
+  # measure: trade_number_of_transactions_mix {
+  #   required_access_grants: [is_expert]
+  #   label: "Number of Transactions Mix (Trade)"
+  #   group_label: "Segmentation"
+  #   type: number
+  #   sql:
+
+  #   SAFE_DIVIDE(${trade_number_of_transactions}, ${number_of_transactions})
+
+  #   ;;
+  #   hidden: yes
+  #   value_format: "##0.00%;(##0.00%)"
+  # }
+  # measure: diy_number_of_transactions_mix {
+  #   required_access_grants: [is_expert]
+  #   label: "Number of Transactions Mix (DIY)"
+  #   group_label: "Segmentation"
+  #   type: number
+  #   sql:
+
+  #   SAFE_DIVIDE(${diy_number_of_transactions}, ${number_of_transactions})
+
+  #   ;;
+  #   hidden: yes
+  #   value_format: "##0.00%;(##0.00%)"
+  # }
+
+  # # Detail PROMO #
+
+  # measure: total_gross_sales_main {
+  #   label: "Gross Sales (Main)"
+  #   group_label: "Promo"
+  #   required_access_grants: [is_expert]
+  #   type: number
+  #   sql:
+
+  #   sum(CASE
+  #     WHEN ${promo_in_main_catalogue}
+  #       THEN ${gross_sales_value}
+  #     ELSE 0
+  #   END)
+
+  #   ;;
+  #   hidden: yes
+  # }
+  # measure: total_gross_sales_extra {
+  #   label: "Gross Sales (Extra)"
+  #   group_label: "Promo"
+  #   required_access_grants: [is_expert]
+  #   type: number
+  #   sql:
+
+  #   sum(CASE
+  #     WHEN ${promo_in_extra}
+  #       THEN ${gross_sales_value}
+  #     ELSE 0
+  #   END)
+
+  #   ;;
+  #   hidden: yes
+  # }
+
+  # measure: total_gross_sales_main_mix {
+  #   label: "Gross Sales Main Mix (Trade)"
+  #   group_label: "Promo"
+  #   required_access_grants: [is_expert]
+  #   description: "Mix is % vs Total Gross Sales"
+  #   type: number
+  #   sql:
+
+  #   SAFE_DIVIDE(${total_gross_sales_main}, ${total_gross_sales})
+
+  #   ;;
+  #   hidden: yes
+  # }
+  # measure: total_gross_sales_extra_mix {
+  #   label: "Gross Sales Extra Mix (Trade)"
+  #   group_label: "Promo"
+  #   required_access_grants: [is_expert]
+  #   description: "Mix is % vs Total Gross Sales"
+  #   type: number
+  #   sql:
+
+  #   SAFE_DIVIDE(${total_gross_sales_extra}, ${total_gross_sales})
+
+  #   ;;
+  #   hidden: yes
+  # }
+
+  # measure: total_net_sales_main {
+  #   label: "Net Sales (Main)"
+  #   group_label: "Promo"
+  #   required_access_grants: [is_expert]
+  #   type: sum
+  #   sql:
+
+  #   CASE
+  #     WHEN ${promo_in_main_catalogue}
+  #       THEN ${net_sales_value}
+  #     ELSE 0
+  #   END
+
+  #   ;;
+  #   hidden: yes
+  # }
+  # measure: total_net_sales_extra {
+  #   label: "Net Sales (Extra)"
+  #   group_label: "Promo"
+  #   required_access_grants: [is_expert]
+  #   type: sum
+  #   sql:
+
+  #   CASE
+  #     WHEN ${promo_in_extra}
+  #       THEN ${net_sales_value}
+  #     ELSE 0
+  #   END
+
+  #   ;;
+  #   hidden: yes
+  # }
+
+  # measure: total_net_sales_main_mix {
+  #   label: "Net Sales Main Mix (Trade)"
+  #   group_label: "Promo"
+  #   required_access_grants: [is_expert]
+  #   description: "Mix is % vs Total Net Sales"
+  #   type: number
+  #   sql:
+
+  #   SAFE_DIVIDE(${total_net_sales_main}, ${total_net_sales})
+
+  #   ;;
+  #   hidden: yes
+  # }
+  # measure: total_net_sales_extra_mix {
+  #   label: "Net Sales Extra Mix (Trade)"
+  #   group_label: "Promo"
+  #   required_access_grants: [is_expert]
+  #   description: "Mix is % vs Total Net Sales"
+  #   type: number
+  #   sql:
+
+  #   SAFE_DIVIDE(${total_net_sales_extra}, ${total_net_sales})
+
+  #   ;;
+  #   hidden: yes
+  # }
+
+  # measure: total_margin_excl_funding_main {
+  #   label: "Margin Exc Funding  (Main)"
+  #   group_label: "Promo"
+  #   required_access_grants: [is_expert]
+  #   type: sum
+  #   sql:
+
+  #   CASE
+  #     WHEN ${promo_in_main_catalogue}
+  #       THEN ${margin_excl_funding}
+  #     ELSE 0
+  #   END
+
+  #   ;;
+  #   hidden: yes
+  # }
+  # measure: total_margin_excl_funding_extra {
+  #   label: "Margin Exc Funding  (Extra)"
+  #   group_label: "Promo"
+  #   required_access_grants: [is_expert]
+  #   type: sum
+  #   sql:
+
+  #   CASE
+  #     WHEN ${promo_in_extra}
+  #       THEN ${margin_excl_funding}
+  #     ELSE 0
+  #   END
+
+  #   ;;
+  #   hidden: yes
+  # }
+
+  # measure: total_margin_excl_funding_main_mix {
+  #   label: "Margin Exc Funding Main Mix (Trade)"
+  #   group_label: "Promo"
+  #   required_access_grants: [is_expert]
+  #   description: "Mix is % vs Total Margin Exc Funding "
+  #   type: number
+  #   sql:
+
+  #   SAFE_DIVIDE(${total_margin_excl_funding_main}, ${total_margin_excl_funding})
+
+  #   ;;
+  #   hidden: yes
+  # }
+  # measure: total_margin_excl_funding_extra_mix {
+  #   label: "Margin Exc Funding Extra Mix (Trade)"
+  #   group_label: "Promo"
+  #   required_access_grants: [is_expert]
+  #   description: "Mix is % vs Total Margin Exc Funding "
+  #   type: number
+  #   sql:
+
+  #   SAFE_DIVIDE(${total_margin_excl_funding_extra}, ${total_margin_excl_funding})
+
+  #   ;;
+  #   hidden: yes
+  # }
+
+  # measure: total_margin_incl_funding_main {
+  #   label: "Margin Inc Funding  (Main)"
+  #   group_label: "Promo"
+  #   required_access_grants: [is_expert]
+  #   type: sum
+  #   sql:
+
+  #   CASE
+  #     WHEN ${promo_in_main_catalogue}
+  #       THEN ${margin_incl_funding}
+  #     ELSE 0
+  #   END
+
+  #   ;;
+  # }
+  # measure: total_margin_incl_funding_extra {
+  #   label: "Margin Inc Funding  (Extra)"
+  #   group_label: "Promo"
+  #   required_access_grants: [is_expert]
+  #   type: sum
+  #   sql:
+
+  #   CASE
+  #     WHEN ${promo_in_extra}
+  #       THEN ${margin_incl_funding}
+  #     ELSE 0
+  #   END
+
+  #   ;;
+  #   hidden: yes
+  # }
+
+  # measure: total_margin_incl_funding_main_mix {
+  #   label: "Margin Inc Funding Main Mix (Trade)"
+  #   group_label: "Promo"
+  #   required_access_grants: [is_expert]
+  #   description: "Mix is % vs Total Margin Inc Funding "
+  #   type: number
+  #   sql:
+
+  #   SAFE_DIVIDE(${total_margin_incl_funding_main}, ${total_margin_incl_funding})
+
+  #   ;;
+  #   hidden: yes
+  # }
+  # measure: total_margin_incl_funding_extra_mix {
+  #   label: "Margin Inc Funding Extra Mix (Trade)"
+  #   group_label: "Promo"
+  #   required_access_grants: [is_expert]
+  #   description: "Mix is % vs Total Margin Inc Funding "
+  #   type: number
+  #   sql:
+
+  #   SAFE_DIVIDE(${total_margin_incl_funding_extra}, ${total_margin_incl_funding})
+
+  #   ;;
+  #   hidden: yes
+  # }
+
+  # measure: total_units_main {
+  #   label: "Units  (Main)"
+  #   group_label: "Promo"
+  #   required_access_grants: [is_expert]
+  #   type: sum
+  #   sql:
+
+  #   CASE
+  #     WHEN ${promo_in_main_catalogue}
+  #       THEN ${quantity}
+  #     ELSE 0
+  #   END
+
+  #   ;;
+  #   hidden: yes
+  # }
+  # measure: total_units_extra {
+  #   label: "Units  (Extra)"
+  #   group_label: "Promo"
+  #   required_access_grants: [is_expert]
+  #   type: sum
+  #   sql:
+
+  #   CASE
+  #     WHEN ${promo_in_extra}
+  #       THEN ${quantity}
+  #     ELSE 0
+  #   END
+
+  #   ;;
+  #   hidden: yes
+  # }
+  # measure: total_units_main_mix {
+  #   label: "Units Main Mix (Trade)"
+  #   group_label: "Promo"
+  #   required_access_grants: [is_expert]
+  #   description: "Mix is % vs Total Units "
+  #   type: number
+  #   sql:
+
+  #   SAFE_DIVIDE(${total_units_main}, ${total_units})
+
+  #   ;;
+  #   hidden: yes
+  # }
+  # measure: total_units_extra_mix {
+  #   label: "Units Extra Mix (Trade)"
+  #   group_label: "Promo"
+  #   required_access_grants: [is_expert]
+  #   description: "Mix is % vs Total Units "
+  #   type: number
+  #   sql:
+
+  #   SAFE_DIVIDE(${total_units_extra}, ${total_units})
+
+  #   ;;
+  #   hidden: yes
+  # }
+
+  # measure: total_number_of_transactions_main {
+  #   label: "Transactions (Main)"
+  #   group_label: "Promo"
+  #   required_access_grants: [is_expert]
+  #   type: number
+  #   sql:
+
+  #   CASE
+  #     WHEN ${promo_in_main_catalogue}
+  #       THEN ${number_of_transactions}
+  #     ELSE 0
+  #   END
+
+  #   ;;
+  #   hidden: yes
+  # }
+  # measure: total_number_of_transactions_extra {
+  #   label: "Transactions (Extra)"
+  #   group_label: "Promo"
+  #   required_access_grants: [is_expert]
+  #   type: number
+  #   sql:
+
+  #   CASE
+  #     WHEN ${promo_in_extra}
+  #       THEN ${number_of_transactions}
+  #     ELSE 0
+  #   END
+
+  #   ;;
+  #   hidden: yes
+  # }
+  # measure: total_number_of_transactions_main_mix {
+  #   label: "Transactions Main Mix (Trade)"
+  #   group_label: "Promo"
+  #   required_access_grants: [is_expert]
+  #   description: "Mix is % vs Total Transactions "
+  #   type: number
+  #   sql:
+
+  #   SAFE_DIVIDE(${total_number_of_transactions_main}, ${number_of_transactions})
+
+  #   ;;
+  #   hidden: yes
+  # }
+  # measure: total_number_of_transactions_extra_mix {
+  #   label: "Transactions Extra Mix (Trade)"
+  #   group_label: "Promo"
+  #   required_access_grants: [is_expert]
+  #   description: "Mix is % vs Total Transactions "
+  #   type: number
+  #   sql:
+
+  #   SAFE_DIVIDE(${total_number_of_transactions_extra}, ${number_of_transactions})
+
+  #   ;;
+  #   hidden: yes
+  # }
 
   # AOV #
 
