@@ -142,7 +142,7 @@ view: period_on_period_new {
       {% endif %}
 
       ;;
-    timeframes: [date, month, year, month_name, day_of_month, day_of_year]
+    timeframes: [date, month, year, month_name, day_of_month, day_of_year, week_of_year]
     can_filter: no
     hidden:  no
     allow_fill: no
@@ -152,7 +152,7 @@ view: period_on_period_new {
     label: "Comparison Period"
     description: "Pivot this to view direct date comparisons."
     type: string
-    order_by_field: order_for_period
+    # order_by_field: order_for_period
     sql:
 
      {% if select_date_range._is_filtered %}
