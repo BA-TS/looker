@@ -5,7 +5,7 @@ view: trade_customers {
 
   fields_hidden_by_default: yes # pending review of segment, type
 
-  dimension: customer_number {
+  dimension: customer_uid {
     type: string
     primary_key: yes
     hidden: yes

@@ -1,5 +1,5 @@
 include: "/views/prod/finance/transactions.view"
-include: "/views/prod/department_specific/crm/trade_customers.view"
+include: "/views/prod/department_specific/customer/trade_customers.view"
 
 view: customers {
 
@@ -308,10 +308,11 @@ view: customers {
     label: "Is Trade"
     sql:
 
-    ${trade_customers.trade_flag} != ""
+    ${trade_customers.trade_flag} is not null
 
-     ;; # ${trade_customers.customer_number} is not null
+     ;;
   }
+
   dimension_group: updated {
     type: time
     timeframes: [
@@ -338,5 +339,15 @@ view: customers {
 
     ;;
   }
+
+
+
+  measure: number_of_customers {
+    type: count_distinct
+    sql: ${customer_uid} ;;
+  }
+
+
+
 
 }

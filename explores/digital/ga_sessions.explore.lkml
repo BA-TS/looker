@@ -6,7 +6,7 @@ include: "/views/prod/department_specific/digital_dev/Google_Analytics/ga_period
 
 explore: ga_sessions {
 
-  required_access_grants: [is_super]
+  # required_access_grants: [is_super]
 
   label: "Google Analytics"
   description: "Explores Google Analytics sessions data."

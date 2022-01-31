@@ -1,6 +1,6 @@
 # include: "/views/**/*.view"
-include: "/views/prod/customer/*.view"
-include: "/views/prod/department_specific/crm/trade_customers.view"
+# include: "/views/prod/customer/*.view"
+include: "/views/prod/department_specific/customer/*.view"
 
 explore: customers {
 
@@ -13,7 +13,25 @@ explore: customers {
     view_label: "Budget"
     type: left_outer
     relationship: one_to_one
-    sql_on: ${customers.customer_uid} = ${trade_customers.customer_number};;
+    sql_on: ${customers.customer_uid} = ${trade_customers.customer_uid};;
+  }
+
+  join: trade_credit_ids {
+
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${customers.customer_uid} = ${trade_credit_ids.customer_uid} ;;
+
+    sql_where: ${trade_credit_ids.main_trade_credit_account_uid} is not null ;;
+
+  }
+
+  join: trade_credit_details {
+
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${trade_credit_ids.main_trade_credit_account_uid} = ${trade_credit_details.main_trade_credit_account_uid} ;;
+
   }
 
 }

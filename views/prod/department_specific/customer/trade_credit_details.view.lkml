@@ -3,19 +3,20 @@ view: trade_credit_details {
 
   required_access_grants: [can_use_customer_information]
 
-  view_label: "Customers"
+  view_label: "Trade Credit"
   sql_table_name: `toolstation-data-storage.customer.tradeCreditDetails`;;
 
   dimension: account_id {
-    group_label: "Trade Credit"
+    label: "Account ID"
     type: string
     sql: ${TABLE}.accountID ;;
   }
 
   dimension: credit_limit {
-    group_label: "Trade Credit"
+    label: "Credit Limit"
     type: number
     sql: ${TABLE}.creditLimit ;;
+    hidden: yes
   }
 
   dimension: main_trade_credit_account_uid {
@@ -31,28 +32,34 @@ view: trade_credit_details {
     hidden: yes
   }
 
+  measure: total_credit_limit {
+    label: "Credit Limit"
+    type: sum
+    sql: ${credit_limit} ;;
+  }
+
   measure: total_remaining_balance {
-    group_label: "Trade Credit"
     label: "Remaining Balance"
     type: sum
     sql: ${remaining_balance} ;;
   }
 
   dimension_group: tc_account_created {
-    group_label: "Trade Credit"
     label: "Account Created"
     type: time
     timeframes: [
       raw,
       date,
+      time
     ]
     sql: ${TABLE}.tcAccountCreatedDate ;;
   }
 
   dimension: tc_account_name {
+    label: "Account Name"
     type: string
     sql: ${TABLE}.tcAccountName ;;
-    hidden: yes
+    hidden: no
   }
 
 }
