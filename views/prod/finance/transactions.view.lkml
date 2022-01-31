@@ -42,7 +42,7 @@ view: transactions {
   parameter: include_charity {
     view_label: "Overrides"
     label: "Show Charity"
-    description: "By default, SKU 85699 and 00053 are excluded. Selecting 'Yes' will include isolate those SKUs in the query."
+    description: "By default, SKU 85699 and 00053 are excluded. Selecting 'Yes' will isolate those SKUs in the query."
     type: string
     allowed_value: {
       label: "Yes"
