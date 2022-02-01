@@ -304,7 +304,7 @@ explore: +base {
     description: "This provides information to user."
 
     dimensions: [
-      base.date_year
+      base.dynamic_fiscal_year
     ]
     measures: [
       transactions.total_net_sales,
@@ -319,7 +319,7 @@ explore: +base {
     ]
     limit: 50
     sorts: [
-      base.date_year: desc,
+      base.dynamic_fiscal_year: desc,
       transactions.total_net_sales: desc
     ]
     pivots: [
@@ -377,7 +377,7 @@ explore: +base {
       dimensions: [
         date_date,
         base.pivot_dimension,
-        base.order_for_period
+        base.__comparator_order__
       ]
       measures: [
         total_budget.net_sales_budget,

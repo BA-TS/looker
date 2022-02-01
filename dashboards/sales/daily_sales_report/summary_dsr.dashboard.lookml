@@ -145,10 +145,10 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.total_net_sales, base.date_year]
+    fields: [transactions.total_net_sales, base.dynamic_fiscal_year]
     filters:
       base.select_fixed_range: PD
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     custom_color_enabled: true
     show_single_value_title: true
@@ -186,10 +186,10 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.total_net_sales, base.date_year]
+    fields: [transactions.total_net_sales, base.dynamic_fiscal_year]
     filters:
       base.select_fixed_range: WTD
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     custom_color_enabled: true
     show_single_value_title: true
@@ -224,10 +224,10 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.total_net_sales, base.date_year]
+    fields: [transactions.total_net_sales, base.dynamic_fiscal_year]
     filters:
       base.select_fixed_range: MTD
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     custom_color_enabled: true
     show_single_value_title: true
@@ -262,10 +262,10 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.total_net_sales, base.date_year]
+    fields: [transactions.total_net_sales, base.dynamic_fiscal_year]
     filters:
       base.select_fixed_range: YTD
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     custom_color_enabled: true
     show_single_value_title: true
@@ -300,12 +300,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [base.date_year, transactions.total_net_sales]
+    fields: [base.dynamic_fiscal_year, transactions.total_net_sales]
     filters:
       base.select_fixed_range: PD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
         value_format_name: percent_1, calculation_type: percent_difference_from_previous,
@@ -371,12 +371,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [base.date_year, transactions.total_net_sales]
+    fields: [base.dynamic_fiscal_year, transactions.total_net_sales]
     filters:
       base.select_fixed_range: WTD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
         value_format_name: percent_1, calculation_type: percent_difference_from_previous,
@@ -442,12 +442,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [base.date_year, transactions.total_net_sales]
+    fields: [base.dynamic_fiscal_year, transactions.total_net_sales]
     filters:
       base.select_fixed_range: MTD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
         value_format_name: percent_1, calculation_type: percent_difference_from_previous,
@@ -513,12 +513,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [base.date_year, transactions.total_net_sales]
+    fields: [base.dynamic_fiscal_year, transactions.total_net_sales]
     filters:
       base.select_fixed_range: YTD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
         value_format_name: percent_1, calculation_type: percent_difference_from_previous,
@@ -584,12 +584,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [base.date_year, transactions.total_net_sales]
+    fields: [base.dynamic_fiscal_year, transactions.total_net_sales]
     filters:
       base.select_fixed_range: PD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
         value_format_name: percent_1, expression: "(${transactions.total_net_sales}\
@@ -655,12 +655,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [base.date_year, transactions.total_net_sales]
+    fields: [base.dynamic_fiscal_year, transactions.total_net_sales]
     filters:
       base.select_fixed_range: WTD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
         value_format_name: percent_1, expression: "(${transactions.total_net_sales}\
@@ -726,12 +726,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [base.date_year, transactions.total_net_sales]
+    fields: [base.dynamic_fiscal_year, transactions.total_net_sales]
     filters:
       base.select_fixed_range: MTD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
         value_format_name: percent_1, expression: "(${transactions.total_net_sales}\
@@ -797,12 +797,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [base.date_year, transactions.total_net_sales]
+    fields: [base.dynamic_fiscal_year, transactions.total_net_sales]
     filters:
       base.select_fixed_range: YTD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
         value_format_name: percent_1, expression: "(${transactions.total_net_sales}\
@@ -868,12 +868,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.total_net_sales, total_budget.net_sales_budget, base.date_year]
+    fields: [transactions.total_net_sales, total_budget.net_sales_budget, base.dynamic_fiscal_year]
     filters:
       base.select_fixed_range: PD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, expression: "${transactions.total_net_sales}\
           \ - ${total_budget.net_sales_budget}", label: vs Budget £, value_format: !!null '',
@@ -919,12 +919,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.total_net_sales, total_budget.net_sales_budget, base.date_year]
+    fields: [transactions.total_net_sales, total_budget.net_sales_budget, base.dynamic_fiscal_year]
     filters:
       base.select_fixed_range: WTD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, expression: "${transactions.total_net_sales}\
           \ - ${total_budget.net_sales_budget}", label: vs Budget £, value_format: !!null '',
@@ -970,12 +970,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.total_net_sales, total_budget.net_sales_budget, base.date_year]
+    fields: [transactions.total_net_sales, total_budget.net_sales_budget, base.dynamic_fiscal_year]
     filters:
       base.select_fixed_range: MTD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, expression: "${transactions.total_net_sales}\
           \ - ${total_budget.net_sales_budget}", label: vs Budget £, value_format: !!null '',
@@ -1021,12 +1021,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.total_net_sales, total_budget.net_sales_budget, base.date_year]
+    fields: [transactions.total_net_sales, total_budget.net_sales_budget, base.dynamic_fiscal_year]
     filters:
       base.select_fixed_range: YTD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, expression: "${transactions.total_net_sales}\
           \ - ${total_budget.net_sales_budget}", label: vs Budget £, value_format: !!null '',
@@ -1072,10 +1072,10 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.total_margin_rate_incl_funding, base.date_year]
+    fields: [transactions.total_margin_rate_incl_funding, base.dynamic_fiscal_year]
     filters:
       base.select_fixed_range: PD
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     custom_color_enabled: true
     show_single_value_title: true
@@ -1112,10 +1112,10 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.total_margin_rate_incl_funding, base.date_year]
+    fields: [transactions.total_margin_rate_incl_funding, base.dynamic_fiscal_year]
     filters:
       base.select_fixed_range: WTD
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     custom_color_enabled: true
     show_single_value_title: true
@@ -1152,10 +1152,10 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.total_margin_rate_incl_funding, base.date_year]
+    fields: [transactions.total_margin_rate_incl_funding, base.dynamic_fiscal_year]
     filters:
       base.select_fixed_range: MTD
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     custom_color_enabled: true
     show_single_value_title: true
@@ -1192,10 +1192,10 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.total_margin_rate_incl_funding, base.date_year]
+    fields: [transactions.total_margin_rate_incl_funding, base.dynamic_fiscal_year]
     filters:
       base.select_fixed_range: YTD
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     custom_color_enabled: true
     show_single_value_title: true
@@ -1232,12 +1232,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [base.date_year, transactions.total_margin_rate_incl_funding]
+    fields: [base.dynamic_fiscal_year, transactions.total_margin_rate_incl_funding]
     filters:
       base.select_fixed_range: PD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, expression: 'if(${transactions.total_margin_rate_incl_funding}
           = 0, -1, (${transactions.total_margin_rate_incl_funding} - offset(${transactions.total_margin_rate_incl_funding},
@@ -1282,12 +1282,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [base.date_year, transactions.total_margin_rate_incl_funding]
+    fields: [base.dynamic_fiscal_year, transactions.total_margin_rate_incl_funding]
     filters:
       base.select_fixed_range: WTD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, expression: 'if(${transactions.total_margin_rate_incl_funding}
           = 0, -1, (${transactions.total_margin_rate_incl_funding} - offset(${transactions.total_margin_rate_incl_funding},
@@ -1332,12 +1332,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [base.date_year, transactions.total_margin_rate_incl_funding]
+    fields: [base.dynamic_fiscal_year, transactions.total_margin_rate_incl_funding]
     filters:
       base.select_fixed_range: MTD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, expression: "(${transactions.total_margin_rate_incl_funding}\
           \ - offset(${transactions.total_margin_rate_incl_funding}, 1))", label: "%\
@@ -1382,12 +1382,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [base.date_year, transactions.total_margin_rate_incl_funding]
+    fields: [base.dynamic_fiscal_year, transactions.total_margin_rate_incl_funding]
     filters:
       base.select_fixed_range: YTD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, expression: "(${transactions.total_margin_rate_incl_funding}\
           \ - offset(${transactions.total_margin_rate_incl_funding}, 1))", label: "%\
@@ -1429,12 +1429,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [base.date_year, transactions.total_margin_rate_incl_funding]
+    fields: [base.dynamic_fiscal_year, transactions.total_margin_rate_incl_funding]
     filters:
       base.select_fixed_range: PD
       base.select_comparison_period: 2YearsAgo
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, expression: 'if(${transactions.total_margin_rate_incl_funding}
           = 0, -1, (${transactions.total_margin_rate_incl_funding} - offset(${transactions.total_margin_rate_incl_funding},
@@ -1476,12 +1476,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [base.date_year, transactions.total_margin_rate_incl_funding]
+    fields: [base.dynamic_fiscal_year, transactions.total_margin_rate_incl_funding]
     filters:
       base.select_fixed_range: WTD
       base.select_comparison_period: 2YearsAgo
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, expression: "(${transactions.total_margin_rate_incl_funding}\
           \ - offset(${transactions.total_margin_rate_incl_funding}, 1))", label: "%\
@@ -1523,12 +1523,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [base.date_year, transactions.total_margin_rate_incl_funding]
+    fields: [base.dynamic_fiscal_year, transactions.total_margin_rate_incl_funding]
     filters:
       base.select_fixed_range: MTD
       base.select_comparison_period: 2YearsAgo
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, expression: "(${transactions.total_margin_rate_incl_funding}\
           \ - offset(${transactions.total_margin_rate_incl_funding}, 1))", label: "%\
@@ -1573,12 +1573,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [base.date_year, transactions.total_margin_rate_incl_funding]
+    fields: [base.dynamic_fiscal_year, transactions.total_margin_rate_incl_funding]
     filters:
       base.select_fixed_range: YTD
       base.select_comparison_period: 2YearsAgo
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, expression: "(${transactions.total_margin_rate_incl_funding}\
           \ - offset(${transactions.total_margin_rate_incl_funding}, 1))", label: "%\
@@ -1621,12 +1621,12 @@
     explore: base
     type: single_value
     fields: [transactions.total_margin_rate_incl_funding, total_budget.gross_margin_rate_inc_retro_funding_budget,
-      base.date_year]
+      base.dynamic_fiscal_year]
     filters:
       base.select_fixed_range: PD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, expression: "${transactions.total_margin_rate_incl_funding}\
           \ - ${total_budget.gross_margin_rate_inc_retro_funding_budget}", label: "%",
@@ -1668,12 +1668,12 @@
     explore: base
     type: single_value
     fields: [transactions.total_margin_rate_incl_funding, total_budget.gross_margin_rate_inc_retro_funding_budget,
-      base.date_year]
+      base.dynamic_fiscal_year]
     filters:
       base.select_fixed_range: WTD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, expression: "${transactions.total_margin_rate_incl_funding}\
           \ - ${total_budget.gross_margin_rate_inc_retro_funding_budget}", label: "%",
@@ -1715,12 +1715,12 @@
     explore: base
     type: single_value
     fields: [transactions.total_margin_rate_incl_funding, total_budget.gross_margin_rate_inc_retro_funding_budget,
-      base.date_year]
+      base.dynamic_fiscal_year]
     filters:
       base.select_fixed_range: MTD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, expression: "${transactions.total_margin_rate_incl_funding}\
           \ - ${total_budget.gross_margin_rate_inc_retro_funding_budget}", label: "%",
@@ -1762,12 +1762,12 @@
     explore: base
     type: single_value
     fields: [transactions.total_margin_rate_incl_funding, total_budget.gross_margin_rate_inc_retro_funding_budget,
-      base.date_year]
+      base.dynamic_fiscal_year]
     filters:
       base.select_fixed_range: YTD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, expression: "${transactions.total_margin_rate_incl_funding}\
           \ - ${total_budget.gross_margin_rate_inc_retro_funding_budget}", label: "%",
@@ -1808,12 +1808,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.aov_net_sales, base.date_year]
+    fields: [transactions.aov_net_sales, base.dynamic_fiscal_year]
     filters:
       base.select_fixed_range: PD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     custom_color_enabled: true
     show_single_value_title: true
@@ -1850,12 +1850,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.aov_net_sales, base.date_year]
+    fields: [transactions.aov_net_sales, base.dynamic_fiscal_year]
     filters:
       base.select_fixed_range: WTD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     custom_color_enabled: true
     show_single_value_title: true
@@ -1889,12 +1889,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.aov_net_sales, base.date_year]
+    fields: [transactions.aov_net_sales, base.dynamic_fiscal_year]
     filters:
       base.select_fixed_range: MTD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     custom_color_enabled: true
     show_single_value_title: true
@@ -1928,12 +1928,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [transactions.aov_net_sales, base.date_year]
+    fields: [transactions.aov_net_sales, base.dynamic_fiscal_year]
     filters:
       base.select_fixed_range: YTD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     custom_color_enabled: true
     show_single_value_title: true
@@ -1967,12 +1967,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [base.date_year, transactions.aov_net_sales]
+    fields: [base.dynamic_fiscal_year, transactions.aov_net_sales]
     filters:
       base.select_fixed_range: PD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
         value_format_name: percent_1, calculation_type: percent_difference_from_previous,
@@ -2038,12 +2038,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [base.date_year, transactions.aov_net_sales]
+    fields: [base.dynamic_fiscal_year, transactions.aov_net_sales]
     filters:
       base.select_fixed_range: WTD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
         value_format_name: percent_1, calculation_type: percent_difference_from_previous,
@@ -2109,12 +2109,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [base.date_year, transactions.aov_net_sales]
+    fields: [base.dynamic_fiscal_year, transactions.aov_net_sales]
     filters:
       base.select_fixed_range: MTD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
         value_format_name: percent_1, calculation_type: percent_difference_from_previous,
@@ -2180,12 +2180,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [base.date_year, transactions.aov_net_sales]
+    fields: [base.dynamic_fiscal_year, transactions.aov_net_sales]
     filters:
       base.select_fixed_range: YTD
       base.select_comparison_period: Year
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
         value_format_name: percent_1, calculation_type: percent_difference_from_previous,
@@ -2251,12 +2251,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [base.date_year, transactions.aov_net_sales]
+    fields: [base.dynamic_fiscal_year, transactions.aov_net_sales]
     filters:
       base.select_fixed_range: PD
       base.select_comparison_period: 2YearsAgo
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
         value_format_name: percent_1, calculation_type: percent_difference_from_previous,
@@ -2322,12 +2322,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [base.date_year, transactions.aov_net_sales]
+    fields: [base.dynamic_fiscal_year, transactions.aov_net_sales]
     filters:
       base.select_fixed_range: WTD
       base.select_comparison_period: 2YearsAgo
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
         value_format_name: percent_1, calculation_type: percent_difference_from_previous,
@@ -2393,12 +2393,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [base.date_year, transactions.aov_net_sales]
+    fields: [base.dynamic_fiscal_year, transactions.aov_net_sales]
     filters:
       base.select_fixed_range: MTD
       base.select_comparison_period: 2YearsAgo
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
         value_format_name: percent_1, calculation_type: percent_difference_from_previous,
@@ -2464,12 +2464,12 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [base.date_year, transactions.aov_net_sales]
+    fields: [base.dynamic_fiscal_year, transactions.aov_net_sales]
     filters:
       base.select_fixed_range: YTD
       base.select_comparison_period: 2YearsAgo
       base.select_number_of_periods: '3'
-    sorts: [base.date_year desc]
+    sorts: [base.dynamic_fiscal_year desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, label: "% vs LY", value_format: !!null '',
         value_format_name: percent_1, calculation_type: percent_difference_from_previous,
