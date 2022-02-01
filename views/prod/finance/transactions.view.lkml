@@ -6,33 +6,38 @@ view: transactions {
   derived_table: {
     sql:
       (select
-          transactionDate,
-          upper(salesChannel) as salesChannel,
-          siteUID,
-          p.productDepartment,
+          transactionDate AS transactionDate,
+          upper(salesChannel) AS salesChannel,
+          siteUID AS siteUID,
+          p.productDepartment AS productDepartment,
           t.* except (transactionDate, salesChannel, siteUID)
 
           from `toolstation-data-storage.sales.transactions` t
           inner join `toolstation-data-storage.range.products_current` p
           using(productUID)
+
       )
 
       union all
 
       (select
-          timestamp(date) transactionDate,
-          salesChannel,
-          siteUID,
-          department,
+          timestamp(date) transactionDate AS transactionDate,
+          salesChannel AS salesChannel,
+          siteUID AS siteUID,
+          department AS department,
           null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null
 
-          from `toolstation-data-storage.looker_persistent_tables.missing_channel_dimensions`);;
+          from `toolstation-data-storage.looker_persistent_tables.missing_channel_dimensions`
+
+          )
+
+          ;;
 
     partition_keys: ["transactionDate"]
     cluster_keys: ["salesChannel", "productDepartment", "productCode"]
 
-    increment_key: "transactionDate"
-    increment_offset: 1
+    # increment_key: "transaction_date"
+    # increment_offset: 3
 
     datagroup_trigger: toolstation_transactions_datagroup
 
