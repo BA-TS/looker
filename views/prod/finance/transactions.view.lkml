@@ -31,7 +31,7 @@ view: transactions {
     partition_keys: ["transactionDate"]
     cluster_keys: ["salesChannel", "productDepartment", "productCode"]
 
-    increment_key: "day"
+    increment_key: "transactionDate"
     increment_offset: 1
 
     datagroup_trigger: toolstation_transactions_datagroup
