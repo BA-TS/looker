@@ -6,10 +6,10 @@ view: transactions {
   derived_table: {
     sql:
       (select
-          transactionDate AS transactionDate,
+          transactionDate,
           upper(salesChannel) AS salesChannel,
-          siteUID AS siteUID,
-          p.productDepartment AS productDepartment,
+          siteUID,
+          p.productDepartment,
           t.* except (transactionDate, salesChannel, siteUID)
 
           from `toolstation-data-storage.sales.transactions` t
@@ -21,10 +21,10 @@ view: transactions {
       union all
 
       (select
-          timestamp(date) transactionDate AS transactionDate,
+          timestamp(date) transactionDate,
           salesChannel AS salesChannel,
-          siteUID AS siteUID,
-          department AS department,
+          siteUID,
+          department,
           null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null
 
           from `toolstation-data-storage.looker_persistent_tables.missing_channel_dimensions`
