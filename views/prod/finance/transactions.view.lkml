@@ -36,8 +36,8 @@ view: transactions {
     partition_keys: ["transactionDate"]
     cluster_keys: ["salesChannel", "productDepartment", "productCode"]
 
-    # increment_key: "transaction_date"
-    # increment_offset: 100 # change to yearly when done... funding is calculated over last 3 months (limited to YTD) ie 30/1 is only 29 days
+    increment_key: "transaction_date"
+    increment_offset: 100 # change to yearly when done... funding is calculated over last 3 months (limited to YTD) ie 30/1 is only 29 days
 
     datagroup_trigger: toolstation_transactions_datagroup
 
