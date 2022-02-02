@@ -220,7 +220,7 @@ view: period_on_period_new {
   dimension: __week_LY_end__ {
     type: date
     datatype: date
-    sql: ${__week_end__} - (2 * ${__length_of_year__}) ;;
+    sql: ${__week_end__} - ${__length_of_year__} ;;
     hidden: yes
   }
   dimension: __week_2LY_start__ {
