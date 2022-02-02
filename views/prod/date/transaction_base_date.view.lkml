@@ -40,27 +40,24 @@ view: base {
 
   dimension: dynamic_day_of_week {
     view_label: "Date"
-    group_label: "TBC"
+    group_label: "Calendar"
     label: "Day of Week"
     type: number
     sql: ${calendar_completed_date.day_in_week} ;;
-    hidden: yes
   }
   dimension: dynamic_day_name {
     view_label: "Date"
-    group_label: "TBC"
+    group_label: "Calendar"
     label: "Day Name"
     type: string
     sql: ${calendar_completed_date.day_name_in_week} ;;
-    hidden: yes
   }
   dimension: dynamic_week_number {
     view_label: "Date"
-    group_label: "TBC"
+    group_label: "Calendar"
     label: "Week Number"
     type: number
     sql: ${calendar_completed_date.week_in_year} ;;
-    hidden: yes
   }
   dimension: dynamic_fiscal_week {
     view_label: "Date"
@@ -91,19 +88,17 @@ view: base {
   }
   dimension: dynamic_month_number {
     view_label: "Date"
-    group_label: "TBC"
+    group_label: "Calendar"
     label: "Month Number"
     type: number
     sql: ${calendar_completed_date.month_in_year} ;;
-    hidden: yes
   }
   dimension: dynamic_month_name {
     view_label: "Date"
-    group_label: "TBC"
+    group_label: "Calendar"
     label: "Month Name"
     type: string
     sql: ${calendar_completed_date.month_name_in_year} ;;
-    hidden: yes
   }
   dimension: dynamic_fiscal_month {
     view_label: "Date"
@@ -142,11 +137,10 @@ view: base {
   }
   dimension: dynamic_quarter_number {
     view_label: "Date"
-    group_label: "TBC"
+    group_label: "Calendar"
     label: "Quarter"
     type: number
     sql: ${calendar_completed_date.calendar_quarter} ;;
-    hidden: yes
   }
   dimension: dynamic_fiscal_quarter {
     view_label: "Date"
@@ -189,11 +183,10 @@ view: base {
 
   dimension: dynamic_half_number {
     view_label: "Date"
-    group_label: "TBC"
+    group_label: "Calendar"
     label: "Half"
     type: number
     sql: case when ${calendar_completed_date.calendar_quarter} in (1,2) then 1 else 2 end  ;;
-    hidden: yes
   }
   dimension: dynamic_fiscal_half {
     view_label: "Date"
@@ -258,7 +251,7 @@ view: base {
 
   dimension: dynamic_actual_year {
     view_label: "Date"
-    group_label: "TBC"
+    group_label: "Calendar"
     label: "Year"
     type: number
     sql:
@@ -276,7 +269,6 @@ view: base {
     {% endif %}
 
     ;;
-    hidden: yes
   }
 
 
