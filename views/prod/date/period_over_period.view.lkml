@@ -191,7 +191,7 @@ view: period_on_period_new {
   dimension: __week_LH_start__ {
     type: date
     datatype: date
-    sql: DATE_TRUNC(${__week_LH_end__}, QUARTER) ;;
+    sql: DATE_TRUNC(${__week_LH_end__}, WEEK) ;;
     hidden: yes
   }
   dimension: __week_LH_end__ {
@@ -203,7 +203,7 @@ view: period_on_period_new {
   dimension: __week_2LH_start__ {
     type: date
     datatype: date
-    sql: DATE_TRUNC(${__week_2LH_end__}, QUARTER) ;;
+    sql: DATE_TRUNC(${__week_2LH_end__}, WEEK) ;;
     hidden: yes
   }
   dimension: __week_2LH_end__ {
@@ -219,7 +219,7 @@ view: period_on_period_new {
   dimension: __week_LY_start__ {
     type: date
     datatype: date
-    sql: DATE_TRUNC(${__week_LY_end__}, YEAR) ;;
+    sql: DATE_TRUNC(${__week_LY_end__}, WEEK) ;;
     hidden: yes
   }
   dimension: __week_LY_end__ {
@@ -231,7 +231,7 @@ view: period_on_period_new {
   dimension: __week_2LY_start__ {
     type: date
     datatype: date
-    sql: DATE_TRUNC(${__week_2LY_end__}, YEAR) ;;
+    sql: DATE_TRUNC(${__week_2LY_end__}, WEEK) ;;
     hidden: yes
   }
   dimension: __week_2LY_end__ {
