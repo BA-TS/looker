@@ -24,37 +24,37 @@ view: period_on_period_new {
   dimension: __day_LW__ {
     type: date
     datatype: date
-    sql: DATE_TRUNC(${__current_date__}, INTERVAL -1 WEEK) ;;
+    sql: DATE_ADD(${__current_date__}, INTERVAL -1 WEEK) ;;
     hidden: yes
   }
   dimension: __day_2LW__ {
     type: date
     datatype: date
-    sql: DATE_TRUNC(${__current_date__}, INTERVAL -2 WEEK) ;;
+    sql: DATE_ADD(${__current_date__}, INTERVAL -2 WEEK) ;;
     hidden: yes
   }
   dimension: __day_LM__ {
     type: date
     datatype: date
-    sql: DATE_TRUNC(${__current_date__}, INTERVAL -1 MONTH) ;;
+    sql: DATE_ADD(${__current_date__}, INTERVAL -1 MONTH) ;;
     hidden: yes
   }
   dimension: __day_2LM__ {
     type: date
     datatype: date
-    sql: DATE_TRUNC(${__current_date__}, INTERVAL -2 MONTH) ;;
+    sql: DATE_ADD(${__current_date__}, INTERVAL -2 MONTH) ;;
     hidden: yes
   }
   dimension: __day_LQ__ {
     type: date
     datatype: date
-    sql: DATE_TRUNC(${__current_date__}, INTERVAL -1 QUARTER) ;;
+    sql: DATE_ADD(${__current_date__}, INTERVAL -1 QUARTER) ;;
     hidden: yes
   }
   dimension: __day_2LQ__ {
     type: date
     datatype: date
-    sql: DATE_TRUNC(${__current_date__}, INTERVAL -2 QUARTER) ;;
+    sql: DATE_ADD(${__current_date__}, INTERVAL -2 QUARTER) ;;
     hidden: yes
   }
   dimension: __day_LH__ {
@@ -72,13 +72,13 @@ view: period_on_period_new {
   dimension: __day_LY__ {
     type: date
     datatype: date
-    sql: DATE_TRUNC(${__current_date__}, INTERVAL -1 YEAR) ;;
+    sql: DATE_ADD(${__current_date__}, INTERVAL -1 YEAR) ;;
     hidden: yes
   }
   dimension: __day_2LY__ {
     type: date
     datatype: date
-    sql: DATE_TRUNC(${__current_date__}, INTERVAL -2 YEAR) ;;
+    sql: DATE_ADD(${__current_date__}, INTERVAL -2 YEAR) ;;
     hidden: yes
   }
 
