@@ -241,6 +241,8 @@ view: base {
     sql:
 
     ${calendar_completed_date.fiscal_year}
+
+    {% if pivot_dimension._in_query  %}
           +
         CASE
           WHEN ${calendar_completed_date.fiscal_year} = EXTRACT(YEAR FROM CURRENT_DATE() - 1) - 1
@@ -249,6 +251,7 @@ view: base {
             THEN 2
           ELSE 0
         END
+    {% endif %}
 
     ;;
   }
@@ -261,6 +264,7 @@ view: base {
     sql:
 
     ${base_date_year}
+    {% if pivot_dimension._in_query  %}
       +
     CASE
       WHEN ${base_date_year} = EXTRACT(YEAR FROM CURRENT_DATE() - 1) - 1
@@ -269,6 +273,7 @@ view: base {
         THEN 2
       ELSE 0
     END
+    {% endif %}
 
     ;;
     hidden: yes
