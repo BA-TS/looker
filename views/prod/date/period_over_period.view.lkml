@@ -1094,12 +1094,12 @@ view: period_on_period_new {
         {% elsif select_comparison_period._parameter_value == "Half" %}
           ${quarter_to_date} OR ${quarter_to_date_LH}
           {% if select_number_of_periods._parameter_value == "3" %}
-            ${quarter_to_date_2LH}
+            OR ${quarter_to_date_2LH}
           {% endif %}
         {% elsif select_comparison_period._parameter_value == "Year" %}
           ${quarter_to_date} OR ${quarter_to_date_LY}
           {% if select_number_of_periods._parameter_value == "3" %}
-            ${quarter_to_date_2LY}
+            OR ${quarter_to_date_2LY}
           {% endif %}
         {% elsif select_comparison_period._parameter_value == "2YearsAgo" %}
           ${quarter_to_date} OR ${quarter_to_date_2LY}
@@ -1119,12 +1119,12 @@ view: period_on_period_new {
         {% elsif select_comparison_period._parameter_value == "Half" %}
           ${half_to_date} OR ${half_to_date_LH}
           {% if select_number_of_periods._parameter_value == "3" %}
-            ${half_to_date_2LH}
+            OR ${half_to_date_2LH}
           {% endif %}
         {% elsif select_comparison_period._parameter_value == "Year" %}
           ${half_to_date} OR ${half_to_date_LY}
           {% if select_number_of_periods._parameter_value == "3" %}
-            ${half_to_date_2LY}
+            OR ${half_to_date_2LY}
           {% endif %}
         {% elsif select_comparison_period._parameter_value == "2YearsAgo" %}
           ${half_to_date} OR ${half_to_date_2LY}
@@ -1146,7 +1146,7 @@ view: period_on_period_new {
         {% elsif select_comparison_period._parameter_value == "Year" %}
           ${year_to_date} OR ${year_to_date_LY}
           {% if select_number_of_periods._parameter_value == "3" %}
-            ${year_to_date_2LY}
+            OR ${year_to_date_2LY}
           {% endif %}
         {% elsif select_comparison_period._parameter_value == "2YearsAgo" %}
           ${year_to_date} OR ${year_to_date_2LY}
