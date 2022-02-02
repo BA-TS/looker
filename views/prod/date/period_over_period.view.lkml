@@ -113,9 +113,8 @@ view: period_on_period_new {
 
       {% if select_number_of_periods._parameter_value == "2" %}
         or ${base.base_date_raw} >= ${period_2_start} and ${base.base_date_raw} < ${period_2_end}
-      {% endif %}
-
-      {% if select_number_of_periods._parameter_value == "3" %}
+      {% elsif select_number_of_periods._parameter_value == "3" %}
+        or ${base.base_date_raw} >= ${period_2_start} and ${base.base_date_raw} < ${period_2_end}
         or ${base.base_date_raw} >= ${period_3_start} and ${base.base_date_raw} < ${period_3_end}
       {% endif %}
 
