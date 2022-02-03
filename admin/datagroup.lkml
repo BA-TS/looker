@@ -12,5 +12,5 @@ datagroup: ts_googleanalytics_datagroup {
 }
 
 datagroup: ts_dev_datagroup {
-  sql_trigger: SELECT EXTRACT(MINUTE FROM CURRENT_DATE())  ;;
+  sql_trigger: SELECT EXTRACT(DAY FROM CURRENT_DATE())  ;;
 }
