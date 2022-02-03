@@ -186,6 +186,7 @@ view: base {
     group_label: "Calendar"
     label: "Half"
     type: number
+    hidden: yes
     sql: case when ${calendar_completed_date.calendar_quarter} in (1,2) then 1 else 2 end  ;;
   }
   dimension: dynamic_fiscal_half {
@@ -193,6 +194,7 @@ view: base {
     group_label: "Fiscal"
     label: "Fiscal Half"
     type: string
+    hidden: yes
     sql:
 
     {% if pivot_dimension._in_query  %}

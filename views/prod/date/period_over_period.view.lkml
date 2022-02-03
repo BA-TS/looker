@@ -61,13 +61,13 @@ view: period_on_period_new {
   dimension: __day_LQ__ {
     type: date
     datatype: date
-    sql: DATE_ADD(${__current_date__}, INTERVAL -1 QUARTER) ;;
+    sql: DATE_ADD(${__current_date__}, INTERVAL -${__length_of_quarter__} DAY) ;;
     hidden: yes
   }
   dimension: __day_2LQ__ {
     type: date
     datatype: date
-    sql: DATE_ADD(${__current_date__}, INTERVAL -2 QUARTER) ;;
+    sql: DATE_ADD(${__current_date__}, INTERVAL -(2 * ${__length_of_quarter__}) DAY) ;;
     hidden: yes
   }
   dimension: __day_LH__ {
@@ -85,13 +85,13 @@ view: period_on_period_new {
   dimension: __day_LY__ {
     type: date
     datatype: date
-    sql: ${__current_date__} - ${__length_of_year__} ;;
+    sql: DATE_ADD(${__current_date__}, INTERVAL -${__length_of_year__} DAY) ;;
     hidden: yes
   }
   dimension: __day_2LY__ {
     type: date
     datatype: date
-    sql: ${__current_date__} - (2 * ${__length_of_year__}) ;;
+    sql: DATE_ADD(${__current_date__}, INTERVAL -(2 * ${__length_of_year__}) DAY) ;;
     hidden: yes
   }
 
@@ -102,7 +102,7 @@ view: period_on_period_new {
   dimension: __week_start__ {
     type: date
     datatype: date
-    sql: ${__current_date__} - ${__length_of_week__} + 1;;
+    sql: DATE_ADD(${__current_date__}, INTERVAL -${__length_of_week__} + 1 DAY);;
     hidden: yes
   }
   dimension: __week_day_of__ {
@@ -124,7 +124,7 @@ view: period_on_period_new {
   dimension: __week_LW_end__ {
     type: date
     datatype: date
-    sql: date_add(${__week_end__}, interval -1 week) ;;
+    sql: DATE_ADD(${__week_end__}, INTERVAL -1 WEEK) ;;
     hidden: yes
   }
   dimension: __week_2LW_start__ {
@@ -172,7 +172,7 @@ view: period_on_period_new {
   dimension: __week_LQ_end__ {
     type: date
     datatype: date
-    sql: DATE_ADD(${__week_end__}, INTERVAL -1 QUARTER) ;;
+    sql: DATE_ADD(${__week_end__}, INTERVAL -${__length_of_quarter__} DAY) ;;
     hidden: yes
   }
   dimension: __week_2LQ_start__ {
@@ -196,7 +196,7 @@ view: period_on_period_new {
   dimension: __week_LH_end__ {
     type: date
     datatype: date
-    sql: DATE_ADD(${__week_end__}, INTERVAL -2 QUARTER ;;
+    sql: DATE_ADD(${__week_end__}, INTERVAL -(2*${__length_of_quarter__}) DAY) ;;
     hidden: yes
   }
   dimension: __week_2LH_start__ {
@@ -220,7 +220,7 @@ view: period_on_period_new {
   dimension: __week_LY_end__ {
     type: date
     datatype: date
-    sql: ${__week_end__} - ${__length_of_year__} ;;
+    sql: DATE_ADD(${__week_end__}, INTERVAL -${__length_of_year__} DAY) ;;
     hidden: yes
   }
   dimension: __week_2LY_start__ {
@@ -232,7 +232,7 @@ view: period_on_period_new {
   dimension: __week_2LY_end__ {
     type: date
     datatype: date
-    sql: ${__week_LY_end__} - (2 * ${__length_of_year__}) ;;
+    sql: DATE_ADD(${__week_LY_end__}, INTERVAL -(2 * ${__length_of_year__}) DAY) ;;
     hidden: yes
   }
 
@@ -284,7 +284,7 @@ view: period_on_period_new {
   dimension: __month_LQ_end__ {
     type: date
     datatype: date
-    sql: DATE_ADD(${__month_end__}, INTERVAL -1 QUARTER) ;;
+    sql: DATE_ADD(${__month_end__}, INTERVAL -${__length_of_quarter__} DAY) ;;
     hidden: yes
   }
   dimension: __month_2LQ_start__ {
@@ -308,7 +308,7 @@ view: period_on_period_new {
   dimension: __month_LH_end__ {
     type: date
     datatype: date
-    sql: DATE_ADD(${__month_end__}, INTERVAL -2 QUARTER ;;
+    sql: DATE_ADD(${__month_end__}, INTERVAL -2 QUARTER) ;;
     hidden: yes
   }
   dimension: __month_2LH_start__ {
@@ -332,7 +332,7 @@ view: period_on_period_new {
   dimension: __month_LY_end__ {
     type: date
     datatype: date
-    sql: ${__month_end__} - ${__length_of_year__} ;;
+    sql: DATE_ADD(${__month_end__}, INTERVAL -(${__length_of_year__} + 1) DAY) ;;
     hidden: yes
   }
   dimension: __month_2LY_start__ {
@@ -344,7 +344,7 @@ view: period_on_period_new {
   dimension: __month_2LY_end__ {
     type: date
     datatype: date
-    sql: ${__month_LY_end__} - (2 * ${__length_of_year__}) ;;
+    sql: DATE_ADD(${__month_LY_end__}, INTERVAL -((2 * (${__length_of_year__} + 1))+1) DAY) ;;
     hidden: yes
   }
 
@@ -397,7 +397,7 @@ view: period_on_period_new {
   dimension: __quarter_LQ_end__ {
     type: date
     datatype: date
-    sql: DATE_ADD(${__quarter_end__}, INTERVAL -1 QUARTER) ;;
+    sql: DATE_ADD(${__quarter_end__}, INTERVAL -(${__length_of_quarter__}+1) DAY) ;;
     hidden: yes
   }
   dimension: __quarter_2LQ_start__ {
@@ -421,7 +421,7 @@ view: period_on_period_new {
   dimension: __quarter_LH_end__ {
     type: date
     datatype: date
-    sql: DATE_ADD(${__quarter_end__}, INTERVAL -2 QUARTER ;;
+    sql: DATE_ADD(${__quarter_end__}, INTERVAL -(2 * (${__length_of_quarter__}+1)) DAY) ;;
     hidden: yes
   }
   dimension: __quarter_2LH_start__ {
@@ -445,7 +445,7 @@ view: period_on_period_new {
   dimension: __quarter_LY_end__ {
     type: date
     datatype: date
-    sql: ${__quarter_end__} - ${__length_of_year__} ;;
+    sql: DATE_ADD(${__quarter_end__}, INTERVAL -(${__length_of_year__}+1) DAY) ;;
     hidden: yes
   }
   dimension: __quarter_2LY_start__ {
@@ -457,7 +457,7 @@ view: period_on_period_new {
   dimension: __quarter_2LY_end__ {
     type: date
     datatype: date
-    sql: ${__quarter_LY_end__} - (2 * ${__length_of_year__}) ;;
+    sql: DATE_ADD(${__quarter_LY_end__}, INTERVAL -((2 * (${__length_of_year__} + 1))+1)) ;;
     hidden: yes
   }
 
@@ -486,7 +486,7 @@ view: period_on_period_new {
   dimension: __half_LH_end__ {
     type: date
     datatype: date
-    sql: DATE_ADD(${__half_end__}, INTERVAL -2 QUARTER ;;
+    sql: DATE_ADD(${__half_end__}, INTERVAL -2 QUARTER) ;;
     hidden: yes
   }
   dimension: __half_2LH_start__ {
@@ -510,7 +510,7 @@ view: period_on_period_new {
   dimension: __half_LY_end__ {
     type: date
     datatype: date
-    sql: ${__half_end__} - ${__length_of_year__} ;;
+    sql: DATE_ADD(${__half_end__}, INTERVAL -(${__length_of_year__} + 1) DAY) ;;
     hidden: yes
   }
   dimension: __half_2LY_start__ {
@@ -522,7 +522,7 @@ view: period_on_period_new {
   dimension: __half_2LY_end__ {
     type: date
     datatype: date
-    sql: ${__half_LY_end__} - (2 * ${__length_of_year__}) ;;
+    sql: DATE_ADD(${__half_LY_end__}, INTERVAL - ((2 * (${__length_of_year__} + 1))+1) DAY) ;;
     hidden: yes
   }
 
@@ -552,7 +552,7 @@ view: period_on_period_new {
   dimension: __year_LY_end__ {
     type: date
     datatype: date
-    sql: ${__year_end__} - ${__length_of_year__} ;;
+    sql: DATE_ADD(${__year_end__}, INTERVAL -(${__length_of_year__}+1) DAY) ;;
     hidden: yes
   }
   dimension: __year_2LY_start__ {
@@ -564,7 +564,7 @@ view: period_on_period_new {
   dimension: __year_2LY_end__ {
     type: date
     datatype: date
-    sql: ${__year_LY_end__} - ${__length_of_year__} ;;
+    sql: DATE_ADD(${__year_LY_end__}, INTERVAL -((2 * (${__length_of_year__} + 1))+1) DAY) ;;
     hidden: yes
   }
 
@@ -589,7 +589,6 @@ view: period_on_period_new {
   }
   dimension: __length_of_quarter__ {
     type: number
-    description: "Currently unused."
     sql: 91;;
     hidden: yes
   }
@@ -727,7 +726,7 @@ view: period_on_period_new {
         {% elsif select_comparison_period._parameter_value == "Month" %}
           ${month_to_date} OR ${month_to_date_LM}
           {% if select_number_of_periods._parameter_value == "3" %}
-            ${month_to_date_2LM}
+            OR ${month_to_date_2LM}
           {% endif %}
         {% elsif select_comparison_period._parameter_value == "Quarter" %}
           ${month_to_date} OR ${month_to_date_LQ}
@@ -869,10 +868,10 @@ view: period_on_period_new {
       label: "Quarter to Date (QTD)"
       value: "QTD"
     }
-    allowed_value: {
-      label: "Half to Date (HTD)"
-      value: "HTD"
-    }
+    # allowed_value: {
+    #   label: "Half to Date (HTD)"
+    #   value: "HTD"
+    # }
     allowed_value: {
       label: "Year to Date (YTD)"
       value: "YTD"
@@ -899,10 +898,10 @@ view: period_on_period_new {
       label: "Previous Quarter"
       value: "Quarter"
     }
-    allowed_value: {
-      label: "Previous Half"
-      value: "Half"
-    }
+    # allowed_value: {
+    #   label: "Previous Half"
+    #   value: "Half"
+    # }
     allowed_value: {
       label: "Previous Year"
       value: "Year"
