@@ -98,7 +98,7 @@ view: period_on_period_new {
   dimension: __day_LQ__ {
     type: date
     datatype: date
-    sql: DATE_SUB(${__current_date__}, INTERVAL -${__length_of_quarter__} DAY) ;;
+    sql: DATE_SUB(${__current_date__}, INTERVAL ${__length_of_quarter__} DAY) ;;
     hidden: yes
   }
   dimension: __day_2LQ__ {
