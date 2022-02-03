@@ -1,8 +1,41 @@
-# include: "/views/prod/date/fixed_PoP.view"
-
 view: period_on_period_new {
 
   extension: required
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # ██████╗░██╗░░░██╗███╗░░██╗░█████╗░███╗░░░███╗██╗░█████╗░░░░░█████╗░░█████╗░███╗░░██╗░██████╗████████╗░█████╗░███╗░░██╗████████╗░██████╗
@@ -30,6 +63,10 @@ view: period_on_period_new {
     sql: ${__target_raw__} ;;
     hidden: yes
   }
+
+
+
+
 
 # █▀▄ ▄▀█ █▄█
 # █▄▀ █▀█ ░█░
@@ -94,6 +131,8 @@ view: period_on_period_new {
     sql: DATE_SUB(${__day_LY__}, INTERVAL ${__length_of_year__} DAY) ;;
     hidden: yes
   }
+
+
 
 
 
@@ -235,6 +274,8 @@ view: period_on_period_new {
 
 
 
+
+
 # █▀▄▀█ █▀█ █▄░█ ▀█▀ █░█
 # █░▀░█ █▄█ █░▀█ ░█░ █▀█
 
@@ -346,6 +387,10 @@ view: period_on_period_new {
     sql: DATE_SUB(${__month_LY_end__}, INTERVAL ${__length_of_year__} DAY) ;;
     hidden: yes
   }
+
+
+
+
 
 
 # █▀█ █░█ ▄▀█ █▀█ ▀█▀ █▀▀ █▀█
@@ -529,9 +574,12 @@ view: period_on_period_new {
   }
 
 
+
+
+
+
 # █▄█ █▀▀ ▄▀█ █▀█
 # ░█░ ██▄ █▀█ █▀▄
-
 
   dimension: __year_start__ {
     type: date
@@ -575,6 +623,28 @@ view: period_on_period_new {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # ███████╗██╗██╗░░██╗███████╗██████╗░░░░█████╗░░█████╗░███╗░░██╗░██████╗████████╗░█████╗░███╗░░██╗████████╗░██████╗
 # ██╔════╝██║╚██╗██╔╝██╔════╝██╔══██╗░░██╔══██╗██╔══██╗████╗░██║██╔════╝╚══██╔══╝██╔══██╗████╗░██║╚══██╔══╝██╔════╝
 # █████╗░░██║░╚███╔╝░█████╗░░██║░░██║░░██║░░╚═╝██║░░██║██╔██╗██║╚█████╗░░░░██║░░░███████║██╔██╗██║░░░██║░░░╚█████╗░
@@ -589,7 +659,6 @@ view: period_on_period_new {
   }
   dimension: __length_of_month__ {
     type: number
-    description: "Currently unused."
     sql: 30;;
     hidden: yes
   }
@@ -609,6 +678,38 @@ view: period_on_period_new {
     sql: 364;;
     hidden: yes
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # ░█████╗░██╗░░░░░░██╗░░░░░░░██╗░█████╗░██╗░░░██╗░██████╗░░░░░░░██╗░░░░░░░██╗██╗░░██╗███████╗██████╗░███████╗
@@ -635,6 +736,388 @@ view: period_on_period_new {
     ;;
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ███████╗██╗██╗░░░░░████████╗███████╗██████╗░░██████╗
+# ██╔════╝██║██║░░░░░╚══██╔══╝██╔════╝██╔══██╗██╔════╝
+# █████╗░░██║██║░░░░░░░░██║░░░█████╗░░██████╔╝╚█████╗░
+# ██╔══╝░░██║██║░░░░░░░░██║░░░██╔══╝░░██╔══██╗░╚═══██╗
+# ██║░░░░░██║███████╗░░░██║░░░███████╗██║░░██║██████╔╝
+# ╚═╝░░░░░╚═╝╚══════╝░░░╚═╝░░░╚══════╝╚═╝░░╚═╝╚═════╝░
+
+  filter: select_date_range {
+    label: "Date Range"
+    group_label: "Range"
+    view_label: "Date"
+    type: date
+    convert_tz: yes
+  }
+  parameter: select_fixed_range {
+    label: "Fixed Range"
+    group_label: "Range"
+    view_label: "Date"
+    type: unquoted
+    allowed_value: {
+      label: "Previous Day"
+      value: "PD"
+    }
+    allowed_value: {
+      label: "Week to Date (WTD)"
+      value: "WTD"
+    }
+    allowed_value: {
+      label: "Month to Date (MTD)"
+      value: "MTD"
+    }
+    allowed_value: {
+      label: "Quarter to Date (QTD)"
+      value: "QTD"
+    }
+    # allowed_value: {
+    #   label: "Half to Date (HTD)"
+    #   value: "HTD"
+    # }
+    allowed_value: {
+      label: "Year to Date (YTD)"
+      value: "YTD"
+    }
+  }
+  parameter: select_comparison_period {
+    label: "Comparison Period"
+    group_label: "Comparison"
+    view_label: "Date"
+    type: unquoted
+    allowed_value: {
+      label: "Previous Period"
+      value: "Period"
+    }
+    allowed_value: {
+      label: "Previous Week"
+      value: "Week"
+    }
+    allowed_value: {
+      label: "Previous Month"
+      value: "Month"
+    }
+    allowed_value: {
+      label: "Previous Quarter"
+      value: "Quarter"
+    }
+    # allowed_value: {
+    #   label: "Previous Half"
+    #   value: "Half"
+    # }
+    allowed_value: {
+      label: "Previous Year"
+      value: "Year"
+    }
+    allowed_value: {
+      label: "Previous 2 Year"
+      value: "2YearsAgo"
+    }
+    default_value: "Period"
+  }
+  parameter: select_number_of_periods {
+    label: "Number of Period(s)"
+    group_label: "Comparison"
+    view_label: "Date"
+    type: unquoted
+    allowed_value: {
+      label: "1 Period Ago"
+      value: "2"
+    }
+    allowed_value: {
+      label: "2 Periods Ago"
+      value: "3"
+    }
+    default_value: "2"
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ██████╗░░█████╗░████████╗███████╗
+# ██╔══██╗██╔══██╗╚══██╔══╝██╔════╝
+# ██║░░██║███████║░░░██║░░░█████╗░░
+# ██║░░██║██╔══██║░░░██║░░░██╔══╝░░
+# ██████╔╝██║░░██║░░░██║░░░███████╗
+# ╚═════╝░╚═╝░░╚═╝░░░╚═╝░░░╚══════╝
+
+  dimension_group: date {
+    view_label: "Date"
+    group_label: ""
+    label: ""
+    type: time
+    sql:
+
+      {% if pivot_dimension._in_query %}
+        {% if select_fixed_range._in_query %}
+          {% if select_fixed_range._parameter_value == "PD" and (select_comparison_period._parameter_value == "Week" or select_comparison_period._parameter_value == "Month") %}
+            ${__current_date__}
+          {% else %}
+            CASE
+              WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${__current_date__}) - 1
+                THEN ${__target_date__} + ${__length_of_year__}
+              WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${__current_date__}) - 2
+                THEN ${__target_date__} + ${__length_of_year__} * 2
+              ELSE ${__target_date__}
+            END
+          {% endif %}
+        {% elsif select_date_range._in_query %}
+        TIMESTAMP_ADD({% date_start select_date_range %}, INTERVAL (${day_in_period}) - 1 DAY)
+        {% else %}
+        ${base_date_raw}
+        {% endif %}
+      {% else %}
+        ${base_date_raw}
+      {% endif %}
+
+      ;;
+    timeframes: [date]
+    can_filter: no
+    allow_fill: no
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ░█████╗░░█████╗░███╗░░░███╗██████╗░░█████╗░██████╗░░█████╗░████████╗░█████╗░██████╗░
+# ██╔══██╗██╔══██╗████╗░████║██╔══██╗██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗██╔══██╗
+# ██║░░╚═╝██║░░██║██╔████╔██║██████╔╝███████║██████╔╝███████║░░░██║░░░██║░░██║██████╔╝
+# ██║░░██╗██║░░██║██║╚██╔╝██║██╔═══╝░██╔══██║██╔══██╗██╔══██║░░░██║░░░██║░░██║██╔══██╗
+# ╚█████╔╝╚█████╔╝██║░╚═╝░██║██║░░░░░██║░░██║██║░░██║██║░░██║░░░██║░░░╚█████╔╝██║░░██║
+# ░╚════╝░░╚════╝░╚═╝░░░░░╚═╝╚═╝░░░░░╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░╚═╝░░╚═╝
+
+  dimension: pivot_dimension {
+    view_label: "Date"
+    label: "Compare Period"
+    description: "Pivot this to apply comparative PoP."
+    type: string
+    order_by_field: __comparator_order__
+    sql:
+
+     {% if select_date_range._is_filtered %}
+        CASE
+          WHEN {% condition select_date_range %}  ${base_date_raw} {% endcondition %}
+            THEN "This {% parameter select_comparison_period %}"
+          WHEN ${base_date_raw} >= ${period_2_start} and ${base_date_raw} < ${period_2_end}
+            THEN "Last {% parameter select_comparison_period %}"
+          WHEN ${base_date_raw} >= ${period_3_start} and ${base_date_raw} < ${period_3_end}
+            THEN "2 {% parameter select_comparison_period %}s Ago"
+        END
+      {% elsif select_fixed_range._is_filtered %}
+      CASE
+          WHEN
+            {% if select_fixed_range._parameter_value == "PD" %}
+              ${previous_full_day}
+            {% elsif select_fixed_range._parameter_value == "WTD" %}
+              ${week_to_date}
+            {% elsif select_fixed_range._parameter_value == "MTD" %}
+              ${month_to_date}
+            {% elsif select_fixed_range._parameter_value == "QTD" %}
+              ${quarter_to_date}
+            {% elsif select_fixed_range._parameter_value == "HTD" %}
+              ${half_to_date}
+            {% elsif select_fixed_range._parameter_value == "YTD" %}
+              ${year_to_date}
+            {% else %}
+              false
+            {% endif %}
+          THEN "This {% parameter select_comparison_period %}"
+          WHEN
+          {% if select_fixed_range._parameter_value == "PD" %}
+            ${previous_full_day_LW} OR ${previous_full_day_LM} OR ${previous_full_day_LQ} OR ${previous_full_day_LH} OR ${previous_full_day_LY}
+          {% elsif select_fixed_range._parameter_value == "WTD" %}
+            ${week_to_date_LW} OR ${week_to_date_LM} OR ${week_to_date_LQ} OR ${week_to_date_LH} OR ${week_to_date_LY}
+          {% elsif select_fixed_range._parameter_value == "MTD" %}
+            ${month_to_date_LM} OR ${month_to_date_LQ} OR ${month_to_date_LH} OR ${month_to_date_LY}
+          {% elsif select_fixed_range._parameter_value == "QTD" %}
+            ${quarter_to_date_LQ} OR ${quarter_to_date_LH} OR ${quarter_to_date_LY}
+          {% elsif select_fixed_range._parameter_value == "HTD" %}
+            ${half_to_date_LH} OR ${half_to_date_LY}
+          {% elsif select_fixed_range._parameter_value == "YTD" %}
+            ${year_to_date_LY}
+          {% else %}
+            false
+            {% endif %}
+          THEN "Last {% parameter select_comparison_period %}"
+          WHEN
+          {% if select_fixed_range._parameter_value == "PD" %}
+            ${previous_full_day_2LW} OR ${previous_full_day_2LM} OR ${previous_full_day_2LQ} OR ${previous_full_day_2LH} OR ${previous_full_day_2LY}
+          {% elsif select_fixed_range._parameter_value == "WTD" %}
+            ${week_to_date_2LW} OR ${week_to_date_2LM} OR ${week_to_date_2LQ} OR ${week_to_date_2LH} OR ${week_to_date_2LY}
+          {% elsif select_fixed_range._parameter_value == "MTD" %}
+            ${month_to_date_2LM} OR ${month_to_date_2LQ} OR ${month_to_date_2LH} OR ${month_to_date_2LY}
+          {% elsif select_fixed_range._parameter_value == "QTD" %}
+            ${quarter_to_date_2LQ} OR ${quarter_to_date_2LH} OR ${quarter_to_date_2LY}
+          {% elsif select_fixed_range._parameter_value == "HTD" %}
+            ${half_to_date_LH} OR ${half_to_date_LY}
+          {% elsif select_fixed_range._parameter_value == "YTD" %}
+            ${year_to_date_2LY}
+          {% else %}
+            false
+          {% endif %}
+          THEN "2 {% parameter select_comparison_period %}s Ago"
+          ELSE "UNKNOWN PERIOD"
+      END
+      {% else %}
+        NULL
+      {% endif %}
+
+    ;;
+    can_filter: no
+  }
+  dimension: __comparator_order__ {
+    hidden: yes
+    type: string
+    sql:
+
+      {% if select_number_of_periods._is_filtered or select_comparison_period._in_query and select_date_range._in_query %}
+        CASE
+          WHEN {% condition select_date_range %} ${base_date_raw} {% endcondition %}
+          THEN 1
+          WHEN ${base_date_raw} >= ${period_2_start} and ${base_date_raw} < ${period_2_end}
+          THEN 2
+          WHEN ${base_date_raw} >= ${period_3_start} and ${base_date_raw} < ${period_3_end}
+          THEN 3
+          ELSE 4
+        END
+      {% else %}
+        ${base_date_raw}
+      {% endif %}
+
+      ;;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ███████╗██╗░░░░░███████╗██╗░░██╗██╗██████╗░██╗░░░░░███████╗░░░░██████╗░░█████╗░██████╗░
+# ██╔════╝██║░░░░░██╔════╝╚██╗██╔╝██║██╔══██╗██║░░░░░██╔════╝░░░░██╔══██╗██╔══██╗██╔══██╗
+# █████╗░░██║░░░░░█████╗░░░╚███╔╝░██║██████╦╝██║░░░░░█████╗░░░░░░██████╔╝██║░░██║██████╔╝
+# ██╔══╝░░██║░░░░░██╔══╝░░░██╔██╗░██║██╔══██╗██║░░░░░██╔══╝░░░░░░██╔═══╝░██║░░██║██╔═══╝░
+# ██║░░░░░███████╗███████╗██╔╝╚██╗██║██████╦╝███████╗███████╗░░░░██║░░░░░╚█████╔╝██║░░░░░
+# ╚═╝░░░░░╚══════╝╚══════╝╚═╝░░╚═╝╚═╝╚═════╝░╚══════╝╚══════╝░░░░╚═╝░░░░░░╚════╝░╚═╝░░░░░
+
+
   filter: flexible_pop {
     type: yesno
     sql:
@@ -652,6 +1135,159 @@ view: period_on_period_new {
     ;;
     hidden: yes
   }
+
+
+  dimension_group: in_period {
+    type: duration
+    intervals: [day]
+    sql_start: {% date_start select_date_range %} ;;
+    sql_end: {% date_end select_date_range %} ;;
+    hidden:  yes
+  }
+
+  dimension: day_in_period {
+    type: number
+    sql:
+
+    {% if select_number_of_periods._is_filtered or select_comparison_period._in_query %}
+      CASE
+        WHEN {% condition select_date_range %} ${base_date_raw} {% endcondition %}
+          THEN TIMESTAMP_DIFF(${base_date_raw},{% date_start select_date_range %},DAY)+1
+        WHEN ${base_date_raw} >= ${period_2_start} and ${base_date_raw} < ${period_2_end}
+          THEN TIMESTAMP_DIFF(${base_date_raw}, ${period_2_start},DAY)+1
+        WHEN ${base_date_raw} >= ${period_3_start} and ${base_date_raw} < ${period_3_end}
+          THEN TIMESTAMP_DIFF(${base_date_raw}, ${period_3_start},DAY)+1
+      END
+    {% endif %}
+
+    ;;
+    hidden: yes
+  }
+
+  dimension: period_2_start {
+    type: date_raw
+    sql:
+
+    {% if select_date_range._in_query %}
+      {% if select_comparison_period._parameter_value == "Period" %}
+        TIMESTAMP_SUB({% date_start select_date_range %} , INTERVAL ${days_in_period} DAY)
+      {% elsif select_comparison_period._parameter_value == "Year" %}
+        TIMESTAMP_SUB({% date_start select_date_range %} , INTERVAL ${__length_of_year__} DAY)
+      {% else %}
+        TIMESTAMP(DATETIME_SUB(DATETIME({% date_start select_date_range %}) , INTERVAL 1 {% parameter select_comparison_period %}))
+      {% endif %}
+    {% else %}
+      {% date_start select_date_range %}
+    {% endif %}
+
+    ;;
+    hidden:  yes
+  }
+
+  dimension: period_2_end {
+    type: date_raw
+    sql:
+
+          {% if select_date_range._in_query %}
+            {% if select_comparison_period._parameter_value == "Period" %}
+              TIMESTAMP_SUB({% date_start select_date_range %}, INTERVAL 0 DAY)
+            {% elsif select_comparison_period._parameter_value == "Year" %}
+              TIMESTAMP_SUB({% date_end select_date_range %} , INTERVAL ${__length_of_year__} DAY)
+            {% else %}
+              TIMESTAMP(DATETIME_SUB(DATETIME_SUB(DATETIME({% date_end select_date_range %}), INTERVAL 0 DAY), INTERVAL 1 {% parameter select_comparison_period %}))
+            {% endif %}
+          {% else %}
+            {% date_end select_date_range %}
+          {% endif %}
+
+          ;;
+    hidden:  yes
+  }
+
+  dimension: period_3_start {
+    type: date_raw
+    sql:
+
+            {% if select_comparison_period._parameter_value == "Period" %}
+              TIMESTAMP_SUB({% date_start select_date_range %}, INTERVAL 2*${days_in_period} DAY)
+            {% elsif select_comparison_period._parameter_value == "Year" %}
+                TIMESTAMP_SUB({% date_start select_date_range %} , INTERVAL ${__length_of_year__}*2 DAY)
+            {% else %}
+              TIMESTAMP(DATETIME_SUB(DATETIME({% date_start select_date_range %}), INTERVAL 2 {% parameter select_comparison_period %}))
+            {% endif %}
+
+            ;;
+    hidden: yes
+  }
+
+  dimension: period_3_end {
+    type: date_raw
+    sql:
+
+            {% if select_comparison_period._parameter_value == "Period" %}
+              TIMESTAMP_SUB(${period_2_start}, INTERVAL 0 DAY)
+            {% elsif select_comparison_period._parameter_value == "Year" %}
+                TIMESTAMP_SUB({% date_end select_date_range %} , INTERVAL ${__length_of_year__}*2 DAY)
+            {% else %}
+              TIMESTAMP(DATETIME_SUB(DATETIME_SUB(DATETIME({% date_end select_date_range %}), INTERVAL 0 DAY), INTERVAL 2 {% parameter select_comparison_period %}))
+            {% endif %}
+
+            ;;
+    hidden: yes
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ███████╗██╗██╗░░██╗███████╗██████╗░░░██████╗░░█████╗░██████╗░
+# ██╔════╝██║╚██╗██╔╝██╔════╝██╔══██╗░░██╔══██╗██╔══██╗██╔══██╗
+# █████╗░░██║░╚███╔╝░█████╗░░██║░░██║░░██████╔╝██║░░██║██████╔╝
+# ██╔══╝░░██║░██╔██╗░██╔══╝░░██║░░██║░░██╔═══╝░██║░░██║██╔═══╝░
+# ██║░░░░░██║██╔╝╚██╗███████╗██████╔╝░░██║░░░░░╚█████╔╝██║░░░░░
+# ╚═╝░░░░░╚═╝╚═╝░░╚═╝╚══════╝╚═════╝░░░╚═╝░░░░░░╚════╝░╚═╝░░░░░
+
+
+
 
   filter: fixed_pop {
     type:  yesno
@@ -838,376 +1474,7 @@ view: period_on_period_new {
 
 
 
-# ███████╗██╗██╗░░░░░████████╗███████╗██████╗░░██████╗
-# ██╔════╝██║██║░░░░░╚══██╔══╝██╔════╝██╔══██╗██╔════╝
-# █████╗░░██║██║░░░░░░░░██║░░░█████╗░░██████╔╝╚█████╗░
-# ██╔══╝░░██║██║░░░░░░░░██║░░░██╔══╝░░██╔══██╗░╚═══██╗
-# ██║░░░░░██║███████╗░░░██║░░░███████╗██║░░██║██████╔╝
-# ╚═╝░░░░░╚═╝╚══════╝░░░╚═╝░░░╚══════╝╚═╝░░╚═╝╚═════╝░
 
-
-  filter: select_date_range {
-    label: "Date Range"
-    group_label: "Range"
-    view_label: "Date"
-    type: date
-    convert_tz: yes
-  }
-  parameter: select_fixed_range {
-    label: "Fixed Range"
-    group_label: "Range"
-    view_label: "Date"
-    type: unquoted
-    allowed_value: {
-      label: "Previous Day"
-      value: "PD"
-    }
-    allowed_value: {
-      label: "Week to Date (WTD)"
-      value: "WTD"
-    }
-    allowed_value: {
-      label: "Month to Date (MTD)"
-      value: "MTD"
-    }
-    allowed_value: {
-      label: "Quarter to Date (QTD)"
-      value: "QTD"
-    }
-    # allowed_value: {
-    #   label: "Half to Date (HTD)"
-    #   value: "HTD"
-    # }
-    allowed_value: {
-      label: "Year to Date (YTD)"
-      value: "YTD"
-    }
-  }
-  parameter: select_comparison_period {
-    label: "Comparison Period"
-    group_label: "Comparison"
-    view_label: "Date"
-    type: unquoted
-    allowed_value: {
-      label: "Previous Period"
-      value: "Period"
-    }
-    allowed_value: {
-      label: "Previous Week"
-      value: "Week"
-    }
-    allowed_value: {
-      label: "Previous Month"
-      value: "Month"
-    }
-    allowed_value: {
-      label: "Previous Quarter"
-      value: "Quarter"
-    }
-    # allowed_value: {
-    #   label: "Previous Half"
-    #   value: "Half"
-    # }
-    allowed_value: {
-      label: "Previous Year"
-      value: "Year"
-    }
-    allowed_value: {
-      label: "Previous 2 Year"
-      value: "2YearsAgo"
-    }
-    default_value: "Period"
-  }
-  parameter: select_number_of_periods {
-    label: "Number of Period(s)"
-    group_label: "Comparison"
-    view_label: "Date"
-    type: unquoted
-    allowed_value: {
-      label: "1 Period Ago"
-      value: "2"
-    }
-    allowed_value: {
-      label: "2 Periods Ago"
-      value: "3"
-    }
-    default_value: "2"
-  }
-
-
-
-# ██████╗░░█████╗░████████╗███████╗
-# ██╔══██╗██╔══██╗╚══██╔══╝██╔════╝
-# ██║░░██║███████║░░░██║░░░█████╗░░
-# ██║░░██║██╔══██║░░░██║░░░██╔══╝░░
-# ██████╔╝██║░░██║░░░██║░░░███████╗
-# ╚═════╝░╚═╝░░╚═╝░░░╚═╝░░░╚══════╝
-
-
-  dimension_group: date {
-    view_label: "Date"
-    group_label: ""
-    label: ""
-    type: time
-    sql:
-
-      {% if pivot_dimension._in_query %}
-        {% if select_fixed_range._in_query %}
-          {% if select_fixed_range._parameter_value == "PD" and (select_comparison_period._parameter_value == "Week" or select_comparison_period._parameter_value == "Month") %}
-            ${__current_date__}
-          {% else %}
-            CASE
-              WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${__current_date__}) - 1
-                THEN ${__target_date__} + ${__length_of_year__}
-              WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${__current_date__}) - 2
-                THEN ${__target_date__} + ${__length_of_year__} * 2
-              ELSE ${__target_date__}
-            END
-          {% endif %}
-        {% elsif select_date_range._in_query %}
-        TIMESTAMP_ADD({% date_start select_date_range %}, INTERVAL (${day_in_period}) - 1 DAY)
-        {% else %}
-        ${base_date_raw}
-        {% endif %}
-      {% else %}
-        ${base_date_raw}
-      {% endif %}
-
-      ;;
-    timeframes: [date]
-    can_filter: no
-    allow_fill: no
-  }
-
-
-
-# ░█████╗░░█████╗░███╗░░░███╗██████╗░░█████╗░██████╗░░█████╗░████████╗░█████╗░██████╗░
-# ██╔══██╗██╔══██╗████╗░████║██╔══██╗██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗██╔══██╗
-# ██║░░╚═╝██║░░██║██╔████╔██║██████╔╝███████║██████╔╝███████║░░░██║░░░██║░░██║██████╔╝
-# ██║░░██╗██║░░██║██║╚██╔╝██║██╔═══╝░██╔══██║██╔══██╗██╔══██║░░░██║░░░██║░░██║██╔══██╗
-# ╚█████╔╝╚█████╔╝██║░╚═╝░██║██║░░░░░██║░░██║██║░░██║██║░░██║░░░██║░░░╚█████╔╝██║░░██║
-# ░╚════╝░░╚════╝░╚═╝░░░░░╚═╝╚═╝░░░░░╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░╚═╝░░╚═╝
-
-  dimension: pivot_dimension {
-    view_label: "Date"
-    label: "Compare Period"
-    description: "Pivot this to apply comparative PoP."
-    type: string
-    order_by_field: __comparator_order__
-    sql:
-
-     {% if select_date_range._is_filtered %}
-        CASE
-          WHEN {% condition select_date_range %}  ${base_date_raw} {% endcondition %}
-            THEN "This {% parameter select_comparison_period %}"
-          WHEN ${base_date_raw} >= ${period_2_start} and ${base_date_raw} < ${period_2_end}
-            THEN "Last {% parameter select_comparison_period %}"
-          WHEN ${base_date_raw} >= ${period_3_start} and ${base_date_raw} < ${period_3_end}
-            THEN "2 {% parameter select_comparison_period %}s Ago"
-        END
-      {% elsif select_fixed_range._is_filtered %}
-      CASE
-          WHEN
-            {% if select_fixed_range._parameter_value == "PD" %}
-              ${previous_full_day}
-            {% elsif select_fixed_range._parameter_value == "WTD" %}
-              ${week_to_date}
-            {% elsif select_fixed_range._parameter_value == "MTD" %}
-              ${month_to_date}
-            {% elsif select_fixed_range._parameter_value == "QTD" %}
-              ${quarter_to_date}
-            {% elsif select_fixed_range._parameter_value == "HTD" %}
-              ${half_to_date}
-            {% elsif select_fixed_range._parameter_value == "YTD" %}
-              ${year_to_date}
-            {% else %}
-              false
-            {% endif %}
-          THEN "This {% parameter select_comparison_period %}"
-          WHEN
-          {% if select_fixed_range._parameter_value == "PD" %}
-            ${previous_full_day_LW} OR ${previous_full_day_LM} OR ${previous_full_day_LQ} OR ${previous_full_day_LH} OR ${previous_full_day_LY}
-          {% elsif select_fixed_range._parameter_value == "WTD" %}
-            ${week_to_date_LW} OR ${week_to_date_LM} OR ${week_to_date_LQ} OR ${week_to_date_LH} OR ${week_to_date_LY}
-          {% elsif select_fixed_range._parameter_value == "MTD" %}
-            ${month_to_date_LM} OR ${month_to_date_LQ} OR ${month_to_date_LH} OR ${month_to_date_LY}
-          {% elsif select_fixed_range._parameter_value == "QTD" %}
-            ${quarter_to_date_LQ} OR ${quarter_to_date_LH} OR ${quarter_to_date_LY}
-          {% elsif select_fixed_range._parameter_value == "HTD" %}
-            ${half_to_date_LH} OR ${half_to_date_LY}
-          {% elsif select_fixed_range._parameter_value == "YTD" %}
-            ${year_to_date_LY}
-          {% else %}
-            false
-            {% endif %}
-          THEN "Last {% parameter select_comparison_period %}"
-          WHEN
-          {% if select_fixed_range._parameter_value == "PD" %}
-            ${previous_full_day_2LW} OR ${previous_full_day_2LM} OR ${previous_full_day_2LQ} OR ${previous_full_day_2LH} OR ${previous_full_day_2LY}
-          {% elsif select_fixed_range._parameter_value == "WTD" %}
-            ${week_to_date_2LW} OR ${week_to_date_2LM} OR ${week_to_date_2LQ} OR ${week_to_date_2LH} OR ${week_to_date_2LY}
-          {% elsif select_fixed_range._parameter_value == "MTD" %}
-            ${month_to_date_2LM} OR ${month_to_date_2LQ} OR ${month_to_date_2LH} OR ${month_to_date_2LY}
-          {% elsif select_fixed_range._parameter_value == "QTD" %}
-            ${quarter_to_date_2LQ} OR ${quarter_to_date_2LH} OR ${quarter_to_date_2LY}
-          {% elsif select_fixed_range._parameter_value == "HTD" %}
-            ${half_to_date_LH} OR ${half_to_date_LY}
-          {% elsif select_fixed_range._parameter_value == "YTD" %}
-            ${year_to_date_2LY}
-          {% else %}
-            false
-          {% endif %}
-          THEN "2 {% parameter select_comparison_period %}s Ago"
-          ELSE "UNKNOWN PERIOD"
-      END
-      {% else %}
-        NULL
-      {% endif %}
-
-    ;;
-    can_filter: no
-  }
-  dimension: __comparator_order__ {
-    hidden: yes
-    type: string
-    sql:
-
-      {% if select_number_of_periods._is_filtered or select_comparison_period._in_query and select_date_range._in_query %}
-        CASE
-          WHEN {% condition select_date_range %} ${base_date_raw} {% endcondition %}
-          THEN 1
-          WHEN ${base_date_raw} >= ${period_2_start} and ${base_date_raw} < ${period_2_end}
-          THEN 2
-          WHEN ${base_date_raw} >= ${period_3_start} and ${base_date_raw} < ${period_3_end}
-          THEN 3
-          ELSE 4
-        END
-      {% else %}
-        ${base_date_raw}
-      {% endif %}
-
-      ;;
-  }
-
-
-
-
-# ███████╗██╗░░░░░███████╗██╗░░██╗██╗██████╗░██╗░░░░░███████╗░░░░██████╗░░█████╗░██████╗░
-# ██╔════╝██║░░░░░██╔════╝╚██╗██╔╝██║██╔══██╗██║░░░░░██╔════╝░░░░██╔══██╗██╔══██╗██╔══██╗
-# █████╗░░██║░░░░░█████╗░░░╚███╔╝░██║██████╦╝██║░░░░░█████╗░░░░░░██████╔╝██║░░██║██████╔╝
-# ██╔══╝░░██║░░░░░██╔══╝░░░██╔██╗░██║██╔══██╗██║░░░░░██╔══╝░░░░░░██╔═══╝░██║░░██║██╔═══╝░
-# ██║░░░░░███████╗███████╗██╔╝╚██╗██║██████╦╝███████╗███████╗░░░░██║░░░░░╚█████╔╝██║░░░░░
-# ╚═╝░░░░░╚══════╝╚══════╝╚═╝░░╚═╝╚═╝╚═════╝░╚══════╝╚══════╝░░░░╚═╝░░░░░░╚════╝░╚═╝░░░░░
-
-
-  dimension_group: in_period {
-    type: duration
-    intervals: [day]
-    sql_start: {% date_start select_date_range %} ;;
-    sql_end: {% date_end select_date_range %} ;;
-    hidden:  yes
-  }
-
-
-  dimension: day_in_period {
-    type: number
-    sql:
-
-    {% if select_number_of_periods._is_filtered or select_comparison_period._in_query %}
-      CASE
-        WHEN {% condition select_date_range %} ${base_date_raw} {% endcondition %}
-          THEN TIMESTAMP_DIFF(${base_date_raw},{% date_start select_date_range %},DAY)+1
-        WHEN ${base_date_raw} >= ${period_2_start} and ${base_date_raw} < ${period_2_end}
-          THEN TIMESTAMP_DIFF(${base_date_raw}, ${period_2_start},DAY)+1
-        WHEN ${base_date_raw} >= ${period_3_start} and ${base_date_raw} < ${period_3_end}
-          THEN TIMESTAMP_DIFF(${base_date_raw}, ${period_3_start},DAY)+1
-      END
-    {% endif %}
-
-    ;;
-    hidden: yes
-  }
-
-  dimension: period_2_start {
-    type: date_raw
-    sql:
-
-    {% if select_date_range._in_query %}
-      {% if select_comparison_period._parameter_value == "Period" %}
-        TIMESTAMP_SUB({% date_start select_date_range %} , INTERVAL ${days_in_period} DAY)
-      {% elsif select_comparison_period._parameter_value == "Year" %}
-        TIMESTAMP_SUB({% date_start select_date_range %} , INTERVAL ${__length_of_year__} DAY)
-      {% else %}
-        TIMESTAMP(DATETIME_SUB(DATETIME({% date_start select_date_range %}) , INTERVAL 1 {% parameter select_comparison_period %}))
-      {% endif %}
-    {% else %}
-      {% date_start select_date_range %}
-    {% endif %}
-
-    ;;
-    hidden:  yes
-  }
-
-  dimension: period_2_end {
-    type: date_raw
-    sql:
-
-          {% if select_date_range._in_query %}
-            {% if select_comparison_period._parameter_value == "Period" %}
-              TIMESTAMP_SUB({% date_start select_date_range %}, INTERVAL 0 DAY)
-            {% elsif select_comparison_period._parameter_value == "Year" %}
-              TIMESTAMP_SUB({% date_end select_date_range %} , INTERVAL ${__length_of_year__} DAY)
-            {% else %}
-              TIMESTAMP(DATETIME_SUB(DATETIME_SUB(DATETIME({% date_end select_date_range %}), INTERVAL 0 DAY), INTERVAL 1 {% parameter select_comparison_period %}))
-            {% endif %}
-          {% else %}
-            {% date_end select_date_range %}
-          {% endif %}
-
-          ;;
-    hidden:  yes
-  }
-
-  dimension: period_3_start {
-    type: date_raw
-    sql:
-
-            {% if select_comparison_period._parameter_value == "Period" %}
-              TIMESTAMP_SUB({% date_start select_date_range %}, INTERVAL 2*${days_in_period} DAY)
-            {% elsif select_comparison_period._parameter_value == "Year" %}
-                TIMESTAMP_SUB({% date_start select_date_range %} , INTERVAL ${__length_of_year__}*2 DAY)
-            {% else %}
-              TIMESTAMP(DATETIME_SUB(DATETIME({% date_start select_date_range %}), INTERVAL 2 {% parameter select_comparison_period %}))
-            {% endif %}
-
-            ;;
-    hidden: yes
-  }
-
-  dimension: period_3_end {
-    type: date_raw
-    sql:
-
-            {% if select_comparison_period._parameter_value == "Period" %}
-              TIMESTAMP_SUB(${period_2_start}, INTERVAL 0 DAY)
-            {% elsif select_comparison_period._parameter_value == "Year" %}
-                TIMESTAMP_SUB({% date_end select_date_range %} , INTERVAL ${__length_of_year__}*2 DAY)
-            {% else %}
-              TIMESTAMP(DATETIME_SUB(DATETIME_SUB(DATETIME({% date_end select_date_range %}), INTERVAL 0 DAY), INTERVAL 2 {% parameter select_comparison_period %}))
-            {% endif %}
-
-            ;;
-    hidden: yes
-  }
-
-
-
-# ███████╗██╗██╗░░██╗███████╗██████╗░░░██████╗░░█████╗░██████╗░
-# ██╔════╝██║╚██╗██╔╝██╔════╝██╔══██╗░░██╔══██╗██╔══██╗██╔══██╗
-# █████╗░░██║░╚███╔╝░█████╗░░██║░░██║░░██████╔╝██║░░██║██████╔╝
-# ██╔══╝░░██║░██╔██╗░██╔══╝░░██║░░██║░░██╔═══╝░██║░░██║██╔═══╝░
-# ██║░░░░░██║██╔╝╚██╗███████╗██████╔╝░░██║░░░░░╚█████╔╝██║░░░░░
-# ╚═╝░░░░░╚═╝╚═╝░░╚═╝╚══════╝╚═════╝░░░╚═╝░░░░░░╚════╝░╚═╝░░░░░
 
 # █▀▄ ▄▀█ █▄█
 # █▄▀ █▀█ ░█░
@@ -1267,6 +1534,10 @@ view: period_on_period_new {
     sql: ${__target_date__} = ${__day_2LY__} ;;
     hidden: yes
   }
+
+
+
+
 
 
 # █░█░█ █▀▀ █▀▀ █▄▀
@@ -1329,6 +1600,10 @@ view: period_on_period_new {
   }
 
 
+
+
+
+
 # █▀▄▀█ █▀█ █▄░█ ▀█▀ █░█
 # █░▀░█ █▄█ █░▀█ ░█░ █▀█
 
@@ -1379,6 +1654,10 @@ view: period_on_period_new {
   }
 
 
+
+
+
+
 # █▀█ █░█ ▄▀█ █▀█ ▀█▀ █▀▀ █▀█
 # ▀▀█ █▄█ █▀█ █▀▄ ░█░ ██▄ █▀▄
 
@@ -1420,6 +1699,10 @@ view: period_on_period_new {
   }
 
 
+
+
+
+
 # █░█ ▄▀█ █░░ █▀▀
 # █▀█ █▀█ █▄▄ █▀░
 
@@ -1448,6 +1731,10 @@ view: period_on_period_new {
     sql: ${__target_date__} BETWEEN ${__half_2LY_start__} AND ${__half_2LY_end__} ;;
     hidden: yes
   }
+
+
+
+
 
 
 # █▄█ █▀▀ ▄▀█ █▀█
