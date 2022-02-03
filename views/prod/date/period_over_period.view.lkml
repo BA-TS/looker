@@ -564,7 +564,7 @@ view: period_on_period_new {
   dimension: __year_2LY_end__ {
     type: date
     datatype: date
-    sql: DATE_ADD(${__year_LY_end__}, INTERVAL -((2 * (${__length_of_year__} + 1))+1) DAY) ;;
+    sql: DATE_ADD(${__year_end__}, INTERVAL -((2 * (${__length_of_year__} + 1))+1) DAY) ;;
     hidden: yes
   }
 
