@@ -10,3 +10,7 @@ datagroup: toolstation_transactions_datagroup {
 datagroup: ts_googleanalytics_datagroup {
   sql_trigger: SELECT EXTRACT(month from CURRENT_DATE()) ;;
 }
+
+datagroup: ts_dev_datagroup {
+  sql_trigger: SELECT EXTRACT(YEAR FROM CURRENT_DATE())  ;;
+}

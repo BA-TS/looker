@@ -7,6 +7,11 @@ explore: sites {
   required_access_grants: [is_developer]
 }
 
+explore: incremental_pdt {
+  label: "DEVELOPER - Incremental PDT Testing"
+  required_access_grants: [is_developer]
+}
+
 # explore:  base {
 #   label: "DATE TESTING"
 #   required_access_grants: [is_developer]
