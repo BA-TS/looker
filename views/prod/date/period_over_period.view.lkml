@@ -232,7 +232,7 @@ view: period_on_period_new {
   dimension: __week_2LY_end__ {
     type: date
     datatype: date
-    sql: DATE_ADD(${__week_LY_end__}, INTERVAL -(2 * ${__length_of_year__}) DAY) ;;
+    sql: DATE_ADD(${__week_end__}, INTERVAL -(2 * ${__length_of_year__}) DAY) ;;
     hidden: yes
   }
 
@@ -344,7 +344,7 @@ view: period_on_period_new {
   dimension: __month_2LY_end__ {
     type: date
     datatype: date
-    sql: DATE_ADD(${__month_LY_end__}, INTERVAL -((2 * (${__length_of_year__} + 1))+1) DAY) ;;
+    sql: DATE_ADD(${__month_end__}, INTERVAL -((2 * (${__length_of_year__} + 1))+1) DAY) ;;
     hidden: yes
   }
 
@@ -457,7 +457,7 @@ view: period_on_period_new {
   dimension: __quarter_2LY_end__ {
     type: date
     datatype: date
-    sql: DATE_ADD(${__quarter_LY_end__}, INTERVAL -((2 * (${__length_of_year__} + 1))+1)) ;;
+    sql: DATE_ADD(${__quarter_end__}, INTERVAL -((2 * (${__length_of_year__} + 1))+1)) ;;
     hidden: yes
   }
 
@@ -522,7 +522,7 @@ view: period_on_period_new {
   dimension: __half_2LY_end__ {
     type: date
     datatype: date
-    sql: DATE_ADD(${__half_LY_end__}, INTERVAL - ((2 * (${__length_of_year__} + 1))+1) DAY) ;;
+    sql: DATE_ADD(${__half_end__}, INTERVAL - ((2 * (${__length_of_year__} + 1))+1) DAY) ;;
     hidden: yes
   }
 
