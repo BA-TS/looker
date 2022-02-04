@@ -29,7 +29,7 @@ access_grant: dev_00001 {
 
 access_grant: test {
   user_attribute: dev_testing
-  allowed_values: ["DEV00001"]
+  allowed_values: ["Allegra K"]
 }
 
 # access_grant: dev_00002 {
