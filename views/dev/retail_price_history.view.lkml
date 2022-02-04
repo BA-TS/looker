@@ -76,4 +76,5 @@ view: retail_price_history {
     sql: ${TABLE}.vatRate ;;
   }
 
+
 }

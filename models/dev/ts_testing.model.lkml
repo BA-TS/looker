@@ -14,7 +14,7 @@ explore: incremental_pdt {
 
 explore: base {
 
-  required_access_grants: [dev_00001]
+  required_access_grants: [test]
 
   label: "DEVELOPER - Retail Pricing"
 
