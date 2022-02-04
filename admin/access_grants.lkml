@@ -22,14 +22,14 @@ access_grant: is_expert {
   user_attribute: ts_developer
   allowed_values: ["YS"] # always fail
 }
-access_grant: dev_00001 {
-  user_attribute: ts_permissions
-  allowed_values: ["DEV00001"]
-}
+# access_grant: dev_00001 {
+#   user_attribute: ts_permissions
+#   allowed_values: ["DEV00001"]
+# }
 
 access_grant: test {
   user_attribute: dev_testing
-  allowed_values: ["Allegra K"]
+  allowed_values: ["B"]
 }
 
 # access_grant: dev_00002 {
