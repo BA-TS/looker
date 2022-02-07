@@ -132,7 +132,6 @@ view: open_to_buy_model {
   # }
 
   dimension: variance_to_budget {
-    type: number
     sql:
 
     ${stock_actual} - ${stock_budget}
@@ -143,10 +142,20 @@ view: open_to_buy_model {
 
   # Visible Measures #
 
+  measure: average_stock_forecast {
+    type: average
+    sql: ${stock_forecast} ;;
+  }
+
   measure: average_stock_days {
     type: average
     sql: ${stock_days} ;;
     value_format_name: decimal_0
+  }
+
+  measure: total_stock_actual {
+    type: sum
+    sql:  ;;
   }
 
   measure: total_cogs_budget {
