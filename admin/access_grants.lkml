@@ -29,7 +29,7 @@ access_grant: is_expert {
 
 access_grant: test {
   user_attribute: dev_testing
-  allowed_values: ["B"]
+  allowed_values: ["B,C"]
 }
 
 # access_grant: dev_00002 {

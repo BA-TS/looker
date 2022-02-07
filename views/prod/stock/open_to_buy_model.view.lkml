@@ -120,9 +120,24 @@ view: open_to_buy_model {
     hidden: yes
   }
 
+  dimension: stock_actual {
+    type: number
+    sql: ${TABLE}.stock_actual ;;
+  }
+
+  # dimension: variance_to_budget {
+  #   type: number
+  #   sql: ${TABLE}.variance_to_budget ;;
+  #   hidden: yes
+  # }
+
   dimension: variance_to_budget {
     type: number
-    sql: ${TABLE}.variance_to_budget ;;
+    sql:
+
+    ${stock_actual} - ${stock_budget}
+
+    ;;
     hidden: yes
   }
 
@@ -144,7 +159,7 @@ view: open_to_buy_model {
     type: sum
     sql: ${stock_budget} ;;
     value_format_name:gbp
-  } # getting 6.2 instead of 4.4
+  }
 
   measure: total_orders_due_in {
     type: sum

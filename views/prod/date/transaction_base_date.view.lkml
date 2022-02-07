@@ -100,6 +100,44 @@ view: base {
     type: string
     sql: ${calendar_completed_date.month_name_in_year} ;;
   }
+
+  # dimension: dynamic_actual_month {
+  #   view_label: "Date"
+  #   group_label: "Calendar"
+  #   label: "Year Month"
+  #   type: string
+  #   sql:
+
+
+  #   {% if pivot_dimension._in_query  %}
+
+  #     ${dynamic_actual_year}
+
+  #       ||
+
+  #     "-"
+
+  #       ||
+
+  #     LPAD(CAST(${calendar_completed_date.month_of_year} AS STRING),2,"0")
+
+  #   {% else %}
+
+  #     ${calendar_completed_date.actual_year}
+
+  #       ||
+
+  #     "-"
+
+  #       ||
+
+  #     LPAD(CAST(${calendar_completed_date.month_of_year} AS STRING),2,"0")
+
+  #   {% endif %}
+
+  #   ;;
+  # }
+
   dimension: dynamic_fiscal_month {
     view_label: "Date"
     group_label: "Fiscal"
@@ -117,7 +155,7 @@ view: base {
 
         ||
 
-      LPAD(CAST(${calendar_completed_date.month_in_year} AS STRING),2,"0")
+      LPAD(CAST(${calendar_completed_date.fiscal_month_of_year} AS STRING),2,"0")
 
     {% else %}
 
@@ -129,7 +167,7 @@ view: base {
 
         ||
 
-      LPAD(CAST(${calendar_completed_date.month_in_year} AS STRING),2,"0")
+      LPAD(CAST(${calendar_completed_date.fiscal_month_of_year} AS STRING),2,"0")
 
     {% endif %}
 

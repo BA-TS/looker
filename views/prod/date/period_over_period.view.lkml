@@ -1050,7 +1050,7 @@ view: period_on_period_new {
         NULL
       {% endif %}
 
-    ;;
+    ;; # need to look at this further
     can_filter: no
   }
   dimension: __comparator_order__ {
@@ -1058,7 +1058,7 @@ view: period_on_period_new {
     type: string
     sql:
 
-      {% if select_number_of_periods._is_filtered or select_comparison_period._in_query and select_date_range._in_query %}
+      {% if select_number_of_periods._is_filtered and select_date_range._in_query %}
         CASE
           WHEN {% condition select_date_range %} ${base_date_raw} {% endcondition %}
           THEN 1
@@ -1171,6 +1171,12 @@ view: period_on_period_new {
     {% if select_date_range._in_query %}
       {% if select_comparison_period._parameter_value == "Period" %}
         TIMESTAMP_SUB({% date_start select_date_range %} , INTERVAL ${days_in_period} DAY)
+      {% elsif select_comparison_period._parameter_value == "Week" %}
+        TIMESTAMP_SUB({% date_start select_date_range %} , INTERVAL ${__length_of_week__} DAY)
+      {% elsif select_comparison_period._parameter_value == "Month" %}
+        TIMESTAMP_SUB({% date_start select_date_range %} , INTERVAL ${__length_of_month__} DAY)
+      {% elsif select_comparison_period._parameter_value == "Quarter" %}
+        TIMESTAMP_SUB({% date_start select_date_range %} , INTERVAL ${__length_of_quarter__} DAY)
       {% elsif select_comparison_period._parameter_value == "Year" %}
         TIMESTAMP_SUB({% date_start select_date_range %} , INTERVAL ${__length_of_year__} DAY)
       {% else %}
@@ -1191,6 +1197,12 @@ view: period_on_period_new {
           {% if select_date_range._in_query %}
             {% if select_comparison_period._parameter_value == "Period" %}
               TIMESTAMP_SUB({% date_start select_date_range %}, INTERVAL 0 DAY)
+            {% elsif select_comparison_period._parameter_value == "Week" %}
+              TIMESTAMP_SUB({% date_start select_date_range %} , INTERVAL ${__length_of_week__} DAY)
+            {% elsif select_comparison_period._parameter_value == "Month" %}
+              TIMESTAMP_SUB({% date_start select_date_range %} , INTERVAL ${__length_of_month__} DAY)
+            {% elsif select_comparison_period._parameter_value == "Quarter" %}
+              TIMESTAMP_SUB({% date_start select_date_range %} , INTERVAL ${__length_of_quarter__} DAY)
             {% elsif select_comparison_period._parameter_value == "Year" %}
               TIMESTAMP_SUB({% date_end select_date_range %} , INTERVAL ${__length_of_year__} DAY)
             {% else %}
@@ -1209,9 +1221,15 @@ view: period_on_period_new {
     sql:
 
             {% if select_comparison_period._parameter_value == "Period" %}
-              TIMESTAMP_SUB({% date_start select_date_range %}, INTERVAL 2*${days_in_period} DAY)
+              TIMESTAMP_SUB({% date_start select_date_range %}, INTERVAL (2 * ${days_in_period}) DAY)
+            {% elsif select_comparison_period._parameter_value == "Week" %}
+              TIMESTAMP_SUB({% date_start select_date_range %} , INTERVAL (2 * ${__length_of_week__}) DAY)
+            {% elsif select_comparison_period._parameter_value == "Month" %}
+              TIMESTAMP_SUB({% date_start select_date_range %} , INTERVAL (2 * ${__length_of_month__}) DAY)
+            {% elsif select_comparison_period._parameter_value == "Quarter" %}
+              TIMESTAMP_SUB({% date_start select_date_range %} , INTERVAL (2 * ${__length_of_quarter__}) DAY)
             {% elsif select_comparison_period._parameter_value == "Year" %}
-                TIMESTAMP_SUB({% date_start select_date_range %} , INTERVAL ${__length_of_year__}*2 DAY)
+                TIMESTAMP_SUB({% date_start select_date_range %} , INTERVAL (2 * ${__length_of_year__}) DAY)
             {% else %}
               TIMESTAMP(DATETIME_SUB(DATETIME({% date_start select_date_range %}), INTERVAL 2 {% parameter select_comparison_period %}))
             {% endif %}
@@ -1226,8 +1244,14 @@ view: period_on_period_new {
 
             {% if select_comparison_period._parameter_value == "Period" %}
               TIMESTAMP_SUB(${period_2_start}, INTERVAL 0 DAY)
+            {% elsif select_comparison_period._parameter_value == "Week" %}
+              TIMESTAMP_SUB({% date_start select_date_range %} , INTERVAL (2 * ${__length_of_week__}) DAY)
+            {% elsif select_comparison_period._parameter_value == "Month" %}
+              TIMESTAMP_SUB({% date_start select_date_range %} , INTERVAL (2 * ${__length_of_month__}) DAY)
+            {% elsif select_comparison_period._parameter_value == "Quarter" %}
+              TIMESTAMP_SUB({% date_start select_date_range %} , INTERVAL (2 * ${__length_of_quarter__}) DAY)
             {% elsif select_comparison_period._parameter_value == "Year" %}
-                TIMESTAMP_SUB({% date_end select_date_range %} , INTERVAL ${__length_of_year__}*2 DAY)
+                TIMESTAMP_SUB({% date_end select_date_range %} , INTERVAL (2 * ${__length_of_year__}) DAY)
             {% else %}
               TIMESTAMP(DATETIME_SUB(DATETIME_SUB(DATETIME({% date_end select_date_range %}), INTERVAL 0 DAY), INTERVAL 2 {% parameter select_comparison_period %}))
             {% endif %}
