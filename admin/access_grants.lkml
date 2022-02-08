@@ -27,10 +27,10 @@ access_grant: is_expert {
 #   allowed_values: ["DEV00001"]
 # }
 
-access_grant: test {
-  user_attribute: dev_testing
-  allowed_values: ["B,C"]
-}
+# access_grant: test {
+#   user_attribute: dev_testing
+#   allowed_values: ["B,C"]
+# }
 
 # access_grant: dev_00002 {
 #   user_attribute: ts_permissions
