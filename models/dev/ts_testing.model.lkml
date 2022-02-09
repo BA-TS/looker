@@ -39,3 +39,12 @@ explore: base {
   }
 
 }
+
+
+explore: suppliers {
+  label: "DEVELOPER - Suppliers"
+  access_filter: {
+    field: supplier_uid
+    user_attribute: ts_supplier_id
+  }
+}
