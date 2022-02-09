@@ -41,10 +41,31 @@ explore: base {
 }
 
 
-explore: suppliers {
+explore: products {
   label: "DEVELOPER - Suppliers"
+
+  always_join: [suppliers]
+
+  join: aac {
+    type:  left_outer
+    relationship: many_to_one
+    sql_on: ${stock_level_date_site_product.opening_stock_date} = ${aac.date} and ${stock_level_date_site_product.product_uid} = ${aac.product_uid} ;;
+  }
+  join: stock_level_date_site_product {
+    type: inner
+    relationship: many_to_one
+    sql_on: ${stock_level_date_site_product.product_uid} = ${products.product_uid} ;;
+  }
+  join: suppliers {
+    view_label: "Supplier"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${products.default_supplier}=${suppliers.supplier_uid} ;;
+  }
+
   access_filter: {
-    field: supplier_uid
+    field: suppliers.supplier_uid
     user_attribute: ts_supplier_id
   }
+
 }

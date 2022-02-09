@@ -148,7 +148,7 @@ view: open_to_buy_model {
   }
 
   measure: total_stock_budget {
-    type: average
+    type: sum
     sql: ${stock_budget} ;;
     value_format_name: gbp
   }
