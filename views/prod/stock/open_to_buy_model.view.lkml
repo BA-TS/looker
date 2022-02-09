@@ -4,7 +4,11 @@ view: open_to_buy_model {
 
   sql_table_name: `toolstation-data-storage.ts_analytics.open_to_buy_model`;;
 
-  # Visible Dimensions #
+  dimension: date_raw {
+    type: date_time
+    sql: ${TABLE}.date ;;
+    hidden: yes
+  }
 
   dimension_group: period {
     type: time
@@ -21,6 +25,72 @@ view: open_to_buy_model {
     type: string
     sql: ${TABLE}.department ;;
   }
+
+  dimension: stock_days {
+    type: number
+    sql: ${TABLE}.stock_days  ;; # * (1 + ${stock_day_modifier})
+    hidden: yes
+  }
+
+  dimension: repeater_buy {
+    type: number
+    sql: ${TABLE}.repeater_buy ;;
+    hidden: yes
+  }
+
+  dimension: orders_due_in {
+    type: number
+    sql: ${TABLE}.orders_due_in ;;
+    hidden: yes
+  }
+
+  dimension: stock_budget {
+    type: number
+    sql: ${TABLE}.stock_budget ;;
+    hidden: no
+  }
+
+  dimension: cogs_budget {
+    type: number
+    sql: ${TABLE}.cogs_budget ;;
+    hidden: yes
+  }
+
+  dimension: forecast_orders {
+    type: number
+    sql: ${TABLE}.orders_budget ;;
+    hidden: yes
+  }
+
+  dimension: stock_actual {
+    type: number
+    sql: ${TABLE}.stock_actual ;;
+    hidden: yes
+  }
+  dimension: cogs_actual {
+    type: number
+    sql: ${TABLE}.cogs_actual ;;
+    hidden: yes
+  }
+  dimension: orders_actual {
+    type: number
+    sql: ${TABLE}.orders_actual ;;
+    hidden: yes
+  }
+
+  dimension: open_to_buy_raw {
+    type: number
+    sql: ${TABLE}.open_to_buy ;;
+    hidden: yes
+  }
+
+  dimension: stock_forecast {
+    type: number
+    sql: ${TABLE}.forecast_stock ;;
+    hidden: yes
+  }
+
+
 
   # filter: stock_day_filter {
   #   label: "Stock Day Adjustment"
@@ -42,94 +112,6 @@ view: open_to_buy_model {
   #   hidden: yes
   # }
 
-  # Hidden Dimensions #
-
-  dimension: date_raw {
-    type: date_time
-    sql: ${TABLE}.date ;;
-    hidden: yes
-  }
-
-  dimension: open_to_buy_raw {
-    type: number
-    sql: ${TABLE}.open_to_buy ;;
-    hidden: yes
-  }
-
-  dimension: orders_due_in {
-    type: number
-    sql: ${TABLE}.orders_due_in ;;
-    hidden: yes
-  }
-
-  dimension: forecast_orders {
-    type: number
-    sql: ${TABLE}.forecast_orders ;;
-    hidden: yes
-  }
-
-  dimension: cogs_budget {
-    type: number
-    sql: ${TABLE}.cogs_budget ;;
-    hidden: yes
-  }
-
-  dimension: repeater_buy {
-    type: number
-    sql: ${TABLE}.repeater_buy ;;
-    hidden: yes
-  }
-
-  dimension: stock_budget {
-    type: number
-    sql: ${TABLE}.stock_budget ;;
-    hidden: no
-  }
-  dimension: fixed_stock {
-    type: number
-    sql: ${TABLE}.fixed_stock ;;
-    hidden: yes
-  }
-  dimension: ongoing_orders_due_in {
-    type: number
-    sql: ${TABLE}.rolling_orders_in ;;
-    hidden: yes
-  }
-
-  dimension: ongoing_forecast_orders {
-    type: number
-    sql: ${TABLE}.rolling_forecast_orders ;;
-    hidden: yes
-  }
-
-  dimension: ongoing_cogs {
-    type: number
-    sql: ${TABLE}.rolling_cogs_budget ;;
-    hidden: yes
-  }
-
-  dimension: stock_forecast {
-    type: number
-    sql: ${TABLE}.forecast_stock ;;
-    hidden: yes
-  }
-
-  dimension: stock_days {
-    type: number
-    sql: ${TABLE}.stock_days  ;; # * (1 + ${stock_day_modifier})
-    hidden: yes
-  }
-
-  dimension: stock_actual {
-    type: number
-    sql: ${TABLE}.stock_actual ;;
-  }
-
-  # dimension: variance_to_budget {
-  #   type: number
-  #   sql: ${TABLE}.variance_to_budget ;;
-  #   hidden: yes
-  # }
 
   dimension: variance_to_budget {
     sql:
@@ -140,22 +122,35 @@ view: open_to_buy_model {
     hidden: yes
   }
 
-  # Visible Measures #
 
-  measure: average_stock_forecast {
-    type: average
-    sql: ${stock_forecast} ;;
-  }
+
+
+
+
+
 
   measure: average_stock_days {
     type: average
     sql: ${stock_days} ;;
     value_format_name: decimal_0
   }
+  measure: average_repeater_buy {
+    type: average
+    sql: ${repeater_buy} ;;
+    value_format_name: percent_1
+  }
 
-  measure: total_stock_actual {
+
+  measure: total_orders_due_in {
     type: sum
-    sql:  ;;
+    sql: ${orders_due_in} ;;
+    value_format_name:gbp
+  }
+
+  measure: total_stock_budget {
+    type: average
+    sql: ${stock_budget} ;;
+    value_format_name: gbp
   }
 
   measure: total_cogs_budget {
@@ -164,24 +159,43 @@ view: open_to_buy_model {
     value_format_name:gbp
   }
 
-  measure: total_stock_budget {
-    type: sum
-    sql: ${stock_budget} ;;
-    value_format_name:gbp
-  }
-
-  measure: total_orders_due_in {
-    type: sum
-    sql: ${orders_due_in} ;;
-    value_format_name:gbp
-  }
-
   measure: total_forecast_orders {
     type: sum
     sql: ${forecast_orders} ;;
     value_format_name:gbp
   }
+  measure: total_stock_actual {
+    type: sum
+    sql: ${stock_actual};;
+    value_format_name: gbp
+  }
+  measure: total_cogs_actual {
+    type: sum
+    sql: ${cogs_actual};;
+    value_format_name: gbp
+  }
+  measure: total_orders_actual {
+    type: sum
+    sql: ${orders_actual};;
+    value_format_name: gbp
+  }
 
+
+
+
+
+
+
+
+
+
+
+  # Visible Measures #
+
+  measure: average_stock_forecast {
+    type: average
+    sql: ${stock_forecast} ;;
+  }
   measure: open_to_buy {
     label: "Total Open to Buy"
     type: sum
@@ -189,11 +203,6 @@ view: open_to_buy_model {
     value_format_name: gbp
   }
 
-  measure: average_repeater_buy {
-    type: average
-    sql: ${repeater_buy} ;;
-    value_format_name: percent_1
-  }
 
   measure: average_variance_to_budget {
     type: average
@@ -204,7 +213,7 @@ view: open_to_buy_model {
   measure: buying_performance {
     description: "Combines Open to Buy and Variance to Budget to show the combination of where there is still stock availability, versus where overspending has occurred versus the budget."
     type: number
-    sql: case when ${open_to_buy} = 0 then ${average_variance_to_budget} else ${open_to_buy} end  ;;
+    sql: case when ${open_to_buy} = 0 then -${average_variance_to_budget} else ${open_to_buy} end  ;;
     value_format_name: gbp
   }
 
