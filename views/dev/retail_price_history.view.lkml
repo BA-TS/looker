@@ -76,5 +76,9 @@ view: retail_price_history {
     sql: ${TABLE}.vatRate ;;
   }
 
+  measure: average_retail_price {
+    type: average
+    sql: ${retail_price} ;;
+  }
 
 }
