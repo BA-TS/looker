@@ -18,6 +18,8 @@ explore: base {
 
   label: "DEVELOPER - Retail Pricing"
 
+  sql_always_where: ${period_over_period} ;;
+
   join: retail_price_history {
     type: left_outer
     relationship: many_to_one
