@@ -42,6 +42,19 @@ explore: base {
 
 }
 
+explore: retail_price_history {
+
+  join: products {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${retail_price_history.product_uid} = ${products.product_uid} ;;
+  }
+
+}
+
+
+
+
 
 explore: products {
   label: "DEVELOPER - Suppliers"
