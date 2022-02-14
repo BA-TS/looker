@@ -729,11 +729,14 @@ view: period_on_period_new {
       ${flexible_pop}
     {% elsif select_fixed_range._is_filtered %}
       ${fixed_pop}
+    {% elsif dynamic_fiscal_year._is_filtered or dynamic_fiscal_half._is_filtered or dynamic_fiscal_quarter._is_filtered or dynamic_fiscal_month._is_filtered %}
+        true
     {% else %}
       false
     {% endif %}
 
     ;;
+
   }
 
 

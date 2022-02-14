@@ -11,7 +11,11 @@ explore: base {
       base.select_date_range: "Yesterday"
     ]
     unless: [
-      select_fixed_range
+      select_fixed_range,
+      dynamic_fiscal_year,
+      dynamic_fiscal_half,
+      dynamic_fiscal_quarter,
+      dynamic_fiscal_month,
     ]
   }
 
