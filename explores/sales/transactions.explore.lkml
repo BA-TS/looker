@@ -16,6 +16,7 @@ explore: base {
       dynamic_fiscal_half,
       dynamic_fiscal_quarter,
       dynamic_fiscal_month,
+      dynamic_actual_year,
     ]
   }
 
