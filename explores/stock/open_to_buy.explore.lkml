@@ -34,6 +34,8 @@ explore: open_to_buy_model_new {
   sql_always_where:
 
   open_to_buy_model_new.department <> 'Deleted' AND open_to_buy_model_new.department <> 'Uncatalogued' AND open_to_buy_model_new.department <> 'Clearance'
+    AND
+  EXTRACT(YEAR from ${date_raw}) = EXTRACT(YEAR FROM CURRENT_DATE())
 
   ;;
 

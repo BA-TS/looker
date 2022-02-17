@@ -3,20 +3,16 @@ view: open_to_buy_model_new {
 
   sql_table_name:
 
-  `toolstation-data-storage.ts_analytics.open_to_buy_model`
+  `toolstation-data-storage.ts_analytics.open_to_buy`
 
     ;;
 
-
   dimension_group: date {
+    label: ""
     type: time
     timeframes: [
       raw,
-      date,
-      week,
       month,
-      quarter,
-      year
     ]
     convert_tz: no
     datatype: date
@@ -28,9 +24,15 @@ view: open_to_buy_model_new {
     sql: ${TABLE}.department ;;
   }
 
-  dimension: stock_days_for_month {
+  dimension: stock_days {
     type: number
-    sql: ${TABLE}.stock_days_for_month ;;
+    sql: ${TABLE}.stock_days ;;
+    hidden: yes
+  }
+
+  dimension: repeater_buy {
+    type: number
+    sql: ${TABLE}.repeater_buy ;;
     hidden: yes
   }
 
@@ -70,101 +72,17 @@ view: open_to_buy_model_new {
     hidden: yes
   }
 
-  dimension: orders_due_in {
+  dimension: orders_due {
     type: number
-    sql: ${TABLE}.orders_due_in ;;
+    sql: ${TABLE}.orders_due ;;
     hidden: yes
   }
-
-  dimension: cogs_fx {
-    type: number
-    sql: ${TABLE}.cogs_fx ;;
-    hidden: yes
-  }
-
-  dimension: stock_fx {
-    type: number
-    sql: ${TABLE}.stock_fx ;;
-    hidden: yes
-  }
-
-  dimension: orders_fx {
-    type: number
-    sql: ${TABLE}.orders_fx ;;
-    hidden: yes
-  }
-
-  dimension: repeater_buy {
-    type: number
-    sql: ${TABLE}.repeater_buy ;;
-    hidden: yes
-  }
-
-  # dimension: r_stock_budget {
-  #   type: number
-  #   sql: ${TABLE}.r_stock_budget ;;
-  # }
-
-  # dimension: r_orders_due_in {
-  #   type: number
-  #   sql: ${TABLE}.r_orders_due_in ;;
-  # }
-
-  # dimension: r_orders_budget_fx {
-  #   type: number
-  #   sql: ${TABLE}.r_orders_budget_fx ;;
-  # }
-
-  # dimension: r_cogs_fx {
-  #   type: number
-  #   sql: ${TABLE}.r_cogs_fx ;;
-  # }
-
-  # dimension: __rolling_stock_actual__ {
-  #   type: number
-  #   sql: ${TABLE}.__rolling_stock_actual__ ;;
-  # }
-
-  # dimension: __rolling_cogs_actual__ {
-  #   type: number
-  #   sql: ${TABLE}.__rolling_cogs_actual__ ;;
-  # }
-
-  # dimension: __rolling_stock_budget__ {
-  #   type: number
-  #   sql: ${TABLE}.__rolling_stock_budget__ ;;
-  # }
-
-  # dimension: __rolling_orders_due_in__ {
-  #   type: number
-  #   sql: ${TABLE}.__rolling_orders_due_in__ ;;
-  # }
-
-  # dimension: __rolling_orders_budget__ {
-  #   type: number
-  #   sql: ${TABLE}.__rolling_orders_budget__ ;;
-  # }
-
-  # dimension: __rolling_cogs_fx__ {
-  #   type: number
-  #   sql: ${TABLE}.__rolling_cogs_fx__ ;;
-  # }
-
-  # dimension: open_to_buy_raw {
-  #   type: number
-  #   sql: ${TABLE}.open_to_buy_raw ;;
-  # }
 
   dimension: open_to_buy {
     type: number
     sql: ${TABLE}.open_to_buy ;;
     hidden: yes
   }
-
-  # dimension: __rolling_open_to_buy__ {
-  #   type: number
-  #   sql: ${TABLE}.__rolling_open_to_buy__ ;;
-  # }
 
   dimension: stock_forecast {
     type: number
@@ -173,10 +91,6 @@ view: open_to_buy_model_new {
   }
 
 
-  # measure: total_stock_days_for_month {
-  #   type: sum
-  #   sql: ${TABLE}.stock_days_for_month ;;
-  # }
   measure: total_cogs_budget {
     label: "COGS Budget"
     group_label: "COGS"
@@ -219,38 +133,13 @@ view: open_to_buy_model_new {
     sql: ${orders_actual} ;;
     value_format_name: gbp
   }
-  measure: total_orders_due_in {
+  measure: total_orders_due {
     label: "Orders Due In"
     group_label: "Orders Due In"
     type: sum
-    sql: ${orders_due_in} ;;
+    sql: ${orders_due} ;;
     value_format_name: gbp
   }
-  measure: total_cogs_fx {
-    label: "COGS Budget (FX)"
-    group_label: "COGS"
-    type: sum
-    sql: ${cogs_fx} ;;
-    value_format_name: gbp
-  }
-  measure: total_stock_fx {
-    label: "Stock Budget (FX)"
-    group_label: "Stock"
-    type: sum
-    sql: ${stock_fx} ;;
-    value_format_name: gbp
-  }
-  measure: total_orders_fx {
-    label: "Orders Budget (FX)"
-    group_label: "Orders"
-    type: sum
-    sql: ${orders_fx} ;;
-    value_format_name: gbp
-  }
-  # measure: total_repeater_buy {
-  #   type: sum
-  #   sql: ${TABLE}.repeater_buy ;;
-  # }
   measure: total_open_to_buy {
     label: "Open to Buy"
     group_label: "Open to Buy"
@@ -280,7 +169,7 @@ view: open_to_buy_model_new {
     label: "Variance to Budget"
     group_label: "Open to Buy"
     type: number
-    sql: ${total_stock_forecast} - ${total_stock_budget} ;;
+    sql: ${total_stock_budget} - ${total_stock_forecast} ;;
     value_format_name: gbp
   }
 
@@ -288,53 +177,13 @@ view: open_to_buy_model_new {
 
 
 
-  measure: average_stock_days_for_month {
+  measure: average_stock_days {
     label: "Stock Days"
     group_label: "Stock"
     type: average
-    sql: ${TABLE}.stock_days_for_month ;;
+    sql: ${TABLE}.stock_days ;;
     value_format_name: decimal_0
   }
-  # measure: average_cogs_budget {
-  #   type: average
-  #   sql: ${TABLE}.cogs_budget ;;
-  # }
-  # measure: average_stock_budget {
-  #   type: average
-  #   sql: ${TABLE}.stock_budget ;;
-  # }
-  # measure: average_orders_budget {
-  #   type: average
-  #   sql: ${TABLE}.orders_budget ;;
-  # }
-  # measure: average_cogs_actual {
-  #   type: average
-  #   sql: ${TABLE}.cogs_actual ;;
-  # }
-  # measure: average_stock_actual {
-  #   type: average
-  #   sql: ${TABLE}.stock_actual ;;
-  # }
-  # measure: average_orders_actual {
-  #   type: average
-  #   sql: ${TABLE}.orders_actual ;;
-  # }
-  # measure: average_orders_due_in {
-  #   type: average
-  #   sql: ${TABLE}.orders_due_in ;;
-  # }
-  # measure: average_cogs_fx {
-  #   type: average
-  #   sql: ${TABLE}.cogs_fx ;;
-  # }
-  # measure: average_stock_fx {
-  #   type: average
-  #   sql: ${TABLE}.stock_fx ;;
-  # }
-  # measure: average_orders_fx {
-  #   type: average
-  #   sql: ${TABLE}.orders_fx ;;
-  # }
   measure: average_repeater_buy {
     label: "Repeater Buy"
     group_label: "Open to Buy"
@@ -342,17 +191,6 @@ view: open_to_buy_model_new {
     sql: ${TABLE}.repeater_buy ;;
     value_format_name: percent_2
   }
-  # measure: average_open_to_buy {
-  #   type: average
-  #   sql: ${TABLE}.open_to_buy ;;
-  # }
-  # measure: average_stock_forecast {
-  #   label: "Stock Forecast"
-  #   group_label: "Stock"
-  #   type: average
-  #   sql: ${TABLE}.stock_forecast ;;
-  # }
-
 
 
 
