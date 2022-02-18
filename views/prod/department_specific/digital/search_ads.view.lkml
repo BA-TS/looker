@@ -1,53 +1,54 @@
 view: search_ads {
+  sql_table_name: toolstation-data-storage.search_ads.SearchAds360_looker ;;
 
-  derived_table: {
-    sql:
+  # derived_table: {
+  #   sql:
 
-    SELECT
-      *,
-      ROUND(coalesce(cost,
-          0) + coalesce(sa360_cost,
-          0) + coalesce(google_tax,
-          0), 2) AS inc_tax_cost
-    FROM (
-      SELECT
-        *,
-        CASE
-          WHEN account = "Toolstation_Shopping_Google" THEN ROUND((cost * 2) / 100, 2)
-          WHEN account = "Toolstation_Search_Google" THEN ROUND((cost * 2) / 100, 2)
-          WHEN account = "Toolstation_Bing" THEN 0
-          ELSE 0
-        END AS google_tax,
-        ROUND((cost * 1.25) / 100, 2) AS sa360_cost
-      FROM (
-        SELECT
-          CASE
-            WHEN accountId = "700000002262132" THEN 'Toolstation_Shopping_Google'
-            WHEN accountId = "700000002261838" THEN 'Toolstation_Search_Google'
-            WHEN accountId = "700000002279434" THEN 'Toolstation_Bing'
-            ELSE accountId
-          END AS account,
-          accountId,
-          date,
-          ROUND(SUM(cost), 2) AS cost
-        FROM
-          toolstation-data-storage.search_ads.p_AdGroupDeviceStats_21700000001867552
-        GROUP BY
-          accountId,
-          date))
-    GROUP BY
-      1,
-      2,
-      3,
-      4,
-      5,
-      6
-    ORDER BY
-      date
+  #   SELECT
+  #     *,
+  #     ROUND(coalesce(cost,
+  #         0) + coalesce(sa360_cost,
+  #         0) + coalesce(google_tax,
+  #         0), 2) AS inc_tax_cost
+  #   FROM (
+  #     SELECT
+  #       *,
+  #       CASE
+  #         WHEN account = "Toolstation_Shopping_Google" THEN ROUND((cost * 2) / 100, 2)
+  #         WHEN account = "Toolstation_Search_Google" THEN ROUND((cost * 2) / 100, 2)
+  #         WHEN account = "Toolstation_Bing" THEN 0
+  #         ELSE 0
+  #       END AS google_tax,
+  #       ROUND((cost * 1.25) / 100, 2) AS sa360_cost
+  #     FROM (
+  #       SELECT
+  #         CASE
+  #           WHEN accountId = "700000002262132" THEN 'Toolstation_Shopping_Google'
+  #           WHEN accountId = "700000002261838" THEN 'Toolstation_Search_Google'
+  #           WHEN accountId = "700000002279434" THEN 'Toolstation_Bing'
+  #           ELSE accountId
+  #         END AS account,
+  #         accountId,
+  #         date,
+  #         ROUND(SUM(cost), 2) AS cost
+  #       FROM
+  #         toolstation-data-storage.search_ads.p_AdGroupDeviceStats_21700000001867552
+  #       GROUP BY
+  #         accountId,
+  #         date))
+  #   GROUP BY
+  #     1,
+  #     2,
+  #     3,
+  #     4,
+  #     5,
+  #     6
+  #   ORDER BY
+  #     date
 
-    ;;
-    datagroup_trigger: toolstation_transactions_datagroup
-  }
+  #   ;;
+  #   datagroup_trigger: toolstation_transactions_datagroup
+  # }
 
   dimension: account {
     type: string
