@@ -78,6 +78,12 @@ view: open_to_buy_model_new {
     hidden: yes
   }
 
+  dimension: orders_received {
+    type: number
+    sql: ${TABLE}.orders_received ;;
+    hidden: yes
+  }
+
   dimension: open_to_buy {
     type: number
     sql: ${TABLE}.open_to_buy ;;
@@ -131,6 +137,13 @@ view: open_to_buy_model_new {
     group_label: "Orders"
     type: sum
     sql: ${orders_actual} ;;
+    value_format_name: gbp
+  }
+  measure: total_orders_received {
+    label: "Orders Received (Current Month)"
+    group_label: "Orders"
+    type: sum
+    sql: ${orders_received} ;;
     value_format_name: gbp
   }
   measure: total_orders_due {
