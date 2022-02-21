@@ -11,7 +11,12 @@ explore: base {
       base.select_date_range: "Yesterday"
     ]
     unless: [
-      select_fixed_range
+      select_fixed_range,
+      dynamic_fiscal_year,
+      dynamic_fiscal_half,
+      dynamic_fiscal_quarter,
+      dynamic_fiscal_month,
+      dynamic_actual_year,
     ]
   }
 
@@ -43,9 +48,9 @@ explore: base {
         and (${transactions.is_cancelled} = 0 and ${transactions.is_cancelled} is not null)
 
        {% if ${transactions.charity_status} == "1" %}
-       and (${transactions.product_code} = '85699' and ${transactions.product_code} = '00053')
+       and (${transactions.product_code} in ('85699', '00053'))
         {% else %}
-      and (${transactions.product_code} <> '85699' and ${transactions.product_code} <> '00053')
+      and (${transactions.product_code} not in ('85699', '00053'))
         {% endif %}
 
         and ${transactions.product_code} is not null
