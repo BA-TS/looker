@@ -51,6 +51,7 @@ view: tmp_looker_daily_conversion {
       raw,
       date,
       week,
+      day_of_week,
       month,
       quarter,
       year
