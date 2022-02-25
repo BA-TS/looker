@@ -185,11 +185,11 @@ explore: base {
       sql_on: ${transactions.product_code} = ${product_first_sale_date.product_code} ;;
     }
 
-    # join: trade_credit_details {
-    #   type: left_outer
-    #   relationship: one_to_one
-    #   sql_on: ${transactions.customer_uid} = ${trade_credit_details.main_trade_credit_account_uid} ;;
-    # }
+    join: trade_credit_details {
+      type: left_outer
+      relationship: one_to_one
+      sql_on: ${transactions.customer_uid} = ${trade_credit_details.main_trade_credit_account_uid} ;;
+    }
 
   }
 

@@ -88,11 +88,28 @@ explore: products {
 
 
 
-# explore: base {
-#   always_join: []
-#   join: catalogue {}
-#   join: catalogue_promo {}
-# }
+explore: base {
+  label: "DEVELOPER - catalogue date testing"
+  always_join: [catalogue, catalogue_promo]
+  join: catalogue {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date_date} AND ${catalogue.catalogue_end_date_date} ;;
+  }
+  join: catalogue_promo {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${base.base_date_date} BETWEEN ${catalogue_promo.promo_live_date_date} AND ${catalogue_promo.promo_end_date_date} ;;
+  }
+
+  join: calendar_completed_date{
+    from:  calendar
+    view_label: "Date"
+    type:  inner
+    relationship:  many_to_one
+    sql_on: ${base.base_date_date}=${calendar_completed_date.date} ;;
+  }
+}
 
 
 
