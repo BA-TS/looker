@@ -1,7 +1,7 @@
 
 view: trade_credit_details {
 
-  required_access_grants: [can_use_customer_information]
+  # required_access_grants: [can_use_customer_information]
 
   fields_hidden_by_default: yes
 
