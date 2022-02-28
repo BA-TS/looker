@@ -22,7 +22,7 @@ explore: customers {
     relationship: many_to_one
     sql_on: ${customers.customer_uid} = ${trade_credit_ids.customer_uid} ;;
 
-    sql_where: ${trade_credit_ids.main_trade_credit_account_uid} is not null ;;
+    # sql_where: ${trade_credit_ids.main_trade_credit_account_uid} is not null ;;
 
   }
 
