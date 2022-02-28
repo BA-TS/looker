@@ -17,6 +17,8 @@ explore: base {
       dynamic_fiscal_quarter,
       dynamic_fiscal_month,
       dynamic_actual_year,
+      catalogue.catalogue_name,
+      catalogue.extra_name
     ]
   }
 
@@ -185,10 +187,34 @@ explore: base {
       sql_on: ${transactions.product_code} = ${product_first_sale_date.product_code} ;;
     }
 
-    join: trade_credit_details {
+    join: trade_credit_ids {
+
       type: left_outer
-      relationship: one_to_one
-      sql_on: ${transactions.customer_uid} = ${trade_credit_details.main_trade_credit_account_uid} ;;
+      relationship: many_to_one
+      sql_on: ${customers.customer_uid} = ${trade_credit_ids.customer_uid} ;;
+
+      sql_where: ${trade_credit_ids.main_trade_credit_account_uid} is not null ;;
+
+    }
+
+    join: trade_credit_details {
+
+      type: left_outer
+      relationship: many_to_one
+      sql_on: ${trade_credit_ids.main_trade_credit_account_uid} = ${trade_credit_details.main_trade_credit_account_uid} ;;
+
+    }
+
+    # join: trade_credit_details {
+    #   type: left_outer
+    #   relationship: one_to_one
+    #   sql_on: ${transactions.customer_uid} = ${trade_credit_details.main_trade_credit_account_uid} ;;
+    # }
+
+    join: catalogue {
+      type: left_outer
+      relationship: many_to_one
+      sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date_date} AND ${catalogue.catalogue_end_date_date} ;;
     }
 
   }

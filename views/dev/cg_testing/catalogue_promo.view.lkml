@@ -8,10 +8,10 @@ view: catalogue_promo {
     sql:
 
       SELECT
-        'eXtra1' AS promoName, CURRENT_DATE() AS liveDate, CURRENT_DATE() + 7 AS endDate, 91 AS catalogueID
+        1 AS promoID, 'eXtra1' AS promoName, CURRENT_DATE() AS liveDate, CURRENT_DATE() + 7 AS endDate, 91 AS catalogueID
 
-      UNION ALL(SELECT 'eXtra2', CURRENT_DATE() + 8, CURRENT_DATE() + 15, 91)
-      UNION ALL(SELECT 'eXtra3', CURRENT_DATE() + 16, CURRENT_DATE() + 30, 91)
+      UNION ALL(SELECT 2, 'eXtra2', CURRENT_DATE() + 8, CURRENT_DATE() + 15, 91)
+      UNION ALL(SELECT 3, 'eXtra3', CURRENT_DATE() + 16, CURRENT_DATE() + 30, 91)
 
     ;;
 

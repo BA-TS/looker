@@ -87,20 +87,47 @@ explore: products {
 
 
 
+explore: promo_table_design {
+  label: "DEVELOPER - Promo"
+  required_access_grants: [is_developer]
 
-explore: base {
-  label: "DEVELOPER - catalogue date testing"
-  always_join: [catalogue, catalogue_promo]
   join: catalogue {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date_date} AND ${catalogue.catalogue_end_date_date} ;;
+    sql_on: ${promo_table_design.catalogue_id} = ${catalogue.catalogue_id} ;;
   }
-  join: catalogue_promo {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${base.base_date_date} BETWEEN ${catalogue_promo.promo_live_date_date} AND ${catalogue_promo.promo_end_date_date} ;;
-  }
+
+}
+
+# explore: base {
+#   label: "DEVELOPER - catalogue date testing"
+#   required_access_grants: [is_developer]
+#   # always_join: [catalogue, catalogue_promo]
+#   join: catalogue {
+#     type: left_outer
+#     relationship: many_to_one
+#     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date_date} AND ${catalogue.catalogue_end_date_date} ;;
+#   }
+#   join: catalogue_promo {
+#     type: left_outer
+#     relationship: many_to_one
+#     sql_on: ${base.base_date_date} BETWEEN ${catalogue_promo.promo_live_date_date} AND ${catalogue_promo.promo_end_date_date} ;;
+#   }
+
+#   join: calendar_completed_date{
+#     from:  calendar
+#     view_label: "Date"
+#     type:  inner
+#     relationship:  many_to_one
+#     sql_on: ${base.base_date_date}=${calendar_completed_date.date} ;;
+#   }
+# }
+
+
+explore: base {
+
+  label: "DEV TESTING - BASE"
+  required_access_grants: [is_developer]
 
   join: calendar_completed_date{
     from:  calendar
@@ -109,11 +136,18 @@ explore: base {
     relationship:  many_to_one
     sql_on: ${base.base_date_date}=${calendar_completed_date.date} ;;
   }
+
+  join: catalogue {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date_date} AND ${catalogue.catalogue_end_date_date} ;;
+  }
+
 }
 
 
-
 explore: catalogue {
+  required_access_grants: [is_developer]
   always_join: [catalogue_promo]
   join: catalogue_promo {
     relationship: many_to_many
