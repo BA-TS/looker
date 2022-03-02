@@ -5,14 +5,12 @@ view: disctribution_centre_names {
     label: "Distribution Centre"
 
   dimension: dc_name {
-    group_label: "Distribution Centre"
     label: "DC Name"
     type: string
     sql: ${TABLE}.dc_name ;;
   }
 
   dimension: site_uid {
-    group_label: "Distribution Centre"
     label: "Site UID"
     type: string
     sql: ${TABLE}.siteUID ;;
@@ -20,7 +18,6 @@ view: disctribution_centre_names {
   }
 
   dimension: is_distribution_centre {
-    group_label: "Distribution Centre"
     label: "Is Distribution Centre?"
     type: yesno
     sql:
@@ -32,7 +29,6 @@ view: disctribution_centre_names {
 
 
   dimension: is_store {
-    group_label: "Distribution Centre"
     label: "Is Store?"
     type: yesno
     sql:
