@@ -155,3 +155,7 @@ explore: catalogue {
     type: cross
   }
 }
+
+
+explore: publication_testing {}
+explore: promotion_testing {}
