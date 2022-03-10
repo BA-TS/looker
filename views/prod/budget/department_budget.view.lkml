@@ -85,5 +85,19 @@ view: category_budget {
     sql:  sum(${gross_margin_inc_retro}) / sum(${net_sales}) ;;
     value_format: "##0.0%;(##0.0%)"
   }
+  measure: department_cogs_inc_retro_funding_budget {
+    label: "COGS Inc Retro Funding Budget"
+    type: number
+    group_label: "Department"
+    sql: ${department_net_sales_budget} - ${department_margin_inc_Retro_funding_budget} ;;
+    value_format_name: gbp
+  }
+  measure: department_cogs_inc_all_funding_budget {
+    label: "COGS Inc All Funding Budget"
+    type: number
+    group_label: "Department"
+    sql: ${department_net_sales_budget} - ${department_margin_inc_all_funding_budget} ;;
+    value_format_name: gbp
+  }
 
 }
