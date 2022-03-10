@@ -2,45 +2,66 @@ view: monthly_pendingOrders {
   derived_table: {
     datagroup_trigger: toolstation_transactions_datagroup
 
-    sql: declare startDate DATE;
-      declare endDate DATE;
+    sql:
 
-      set startDate = date_trunc(date_sub(current_date, interval 1 month), month);
-      set endDate = DATE_TRUNC(CURRENT_DATE(), MONTH);
+DECLARE startDate DATE DEFAULT DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH), MONTH);
+DECLARE endDate DATE DEFAULT DATE_SUB(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL 1 DAY);
 
-      select
-          transactionUID,
-          placedDate,
-          transactionDate,
-          'Pending' as orderstatus,
-          salesChannel,
-          siteUID,
-          paymentType,
-          sum(grossSalesValue) as grossSales,
-          sum(netSalesValue) as netSales
-      from sales.transactions
-         where
-         date(placedDate) between startDate and endDate - 1
-         and date(transactionDate) >= endDate
-      group by 1,2,3,4,5,6,7
+SELECT
+    transactionUID,
+    placedDate,
+    transactionDate,
+    'Pending' AS orderStatus,
+    salesChannel,
+    siteUID,
+    paymentType,
+    SUM(grossSalesValue) AS grossSales,
+    SUM(netSalesValue) as netSales
 
-      union distinct
+FROM
+    `toolstation-data-storage.sales.transactions`
 
-      select
-          transactionUID,
-          placedDate,
-          transactionDate,
-          status,
-          salesChannel,
-          siteUID,
-          paymentType,
-          sum(grossSalesValue) as grossSales,
-          sum(netSalesValue) as netSales
-      from `toolstation-data-storage.sales.transactions_incomplete`
-         where date(placedDate) >= startDate
-         and date(placedDate) < endDate
-      group by 1,2,3,4,5,6,7
-       ;;
+WHERE
+    DATE(placedDate) BETWEEN startDate AND endDate
+        AND
+    DATE(transactionDate) >= endDate
+
+GROUP BY
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+
+UNION DISTINCT
+
+SELECT
+    transactionUID,
+    placedDate,
+    transactionDate,
+    status AS orderStatus,
+    salesChannel,
+    siteUID,
+    paymentType,
+    SUM(grossSalesValue) AS grossSales,
+    SUM(netSalesValue) AS netSales
+FROM
+    `toolstation-data-storage.sales.transactions_incomplete`
+
+WHERE
+    DATE(placedDate) BETWEEN startDate AND endDate
+
+GROUP BY
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+    ;;
   }
 
 
