@@ -22,4 +22,10 @@ explore: stock_level_date_site_product {
     sql_on: ${products.default_supplier}=${suppliers.supplier_uid} ;;
   }
 
+  join: disctribution_centre_names {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${stock_level_date_site_product.site_uid} = ${disctribution_centre_names.site_uid} ;;
+  }
+
 }

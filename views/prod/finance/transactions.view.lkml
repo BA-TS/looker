@@ -44,6 +44,22 @@ view: transactions {
     }
 
 
+  parameter: merge_epos {
+    view_label: "Overrides"
+    label: "Merge EPOS Sales Channel(s)"
+    description: "By default, EPOSAV and EPOSER are separate channels. Selecting 'Yes' will merge both to a single Sales Channel of 'EPOS'."
+    type: string
+    allowed_value: {
+      label: "Yes"
+      value: "1"
+    }
+    allowed_value: {
+      label: "No"
+      value: "0"
+    }
+    default_value: "0"
+  }
+
   parameter: include_charity {
     view_label: "Overrides"
     label: "Show Charity"
@@ -87,6 +103,18 @@ view: transactions {
     ;;
     hidden: yes
   }
+
+  dimension: epos_merge {
+    view_label: "Overrides"
+    type: string
+    sql:
+
+    {% parameter merge_epos %}
+
+    ;;
+    hidden: yes
+  }
+
 
   # dimension: cancelled_status {
   #   view_label: "Overrides"
@@ -199,7 +227,23 @@ view: transactions {
     label: "Sales Channel"
     group_label: "Purchase Details"
     type: string
-    sql: upper(${TABLE}.salesChannel) ;;
+    sql:
+
+    {% if ${transactions.epos_merge} == "1" %}
+
+      CASE
+        WHEN UPPER(${TABLE}.salesChannel) LIKE "EPOS%"
+          THEN "EPOS"
+        ELSE upper(${TABLE}.salesChannel)
+      END
+
+    {% else %}
+
+      UPPER(${TABLE}.salesChannel)
+
+    {% endif %}
+
+     ;;
   }
   dimension: row_id {
     type: number
@@ -257,7 +301,7 @@ view: transactions {
     group_label: "Order ID"
     type: string
     sql: ${TABLE}.originatingSiteUID ;;
-    hidden: yes #!
+    hidden: no
   }
   dimension: postal_area {
     label: "Postal Area"
@@ -363,12 +407,12 @@ dimension_group: order_completed {
     hidden: yes
   }
   dimension: order_special_requests {
-    required_access_grants: [is_developer]
+    # required_access_grants: [is_developer]
     group_label: "Order Details"
     label: "Special Requests"
     type: string
     sql: ${TABLE}.orderSpecialRequests ;;
-    hidden: yes
+    hidden: no
   }
 
 

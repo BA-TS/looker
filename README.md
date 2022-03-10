@@ -23,7 +23,6 @@ View allows for drilling of BigQuery 'purchaseOrders'. Committed joins are liste
 ### Who do I talk to? ###
 
 - Mark O'Grady
-- Jack Diamond
 - Charles Granville
 - Iqra Naz
 

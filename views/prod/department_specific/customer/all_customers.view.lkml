@@ -1,5 +1,6 @@
 include: "/views/prod/finance/transactions.view"
 include: "/views/prod/department_specific/customer/trade_customers.view"
+include: "/views/prod/department_specific/customer/trade_credit_details.view"
 
 view: customers {
 
@@ -202,6 +203,7 @@ view: customers {
     sql: ${TABLE}.flags.toolstationAddress = true ;;
     group_label: "Flags"
     group_item_label: "Toolstation Address"
+    description: "Flag for Toolstation-owned accounts, such as CC-usage."
     hidden: yes
   }
   dimension: permissions__catalogue_mail_opt_in {

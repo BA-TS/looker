@@ -1,3 +1,6 @@
+include: "/views/dev/cg_testing/catalogue.view"
+
+
 view: period_on_period_new {
 
   extension: required
@@ -729,7 +732,7 @@ view: period_on_period_new {
       ${flexible_pop}
     {% elsif select_fixed_range._is_filtered %}
       ${fixed_pop}
-    {% elsif dynamic_fiscal_year._is_filtered or dynamic_fiscal_half._is_filtered or dynamic_fiscal_quarter._is_filtered or dynamic_fiscal_month._is_filtered or dynamic_actual_year._is_filtered %}
+    {% elsif dynamic_fiscal_year._is_filtered or dynamic_fiscal_half._is_filtered or dynamic_fiscal_quarter._is_filtered or dynamic_fiscal_month._is_filtered or dynamic_actual_year._is_filtered or catalogue.catalogue_name or catalogue.extra_name %}
         true
     {% else %}
       false
@@ -1192,6 +1195,7 @@ view: period_on_period_new {
     ;;
     hidden:  yes
   }
+  # changed from 2 * to nil
 
   dimension: period_2_end {
     type: date_raw
@@ -1218,6 +1222,7 @@ view: period_on_period_new {
           ;;
     hidden:  yes
   }
+  # changed from 2 * to nil
 
   dimension: period_3_start {
     type: date_raw
@@ -1240,6 +1245,7 @@ view: period_on_period_new {
             ;;
     hidden: yes
   }
+  # changed from 3 * to 2 *
 
   dimension: period_3_end {
     type: date_raw
@@ -1262,6 +1268,7 @@ view: period_on_period_new {
             ;;
     hidden: yes
   }
+  # changed from 3 * to 2 *
 
 
 

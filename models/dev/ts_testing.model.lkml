@@ -12,35 +12,35 @@ explore: incremental_pdt {
   required_access_grants: [is_developer]
 }
 
-explore: base {
+# explore: base {
 
-  # required_access_grants: [test]
+#   # required_access_grants: [test]
 
-  label: "DEVELOPER - Retail Pricing"
+#   label: "DEVELOPER - Retail Pricing"
 
-  sql_always_where: ${period_over_period} ;;
+#   sql_always_where: ${period_over_period} ;;
 
-  join: retail_price_history {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${base.date_date} = ${retail_price_history.price_start_date} ;;
-  }
+#   join: retail_price_history {
+#     type: left_outer
+#     relationship: many_to_one
+#     sql_on: ${base.date_date} = ${retail_price_history.price_start_date} ;;
+#   }
 
-  join: products {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${retail_price_history.product_uid} = ${products.product_uid} ;;
-  }
+#   join: products {
+#     type: left_outer
+#     relationship: many_to_one
+#     sql_on: ${retail_price_history.product_uid} = ${products.product_uid} ;;
+#   }
 
-  join: calendar_completed_date{
-    from:  calendar
-    view_label: "Date"
-    type:  inner
-    relationship:  many_to_one
-    sql_on: ${base.base_date_date}=${calendar_completed_date.date} ;;
-  }
+#   join: calendar_completed_date{
+#     from:  calendar
+#     view_label: "Date"
+#     type:  inner
+#     relationship:  many_to_one
+#     sql_on: ${base.base_date_date}=${calendar_completed_date.date} ;;
+#   }
 
-}
+# }
 
 explore: retail_price_history {
 
@@ -84,3 +84,78 @@ explore: products {
   }
 
 }
+
+
+
+explore: promo_table_design {
+  label: "DEVELOPER - Promo"
+  required_access_grants: [is_developer]
+
+  join: catalogue {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${promo_table_design.catalogue_id} = ${catalogue.catalogue_id} ;;
+  }
+
+}
+
+# explore: base {
+#   label: "DEVELOPER - catalogue date testing"
+#   required_access_grants: [is_developer]
+#   # always_join: [catalogue, catalogue_promo]
+#   join: catalogue {
+#     type: left_outer
+#     relationship: many_to_one
+#     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date_date} AND ${catalogue.catalogue_end_date_date} ;;
+#   }
+#   join: catalogue_promo {
+#     type: left_outer
+#     relationship: many_to_one
+#     sql_on: ${base.base_date_date} BETWEEN ${catalogue_promo.promo_live_date_date} AND ${catalogue_promo.promo_end_date_date} ;;
+#   }
+
+#   join: calendar_completed_date{
+#     from:  calendar
+#     view_label: "Date"
+#     type:  inner
+#     relationship:  many_to_one
+#     sql_on: ${base.base_date_date}=${calendar_completed_date.date} ;;
+#   }
+# }
+
+
+explore: base {
+
+  label: "DEV TESTING - BASE"
+  required_access_grants: [is_developer]
+
+  join: calendar_completed_date{
+    from:  calendar
+    view_label: "Date"
+    type:  inner
+    relationship:  many_to_one
+    sql_on: ${base.base_date_date}=${calendar_completed_date.date} ;;
+  }
+
+  join: catalogue {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date_date} AND ${catalogue.catalogue_end_date_date} ;;
+  }
+
+}
+
+
+explore: catalogue {
+  required_access_grants: [is_developer]
+  always_join: [catalogue_promo]
+  join: catalogue_promo {
+    relationship: many_to_many
+    sql_on: ${catalogue.catalogue_id} = ${catalogue_promo.catalogue_id} ;;
+    type: cross
+  }
+}
+
+
+explore: publication_testing {}
+explore: promotion_testing {}

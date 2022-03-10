@@ -1,7 +1,9 @@
 
 view: trade_credit_details {
 
-  required_access_grants: [can_use_customer_information]
+  # required_access_grants: [can_use_customer_information]
+
+  fields_hidden_by_default: yes
 
   view_label: "Trade Credit"
   sql_table_name: `toolstation-data-storage.customer.tradeCreditDetails`;;
@@ -59,7 +61,22 @@ view: trade_credit_details {
     label: "Account Name"
     type: string
     sql: ${TABLE}.tcAccountName ;;
+    # hidden: no
+  }
+
+
+  dimension: has_trade_account {
+    type: yesno
+    view_label: "Customers"
+    group_label: "Flags"
+    label: "Has Trade Account?"
+    sql:
+
+      ${account_id} IS NOT NULL
+
+    ;;
     hidden: no
   }
+
 
 }
