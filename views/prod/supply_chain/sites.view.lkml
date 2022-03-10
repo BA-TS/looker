@@ -3,11 +3,12 @@ view: sites {
     ;;
   drill_fields: [site_uid]
 
+  label: "Location"
+
   dimension: site_uid {
     required_access_grants: [is_developer]
     primary_key: yes
-    hidden:  yes
-    label: "Site UID - Sites"
+    label: "Site UID"
     type: string
     sql: ${TABLE}.siteUID ;;
   }

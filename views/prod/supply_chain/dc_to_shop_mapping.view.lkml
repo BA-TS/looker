@@ -3,6 +3,8 @@ view: dc_to_shop_mapping {
 
   sql_table_name: `toolstation-data-storage.locations.DCtoShopMapping` ;;
 
+  fields_hidden_by_default: yes
+
   dimension_group: active_from {
     type: time
     timeframes: [

@@ -70,6 +70,7 @@ view: stock_level_date_site_product {
   dimension: site_uid {
     type: string
     sql: ${TABLE}.siteUID ;;
+    hidden: yes
   }
 
   dimension: stock_level {
