@@ -35,7 +35,7 @@ view: stock_level_date_site_product {
       month_name,
       month_num
     ]
-    sql: timestamp_sub(${TABLE}.openingStockDate, interval 1 day) ;;
+    sql: TIMESTAMP_SUB(${TABLE}.openingStockDate, INTERVAL 1 SECOND) ;;
   }
 
   dimension: is_last_day_closing {
@@ -43,7 +43,7 @@ view: stock_level_date_site_product {
     group_label: "Closing Stock Date"
     label: "Is Last Day of Month?"
     type: yesno
-    sql:  EXTRACT( DAY FROM DATE_ADD(${closing_stock_date}, INTERVAL 1 DAY)) = 1 ;;
+    sql:  EXTRACT(DAY FROM DATE_ADD(${closing_stock_date}, INTERVAL 1 DAY)) = 1 ;;
   }
 
   dimension: is_last_day_opening {
@@ -51,7 +51,7 @@ view: stock_level_date_site_product {
     group_label: "Opening Stock Date"
     label: "Is Last Day of Month?"
     type: yesno
-    sql:  EXTRACT( DAY FROM DATE_ADD(${opening_stock_date}, INTERVAL 1 DAY)) = 1 ;;
+    sql:  EXTRACT(DAY FROM DATE_ADD(${opening_stock_date}, INTERVAL 1 DAY)) = 1 ;;
   }
 
   dimension: date_site_product_pk {
@@ -87,14 +87,14 @@ view: stock_level_date_site_product {
   measure: total_stock_level {
     label: "Units On Hand"
     type: sum
-    sql: case when ${products.product_code} < '10000' then 0 else ${stock_level} end ;;
+    sql: CASE WHEN ${products.product_code} < '10000' THEN 0 ELSE ${stock_level} END ;;
 
   }
 
   measure: stock_value {
     label: "Stock Value"
     type: number
-    sql: sum(${TABLE}.stockLevel*${average_cost_price}) ;;
+    sql: SUM(${TABLE}.stockLevel * ${average_cost_price}) ;;
   }
 
 }

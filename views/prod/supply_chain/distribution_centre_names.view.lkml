@@ -1,8 +1,8 @@
-view: disctribution_centre_names {
-  sql_table_name: `toolstation-data-storage.locations.disctributionCentreNames`
-    ;;
+view: distribution_centre_names {
 
-    label: "Distribution Centre"
+  sql_table_name: `toolstation-data-storage.locations.disctributionCentreNames` ;;
+
+  label: "Distribution Centre"
 
   dimension: dc_name {
     label: "DC Name"
@@ -20,23 +20,13 @@ view: disctribution_centre_names {
   dimension: is_distribution_centre {
     label: "Is Distribution Centre?"
     type: yesno
-    sql:
-
-    ${dc_name} IS NOT NULL
-
-    ;;
+    sql: ${dc_name} IS NOT NULL ;;
   }
-
 
   dimension: is_store {
     label: "Is Store?"
     type: yesno
-    sql:
-
-    ${dc_name} IS NULL
-
-    ;;
+    sql: ${dc_name} IS NULL ;;
   }
-
 
 }

@@ -3,7 +3,8 @@ include: "/views/**/*.view"
 explore: stock_level_date_site_product {
   required_access_grants: [is_super]
 
-  label: "Stock Holding By Date, Site, Product"
+  label: "Stock Holding"
+  description: "By Date, Site, Product"
 
   join: aac {
     type:  left_outer
@@ -22,10 +23,22 @@ explore: stock_level_date_site_product {
     sql_on: ${products.default_supplier}=${suppliers.supplier_uid} ;;
   }
 
-  join: disctribution_centre_names {
+  join: dc_to_shop_mapping {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${stock_level_date_site_product.site_uid} = ${disctribution_centre_names.site_uid} ;;
+    sql_on: ${stock_level_date_site_product.site_uid} = ${dc_to_shop_mapping.site_uid} ;;
+  }
+
+  join: distribution_centre_names {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${dc_to_shop_mapping.site_uid} = ${distribution_centre_names.site_uid} ;;
+  }
+
+  join: sites {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${dc_to_shop_mapping.site_uid} = ${sites.site_uid} ;;
   }
 
 }
