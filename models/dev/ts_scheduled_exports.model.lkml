@@ -1,4 +1,5 @@
-include: "/views/**/*.view.lkml"                # include all views in the views/ folder in this project
+include: "/views/prod/scheduled_queries/*.view.lkml"
+include: "/models/backend/config.model"
 
 label: "TS - Scheduled Exports"
 

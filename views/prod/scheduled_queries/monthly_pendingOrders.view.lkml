@@ -4,8 +4,6 @@ view: monthly_pendingOrders {
 
     sql:
 
-DECLARE startDate DATE DEFAULT DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH), MONTH);
-DECLARE endDate DATE DEFAULT DATE_SUB(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL 1 DAY);
 
 SELECT
     transactionUID,
@@ -22,9 +20,9 @@ FROM
     `toolstation-data-storage.sales.transactions`
 
 WHERE
-    DATE(placedDate) BETWEEN startDate AND endDate
+    DATE(placedDate) BETWEEN DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH), MONTH) AND DATE_SUB(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL 1 DAY)
         AND
-    DATE(transactionDate) >= endDate
+    DATE(transactionDate) >= DATE_SUB(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL 1 DAY)
 
 GROUP BY
     1,
@@ -51,7 +49,7 @@ FROM
     `toolstation-data-storage.sales.transactions_incomplete`
 
 WHERE
-    DATE(placedDate) BETWEEN startDate AND endDate
+    DATE(placedDate) BETWEEN DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH), MONTH) AND DATE_SUB(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL 1 DAY)
 
 GROUP BY
     1,
