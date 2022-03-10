@@ -4,7 +4,7 @@ datagroup: toolstation_transactions_datagroup {
         SELECT    MAX(log_timestamp)
         FROM      toolstation-data-storage.looker_persistent_tables.etl_log
         WHERE     datagroup_name = 'transactions';;
-  max_cache_age: "24 hours" # testing fix
+  max_cache_age: "24 hours"
 }
 
 datagroup: ts_googleanalytics_datagroup {
