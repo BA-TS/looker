@@ -47,15 +47,15 @@ explore: base {
       sql_on:
 
         ${base.base_date_date} = date(${transactions.transaction_date})
-        and (${transactions.is_cancelled} = 0 and ${transactions.is_cancelled} is not null)
+        and (${transactions.is_cancelled} = 0 or ${transactions.is_cancelled} is null) -- IS NOT NULL 10/3/22
 
-       {% if ${transactions.charity_status} == "1" %}
-       and (${transactions.product_code} in ('85699', '00053'))
-        {% else %}
-      and (${transactions.product_code} not in ('85699', '00053'))
-        {% endif %}
+      {% if ${transactions.charity_status} == "1" %}
+        and (${transactions.product_code} in ('85699', '00053'))
+      {% else %}
+        and (${transactions.product_code} not in ('85699', '00053') OR ${transactions.product_code} IS NULL)
+      {% endif %}
 
-        and ${transactions.product_code} is not null
+        -- and ${transactions.product_code} is not null
 
         {% if
           (category_budget._in_query and site_budget._in_query)
