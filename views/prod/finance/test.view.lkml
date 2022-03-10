@@ -1,7 +1,5 @@
-view: monthly_pendingOrders {
+view: sql_runner_query {
   derived_table: {
-    datagroup_trigger: toolstation_transactions_datagroup
-
     sql: declare startDate DATE;
       declare endDate DATE;
 
@@ -30,7 +28,7 @@ view: monthly_pendingOrders {
           transactionUID,
           placedDate,
           transactionDate,
-          status,
+          status as orderstatus,
           salesChannel,
           siteUID,
           paymentType,
@@ -43,7 +41,10 @@ view: monthly_pendingOrders {
        ;;
   }
 
-
+  measure: count {
+    type: count
+    drill_fields: [detail*]
+  }
 
   dimension: transaction_uid {
     type: string
@@ -90,5 +91,17 @@ view: monthly_pendingOrders {
     sql: ${TABLE}.netSales ;;
   }
 
-
+  set: detail {
+    fields: [
+      transaction_uid,
+      placed_date_time,
+      transaction_date_time,
+      orderstatus,
+      sales_channel,
+      site_uid,
+      payment_type,
+      gross_sales,
+      net_sales
+    ]
+  }
 }
