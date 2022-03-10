@@ -7,6 +7,11 @@ explore: daily_orders_placed_jnl {
   label: "DAILY - Orders Placed JNL"
 }
 
+explore: monthly_pendingOrders {
+  required_access_grants: [is_developer]
+  label: "Monthly - Pending Orders"
+}
+
 
 explore: weekly_new_stores_performance {
   required_access_grants: [is_developer]
