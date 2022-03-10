@@ -44,6 +44,8 @@ explore: incremental_pdt {
 
 explore: retail_price_history {
 
+  required_access_grants: [is_developer]
+
   join: products {
     type: left_outer
     relationship: many_to_one
@@ -57,6 +59,9 @@ explore: retail_price_history {
 
 
 explore: products {
+
+  required_access_grants: [is_developer]
+
   label: "DEVELOPER - Suppliers"
 
   always_join: [suppliers]
@@ -157,5 +162,7 @@ explore: catalogue {
 }
 
 
-explore: publication_testing {}
-explore: promotion_testing {}
+explore: publication_testing {
+  required_access_grants: [is_developer]}
+explore: promotion_testing {
+  required_access_grants: [is_developer]}
