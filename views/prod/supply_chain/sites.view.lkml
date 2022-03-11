@@ -183,7 +183,7 @@ view: sites {
   dimension: is_closed {
     group_label: "Flags"
     type: yesno
-    sql: ${TABLE}.isClosed = 1`;;
+    sql: ${TABLE}.isClosed = 1 ;;
   }
 
   dimension: is_metro {

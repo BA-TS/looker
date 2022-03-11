@@ -1,4 +1,4 @@
-view: bq_daily_stock_data {
+view: daily_stock_data {
 
   fields_hidden_by_default: yes
 
