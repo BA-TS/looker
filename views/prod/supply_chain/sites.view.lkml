@@ -8,12 +8,14 @@ view: sites {
   dimension: site_uid {
     required_access_grants: [is_developer]
     primary_key: yes
+    view_label: "Location"
     label: "Site UID"
     type: string
     sql: ${TABLE}.siteUID ;;
   }
 
   dimension: site_name {
+    view_label: "Location"
     label: "Site Name"
     type: string
     sql: ${TABLE}.siteName ;;
