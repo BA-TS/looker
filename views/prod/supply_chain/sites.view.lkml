@@ -1,7 +1,85 @@
 view: sites {
-  sql_table_name: `toolstation-data-storage.locations.sites`
+
+  derived_table: {
+
+    sql:
+
+    SELECT
+      sites.*,
+      dc_flag,
+      store_flag
+
+    FROM
+    (
+
+      SELECT
+        sites.siteUID,
+        CASE
+          WHEN dc_data.dc_name IS NOT NULL
+              THEN 1
+          ELSE 0
+        END AS dc_flag,
+        CASE
+          WHEN dc_site.dc_name IS NOT NULL
+              THEN 1
+          ELSE 0
+        END AS store_flag,
+
+      FROM
+        `toolstation-data-storage.locations.sites` AS sites
+
+      LEFT JOIN
+        `toolstation-data-storage.locations.DCtoShopMapping` AS map
+      ON sites.siteUID = map.siteUID
+
+      LEFT JOIN
+        `toolstation-data-storage.locations.disctributionCentreNames` AS dc_site
+      USING(distributionCentreID)
+
+      LEFT JOIN
+      (
+        SELECT
+          siteUID,
+          dc_name
+
+        FROM
+          `toolstation-data-storage.locations.distributionCentreSites`
+
+        INNER JOIN
+          `toolstation-data-storage.locations.disctributionCentreNames`
+        USING(siteUID)
+      ) AS dc_data
+      ON sites.siteUID = dc_data.siteUID AND dc_data.dc_name IS NOT NULL
+
+      WHERE
+        UPPER(sites.siteName) NOT LIKE "%D%SHIP%"
+          AND
+        (
+          map.isActive = 1
+              OR
+          dc_data.dc_name IS NOT NULL
+        )
+
+      GROUP BY
+        1,
+        2,
+        3
+
+    )
+
+    LEFT JOIN
+      `toolstation-data-storage.locations.sites` AS sites
+    USING(siteUID)
+
     ;;
-  drill_fields: [site_uid]
+
+    datagroup_trigger: toolstation_transactions_datagroup
+
+  }
+
+  # sql_table_name: `toolstation-data-storage.locations.sites`
+  #   ;;
+  # drill_fields: [site_uid]
 
   label: "Location"
 
@@ -176,11 +254,11 @@ view: sites {
     sql: ${TABLE}.isActive = 1 ;;
   }
 
-  dimension: is_branch {
-    group_label: "Flags"
-    type: yesno
-    sql: ${TABLE}.isBranch = 1 ;;
-  }
+  # dimension: is_branch {
+  #   group_label: "Flags"
+  #   type: yesno
+  #   sql: ${TABLE}.isBranch = 1 ;;
+  # }
 
   dimension: is_closed {
     group_label: "Flags"
@@ -251,6 +329,22 @@ view: sites {
     group_label: "Store Classification"
     type: number
     sql: ${TABLE}.squareFeet ;;
+  }
+
+  ######### FLAGS ###########
+
+  dimension: is_dc {
+    group_label: "Flags"
+    label: "Is Distribution Centre?"
+    type: yesno
+    sql: ${TABLE}.dc_flag = 1 ;;
+  }
+
+  dimension: is_store {
+    group_label: "Flags"
+    label: "Is Store?"
+    type: yesno
+    sql: ${TABLE}.store_flag = 1 ;;
   }
 
 }

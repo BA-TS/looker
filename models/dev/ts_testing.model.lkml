@@ -4,6 +4,7 @@ include: "/views/**/*.view"
 label: "TS - Development"
 
 explore: sites {
+  label: "DEVELOPER - Sites"
   required_access_grants: [is_developer]
 }
 
@@ -166,3 +167,22 @@ explore: publication_testing {
   required_access_grants: [is_developer]}
 explore: promotion_testing {
   required_access_grants: [is_developer]}
+
+
+
+
+
+
+explore: bq_daily_stock_data_history {
+  join: products {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${bq_daily_stock_data_history.product_uid} = ${products.product_uid} ;;
+  }
+
+  join: aac {
+    type:  left_outer
+    relationship: many_to_one
+    sql_on: ${bq_daily_stock_data_history.product_uid} = ${aac.product_uid} ;; # TBC - ${bq_daily_stock_data_history.active_from_date}= ${aac.date} and
+  }
+}
