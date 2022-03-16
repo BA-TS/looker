@@ -3,73 +3,85 @@ view: sites {
   derived_table: {
 
     sql:
-
-    SELECT
-      sites.*,
-      dc_flag,
-      store_flag
-
-    FROM
-    (
-
       SELECT
-        sites.siteUID,
-        CASE
-          WHEN dc_data.dc_name IS NOT NULL
-              THEN 1
-          ELSE 0
-        END AS dc_flag,
-        CASE
-          WHEN dc_site.dc_name IS NOT NULL
-              THEN 1
-          ELSE 0
-        END AS store_flag,
+        sites.*,
+        dc_flag,
+        store_flag,
+        servicing_dc_id,
+        servicing_dc_name,
+        -- servicing_dc_site_uid
 
       FROM
-        `toolstation-data-storage.locations.sites` AS sites
-
-      LEFT JOIN
-        `toolstation-data-storage.locations.DCtoShopMapping` AS map
-      ON sites.siteUID = map.siteUID
-
-      LEFT JOIN
-        `toolstation-data-storage.locations.disctributionCentreNames` AS dc_site
-      USING(distributionCentreID)
-
-      LEFT JOIN
       (
+
         SELECT
-          siteUID,
-          dc_name
+          sites.siteUID,
+          CASE
+            WHEN dc_data.dc_name IS NOT NULL
+              THEN TRUE
+            ELSE FALSE
+          END AS dc_flag,
+          CASE
+            WHEN dc_site.dc_name IS NOT NULL
+              THEN TRUE
+            ELSE FALSE
+          END AS store_flag,
+          dc_site.distributionCentreID AS servicing_dc_id,
+          dc_site.uncleaned_dc_name AS servicing_dc_name,
+          dc_site.siteUID AS servicing_dc_site_uid
 
         FROM
-          `toolstation-data-storage.locations.distributionCentreSites`
+          `toolstation-data-storage.locations.sites` AS sites
 
-        INNER JOIN
-          `toolstation-data-storage.locations.disctributionCentreNames`
-        USING(siteUID)
-      ) AS dc_data
-      ON sites.siteUID = dc_data.siteUID AND dc_data.dc_name IS NOT NULL
+        LEFT JOIN
+          `toolstation-data-storage.locations.DCtoShopMapping` AS map
+        ON sites.siteUID = map.siteUID
 
-      WHERE
-        UPPER(sites.siteName) NOT LIKE "%D%SHIP%"
-          AND
+        LEFT JOIN
+          `toolstation-data-storage.locations.disctributionCentreNames` AS dc_site
+        USING(distributionCentreID)
+
+        LEFT JOIN
         (
-          map.isActive = 1
-              OR
-          dc_data.dc_name IS NOT NULL
-        )
+          SELECT
+            siteUID,
+            dc_name
 
-      GROUP BY
-        1,
-        2,
-        3
+          FROM
+            `toolstation-data-storage.locations.distributionCentreSites`
 
-    )
+          INNER JOIN
+            `toolstation-data-storage.locations.disctributionCentreNames`
+          USING(siteUID)
+        ) AS dc_data
+        ON sites.siteUID = dc_data.siteUID AND dc_data.dc_name IS NOT NULL
 
-    LEFT JOIN
-      `toolstation-data-storage.locations.sites` AS sites
-    USING(siteUID)
+        WHERE
+          UPPER(sites.siteName) NOT LIKE "%D%SHIP%"
+            AND
+          (
+            map.isActive = 1
+                OR
+            dc_data.dc_name IS NOT NULL
+          )
+
+        GROUP BY
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+
+      )
+
+      LEFT JOIN
+        `toolstation-data-storage.locations.sites` AS sites
+      USING(siteUID)
+
+
+
+
 
     ;;
 
@@ -250,6 +262,7 @@ view: sites {
 
   dimension: is_active {
     group_label: "Flags"
+    label: "Is Active?"
     type: yesno
     sql: ${TABLE}.isActive = 1 ;;
   }
@@ -262,18 +275,21 @@ view: sites {
 
   dimension: is_closed {
     group_label: "Flags"
+    label: "Is Closed?"
     type: yesno
     sql: ${TABLE}.isClosed = 1 ;;
   }
 
   dimension: is_metro {
     group_label: "Flags"
+    label: "Is Metro?"
     type: yesno
     sql: ${TABLE}.isMetro = 1 ;;
   }
 
   dimension: is_reduced_stock {
     group_label: "Flags"
+    label: "Is Reduced Stock?"
     type: yesno
     sql: ${TABLE}.isReducedStock = 1 ;;
   }
@@ -346,5 +362,30 @@ view: sites {
     type: yesno
     sql: ${TABLE}.store_flag = 1 ;;
   }
+
+
+  ######### DC ##########
+
+  dimension: servicing_dc_id {
+    group_label: "Servicing DC"
+    label: "DC ID"
+    type: string
+    sql: ${TABLE}.servicing_dc_id ;;
+    hidden: yes
+  }
+
+  dimension: servicing_dc_name {
+    group_label: "Servicing DC"
+    label: "DC Name"
+    type: string
+    sql: ${TABLE}.servicing_dc_name ;;
+  }
+
+  # dimension: servicing_dc_site_uid {
+  #   group_label: "Servicing DC"
+  #   label: "DC SiteUID"
+  #   type: string
+  #   sql: ${TABLE}.servicing_dc_site_uid ;;
+  # }
 
 }
