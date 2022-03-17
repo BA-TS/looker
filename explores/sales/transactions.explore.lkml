@@ -25,7 +25,11 @@ explore: base {
       dynamic_fiscal_month,
       dynamic_actual_year,
       catalogue.catalogue_name,
-      catalogue.extra_name
+      catalogue.extra_name,
+      combined_week,
+      combined_month,
+      combined_quarter,
+      combined_year
     ]
   }
 
@@ -61,8 +65,6 @@ explore: base {
       {% else %}
         and (${transactions.product_code} not in ('85699', '00053') OR ${transactions.product_code} IS NULL)
       {% endif %}
-
-        -- and ${transactions.product_code} is not null
 
         {% if
           (category_budget._in_query and site_budget._in_query)
@@ -116,7 +118,7 @@ explore: base {
       type:  left_outer
       relationship: many_to_one
       sql_on:
-              -- additional join if department budget fields are used
+
               {% if
                 category_budget.department_net_sales_budget._in_query
                 or category_budget.department_margin_inc_Retro_funding_budget._in_query
@@ -200,8 +202,6 @@ explore: base {
       relationship: many_to_one
       sql_on: ${customers.customer_uid} = ${trade_credit_ids.customer_uid} ;;
 
-      # sql_where: ${trade_credit_ids.main_trade_credit_account_uid} is not null ;;
-
     }
 
     join: trade_credit_details {
@@ -211,12 +211,6 @@ explore: base {
       sql_on: ${trade_credit_ids.main_trade_credit_account_uid} = ${trade_credit_details.main_trade_credit_account_uid} ;;
 
     }
-
-    # join: trade_credit_details {
-    #   type: left_outer
-    #   relationship: one_to_one
-    #   sql_on: ${transactions.customer_uid} = ${trade_credit_details.main_trade_credit_account_uid} ;;
-    # }
 
     join: catalogue {
       type: left_outer

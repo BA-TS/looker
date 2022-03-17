@@ -4,5 +4,5 @@ include: "/views/**/*.view"
 label: "TS - Customer"
 
 include: "/explores/customer/*"
-# include: "/aggregate_awareness/digital/*"
-# include: "/dashboards/digital/google_analytics/*"
+# include: "/aggregate_awareness/.../*"
+# include: "/dashboards/.../.../*"

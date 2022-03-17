@@ -1,6 +1,7 @@
 persist_with: toolstation_core_datagroup
 datagroup: toolstation_core_datagroup {
   label: "TS - Core Datagroup (Transactions)"
+  description: "Datagroup trigger identified via AirFlow ETL Logging DAG."
   sql_trigger:
         SELECT    MAX(log_timestamp)
         FROM      toolstation-data-storage.looker_persistent_tables.etl_log
