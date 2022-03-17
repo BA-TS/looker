@@ -158,7 +158,7 @@ view: catalogue {
 
   ;;
 
-  sql_trigger_value: toolstation-datagroup-trigger ;;
+  datagroup_trigger: toolstation_core_datagroup
 
   }
 

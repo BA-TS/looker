@@ -85,7 +85,7 @@ view: sites {
 
     ;;
 
-    datagroup_trigger: toolstation_transactions_datagroup
+    datagroup_trigger: toolstation_core_datagroup
 
   }
 

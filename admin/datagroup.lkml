@@ -1,5 +1,5 @@
-persist_with: toolstation_transactions_datagroup
-datagroup: toolstation_transactions_datagroup {
+persist_with: toolstation_core_datagroup
+datagroup: toolstation_core_datagroup {
   sql_trigger:
         SELECT    MAX(log_timestamp)
         FROM      toolstation-data-storage.looker_persistent_tables.etl_log

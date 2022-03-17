@@ -236,7 +236,7 @@ view: product_first_sale_date {
         from `toolstation-data-storage.sales.transactions`
 
         group by 1;;
-    datagroup_trigger: toolstation_transactions_datagroup
+    datagroup_trigger: toolstation_core_datagroup
   }
 
   dimension: product_code {

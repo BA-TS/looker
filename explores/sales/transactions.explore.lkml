@@ -505,7 +505,7 @@ explore: +base {
     }
 
     materialization: {
-      datagroup_trigger: toolstation_transactions_datagroup
+      datagroup_trigger: toolstation_core_datagroup
     }
 
   }
@@ -531,7 +531,7 @@ explore: +base {
     }
 
     materialization: {
-      datagroup_trigger: toolstation_transactions_datagroup
+      datagroup_trigger: toolstation_core_datagroup
     }
   }
 
@@ -554,7 +554,7 @@ explore: +base {
     }
 
     materialization: {
-      datagroup_trigger: toolstation_transactions_datagroup
+      datagroup_trigger: toolstation_core_datagroup
     }
 
   }
@@ -578,7 +578,7 @@ explore: +base {
     }
 
     materialization: {
-      datagroup_trigger: toolstation_transactions_datagroup
+      datagroup_trigger: toolstation_core_datagroup
     }
 
   }
@@ -602,7 +602,7 @@ explore: +base {
     }
 
     materialization: {
-      datagroup_trigger: toolstation_transactions_datagroup
+      datagroup_trigger: toolstation_core_datagroup
     }
 
   }

@@ -1,4 +1,4 @@
-include: "/views/prod/date/transaction_base_date.view"
+include: "/views/prod/date/base_date.view"
 
 # PTD #
 
