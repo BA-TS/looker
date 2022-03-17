@@ -6,9 +6,16 @@ explore: base {
   label: "Transactions"
   description: "Explore Toolstation transactional data."
 
-  conditionally_filter: {
+  always_filter: {
     filters: [
-      base.select_date_range: "Yesterday"
+      select_date_type: "Calendar"
+    ]
+  }
+
+  conditionally_filter: {
+
+    filters: [
+      select_date_range: "Yesterday"
     ]
     unless: [
       select_fixed_range,
@@ -83,7 +90,7 @@ explore: base {
       type:  left_outer
       relationship: many_to_one
       sql_on:
-          ${base.base_date_date}=${channel_budget.date} and ${transactions.sales_channel} = ${channel_budget.channel}
+          ${base.date_date}=${channel_budget.date} and ${transactions.sales_channel} = ${channel_budget.channel}
         ;;
     }
 
@@ -92,7 +99,7 @@ explore: base {
       type: left_outer
       relationship: many_to_one
       sql_on:
-          ${base.base_date_date}=${category_budget.date} and upper(${transactions.product_department}) = upper(${category_budget.department})
+          ${base.date_date}=${category_budget.date} and upper(${transactions.product_department}) = upper(${category_budget.department})
           ;;
     }
 
@@ -101,7 +108,7 @@ explore: base {
       type: left_outer
       relationship: many_to_one
       sql_on:
-      ${base.base_date_date} = ${site_budget.date_date} and ${transactions.site_uid} = ${site_budget.site_uid}
+      ${base.date_date} = ${site_budget.date_date} and ${transactions.site_uid} = ${site_budget.site_uid}
       ;;
     }
 
@@ -135,7 +142,7 @@ explore: base {
       view_label: "Date"
       type:  inner
       relationship:  many_to_one
-      sql_on: ${base.base_date_date}=${calendar_completed_date.date} ;;
+      sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
     }
 
     join: customers {
@@ -166,13 +173,13 @@ explore: base {
     join: promo_main_catalogue {
       type: left_outer
       relationship: many_to_one
-      sql_on: ${transactions.product_code} = ${promo_main_catalogue.product_code} and ${base.base_date_date} between ${promo_main_catalogue.live_date} and ${promo_main_catalogue.end_date} ;;
+      sql_on: ${transactions.product_code} = ${promo_main_catalogue.product_code} and ${base.date_date} between ${promo_main_catalogue.live_date} and ${promo_main_catalogue.end_date} ;;
     }
 
     join: promo_extra {
       type: left_outer
       relationship: many_to_one
-      sql_on: ${transactions.product_code} = ${promo_extra.product_code} and ${base.base_date_date} between ${promo_extra.live_date} and ${promo_extra.end_date} ;;
+      sql_on: ${transactions.product_code} = ${promo_extra.product_code} and ${base.date_date} between ${promo_extra.live_date} and ${promo_extra.end_date} ;;
     }
 
     join: single_line_transactions {

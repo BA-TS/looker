@@ -19,6 +19,8 @@ explore: base {
 
   label: "DEVELOPER - Retail Pricing"
 
+  required_access_grants: [is_super]
+
   sql_always_where: ${period_over_period} ;;
 
   join: retail_price_history {
@@ -38,13 +40,13 @@ explore: base {
     view_label: "Date"
     type:  inner
     relationship:  many_to_one
-    sql_on: ${base.base_date_date}=${calendar_completed_date.date} ;;
+    sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
   }
 
   join: catalogue {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date_date} AND ${catalogue.catalogue_end_date_date} ;;
+    sql_on: ${base.date_date} BETWEEN ${catalogue.catalogue_live_date_date} AND ${catalogue.catalogue_end_date_date} ;;
   }
 
 }
@@ -180,6 +182,7 @@ explore: promotion_testing {
 
 
 explore: bq_daily_stock_data_history {
+  required_access_grants: [is_developer]
   join: products {
     type: left_outer
     relationship: many_to_one
@@ -192,3 +195,44 @@ explore: bq_daily_stock_data_history {
     sql_on: ${bq_daily_stock_data_history.product_uid} = ${aac.product_uid} ;; # TBC - ${bq_daily_stock_data_history.active_from_date}= ${aac.date} and
   }
 }
+
+
+
+
+
+# explore: base {
+
+#   extends: []
+#   label: "DATE V2"
+#   description: ""
+
+#   conditionally_filter: {
+#     filters: [
+#       date_testing.select_date_type: "Calendar"
+#     ]
+#   }
+
+
+#   sql_always_where:
+
+#   ${period_over_period}
+
+#     ;;
+
+
+#     join: calendar_completed_date{
+#       from:  calendar
+#       view_label: "Date"
+#       type:  inner
+#       relationship:  many_to_one
+#       sql_on: ${date_testing.date_testing_date_date}=${calendar_completed_date.date} ;;
+#     }
+
+#     join: catalogue {
+#       type: left_outer
+#       relationship: many_to_one
+#       sql_on: ${date_testing.date_testing_date_date} BETWEEN ${catalogue.catalogue_live_date_date} AND ${catalogue.catalogue_end_date_date} ;;
+#     }
+
+
+# }
