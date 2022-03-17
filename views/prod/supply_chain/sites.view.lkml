@@ -96,7 +96,6 @@ view: sites {
   label: "Location"
 
   dimension: site_uid {
-    required_access_grants: [is_developer]
     primary_key: yes
     view_label: "Location"
     label: "Site UID"

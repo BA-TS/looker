@@ -1,4 +1,4 @@
-include: "/views/dev/sales_alert.view"
+include: "/views/dev/prod/sales_alert.view"
 
 test: alert_start_date {
 

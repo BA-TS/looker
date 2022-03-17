@@ -226,6 +226,38 @@ explore: base {
 
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # EXAMPLES #
 
 explore: +base {
@@ -236,7 +268,7 @@ explore: +base {
     description: "This provides information to user."
 
     dimensions: [
-      base.date_date, transactions.product_department
+      base.combined_week, transactions.product_department
     ]
     measures: [
       transactions.total_net_sales
@@ -246,7 +278,7 @@ explore: +base {
     ]
     limit: 500
     sorts: [
-      base.date_date: desc,
+      base.combined_week: desc,
       transactions.product_department: asc
     ]
     pivots: [
@@ -261,7 +293,7 @@ explore: +base {
     description: "This provides information to user."
 
     dimensions: [
-      base.date_date, transactions.sales_channel
+      base.combined_week, transactions.sales_channel
     ]
     measures: [
       transactions.total_net_sales
@@ -271,7 +303,7 @@ explore: +base {
     ]
     limit: 500
     sorts: [
-      base.date_date: desc,
+      base.combined_week: desc,
       transactions.sales_channel: asc
     ]
     pivots: [
@@ -374,7 +406,7 @@ explore: +base {
     dimensions: [
       transactions.product_code,
       products.description,
-      products.department,
+      transactions.product_department,
       products.subdepartment
     ]
     measures: [
@@ -400,6 +432,47 @@ explore: +base {
   }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
