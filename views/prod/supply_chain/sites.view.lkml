@@ -4,7 +4,8 @@ view: sites {
 
     sql:
       SELECT
-        sites.*,
+        DISTINCT sites.siteUID AS siteUID,
+        sites.* EXCEPT(siteUID),
         dc_flag,
         store_flag,
         servicing_dc_id,

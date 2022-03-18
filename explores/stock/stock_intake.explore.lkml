@@ -16,11 +16,11 @@ explore: stock_intake {
     sql_on: ${stock_intake.destination_site_uid}=${sites.site_uid} ;;
   }
 
-  join: distribution_centre_names {
-    type:  left_outer
-    relationship: many_to_one
-    sql_on: ${stock_intake.destination_site_uid}=${distribution_centre_names.site_uid} ;;
-  }
+  # join: distribution_centre_names {
+  #   type:  left_outer
+  #   relationship: many_to_one
+  #   sql_on: ${stock_intake.destination_site_uid}=${distribution_centre_names.site_uid} ;;
+  # }
 
   join: suppliers {
     type:  left_outer
