@@ -3,6 +3,7 @@ view: sites {
   derived_table: {
 
     sql:
+
       SELECT
         DISTINCT sites.siteUID AS siteUID,
         sites.* EXCEPT(siteUID),
@@ -80,19 +81,11 @@ view: sites {
         `toolstation-data-storage.locations.sites` AS sites
       USING(siteUID)
 
-
-
-
-
     ;;
 
     datagroup_trigger: toolstation_core_datagroup
 
   }
-
-  # sql_table_name: `toolstation-data-storage.locations.sites`
-  #   ;;
-  # drill_fields: [site_uid]
 
   label: "Location"
 
