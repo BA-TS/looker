@@ -76,6 +76,15 @@ view: transactions {
     default_value: "0"
   }
 
+
+
+  filter: is_next_day_click_and_collect {
+    group_label: "Flags"
+    label: "Is Next Day Click and Collect"
+    type: yesno
+    sql: UPPER(${originating_site_uid}) = "XN" ;;
+  }
+
   # parameter: include_cancelled {
   #   view_label: "Overrides"
   #   label: "Show Cancelled"
