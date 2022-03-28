@@ -11,7 +11,7 @@ view: daily_transactions_incomplete {
       tc.accountID,
       tc.creditLimit,
       tc.remainingBalance,
-      sum(i.grossSalesValue) as OrderValue
+      round(sum(i.grossSalesValue), 3) as OrderValue
 
       from `toolstation-data-storage.sales.transactions_incomplete` i
 
