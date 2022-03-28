@@ -24,3 +24,8 @@ explore: weekly_new_stores_sales {
   required_access_grants: [is_developer]
   label: "Weekly - New Stores Sales"
 }
+
+explore: daily_transactions_incomplete {
+  required_access_grants: [is_developer]
+  label: "Daily - Incomplete Transactions"
+}
