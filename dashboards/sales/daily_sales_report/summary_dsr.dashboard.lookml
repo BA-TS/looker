@@ -115,7 +115,7 @@
               Year - 1 - net_sales, name: CY}, {axisId: net_sales, id: Last Year -
               2 - net_sales, name: LY}, {axisId: net_sales, id: 2 Years Ago - 3 -
               net_sales, name: 2LY}, {axisId: budget, id: budget, name: Budget}],
-        showLabels: true, showValues: true, maxValue: 2500000, minValue: !!null '',
+        showLabels: true, showValues: true, maxValue: !!null '', minValue: !!null '',
         valueFormat: '0.0,, "M"', unpinAxis: true, tickDensity: custom, tickDensityCustom: 20,
         type: linear}]
     limit_displayed_rows_values:
@@ -2592,7 +2592,7 @@
               Year - 1 - net_margin, name: CY}, {axisId: net_margin, id: Last Year
               - 2 - net_margin, name: LY}, {axisId: net_margin, id: 2 Years Ago -
               3 - net_margin, name: 2LY}, {axisId: budget, id: budget, name: Budget}],
-        showLabels: true, showValues: true, maxValue: 0.42, minValue: !!null '', valueFormat: 0%,
+        showLabels: true, showValues: true, maxValue: !!null '', minValue: !!null '', valueFormat: 0%,
         unpinAxis: true, tickDensity: custom, tickDensityCustom: 19, type: linear}]
     limit_displayed_rows_values:
       show_hide: show
@@ -2645,8 +2645,7 @@
           \ -2) = null), null,\n\nif(mean(offset_list(${transactions.aov_net_sales},0,7))\
           \ = 0 , null, mean(offset_list(${aov_coalesce},0,7))\n)\n)\n", label: AOV,
         value_format: !!null '', value_format_name: gbp, _kind_hint: measure, table_calculation: aov,
-        _type_hint: number}, {category: table_calculation, expression: 'if(${transactions.aov_net_sales}
-          = 0, null, ${transactions.aov_net_sales})', label: AOV coalesce, value_format: !!null '',
+        _type_hint: number}, {category: table_calculation, expression: 'if(${transactions.aov_net_sales} = 0, null, if(${transactions.aov_net_sales} / 2 > offset(${transactions.aov_net_sales}, 1), null, ${transactions.aov_net_sales}))', label: AOV coalesce, value_format: !!null '',
         value_format_name: !!null '', _kind_hint: measure, table_calculation: aov_coalesce,
         _type_hint: number}]
     x_axis_gridlines: false
@@ -2682,7 +2681,7 @@
     y_axes: [{label: '', orientation: left, series: [{axisId: aov, id: This Year -
               1 - aov, name: This Year}, {axisId: aov, id: Last Year - 2 - aov, name: Last
               Year}, {axisId: aov, id: 2 Years Ago - 3 - aov, name: 2 Years Ago}],
-        showLabels: true, showValues: true, maxValue: 22, minValue: !!null '', valueFormat: '0',
+        showLabels: true, showValues: true, maxValue: !!null '', minValue: !!null '', valueFormat: '0',
         unpinAxis: true, tickDensity: custom, tickDensityCustom: 19, type: linear}]
     limit_displayed_rows_values:
       show_hide: show
