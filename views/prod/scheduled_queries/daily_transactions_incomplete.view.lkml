@@ -3,6 +3,7 @@ view: daily_transactions_incomplete {
     datagroup_trigger: toolstation_transactions_datagroup
     sql: select
       i.parentOrderUID,
+      i.transactionUID,
       i.placedDate,
       i.paymentType,
       i.status,
