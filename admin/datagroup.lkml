@@ -1,16 +1,19 @@
-persist_with: toolstation_transactions_datagroup
-datagroup: toolstation_transactions_datagroup {
+persist_with: toolstation_core_datagroup
+datagroup: toolstation_core_datagroup {
+  label: "TS - Core Datagroup (Transactions)"
+  description: "Datagroup trigger identified via AirFlow ETL Logging DAG."
   sql_trigger:
         SELECT    MAX(log_timestamp)
         FROM      toolstation-data-storage.looker_persistent_tables.etl_log
         WHERE     datagroup_name = 'transactions';;
-  max_cache_age: "24 hours" # testing fix
+  max_cache_age: "24 hours"
+
 }
 
 datagroup: ts_googleanalytics_datagroup {
-  sql_trigger: SELECT EXTRACT(month from CURRENT_DATE()) ;;
+  sql_trigger: SELECT EXTRACT(YEAR FROM CURRENT_DATE()) ;;
 }
 
-datagroup: ts_dev_datagroup {
-  sql_trigger: SELECT EXTRACT(DAY FROM CURRENT_DATE())  ;;
-}
+# datagroup: ts_dev_datagroup {
+#   sql_trigger: SELECT EXTRACT(DAY FROM CURRENT_DATE())  ;;
+# }

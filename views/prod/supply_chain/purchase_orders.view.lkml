@@ -10,8 +10,10 @@ view: stock_intake {
   }
 
   dimension: accepted {
-    type: number
-    sql: ${TABLE}.accepted ;;
+    group_label: "Flags"
+    label: "Is Accepted?"
+    type: yesno
+    sql: ${TABLE}.accepted = 1 ;;
   }
 
   dimension: destination_address_uid {
@@ -27,11 +29,14 @@ view: stock_intake {
   }
 
   dimension: is_complete {
-    type: number
-    sql: ${TABLE}.isComplete ;;
+    group_label: "Flags"
+    label: "Is Complete?"
+    type: yesno
+    sql: ${TABLE}.isComplete = 1 ;;
   }
 
   dimension_group: order_completed {
+    label: "Order Completed"
     type: time
     timeframes: [
       raw,
@@ -46,6 +51,7 @@ view: stock_intake {
   }
 
   dimension_group: order_delivered {
+    label: "Order Delivered"
     type: time
     timeframes: [
       raw,
@@ -60,6 +66,7 @@ view: stock_intake {
   }
 
   dimension_group: order_expected {
+    label: "Order Expected"
     type: time
     timeframes: [
       raw,
@@ -74,6 +81,7 @@ view: stock_intake {
   }
 
   dimension_group: order_placed {
+    label: "Order Placed"
     type: time
     timeframes: [
       raw,
@@ -87,12 +95,29 @@ view: stock_intake {
     sql: ${TABLE}.orderPlacedDate ;;
   }
 
+
+  dimension_group: order_booked {
+    label: "Order Booked"
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.orderBooked_in_Date ;;
+  }
+
   dimension: order_status {
     type: string
     sql: ${TABLE}.orderStatus ;;
   }
 
   dimension: order_uid {
+    label: "Order UID"
     type: string
     sql: ${TABLE}.orderUID ;;
   }
@@ -100,11 +125,13 @@ view: stock_intake {
   dimension: pack_cost_gbp {
     type: number
     sql: ${TABLE}.packCostGBP ;;
+    hidden: yes
   }
 
   dimension: pack_quantity {
     type: number
     sql: ${TABLE}.packQuantity ;;
+    hidden: yes
   }
 
   dimension: product_uid {
@@ -116,11 +143,13 @@ view: stock_intake {
   dimension: quantity_ordered {
     type: number
     sql: ${TABLE}.quantityOrdered ;;
+    hidden: yes
   }
 
   dimension: quantity_received {
     type: number
     sql: ${TABLE}.quantityReceived ;;
+    hidden: yes
   }
 
   dimension: received_quantity_tally {
@@ -143,7 +172,8 @@ view: stock_intake {
 
   dimension: unit_cost {
     type:  number
-    sql: ${pack_cost_gbp}/${pack_quantity} ;;
+    sql: SAFE_DIVIDE(${pack_cost_gbp}, ${pack_quantity}) ;;
+    hidden: yes
   }
 
   measure: total_units_ordered {
@@ -173,6 +203,24 @@ view: stock_intake {
     type:  number
     sql: sum(${quantity_received}*(safe_divide(${pack_cost_gbp},${pack_quantity}))) ;;
     value_format: "\£#,##0.00;(\£#,##0.00)"
+  }
+
+  measure: average_pack_cost {
+    type: average
+    sql: ${pack_cost_gbp} ;;
+    value_format_name: gbp
+  }
+
+  measure: average_pack_quantity {
+    type: average
+    sql: ${pack_quantity} ;;
+    value_format_name: decimal_0
+  }
+
+  measure: average_unit_cost {
+    type: average
+    sql: ${unit_cost} ;;
+    value_format_name: gbp
   }
 
 }

@@ -162,6 +162,7 @@ view: customers {
     required_access_grants: [can_use_customer_information]
     type: yesno
     sql: ${TABLE}.flags.addressDoNotUse = true ;;
+    label: "Address - Do Not Use?"
     group_label: "Flags"
     group_item_label: "Address Do Not Use"
   }
@@ -170,41 +171,42 @@ view: customers {
     type: yesno
     sql: ${TABLE}.flags.addressProfanity = true ;;
     group_label: "Flags"
-    group_item_label: "Address Profanity"
+    group_item_label: "Address - Profanity?"
   }
   dimension: flags__customer_do_not_use {
     required_access_grants: [can_use_customer_information]
     type: yesno
     sql: ${TABLE}.flags.customerDoNotUse = true ;;
     group_label: "Flags"
-    group_item_label: "Customer Do Not Use"
+    group_item_label: "Customer - Do Not Use?"
   }
   dimension: flags__customer_profanity {
     required_access_grants: [can_use_customer_information]
     type: yesno
     sql: ${TABLE}.flags.customerProfanity = true ;;
     group_label: "Flags"
-    group_item_label: "Customer Profanity"
+    group_item_label: "Customer - Profanity?"
   }
   dimension: flags__guest_checkout {
     type: yesno
     sql: ${TABLE}.flags.guestCheckout = true ;;
     group_label: "Flags"
-    label: "Guest Checkout"
+    label: "Guest Checkout?"
   }
   dimension: flags__toolstation_account {
     type: yesno
     sql: ${TABLE}.flags.toolstationAccount = "true" ;;
     group_label: "Flags"
-    label: "Toolstation Account"
+    label: "Toolstation - Internal Account?"
+    description: "Flag for accounts that are Toolstation-owned."
   }
   dimension: flags__toolstation_address {
     type: yesno
     sql: ${TABLE}.flags.toolstationAddress = true ;;
     group_label: "Flags"
-    group_item_label: "Toolstation Address"
-    description: "Flag for Toolstation-owned accounts, such as CC-usage."
-    hidden: yes
+    group_item_label: "Toolstation - Internal Address?"
+    description: "Flag for Toolstation-owned account addresses."
+    hidden: no
   }
   dimension: permissions__catalogue_mail_opt_in {
     required_access_grants: [can_use_customer_information]
@@ -306,6 +308,7 @@ view: customers {
   }
   dimension: is_trade {
     type:  yesno
+    description: "A customer who has been classified as a 'Trade' customer. Please note that this is a dynamic field which is updated constantly, so values may vary."
     group_label: "Flags"
     label: "Is Trade"
     sql:
@@ -334,6 +337,7 @@ view: customers {
 
   dimension: is_new_customer {
     type: yesno
+    description: "A new customer is classified as an account created in the last 30 days."
     group_label: "Flags"
     sql:
 
@@ -345,6 +349,8 @@ view: customers {
 
 
   measure: number_of_customers {
+    label: "Number of Customers"
+    description: "A count of the number of unique customers."
     type: count_distinct
     sql: ${customer_uid} ;;
   }

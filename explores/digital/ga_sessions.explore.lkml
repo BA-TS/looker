@@ -154,7 +154,7 @@ explore: +ga_sessions {
     }
 
     materialization: {
-      sql_trigger_value: SELECT CURRENT_DATE() ;;
+      sql_trigger_value: SELECT EXTRACT(YEAR FROM CURRENT_DATE()) ;;
     }
 
   }

@@ -15,6 +15,8 @@ view: catalogue_promo {
 
     ;;
 
+    datagroup_trigger: toolstation_core_datagroup
+
   }
 
   dimension: promo_name {

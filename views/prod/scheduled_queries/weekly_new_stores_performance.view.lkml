@@ -1,6 +1,6 @@
 view: weekly_new_stores_performance {
   derived_table: {
-    datagroup_trigger: toolstation_transactions_datagroup
+    datagroup_trigger: toolstation_core_datagroup
     sql: with stores as (
           select
 

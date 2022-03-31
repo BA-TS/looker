@@ -39,7 +39,7 @@ view: transactions {
     # increment_key: "transaction_date"
     # increment_offset: 100 # change to yearly when done... funding is calculated over last 3 months (limited to YTD) ie 30/1 is only 29 days
 
-    datagroup_trigger: toolstation_transactions_datagroup
+    datagroup_trigger: toolstation_core_datagroup
 
     }
 
@@ -74,6 +74,15 @@ view: transactions {
       value: "0"
     }
     default_value: "0"
+  }
+
+
+
+  filter: is_next_day_click_and_collect {
+    group_label: "Flags"
+    label: "Is Next Day Click and Collect"
+    type: yesno
+    sql: UPPER(${originating_site_uid}) = "XN" ;;
   }
 
   # parameter: include_cancelled {
@@ -255,6 +264,7 @@ view: transactions {
     view_label: "Sites"
     type: string
     sql: ${TABLE}.siteUID ;;
+    hidden: yes
   }
   dimension: transaction_line_type {
     type: string
@@ -298,7 +308,8 @@ view: transactions {
   }
   dimension: originating_site_uid {
     label: "Originating Site UID"
-    group_label: "Order ID"
+    view_label: "Location"
+    group_label: ""
     type: string
     sql: ${TABLE}.originatingSiteUID ;;
     hidden: no
@@ -510,22 +521,25 @@ dimension_group: order_completed {
   # PROMO #
 
   dimension: promo_in_main_catalogue {
-    label: "In Main Catalogue"
-    group_label: "Promo"
+    label: "In Catalogue?"
+    view_label: "Products"
+    group_label: "Flags"
     required_access_grants: [is_developer]
     type: yesno
     sql: case when ${promo_main_catalogue.product_code} is null then false else true end ;;
   }
   dimension: promo_in_extra {
-    label: "In Extra"
-    group_label: "Promo"
+    label: "In Extra?"
+    view_label: "Products"
+    group_label: "Flags"
     required_access_grants: [is_developer]
     type: yesno
     sql: case when ${promo_extra.product_code} is null then false else true end ;;
   }
   dimension: promo_in_any {
-    label: "In Any"
-    group_label: "Promo"
+    view_label: "Products"
+    group_label: "Flags"
+    label: "In Catalogue or Promo?"
     required_access_grants: [is_developer]
     type: yesno
     sql: case when ${promo_main_catalogue.product_code} is null and ${promo_extra.product_code} is null then false else true end ;;
@@ -861,14 +875,14 @@ dimension_group: order_completed {
     label: "Gross Sales"
     type:  sum
     view_label: "Measures"
-    group_label: "Core"
+    group_label: "Core Metrics"
     sql: ${gross_sales_value} ;;
     value_format_name: gbp
   }
   measure: total_net_sales {
     label: "Net Sales"
     view_label: "Measures"
-    group_label: "Core"
+    group_label: "Core Metrics"
     type:  sum
     sql: coalesce(${net_sales_value},null) ;;
     value_format_name: gbp
@@ -876,7 +890,7 @@ dimension_group: order_completed {
   measure: total_cogs {
     label: "COGS"
     view_label: "Measures"
-    group_label: "Core"
+    group_label: "Core Metrics"
     type:  sum
     sql: ${cogs} ;;
     value_format_name: gbp
@@ -885,7 +899,7 @@ dimension_group: order_completed {
   measure: total_unit_funding {
     label: "Unit Funding"
     view_label: "Measures"
-    group_label: "Core"
+    group_label: "Core Metrics"
     type:  sum
     sql: ${unit_funding} ;;
     value_format_name: gbp
@@ -894,14 +908,14 @@ dimension_group: order_completed {
   measure: total_margin_excl_funding {
     label: "Margin (Excluding Funding)"
     view_label: "Measures"
-    group_label: "Core"
+    group_label: "Core Metrics"
     type:  sum
     sql: ${margin_excl_funding} ;;
   }
   measure: total_margin_incl_funding {
     label: "Margin (Including Funding)"
     view_label: "Measures"
-    group_label: "Core"
+    group_label: "Core Metrics"
     type:  sum
     sql: ${margin_incl_funding} ;;
     value_format_name: gbp
@@ -909,7 +923,7 @@ dimension_group: order_completed {
   measure: total_margin_rate_excl_funding {
     label: "Margin Rate (Excluding Funding)"
     view_label: "Measures"
-    group_label: "Core"
+    group_label: "Core Metrics"
     type:  number
     sql:
       COALESCE(SAFE_DIVIDE(${total_margin_excl_funding}, ${total_net_sales}),null)
@@ -919,7 +933,7 @@ dimension_group: order_completed {
   measure: total_margin_rate_incl_funding {
     label: "Margin Rate (Including Funding)"
     view_label: "Measures"
-    group_label: "Core"
+    group_label: "Core Metrics"
     type:  number
     sql:
     COALESCE(SAFE_DIVIDE(${total_margin_incl_funding}, ${total_net_sales}),null) ;;
@@ -928,7 +942,7 @@ dimension_group: order_completed {
   measure: total_units {
     label: "Units"
     view_label: "Measures"
-    group_label: "Core"
+    group_label: "Core Metrics"
     type:  sum
     sql: case when ${product_code} like '0%' then 0 else ${quantity} end ;;
     value_format: "#,##0;(#,##0)"
@@ -936,7 +950,7 @@ dimension_group: order_completed {
   measure: total_units_incl_system_codes {
     label: "Units (System Codes)"
     view_label: "Measures"
-    group_label: "Core"
+    group_label: "Core Metrics"
     type:  sum
     sql: ${quantity} ;;
     value_format: "#,##0;(#,##0)"
@@ -944,7 +958,7 @@ dimension_group: order_completed {
   measure: number_of_transactions {
     label: "Number of Transactions"
     view_label: "Measures"
-    group_label: "Core"
+    group_label: "Core Metrics"
     type: count_distinct
     sql: ${parent_order_uid} ;;
     value_format: "#,##0;(#,##0)"
@@ -953,7 +967,7 @@ dimension_group: order_completed {
   measure: number_of_unique_customers {
     label: "Number of Customers"
     view_label: "Measures"
-    group_label: "Core"
+    group_label: "Core Metrics"
     type: count_distinct
     sql: ${customer_uid} ;;
     value_format: "#,##0;(#,##0)"

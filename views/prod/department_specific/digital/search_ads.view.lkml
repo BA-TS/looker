@@ -47,7 +47,7 @@ view: search_ads {
   #     date
 
   #   ;;
-  #   datagroup_trigger: toolstation_transactions_datagroup
+  #   datagroup_trigger: toolstation_core_datagroup
   # }
 
   dimension: account {

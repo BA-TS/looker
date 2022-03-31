@@ -1,6 +1,6 @@
 view: daily_orders_placed_jnl {
   derived_table: {
-    datagroup_trigger: toolstation_transactions_datagroup
+    datagroup_trigger: toolstation_core_datagroup
     sql:
 
       with base as (

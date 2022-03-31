@@ -106,9 +106,10 @@ view: products {
   }
   dimension: product_name_type {
     group_label: "Product Details"
+    label: "Product Name Type"
     type: string
     sql: ${TABLE}.productNameType ;;
-    hidden: yes
+    hidden: no
   }
 
 
@@ -229,14 +230,16 @@ view: products {
 view: product_first_sale_date {
   derived_table: {
     sql:
-      select
+      SELECT
         productCode,
-        min(date(transactionDate)) first_sale_date
+        MIN(DATE(transactionDate)) AS first_sale_date
 
-        from `toolstation-data-storage.sales.transactions`
+      FROM
+        `toolstation-data-storage.sales.transactions`
 
-        group by 1;;
-    datagroup_trigger: toolstation_transactions_datagroup
+      GROUP BY
+        1;;
+    datagroup_trigger: toolstation_core_datagroup
   }
 
   dimension: product_code {

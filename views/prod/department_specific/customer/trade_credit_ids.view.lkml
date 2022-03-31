@@ -15,7 +15,7 @@ view: trade_credit_ids {
     label: "Account UID"
     type: string
     sql: ${TABLE}.mainTradeCreditAccountUID ;;
-    hidden: no
+    hidden: yes #17/3/22
   }
 
 }

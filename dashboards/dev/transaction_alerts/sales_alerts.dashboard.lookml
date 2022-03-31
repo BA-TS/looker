@@ -17,9 +17,10 @@
     model: ts_sales
     explore: base
     type: single_value
-    fields: [base.date_date]
+    fields: [base.date_date, transactions.total_net_sales]
     filters:
-      base.select_date_range: Yesterday
+      base.select_date_range: 7 days
+      transactions.total_net_sales: not 0
     sorts: [base.date_date desc]
     limit: 1
     listen: {}
@@ -27,6 +28,7 @@
     col: 19
     width: 5
     height: 2
+    hidden_fields: [transactions.total_net_sales]
   - title: Warning (Total) Breakdown
     name: Warning (Total) Breakdown
     model: ts_alerts
