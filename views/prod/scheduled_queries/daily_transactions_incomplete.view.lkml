@@ -1,83 +1,89 @@
 view: daily_transactions_incomplete {
-  derived_table: {
-    datagroup_trigger: toolstation_transactions_datagroup
-    sql: select
-      i.parentOrderUID,
-      i.transactionUID,
-      i.placedDate,
-      i.paymentType,
-      i.status,
-      i.siteUID,
-      tc.mainTradeCreditAccountUID,
-      tc.accountID,
-      tc.creditLimit,
-      tc.remainingBalance,
-      round(sum(i.grossSalesValue), 3) as OrderValue
+    derived_table: {
+      datagroup_trigger: toolstation_core_datagroup
+      sql: select
+              i.parentOrderUID,
+              i.transactionUID,
+              i.placedDate,
+              i.paymentType,
+              i.status,
+              i.siteUID,
+              tc.mainTradeCreditAccountUID,
+              tc.accountID,
+              tc.creditLimit,
+              tc.remainingBalance,
+              round(sum(i.grossSalesValue), 3) as OrderValue
 
-      from `toolstation-data-storage.sales.transactions_incomplete` i
+        from `toolstation-data-storage.sales.transactions_incomplete` i
 
-      LEFT JOIN `toolstation-data-storage.customer.tradeCreditDetails` tc
+        LEFT JOIN `toolstation-data-storage.customer.tradeCreditDetails` tc
 
-      on i.customerUID = tc.mainTradeCreditAccountUID
+        on i.customerUID = tc.mainTradeCreditAccountUID
 
-      where  status = "Pending" and paymentType = "account"
+        where  status = "Pending" and paymentType = "account"
 
-      group by 1,2,3,4,5,6,7,8,9
+        group by 1,2,3,4,5,6,7,8,9,10
 
-      order by placedDate desc
-      ;;
+        order by placedDate desc
+        ;;
+    }
+
+
+
+    dimension: parent_order_uid {
+      type: string
+      sql: ${TABLE}.parentOrderUID ;;
+    }
+
+    dimension: transaction_uid {
+      type: string
+      sql: ${TABLE}.transactionUID ;;
+    }
+
+    dimension_group: placed_date {
+      type: time
+      sql: ${TABLE}.placedDate ;;
+    }
+
+    dimension: payment_type {
+      type: string
+      sql: ${TABLE}.paymentType ;;
+    }
+
+    dimension: status {
+      type: string
+      sql: ${TABLE}.status ;;
+    }
+
+    dimension: site_uid {
+      type: string
+      sql: ${TABLE}.siteUID ;;
+    }
+
+    dimension: main_trade_credit_account_uid {
+      type: string
+      sql: ${TABLE}.mainTradeCreditAccountUID ;;
+    }
+
+    dimension: account_id {
+      type: string
+      sql: ${TABLE}.accountID ;;
+    }
+
+    dimension: credit_limit {
+      type: number
+      sql: ${TABLE}.creditLimit ;;
+    }
+
+    dimension: remaining_balance {
+      type: number
+      sql: ${TABLE}.remainingBalance ;;
+    }
+
+    dimension: order_value {
+      type: number
+      sql: ${TABLE}.OrderValue ;;
+    }
+
+
   }
-
-
-  dimension: parent_order_uid {
-    type: string
-    sql: ${TABLE}.parentOrderUID ;;
-  }
-
-  dimension_group: placed_date {
-    type: time
-    sql: ${TABLE}.placedDate ;;
-  }
-
-  dimension: payment_type {
-    type: string
-    sql: ${TABLE}.paymentType ;;
-  }
-
-  dimension: status {
-    type: string
-    sql: ${TABLE}.status ;;
-  }
-
-  dimension: site_uid {
-    type: string
-    sql: ${TABLE}.siteUID ;;
-  }
-
-  dimension: main_trade_credit_account_uid {
-    type: string
-    sql: ${TABLE}.mainTradeCreditAccountUID ;;
-  }
-
-  dimension: account_id {
-    type: string
-    sql: ${TABLE}.accountID ;;
-  }
-
-  dimension: credit_limit {
-    type: number
-    sql: ${TABLE}.creditLimit ;;
-  }
-
-  dimension: remaining_balance {
-    type: number
-    sql: ${TABLE}.remainingBalance ;;
-  }
-
-  dimension: order_value {
-    type: number
-    sql: ${TABLE}.OrderValue ;;
-  }
-
-
-}
