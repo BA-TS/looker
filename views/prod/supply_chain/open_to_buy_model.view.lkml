@@ -34,7 +34,7 @@ view: open_to_buy_model_new {
   dimension: table_last_updated {
     type: date_time
     datatype: timestamp
-    sql: MAX(__table_last_updated__) ;;
+    sql: ${TABLE}.__table_last_updated__ ;;
   }
 
 
