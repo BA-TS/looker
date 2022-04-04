@@ -21,4 +21,10 @@ explore: open_to_buy_model_new {
 
   ;;
 
+  always_filter: {
+    filters: [
+      open_to_buy_model_new.budget_type: "0"
+    ]
+  }
+
 }
