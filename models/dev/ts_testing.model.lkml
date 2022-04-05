@@ -72,10 +72,10 @@ explore: products {
     sql_on: ${products.default_supplier}=${suppliers.supplier_uid} ;;
   }
 
-  access_filter: {
-    field: suppliers.supplier_uid
-    user_attribute: ts_supplier_id
-  }
+  # access_filter: {
+  #   field: suppliers.supplier_uid
+  #   user_attribute: ts_supplier_id
+  # }
 
 }
 
