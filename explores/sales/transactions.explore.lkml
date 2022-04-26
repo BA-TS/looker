@@ -218,6 +218,12 @@ explore: base {
       sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date_date} AND ${catalogue.catalogue_end_date_date} ;;
     }
 
+    join: digital_transaction_mapping {
+      type: left_outer
+      relationship: one_to_one
+      sql_on: ${transactions.parent_order_uid} = ${digital_transaction_mapping.transaction_uid} ;;
+    }
+
   }
 
 

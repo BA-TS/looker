@@ -1,6 +1,6 @@
 view: promo_table_design {
 
-  sql_table_name: `toolstation-data-storage.tmp.promo_table_design`
+  sql_table_name: `toolstation-data-storage.tmp.promo_import`
     ;;
 
   dimension: catalogue_id {

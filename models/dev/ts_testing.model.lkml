@@ -107,8 +107,9 @@ explore: products {
 
 # explore: publication_testing {
 #   required_access_grants: [is_developer]}
-# explore: promotion_testing {
-#   required_access_grants: [is_developer]}
+explore: promo_table_design {
+  required_access_grants: [is_developer]
+}
 
 
 

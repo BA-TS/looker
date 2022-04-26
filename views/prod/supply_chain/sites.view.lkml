@@ -89,6 +89,32 @@ view: sites {
 
   label: "Location"
 
+
+
+
+  dimension: location_type {
+    type: string
+    sql:
+
+    CASE ${servicing_dc_id}
+      WHEN "1"
+        THEN "RDC"
+      WHEN "2"
+        THEN "RDC"
+      WHEN "3"
+        THEN "RDC"
+      WHEN "4"
+        THEN "Bridgwater"
+      ELSE "Stores"
+
+    END
+
+    ;;
+  }
+
+
+
+
   dimension: site_uid {
     primary_key: yes
     view_label: "Location"
