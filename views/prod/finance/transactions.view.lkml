@@ -1867,6 +1867,7 @@ dimension_group: order_completed {
     description: "Net Sales AOV / Average Units"
     type: number
     sql: COALESCE(SAFE_DIVIDE(${aov_net_sales}, ${aov_units})) ;;
+    value_format_name: gbp
   }
 
   # LFL #
