@@ -292,6 +292,23 @@ view: transactions {
     hidden:  yes
   }
 
+
+  dimension: has_trade_account {
+    type: yesno
+    view_label: "Customers"
+    group_label: "Flags"
+    label: "Has Trade Account?"
+    sql:
+
+      ${trade_credit_details.account_id} IS NOT NULL
+        AND
+      ${transactions.transaction_time} > ${trade_credit_details.tc_account_created_time}
+
+      ;;
+    hidden: no
+  }
+
+
   dimension: customer_uid {
     label: "Customer UID"
     group_label: "Order ID"
