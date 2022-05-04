@@ -78,7 +78,7 @@ view: transactions {
 
 
 
-  filter: is_next_day_click_and_collect {
+  dimension: is_next_day_click_and_collect {
     group_label: "Flags"
     label: "Is Next Day Click and Collect"
     type: yesno
