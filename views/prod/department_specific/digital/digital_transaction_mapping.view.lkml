@@ -9,7 +9,7 @@ view: digital_transaction_mapping {
     label: "Channel Grouping"
     type: string
     sql: ${TABLE}.channelGrouping ;;
-    required_access_grants: [is_developer]
+    # required_access_grants: [is_developer]
   }
 
   dimension_group: date {
@@ -39,7 +39,7 @@ view: digital_transaction_mapping {
     label: "Device"
     type: string
     sql: ${TABLE}.userDevice ;;
-    required_access_grants: [is_developer]
+    # required_access_grants: [is_developer]
   }
 
   dimension: is_digital_purchase {
@@ -51,7 +51,7 @@ view: digital_transaction_mapping {
     ${channel_grouping} IS NOT NULL
 
     ;;
-    required_access_grants: [is_developer]
+    # required_access_grants: [is_developer]
   }
 
 }
