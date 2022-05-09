@@ -1088,7 +1088,14 @@ dimension_group: order_completed {
     sql: ${parent_order_uid} ;;
     value_format: "#,##0;(#,##0)"
   }
-
+  measure: number_of_unique_products {
+    label: "Number of Products"
+    view_label: "Measures"
+    group_label: "Core Metrics"
+    type: count_distinct
+    sql: ${product_code} ;;
+    value_format: "#,##0;(#,##0)"
+  }
   measure: number_of_unique_customers {
     label: "Number of Customers"
     view_label: "Measures"
