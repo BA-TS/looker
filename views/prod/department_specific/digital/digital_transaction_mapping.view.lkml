@@ -5,7 +5,8 @@ view: digital_transaction_mapping {
     ;;
 
   dimension: channel_grouping {
-    group_label: "Digital Mapping"
+    view_label: "Digital"
+    # group_label: "Digital Mapping"
     label: "Channel Grouping"
     type: string
     sql: ${TABLE}.channelGrouping ;;
@@ -35,7 +36,8 @@ view: digital_transaction_mapping {
   }
 
   dimension: user_device {
-    group_label: "Digital Mapping"
+    view_label: "Digital"
+    # group_label: "Digital Mapping"
     label: "Device"
     type: string
     sql: ${TABLE}.userDevice ;;
@@ -43,7 +45,8 @@ view: digital_transaction_mapping {
   }
 
   dimension: is_digital_purchase {
-    group_label: "Digital Mapping"
+    view_label: "Digital"
+    # group_label: "Digital Mapping"
     label: "Is Digital Purchase?"
     type: yesno
     sql:

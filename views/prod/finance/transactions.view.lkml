@@ -85,6 +85,16 @@ view: transactions {
     sql: UPPER(${originating_site_uid}) = "XN" ;;
   }
 
+  dimension: transaction_date_filter {
+    type: date
+    datatype: date
+    sql:
+
+    {% if base.select_date_reference._parameter_value == "Placed" %} DATE(${transactions.placed_date}) {% else %} DATE(${transactions.transaction_date}) {% endif %}
+
+    ;;
+  }
+
   # parameter: include_cancelled {
   #   view_label: "Overrides"
   #   label: "Show Cancelled"
@@ -358,7 +368,7 @@ view: transactions {
       time,
       date
     ]
-    sql: ${TABLE}.transactiondate ;;
+    sql: ${TABLE}.transactionDate ;;
     hidden: yes
   }
 
@@ -381,16 +391,20 @@ dimension_group: order_completed {
     view_label: "Date"
     group_label: "Time"
     type: time
-    timeframes: [hour_of_day
-    ]
+    timeframes: [hour_of_day]
     sql: ${TABLE}.transactionDate ;;
     hidden: yes
   }
 
-  dimension: placed_date { # _group
-    type: date
-    datatype: date
-    sql: ${TABLE}.placeddate ;;
+  dimension_group: placed {
+    label: "Placed"
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date
+    ]
+    sql: ${TABLE}.placedDate ;;
     hidden: yes
   }
   dimension: is_open18_months {

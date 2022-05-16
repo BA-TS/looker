@@ -8,7 +8,8 @@ explore: base {
 
   always_filter: {
     filters: [
-      select_date_type: "Calendar"
+      select_date_type: "Calendar",
+      select_date_reference: "Transaction"
     ]
   }
 
@@ -31,6 +32,7 @@ explore: base {
       combined_quarter,
       combined_year
     ]
+
   }
 
   fields: [
@@ -57,8 +59,10 @@ explore: base {
 
       sql_on:
 
-        ${base.base_date_date} = date(${transactions.transaction_date})
-        and (${transactions.is_cancelled} = 0 or ${transactions.is_cancelled} is null) -- IS NOT NULL 10/3/22
+
+
+        ${base.base_date_date} = ${transactions.transaction_date_filter}
+        and (${transactions.is_cancelled} = 0 or ${transactions.is_cancelled} is null)
 
       {% if ${transactions.charity_status} == "1" %}
         and (${transactions.product_code} in ('85699', '00053'))
@@ -222,6 +226,12 @@ explore: base {
       type: left_outer
       relationship: one_to_one
       sql_on: ${transactions.parent_order_uid} = ${digital_transaction_mapping.transaction_uid} ;;
+    }
+
+    join: backend_digital_channel_grouping {
+      type: left_outer
+      relationship: many_to_one
+      sql_on: ${digital_transaction_mapping.channel_grouping} = ${backend_digital_channel_grouping.channel_grouping} ;;
     }
 
   }
@@ -500,7 +510,8 @@ explore: +base {
       filters: [
         base.select_comparison_period: "Year",
         base.select_date_range: "45 days ago for 59 days",
-        base.select_number_of_periods: "3"
+        base.select_number_of_periods: "3",
+      base.select_date_reference: "Transaction"
       ]
     }
 
@@ -526,7 +537,8 @@ explore: +base {
       filters: [
         base.select_comparison_period: "Year",
         base.select_fixed_range: "PD",
-        base.select_number_of_periods: "3"
+        base.select_number_of_periods: "3",
+      base.select_date_reference: "Transaction"
       ]
     }
 
@@ -549,7 +561,8 @@ explore: +base {
       filters: [
         base.select_comparison_period: "Year",
         base.select_fixed_range: "WTD",
-        base.select_number_of_periods: "3"
+        base.select_number_of_periods: "3",
+      base.select_date_reference: "Transaction"
       ]
     }
 
@@ -573,7 +586,8 @@ explore: +base {
       filters: [
         base.select_comparison_period: "Year",
         base.select_fixed_range: "MTD",
-        base.select_number_of_periods: "3"
+        base.select_number_of_periods: "3",
+      base.select_date_reference: "Transaction"
       ]
     }
 
@@ -597,7 +611,8 @@ explore: +base {
       filters: [
         base.select_comparison_period: "Year",
         base.select_fixed_range: "YTD",
-        base.select_number_of_periods: "3"
+        base.select_number_of_periods: "3",
+      base.select_date_reference: "Transaction"
       ]
     }
 

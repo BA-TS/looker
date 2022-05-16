@@ -7,6 +7,14 @@ explore: stock_level_date_site_product {
   label: "Stock Holding"
   description: "By Date, Site, Product"
 
+  sql_always_where:
+
+  ${products.product_type} = "Real" AND
+  UPPER(${sites.site_type}) NOT LIKE "%D%SHIP%" AND
+  ${sites.is_active} = TRUE
+
+  ;;
+
   join: aac {
     type:  left_outer
     relationship: many_to_one

@@ -26,6 +26,26 @@ view: period_over_period {
     }
     default_value: "Calendar"
     hidden: yes
+    # required_access_grants: [is_developer]
+  }
+
+
+
+  parameter: select_date_reference {
+    label: "Date Reference"
+    view_label: "Date"
+    type: unquoted
+    allowed_value: {
+      label: "Placed Date"
+      value: "Placed"
+    }
+    allowed_value: {
+      label: "Transaction Date"
+      value: "Transaction"
+    }
+    default_value: "Transaction"
+    hidden: yes
+    # required_access_grants: [is_developer]
   }
 
 
@@ -102,7 +122,15 @@ view: period_over_period {
   dimension: __target_raw__ {
     type: date
     datatype: datetime
-    sql: ${base.base_date_raw};;
+    sql:
+
+    CASE ${select_date_reference}
+      WHEN "Placed"
+        THEN 0
+      ELSE ${base.base_date_raw}
+    END
+
+    ;;
     hidden: yes
   }
   dimension: __target_date__ {
