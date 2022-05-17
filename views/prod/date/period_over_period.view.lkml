@@ -124,11 +124,13 @@ view: period_over_period {
     datatype: datetime
     sql:
 
-    CASE ${select_date_reference}
+    ${base.base_date_raw}
+
+    /*CASE ${select_date_reference}
       WHEN "Placed"
         THEN 0
       ELSE ${base.base_date_raw}
-    END
+    END*/
 
     ;;
     hidden: yes
