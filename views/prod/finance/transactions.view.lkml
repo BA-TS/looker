@@ -78,11 +78,21 @@ view: transactions {
 
 
 
-  filter: is_next_day_click_and_collect {
+  dimension: is_next_day_click_and_collect {
     group_label: "Flags"
     label: "Is Next Day Click and Collect"
     type: yesno
     sql: UPPER(${originating_site_uid}) = "XN" ;;
+  }
+
+  dimension: transaction_date_filter {
+    type: date
+    datatype: date
+    sql:
+
+    {% if base.select_date_reference._parameter_value == "Placed" %} DATE(${transactions.placed_date}) {% else %} DATE(${transactions.transaction_date}) {% endif %}
+
+    ;;
   }
 
   # parameter: include_cancelled {
@@ -292,6 +302,23 @@ view: transactions {
     hidden:  yes
   }
 
+
+  dimension: has_trade_account {
+    type: yesno
+    view_label: "Customers"
+    group_label: "Flags"
+    label: "Has Trade Account?"
+    sql:
+
+      ${trade_credit_details.account_id} IS NOT NULL
+        AND
+      ${transactions.transaction_time} > ${trade_credit_details.tc_account_created_time}
+
+      ;;
+    hidden: no
+  }
+
+
   dimension: customer_uid {
     label: "Customer UID"
     group_label: "Order ID"
@@ -341,7 +368,7 @@ view: transactions {
       time,
       date
     ]
-    sql: ${TABLE}.transactiondate ;;
+    sql: ${TABLE}.transactionDate ;;
     hidden: yes
   }
 
@@ -364,16 +391,20 @@ dimension_group: order_completed {
     view_label: "Date"
     group_label: "Time"
     type: time
-    timeframes: [hour_of_day
-    ]
+    timeframes: [hour_of_day]
     sql: ${TABLE}.transactionDate ;;
     hidden: yes
   }
 
-  dimension: placed_date { # _group
-    type: date
-    datatype: date
-    sql: ${TABLE}.placeddate ;;
+  dimension_group: placed {
+    label: "Placed"
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date
+    ]
+    sql: ${TABLE}.placedDate ;;
     hidden: yes
   }
   dimension: is_open18_months {
@@ -441,6 +472,114 @@ dimension_group: order_completed {
 # ██║░░██║██║██║╚██╔╝██║██╔══╝░░██║╚████║░╚═══██╗██║██║░░██║██║╚████║░╚═══██╗
 # ██████╔╝██║██║░╚═╝░██║███████╗██║░╚███║██████╔╝██║╚█████╔╝██║░╚███║██████╔╝
 # ╚═════╝░╚═╝╚═╝░░░░░╚═╝╚══════╝╚═╝░░╚══╝╚═════╝░╚═╝░╚════╝░╚═╝░░╚══╝╚═════╝░
+
+
+  dimension: time_bucket {
+    view_label: "Date"
+    group_label: "Time"
+    label: "Time Buckets"
+    hidden: no
+    case: {
+      when: {
+        sql: TIME(${transaction_raw}) BETWEEN "00:00:00" AND "00:59:59.999999" ;;
+        label: "0 to 1"
+      }
+      when: {
+        sql: TIME(${transaction_raw}) BETWEEN "01:00:00" AND "01:59:59.999999" ;;
+        label: "1 to 2"
+      }
+      when: {
+        sql: TIME(${transaction_raw}) BETWEEN "02:00:00" AND "02:59:59.999999" ;;
+        label: "2 to 3"
+      }
+      when: {
+        sql: TIME(${transaction_raw}) BETWEEN "03:00:00" AND "03:59:59.999999" ;;
+        label: "3 to 4"
+      }
+      when: {
+        sql: TIME(${transaction_raw}) BETWEEN "04:00:00" AND "04:59:59.999999" ;;
+        label: "4 to 5"
+      }
+      when: {
+        sql: TIME(${transaction_raw}) BETWEEN "05:00:00" AND "05:59:59.999999" ;;
+        label: "5 to 6"
+      }
+      when: {
+        sql: TIME(${transaction_raw}) BETWEEN "06:00:00" AND "06:59:59.999999" ;;
+        label: "6 to 7"
+      }
+      when: {
+        sql: TIME(${transaction_raw}) BETWEEN "07:00:00" AND "07:59:59.999999" ;;
+        label: "7 to 8"
+      }
+      when: {
+        sql: TIME(${transaction_raw}) BETWEEN "08:00:00" AND "08:59:59.999999" ;;
+        label: "8 to 9"
+      }
+      when: {
+        sql: TIME(${transaction_raw}) BETWEEN "09:00:00" AND "09:59:59.999999" ;;
+        label: "9 to 10"
+      }
+      when: {
+        sql: TIME(${transaction_raw}) BETWEEN "10:00:00" AND "10:59:59.999999" ;;
+        label: "10 to 11"
+      }
+      when: {
+        sql: TIME(${transaction_raw}) BETWEEN "11:00:00" AND "11:59:59.999999" ;;
+        label: "11 to 12"
+      }
+      when: {
+        sql: TIME(${transaction_raw}) BETWEEN "12:00:00" AND "12:59:59.999999" ;;
+        label: "12 to 13"
+      }
+      when: {
+        sql: TIME(${transaction_raw}) BETWEEN "13:00:00" AND "13:59:59.999999" ;;
+        label: "13 to 14"
+      }
+      when: {
+        sql: TIME(${transaction_raw}) BETWEEN "14:00:00" AND "14:59:59.999999" ;;
+        label: "14 to 15"
+      }
+      when: {
+        sql: TIME(${transaction_raw}) BETWEEN "15:00:00" AND "15:59:59.999999" ;;
+        label: "15 to 16"
+      }
+      when: {
+        sql: TIME(${transaction_raw}) BETWEEN "16:00:00" AND "16:59:59.999999" ;;
+        label: "16 to 17"
+      }
+      when: {
+        sql: TIME(${transaction_raw}) BETWEEN "17:00:00" AND "17:59:59.999999" ;;
+        label: "17 to 18"
+      }
+      when: {
+        sql: TIME(${transaction_raw}) BETWEEN "18:00:00" AND "18:59:59.999999" ;;
+        label: "18 to 19"
+      }
+      when: {
+        sql: TIME(${transaction_raw}) BETWEEN "19:00:00" AND "19:59:59.999999" ;;
+        label: "19 to 20"
+      }
+      when: {
+        sql: TIME(${transaction_raw}) BETWEEN "20:00:00" AND "20:59:59.999999" ;;
+        label: "20 to 21"
+      }
+      when: {
+        sql: TIME(${transaction_raw}) BETWEEN "21:00:00" AND "21:59:59.999999" ;;
+        label: "21 to 22"
+      }
+      when: {
+        sql: TIME(${transaction_raw}) BETWEEN "22:00:00" AND "22:59:59.999999" ;;
+        label: "22 to 23"
+      }
+      when: {
+        sql: TIME(${transaction_raw}) BETWEEN "23:00:00" AND "23:59:59.999999" ;;
+        label: "23 to 24"
+      }
+      else: "ERROR - CONTACT DATA@TOOLSTATION.COM"
+    }
+
+  }
 
 
   dimension: product_department {
@@ -963,7 +1102,14 @@ dimension_group: order_completed {
     sql: ${parent_order_uid} ;;
     value_format: "#,##0;(#,##0)"
   }
-
+  measure: number_of_unique_products {
+    label: "Number of Products"
+    view_label: "Measures"
+    group_label: "Core Metrics"
+    type: count_distinct
+    sql: ${product_code} ;;
+    value_format: "#,##0;(#,##0)"
+  }
   measure: number_of_unique_customers {
     label: "Number of Customers"
     view_label: "Measures"
@@ -1867,6 +2013,7 @@ dimension_group: order_completed {
     description: "Net Sales AOV / Average Units"
     type: number
     sql: COALESCE(SAFE_DIVIDE(${aov_net_sales}, ${aov_units})) ;;
+    value_format_name: gbp
   }
 
   # LFL #

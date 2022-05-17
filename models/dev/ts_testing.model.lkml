@@ -72,10 +72,10 @@ explore: products {
     sql_on: ${products.default_supplier}=${suppliers.supplier_uid} ;;
   }
 
-  access_filter: {
-    field: suppliers.supplier_uid
-    user_attribute: ts_supplier_id
-  }
+  # access_filter: {
+  #   field: suppliers.supplier_uid
+  #   user_attribute: ts_supplier_id
+  # }
 
 }
 
@@ -107,8 +107,9 @@ explore: products {
 
 # explore: publication_testing {
 #   required_access_grants: [is_developer]}
-# explore: promotion_testing {
-#   required_access_grants: [is_developer]}
+explore: promo_table_design {
+  required_access_grants: [is_developer]
+}
 
 
 

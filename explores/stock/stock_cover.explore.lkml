@@ -1,29 +1,29 @@
 include: "/views/**/*.view"
 
-explore: stock_level_date_site_product {
+explore: stock_cover {
 
   required_access_grants: [is_super]
 
-  label: "Stock Holding"
-  description: "By Date, Site, Product"
+  label: "Stock Cover"
+  description: "Still under development/QA, please contact Business Analytics."
+
+
+  conditionally_filter: {
+    filters: [
+      stock_cover.date_filter: "Yesterday"
+    ]
+  }
 
   sql_always_where:
 
-  ${products.product_type} = "Real" AND
-  UPPER(${sites.site_type}) NOT LIKE "%D%SHIP%" AND
-  ${sites.is_active} = TRUE
+  {% condition stock_cover.date_filter %} TIMESTAMP(${date}) {% endcondition %}
 
   ;;
 
-  join: aac {
-    type:  left_outer
-    relationship: many_to_one
-    sql_on: ${stock_level_date_site_product.opening_stock_date} = ${aac.date} and ${stock_level_date_site_product.product_uid} = ${aac.product_uid} ;;
-  }
   join: products {
     type: inner
     relationship: many_to_one
-    sql_on: ${stock_level_date_site_product.product_uid} = ${products.product_uid} ;;
+    sql_on: ${stock_cover.product_code} = ${products.product_code} ;;
   }
   join: suppliers {
     view_label: "Supplier"
@@ -44,10 +44,10 @@ explore: stock_level_date_site_product {
   #   sql_on: ${dc_to_shop_mapping.distribution_centre_id} = ${distribution_centre_names.site_uid} ;;
   # }
 
-  join: sites {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${stock_level_date_site_product.site_uid} = ${sites.site_uid} ;;
-  }
+  # join: sites {
+  #   type: left_outer
+  #   relationship: many_to_one
+  #   sql_on: ${stock_level_date_site_product.site_uid} = ${sites.site_uid} ;;
+  # }
 
 }

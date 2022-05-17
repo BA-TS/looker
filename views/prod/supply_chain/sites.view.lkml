@@ -66,6 +66,8 @@ view: sites {
                 OR
             dc_data.dc_name IS NOT NULL
           )
+            AND
+          sites.isClosed = 0 -- added 11/05/22
 
         GROUP BY
           1,
@@ -88,6 +90,32 @@ view: sites {
   }
 
   label: "Location"
+
+
+
+
+  dimension: location_type {
+    type: string
+    sql:
+
+    CASE ${servicing_dc_id}
+      WHEN "1"
+        THEN "RDC"
+      WHEN "2"
+        THEN "RDC"
+      WHEN "3"
+        THEN "RDC"
+      WHEN "4"
+        THEN "Bridgwater"
+      ELSE "Stores"
+
+    END
+
+    ;;
+  }
+
+
+
 
   dimension: site_uid {
     primary_key: yes

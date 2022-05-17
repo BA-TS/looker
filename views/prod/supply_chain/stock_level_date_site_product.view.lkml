@@ -4,6 +4,7 @@ view: stock_level_date_site_product {
   sql_table_name: `toolstation-data-storage.stock.stock_level_date_site_product`
     ;;
 
+
   dimension_group: opening_stock {
     view_label: "Dates"
     type: time
@@ -97,5 +98,6 @@ view: stock_level_date_site_product {
     type: number
     sql: SUM(${TABLE}.stockLevel * ${average_cost_price}) ;;
   }
+
 
 }

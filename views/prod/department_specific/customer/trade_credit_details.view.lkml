@@ -75,7 +75,7 @@ view: trade_credit_details {
       ${account_id} IS NOT NULL
 
     ;;
-    hidden: no
+    hidden: yes
   }
 
 

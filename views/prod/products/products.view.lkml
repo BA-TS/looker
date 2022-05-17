@@ -207,9 +207,10 @@ view: products {
   }
   dimension: supplier_part_number {
     group_label: "Supply Chain"
+    label: "Supplier Part Number"
     type: string
     sql: ${TABLE}.supplierPartNumber ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: manufacturer_id {
