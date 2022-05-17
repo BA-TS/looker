@@ -8,8 +8,8 @@ view: TP_Lightside_Invoice_Data {
       row_number() over (partition by parentOrderUID) as row_num,
       transactionDate,
       vatRate,
-      sum(netSalesValue) as netSalesValue,
-      sum(grossSalesValue) as OrderValue,
+      round(sum(netSalesValue),2) as netSalesValue,
+      round(sum(grossSalesValue),2) as OrderValue,
 
       FROM `toolstation-data-storage.sales.transactions_tp` txn
 
