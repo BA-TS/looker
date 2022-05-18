@@ -27,3 +27,8 @@ explore: daily_transactions_incomplete {
   required_access_grants: [is_developer]
   label: "Daily - Incomplete Transactions"
 }
+
+explore: TP_Lightside_Invoice_Data {
+  required_access_grants: [is_developer]
+  label: "Daily - TP Lightside Invoice Data"
+}
