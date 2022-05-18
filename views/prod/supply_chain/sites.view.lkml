@@ -66,8 +66,8 @@ view: sites {
                 OR
             dc_data.dc_name IS NOT NULL
           )
-            AND
-          sites.isClosed = 0 -- added 11/05/22
+            -- AND
+          -- sites.isClosed = 0 -- added 11/05/22
 
         GROUP BY
           1,
