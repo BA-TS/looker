@@ -1,6 +1,9 @@
 view: TP_Lightside_Invoice_Data {
+
   derived_table: {
-    datagroup_trigger: toolstation_core_datagroup
+
+    datagroup_trigger: ts_daily_datagroup
+
     sql: with get_data as(
       select
 
@@ -32,9 +35,8 @@ view: TP_Lightside_Invoice_Data {
 
       order by transactionDate desc
       ;;
+
   }
-
-
 
   dimension: parent_order_uid {
     type: string

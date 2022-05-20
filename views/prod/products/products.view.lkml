@@ -240,7 +240,7 @@ view: product_first_sale_date {
 
       GROUP BY
         1;;
-    datagroup_trigger: toolstation_core_datagroup
+    datagroup_trigger: ts_transactions_datagroup
   }
 
   dimension: product_code {

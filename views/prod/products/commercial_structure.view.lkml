@@ -50,7 +50,12 @@ view: commercial_structure {
       UNION ALL(SELECT * FROM unallocated)
 
     ;;
+
+  datagroup_trigger: ts_range_datagroup
+
   }
+
+
 
   dimension: buyer {
     view_label: "Commercial"

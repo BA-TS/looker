@@ -1,30 +1,51 @@
 view: daily_transactions_incomplete {
+
     derived_table: {
-      datagroup_trigger: toolstation_core_datagroup
-      sql: select
-              i.parentOrderUID,
-              i.transactionUID,
-              i.placedDate,
-              i.paymentType,
-              i.status,
-              i.siteUID,
-              tc.mainTradeCreditAccountUID,
-              tc.accountID,
-              tc.creditLimit,
-              tc.remainingBalance,
-              round(sum(i.grossSalesValue), 3) as OrderValue
 
-        from `toolstation-data-storage.sales.transactions_incomplete` i
+      datagroup_trigger: ts_daily_datagroup
 
-        LEFT JOIN `toolstation-data-storage.customer.tradeCreditDetails` tc
+      sql:
 
+        select
+          i.parentOrderUID,
+          i.transactionUID,
+          i.placedDate,
+          i.paymentType,
+          i.status,
+          i.siteUID,
+          tc.mainTradeCreditAccountUID,
+          tc.accountID,
+          tc.creditLimit,
+          tc.remainingBalance,
+          round(sum(i.grossSalesValue), 3) as OrderValue
+
+        from
+          `toolstation-data-storage.sales.transactions_incomplete` i
+
+        LEFT JOIN
+          `toolstation-data-storage.customer.tradeCreditDetails` tc
         on i.customerUID = tc.mainTradeCreditAccountUID
 
-        where  status = "Pending" and paymentType = "account"
+        where
+          status = "Pending"
+            and
+          paymentType = "account"
 
-        group by 1,2,3,4,5,6,7,8,9,10
+        group by
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
 
-        order by placedDate desc
+        order by
+          placedDate desc
+
         ;;
     }
 

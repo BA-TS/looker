@@ -1,7 +1,7 @@
 view: total_budget {
   view_label: "Budget"
   derived_table: {
-    datagroup_trigger: toolstation_core_datagroup
+    datagroup_trigger: ts_transactions_datagroup
     sql:
 
       SELECT

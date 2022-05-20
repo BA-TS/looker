@@ -158,7 +158,7 @@ view: catalogue {
 
   ;;
 
-  datagroup_trigger: toolstation_core_datagroup
+  datagroup_trigger: ts_daily_datagroup
 
   }
 

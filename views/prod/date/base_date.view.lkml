@@ -9,7 +9,7 @@ view: base {
     from UNNEST(GENERATE_DATE_ARRAY('2015-01-01', date(extract(year from current_date), 12, 31))) date
 
     ;;
-    datagroup_trigger: toolstation_core_datagroup
+    datagroup_trigger: ts_daily_datagroup
   }
 
   extends: [period_over_period]

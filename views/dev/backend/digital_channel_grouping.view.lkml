@@ -14,7 +14,7 @@ view: backend_digital_channel_grouping {
       _TABLE_SUFFIX = FORMAT_DATE("%Y%m%d",CURRENT_DATE() - 1)
       ;;
 
-    datagroup_trigger: toolstation_core_datagroup
+    datagroup_trigger: ts_daily_datagroup
   }
 
   dimension: channel_grouping {

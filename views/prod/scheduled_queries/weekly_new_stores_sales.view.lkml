@@ -1,6 +1,9 @@
 view: weekly_new_stores_sales {
+
+  # every monday
+
   derived_table: {
-    datagroup_trigger: toolstation_core_datagroup
+    datagroup_trigger: ts_weekly_datagroup
 
     sql: with stores as (
           select

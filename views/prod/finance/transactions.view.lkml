@@ -5,31 +5,98 @@ view: transactions {
 
   derived_table: {
     sql:
-      (select
-          transactionDate,
-          upper(salesChannel) AS salesChannel,
-          siteUID,
-          p.productDepartment,
-          t.* except (transactionDate, salesChannel, siteUID)
+(SELECT
+    transactionDate,
+    UPPER(salesChannel) AS salesChannel,
+    siteUID,
+    products.productDepartment,
+    t.* EXCEPT (transactionDate, salesChannel, siteUID)
 
-          from `toolstation-data-storage.sales.transactions` t
-          inner join `toolstation-data-storage.range.products_current` p
-          using(productUID)
+  FROM
+    (
+      SELECT
+        transactions.*,
+        "SALE" AS extranet_status
 
-      )
+      FROM
+        `toolstation-data-storage.sales.transactions` AS transactions
 
-      union all
+      UNION ALL
+      (
+        SELECT
+          incomplete.* EXCEPT(status, rowID),
+          NULL,
+          NULL,
+          NULL,
+          NULL,
+          NULL,
+          NULL,
+          incomplete.rowID,
+          CAST(UPPER(incomplete.status) = "CANCELLED" AS INT64),
+          NULL,
+          NULL,
+          "INCOMPLETE"
 
-      (select
-          timestamp(date) transactionDate,
-          salesChannel AS salesChannel,
-          siteUID,
-          department,
-          null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null
+        FROM
+          `toolstation-data-storage.sales.transactions_incomplete` AS incomplete)
+    ) AS t
 
-          from `toolstation-data-storage.looker_persistent_tables.missing_channel_dimensions`
+    INNER JOIN
+      `toolstation-data-storage.range.products_current` AS products
+    USING(productUID)
 
-          )
+)
+
+UNION ALL
+(
+  SELECT
+    TIMESTAMP(missing_dimensions.date) AS transactionDate,
+    missing_dimensions.salesChannel AS salesChannel,
+    missing_dimensions.siteUID,
+    missing_dimensions.department,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL
+
+  FROM
+    `toolstation-data-storage.looker_persistent_tables.missing_channel_dimensions` AS missing_dimensions
+
+)
 
           ;;
 
@@ -39,9 +106,29 @@ view: transactions {
     # increment_key: "transaction_date"
     # increment_offset: 100 # change to yearly when done... funding is calculated over last 3 months (limited to YTD) ie 30/1 is only 29 days
 
-    datagroup_trigger: toolstation_core_datagroup
+    datagroup_trigger: ts_transactions_datagroup
 
+  }
+
+  dimension: extranet_status {
+    sql: ${TABLE}.extranet_status ;;
+    hidden: yes
+  }
+
+  parameter: select_extranet_status {
+    view_label: "Transactions"
+    label: "Select Extranet"
+    type: string
+    allowed_value: {
+      label: "Sale"
+      value: "SALE"
     }
+    allowed_value: {
+      label: "Incomplete"
+      value: "INCOMPLETE"
+    }
+    default_value: "SALE"
+  }
 
 
   parameter: merge_epos {

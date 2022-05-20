@@ -99,5 +99,12 @@ view: category_budget {
     sql: ${department_net_sales_budget} - ${department_margin_inc_all_funding_budget} ;;
     value_format_name: gbp
   }
+  measure: department_fixed_funding_budget {
+    label: "Fixed Funding Budget"
+    type: sum
+    group_label: "Department"
+    sql: ${fixed_funding} ;;
+    value_format_name: gbp
+  }
 
 }

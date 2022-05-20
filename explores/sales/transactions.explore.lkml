@@ -59,15 +59,16 @@ explore: base {
 
       sql_on:
 
-
-
         ${base.base_date_date} = ${transactions.transaction_date_filter}
-        and (${transactions.is_cancelled} = 0 or ${transactions.is_cancelled} is null)
+          AND
+        (${transactions.is_cancelled} = 0
+          OR
+        ${transactions.is_cancelled} IS NULL)
 
       {% if ${transactions.charity_status} == "1" %}
-        and (${transactions.product_code} in ('85699', '00053'))
+        AND (${transactions.product_code} IN ('85699', '00053'))
       {% else %}
-        and (${transactions.product_code} not in ('85699', '00053') OR ${transactions.product_code} IS NULL)
+        AND (${transactions.product_code} NOT IN ('85699', '00053') OR ${transactions.product_code} IS NULL)
       {% endif %}
 
         {% if
@@ -79,16 +80,18 @@ explore: base {
         {% elsif (channel_budget._in_query and site_budget._in_query and category_budget._in_query) %}
           MULTIPLE_BUDGETS_SELECTED
         {% elsif channel_budget._in_query %}
-          and ${transactions.sales_channel} is not null
+          AND ${transactions.sales_channel} IS NOT NULL
         {% elsif category_budget._in_query %}
-          and ${transactions.product_department} is not null
+          AND ${transactions.product_department} IS NOT NULL
         {% elsif site_budget._in_query %}
-          and ${transactions.site_uid} is not null
+          AND ${transactions.site_uid} IS NOT NULL
         {% else %}
-          and (${transactions.sales_channel} is not null and ${transactions.site_uid} is not null and ${transactions.product_department} is not null)
+          AND (${transactions.sales_channel} IS NOT NULL AND ${transactions.site_uid} IS NOT NULL AND ${transactions.product_department} IS NOT NULL)
         {% endif %}
-
+          AND
+        UPPER(${transactions.extranet_status}) = {% parameter transactions.select_extranet_status %}
       ;;
+
     }
 
     join: channel_budget {
@@ -96,8 +99,8 @@ explore: base {
       type:  left_outer
       relationship: many_to_one
       sql_on:
-          ${base.date_date}=${channel_budget.date} and ${transactions.sales_channel} = ${channel_budget.channel}
-        ;;
+        ${base.date_date}=${channel_budget.date} AND ${transactions.sales_channel} = ${channel_budget.channel}
+      ;;
     }
 
     join: category_budget {
@@ -105,8 +108,8 @@ explore: base {
       type: left_outer
       relationship: many_to_one
       sql_on:
-          ${base.date_date}=${category_budget.date} and upper(${transactions.product_department}) = upper(${category_budget.department})
-          ;;
+        ${base.date_date}=${category_budget.date} AND UPPER(${transactions.product_department}) = UPPER(${category_budget.department})
+      ;;
     }
 
     join: site_budget {
@@ -114,7 +117,7 @@ explore: base {
       type: left_outer
       relationship: many_to_one
       sql_on:
-      ${base.date_date} = ${site_budget.date_date} and ${transactions.site_uid} = ${site_budget.site_uid}
+        ${base.date_date} = ${site_budget.date_date} AND ${transactions.site_uid} = ${site_budget.site_uid}
       ;;
     }
 
@@ -122,18 +125,17 @@ explore: base {
       type:  left_outer
       relationship: many_to_one
       sql_on:
-
-              {% if
-                category_budget.department_net_sales_budget._in_query
-                or category_budget.department_margin_inc_Retro_funding_budget._in_query
-                or category_budget.department_margin_inc_all_funding_budget._in_query
-                or category_budget.department_margin_rate_inc_retro_funding_budget._in_query
-              %}
-                (${transactions.product_uid}=${products.product_uid} or ${transactions.product_uid} is null)
-                and upper(products.productDepartment) = upper(category_budget.department)
-              {% else %}
-              ${transactions.product_uid}=${products.product_uid}
-              {% endif %}
+        {% if
+          category_budget.department_net_sales_budget._in_query
+          or category_budget.department_margin_inc_Retro_funding_budget._in_query
+          or category_budget.department_margin_inc_all_funding_budget._in_query
+          or category_budget.department_margin_rate_inc_retro_funding_budget._in_query
+        %}
+          (${transactions.product_uid}=${products.product_uid} OR ${transactions.product_uid} IS NULL)
+            AND upper(products.productDepartment) = upper(category_budget.department)
+        {% else %}
+          ${transactions.product_uid}=${products.product_uid}
+        {% endif %}
       ;;
     }
 
@@ -516,7 +518,7 @@ explore: +base {
     }
 
     materialization: {
-      datagroup_trigger: toolstation_core_datagroup
+      datagroup_trigger: ts_transactions_datagroup
     }
 
   }
@@ -543,7 +545,7 @@ explore: +base {
     }
 
     materialization: {
-      datagroup_trigger: toolstation_core_datagroup
+      datagroup_trigger: ts_transactions_datagroup
     }
   }
 
@@ -567,7 +569,7 @@ explore: +base {
     }
 
     materialization: {
-      datagroup_trigger: toolstation_core_datagroup
+      datagroup_trigger: ts_transactions_datagroup
     }
 
   }
@@ -592,7 +594,7 @@ explore: +base {
     }
 
     materialization: {
-      datagroup_trigger: toolstation_core_datagroup
+      datagroup_trigger: ts_transactions_datagroup
     }
 
   }
@@ -617,7 +619,7 @@ explore: +base {
     }
 
     materialization: {
-      datagroup_trigger: toolstation_core_datagroup
+      datagroup_trigger: ts_transactions_datagroup
     }
 
   }

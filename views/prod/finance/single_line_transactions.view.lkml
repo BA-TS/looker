@@ -8,7 +8,7 @@ view: single_line_transactions {
         inner join `toolstation-data-storage.range.products_current` p
           using(productUID)
       ;;
-    datagroup_trigger: toolstation_core_datagroup
+    datagroup_trigger: ts_transactions_datagroup
   }
 
   dimension: parent_order_uid {
