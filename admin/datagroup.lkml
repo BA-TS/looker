@@ -22,47 +22,47 @@ datagroup: ts_googleanalytics_datagroup {
 
 datagroup: ts_transactions_datagroup {
   label: "TS Datagroup (Transaction)"
-  description: "Datagroup trigger identified via Airflow: `transaction`"
+  description: "Datagroup trigger identified via Airflow: `transactions`"
   sql_trigger:
     SELECT     MAX(log_timestamp)
     FROM       `toolstation-data-storage.looker_persistent_tables.etl_log`
-    WHERE      datagroup_name = "transaction"
+    WHERE      datagroup_name = "transactions"
   ;;
   max_cache_age: "24 hours"
 }
 datagroup: ts_customer_datagroup {
   label: "TS Datagroup (Customer)"
-  description: "Datagroup trigger identified via Airflow: `customer`"
+  description: "Datagroup trigger identified via Airflow: `customers`"
   sql_trigger:
     SELECT     MAX(log_timestamp)
     FROM       `toolstation-data-storage.looker_persistent_tables.etl_log`
-    WHERE      datagroup_name = "customer"
+    WHERE      datagroup_name = "customers"
   ;;
   max_cache_age: "24 hours"
 }
 datagroup: ts_range_datagroup {
   label: "TS Datagroup (Range)"
-  description: "Datagroup trigger identified via Airflow: `range`"
+  description: "Datagroup trigger identified via Airflow: `products`"
   sql_trigger:
     SELECT     MAX(log_timestamp)
     FROM       `toolstation-data-storage.looker_persistent_tables.etl_log`
-    WHERE      datagroup_name = "range"
+    WHERE      datagroup_name = "products"
   ;;
   max_cache_age: "24 hours"
 }
 datagroup: ts_location_datagroup {
   label: "TS Datagroup (Location)"
-  description: "Datagroup trigger identified via Airflow: `location`"
+  description: "Datagroup trigger identified via Airflow: `sites`"
   sql_trigger:
     SELECT     MAX(log_timestamp)
     FROM       `toolstation-data-storage.looker_persistent_tables.etl_log`
-    WHERE      datagroup_name = "location"
+    WHERE      datagroup_name = "sites"
   ;;
   max_cache_age: "24 hours"
 }
 datagroup: ts_stock_datagroup {
   label: "TS Datagroup (Stock)"
-  description: "Datagroup trigger identified via Airflow: `stock`"
+  description: "Datagroup trigger identified via Airflow: `stockLocation`"
   sql_trigger:
     SELECT     MAX(log_timestamp)
     FROM       `toolstation-data-storage.looker_persistent_tables.etl_log`
