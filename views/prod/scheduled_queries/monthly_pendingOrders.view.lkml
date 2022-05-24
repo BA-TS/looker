@@ -5,60 +5,43 @@ view: monthly_pendingOrders {
     sql:
 
 
-SELECT
+select * from(
+select
     transactionUID,
     placedDate,
     transactionDate,
-    'Pending' AS orderStatus,
+    'Pending' as orderstatus,
     salesChannel,
     siteUID,
     paymentType,
-    SUM(grossSalesValue) AS grossSales,
-    SUM(netSalesValue) as netSales
+    sum(grossSalesValue) as grossSales,
+    sum(netSalesValue) as netSales
+from sales.transactions
+   where
+   date(placedDate) between DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH), MONTH) and DATE_TRUNC(date(current_date), month) - 1
+   and date(transactionDate) >= DATE_TRUNC(date(current_date), month)
+group by 1,2,3,4,5,6,7
 
-FROM
-    `toolstation-data-storage.sales.transactions`
+union distinct
 
-WHERE
-    DATE(placedDate) BETWEEN DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH), MONTH) AND DATE_SUB(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL 1 DAY)
-        AND
-    DATE(transactionDate) >= DATE_SUB(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL 1 DAY)
-
-GROUP BY
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7
-
-UNION DISTINCT
-
-SELECT
+select
     transactionUID,
     placedDate,
     transactionDate,
-    status AS orderStatus,
+    status,
     salesChannel,
     siteUID,
     paymentType,
-    SUM(grossSalesValue) AS grossSales,
-    SUM(netSalesValue) AS netSales
-FROM
-    `toolstation-data-storage.sales.transactions_incomplete`
+    sum(grossSalesValue) as grossSales,
+    sum(netSalesValue) as netSales
+from `toolstation-data-storage.sales.transactions_incomplete`
+   where date(placedDate) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH), MONTH)
+   and date(placedDate) < DATE_TRUNC(date(current_date), month)
+group by 1,2,3,4,5,6,7
+)
+where orderstatus = "Pending"
+order by placedDate
 
-WHERE
-    DATE(placedDate) BETWEEN DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH), MONTH) AND DATE_SUB(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL 1 DAY)
-
-GROUP BY
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7
     ;;
   }
 
