@@ -4,36 +4,33 @@ view: TP_Lightside_Invoice_Data {
 
     datagroup_trigger: ts_daily_datagroup
 
-    sql: with get_data as(
-      select
+    sql: select
+parentOrderUID,
+transactionDate,
+vatRate,
+netSalesValue,
+OrderValue
+from
+(
+select
+distinct parentOrderUID,
+row_number() over (partition by parentOrderUID) as row_num,
+transactionDate,
+vatRate,
+round(sum(netSalesValue),2) as netSalesValue,
+round(sum(grossSalesValue),2) as OrderValue,
 
-      distinct parentOrderUID,
-      row_number() over (partition by parentOrderUID) as row_num,
-      transactionDate,
-      vatRate,
-      round(sum(netSalesValue),2) as netSalesValue,
-      round(sum(grossSalesValue),2) as OrderValue,
+FROM `toolstation-data-storage.sales.transactions_tp` txn
 
-      FROM `toolstation-data-storage.sales.transactions_tp` txn
+where isCancelled = 0 and productCode <> '85699' and date(transactionDate) = current_date() -1
 
-      where isCancelled = 0 and productCode <> '85699' and date(transactionDate) = current_date() -1
+group by 1,3,4)
 
-      group by 1,3,4)
+where OrderValue != 0.0
 
+group by 1,2,3,4,5
 
-
-      select
-      parentOrderUID,
-      transactionDate,
-      vatRate,
-      netSalesValue,
-      OrderValue
-      from get_data
-      where OrderValue != 0.0
-
-      group by 1,2,3,4,5
-
-      order by transactionDate desc
+order by transactionDate desc
       ;;
 
   }
