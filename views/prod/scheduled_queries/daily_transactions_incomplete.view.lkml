@@ -2,7 +2,7 @@ view: daily_transactions_incomplete {
 
     derived_table: {
 
-      datagroup_trigger: ts_daily_datagroup
+      datagroup_trigger: ts_transactions_datagroup
 
       sql:
 
