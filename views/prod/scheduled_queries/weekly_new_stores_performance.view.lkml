@@ -3,7 +3,7 @@ view: weekly_new_stores_performance {
   # every monday
 
   derived_table: {
-    datagroup_trigger: ts_weekly_datagroup
+    datagroup_trigger: ts_transactions_datagroup
     sql: with stores as (
           select
 
