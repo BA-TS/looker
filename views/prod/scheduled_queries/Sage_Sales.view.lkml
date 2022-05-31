@@ -4,62 +4,31 @@ view: Sage_Sales {
     datagroup_trigger: ts_transactions_datagroup
 
 
-    sql: SELECT
-        completedDate,
-        siteUID,
-        round(SUM(grossSales), 2)AS grossSales,
-        round(SUM(netSales), 2) AS netSales,
-        round(SUM(VAT), 2) AS VAT
-      FROM (
-        SELECT
-          DATE(transactionDate) AS completedDate,
-          CASE
-            WHEN salesChannel = 'Dropship' THEN 'WW'
-            WHEN salesChannel LIKE 'Epos%' THEN siteUID
-            WHEN siteUID = 'XC' THEN REGEXP_EXTRACT(orderspecialrequests,r"Site: (.{2})")
-          ELSE
-          siteUID
-        END
-          AS siteUID,
-          transactionUID,
-          CASE
-            WHEN salesChannel LIKE 'Epos%' THEN 'EPOS'
-          ELSE
-          UPPER(salesChannel)
-        END
-          AS salesChannel,
-          ROUND(SUM(grossSalesValue),2) AS grossSales,
-          ROUND(SUM(netSalesValue),2) AS netSales,
-          ROUND(ROUND(SUM(grossSalesValue),2)-ROUND(SUM(netSalesValue),2),2) AS VAT
-        FROM
-          `toolstation-data-storage.sales.transactions` txn
-        WHERE
-          DATE(txn.transactionDate) >= DATE_SUB(current_Date,INTERVAL 7 day)
-          AND paymentType <> 'account'
-        GROUP BY
-          1,
-          2,
-          3,
-          4
+    sql:sql: SELECT
+    date(transactionDate) as completedDate,
+    case
+    when salesChannel = 'Dropship' then 'WW'
+    when salesChannel like 'Epos%' then siteUID
+    when siteUID = 'XC' then regexp_extract(orderspecialrequests,r"Site: (.{2})")
+    else siteUID
+    end as siteUID,
+    transactionUID,
+    case when salesChannel like 'Epos%' then 'EPOS' else upper(salesChannel) end as salesChannel,
+    round(sum(grossSalesValue),2) as grossSales,
+    round(sum(netSalesValue),2) as netSales,
+    round(round(sum(grossSalesValue),2)-round(sum(netSalesValue),2),2) as VAT
 
-      )
-      GROUP BY
-      1,
-      2
-      ORDER BY
-      1, 2
-      ;;
+    FROM `toolstation-data-storage.sales.transactions` txn
+
+
+    where date(txn.transactionDate) >= date_sub(current_Date,interval 30 day)
+    and paymentType <> 'account'
+
+    group by 1,2,3,4
+    order by 1,2
+    ;;
   }
 
-  dimension: transaction_uid {
-    type: string
-    sql: ${TABLE}.transactionUID ;;
-  }
-
-  dimension: sales_channel {
-    type: string
-    sql: ${TABLE}.salesChannel ;;
-  }
 
 
   dimension: completed_date {
@@ -71,6 +40,16 @@ view: Sage_Sales {
   dimension: site_uid {
     type: string
     sql: ${TABLE}.siteUID ;;
+  }
+
+  dimension: transaction_uid {
+    type: string
+    sql: ${TABLE}.transactionUID ;;
+  }
+
+  dimension: sales_channel {
+    type: string
+    sql: ${TABLE}.salesChannel ;;
   }
 
   dimension: gross_sales {
