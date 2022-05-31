@@ -32,3 +32,8 @@ explore: TP_Lightside_Invoice_Data {
   required_access_grants: [is_developer]
   label: "Daily - TP Lightside Invoice Data"
 }
+
+explore: Sage_Sales{
+  required_access_grants: [is_developer]
+  label: "Daily - Sage Sales"
+}
