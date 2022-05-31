@@ -4,7 +4,7 @@ view: Sage_Sales {
     datagroup_trigger: ts_transactions_datagroup
 
 
-    sql:sql: SELECT
+    sql: SELECT
     date(transactionDate) as completedDate,
     case
     when salesChannel = 'Dropship' then 'WW'
