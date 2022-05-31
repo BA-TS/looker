@@ -51,6 +51,15 @@ view: Sage_Sales {
       ;;
   }
 
+  dimension: transaction_uid {
+    type: string
+    sql: ${TABLE}.transactionUID ;;
+  }
+
+  dimension: sales_channel {
+    type: string
+    sql: ${TABLE}.salesChannel ;;
+  }
 
 
   dimension: completed_date {
