@@ -10,6 +10,8 @@ date(transactiondate) as transactiondate,
 SUM(NETSALESVALUE) as netsales
 from `toolstation-data-storage.sales.transactions`
 where date(transactionDate)>= '2021-01-01'
+and transactionlinetype <> 'Charity'
+and iscancelled <> 0
 group by 1,2,3
       ;;
 datagroup_trigger:ts_transactions_datagroup
