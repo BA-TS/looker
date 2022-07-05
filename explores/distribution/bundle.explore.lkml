@@ -1,6 +1,6 @@
 include: "/views/prod/supply_chain/bundle_orders_detail.view"
 
-explore: bundles {
+explore: bundle_orders_detail {
 
   extends: []
   label: "Bundles"
