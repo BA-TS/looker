@@ -11,12 +11,12 @@ view: dpp_output {
   # A dimension is a groupable field that can be used to filter query results.
   # This dimension will be called "Aov" in Explore.
 
-  dimension: aov {
+  measure: aov {
     type: number
     sql: ${TABLE}.AOV ;;
   }
 
-  dimension: attached_r1_attachment_rate {
+  measure: attached_r1_attachment_rate {
     type: number
     sql: ${TABLE}.attached_r1_attachment_rate ;;
   }
@@ -26,17 +26,17 @@ view: dpp_output {
     sql: ${TABLE}.attached_r1_description ;;
   }
 
-  dimension: attached_r1_dpp {
+  measure: attached_r1_dpp {
     type: number
     sql: ${TABLE}.attached_r1_dpp ;;
   }
 
-  dimension: attached_r1_dpp_rate {
+  measure: attached_r1_dpp_rate {
     type: number
     sql: ${TABLE}.attached_r1_dpp_rate ;;
   }
 
-  dimension: attached_r1_orders {
+  measure: attached_r1_orders {
     type: number
     sql: ${TABLE}.attached_r1_orders ;;
   }
@@ -60,7 +60,7 @@ view: dpp_output {
     sql: ${TABLE}.attached_r1_sku ;;
   }
 
-  dimension: attached_r2_attachment_rate {
+  measure: attached_r2_attachment_rate {
     type: number
     sql: ${TABLE}.attached_r2_attachment_rate ;;
   }
@@ -70,17 +70,17 @@ view: dpp_output {
     sql: ${TABLE}.attached_r2_description ;;
   }
 
-  dimension: attached_r2_dpp {
+  measure: attached_r2_dpp {
     type: number
     sql: ${TABLE}.attached_r2_dpp ;;
   }
 
-  dimension: attached_r2_dpp_rate {
+  measure: attached_r2_dpp_rate {
     type: number
     sql: ${TABLE}.attached_r2_dpp_rate ;;
   }
 
-  dimension: attached_r2_orders {
+  measure: attached_r2_orders {
     type: number
     sql: ${TABLE}.attached_r2_orders ;;
   }
@@ -90,7 +90,7 @@ view: dpp_output {
     sql: ${TABLE}.attached_r2_sku ;;
   }
 
-  dimension: attached_r3_attachment_rate {
+  measure: attached_r3_attachment_rate {
     type: number
     sql: ${TABLE}.attached_r3_attachment_rate ;;
   }
@@ -100,17 +100,17 @@ view: dpp_output {
     sql: ${TABLE}.attached_r3_description ;;
   }
 
-  dimension: attached_r3_dpp {
+  measure: attached_r3_dpp {
     type: number
     sql: ${TABLE}.attached_r3_dpp ;;
   }
 
-  dimension: attached_r3_dpp_rate {
+  measure: attached_r3_dpp_rate {
     type: number
     sql: ${TABLE}.attached_r3_dpp_rate ;;
   }
 
-  dimension: attached_r3_orders {
+  measure: attached_r3_orders {
     type: number
     sql: ${TABLE}.attached_r3_orders ;;
   }
@@ -188,47 +188,47 @@ view: dpp_output {
     sql: ${TABLE}.NarrowAisleIndicator ;;
   }
 
-  dimension: order_cogs {
+  measure: order_cogs {
     type: number
     sql: ${TABLE}.orderCOGS ;;
   }
 
-  dimension: order_dpp {
+  measure: order_dpp {
     type: number
     sql: ${TABLE}.orderDPP ;;
   }
 
-  dimension: order_dpprate {
+  measure: order_dpprate {
     type: number
     sql: ${TABLE}.orderDPPRate ;;
   }
 
-  dimension: order_margin_inc_funding {
+  measure: order_margin_inc_funding {
     type: number
     sql: ${TABLE}.orderMarginIncFunding ;;
   }
 
-  dimension: order_margin_rate {
+  measure: order_margin_rate {
     type: number
     sql: ${TABLE}.orderMarginRate ;;
   }
 
-  dimension: order_net_sales {
+  measure: order_net_sales {
     type: number
     sql: ${TABLE}.orderNetSales ;;
   }
 
-  dimension: order_tprate {
+  measure: order_tprate {
     type: number
     sql: ${TABLE}.orderTPRate ;;
   }
 
-  dimension: order_trading_profit {
+  measure: order_trading_profit {
     type: number
     sql: ${TABLE}.orderTradingProfit ;;
   }
 
-  dimension: orders {
+  measure: orders {
     type: number
     sql: ${TABLE}.orders ;;
   }
@@ -238,7 +238,7 @@ view: dpp_output {
     sql: ${TABLE}.productCode ;;
   }
 
-  dimension: product_cogs {
+  measure: product_cogs {
     type: number
     sql: ${TABLE}.productCOGS ;;
   }
@@ -253,42 +253,42 @@ view: dpp_output {
     sql: ${TABLE}.productDescription ;;
   }
 
-  dimension: product_dpp {
+  measure: product_dpp {
     type: number
     sql: ${TABLE}.productDPP ;;
   }
 
-  dimension: product_dppper_unit {
+  measure: product_dppper_unit {
     type: number
     sql: ${TABLE}.productDPPPerUnit ;;
   }
 
-  dimension: product_dpprate {
+  measure: product_dpprate {
     type: number
     sql: ${TABLE}.productDPPRate ;;
   }
 
-  dimension: product_labour_cost {
+  measure: product_labour_cost {
     type: number
     sql: ${TABLE}.productLabourCost ;;
   }
 
-  dimension: product_labour_cost_per_unit {
+  measure: product_labour_cost_per_unit {
     type: number
     sql: ${TABLE}.productLabourCostPerUnit ;;
   }
 
-  dimension: product_margin_inc_funding {
+  measure: product_margin_inc_funding {
     type: number
     sql: ${TABLE}.productMarginIncFunding ;;
   }
 
-  dimension: product_margin_rate {
+  measure: product_margin_rate {
     type: number
     sql: ${TABLE}.productMarginRate ;;
   }
 
-  dimension: product_net_sales {
+  measure: product_net_sales {
     type: number
     sql: ${TABLE}.productNetSales ;;
   }
@@ -298,32 +298,32 @@ view: dpp_output {
     sql: ${TABLE}.productSubdepartment ;;
   }
 
-  dimension: product_tprate {
+  measure: product_tprate {
     type: number
     sql: ${TABLE}.productTPRate ;;
   }
 
-  dimension: product_trading_profit {
+  measure: product_trading_profit {
     type: number
     sql: ${TABLE}.productTradingProfit ;;
   }
 
-  dimension: product_trading_profit_per_unit {
+  measure: product_trading_profit_per_unit {
     type: number
     sql: ${TABLE}.productTradingProfitPerUnit ;;
   }
 
-  dimension: product_transport_cost {
+  measure: product_transport_cost {
     type: number
     sql: ${TABLE}.productTransportCost ;;
   }
 
-  dimension: product_transport_cost_per_unit {
+  measure: product_transport_cost_per_unit {
     type: number
     sql: ${TABLE}.productTransportCostPerUnit ;;
   }
 
-  dimension: product_units_sold {
+  measure: product_units_sold {
     type: number
     sql: ${TABLE}.productUnitsSold ;;
   }
@@ -348,12 +348,12 @@ view: dpp_output {
     sql: ${TABLE}.SC_usage ;;
   }
 
-  dimension: slt_rate {
+  measure: slt_rate {
     type: number
     sql: ${TABLE}.slt_rate ;;
   }
 
-  dimension: slts {
+  measure: slts {
     type: number
     sql: ${TABLE}.slts ;;
   }
