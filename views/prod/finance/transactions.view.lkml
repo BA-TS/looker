@@ -453,7 +453,8 @@ UNION ALL
     timeframes: [
       raw,
       time,
-      date
+      date,
+      month_num
     ]
     sql: ${TABLE}.transactionDate ;;
     hidden: yes
