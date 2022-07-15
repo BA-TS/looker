@@ -131,7 +131,7 @@ view: base {
 
   dimension_group: base_date {
     type: time
-    timeframes: [raw, date, year]
+    timeframes: [raw, date, year, month_num]
     sql:
 
     timestamp(${TABLE}.date)
