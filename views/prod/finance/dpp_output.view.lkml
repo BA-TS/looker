@@ -45,15 +45,15 @@ view: dpp_output {
   # measures for this dimension, but you can also add measures of many different aggregates.
   # Click on the type parameter to see all the options in the Quick Help panel on the right.
 
-  measure: total_attached_r1_orders {
-    type: sum
-    sql: ${attached_r1_orders} ;;
-  }
+  # measure: total_attached_r1_orders {
+  #   type: sum
+  #   sql: ${attached_r1_orders} ;;
+  # }
 
-  measure: average_attached_r1_orders {
-    type: average
-    sql: ${attached_r1_orders} ;;
-  }
+  # measure: average_attached_r1_orders {
+  #   type: average
+  #   sql: ${attached_r1_orders} ;;
+  # }
 
   dimension: attached_r1_sku {
     type: string
