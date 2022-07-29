@@ -46,7 +46,14 @@ view: supplier_funding_attribution {
   }
 
   measure: total_total_units {
+    label: "Total Units"
     type: sum
+    sql: ${total_units} ;;
+  }
+
+  measure: average_total_units {
+    label: "Average Units"
+    type: average
     sql: ${total_units} ;;
   }
 
