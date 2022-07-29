@@ -24,6 +24,17 @@ view: base {
     hidden: no
   }
 
+  dimension: combined_month_number {
+    view_label: "Date"
+    group_label: "Dates"
+    label: "Month Number"
+    sql: ${dynamic_month_number} ;;
+    can_filter: yes
+    hidden: no
+  }
+
+  # dynamic_month_number
+
   dimension: combined_day_of_week {
     view_label: "Date"
     group_label: "Dates"
@@ -131,7 +142,7 @@ view: base {
 
   dimension_group: base_date {
     type: time
-    timeframes: [raw, date, year]
+    timeframes: [raw, date, year, month_num]
     sql:
 
     timestamp(${TABLE}.date)
