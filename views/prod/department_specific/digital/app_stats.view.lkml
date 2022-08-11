@@ -48,10 +48,10 @@ view: app_stats {
   # measures for this dimension, but you can also add measures of many different aggregates.
   # Click on the type parameter to see all the options in the Quick Help panel on the right.
 
-  measure: total_number_of_customers {
-    type: sum
-    sql: ${number_of_customers} ;;
-  }
+  # measure: total_number_of_customers {
+  #   type: sum
+  #   sql: ${number_of_customers} ;;
+  # }
 
   # measure: average_number_of_customers {
   #   type: average
