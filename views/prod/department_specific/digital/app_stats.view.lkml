@@ -12,7 +12,7 @@ view: app_stats {
   # This dimension will be called "Customer First Installs" in Explore.
 
   measure: customer_first_installs {
-    type: number
+    type: sum
     sql: ${TABLE}.customer_first_installs ;;
   }
 
@@ -35,12 +35,12 @@ view: app_stats {
   }
 
   measure: net_sales_value {
-    type: number
+    type: sum
     sql: ${TABLE}.netSalesValue ;;
   }
 
   measure: number_of_customers {
-    type: number
+    type: sum
     sql: ${TABLE}.number_of_customers ;;
   }
 
@@ -59,27 +59,27 @@ view: app_stats {
   # }
 
   measure: number_of_orders {
-    type: number
+    type: sum
     sql: ${TABLE}.number_of_orders ;;
   }
 
   measure: number_of_promo_customers {
-    type: number
+    type: sum
     sql: ${TABLE}.number_of_promo_customers ;;
   }
 
   measure: number_of_promo_orders {
-    type: number
+    type: sum
     sql: ${TABLE}.number_of_promo_orders ;;
   }
 
   measure: promo_orders_net_sales_value {
-    type: number
+    type: sum
     sql: ${TABLE}.promo_orders_net_sales_value ;;
   }
 
   measure: raw_installs {
-    type: number
+    type: sum
     sql: ${TABLE}.raw_installs ;;
   }
 
