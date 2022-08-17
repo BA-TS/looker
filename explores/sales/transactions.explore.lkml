@@ -30,7 +30,8 @@ explore: base {
       combined_week,
       combined_month,
       combined_quarter,
-      combined_year
+      combined_year,
+      separate_month
     ]
 
   }
