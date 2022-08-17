@@ -4,11 +4,23 @@ explore: stock_intake {
 
   required_access_grants: [is_super]
 
+  sql_always_where:
+  ${products.product_type} = "Real" AND ${scmatrix.is_active} = 1;;
+
+
   join: products {
     type:  inner
     relationship: many_to_one
     sql_on: ${stock_intake.product_uid}=${products.product_uid} ;;
   }
+
+
+  join: scmatrix {
+    type:  left_outer
+    relationship: one_to_one
+    sql_on: ${products.product_code} = ${scmatrix.product_code} ;;
+  }
+
 
   join: sites {
     type:  inner

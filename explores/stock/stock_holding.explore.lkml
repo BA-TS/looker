@@ -11,7 +11,7 @@ explore: stock_level_date_site_product {
 
   ${products.product_type} = "Real" AND
   UPPER(${sites.site_type}) NOT LIKE "%D%SHIP%" AND
-  ${sites.is_active} = TRUE
+  ${sites.is_active} = TRUE and ${scmatrix.is_active} = 1
 
   ;;
 
@@ -24,6 +24,11 @@ explore: stock_level_date_site_product {
     type: inner
     relationship: many_to_one
     sql_on: ${stock_level_date_site_product.product_uid} = ${products.product_uid} ;;
+  }
+  join: scmatrix {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${products.product_code}  =   ${scmatrix.product_code};;
   }
   join: suppliers {
     view_label: "Supplier"
