@@ -4,7 +4,10 @@ include: "/views/**/*.view"
 label: "TS - Development"
 
 
-
+explore: looker_table_concept {
+  label: "Promo"
+  required_access_grants: [is_developer]
+}
 
 
 
