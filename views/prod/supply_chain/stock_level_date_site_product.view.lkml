@@ -22,30 +22,30 @@ view: stock_level_date_site_product {
     sql: ${TABLE}.openingStockDate ;;
   }
 
-  dimension_group: closing_stock {
-    view_label: "Dates"
-    type: time
-    datatype: timestamp
-    timeframes: [
-      date,
-      week,
-      week_of_year,
-      month,
-      year,
-      day_of_month,
-      month_name,
-      month_num
-    ]
-    sql: TIMESTAMP_SUB(${TABLE}.openingStockDate, INTERVAL 1 SECOND) ;;
-  }
+  # dimension_group: closing_stock {
+  #   view_label: "Dates"
+  #   type: time
+  #   datatype: timestamp
+  #   timeframes: [
+  #     date,
+  #     week,
+  #     week_of_year,
+  #     month,
+  #     year,
+  #     day_of_month,
+  #     month_name,
+  #     month_num
+  #   ]
+  #   sql: TIMESTAMP_SUB(${TABLE}.openingStockDate, INTERVAL 1 SECOND) ;;
+  # }
 
-  dimension: is_last_day_closing {
-    view_label: "Dates"
-    group_label: "Closing Stock Date"
-    label: "Is Last Day of Month?"
-    type: yesno
-    sql:  EXTRACT(DAY FROM DATE_ADD(${closing_stock_date}, INTERVAL 1 DAY)) = 1 ;;
-  }
+  # dimension: is_last_day_closing {
+  #   view_label: "Dates"
+  #   group_label: "Closing Stock Date"
+  #   label: "Is Last Day of Month?"
+  #   type: yesno
+  #   sql:  EXTRACT(DAY FROM DATE_ADD(${closing_stock_date}, INTERVAL 1 DAY)) = 1 ;;
+  # }
 
   dimension: is_last_day_opening {
     view_label: "Dates"

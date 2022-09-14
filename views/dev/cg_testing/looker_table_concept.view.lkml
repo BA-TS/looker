@@ -94,29 +94,29 @@ view: looker_table_concept {
     type: sum
     view_label: "Forecast (Weekly)"
     label: "Total Catalogue Quantity"
-    sql: ${TABLE}.catalogue.details.forecast_weekly_quantity ;;
+    sql: ${TABLE}.catalogue.details.forecastWeeklyQuantity ;;
     value_format_name: decimal_0
   }
   measure: total_catalogue_forecast_sales {
     type: sum
     view_label: "Forecast (Weekly)"
     label: "Total Catalogue Sales"
-    sql: ${TABLE}.catalogue.details.forecast_weekly_sales ;;
+    sql: ${TABLE}.catalogue.details.forecastWeeklySales ;;
     value_format_name: decimal_2
   }
   measure: total_catalogue_forecast_margin_excl {
     type: sum
     view_label: "Forecast (Weekly)"
     label: "Total Catalogue Margin (Ex Funding)"
-    sql: ${TABLE}.catalogue.details.forecast_weekly_margin_ex_funding ;;
-    # value_format_name: decimal_2
+    sql: ${TABLE}.catalogue.details.forecastWeeklyMarginExclFunding ;;
+    value_format_name: decimal_2
   }
   measure: total_catalogue_forecast_margin_incl {
     type: sum
     view_label: "Forecast (Weekly)"
     label: "Total Catalogue Margin (In Funding)"
-    sql: ${TABLE}.catalogue.details.forecast_weekly_margin_in_funding ;;
-    # value_format_name: decimal_2
+    sql: ${TABLE}.catalogue.details.forecastWeeklyMarginInclFunding ;;
+    value_format_name: decimal_2
   }
 
 
@@ -124,29 +124,29 @@ view: looker_table_concept {
     type: average
     view_label: "Forecast (Weekly)"
     label: "Average Catalogue Quantity"
-    sql: ${TABLE}.catalogue.details.forecast_weekly_quantity ;;
+    sql: ${TABLE}.catalogue.details.forecastWeeklyQuantity ;;
     value_format_name: decimal_0
   }
   measure: average_catalogue_forecast_sales {
     type: average
     view_label: "Forecast (Weekly)"
     label: "Average Catalogue Sales"
-    sql: ${TABLE}.catalogue.details.forecast_weekly_sales ;;
+    sql: ${TABLE}.catalogue.details.forecastWeeklySales ;;
     value_format_name: decimal_2
   }
   measure: average_catalogue_forecast_margin_excl {
     type: average
     view_label: "Forecast (Weekly)"
     label: "Average Catalogue Margin (Ex Funding)"
-    sql: ${TABLE}.catalogue.details.forecast_weekly_margin_ex_funding ;;
-    # value_format_name: decimal_2
+    sql: ${TABLE}.catalogue.details.forecastWeeklyMarginExclFunding ;;
+    value_format_name: decimal_2
   }
   measure: average_catalogue_forecast_margin_incl {
     type: average
     view_label: "Forecast (Weekly)"
     label: "Average Catalogue Margin (In Funding)"
-    sql: ${TABLE}.catalogue.details.forecast_weekly_margin_in_funding ;;
-    # value_format_name: decimal_2
+    sql: ${TABLE}.catalogue.details.forecastWeeklyMarginInclFunding ;;
+    value_format_name: decimal_2
   }
 
 
@@ -208,12 +208,12 @@ view: looker_table_concept {
 
   dimension: margin_excl {
     type: number
-    sql: ${TABLE}.margin_excl ;;
+    sql: ${TABLE}.marginExclFunding ;;
     hidden: yes
   }
   dimension: margin_incl {
     type: number
-    sql: ${TABLE}.margin_incl ;;
+    sql: ${TABLE}.marginInclFunding ;;
     hidden: yes
   }
 
@@ -226,6 +226,12 @@ view: looker_table_concept {
   dimension: sales {
     type: number
     sql: ${TABLE}.sales ;;
+    hidden: yes
+  }
+
+  dimension: unit_funding {
+    type: number
+    sql: ${TABLE}.unitFunding ;;
     hidden: yes
   }
 
@@ -425,61 +431,61 @@ view: looker_table_concept {
 
   dimension: catalogue__is_hotspot {
     type: yesno
-    sql: ${TABLE}.catalogue.is_hotspot ;;
+    sql: ${TABLE}.catalogue.isHotspot ;;
     view_label: "Catalogue"
     label: "Hotspot"
   }
 
   dimension: catalogue__is_landing_page {
     type: yesno
-    sql: ${TABLE}.catalogue.is_landing_page ;;
+    sql: ${TABLE}.catalogue.isLandingPage ;;
     view_label: "Catalogue"
     label: "Is Landing Page"
   }
 
   dimension: catalogue__is_on_page_offer {
     type: yesno
-    sql: ${TABLE}.catalogue.is_on_page_offer ;;
+    sql: ${TABLE}.catalogue.isOnPageOffer ;;
     view_label: "Catalogue"
     label: "Is on Page Offer"
   }
 
   dimension: catalogue__is_supplier_page {
     type: yesno
-    sql: ${TABLE}.catalogue.is_supplier_page ;;
+    sql: ${TABLE}.catalogue.isSupplierPage ;;
     view_label: "Catalogue"
     label: "Is Supplier Page"
   }
 
   dimension: catalogue__publication_id {
     type: number
-    sql: ${TABLE}.catalogue.publication_id ;;
+    sql: ${TABLE}.catalogue.publicationID ;;
     hidden: yes
   }
 
   dimension: catalogue__publication_name {
     type: string
-    sql: ${TABLE}.catalogue.publication_name ;;
+    sql: ${TABLE}.catalogue.publicationName ;;
     view_label: "Catalogue"
     label: "Catalogue Name"
   }
 
   dimension: catalogue__is_in_catalogue {
     type: yesno
-    sql: ${TABLE}.catalogue.is_in_catalogue ;;
+    sql: ${TABLE}.catalogue.isInCatalogue ;;
     view_label: "Catalogue"
     label: "Is In Catalogue"
   }
 
   dimension: catalogue__page_page_number {
     type: string
-    sql: ${TABLE}.catalogue.page.page_number ;;
+    sql: ${TABLE}.catalogue.page.pageNumber ;;
     view_label: "Catalogue"
     label: "Page Number(s)"
   }
   dimension: catalogue__page_table_id {
     type: string
-    sql: ${TABLE}.catalogue.page.page_number ;;
+    sql: ${TABLE}.catalogue.page.tableID ;;
     view_label: "Catalogue"
     label: "Table ID(s)"
   }

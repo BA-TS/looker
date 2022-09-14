@@ -66,8 +66,8 @@ explore: base {
           OR
         ${transactions.is_cancelled} IS NULL)
 
-      {% if ${transactions.charity_status} == "1" %}
-        AND (${transactions.product_code} IN ('85699', '00053'))
+      {% if transactions.charity_status == "1" %}
+        AND (transactions.product_code IN ('85699', '00053'))
       {% else %}
         AND (${transactions.product_code} NOT IN ('85699', '00053') OR ${transactions.product_code} IS NULL)
       {% endif %}

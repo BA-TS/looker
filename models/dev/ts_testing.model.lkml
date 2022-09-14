@@ -26,7 +26,38 @@ explore: cltv_orders {
 }
 
 
+explore: competitor_matrix_history {
+  label: "DEV - Competitor Matrix"
 
+  sql_always_where: ${competitor_matrix_history.product_code_toolstation} IS NOT NULL ;;
+
+  always_filter: {
+    filters: [
+      competitor_matrix_history.load_date_date: "Yesterday"
+    ]
+  }
+
+  join: products {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${competitor_matrix_history.product_code_toolstation} = ${products.product_code} ;;
+  }
+
+  join: suppliers {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${products.default_supplier} = ${suppliers.supplier_uid} ;;
+  }
+
+  # join: cmh_product_detail {
+  #   type: left_outer
+  #   relationship: many_to_one
+  #   sql_on: ${products.department} =  ;;
+  # }
+
+  fields: [competitor_matrix_history*]
+
+}
 
 
 
