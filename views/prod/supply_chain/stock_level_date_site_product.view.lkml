@@ -90,13 +90,14 @@ view: stock_level_date_site_product {
     label: "Units On Hand"
     type: sum
     sql: CASE WHEN ${products.product_code} < '10000' THEN 0 ELSE ${stock_level} END ;;
-
+    value_format_name: decimal_3
   }
 
   measure: stock_value {
     label: "Stock Value"
     type: number
     sql: SUM(${TABLE}.stockLevel * ${average_cost_price}) ;;
+    value_format_name: decimal_3
   }
 
 
