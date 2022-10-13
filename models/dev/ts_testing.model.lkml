@@ -4,6 +4,38 @@ include: "/views/**/*.view"
 label: "TS - Development"
 
 
+explore: digital_sales_example {
+  label: "Hello World"
+}
+
+
+
+
+
+
+
+
+
+
+
+explore: lcm_history {
+
+  label: "Landed Cost Model"
+
+  join: products {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${lcm_history.product_uid} = ${products.product_uid} ;;
+  }
+
+  join: suppliers {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${lcm_history.supplier_uid} = ${suppliers.supplier_uid} ;;
+  }
+
+}
+
 explore: looker_table_concept {
   label: "Promo"
   required_access_grants: [is_developer]
