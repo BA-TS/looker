@@ -4,3 +4,5 @@ include: "/models/backend/config.model"
 label: "TS - Custom Views"
 
 include: "/explores/custom/*.explore"
+
+include: "/explores/range/supplier_funding_model.explore"
