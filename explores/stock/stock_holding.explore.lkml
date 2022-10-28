@@ -9,9 +9,12 @@ explore: stock_level_date_site_product {
 
   sql_always_where:
 
-  ${products.product_type} = "Real" AND
-  UPPER(${sites.site_type}) NOT LIKE "%D%SHIP%" AND
-  ${sites.is_active} = TRUE and ${scmatrix.is_active} = 1
+  ${products.product_type} = "Real"
+  AND
+  ${sites.is_active} = TRUE
+  AND
+  ${scmatrix.is_active} = 1
+  -- AND UPPER(${sites.site_type}) NOT LIKE "%D%SHIP%"
 
   ;;
 

@@ -70,6 +70,22 @@ view: base {
     hidden: no
   }
 
+
+
+
+  dimension: separate_month {
+    view_label: "Date"
+    group_label: "Dates"
+    label: "Month (Only)"
+    type: string
+    sql: {% if select_date_type._parameter_valuie == "Calendar" %} ${dynamic_actual_month_only} {% else %} ${dynamic_fiscal_month_only} {% endif %} ;;
+    hidden: no
+  }
+
+
+
+
+
   dimension: combined_month {
     view_label: "Date"
     group_label: "Dates"
@@ -243,6 +259,83 @@ view: base {
     sql: ${calendar_completed_date.month_name_in_year} ;;
     hidden: yes
   }
+
+
+
+
+
+
+
+
+
+
+
+
+  dimension: dynamic_actual_month_only {
+    view_label: "Date"
+    group_label: "Calendar"
+    label: "Month Only"
+    type: string
+    sql:
+
+    {% if pivot_dimension._in_query  %}
+
+      LPAD(CAST(${calendar_completed_date.month_in_year} AS STRING),2,"0")
+
+      {% else %}
+
+      LPAD(CAST(${calendar_completed_date.month_in_year} AS STRING),2,"0")
+
+      {% endif %}
+
+      ;;
+    hidden: yes
+  }
+
+  dimension: dynamic_fiscal_month_only {
+    view_label: "Date"
+    group_label: "Fiscal"
+    label: "Month Only"
+    type: string
+    sql:
+
+    {% if pivot_dimension._in_query  %}
+
+
+      LPAD(CAST(${calendar_completed_date.fiscal_month_of_year} AS STRING),2,"0")
+
+      {% else %}
+
+
+      LPAD(CAST(${calendar_completed_date.fiscal_month_of_year} AS STRING),2,"0")
+
+      {% endif %}
+
+      ;;
+    hidden: yes
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   dimension: dynamic_actual_month {
     view_label: "Date"

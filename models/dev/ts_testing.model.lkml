@@ -4,7 +4,55 @@ include: "/views/**/*.view"
 label: "TS - Development"
 
 
+explore: digital_sales_matrix {
+  label: "Hello World"
 
+  join: digital_sales_example {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${digital_sales_matrix.sku} = ${digital_sales_example.product_code} ;;
+  }
+
+  join: digital_promo_sku_looker {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${digital_sales_matrix.sku} = ${digital_promo_sku_looker.sku} AND ${digital_sales_matrix.full_date} BETWEEN ${digital_promo_sku_looker.start_date} and ${digital_promo_sku_looker.end_date} ;;
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+explore: lcm_history {
+
+  label: "Landed Cost Model"
+
+  join: products {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${lcm_history.product_uid} = ${products.product_uid} ;;
+  }
+
+  join: suppliers {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${lcm_history.supplier_uid} = ${suppliers.supplier_uid} ;;
+  }
+
+}
+
+explore: looker_table_concept {
+  label: "Promo"
+  required_access_grants: [is_developer]
+}
 
 
 
@@ -23,7 +71,38 @@ explore: cltv_orders {
 }
 
 
+explore: competitor_matrix_history {
+  label: "DEV - Competitor Matrix"
 
+  sql_always_where: ${competitor_matrix_history.product_code_toolstation} IS NOT NULL ;;
+
+  always_filter: {
+    filters: [
+      competitor_matrix_history.load_date_date: "Yesterday"
+    ]
+  }
+
+  join: products {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${competitor_matrix_history.product_code_toolstation} = ${products.product_code} ;;
+  }
+
+  join: suppliers {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${products.default_supplier} = ${suppliers.supplier_uid} ;;
+  }
+
+  # join: cmh_product_detail {
+  #   type: left_outer
+  #   relationship: many_to_one
+  #   sql_on: ${products.department} =  ;;
+  # }
+
+  fields: [competitor_matrix_history*]
+
+}
 
 
 

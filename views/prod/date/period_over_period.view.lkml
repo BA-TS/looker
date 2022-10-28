@@ -811,7 +811,7 @@ view: period_over_period {
       dynamic_fiscal_year._is_filtered or dynamic_fiscal_half._is_filtered or
       dynamic_fiscal_quarter._is_filtered or dynamic_fiscal_month._is_filtered or
       dynamic_actual_year._is_filtered or catalogue.catalogue_name._is_filtered or catalogue.extra_name._is_filtered or
-      combined_week._is_filtered or combined_month._is_filtered or combined_quarter._is_filtered or combined_year._is_filtered %}
+      combined_week._is_filtered or combined_month._is_filtered or combined_quarter._is_filtered or combined_year._is_filtered or separate_month._is_filtered %}
         true
     {% else %}
       false
