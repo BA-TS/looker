@@ -56,6 +56,12 @@ view: supplier_funding_model {
     sql: ${TABLE}.totalDays ;;
   }
 
+dimension: Supplier {
+  type: string
+  sql: ${TABLE}.Supplier ;;
+}
+
+
   dimension_group: valid_from {
     view_label: "Date"
     type: time
