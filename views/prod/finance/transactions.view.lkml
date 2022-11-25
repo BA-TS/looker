@@ -2163,7 +2163,7 @@ dimension_group: order_completed {
     view_label: "Measures"
     group_label: "LFL"
     type: count_distinct
-    sql: case when ${is_lfl} then ${parent_order_uid} else 0 end;;
+    sql: case when ${is_lfl} then ${parent_order_uid} else null end;;
   }
   measure: lfl_number_of_units {
     label: "Units (LFL)"
