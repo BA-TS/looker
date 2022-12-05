@@ -1138,6 +1138,7 @@ dimension_group: order_completed {
     group_label: "Core Metrics"
     type:  sum
     sql: ${margin_excl_funding} ;;
+    value_format_name: gbp
   }
   measure: total_margin_incl_funding {
     label: "Margin (Including Funding)"
