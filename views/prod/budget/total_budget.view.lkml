@@ -30,6 +30,13 @@ view: total_budget {
     sql: ${TABLE}.date ;;
   }
 
+  # dimension: total_budget_channel {
+  #   group_label: "Total"
+  #   type: string
+  #   hidden: yes
+  #   sql: ${TABLE}.channel ;;
+  # }
+
   measure: net_sales_budget {
     group_label: "Total"
     type: sum

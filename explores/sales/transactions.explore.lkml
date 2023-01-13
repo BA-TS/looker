@@ -50,7 +50,7 @@ explore: base {
     join: total_budget {
       view_label: "Budget"
       type: left_outer
-      relationship: one_to_one
+      relationship: many_to_one
       sql_on: ${base.date_date} = ${total_budget.total_budget_date};;
     }
 
