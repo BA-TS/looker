@@ -21,7 +21,7 @@ view: transactions {
       FROM
         `toolstation-data-storage.sales.transactions` AS transactions
 
-      WHERE transactions.transactionLineType = 'Sale'
+
 
       UNION ALL
       (
