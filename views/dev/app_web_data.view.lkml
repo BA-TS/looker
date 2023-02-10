@@ -111,7 +111,7 @@ view: app_web_data {
         description: "Average Order value"
         type: number
         value_format_name: gbp
-        sql: SUM(${TABLE}.NetSaleValue)/(count_distinct(${TABLE}.OrderID)) ;;
+        sql: SUM(${TABLE}.NetSaleValue)/(count(distinct(${TABLE}.OrderID))) ;;
       }
     }
 
