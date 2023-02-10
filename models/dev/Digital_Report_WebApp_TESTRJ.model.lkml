@@ -13,7 +13,7 @@ explore: app_web_data {
   join: total_sessions {
     type: inner
     relationship: many_to_one
-    sql_on: ${app_web_data.App_web}=${app_web_data.App_web} and
+    sql_on: ${app_web_data.App_web}=${total_sessions.app_web_sessions} and
     ${app_web_data.transactiondate_date}=${total_sessions.date_date};;
   }
 }
