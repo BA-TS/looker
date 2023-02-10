@@ -2,32 +2,48 @@ view: app_web_data {
 
   derived_table: {
     sql: SELECT
-        distinct customerUID as CustomerID
+        distinct customerUID as CustomerID,
         parentOrderUID as OrderID,
-        date(transactionDate) as TransactionDate
-        fiscalYearWeek,
+        date(transactionDate) as TransactionDate,
         Case
         when t.userUID like 'APP' then 'App Trolley'
+        end as App_Web,
+        sum(netsalePrice) as NetSalePrice,
+        sum(quantity) as Quantity,
+        sum(netSalesValue) as NetSaleValue,
+        sum(marginInclFunding) as Margin
+        from `toolstation-data-storage.sales.transactions`
+        where date_diff(current_date (),date(t.transactionDate), day) <= 15
+        and transactionLineType = "Sale"
+        and productCode not in ('85699','00053')
+        and isCancelled = 0
+        and (userUID  = 'APP')
+        group by 1,2,3,4
+
+        union all
+
+        select
+        distinct customerUID as CustomerID,
+        parentOrderUID as OrderID,
+        date(transactionDate) as TransactionDate,
+        Case
         when t.userUID like 'WWW' then 'Web Trolley'
         end as App_Web,
         sum(netsalePrice) as NetSalePrice,
         sum(quantity) as Quantity,
         sum(netSalesValue) as NetSaleValue,
         sum(marginInclFunding) as Margin
-
+        from `toolstation-data-storage.sales.transactions`
         where date_diff(current_date (),date(t.transactionDate), day) <= 15
         and transactionLineType = "Sale"
         and productCode not in ('85699','00053')
         and isCancelled = 0
-        and (userUID  = 'APP' or userUID  = 'WWW')
-        group by 2,3
+        and (userUID  = 'WWW')
+        group by 1,2,3,4
         ;;
 
-        #datagroup_trigger:app_web_datagroup
-        #partition_keys: ["transactiondate"]
-        #cluster_keys: ["CUSTOMERUID"]
         }
-        dimension: CustomerID {
+      dimension: CustomerID {
         description: "customers for the last week"
         type: string
         sql:  ${TABLE}.customerUID ;;
@@ -46,12 +62,6 @@ view: app_web_data {
         sql: ${TABLE}.transactiondate ;;
       }
 
-      dimension: fiscalYearWeek {
-        description: "Year-week of transaction"
-        type:  string
-        sql:  ${TABLE}.fiscalYearWeek ;;
-      }
-
       dimension: App_web {
         description: "If user used App or Web"
         type:  string
@@ -59,7 +69,7 @@ view: app_web_data {
       }
 
       dimension: NetSalePrice {
-        description: "Total price of transcation"
+        description: "Total value of order"
         type: number
         sql: ${TABLE}.NetSalePrice ;;
       }
@@ -81,4 +91,51 @@ view: app_web_data {
         type: number
         sql: ${TABLE}.Margin ;;
       }
+    }
+
+view: total_sessions {
+
+  derived_table: {
+    sql: SELECT distinct
+    'App Trolley' as app_web_sessions,
+    PARSE_DATE('%Y%m%d', event_date) as date,
+    COUNT(DISTINCT CASE
+    WHEN event_name = 'session_start' THEN CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))
+    END) AS sessions
+    FROM `toolstation-data-storage.analytics_265133009.events_*`
+    WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -15
+    and PARSE_DATE('%Y%m%d', event_date) >= current_date () - 15
+    GROUP BY 1,2
+
+    UNION ALL
+
+    SELECT distinct
+    'Web Trolley' as app_web_sessions,
+    PARSE_DATE('%Y%m%d', date) as date,
+    SUM(totals.visits) sessions
+    FROM `toolstation-data-storage.4783980.ga_sessions_*`
+    WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -15
+    GROUP BY 1,2
+
+    ;;
+    }
+
+  dimension: app_web_sessions {
+    description: "Web or App sessions"
+    type: string
+    sql: ${TABLE}.app_web_sessions ;;
   }
+
+  dimension_group: date {
+    description: "Date of sessions"
+    type: time
+    timeframes: [raw,date]
+    sql: ${TABLE}.date ;;
+  }
+
+  dimension: sessions {
+    description: "total sessions"
+    type: number
+    sql: ${TABLE}.sessions ;;
+  }
+}
