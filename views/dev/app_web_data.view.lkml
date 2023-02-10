@@ -96,7 +96,8 @@ view: app_web_data {
 view: total_sessions {
 
   derived_table: {
-    sql: SELECT distinct
+    sql: with sub1 as (SELECT distinct
+    ROW_NUMBER() as PK,
     'App Trolley' as app_web_sessions,
     PARSE_DATE('%Y%m%d', event_date) as date,
     COUNT(DISTINCT CASE
@@ -115,10 +116,21 @@ view: total_sessions {
     SUM(totals.visits) sessions
     FROM `toolstation-data-storage.4783980.ga_sessions_*`
     WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -15
-    GROUP BY 1,2
+    GROUP BY 1,2)
+
+    select distinct row_number() over (order by date,app_web_sessions) as P_K, * from sub1
 
     ;;
     }
+
+  dimension: P_K {
+    description: "Primary key"
+    type: number
+    primary_key: yes
+    hidden: yes
+    sql: ${TABLE}.P_K ;;
+  }
+
 
   dimension: app_web_sessions {
     description: "Web or App sessions"
