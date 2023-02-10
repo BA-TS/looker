@@ -104,7 +104,14 @@ view: app_web_data {
       measure: Total_orders {
         description: "total orders"
         type: count_distinct
-        sql: ${TABLE}.OrderID ;;
+        sql: ${TABLE}.OrderID;;
+      }
+
+      measure: AOV {
+        description: "Average Order value"
+        type: number
+        value_format_name: gbp
+        sql: SUM(${TABLE}.NetSaleValue)/(count_distinct(${TABLE}.OrderID)) ;;
       }
     }
 
