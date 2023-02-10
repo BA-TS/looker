@@ -97,7 +97,6 @@ view: total_sessions {
 
   derived_table: {
     sql: with sub1 as (SELECT distinct
-    ROW_NUMBER() as PK,
     'App Trolley' as app_web_sessions,
     PARSE_DATE('%Y%m%d', event_date) as date,
     COUNT(DISTINCT CASE
