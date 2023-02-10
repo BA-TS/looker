@@ -68,28 +68,43 @@ view: app_web_data {
         sql:  ${TABLE}.App_web ;;
       }
 
-      dimension: NetSalePrice {
+      measure: NetSalePrice {
         description: "Total value of order"
-        type: number
+        type: sum
+        value_format_name: gbp
         sql: ${TABLE}.NetSalePrice ;;
       }
 
-      dimension: Quantity {
+      measure: Quantity {
         description: "Total products in order"
-        type:  number
+        type: sum
         sql:  ${TABLE}.Quantity ;;
       }
 
-      dimension: NetSaleValue {
+      measure: NetSaleValue {
         description: "Total value of order"
-        type: number
+        type: sum
+        value_format_name: gbp
         sql: ${TABLE}.NetSaleValue ;;
       }
 
-      dimension: Margin {
+      measure: Margin {
         description: "Margin of order"
-        type: number
+        type: sum
         sql: ${TABLE}.Margin ;;
+      }
+
+      measure: revenue {
+        description: "Revenue of order"
+        type: number
+        value_format_name: gbp
+        sql: sum(${NetSalePrice}*${Quantity}) ;;
+      }
+
+      measure: Total_orders {
+        description: "total orders"
+        type: count_distinct
+        sql: ${TABLE}.OrderID ;;
       }
     }
 
