@@ -13,7 +13,7 @@ view: app_web_data {
         sum(netSalesValue) as NetSaleValue,
         sum(marginInclFunding) as Margin
         from `toolstation-data-storage.sales.transactions`
-        where date_diff(current_date (),date(t.transactionDate), day) <= 15
+        where date_diff(current_date (),date(transactionDate), day) <= 15
         and transactionLineType = "Sale"
         and productCode not in ('85699','00053')
         and isCancelled = 0
@@ -34,7 +34,7 @@ view: app_web_data {
         sum(netSalesValue) as NetSaleValue,
         sum(marginInclFunding) as Margin
         from `toolstation-data-storage.sales.transactions`
-        where date_diff(current_date (),date(t.transactionDate), day) <= 15
+        where date_diff(current_date (),date(transactionDate), day) <= 15
         and transactionLineType = "Sale"
         and productCode not in ('85699','00053')
         and isCancelled = 0
