@@ -150,3 +150,35 @@ view: total_sessions {
     sql: ${TABLE}.sessions ;;
   }
 }
+
+view: dim_date {
+
+  derived_table: {
+    sql: SELECT
+    distinct dateKey, fullDate,fiscalYearWeek
+    FROM `toolstation-data-storage.ts_finance.dim_date`
+    where date_diff(current_date(),fullDate,day ) <= 15 and date_diff(current_date(),fullDate,day ) > 0;;
+  }
+
+  dimension: dateKey {
+    description: "Primary key for date"
+    type: number
+    primary_key: yes
+    hidden: yes
+    sql: ${TABLE}.datekey ;;
+  }
+
+  dimension_group: fulldate {
+    description: "date"
+    type: time
+    timeframes: [raw,date]
+    sql: ${TABLE}.fullDate ;;
+  }
+
+  dimension: FiscalYearWeek {
+    description: "Fiscal year week"
+    type: string
+    sql: ${TABLE}.fiscalYearWeek ;;
+  }
+
+}
