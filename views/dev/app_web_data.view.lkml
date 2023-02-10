@@ -6,7 +6,7 @@ view: app_web_data {
         parentOrderUID as OrderID,
         date(transactionDate) as TransactionDate,
         Case
-        when t.userUID like 'APP' then 'App Trolley'
+        when userUID like 'APP' then 'App Trolley'
         end as App_Web,
         sum(netsalePrice) as NetSalePrice,
         sum(quantity) as Quantity,
@@ -27,7 +27,7 @@ view: app_web_data {
         parentOrderUID as OrderID,
         date(transactionDate) as TransactionDate,
         Case
-        when t.userUID like 'WWW' then 'Web Trolley'
+        when userUID like 'WWW' then 'Web Trolley'
         end as App_Web,
         sum(netsalePrice) as NetSalePrice,
         sum(quantity) as Quantity,
