@@ -113,6 +113,19 @@ view: app_web_data {
         value_format_name: gbp
         sql: SUM(${TABLE}.NetSaleValue)/(count(distinct(${TABLE}.OrderID))) ;;
       }
+
+      measure: margin_perc {
+        description: "margin percentage per order"
+        type: number
+        value_format_name: percent_2
+        sql: sum(${TABLE}.Margin)/SUM(${TABLE}.NetSaleValue) ;;
+      }
+
+      measure: margin_by_order {
+        description: "Margin by order"
+        type: number
+        sql: sum(${TABLE}.Margin)/(count(distinct(${TABLE}.OrderID))) ;;
+      }
     }
 
 view: total_sessions {
@@ -166,10 +179,10 @@ view: total_sessions {
     sql: ${TABLE}.date ;;
   }
 
-  dimension: sessions {
+  measure: sessions {
     description: "total sessions"
     type: number
-    sql: ${TABLE}.sessions ;;
+    sql: SUM(${TABLE}.sessions) ;;
   }
 }
 
