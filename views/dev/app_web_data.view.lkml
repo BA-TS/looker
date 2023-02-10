@@ -98,7 +98,7 @@ view: app_web_data {
         description: "Revenue of order"
         type: number
         value_format_name: gbp
-        sql: sum(${NetSalePrice}*${Quantity}) ;;
+        sql: sum(${TABLE}.NetSalePrice*${TABLE}.Quantity) ;;
       }
 
       measure: Total_orders {
