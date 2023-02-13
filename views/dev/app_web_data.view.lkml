@@ -34,7 +34,7 @@ view: app_web_data {
         sum(quantity) as Quantity,
         sum(netSalesValue) as NetSaleValue,
         SUM(netSalePrice * quantity) as revenue,
-        (sum(t.netSalesValue)/ COUNT(DISTINCT(t.parentOrderUID))) as AOV,
+        (sum(t.netSalesValue)/ COUNT(DISTINCT(parentOrderUID))) as AOV,
         sum(marginInclFunding) as Margin
         from `toolstation-data-storage.sales.transactions`
         where date_diff(current_date (),date(transactionDate), day) <= 15
