@@ -1,9 +1,9 @@
 view: app_web_data {
 
   derived_table: {
-    sql: SELECT
-        (distinct customerUID) as customerID,
-        (distinct parentOrderUID) as OrderID,
+    sql: SELECT distinct
+        customerUID as customerID,
+        parentOrderUID as OrderID,
         date(transactionDate) as TransactionDate,
         Case
         when userUID like 'APP' then 'App Trolley'
@@ -23,9 +23,9 @@ view: app_web_data {
 
         union all
 
-        select
-        (distinct customerUID) as customerID,
-        (distinct parentOrderUID) as OrderID,
+        select distinct
+        customerUID as customerID,
+        parentOrderUID as OrderID,
         date(transactionDate) as TransactionDate,
         Case
         when userUID like 'WWW' then 'Web Trolley'
