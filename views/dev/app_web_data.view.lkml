@@ -46,7 +46,7 @@ view: app_web_data {
       dimension: CustomerID {
         description: "customers for the last week"
         type: string
-        sql:  ${TABLE}.customerUID ;;
+        sql:  ${TABLE}.customerID ;;
       }
 
       dimension: OrderID {
