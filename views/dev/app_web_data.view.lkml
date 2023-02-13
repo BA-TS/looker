@@ -2,8 +2,8 @@ view: app_web_data {
 
   derived_table: {
     sql: SELECT
-        distinct customerUID as CustomerID,
-        parentOrderUID as OrderID,
+        (distinct customerUID) as customerID,
+        (distinct parentOrderUID) as OrderID,
         date(transactionDate) as TransactionDate,
         Case
         when userUID like 'APP' then 'App Trolley'
@@ -11,6 +11,7 @@ view: app_web_data {
         sum(netsalePrice) as NetSalePrice,
         sum(quantity) as Quantity,
         sum(netSalesValue) as NetSaleValue,
+        SUM(netSalePrice * quantity) as revenue,
         sum(marginInclFunding) as Margin
         from `toolstation-data-storage.sales.transactions`
         where date_diff(current_date (),date(transactionDate), day) <= 15
@@ -23,8 +24,8 @@ view: app_web_data {
         union all
 
         select
-        distinct customerUID as CustomerID,
-        parentOrderUID as OrderID,
+        (distinct customerUID) as customerID,
+        (distinct parentOrderUID) as OrderID,
         date(transactionDate) as TransactionDate,
         Case
         when userUID like 'WWW' then 'Web Trolley'
@@ -32,6 +33,8 @@ view: app_web_data {
         sum(netsalePrice) as NetSalePrice,
         sum(quantity) as Quantity,
         sum(netSalesValue) as NetSaleValue,
+        SUM(netSalePrice * quantity) as revenue,
+        (sum(t.netSalesValue)/ COUNT(DISTINCT(t.parentOrderUID))) as AOV,
         sum(marginInclFunding) as Margin
         from `toolstation-data-storage.sales.transactions`
         where date_diff(current_date (),date(transactionDate), day) <= 15
@@ -68,6 +71,20 @@ view: app_web_data {
         sql:  ${TABLE}.App_web ;;
       }
 
+      dimension: revenue {
+        description: "Revenue of order"
+        type: number
+        value_format_name: gbp
+        sql: ${TABLE}.revenue ;;
+      }
+
+      dimension: AOV {
+        description: "Average Order value"
+        type: number
+        value_format_name: gbp
+        sql: SUM(${TABLE}.NetSaleValue)/(count(distinct(${TABLE}.OrderID))) ;;
+      }
+
       measure: NetSalePrice {
         description: "Total value of order"
         type: sum
@@ -88,30 +105,10 @@ view: app_web_data {
         sql: ${TABLE}.NetSaleValue ;;
       }
 
-      measure: Margin {
-        description: "Margin of order"
-        type: sum
-        sql: ${TABLE}.Margin ;;
-      }
-
-      measure: revenue {
-        description: "Revenue of order"
-        type: number
-        value_format_name: gbp
-        sql: sum(${TABLE}.NetSalePrice*${TABLE}.Quantity) ;;
-      }
-
       measure: Total_orders {
         description: "total orders"
         type: count_distinct
         sql: ${TABLE}.OrderID;;
-      }
-
-      measure: AOV {
-        description: "Average Order value"
-        type: number
-        value_format_name: gbp
-        sql: SUM(${TABLE}.NetSaleValue)/(count(distinct(${TABLE}.OrderID))) ;;
       }
 
       measure: margin_perc {
@@ -124,6 +121,7 @@ view: app_web_data {
       measure: margin_by_order {
         description: "Margin by order"
         type: number
+        value_format_name: decimal_2
         sql: sum(${TABLE}.Margin)/(count(distinct(${TABLE}.OrderID))) ;;
       }
 
@@ -132,6 +130,13 @@ view: app_web_data {
         type: count_distinct
         sql: ${TABLE}.OrderID ;;
         filters: [App_web: "Web Trolley" ]
+      }
+
+      measure: Total_Margin {
+        description: "sum of Margin"
+        type: sum
+        value_format_name: decimal_2
+        sql: ${TABLE}.Margin ;;
       }
     }
 
