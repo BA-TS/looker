@@ -126,6 +126,13 @@ view: app_web_data {
         type: number
         sql: sum(${TABLE}.Margin)/(count(distinct(${TABLE}.OrderID))) ;;
       }
+
+      measure: web_based_orders {
+        description: "web based orders"
+        type: count_distinct
+        sql: ${TABLE}.OrderID ;;
+        filters: [App_web: "Web Trolley" ]
+      }
     }
 
 view: total_sessions {
@@ -147,7 +154,7 @@ view: total_sessions {
     SELECT distinct
     'Web Trolley' as app_web_sessions,
     PARSE_DATE('%Y%m%d', date) as date,
-    SUM(totals.visits) sessions
+    SUM(totals.visits) as sessions
     FROM `toolstation-data-storage.4783980.ga_sessions_*`
     WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -15
     GROUP BY 1,2)
@@ -179,10 +186,10 @@ view: total_sessions {
     sql: ${TABLE}.date ;;
   }
 
-  measure: sessions {
+  dimension: sessions {
     description: "total sessions"
     type: number
-    sql: SUM(${TABLE}.sessions) ;;
+    sql: ${TABLE}.sessions ;;
   }
 }
 
