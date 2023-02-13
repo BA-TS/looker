@@ -54,7 +54,7 @@ view: app_web_data {
       dimension: OrderID {
         description: "transaction ID"
         type:string
-        sql: ${TABLE}.PARENTORDERUID ;;
+        sql: ${TABLE}.OrderID ;;
       }
 
       dimension_group: transactiondate  {
