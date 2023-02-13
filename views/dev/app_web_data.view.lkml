@@ -201,7 +201,7 @@ view: dim_date {
 
   derived_table: {
     sql: SELECT
-    distinct dateKey, fullDate,fiscalYearWeek
+    distinct dateKey, fullDate,fiscalYearWeek, date_diff(current_date(),fullDate,day) as Date_diff
     FROM `toolstation-data-storage.ts_finance.dim_date`
     where date_diff(current_date(),fullDate,day ) <= 15 and date_diff(current_date(),fullDate,day ) > 0;;
   }
@@ -225,6 +225,12 @@ view: dim_date {
     description: "Fiscal year week"
     type: string
     sql: ${TABLE}.fiscalYearWeek ;;
+  }
+
+  dimension: date_diff {
+    description: "Difference in dates"
+    type: number
+    sql: ${TABLE}.Date_diff ;;
   }
 
 }
