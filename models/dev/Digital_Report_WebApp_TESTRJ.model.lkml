@@ -23,4 +23,10 @@ explore: app_web_data {
     relationship: many_to_one
     sql_on: ${app_web_data.transactiondate_date}=${dim_date.fulldate_date} ;;
   }
+
+  join: digital_budget {
+    type: inner
+    relationship: many_to_one
+    sql_on: ${app_web_data.transactiondate_date}=${digital_budget.Date_date} ;;
+  }
 }
