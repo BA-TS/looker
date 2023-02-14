@@ -203,8 +203,8 @@ view: dim_date {
     sql: SELECT
     distinct dateKey, fullDate,fiscalYearWeek, date_diff(current_date(),fullDate,day) as Date_diff,
         current_date() as today,
-    format_date('%Y%W', current_date()) as CurrentWeek,
-    format_date('%Y%W', current_date()-7) as lastWeek
+    cast(format_date('%Y%W', current_date()) as int64) as CurrentWeek,
+    cast(format_date('%Y%W', current_date()-7) as int64) as lastWeek
     FROM `toolstation-data-storage.ts_finance.dim_date`
     where date_diff(current_date(),fullDate,day ) <= 15 and date_diff(current_date(),fullDate,day ) > 0;;
   }
