@@ -237,7 +237,7 @@ view: dim_date {
 view: digital_budget {
 
   derived_table: {
-    sql:  select distinct row_number() over (order by date,Budgeted_Sales) as P_K, *
+    sql:  select distinct row_number() over (order by date,Budgeted_Sales) as P_K, Date, Budgeted_Sales
     from `toolstation-data-storage.digitalreporting.digital_budget_2023` ;;
   }
 
