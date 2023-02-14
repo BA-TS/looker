@@ -232,5 +232,34 @@ view: dim_date {
     type: number
     sql: ${TABLE}.Date_diff ;;
   }
+  }
 
+view: digital_budget {
+
+  derived_table: {
+    sql:  select distinct row_number() over (order by date,Budgeted_Sales) as P_K, *
+    from `toolstation-data-storage.digitalreporting.digital_budget_2023` ;;
+  }
+
+  dimension: P_K {
+    description: "Primary key for date"
+    type: number
+    primary_key: yes
+    hidden: yes
+    sql: ${TABLE}.P_K ;;
+  }
+
+  dimension_group: Date {
+    description: "date"
+    type: time
+    timeframes: [raw,date]
+    sql: ${TABLE}.Date ;;
+  }
+
+  dimension: Budgeted_Sales {
+    description: "budget for each date"
+    type: number
+    value_format_name: gbp
+    sql: ${TABLE}.Budgeted_Sales ;;
+  }
 }
