@@ -201,7 +201,10 @@ view: dim_date {
 
   derived_table: {
     sql: SELECT
-    distinct dateKey, fullDate,fiscalYearWeek, date_diff(current_date(),fullDate,day) as Date_diff
+    distinct dateKey, fullDate,fiscalYearWeek, date_diff(current_date(),fullDate,day) as Date_diff,
+        current_date() as today,
+    format_date('%Y%W', current_date()) as CurrentWeek,
+    format_date('%Y%W', current_date()-7) as lastWeek
     FROM `toolstation-data-storage.ts_finance.dim_date`
     where date_diff(current_date(),fullDate,day ) <= 15 and date_diff(current_date(),fullDate,day ) > 0;;
   }
@@ -221,10 +224,29 @@ view: dim_date {
     sql: ${TABLE}.fullDate ;;
   }
 
+  dimension_group: today {
+    description: "today date"
+    type: time
+    timeframes: [raw,date]
+    sql: ${TABLE}.today ;;
+  }
+
   dimension: FiscalYearWeek {
     description: "Fiscal year week"
     type: string
     sql: ${TABLE}.fiscalYearWeek ;;
+  }
+
+  dimension: CurrentWeek {
+    description: "CurrentWeek"
+    type: string
+    sql: ${TABLE}.CurrentWeek ;;
+  }
+
+  dimension: lastWeek {
+    description: "lastWeek"
+    type: string
+    sql: ${TABLE}.lastWeek ;;
   }
 
   dimension: date_diff {
