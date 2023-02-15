@@ -14,7 +14,7 @@ view: app_web_data {
         SUM(netSalePrice * quantity) as revenue,
         sum(marginInclFunding) as Margin
         from `toolstation-data-storage.sales.transactions`
-        where date_diff(current_date (),date(transactionDate), day) <= 15
+        where date_diff(current_date (),date(transactionDate), day) <= 500
         and transactionLineType = "Sale"
         and productCode not in ('85699','00053')
         and isCancelled = 0
@@ -36,7 +36,7 @@ view: app_web_data {
         SUM(netSalePrice * quantity) as revenue,
         sum(marginInclFunding) as Margin
         from `toolstation-data-storage.sales.transactions`
-        where date_diff(current_date (),date(transactionDate), day) <= 15
+        where date_diff(current_date (),date(transactionDate), day) <= 500
         and transactionLineType = "Sale"
         and productCode not in ('85699','00053')
         and isCancelled = 0
@@ -149,8 +149,8 @@ view: total_sessions {
     WHEN event_name = 'session_start' THEN CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))
     END) AS sessions
     FROM `toolstation-data-storage.analytics_265133009.events_*`
-    WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -15
-    and PARSE_DATE('%Y%m%d', event_date) >= current_date () - 15
+    WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() - 500
+    and PARSE_DATE('%Y%m%d', event_date) >= current_date () - 500
     GROUP BY 1,2
 
     UNION ALL
@@ -160,7 +160,7 @@ view: total_sessions {
     PARSE_DATE('%Y%m%d', date) as date,
     SUM(totals.visits) as sessions
     FROM `toolstation-data-storage.4783980.ga_sessions_*`
-    WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -15
+    WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
     GROUP BY 1,2)
 
     select distinct row_number() over (order by date,app_web_sessions) as P_K, * from sub1
