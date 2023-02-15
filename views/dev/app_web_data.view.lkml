@@ -203,6 +203,7 @@ view: dim_date {
     sql: SELECT distinct
     dateKey,
     fullDate,
+    format_date("%m-%d", fullDate) as MonthDate,
     fiscalYearWeek,
     fiscalYearMonth,
     fiscalYear,
@@ -243,6 +244,12 @@ view: dim_date {
     type: time
     timeframes: [raw,date]
     sql: ${TABLE}.fullDate ;;
+  }
+
+  dimension: MonthDate {
+    description: "Month Date"
+    type: string
+    sql: ${TABLE}.MonthDate ;;
   }
 
   dimension: FiscalYearWeek {
