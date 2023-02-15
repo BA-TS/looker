@@ -200,13 +200,34 @@ view: total_sessions {
 view: dim_date {
 
   derived_table: {
-    sql: SELECT
-    distinct dateKey, fullDate,fiscalYearWeek, date_diff(current_date(),fullDate,day) as Date_diff,
-        current_date() as today,
-    cast(format_date('%Y%W', current_date()) as int64) as CurrentWeek,
-    cast(format_date('%Y%W', current_date()-7) as int64) as lastWeek
+    sql: SELECT distinct
+    dateKey,
+    fullDate,
+    fiscalYearWeek,
+    fiscalYearMonth,
+    fiscalYear,
+    date_diff(current_date(),fullDate,day) as Date_diff,
+    current_date() as today,
+    CAST(format_date('%Y%W', current_date()) as int64) as CurrentWeek,
+    (format_date('%Y-%m', current_date())) as CurrentMonth,
+    (format_date('%Y', current_date())) as CurrentYear,
+    cast(format_date('%Y%W', current_date()-7) as int64) as lastWeek,
+    format_date('%Y-%m',DATE_SUB(current_date(), INTERVAL 1 month)) as lastMonth,
+    cast(format_date('%Y',DATE_SUB(current_date(), INTERVAL 1 Year)) as int64) as lastYear,
+    cast(format_date('%Y%W', current_date()-365) as int64) as CurrentWeekLastYear,
+    (format_date('%Y-%m', current_date()-365)) as CurrentMonthLastYear,
+    cast(format_date('%Y%W', current_date()-372) as int64) as lastWeekLastYear,
+    format_date('%Y-%m',DATE_SUB(DATE_SUB(current_date(), INTERVAL 1 month),INTERVAL 1 year)) as LastMonthLastYear
     FROM `toolstation-data-storage.ts_finance.dim_date`
-    where date_diff(current_date(),fullDate,day ) <= 15 and date_diff(current_date(),fullDate,day ) > 0;;
+    where (date_diff(current_date(), fullDate, day) <= 15 and date_diff(current_date(), fullDate, day) >= 0)
+    or fiscalYearWeek = cast(format_date('%Y%W', current_date()-7) as int64)
+    or fiscalYearWeek = cast(format_date('%Y%W', current_date()-365) as int64)
+    or fiscalYearWeek = cast(format_date('%Y%W', current_date()-372) as int64)
+    or fiscalYearMonth = (format_date('%Y-%m', current_date()))
+    or fiscalYearMonth = format_date('%Y-%m',DATE_SUB(current_date(), INTERVAL 1 month))
+    or fiscalYearMonth = (format_date('%Y-%m', current_date()-365))
+    or fiscalYearMonth = format_date('%Y-%m',DATE_SUB(DATE_SUB(current_date(), INTERVAL 1 month),INTERVAL 1 year))
+    or fiscalYear = cast(format_date('%Y',DATE_SUB(current_date(), INTERVAL 1 Year)) as int64);;
   }
 
   dimension: dateKey {
@@ -224,17 +245,35 @@ view: dim_date {
     sql: ${TABLE}.fullDate ;;
   }
 
+  dimension: FiscalYearWeek {
+    description: "Fiscal year week"
+    type: string
+    sql: ${TABLE}.fiscalYearWeek ;;
+  }
+
+  dimension: FiscalYearMonth {
+    description: "Fiscal year month"
+    type: string
+    sql: ${TABLE}.fiscalYearMonth ;;
+  }
+
+  dimension: Fiscalyear {
+    description: "Fiscal year"
+    type: number
+    sql: ${TABLE}.fiscalyear ;;
+  }
+
+  dimension: date_diff {
+    description: "Difference in dates"
+    type: number
+    sql: ${TABLE}.Date_diff ;;
+  }
+
   dimension_group: today {
     description: "today date"
     type: time
     timeframes: [raw,date]
     sql: ${TABLE}.today ;;
-  }
-
-  dimension: FiscalYearWeek {
-    description: "Fiscal year week"
-    type: string
-    sql: ${TABLE}.fiscalYearWeek ;;
   }
 
   dimension: CurrentWeek {
@@ -243,17 +282,60 @@ view: dim_date {
     sql: ${TABLE}.CurrentWeek ;;
   }
 
+  dimension: CurrentMonth {
+    description: "CurrentMonth"
+    type: string
+    sql: ${TABLE}.CurrentMonth ;;
+  }
+
+  dimension: CurrentYear {
+    description: "CurrentYear"
+    type: number
+    sql: ${TABLE}.CurrentYear ;;
+  }
+
   dimension: lastWeek {
     description: "lastWeek"
     type: string
     sql: ${TABLE}.lastWeek ;;
   }
 
-  dimension: date_diff {
-    description: "Difference in dates"
-    type: number
-    sql: ${TABLE}.Date_diff ;;
+  dimension: LastMonth {
+    description: "LastMonth"
+    type: string
+    sql: ${TABLE}.LastMonth ;;
   }
+
+  dimension: LastYear {
+    description: "LastYear"
+    type: number
+    sql: ${TABLE}.LastYear ;;
+  }
+
+  dimension: CurrentWeekLastYear {
+    description: "CurrentWeekLastYear"
+    type: string
+    sql: ${TABLE}.CurrentWeekLastYear;;
+  }
+
+  dimension: CurrentMonthLastYear {
+    description: "CurrentMonthLastYear"
+    type: string
+    sql: ${TABLE}.CurrentMonthLastYear ;;
+  }
+
+  dimension: lastWeekLastYear {
+    description: "lastWeekLastYear"
+    type: string
+    sql: ${TABLE}.lastWeekLastYear ;;
+  }
+
+  dimension: LastMonthLastYear {
+    description: "LastMonthLastYear"
+    type: string
+    sql: ${TABLE}.LastMonthLastYear ;;
+  }
+
   }
 
 view: digital_budget {
