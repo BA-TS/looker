@@ -226,34 +226,27 @@ view: dim_date {
 
   derived_table: {
     sql: SELECT distinct
-    dateKey,
-    fullDate,
-    format_date("%m-%d", fullDate) as MonthDate,
-    fiscalYearWeek,
-    fiscalYearMonth,
-    fiscalYear,
-    date_diff(current_date(),fullDate,day) as Date_diff,
+   dateKey,
+   fullDate,
+   fiscalYearWeek,
+   fiscalYearMonth,
+   fiscalYear,
     current_date() as today,
-    CAST(format_date('%Y%W', current_date()) as int64) as CurrentWeek,
-    (format_date('%Y-%m', current_date())) as CurrentMonth,
-    (format_date('%Y', current_date())) as CurrentYear,
-    cast(format_date('%Y%W', current_date()-7) as int64) as lastWeek,
-    format_date('%Y-%m',DATE_SUB(current_date(), INTERVAL 1 month)) as lastMonth,
-    cast(format_date('%Y',DATE_SUB(current_date(), INTERVAL 1 Year)) as int64) as lastYear,
-    cast(format_date('%Y%W', current_date()-365) as int64) as CurrentWeekLastYear,
-    (format_date('%Y-%m', current_date()-365)) as CurrentMonthLastYear,
-    cast(format_date('%Y%W', current_date()-372) as int64) as lastWeekLastYear,
-    format_date('%Y-%m',DATE_SUB(DATE_SUB(current_date(), INTERVAL 1 month),INTERVAL 1 year)) as LastMonthLastYear
+    format_date('%Y-%m-%d', current_date()-1) as yesterday,
+    format_date('%Y-%m-%d', current_date()-7) as LastWeek,
+    format_date('%Y-%m-%d',DATE_SUB(current_date(), INTERVAL 1 month)) as lastMonth,
+    format_date('%Y-%m-%d',DATE_SUB(current_date(), INTERVAL 1 Year)) as lastYear,
+    format_date('%Y-%m-%d',DATE_SUB(DATE_SUB(current_date(), INTERVAL 1 Week),INTERVAL 1 year)) as lastWeekLastYear,
+    format_date('%Y-%m-%d',DATE_SUB(DATE_SUB(current_date(), INTERVAL 1 month),INTERVAL 1 year)) as LastMonthLastYear,
     FROM `toolstation-data-storage.ts_finance.dim_date`
     where (date_diff(current_date(), fullDate, day) <= 15 and date_diff(current_date(), fullDate, day) >= 0)
-    or fiscalYearWeek = cast(format_date('%Y%W', current_date()-7) as int64)
-    or fiscalYearWeek = cast(format_date('%Y%W', current_date()-365) as int64)
-    or fiscalYearWeek = cast(format_date('%Y%W', current_date()-372) as int64)
-    or fiscalYearMonth = (format_date('%Y-%m', current_date()))
-    or fiscalYearMonth = format_date('%Y-%m',DATE_SUB(current_date(), INTERVAL 1 month))
-    or fiscalYearMonth = (format_date('%Y-%m', current_date()-365))
-    or fiscalYearMonth = format_date('%Y-%m',DATE_SUB(DATE_SUB(current_date(), INTERVAL 1 month),INTERVAL 1 year))
-    or fiscalYear = cast(format_date('%Y',DATE_SUB(current_date(), INTERVAL 1 Year)) as int64);;
+    or format_date('%Y-%m-%d',fullDate) = format_date('%Y-%m-%d', current_date()-1)
+    or format_date('%Y-%m-%d',fullDate) = format_date('%Y-%m-%d', current_date()-7)
+    or format_date('%Y-%m-%d',fullDate) = format_date('%Y-%m-%d',DATE_SUB(current_date(), INTERVAL 1 month))
+    or format_date('%Y-%m-%d',fullDate) = format_date('%Y-%m-%d',DATE_SUB(current_date(), INTERVAL 1 Year))
+    or format_date('%Y-%m-%d',fullDate) = format_date('%Y-%m-%d',DATE_SUB(DATE_SUB(current_date(), INTERVAL 1 Week),INTERVAL 1 year))
+    or format_date('%Y-%m-%d',fullDate) = format_date('%Y-%m-%d',DATE_SUB(DATE_SUB(current_date(), INTERVAL 1 month),INTERVAL 1 year))
+    order by fullDate DESC;;
   }
 
   dimension: dateKey {
@@ -262,85 +255,6 @@ view: dim_date {
     primary_key: yes
     hidden: yes
     sql: ${TABLE}.datekey ;;
-  }
-
-  dimension_group: fulldate {
-    description: "date"
-    type: time
-    timeframes: [raw,date]
-    sql: ${TABLE}.fullDate ;;
-  }
-
-  dimension: MonthDate {
-    description: "Month Date"
-    type: string
-    sql: ${TABLE}.MonthDate ;;
-  }
-
-  dimension: FiscalYearWeek {
-    description: "Fiscal year week"
-    type: string
-    sql: ${TABLE}.fiscalYearWeek ;;
-  }
-
-  dimension: FiscalYearMonth {
-    description: "Fiscal year month"
-    type: string
-    sql: ${TABLE}.fiscalYearMonth ;;
-  }
-
-  dimension: Fiscalyear {
-    description: "Fiscal year"
-    type: number
-    sql: ${TABLE}.fiscalyear ;;
-  }
-
-  dimension: date_diff {
-    description: "Difference in dates"
-    type: number
-    sql: ${TABLE}.Date_diff ;;
-  }
-
-  dimension: lastWeek {
-    description: "lastWeek"
-    type: string
-    sql: ${TABLE}.lastWeek ;;
-  }
-
-  dimension: LastMonth {
-    description: "LastMonth"
-    type: string
-    sql: ${TABLE}.LastMonth ;;
-  }
-
-  dimension: LastYear {
-    description: "LastYear"
-    type: number
-    sql: ${TABLE}.LastYear ;;
-  }
-
-  dimension: CurrentWeekLastYear {
-    description: "CurrentWeekLastYear"
-    type: string
-    sql: ${TABLE}.CurrentWeekLastYear;;
-  }
-
-  dimension: CurrentMonthLastYear {
-    description: "CurrentMonthLastYear"
-    type: string
-    sql: ${TABLE}.CurrentMonthLastYear ;;
-  }
-
-  dimension: lastWeekLastYear {
-    description: "lastWeekLastYear"
-    type: string
-    sql: ${TABLE}.lastWeekLastYear ;;
-  }
-
-  dimension: LastMonthLastYear {
-    description: "LastMonthLastYear"
-    type: string
-    sql: ${TABLE}.LastMonthLastYear ;;
   }
 
   dimension_group: todayTEST  {
@@ -363,6 +277,166 @@ view: dim_date {
       year
     ]
     sql: ${TABLE}.today ;;
+    convert_tz: no
+  }
+
+  dimension_group: fullDateTEST  {
+    description: "fullDatedate"
+    type: time
+    view_label: "fullDate_PoP"
+    timeframes: [
+      raw,
+      date,
+      day_of_week,
+      day_of_week_index,
+      day_of_month,
+      day_of_year,
+      week,
+      week_of_year,
+      month,
+      month_name,
+      month_num,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.fullDate ;;
+    convert_tz: no
+  }
+
+  dimension_group: YesterdayTEST  {
+    description: "Yesterdaydate"
+    type: time
+    view_label: "Yesterday_PoP"
+    timeframes: [
+      raw,
+      date,
+      day_of_week,
+      day_of_week_index,
+      day_of_month,
+      day_of_year,
+      week,
+      week_of_year,
+      month,
+      month_name,
+      month_num,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.yesterday ;;
+    convert_tz: no
+  }
+
+  dimension_group: LastWeekTEST  {
+    description: "LastWeekdate"
+    type: time
+    view_label: "LastWeek_PoP"
+    timeframes: [
+      raw,
+      date,
+      day_of_week,
+      day_of_week_index,
+      day_of_month,
+      day_of_year,
+      week,
+      week_of_year,
+      month,
+      month_name,
+      month_num,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.LastWeek ;;
+    convert_tz: no
+  }
+
+  dimension_group: lastMonthTEST  {
+    description: "lastMonthdate"
+    type: time
+    view_label: "lastMonth_PoP"
+    timeframes: [
+      raw,
+      date,
+      day_of_week,
+      day_of_week_index,
+      day_of_month,
+      day_of_year,
+      week,
+      week_of_year,
+      month,
+      month_name,
+      month_num,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.lastMonth ;;
+    convert_tz: no
+  }
+  dimension_group: lastYearTEST  {
+    description: "lastYeardate"
+    type: time
+    view_label: "lastYear_PoP"
+    timeframes: [
+      raw,
+      date,
+      day_of_week,
+      day_of_week_index,
+      day_of_month,
+      day_of_year,
+      week,
+      week_of_year,
+      month,
+      month_name,
+      month_num,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.lastYear ;;
+    convert_tz: no
+  }
+
+  dimension_group: lastWeekLastYearTEST  {
+    description: "lastWeekLastYeardate"
+    type: time
+    view_label: "lastWeekLastYear_PoP"
+    timeframes: [
+      raw,
+      date,
+      day_of_week,
+      day_of_week_index,
+      day_of_month,
+      day_of_year,
+      week,
+      week_of_year,
+      month,
+      month_name,
+      month_num,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.lastWeekLastYear ;;
+    convert_tz: no
+  }
+
+  dimension_group: LastMonthLastYearTEST  {
+    description: "LastMonthLastYeardate"
+    type: time
+    view_label: "LastMonthLastYear_PoP"
+    timeframes: [
+      raw,
+      date,
+      day_of_week,
+      day_of_week_index,
+      day_of_month,
+      day_of_year,
+      week,
+      week_of_year,
+      month,
+      month_name,
+      month_num,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.LastMonthLastYear ;;
     convert_tz: no
   }
 

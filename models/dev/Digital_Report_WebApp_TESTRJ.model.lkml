@@ -15,18 +15,18 @@ explore: app_web_data {
     type: inner
     relationship: many_to_one
     sql_on: ${app_web_data.App_web}=${total_sessions.app_web_sessions} and
-    ${app_web_data.transactiondate_date}=${total_sessions.date_date};;
+    ${app_web_data.transactiondateTEST_date}=${total_sessions.date_date};;
   }
 
   join: dim_date {
     type: inner
     relationship: many_to_one
-    sql_on: ${app_web_data.transactiondate_date}=${dim_date.fulldate_date} ;;
+    sql_on: ${app_web_data.transactiondateTEST_date}=${dim_date.fullDateTEST_date} ;;
   }
 
   join: digital_budget {
     type: inner
     relationship: many_to_one
-    sql_on: ${app_web_data.transactiondate_date}=${digital_budget.Date_date} ;;
+    sql_on: ${app_web_data.transactiondateTEST_date}=${digital_budget.Date_date} ;;
   }
 }
