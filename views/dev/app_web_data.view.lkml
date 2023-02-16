@@ -70,8 +70,6 @@ view: app_web_data {
     view_label: "_PoP"
     timeframes: [
       raw,
-      time,
-      hour_of_day,
       date,
       day_of_week,
       day_of_week_index,
@@ -303,31 +301,6 @@ view: dim_date {
     sql: ${TABLE}.Date_diff ;;
   }
 
-  dimension_group: today {
-    description: "today date"
-    type: time
-    timeframes: [raw,date]
-    sql: ${TABLE}.today ;;
-  }
-
-  dimension: CurrentWeek {
-    description: "CurrentWeek"
-    type: string
-    sql: ${TABLE}.CurrentWeek ;;
-  }
-
-  dimension: CurrentMonth {
-    description: "CurrentMonth"
-    type: string
-    sql: ${TABLE}.CurrentMonth ;;
-  }
-
-  dimension: CurrentYear {
-    description: "CurrentYear"
-    type: number
-    sql: ${TABLE}.CurrentYear ;;
-  }
-
   dimension: lastWeek {
     description: "lastWeek"
     type: string
@@ -368,6 +341,29 @@ view: dim_date {
     description: "LastMonthLastYear"
     type: string
     sql: ${TABLE}.LastMonthLastYear ;;
+  }
+
+  dimension_group: todayTEST  {
+    description: "todaydate"
+    type: time
+    view_label: "today_PoP"
+    timeframes: [
+      raw,
+      date,
+      day_of_week,
+      day_of_week_index,
+      day_of_month,
+      day_of_year,
+      week,
+      week_of_year,
+      month,
+      month_name,
+      month_num,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.today ;;
+    convert_tz: no
   }
 
   }
