@@ -25,7 +25,7 @@ explore: app_web_data {
   }
 
   join: digital_budget {
-    type: inner
+    type: left_outer
     relationship: many_to_one
     sql_on: ${app_web_data.transactiondateTEST_date}=${digital_budget.Date_date} ;;
   }
