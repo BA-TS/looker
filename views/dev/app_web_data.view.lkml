@@ -95,7 +95,6 @@ view: app_web_data {
 
       dimension: revenue {
         description: "Revenue of order"
-        view_label: "_PoP"
         type: number
         value_format_name: gbp
         sql: ${TABLE}.revenue ;;
