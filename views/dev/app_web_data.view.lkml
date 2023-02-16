@@ -231,20 +231,20 @@ view: dim_date {
    fiscalYearMonth,
    fiscalYear,
     current_date() as today,
-    format_date('%Y-%m-%d', current_date()-1) as yesterday,
-    format_date('%Y-%m-%d', current_date()-7) as LastWeek,
-    format_date('%Y-%m-%d',DATE_SUB(current_date(), INTERVAL 1 month)) as lastMonth,
-    format_date('%Y-%m-%d',DATE_SUB(current_date(), INTERVAL 1 Year)) as lastYear,
-    format_date('%Y-%m-%d',DATE_SUB(DATE_SUB(current_date(), INTERVAL 1 Week),INTERVAL 1 year)) as lastWeekLastYear,
-    format_date('%Y-%m-%d',DATE_SUB(DATE_SUB(current_date(), INTERVAL 1 month),INTERVAL 1 year)) as LastMonthLastYear,
+    (current_date()-1) as yesterday,
+    (current_date()-7) as LastWeek,
+    (DATE_SUB(current_date(), INTERVAL 1 month)) as lastMonth,
+    (DATE_SUB(current_date(), INTERVAL 1 Year)) as lastYear,
+    (DATE_SUB(DATE_SUB(current_date(), INTERVAL 1 Week),INTERVAL 1 year)) as lastWeekLastYear,
+    (DATE_SUB(DATE_SUB(current_date(), INTERVAL 1 month),INTERVAL 1 year)) as LastMonthLastYear,
     FROM `toolstation-data-storage.ts_finance.dim_date`
     where (date_diff(current_date(), fullDate, day) <= 15 and date_diff(current_date(), fullDate, day) >= 0)
-    or format_date('%Y-%m-%d',fullDate) = format_date('%Y-%m-%d', current_date()-1)
-    or format_date('%Y-%m-%d',fullDate) = format_date('%Y-%m-%d', current_date()-7)
-    or format_date('%Y-%m-%d',fullDate) = format_date('%Y-%m-%d',DATE_SUB(current_date(), INTERVAL 1 month))
-    or format_date('%Y-%m-%d',fullDate) = format_date('%Y-%m-%d',DATE_SUB(current_date(), INTERVAL 1 Year))
-    or format_date('%Y-%m-%d',fullDate) = format_date('%Y-%m-%d',DATE_SUB(DATE_SUB(current_date(), INTERVAL 1 Week),INTERVAL 1 year))
-    or format_date('%Y-%m-%d',fullDate) = format_date('%Y-%m-%d',DATE_SUB(DATE_SUB(current_date(), INTERVAL 1 month),INTERVAL 1 year))
+    or (fullDate) = (current_date()-1)
+    or (fullDate) = (current_date()-7)
+    or (fullDate) = (DATE_SUB(current_date(), INTERVAL 1 month))
+    or (fullDate) = (DATE_SUB(current_date(), INTERVAL 1 Year))
+    or (fullDate) = (DATE_SUB(DATE_SUB(current_date(), INTERVAL 1 Week),INTERVAL 1 year))
+    or (fullDate) = (DATE_SUB(DATE_SUB(current_date(), INTERVAL 1 month),INTERVAL 1 year))
     order by fullDate DESC;;
   }
 
