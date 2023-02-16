@@ -64,6 +64,31 @@ view: app_web_data {
         sql: ${TABLE}.transactiondate ;;
       }
 
+  dimension_group: transactiondateTEST  {
+    description: "transactiondate"
+    type: time
+    view_label: "_PoP"
+    timeframes: [
+      raw,
+      time,
+      hour_of_day,
+      date,
+      day_of_week,
+      day_of_week_index,
+      day_of_month,
+      day_of_year,
+      week,
+      week_of_year,
+      month,
+      month_name,
+      month_num,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.transactiondate ;;
+    convert_tz: no
+  }
+
       dimension: App_web {
         description: "If user used App or Web"
         type:  string
@@ -72,6 +97,7 @@ view: app_web_data {
 
       dimension: revenue {
         description: "Revenue of order"
+        view_label: "_PoP"
         type: number
         value_format_name: gbp
         sql: ${TABLE}.revenue ;;
@@ -89,6 +115,7 @@ view: app_web_data {
         type: sum
         value_format_name: gbp
         sql: ${TABLE}.NetSalePrice ;;
+        drill_fields: [transactiondateTEST_date]
       }
 
       measure: Quantity {
