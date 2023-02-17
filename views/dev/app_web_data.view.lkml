@@ -427,6 +427,7 @@ view: dim_date {
    dateKey,
    fullDate,
    fiscalYearWeek,
+  (select distinct fiscalYearWeek from `toolstation-data-storage.ts_finance.dim_date` where fullDate = (current_date()-7)) as LastFiscalWeek,
    fiscalYearMonth,
    fiscalYear,
     current_date() as today,
@@ -459,6 +460,12 @@ view: dim_date {
     description: "fiscalYearWeek"
     type: string
     sql: ${TABLE}.fiscalYearWeek ;;
+  }
+
+  dimension: LastfiscalWeek {
+    description: "LastfiscalWeek"
+    type: string
+    sql: ${TABLE}.LastfiscalWeek ;;
   }
 
   dimension: fiscalYearMonth {
