@@ -457,18 +457,18 @@ view: dim_date {
 
   dimension: fiscalYearWeek {
     description: "fiscalYearWeek"
-    type: number
+    type: string
     sql: ${TABLE}.fiscalYearWeek ;;
   }
 
   dimension: fiscalYearMonth {
     description: "fiscalYearMonth"
-    type: number
+    type: string
     sql: ${TABLE}.fiscalYearMonth ;;
   }
   dimension: fiscalYear {
     description: "fiscalYear"
-    type: number
+    type: string
     sql: ${TABLE}.fiscalYear;;
   }
 
