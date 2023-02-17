@@ -494,6 +494,29 @@ view: dim_date {
     sql: ${TABLE}.today ;;
     convert_tz: no
   }
+
+  dimension_group: fullDateTEST  {
+    description: "fullDate"
+    type: time
+    view_label: "fullDate"
+    timeframes: [
+      raw,
+      date,
+      day_of_week,
+      day_of_week_index,
+      day_of_month,
+      day_of_year,
+      week,
+      week_of_year,
+      month,
+      month_name,
+      month_num,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.fullDate ;;
+    convert_tz: no
+  }
 }
 
 view: digital_budget {
