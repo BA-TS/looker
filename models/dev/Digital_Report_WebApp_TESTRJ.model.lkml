@@ -25,7 +25,7 @@ explore: app_web_data {
   join: dim_date {
     type: inner
     relationship: many_to_one
-    sql_on: ${app_web_data.transactiondateTEST_date}=${dim_date.todayTEST_date} ;;
+    sql_on: ${app_web_data.transactiondateTEST_date}=${dim_date.fullDateTEST_date} ;;
   }
 
   join: digital_budget {
