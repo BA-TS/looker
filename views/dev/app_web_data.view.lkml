@@ -455,6 +455,23 @@ view: dim_date {
     sql: ${TABLE}.datekey ;;
   }
 
+  dimension: fiscalYearWeek {
+    description: "fiscalYearWeek"
+    type: number
+    sql: ${TABLE}.fiscalYearWeek ;;
+  }
+
+  dimension: fiscalYearMonth {
+    description: "fiscalYearMonth"
+    type: number
+    sql: ${TABLE}.fiscalYearMonth ;;
+  }
+  dimension: fiscalYear {
+    description: "fiscalYear"
+    type: number
+    sql: ${TABLE}.fiscalYear;;
+  }
+
   dimension_group: todayTEST  {
     description: "todaydate"
     type: time
