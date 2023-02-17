@@ -4,7 +4,7 @@ view: app_web_data {
     sql: SELECT distinct
         customerUID as customerID,
         parentOrderUID as OrderID,
-        date(transactionDate) as TransactionDate,
+        timestamp(transactionDate) as TransactionDate,
         Case
         when userUID like 'APP' then 'App Trolley'
         end as App_Web,
@@ -26,7 +26,7 @@ view: app_web_data {
         select distinct
         customerUID as customerID,
         parentOrderUID as OrderID,
-        date(transactionDate) as TransactionDate,
+        timestamp(transactionDate) as TransactionDate,
         Case
         when userUID like 'WWW' then 'Web Trolley'
         end as App_Web,
