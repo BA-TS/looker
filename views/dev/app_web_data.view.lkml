@@ -205,7 +205,7 @@ view: app_web_data {
     view_label: "_PoP"
     description: "Gives the number of days in the current period date range"
     type: number
-    sql: DATEDIFF(DAY, DATE({% date_start current_date_range %}), DATE({% date_end current_date_range %})) ;;
+    sql: DATE_DIFF( DATE({% date_start current_date_range %}), DATE({% date_end current_date_range %}),DAY) ;;
   }
 
   dimension: period_2_start {
@@ -215,9 +215,9 @@ view: app_web_data {
     type: date
     sql:
             {% if compare_to._parameter_value == "Period" %}
-            DATEADD(DAY, -${days_in_period}, DATE({% date_start current_date_range %}))
+            DATE_ADD(DATE({% date_start current_date_range %}) INTERVAL -${days_in_period} DAY)
             {% else %}
-            DATEADD({% parameter compare_to %}, -1, DATE({% date_start current_date_range %}))
+            DATE_ADD(DATE({% date_start current_date_range %}) INTERVAL -1 {% parameter compare_to %} )
             {% endif %};;
   }
 
@@ -228,9 +228,9 @@ view: app_web_data {
     type: date
     sql:
             {% if compare_to._parameter_value == "Period" %}
-            DATEADD(DAY, -1, DATE({% date_start current_date_range %}))
+            DATE_ADD(DATE({% date_start current_date_range %}) INTERVAL -1 DAY)
             {% else %}
-            DATEADD({% parameter compare_to %}, -1, DATEADD(DAY, -1, DATE({% date_end current_date_range %})))
+            DATE_ADD(DATE_ADD(DATE({% date_end current_date_range %}) INTERVAL -1 DAY), INTERVAL -1 {% parameter compare_to %})
             {% endif %};;
   }
 
@@ -242,9 +242,9 @@ view: app_web_data {
         {% if current_date_range._is_filtered %}
             CASE
             WHEN {% condition current_date_range %} ${transactiondateTEST_raw} {% endcondition %}
-            THEN DATEDIFF(DAY, DATE({% date_start current_date_range %}), ${transactiondateTEST_date}) + 1
+            THEN DATE_DIFF(DATE({% date_start current_date_range %}), ${transactiondateTEST_date}, day) + 1
             WHEN ${transactiondateTEST_date} between ${period_2_start} and ${period_2_end}
-            THEN DATEDIFF(DAY, ${period_2_start}, ${transactiondateTEST_date}) + 1
+            THEN DATE_DIFF( ${period_2_start}, ${transactiondateTEST_date}, day) + 1
             END
         {% else %} NULL
         {% endif %}
@@ -296,7 +296,7 @@ view: app_web_data {
     description: "Use this as your grouping dimension when comparing periods. Aligns the previous periods onto the current period"
     label: "Current Period"
     type: time
-    sql: DATEADD(DAY, ${day_in_period} - 1, DATE({% date_start current_date_range %})) ;;
+    sql: DATE_ADD(DATE({% date_start current_date_range %}), INTERVAL ${day_in_period} - 1 DAY) ;;
     view_label: "_PoP"
     timeframes: [
       date,
