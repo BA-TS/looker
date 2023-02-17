@@ -215,9 +215,9 @@ view: app_web_data {
     type: date
     sql:
             {% if compare_to._parameter_value == "Period" %}
-            DATE_ADD(DATE({% date_start current_date_range %}) INTERVAL -${days_in_period} DAY)
+            DATE_ADD(DATE({% date_start current_date_range %}), INTERVAL -${days_in_period} DAY)
             {% else %}
-            DATE_ADD(DATE({% date_start current_date_range %}) INTERVAL -1 {% parameter compare_to %} )
+            DATE_ADD(DATE({% date_start current_date_range %}), INTERVAL -1 {% parameter compare_to %} )
             {% endif %};;
   }
 
@@ -228,9 +228,9 @@ view: app_web_data {
     type: date
     sql:
             {% if compare_to._parameter_value == "Period" %}
-            DATE_ADD(DATE({% date_start current_date_range %}) INTERVAL -1 DAY)
+            DATE_ADD(DATE({% date_start current_date_range %}), INTERVAL -1 DAY)
             {% else %}
-            DATE_ADD(DATE_ADD(DATE({% date_end current_date_range %}) INTERVAL -1 DAY), INTERVAL -1 {% parameter compare_to %})
+            DATE_ADD(DATE_ADD(DATE({% date_end current_date_range %}), INTERVAL -1 DAY), INTERVAL -1 {% parameter compare_to %})
             {% endif %};;
   }
 
