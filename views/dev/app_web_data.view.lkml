@@ -14,11 +14,12 @@ view: app_web_data {
         SUM(netSalePrice * quantity) as revenue,
         sum(marginInclFunding) as Margin
         from `toolstation-data-storage.sales.transactions`
-        where date_diff(current_date (),date(transactionDate), day) <= 500
-        and transactionLineType = "Sale"
-        and productCode not in ('85699','00053')
-        and isCancelled = 0
-        and (userUID  = 'APP')
+        where
+        --date_diff(current_date (),date(transactionDate), day) <= 500 and
+         transactionLineType = "Sale" and
+        productCode not in ('85699','00053') and
+        isCancelled = 0  and
+       (userUID  = 'APP')
         group by 1,2,3,4
 
         union all
@@ -36,11 +37,12 @@ view: app_web_data {
         SUM(netSalePrice * quantity) as revenue,
         sum(marginInclFunding) as Margin
         from `toolstation-data-storage.sales.transactions`
-        where date_diff(current_date (),date(transactionDate), day) <= 500
-        and transactionLineType = "Sale"
-        and productCode not in ('85699','00053')
-        and isCancelled = 0
-        and (userUID  = 'WWW')
+        where
+        --date_diff(current_date (),date(transactionDate), day) <= 500 and
+        transactionLineType = "Sale" and
+        productCode not in ('85699','00053') and
+        isCancelled = 0 and
+        (userUID  = 'WWW')
         group by 1,2,3,4
         ;;
 
