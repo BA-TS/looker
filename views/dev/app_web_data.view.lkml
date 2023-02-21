@@ -14,6 +14,7 @@ view: app_web_data {
         sum(quantity) as Quantity,
         sum(netSalesValue) as NetSaleValue,
         SUM(netSalePrice * quantity) as revenue,
+        SUM(grossSalesValue) as revenue2,
         sum(marginInclFunding) as Margin
         from `toolstation-data-storage.sales.transactions`
         where
@@ -37,6 +38,7 @@ view: app_web_data {
         sum(quantity) as Quantity,
         sum(netSalesValue) as NetSaleValue,
         SUM(netSalePrice * quantity) as revenue,
+        SUM(grossSalesValue) as revenue2,
         sum(marginInclFunding) as Margin
         from `toolstation-data-storage.sales.transactions`
         where
@@ -112,6 +114,13 @@ view: app_web_data {
         type: number
         value_format_name: gbp
         sql: ${TABLE}.revenue ;;
+      }
+
+      dimension: revenue2 {
+        description: "Revenue of order"
+        type: number
+        value_format_name: gbp
+        sql: ${TABLE}.revenue2 ;;
       }
 
       measure: AOV {
