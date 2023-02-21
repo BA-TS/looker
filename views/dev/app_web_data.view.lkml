@@ -3,7 +3,7 @@ include: "/views/prod/date/Period_over_period_RJ_test.view"
 view: app_web_data {
 
   derived_table: {
-    sql: SELECT distinct
+    sql: sub1 as (SELECT distinct
         customerUID as customerID,
         parentOrderUID as OrderID,
         timestamp(transactionDate) as TransactionDate,
@@ -45,10 +45,20 @@ view: app_web_data {
         productCode not in ('85699','00053') and
         isCancelled = 0 and
         (userUID  = 'WWW')
-        group by 1,2,3,4
+        group by 1,2,3,4)
+
+        select distinct row_number() over (order by (transactionDate)) as P_K, * from sub1
         ;;
 
         }
+
+      dimension: P_K {
+        description: "Primary key"
+        type: number
+        primary_key: yes
+        hidden: yes
+        sql: ${TABLE}.P_K ;;
+      }
       dimension: CustomerID {
         description: "customers for the last week"
         type: string
