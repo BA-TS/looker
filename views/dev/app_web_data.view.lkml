@@ -3,7 +3,7 @@ include: "/views/prod/date/Period_over_period_RJ_test.view"
 view: app_web_data {
 
   derived_table: {
-    sql: sub1 as (SELECT distinct
+    sql: with sub1 as (SELECT distinct
         customerUID as customerID,
         parentOrderUID as OrderID,
         timestamp(transactionDate) as TransactionDate,
