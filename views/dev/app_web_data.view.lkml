@@ -1,4 +1,4 @@
-include: "/views/prod/date/period_over_period.view"
+include: "/views/prod/date/Period_over_period_RJ_test.view"
 
 view: app_web_data {
 
@@ -560,226 +560,226 @@ view: digital_budget {
   }
 }
 
-view: base_v2 {
-
-  derived_table: {
-    sql:
-
-    select date
-    from UNNEST(GENERATE_DATE_ARRAY('2015-01-01', date(extract(year from current_date), 12, 31))) date
-
-      ;;
-    datagroup_trigger: ts_daily_datagroup
-  }
-
-  extends: [period_over_period]
-
-
-  dimension: combined_day_name {
-    view_label: "Date"
-    group_label: "Dates"
-    label: "Day Name"
-    sql: ${dynamic_day_name} ;;
-    can_filter: no
-    hidden: no
-  }
-
-  dimension: combined_month_number {
-    view_label: "Date"
-    group_label: "Dates"
-    label: "Month Number"
-    sql: ${dynamic_month_number} ;;
-    can_filter: yes
-    hidden: no
-  }
-
-  # dynamic_month_number
-
-  dimension: combined_day_of_week {
-    view_label: "Date"
-    group_label: "Dates"
-    label: "Day of Week"
-    sql: ${dynamic_day_of_week} ;;
-    can_filter: no
-    hidden: no #! check this for fiscal/calendar switch
-  }
-
-  dimension: combined_month_name {
-    view_label: "Date"
-    group_label: "Dates"
-    label: "Month Name"
-    sql: ${dynamic_month_name} ;;
-    can_filter: no
-    hidden: no
-  }
-
-  # dimension: combined_month_number {
-  #   group_label: "Dates"
-  #   label: "Month Number"
-  #   sql: ${dynamic_month_number} ;;
-  #   can_filter: no
-  #   hidden: no
-  # }
-
-  dimension: combined_week {
-    view_label: "Date"
-    group_label: "Dates"
-    label: "Week"
-    type: string
-    sql: {% if select_date_type._parameter_value == "Calendar" %} ${dynamic_actual_week} {% else %} ${dynamic_fiscal_week} {% endif %} ;;
-    hidden: no
-  }
-
-
-
-
-  dimension: separate_month {
-    view_label: "Date"
-    group_label: "Dates"
-    label: "Month (Only)"
-    type: string
-    sql: {% if select_date_type._parameter_valuie == "Calendar" %} ${dynamic_actual_month_only} {% else %} ${dynamic_fiscal_month_only} {% endif %} ;;
-    hidden: no
-  }
-
-
-
-
-
-  dimension: combined_month {
-    view_label: "Date"
-    group_label: "Dates"
-    label: "Month"
-    type: string
-    sql: {% if select_date_type._parameter_value == "Calendar" %} ${dynamic_actual_month} {% else %} ${dynamic_fiscal_month} {% endif %} ;;
-    hidden: no
-  }
-
-  dimension: combined_quarter {
-    view_label: "Date"
-    group_label: "Dates"
-    label: "Quarter"
-    type: string
-    sql: {% if select_date_type._parameter_value == "Calendar" %} ${dynamic_actual_quarter} {% else %} ${dynamic_fiscal_quarter} {% endif %} ;;
-    hidden: no
-  }
-
-  dimension: combined_half {
-    hidden: yes
-  }
-
-  dimension: combined_year {
-    view_label: "Date"
-    group_label: "Dates"
-    label: "Year"
-    type: number
-    sql: {% if select_date_type._parameter_value == "Calendar" %} ${dynamic_actual_year} {% else %} ${dynamic_fiscal_year} {% endif %} ;;
-    hidden: no
-  }
-
-  dimension_group: base_date {
-    type: time
-    timeframes: [raw, date, year, month_num]
-    sql:
-
-    timestamp(${TABLE}.date)
-
-          ;;
-    hidden: yes
-  }
-
-  dimension: base_date_pk {
-    primary_key: yes
-    type: date
-    sql:
+# view: baseTEST {
+
+#   derived_table: {
+#     sql:
+
+#     select date
+#     from UNNEST(GENERATE_DATE_ARRAY('2015-01-01', date(extract(year from current_date), 12, 31))) date
+
+#       ;;
+#     datagroup_trigger: ts_daily_datagroup
+#   }
+
+#   extends: [period_over_period_rj_test]
+
+
+#   dimension: combined_day_name {
+#     view_label: "Date"
+#     group_label: "Dates"
+#     label: "Day Name"
+#     sql: ${dynamic_day_name} ;;
+#     can_filter: no
+#     hidden: no
+#   }
+
+#   dimension: combined_month_number {
+#     view_label: "Date"
+#     group_label: "Dates"
+#     label: "Month Number"
+#     sql: ${dynamic_month_number} ;;
+#     can_filter: yes
+#     hidden: no
+#   }
+
+#   # dynamic_month_number
+
+#   dimension: combined_day_of_week {
+#     view_label: "Date"
+#     group_label: "Dates"
+#     label: "Day of Week"
+#     sql: ${dynamic_day_of_week} ;;
+#     can_filter: no
+#     hidden: no #! check this for fiscal/calendar switch
+#   }
+
+#   dimension: combined_month_name {
+#     view_label: "Date"
+#     group_label: "Dates"
+#     label: "Month Name"
+#     sql: ${dynamic_month_name} ;;
+#     can_filter: no
+#     hidden: no
+#   }
+
+#   # dimension: combined_month_number {
+#   #   group_label: "Dates"
+#   #   label: "Month Number"
+#   #   sql: ${dynamic_month_number} ;;
+#   #   can_filter: no
+#   #   hidden: no
+#   # }
+
+#   dimension: combined_week {
+#     view_label: "Date"
+#     group_label: "Dates"
+#     label: "Week"
+#     type: string
+#     sql: {% if select_date_type._parameter_value == "Calendar" %} ${dynamic_actual_week} {% else %} ${dynamic_fiscal_week} {% endif %} ;;
+#     hidden: no
+#   }
+
+
+
+
+#   dimension: separate_month {
+#     view_label: "Date"
+#     group_label: "Dates"
+#     label: "Month (Only)"
+#     type: string
+#     sql: {% if select_date_type._parameter_valuie == "Calendar" %} ${dynamic_actual_month_only} {% else %} ${dynamic_fiscal_month_only} {% endif %} ;;
+#     hidden: no
+#   }
+
+
+
+
+
+#   dimension: combined_month {
+#     view_label: "Date"
+#     group_label: "Dates"
+#     label: "Month"
+#     type: string
+#     sql: {% if select_date_type._parameter_value == "Calendar" %} ${dynamic_actual_month} {% else %} ${dynamic_fiscal_month} {% endif %} ;;
+#     hidden: no
+#   }
+
+#   dimension: combined_quarter {
+#     view_label: "Date"
+#     group_label: "Dates"
+#     label: "Quarter"
+#     type: string
+#     sql: {% if select_date_type._parameter_value == "Calendar" %} ${dynamic_actual_quarter} {% else %} ${dynamic_fiscal_quarter} {% endif %} ;;
+#     hidden: no
+#   }
+
+#   dimension: combined_half {
+#     hidden: yes
+#   }
+
+#   dimension: combined_year {
+#     view_label: "Date"
+#     group_label: "Dates"
+#     label: "Year"
+#     type: number
+#     sql: {% if select_date_type._parameter_value == "Calendar" %} ${dynamic_actual_year} {% else %} ${dynamic_fiscal_year} {% endif %} ;;
+#     hidden: no
+#   }
+
+#   dimension_group: base_date {
+#     type: time
+#     timeframes: [raw, date, year, month_num]
+#     sql:
+
+#     timestamp(${TABLE}.date)
+
+#           ;;
+#     hidden: yes
+#   }
+
+#   dimension: base_date_pk {
+#     primary_key: yes
+#     type: date
+#     sql:
 
-    date(${TABLE}.date)
-
-          ;;
-    hidden: yes
-  }
-
-  # DATE v2 #
-
-  dimension: dynamic_day_of_week {
-    view_label: "Date"
-    group_label: "Calendar"
-    label: "Day of Week"
-    type: number
-    sql: ${calendar_completed_date.day_in_week} ;;
-    hidden: yes
-  }
-  dimension: dynamic_day_name {
-    view_label: "Date"
-    group_label: "Calendar"
-    label: "Day Name"
-    type: string
-    sql: ${calendar_completed_date.day_name_in_week} ;;
-    hidden: yes
-  }
-  dimension: dynamic_actual_week {
-    view_label: "Date"
-    group_label: "Calendar"
-    label: "Week Number"
-    type: number
-    sql:
+#     date(${TABLE}.date)
+
+#           ;;
+#     hidden: yes
+#   }
+
+#   # DATE v2 #
+
+#   dimension: dynamic_day_of_week {
+#     view_label: "Date"
+#     group_label: "Calendar"
+#     label: "Day of Week"
+#     type: number
+#     sql: ${calendar_completed_date.day_in_week} ;;
+#     hidden: yes
+#   }
+#   dimension: dynamic_day_name {
+#     view_label: "Date"
+#     group_label: "Calendar"
+#     label: "Day Name"
+#     type: string
+#     sql: ${calendar_completed_date.day_name_in_week} ;;
+#     hidden: yes
+#   }
+#   dimension: dynamic_actual_week {
+#     view_label: "Date"
+#     group_label: "Calendar"
+#     label: "Week Number"
+#     type: number
+#     sql:
 
-    {% if pivot_dimension._in_query %}
-      ${dynamic_actual_year}
-      ||
-      LPAD(CAST(${calendar_completed_date.week_in_year} AS STRING), 2, "0")
-    {% else %}
-      ${calendar_completed_date.calendar_year}
-      ||
-      LPAD(CAST(${calendar_completed_date.week_in_year} AS STRING), 2, "0")
-    {% endif %}
-    ;;
-    hidden: yes
-  }
-  dimension: dynamic_fiscal_week {
-    view_label: "Date"
-    group_label: "Fiscal"
-    label: "Fiscal Week"
-    type: string
-    sql:
+#     {% if pivot_dimension._in_query %}
+#       ${dynamic_actual_year}
+#       ||
+#       LPAD(CAST(${calendar_completed_date.week_in_year} AS STRING), 2, "0")
+#     {% else %}
+#       ${calendar_completed_date.calendar_year}
+#       ||
+#       LPAD(CAST(${calendar_completed_date.week_in_year} AS STRING), 2, "0")
+#     {% endif %}
+#     ;;
+#     hidden: yes
+#   }
+#   dimension: dynamic_fiscal_week {
+#     view_label: "Date"
+#     group_label: "Fiscal"
+#     label: "Fiscal Week"
+#     type: string
+#     sql:
 
-    {% if pivot_dimension._in_query  %}
+#     {% if pivot_dimension._in_query  %}
 
-            ${dynamic_fiscal_year}
+#             ${dynamic_fiscal_year}
 
-      ||
+#       ||
 
-      LPAD(CAST(${calendar_completed_date.fiscal_week_of_year} AS STRING),2,"0")
+#       LPAD(CAST(${calendar_completed_date.fiscal_week_of_year} AS STRING),2,"0")
 
-      {% else %}
+#       {% else %}
 
-      ${calendar_completed_date.fiscal_year}
+#       ${calendar_completed_date.fiscal_year}
 
-      ||
+#       ||
 
-      LPAD(CAST(${calendar_completed_date.fiscal_week_of_year} AS STRING),2,"0")
+#       LPAD(CAST(${calendar_completed_date.fiscal_week_of_year} AS STRING),2,"0")
 
-      {% endif %}
+#       {% endif %}
 
-      ;;
-    hidden: yes
-  }
-  dimension: dynamic_month_number {
-    view_label: "Date"
-    group_label: "Calendar"
-    label: "Month Number"
-    type: number
-    sql: ${calendar_completed_date.month_in_year} ;;
-    hidden: yes
-  }
-  dimension: dynamic_month_name {
-    view_label: "Date"
-    group_label: "Calendar"
-    label: "Month Name"
-    type: string
-    sql: ${calendar_completed_date.month_name_in_year} ;;
-    hidden: yes
-  }
+#       ;;
+#     hidden: yes
+#   }
+#   dimension: dynamic_month_number {
+#     view_label: "Date"
+#     group_label: "Calendar"
+#     label: "Month Number"
+#     type: number
+#     sql: ${calendar_completed_date.month_in_year} ;;
+#     hidden: yes
+#   }
+#   dimension: dynamic_month_name {
+#     view_label: "Date"
+#     group_label: "Calendar"
+#     label: "Month Name"
+#     type: string
+#     sql: ${calendar_completed_date.month_name_in_year} ;;
+#     hidden: yes
+#   }
 
 
 
@@ -792,49 +792,49 @@ view: base_v2 {
 
 
 
-  dimension: dynamic_actual_month_only {
-    view_label: "Date"
-    group_label: "Calendar"
-    label: "Month Only"
-    type: string
-    sql:
+#   dimension: dynamic_actual_month_only {
+#     view_label: "Date"
+#     group_label: "Calendar"
+#     label: "Month Only"
+#     type: string
+#     sql:
 
-    {% if pivot_dimension._in_query  %}
+#     {% if pivot_dimension._in_query  %}
 
-            LPAD(CAST(${calendar_completed_date.month_in_year} AS STRING),2,"0")
+#             LPAD(CAST(${calendar_completed_date.month_in_year} AS STRING),2,"0")
 
-      {% else %}
+#       {% else %}
 
-      LPAD(CAST(${calendar_completed_date.month_in_year} AS STRING),2,"0")
+#       LPAD(CAST(${calendar_completed_date.month_in_year} AS STRING),2,"0")
 
-      {% endif %}
+#       {% endif %}
 
-      ;;
-    hidden: yes
-  }
+#       ;;
+#     hidden: yes
+#   }
 
-  dimension: dynamic_fiscal_month_only {
-    view_label: "Date"
-    group_label: "Fiscal"
-    label: "Month Only"
-    type: string
-    sql:
+#   dimension: dynamic_fiscal_month_only {
+#     view_label: "Date"
+#     group_label: "Fiscal"
+#     label: "Month Only"
+#     type: string
+#     sql:
 
-    {% if pivot_dimension._in_query  %}
+#     {% if pivot_dimension._in_query  %}
 
 
-      LPAD(CAST(${calendar_completed_date.fiscal_month_of_year} AS STRING),2,"0")
+#       LPAD(CAST(${calendar_completed_date.fiscal_month_of_year} AS STRING),2,"0")
 
-      {% else %}
+#       {% else %}
 
 
-      LPAD(CAST(${calendar_completed_date.fiscal_month_of_year} AS STRING),2,"0")
+#       LPAD(CAST(${calendar_completed_date.fiscal_month_of_year} AS STRING),2,"0")
 
-      {% endif %}
+#       {% endif %}
 
-      ;;
-    hidden: yes
-  }
+#       ;;
+#     hidden: yes
+#   }
 
 
 
@@ -858,267 +858,267 @@ view: base_v2 {
 
 
 
-  dimension: dynamic_actual_month {
-    view_label: "Date"
-    group_label: "Calendar"
-    label: "Year Month"
-    type: string
-    sql:
+#   dimension: dynamic_actual_month {
+#     view_label: "Date"
+#     group_label: "Calendar"
+#     label: "Year Month"
+#     type: string
+#     sql:
 
-    {% if pivot_dimension._in_query  %}
+#     {% if pivot_dimension._in_query  %}
 
-            ${dynamic_actual_year}
+#             ${dynamic_actual_year}
 
-      ||
+#       ||
 
-      "-"
+#       "-"
 
-      ||
+#       ||
 
-      LPAD(CAST(${calendar_completed_date.month_in_year} AS STRING),2,"0")
+#       LPAD(CAST(${calendar_completed_date.month_in_year} AS STRING),2,"0")
 
-      {% else %}
+#       {% else %}
 
-      ${calendar_completed_date.calendar_year}
+#       ${calendar_completed_date.calendar_year}
 
-      ||
+#       ||
 
-      "-"
+#       "-"
 
-      ||
+#       ||
 
-      LPAD(CAST(${calendar_completed_date.month_in_year} AS STRING),2,"0")
+#       LPAD(CAST(${calendar_completed_date.month_in_year} AS STRING),2,"0")
 
-      {% endif %}
+#       {% endif %}
 
-      ;;
-    hidden: yes
-  }
+#       ;;
+#     hidden: yes
+#   }
 
-  dimension: dynamic_fiscal_month {
-    view_label: "Date"
-    group_label: "Fiscal"
-    label: "Fiscal Month"
-    type: string
-    sql:
+#   dimension: dynamic_fiscal_month {
+#     view_label: "Date"
+#     group_label: "Fiscal"
+#     label: "Fiscal Month"
+#     type: string
+#     sql:
 
-    {% if pivot_dimension._in_query  %}
+#     {% if pivot_dimension._in_query  %}
 
-            ${dynamic_fiscal_year}
+#             ${dynamic_fiscal_year}
 
-      ||
+#       ||
 
-      "-"
+#       "-"
 
-      ||
+#       ||
 
-      LPAD(CAST(${calendar_completed_date.fiscal_month_of_year} AS STRING),2,"0")
+#       LPAD(CAST(${calendar_completed_date.fiscal_month_of_year} AS STRING),2,"0")
 
-      {% else %}
+#       {% else %}
 
-      ${calendar_completed_date.fiscal_year}
+#       ${calendar_completed_date.fiscal_year}
 
-      ||
+#       ||
 
-      "-"
+#       "-"
 
-      ||
+#       ||
 
-      LPAD(CAST(${calendar_completed_date.fiscal_month_of_year} AS STRING),2,"0")
+#       LPAD(CAST(${calendar_completed_date.fiscal_month_of_year} AS STRING),2,"0")
 
-      {% endif %}
+#       {% endif %}
 
-      ;;
-    hidden: yes
-  }
-  dimension: dynamic_actual_quarter {
-    view_label: "Date"
-    group_label: "Calendar"
-    label: "Quarter"
-    type: number
-    sql:
+#       ;;
+#     hidden: yes
+#   }
+#   dimension: dynamic_actual_quarter {
+#     view_label: "Date"
+#     group_label: "Calendar"
+#     label: "Quarter"
+#     type: number
+#     sql:
 
-    {% if pivot_dimension._in_query %}
-    ${dynamic_actual_year}
-      ||
-      "Q"
-      ||
-      LPAD(CAST(${calendar_completed_date.calendar_quarter} AS STRING), 2, "0")
-    {% else %}
-      ${calendar_completed_date.calendar_year}
-      ||
-      "Q"
-      ||
-      LPAD(CAST(${calendar_completed_date.calendar_quarter} AS STRING), 2, "0")
+#     {% if pivot_dimension._in_query %}
+#     ${dynamic_actual_year}
+#       ||
+#       "Q"
+#       ||
+#       LPAD(CAST(${calendar_completed_date.calendar_quarter} AS STRING), 2, "0")
+#     {% else %}
+#       ${calendar_completed_date.calendar_year}
+#       ||
+#       "Q"
+#       ||
+#       LPAD(CAST(${calendar_completed_date.calendar_quarter} AS STRING), 2, "0")
 
-      {% endif %}
+#       {% endif %}
 
-      ;;
-    hidden: yes
-  }
-  dimension: dynamic_fiscal_quarter {
-    view_label: "Date"
-    group_label: "Fiscal"
-    label: "Fiscal Quarter"
-    type: string
-    sql:
+#       ;;
+#     hidden: yes
+#   }
+#   dimension: dynamic_fiscal_quarter {
+#     view_label: "Date"
+#     group_label: "Fiscal"
+#     label: "Fiscal Quarter"
+#     type: string
+#     sql:
 
-    {% if pivot_dimension._in_query  %}
+#     {% if pivot_dimension._in_query  %}
 
-            ${dynamic_fiscal_year}
+#             ${dynamic_fiscal_year}
 
-      ||
+#       ||
 
-      "Q"
+#       "Q"
 
-      ||
+#       ||
 
-      LPAD(CAST(${calendar_completed_date.calendar_quarter} AS STRING),2,"0")
+#       LPAD(CAST(${calendar_completed_date.calendar_quarter} AS STRING),2,"0")
 
-      {% else %}
+#       {% else %}
 
-      ${calendar_completed_date.fiscal_year}
+#       ${calendar_completed_date.fiscal_year}
 
-      ||
+#       ||
 
-      "Q"
+#       "Q"
 
-      ||
+#       ||
 
-      LPAD(CAST(${calendar_completed_date.calendar_quarter} AS STRING),2,"0")
+#       LPAD(CAST(${calendar_completed_date.calendar_quarter} AS STRING),2,"0")
 
-      {% endif %}
+#       {% endif %}
 
 
-      ;;
-    hidden: yes
-  }
+#       ;;
+#     hidden: yes
+#   }
 
 
 
-  dimension: dynamic_half_number {
-    view_label: "Date"
-    group_label: "Calendar"
-    label: "Half"
-    type: number
-    hidden: yes
-    sql:
+#   dimension: dynamic_half_number {
+#     view_label: "Date"
+#     group_label: "Calendar"
+#     label: "Half"
+#     type: number
+#     hidden: yes
+#     sql:
 
-    {% if pivot_dimension._in_query  %}
+#     {% if pivot_dimension._in_query  %}
 
-            ${dynamic_actual_year}
+#             ${dynamic_actual_year}
 
-      ||
+#       ||
 
-      "H"
+#       "H"
 
-      ||
+#       ||
 
-      case when ${calendar_completed_date.calendar_quarter} in (1,2) then 1 else 2 end
+#       case when ${calendar_completed_date.calendar_quarter} in (1,2) then 1 else 2 end
 
-      {% else %}
+#       {% else %}
 
-      ${calendar_completed_date.calendar_year}
+#       ${calendar_completed_date.calendar_year}
 
-      ||
+#       ||
 
-      "H"
+#       "H"
 
-      ||
+#       ||
 
-      case when ${calendar_completed_date.calendar_quarter} in (1,2) then 1 else 2 end
+#       case when ${calendar_completed_date.calendar_quarter} in (1,2) then 1 else 2 end
 
-      {% endif %}
+#       {% endif %}
 
 
 
-      ;;
-  }
-  dimension: dynamic_fiscal_half {
-    view_label: "Date"
-    group_label: "Fiscal"
-    label: "Fiscal Half"
-    type: string
-    hidden: yes
-    sql:
+#       ;;
+#   }
+#   dimension: dynamic_fiscal_half {
+#     view_label: "Date"
+#     group_label: "Fiscal"
+#     label: "Fiscal Half"
+#     type: string
+#     hidden: yes
+#     sql:
 
-    {% if pivot_dimension._in_query  %}
+#     {% if pivot_dimension._in_query  %}
 
 
-      ${dynamic_fiscal_year}
+#       ${dynamic_fiscal_year}
 
-      ||
+#       ||
 
-      "H"
+#       "H"
 
-      ||
+#       ||
 
-      ${dynamic_half_number}
+#       ${dynamic_half_number}
 
-      {% else %}
+#       {% else %}
 
-      ${calendar_completed_date.fiscal_year}
+#       ${calendar_completed_date.fiscal_year}
 
-      ||
+#       ||
 
-      "H"
+#       "H"
 
-      ||
+#       ||
 
-      ${dynamic_half_number}
+#       ${dynamic_half_number}
 
-      {% endif %}
+#       {% endif %}
 
 
-      ;;
-  }
+#       ;;
+#   }
 
-  dimension: dynamic_fiscal_year {
-    view_label: "Date"
-    group_label: "Fiscal"
-    label: "Fiscal Year"
-    type: number
-    sql:
+#   dimension: dynamic_fiscal_year {
+#     view_label: "Date"
+#     group_label: "Fiscal"
+#     label: "Fiscal Year"
+#     type: number
+#     sql:
 
-    ${calendar_completed_date.fiscal_year}
+#     ${calendar_completed_date.fiscal_year}
 
-          {% if pivot_dimension._in_query  %}
-                +
-              CASE
-                WHEN ${calendar_completed_date.fiscal_year} = EXTRACT(YEAR FROM CURRENT_DATE() - 1) - 1
-                  THEN 1
-                WHEN ${calendar_completed_date.fiscal_year} = EXTRACT(YEAR FROM CURRENT_DATE() - 1) - 2
-                  THEN 2
-                ELSE 0
-              END
-          {% endif %}
+#           {% if pivot_dimension._in_query  %}
+#                 +
+#               CASE
+#                 WHEN ${calendar_completed_date.fiscal_year} = EXTRACT(YEAR FROM CURRENT_DATE() - 1) - 1
+#                   THEN 1
+#                 WHEN ${calendar_completed_date.fiscal_year} = EXTRACT(YEAR FROM CURRENT_DATE() - 1) - 2
+#                   THEN 2
+#                 ELSE 0
+#               END
+#           {% endif %}
 
-      ;;
-    hidden: yes
-  }
+#       ;;
+#     hidden: yes
+#   }
 
-  dimension: dynamic_actual_year {
-    view_label: "Date"
-    group_label: "Calendar"
-    label: "Year"
-    type: number
-    sql:
+#   dimension: dynamic_actual_year {
+#     view_label: "Date"
+#     group_label: "Calendar"
+#     label: "Year"
+#     type: number
+#     sql:
 
-    ${base_date_year}
-    {% if pivot_dimension._in_query  %}
-      +
-    CASE
-      WHEN ${base_date_year} = EXTRACT(YEAR FROM CURRENT_DATE() - 1) - 1
-        THEN 1
-      WHEN ${base_date_year} = EXTRACT(YEAR FROM CURRENT_DATE() - 1) - 2
-        THEN 2
-      ELSE 0
-    END
-    {% endif %}
+#     ${base_date_year}
+#     {% if pivot_dimension._in_query  %}
+#       +
+#     CASE
+#       WHEN ${base_date_year} = EXTRACT(YEAR FROM CURRENT_DATE() - 1) - 1
+#         THEN 1
+#       WHEN ${base_date_year} = EXTRACT(YEAR FROM CURRENT_DATE() - 1) - 2
+#         THEN 2
+#       ELSE 0
+#     END
+#     {% endif %}
 
-      ;;
-    hidden: yes
-  }
+#       ;;
+#     hidden: yes
+#   }
 
 
 
@@ -1126,181 +1126,181 @@ view: base_v2 {
 
 
 
-  measure: count_of_dates {
-    type: count_distinct
-    sql: ${base_date_date} ;;
-    hidden: yes # only used by Data Tests
-  }
+#   measure: count_of_dates {
+#     type: count_distinct
+#     sql: ${base_date_date} ;;
+#     hidden: yes # only used by Data Tests
+#   }
 
-}
+# }
 
-view: calendarv2 {
+# view: calendar {
 
-  fields_hidden_by_default: yes
+#   fields_hidden_by_default: yes
 
-  sql_table_name:
+#   sql_table_name:
 
-  `toolstation-data-storage.ts_finance.dim_date`
+#   `toolstation-data-storage.ts_finance.dim_date`
 
-      ;;
+#       ;;
 
-  dimension: date{
-    type: date
-    primary_key: yes
-    sql: ${TABLE}.fullDate ;;
-  }
-  dimension: calendar_quarter {
-    group_label: "Calendar"
-    type: number
-    sql: ${TABLE}.calendarQuarter ;;
-  }
-  dimension: calendar_year {
-    group_label: "Calendar"
-    type: number
-    sql: ${TABLE}.calendarYear ;;
-  }
-  dimension: calendar_year_month {
-    group_label: "Calendar"
-    type: string
-    sql: ${TABLE}.calendarYearMonth ;;
-  }
-  dimension: calendar_year_quarter {
-    group_label: "Calendar"
-    type: string
-    sql: ${TABLE}.calendarYearQuarter ;;
-  }
-  dimension: date_key {
-    group_label: "Date"
-    type: number
-    sql: ${TABLE}.dateKey ;;
-  }
-  dimension: date_name {
-    group_label: "Date"
-    type: string
-    sql: ${TABLE}.dateName ;;
-  }
-  dimension: date_name_eu {
-    group_label: "Date"
-    type: string
-    sql: ${TABLE}.dateNameEU ;;
-  }
-  dimension: date_name_usa {
-    group_label: "Date"
-    type: string
-    sql: ${TABLE}.dateNameUSA ;;
-  }
-  dimension: day_in_month {
-    group_label: "Day"
-    type: number
-    sql: ${TABLE}.dayInMonth ;;
-  }
-  dimension: day_in_week {
-    group_label: "Day"
-    type: number
-    sql: ${TABLE}.dayInWeek ;;
-  }
-  dimension: day_in_year {
-    group_label: "Day"
-    type: number
-    sql: ${TABLE}.dayInYear ;;
-  }
-  dimension: day_name_in_week {
-    group_label: "Day"
-    type: string
-    sql: ${TABLE}.dayNameInWeek ;;
-  }
-  dimension: fiscal_month_of_year {
-    group_label: "Fiscal"
-    type: number
-    sql: ${TABLE}.fiscalMonthOfYear ;;
-  }
-  dimension: fiscal_quarter {
-    group_label: "Fiscal"
-    type: number
-    sql: ${TABLE}.fiscalQuarter ;;
-  }
-  dimension: fiscal_week_of_year {
-    group_label: "Fiscal"
-    type: number
-    sql: ${TABLE}.fiscalWeekOfYear ;;
-  }
-  dimension: fiscal_year {
-    group_label: "Fiscal"
-    type: number
-    sql: ${TABLE}.fiscalYear ;;
-  }
-  dimension: fiscal_year_month {
-    group_label: "Fiscal"
-    type: string
-    sql: ${TABLE}.fiscalYearMonth ;;
-  }
-  dimension: fiscal_year_quarter {
-    group_label: "Fiscal"
-    type: string
-    sql: ${TABLE}.fiscalYearQuarter ;;
-  }
-  dimension: fiscal_year_week {
-    label: "Fiscal Week"
-    type: string
-    sql: ${TABLE}.fiscalYearWeek ;;
-    can_filter: no
-  }
-  dimension: holiday_name {
-    group_label: "Holiday"
-    type: string
-    sql: ${TABLE}.holidayName ;;
-    hidden: no
-  }
-  dimension: holiday_name_scotland {
-    group_label: "Holiday"
-    type: string
-    sql: ${TABLE}.holidayNameScotland ;;
-    hidden: no
-  }
-  dimension: is_holiday {
-    group_label: "Flags"
-    type: yesno
-    sql: ${TABLE}.isHoliday = 1;;
-    hidden: no
-  }
-  dimension: is_holiday_scotland {
-    group_label: "Flags"
-    type: yesno
-    sql: ${TABLE}.isHolidayScotland = 1;;
-    hidden: no
-  }
-  dimension: is_last_day_of_month {
-    group_label: "Flags"
-    type: yesno
-    sql: ${TABLE}.isLastDayOfMonth = 1 ;;
-    hidden: no
-  }
-  dimension: is_first_day_of_month {
-    group_label: "Flags"
-    type: yesno
-    sql: ${TABLE}.dayInMonth = 1 ;;
-    hidden: no
-  }
-  dimension: is_weekend {
-    group_label: "Flags"
-    type: yesno
-    sql: ${TABLE}.isWeekend = 1;;
-    hidden: no
-  }
-  dimension: month_in_year {
-    group_label: "Calendar"
-    type: number
-    sql: ${TABLE}.monthInYear ;;
-  }
-  dimension: month_name_in_year {
-    group_label: "Calendar"
-    type: string
-    sql: ${TABLE}.monthNameInYear ;;
-  }
-  dimension: week_in_year {
-    group_label: "Calendar"
-    type: number
-    sql: ${TABLE}.weekInYear ;;
-  }
+#   dimension: date{
+#     type: date
+#     primary_key: yes
+#     sql: ${TABLE}.fullDate ;;
+#   }
+#   dimension: calendar_quarter {
+#     group_label: "Calendar"
+#     type: number
+#     sql: ${TABLE}.calendarQuarter ;;
+#   }
+#   dimension: calendar_year {
+#     group_label: "Calendar"
+#     type: number
+#     sql: ${TABLE}.calendarYear ;;
+#   }
+#   dimension: calendar_year_month {
+#     group_label: "Calendar"
+#     type: string
+#     sql: ${TABLE}.calendarYearMonth ;;
+#   }
+#   dimension: calendar_year_quarter {
+#     group_label: "Calendar"
+#     type: string
+#     sql: ${TABLE}.calendarYearQuarter ;;
+#   }
+#   dimension: date_key {
+#     group_label: "Date"
+#     type: number
+#     sql: ${TABLE}.dateKey ;;
+#   }
+#   dimension: date_name {
+#     group_label: "Date"
+#     type: string
+#     sql: ${TABLE}.dateName ;;
+#   }
+#   dimension: date_name_eu {
+#     group_label: "Date"
+#     type: string
+#     sql: ${TABLE}.dateNameEU ;;
+#   }
+#   dimension: date_name_usa {
+#     group_label: "Date"
+#     type: string
+#     sql: ${TABLE}.dateNameUSA ;;
+#   }
+#   dimension: day_in_month {
+#     group_label: "Day"
+#     type: number
+#     sql: ${TABLE}.dayInMonth ;;
+#   }
+#   dimension: day_in_week {
+#     group_label: "Day"
+#     type: number
+#     sql: ${TABLE}.dayInWeek ;;
+#   }
+#   dimension: day_in_year {
+#     group_label: "Day"
+#     type: number
+#     sql: ${TABLE}.dayInYear ;;
+#   }
+#   dimension: day_name_in_week {
+#     group_label: "Day"
+#     type: string
+#     sql: ${TABLE}.dayNameInWeek ;;
+#   }
+#   dimension: fiscal_month_of_year {
+#     group_label: "Fiscal"
+#     type: number
+#     sql: ${TABLE}.fiscalMonthOfYear ;;
+#   }
+#   dimension: fiscal_quarter {
+#     group_label: "Fiscal"
+#     type: number
+#     sql: ${TABLE}.fiscalQuarter ;;
+#   }
+#   dimension: fiscal_week_of_year {
+#     group_label: "Fiscal"
+#     type: number
+#     sql: ${TABLE}.fiscalWeekOfYear ;;
+#   }
+#   dimension: fiscal_year {
+#     group_label: "Fiscal"
+#     type: number
+#     sql: ${TABLE}.fiscalYear ;;
+#   }
+#   dimension: fiscal_year_month {
+#     group_label: "Fiscal"
+#     type: string
+#     sql: ${TABLE}.fiscalYearMonth ;;
+#   }
+#   dimension: fiscal_year_quarter {
+#     group_label: "Fiscal"
+#     type: string
+#     sql: ${TABLE}.fiscalYearQuarter ;;
+#   }
+#   dimension: fiscal_year_week {
+#     label: "Fiscal Week"
+#     type: string
+#     sql: ${TABLE}.fiscalYearWeek ;;
+#     can_filter: no
+#   }
+#   dimension: holiday_name {
+#     group_label: "Holiday"
+#     type: string
+#     sql: ${TABLE}.holidayName ;;
+#     hidden: no
+#   }
+#   dimension: holiday_name_scotland {
+#     group_label: "Holiday"
+#     type: string
+#     sql: ${TABLE}.holidayNameScotland ;;
+#     hidden: no
+#   }
+#   dimension: is_holiday {
+#     group_label: "Flags"
+#     type: yesno
+#     sql: ${TABLE}.isHoliday = 1;;
+#     hidden: no
+#   }
+#   dimension: is_holiday_scotland {
+#     group_label: "Flags"
+#     type: yesno
+#     sql: ${TABLE}.isHolidayScotland = 1;;
+#     hidden: no
+#   }
+#   dimension: is_last_day_of_month {
+#     group_label: "Flags"
+#     type: yesno
+#     sql: ${TABLE}.isLastDayOfMonth = 1 ;;
+#     hidden: no
+#   }
+#   dimension: is_first_day_of_month {
+#     group_label: "Flags"
+#     type: yesno
+#     sql: ${TABLE}.dayInMonth = 1 ;;
+#     hidden: no
+#   }
+#   dimension: is_weekend {
+#     group_label: "Flags"
+#     type: yesno
+#     sql: ${TABLE}.isWeekend = 1;;
+#     hidden: no
+#   }
+#   dimension: month_in_year {
+#     group_label: "Calendar"
+#     type: number
+#     sql: ${TABLE}.monthInYear ;;
+#   }
+#   dimension: month_name_in_year {
+#     group_label: "Calendar"
+#     type: string
+#     sql: ${TABLE}.monthNameInYear ;;
+#   }
+#   dimension: week_in_year {
+#     group_label: "Calendar"
+#     type: number
+#     sql: ${TABLE}.weekInYear ;;
+#   }
 
-}
+# }
