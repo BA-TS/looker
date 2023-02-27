@@ -1,5 +1,7 @@
 
 include: "/views/**/*.view"
+include: "/views/prod/date/base_date_noCatalogue.view.lkml"
+include: "/views/prod/date/PoP.view.lkml"
 #include: "/views/prod/date/calendar.view.lkml"
 #include: "/views/prod/date/period_over_period.view"
 # include all views in the views/ folder in this project

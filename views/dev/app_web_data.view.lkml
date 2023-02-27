@@ -1,4 +1,3 @@
-include: "/views/prod/date/Period_over_period_RJ_test.view"
 
 view: app_web_data {
 

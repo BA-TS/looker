@@ -1,51 +1,44 @@
-view: period_over_period_rj_test {
-  # # You can specify the table name if it's different from the view name:
+view: pop {
+  #include: "/views/dev/cg_testing/catalogue.view"
 
 
-  extension: required
+    extension: required
 
-
-
-
-
-
-
-
-  parameter: select_date_type {
-    label: "Date Type"
-    view_label: "Date"
-    type: unquoted
-    allowed_value: {
-      label: "Calendar"
-      value: "Calendar"
+    parameter: select_date_type {
+      label: "Date Type"
+      view_label: "Date"
+      type: unquoted
+      allowed_value: {
+        label: "Calendar"
+        value: "Calendar"
+      }
+      allowed_value: {
+        label: "Fiscal"
+        value: "Fiscal"
+      }
+      default_value: "Calendar"
+      hidden: yes
+      # required_access_grants: [is_developer]
     }
-    allowed_value: {
-      label: "Fiscal"
-      value: "Fiscal"
-    }
-    default_value: "Calendar"
-    hidden: yes
-    # required_access_grants: [is_developer]
-  }
 
 
 
-  parameter: select_date_reference {
-    label: "Date Reference"
-    view_label: "Date"
-    type: unquoted
-    allowed_value: {
-      label: "Placed Date"
-      value: "Placed"
+    parameter: select_date_reference {
+      label: "Date Reference"
+      view_label: "Date"
+      type: unquoted
+      allowed_value: {
+        label: "Placed Date"
+        value: "Placed"
+      }
+      allowed_value: {
+        label: "Transaction Date"
+        value: "Transaction"
+      }
+      default_value: "Transaction"
+      hidden: yes
+      # required_access_grants: [is_developer]
     }
-    allowed_value: {
-      label: "Transaction Date"
-      value: "Transaction"
-    }
-    default_value: "Transaction"
-    hidden: yes
-    # required_access_grants: [is_developer]
-  }
 
 
 
@@ -112,34 +105,34 @@ view: period_over_period_rj_test {
 # ██████╔╝░░░██║░░░██║░╚███║██║░░██║██║░╚═╝░██║██║╚█████╔╝░░░╚█████╔╝╚█████╔╝██║░╚███║██████╔╝░░░██║░░░██║░░██║██║░╚███║░░░██║░░░██████╔╝
 # ╚═════╝░░░░╚═╝░░░╚═╝░░╚══╝╚═╝░░╚═╝╚═╝░░░░░╚═╝╚═╝░╚════╝░░░░░╚════╝░░╚════╝░╚═╝░░╚══╝╚═════╝░░░░╚═╝░░░╚═╝░░╚═╝╚═╝░░╚══╝░░░╚═╝░░░╚═════╝░
 
-  dimension: __current_date__ {
-    type: date
-    datatype: date
-    sql: CURRENT_DATE() - 1;;
-    hidden: yes
-  }
-  dimension: __target_raw__ {
-    type: date
-    datatype: datetime
-    sql:
+    dimension: __current_date__ {
+      type: date
+      datatype: date
+      sql: CURRENT_DATE() - 1;;
+      hidden: yes
+    }
+    dimension: __target_raw__ {
+      type: date
+      datatype: datetime
+      sql:
 
-    ${baseTEST.base_date_raw}
+          ${base.base_date_raw}
 
-          --CASE ${select_date_reference}
-            --WHEN "Placed"
-              --THEN 0
-            --ELSE ${base.base_date_raw}
-          --END*/
+            /*CASE ${select_date_reference}
+              WHEN "Placed"
+                THEN 0
+              ELSE ${base.base_date_raw}
+            END*/
 
-      ;;
-    hidden: yes
-  }
-  dimension: __target_date__ {
-    type: date
-    datatype: date
-    sql: ${__target_raw__} ;;
-    hidden: yes
-  }
+        ;;
+      hidden: yes
+    }
+    dimension: __target_date__ {
+      type: date
+      datatype: date
+      sql: ${__target_raw__} ;;
+      hidden: yes
+    }
 
 
 
@@ -148,66 +141,66 @@ view: period_over_period_rj_test {
 # █▀▄ ▄▀█ █▄█
 # █▄▀ █▀█ ░█░
 
-  dimension: __day_LW__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__current_date__}, INTERVAL 1 WEEK) ;;
-    hidden: yes
-  }
-  dimension: __day_2LW__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__current_date__}, INTERVAL 2 WEEK) ;;
-    hidden: yes
-  }
-  dimension: __day_LM__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__current_date__}, INTERVAL 1 MONTH) ;;
-    hidden: yes
-  }
-  dimension: __day_2LM__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__current_date__}, INTERVAL 2 MONTH) ;;
-    hidden: yes
-  }
-  dimension: __day_LQ__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__current_date__}, INTERVAL ${__length_of_quarter__} DAY) ;;
-    hidden: yes
-  }
-  dimension: __day_2LQ__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__day_LQ__}, INTERVAL ${__length_of_quarter__} DAY) ;;
-    hidden: yes
-  }
-  dimension: __day_LH__ {
-    type: date
-    datatype: date
-    sql: ${__day_2LQ__} ;;
-    hidden: yes
-  }
-  dimension: __day_2LH__ {
-    type: date
-    datatype: date
-    sql: ${__day_LY__} ;;
-    hidden: yes
-  }
-  dimension: __day_LY__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__current_date__}, INTERVAL ${__length_of_year__} DAY) ;;
-    hidden: yes
-  }
-  dimension: __day_2LY__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__day_LY__}, INTERVAL ${__length_of_year__} DAY) ;;
-    hidden: yes
-  }
+    dimension: __day_LW__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__current_date__}, INTERVAL 1 WEEK) ;;
+      hidden: yes
+    }
+    dimension: __day_2LW__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__current_date__}, INTERVAL 2 WEEK) ;;
+      hidden: yes
+    }
+    dimension: __day_LM__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__current_date__}, INTERVAL 1 MONTH) ;;
+      hidden: yes
+    }
+    dimension: __day_2LM__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__current_date__}, INTERVAL 2 MONTH) ;;
+      hidden: yes
+    }
+    dimension: __day_LQ__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__current_date__}, INTERVAL ${__length_of_quarter__} DAY) ;;
+      hidden: yes
+    }
+    dimension: __day_2LQ__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__day_LQ__}, INTERVAL ${__length_of_quarter__} DAY) ;;
+      hidden: yes
+    }
+    dimension: __day_LH__ {
+      type: date
+      datatype: date
+      sql: ${__day_2LQ__} ;;
+      hidden: yes
+    }
+    dimension: __day_2LH__ {
+      type: date
+      datatype: date
+      sql: ${__day_LY__} ;;
+      hidden: yes
+    }
+    dimension: __day_LY__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__current_date__}, INTERVAL ${__length_of_year__} DAY) ;;
+      hidden: yes
+    }
+    dimension: __day_2LY__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__day_LY__}, INTERVAL ${__length_of_year__} DAY) ;;
+      hidden: yes
+    }
 
 
 
@@ -216,138 +209,138 @@ view: period_over_period_rj_test {
 # █░█░█ █▀▀ █▀▀ █▄▀
 # ▀▄▀▄▀ ██▄ ██▄ █░█
 
-  dimension: __week_start__ {
-    type: date
-    datatype: date
-    sql: DATE_TRUNC(${__week_end__}, WEEK);;
-    hidden: yes
-  }
-  dimension: __week_end__ {
-    type: date
-    datatype: date
-    sql: ${__current_date__} ;;
-    hidden: yes
-  }
-  dimension: __week_LW_start__ {
-    type: date
-    datatype: date
-    sql: DATE_TRUNC(${__week_LW_end__}, WEEK) ;;
-    hidden: yes
-  }
-  dimension: __week_LW_end__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__week_end__}, INTERVAL 1 WEEK) ;;
-    hidden: yes
-  }
-  dimension: __week_2LW_start__ {
-    type: date
-    datatype: date
-    sql: DATE_TRUNC(${__week_2LW_end__}, WEEK) ;;
-    hidden: yes
-  }
-  dimension: __week_2LW_end__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__week_LW_end__}, INTERVAL 1 WEEK) ;;
-    hidden: yes
-  }
-  dimension: __week_LM_start__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__week_start__}, INTERVAL ${__length_of_month__} DAY) ;;
-    hidden: yes
-  }
-  dimension: __week_LM_end__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__week_end__}, INTERVAL ${__length_of_month__} DAY) ;;
-    hidden: yes
-  }
-  dimension: __week_2LM_start__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__week_LM_start__}, INTERVAL ${__length_of_month__} DAY) ;;
-    hidden: yes
-  }
-  dimension: __week_2LM_end__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__week_LM_end__}, INTERVAL ${__length_of_month__} DAY) ;;
-    hidden: yes
-  }
-  dimension: __week_LQ_start__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__week_start__}, INTERVAL ${__length_of_quarter__} DAY) ;;
-    hidden: yes
-  }
-  dimension: __week_LQ_end__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__week_end__}, INTERVAL ${__length_of_quarter__} DAY) ;;
-    hidden: yes
-  }
-  dimension: __week_2LQ_start__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__week_LQ_start__}, INTERVAL ${__length_of_quarter__} DAY) ;;
-    hidden: yes
-  }
-  dimension: __week_2LQ_end__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__week_LQ_end__}, INTERVAL ${__length_of_quarter__} DAY) ;;
-    hidden: yes
-  }
-  dimension: __week_LH_start__ {
-    type: date
-    datatype: date
-    sql: ${__week_2LQ_start__} ;;
-    hidden: yes
-  }
-  dimension: __week_LH_end__ {
-    type: date
-    datatype: date
-    sql: ${__week_2LQ_end__} ;;
-    hidden: yes
-  }
-  dimension: __week_2LH_start__ {
-    type: date
-    datatype: date
-    sql: ${__week_LY_start__} ;;
-    hidden: yes
-  }
-  dimension: __week_2LH_end__ {
-    type: date
-    datatype: date
-    sql: ${__week_LY_end__} ;;
-    hidden: yes
-  }
-  dimension: __week_LY_start__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__week_start__}, INTERVAL ${__length_of_year__} DAY) ;;
-    hidden: yes
-  }
-  dimension: __week_LY_end__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__week_end__}, INTERVAL ${__length_of_year__} DAY) ;;
-    hidden: yes
-  }
-  dimension: __week_2LY_start__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__week_LY_start__}, INTERVAL ${__length_of_year__} DAY) ;;
-    hidden: yes
-  }
-  dimension: __week_2LY_end__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__week_LY_end__}, INTERVAL ${__length_of_year__} DAY) ;;
-    hidden: yes
-  }
+    dimension: __week_start__ {
+      type: date
+      datatype: date
+      sql: DATE_TRUNC(${__week_end__}, WEEK);;
+      hidden: yes
+    }
+    dimension: __week_end__ {
+      type: date
+      datatype: date
+      sql: ${__current_date__} ;;
+      hidden: yes
+    }
+    dimension: __week_LW_start__ {
+      type: date
+      datatype: date
+      sql: DATE_TRUNC(${__week_LW_end__}, WEEK) ;;
+      hidden: yes
+    }
+    dimension: __week_LW_end__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__week_end__}, INTERVAL 1 WEEK) ;;
+      hidden: yes
+    }
+    dimension: __week_2LW_start__ {
+      type: date
+      datatype: date
+      sql: DATE_TRUNC(${__week_2LW_end__}, WEEK) ;;
+      hidden: yes
+    }
+    dimension: __week_2LW_end__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__week_LW_end__}, INTERVAL 1 WEEK) ;;
+      hidden: yes
+    }
+    dimension: __week_LM_start__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__week_start__}, INTERVAL ${__length_of_month__} DAY) ;;
+      hidden: yes
+    }
+    dimension: __week_LM_end__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__week_end__}, INTERVAL ${__length_of_month__} DAY) ;;
+      hidden: yes
+    }
+    dimension: __week_2LM_start__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__week_LM_start__}, INTERVAL ${__length_of_month__} DAY) ;;
+      hidden: yes
+    }
+    dimension: __week_2LM_end__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__week_LM_end__}, INTERVAL ${__length_of_month__} DAY) ;;
+      hidden: yes
+    }
+    dimension: __week_LQ_start__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__week_start__}, INTERVAL ${__length_of_quarter__} DAY) ;;
+      hidden: yes
+    }
+    dimension: __week_LQ_end__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__week_end__}, INTERVAL ${__length_of_quarter__} DAY) ;;
+      hidden: yes
+    }
+    dimension: __week_2LQ_start__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__week_LQ_start__}, INTERVAL ${__length_of_quarter__} DAY) ;;
+      hidden: yes
+    }
+    dimension: __week_2LQ_end__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__week_LQ_end__}, INTERVAL ${__length_of_quarter__} DAY) ;;
+      hidden: yes
+    }
+    dimension: __week_LH_start__ {
+      type: date
+      datatype: date
+      sql: ${__week_2LQ_start__} ;;
+      hidden: yes
+    }
+    dimension: __week_LH_end__ {
+      type: date
+      datatype: date
+      sql: ${__week_2LQ_end__} ;;
+      hidden: yes
+    }
+    dimension: __week_2LH_start__ {
+      type: date
+      datatype: date
+      sql: ${__week_LY_start__} ;;
+      hidden: yes
+    }
+    dimension: __week_2LH_end__ {
+      type: date
+      datatype: date
+      sql: ${__week_LY_end__} ;;
+      hidden: yes
+    }
+    dimension: __week_LY_start__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__week_start__}, INTERVAL ${__length_of_year__} DAY) ;;
+      hidden: yes
+    }
+    dimension: __week_LY_end__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__week_end__}, INTERVAL ${__length_of_year__} DAY) ;;
+      hidden: yes
+    }
+    dimension: __week_2LY_start__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__week_LY_start__}, INTERVAL ${__length_of_year__} DAY) ;;
+      hidden: yes
+    }
+    dimension: __week_2LY_end__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__week_LY_end__}, INTERVAL ${__length_of_year__} DAY) ;;
+      hidden: yes
+    }
 
 
 
@@ -356,114 +349,114 @@ view: period_over_period_rj_test {
 # █▀▄▀█ █▀█ █▄░█ ▀█▀ █░█
 # █░▀░█ █▄█ █░▀█ ░█░ █▀█
 
-  dimension: __month_start__ {
-    type: date
-    datatype: date
-    sql: DATE_TRUNC(${__current_date__}, MONTH) ;;
-    hidden: yes
-  }
-  dimension: __month_end__ {
-    type: date
-    datatype: date
-    sql: ${__current_date__} ;;
-    hidden: yes
-  }
-  dimension: __month_LM_start__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__month_start__}, INTERVAL 1 MONTH) ;;
-    hidden: yes
-  }
-  dimension: __month_LM_end__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__month_end__}, INTERVAL 1 MONTH) ;;
-    hidden: yes
-  }
-  dimension: __month_2LM_start__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__month_LM_start__}, INTERVAL 1 MONTH) ;;
-    hidden: yes
-  }
-  dimension: __month_2LM_end__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__month_LM_end__}, INTERVAL 1 MONTH) ;;
-    hidden: yes
-  }
-  dimension: __month_LQ_start__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__month_start__}, INTERVAL ${__length_of_quarter__} DAY) ;;
-    hidden: yes
-  }
-  dimension: __month_LQ_end__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__month_end__}, INTERVAL ${__length_of_quarter__} DAY) ;;
-    hidden: yes
-  }
-  dimension: __month_2LQ_start__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__month_LQ_start__}, INTERVAL ${__length_of_quarter__} DAY) ;;
-    hidden: yes
-  }
-  dimension: __month_2LQ_end__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__month_LQ_end__}, INTERVAL ${__length_of_quarter__} DAY) ;;
-    hidden: yes
-  }
-  dimension: __month_LH_start__ {
-    type: date
-    datatype: date
-    sql: ${__month_2LQ_start__} ;;
-    hidden: yes
-  }
-  dimension: __month_LH_end__ {
-    type: date
-    datatype: date
-    sql: ${__month_2LQ_end__} ;;
-    hidden: yes
-  }
-  dimension: __month_2LH_start__ {
-    type: date
-    datatype: date
-    sql: ${__month_LY_start__}  ;;
-    hidden: yes
-  }
-  dimension: __month_2LH_end__ {
-    type: date
-    datatype: date
-    sql: ${__month_LY_end__} ;;
-    hidden: yes
-  }
-  dimension: __month_LY_start__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__month_start__}, INTERVAL ${__length_of_year__} DAY) ;;
-    hidden: yes
-  }
-  dimension: __month_LY_end__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__month_end__}, INTERVAL ${__length_of_year__} DAY) ;;
-    hidden: yes
-  }
-  dimension: __month_2LY_start__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__month_LY_start__}, INTERVAL ${__length_of_year__} DAY) ;;
-    hidden: yes
-  }
-  dimension: __month_2LY_end__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__month_LY_end__}, INTERVAL ${__length_of_year__} DAY) ;;
-    hidden: yes
-  }
+    dimension: __month_start__ {
+      type: date
+      datatype: date
+      sql: DATE_TRUNC(${__current_date__}, MONTH) ;;
+      hidden: yes
+    }
+    dimension: __month_end__ {
+      type: date
+      datatype: date
+      sql: ${__current_date__} ;;
+      hidden: yes
+    }
+    dimension: __month_LM_start__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__month_start__}, INTERVAL 1 MONTH) ;;
+      hidden: yes
+    }
+    dimension: __month_LM_end__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__month_end__}, INTERVAL 1 MONTH) ;;
+      hidden: yes
+    }
+    dimension: __month_2LM_start__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__month_LM_start__}, INTERVAL 1 MONTH) ;;
+      hidden: yes
+    }
+    dimension: __month_2LM_end__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__month_LM_end__}, INTERVAL 1 MONTH) ;;
+      hidden: yes
+    }
+    dimension: __month_LQ_start__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__month_start__}, INTERVAL ${__length_of_quarter__} DAY) ;;
+      hidden: yes
+    }
+    dimension: __month_LQ_end__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__month_end__}, INTERVAL ${__length_of_quarter__} DAY) ;;
+      hidden: yes
+    }
+    dimension: __month_2LQ_start__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__month_LQ_start__}, INTERVAL ${__length_of_quarter__} DAY) ;;
+      hidden: yes
+    }
+    dimension: __month_2LQ_end__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__month_LQ_end__}, INTERVAL ${__length_of_quarter__} DAY) ;;
+      hidden: yes
+    }
+    dimension: __month_LH_start__ {
+      type: date
+      datatype: date
+      sql: ${__month_2LQ_start__} ;;
+      hidden: yes
+    }
+    dimension: __month_LH_end__ {
+      type: date
+      datatype: date
+      sql: ${__month_2LQ_end__} ;;
+      hidden: yes
+    }
+    dimension: __month_2LH_start__ {
+      type: date
+      datatype: date
+      sql: ${__month_LY_start__}  ;;
+      hidden: yes
+    }
+    dimension: __month_2LH_end__ {
+      type: date
+      datatype: date
+      sql: ${__month_LY_end__} ;;
+      hidden: yes
+    }
+    dimension: __month_LY_start__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__month_start__}, INTERVAL ${__length_of_year__} DAY) ;;
+      hidden: yes
+    }
+    dimension: __month_LY_end__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__month_end__}, INTERVAL ${__length_of_year__} DAY) ;;
+      hidden: yes
+    }
+    dimension: __month_2LY_start__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__month_LY_start__}, INTERVAL ${__length_of_year__} DAY) ;;
+      hidden: yes
+    }
+    dimension: __month_2LY_end__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__month_LY_end__}, INTERVAL ${__length_of_year__} DAY) ;;
+      hidden: yes
+    }
 
 
 
@@ -473,114 +466,114 @@ view: period_over_period_rj_test {
 # █▀█ █░█ ▄▀█ █▀█ ▀█▀ █▀▀ █▀█
 # ▀▀█ █▄█ █▀█ █▀▄ ░█░ ██▄ █▀▄
 
-  dimension: __quarter_start__ {
-    type: date
-    datatype: date
-    sql: DATE_TRUNC(${__current_date__}, QUARTER) ;;
-    hidden: yes
-  }
-  dimension: __quarter_end__ {
-    type: date
-    datatype: date
-    sql: ${__current_date__} ;;
-    hidden: yes
-  }
-  dimension: __quarter_LM_start__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__quarter_start__}, INTERVAL 1 MONTH) ;;
-    hidden: yes
-  }
-  dimension: __quarter_LM_end__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__quarter_end__}, INTERVAL 1 MONTH) ;;
-    hidden: yes
-  }
-  dimension: __quarter_2LM_start__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__quarter_LM_start__}, INTERVAL 1 MONTH) ;;
-    hidden: yes
-  }
-  dimension: __quarter_2LM_end__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__quarter_LM_end__}, INTERVAL 1 QUARTER) ;;
-    hidden: yes
-  }
-  dimension: __quarter_LQ_start__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__quarter_start__}, INTERVAL ${__length_of_quarter__} DAY) ;;
-    hidden: yes
-  }
-  dimension: __quarter_LQ_end__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__quarter_end__}, INTERVAL ${__length_of_quarter__} DAY) ;;
-    hidden: yes
-  }
-  dimension: __quarter_2LQ_start__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__quarter_LQ_start__}, INTERVAL ${__length_of_quarter__} DAY) ;;
-    hidden: yes
-  }
-  dimension: __quarter_2LQ_end__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__quarter_LQ_end__}, INTERVAL ${__length_of_quarter__} DAY);;
-    hidden: yes
-  }
-  dimension: __quarter_LH_start__ {
-    type: date
-    datatype: date
-    sql: ${__quarter_2LQ_start__} ;;
-    hidden: yes
-  }
-  dimension: __quarter_LH_end__ {
-    type: date
-    datatype: date
-    sql: ${__quarter_2LQ_end__} ;;
-    hidden: yes
-  }
-  dimension: __quarter_2LH_start__ {
-    type: date
-    datatype: date
-    sql: ${__quarter_LY_start__} ;;
-    hidden: yes
-  }
-  dimension: __quarter_2LH_end__ {
-    type: date
-    datatype: date
-    sql: ${__quarter_LY_end__} ;;
-    hidden: yes
-  }
-  dimension: __quarter_LY_start__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__quarter_start__}, INTERVAL ${__length_of_year__} DAY) ;;
-    hidden: yes
-  }
-  dimension: __quarter_LY_end__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__quarter_end__}, INTERVAL ${__length_of_year__} DAY) ;;
-    hidden: yes
-  }
-  dimension: __quarter_2LY_start__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__quarter_LY_start__}, INTERVAL ${__length_of_year__} DAY) ;;
-    hidden: yes
-  }
-  dimension: __quarter_2LY_end__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__quarter_LY_end__}, INTERVAL ${__length_of_year__} DAY) ;;
-    hidden: yes
-  }
+    dimension: __quarter_start__ {
+      type: date
+      datatype: date
+      sql: DATE_TRUNC(${__current_date__}, QUARTER) ;;
+      hidden: yes
+    }
+    dimension: __quarter_end__ {
+      type: date
+      datatype: date
+      sql: ${__current_date__} ;;
+      hidden: yes
+    }
+    dimension: __quarter_LM_start__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__quarter_start__}, INTERVAL 1 MONTH) ;;
+      hidden: yes
+    }
+    dimension: __quarter_LM_end__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__quarter_end__}, INTERVAL 1 MONTH) ;;
+      hidden: yes
+    }
+    dimension: __quarter_2LM_start__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__quarter_LM_start__}, INTERVAL 1 MONTH) ;;
+      hidden: yes
+    }
+    dimension: __quarter_2LM_end__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__quarter_LM_end__}, INTERVAL 1 QUARTER) ;;
+      hidden: yes
+    }
+    dimension: __quarter_LQ_start__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__quarter_start__}, INTERVAL ${__length_of_quarter__} DAY) ;;
+      hidden: yes
+    }
+    dimension: __quarter_LQ_end__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__quarter_end__}, INTERVAL ${__length_of_quarter__} DAY) ;;
+      hidden: yes
+    }
+    dimension: __quarter_2LQ_start__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__quarter_LQ_start__}, INTERVAL ${__length_of_quarter__} DAY) ;;
+      hidden: yes
+    }
+    dimension: __quarter_2LQ_end__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__quarter_LQ_end__}, INTERVAL ${__length_of_quarter__} DAY);;
+      hidden: yes
+    }
+    dimension: __quarter_LH_start__ {
+      type: date
+      datatype: date
+      sql: ${__quarter_2LQ_start__} ;;
+      hidden: yes
+    }
+    dimension: __quarter_LH_end__ {
+      type: date
+      datatype: date
+      sql: ${__quarter_2LQ_end__} ;;
+      hidden: yes
+    }
+    dimension: __quarter_2LH_start__ {
+      type: date
+      datatype: date
+      sql: ${__quarter_LY_start__} ;;
+      hidden: yes
+    }
+    dimension: __quarter_2LH_end__ {
+      type: date
+      datatype: date
+      sql: ${__quarter_LY_end__} ;;
+      hidden: yes
+    }
+    dimension: __quarter_LY_start__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__quarter_start__}, INTERVAL ${__length_of_year__} DAY) ;;
+      hidden: yes
+    }
+    dimension: __quarter_LY_end__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__quarter_end__}, INTERVAL ${__length_of_year__} DAY) ;;
+      hidden: yes
+    }
+    dimension: __quarter_2LY_start__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__quarter_LY_start__}, INTERVAL ${__length_of_year__} DAY) ;;
+      hidden: yes
+    }
+    dimension: __quarter_2LY_end__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__quarter_LY_end__}, INTERVAL ${__length_of_year__} DAY) ;;
+      hidden: yes
+    }
 
 
 
@@ -589,66 +582,66 @@ view: period_over_period_rj_test {
 # █░█ ▄▀█ █░░ █▀▀
 # █▀█ █▀█ █▄▄ █▀░
 
-  dimension: __half_start__ {
-    type: date
-    datatype: date
-    sql: DATE_TRUNC(${__current_date__}, QUARTER) ;; # !!!
-    hidden: yes
-  }
-  dimension: __half_end__ {
-    type: date
-    datatype: date
-    sql: ${__current_date__} ;;
-    hidden: yes
-  }
-  dimension: __half_LH_start__ {
-    type: date
-    datatype: date
-    sql: DATE_TRUNC(DATE_ADD(${__half_LH_end__}, INTERVAL -1 QUARTER), QUARTER) ;;
-    hidden: yes
-  }
-  dimension: __half_LH_end__ {
-    type: date
-    datatype: date
-    sql: DATE_ADD(${__half_end__}, INTERVAL -2 QUARTER) ;;
-    hidden: yes
-  }
-  dimension: __half_2LH_start__ {
-    type: date
-    datatype: date
-    sql: DATE_TRUNC(${__half_2LH_end__}, QUARTER) ;;
-    hidden: yes
-  }
-  dimension: __half_2LH_end__ {
-    type: date
-    datatype: date
-    sql: ${__half_LY_end__} ;;
-    hidden: yes
-  }
-  dimension: __half_LY_start__ {
-    type: date
-    datatype: date
-    sql: DATE_TRUNC(${__half_LY_end__}, QUARTER) ;;
-    hidden: yes
-  }
-  dimension: __half_LY_end__ {
-    type: date
-    datatype: date
-    sql: DATE_ADD(${__half_end__}, INTERVAL -(${__length_of_year__} + 1) DAY) ;;
-    hidden: yes
-  }
-  dimension: __half_2LY_start__ {
-    type: date
-    datatype: date
-    sql: DATE_TRUNC(${__half_2LY_end__}, QUARTER) ;;
-    hidden: yes
-  }
-  dimension: __half_2LY_end__ {
-    type: date
-    datatype: date
-    sql: DATE_ADD(${__half_end__}, INTERVAL - ((2 * (${__length_of_year__} + 1))+1) DAY) ;;
-    hidden: yes
-  }
+    dimension: __half_start__ {
+      type: date
+      datatype: date
+      sql: DATE_TRUNC(${__current_date__}, QUARTER) ;; # !!!
+      hidden: yes
+    }
+    dimension: __half_end__ {
+      type: date
+      datatype: date
+      sql: ${__current_date__} ;;
+      hidden: yes
+    }
+    dimension: __half_LH_start__ {
+      type: date
+      datatype: date
+      sql: DATE_TRUNC(DATE_ADD(${__half_LH_end__}, INTERVAL -1 QUARTER), QUARTER) ;;
+      hidden: yes
+    }
+    dimension: __half_LH_end__ {
+      type: date
+      datatype: date
+      sql: DATE_ADD(${__half_end__}, INTERVAL -2 QUARTER) ;;
+      hidden: yes
+    }
+    dimension: __half_2LH_start__ {
+      type: date
+      datatype: date
+      sql: DATE_TRUNC(${__half_2LH_end__}, QUARTER) ;;
+      hidden: yes
+    }
+    dimension: __half_2LH_end__ {
+      type: date
+      datatype: date
+      sql: ${__half_LY_end__} ;;
+      hidden: yes
+    }
+    dimension: __half_LY_start__ {
+      type: date
+      datatype: date
+      sql: DATE_TRUNC(${__half_LY_end__}, QUARTER) ;;
+      hidden: yes
+    }
+    dimension: __half_LY_end__ {
+      type: date
+      datatype: date
+      sql: DATE_ADD(${__half_end__}, INTERVAL -(${__length_of_year__} + 1) DAY) ;;
+      hidden: yes
+    }
+    dimension: __half_2LY_start__ {
+      type: date
+      datatype: date
+      sql: DATE_TRUNC(${__half_2LY_end__}, QUARTER) ;;
+      hidden: yes
+    }
+    dimension: __half_2LY_end__ {
+      type: date
+      datatype: date
+      sql: DATE_ADD(${__half_end__}, INTERVAL - ((2 * (${__length_of_year__} + 1))+1) DAY) ;;
+      hidden: yes
+    }
 
 
 
@@ -658,42 +651,42 @@ view: period_over_period_rj_test {
 # █▄█ █▀▀ ▄▀█ █▀█
 # ░█░ ██▄ █▀█ █▀▄
 
-  dimension: __year_start__ {
-    type: date
-    datatype: date
-    sql: DATE_TRUNC(${__current_date__}, YEAR) ;;
-    hidden: yes
-  }
-  dimension: __year_end__ {
-    type: date
-    datatype: date
-    sql: ${__current_date__} ;;
-    hidden: yes
-  }
-  dimension: __year_LY_start__ {
-    type: date
-    datatype: date
-    sql:  DATE_SUB(${__year_start__}, INTERVAL ${__length_of_year__} DAY) ;;
-    hidden: yes
-  }
-  dimension: __year_LY_end__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__year_end__}, INTERVAL ${__length_of_year__} DAY) ;;
-    hidden: yes
-  }
-  dimension: __year_2LY_start__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__year_LY_start__}, INTERVAL ${__length_of_year__} DAY) ;;
-    hidden: yes
-  }
-  dimension: __year_2LY_end__ {
-    type: date
-    datatype: date
-    sql: DATE_SUB(${__year_LY_end__}, INTERVAL ${__length_of_year__} DAY) ;;
-    hidden: yes
-  }
+    dimension: __year_start__ {
+      type: date
+      datatype: date
+      sql: DATE_TRUNC(${__current_date__}, YEAR) ;;
+      hidden: yes
+    }
+    dimension: __year_end__ {
+      type: date
+      datatype: date
+      sql: ${__current_date__} ;;
+      hidden: yes
+    }
+    dimension: __year_LY_start__ {
+      type: date
+      datatype: date
+      sql:  DATE_SUB(${__year_start__}, INTERVAL ${__length_of_year__} DAY) ;;
+      hidden: yes
+    }
+    dimension: __year_LY_end__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__year_end__}, INTERVAL ${__length_of_year__} DAY) ;;
+      hidden: yes
+    }
+    dimension: __year_2LY_start__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__year_LY_start__}, INTERVAL ${__length_of_year__} DAY) ;;
+      hidden: yes
+    }
+    dimension: __year_2LY_end__ {
+      type: date
+      datatype: date
+      sql: DATE_SUB(${__year_LY_end__}, INTERVAL ${__length_of_year__} DAY) ;;
+      hidden: yes
+    }
 
 
 
@@ -729,32 +722,32 @@ view: period_over_period_rj_test {
 # ██║░░░░░██║██╔╝╚██╗███████╗██████╔╝░░╚█████╔╝╚█████╔╝██║░╚███║██████╔╝░░░██║░░░██║░░██║██║░╚███║░░░██║░░░██████╔╝
 # ╚═╝░░░░░╚═╝╚═╝░░╚═╝╚══════╝╚═════╝░░░░╚════╝░░╚════╝░╚═╝░░╚══╝╚═════╝░░░░╚═╝░░░╚═╝░░╚═╝╚═╝░░╚══╝░░░╚═╝░░░╚═════╝░
 
-  dimension: __length_of_week__ {
-    type: number
-    sql: 7;;
-    hidden: yes
-  }
-  dimension: __length_of_month__ {
-    type: number
-    sql: 30;;
-    hidden: yes
-  }
-  dimension: __length_of_quarter__ {
-    type: number
-    sql: 91;;
-    hidden: yes
-  }
-  dimension: __length_of_half__ {
-    type: number
-    description: "Currently unused."
-    sql: 182;;
-    hidden: yes
-  }
-  dimension: __length_of_year__ {
-    type: number
-    sql: 364;;
-    hidden: yes
-  }
+    dimension: __length_of_week__ {
+      type: number
+      sql: 7;;
+      hidden: yes
+    }
+    dimension: __length_of_month__ {
+      type: number
+      sql: 30;;
+      hidden: yes
+    }
+    dimension: __length_of_quarter__ {
+      type: number
+      sql: 91;;
+      hidden: yes
+    }
+    dimension: __length_of_half__ {
+      type: number
+      description: "Currently unused."
+      sql: 182;;
+      hidden: yes
+    }
+    dimension: __length_of_year__ {
+      type: number
+      sql: 364;;
+      hidden: yes
+    }
 
 
 
@@ -797,28 +790,28 @@ view: period_over_period_rj_test {
 # ╚═╝░░╚═╝╚══════╝░░░╚═╝░░░╚═╝░░╚═╝░░╚═╝░░░╚═╝░░░╚═════╝░░░░░░░░░░╚═╝░░░╚═╝░░╚═╝░░╚═╝╚══════╝╚═╝░░╚═╝╚══════╝
 
 
-  filter: period_over_period {
-    hidden: yes
-    type: yesno
-    sql:
+    filter: period_over_period {
+      hidden: yes
+      type: yesno
+      sql:
 
-    {% if select_date_range._is_filtered %}
-      ${flexible_pop}
-    {% elsif select_fixed_range._is_filtered %}
-      ${fixed_pop}
-    {% elsif
-      dynamic_fiscal_year._is_filtered or dynamic_fiscal_half._is_filtered or
-      dynamic_fiscal_quarter._is_filtered or dynamic_fiscal_month._is_filtered or
-      dynamic_actual_year._is_filtered or
-      combined_week._is_filtered or combined_month._is_filtered or combined_quarter._is_filtered or combined_year._is_filtered or separate_month._is_filtered %}
-        true
-    {% else %}
-      false
-    {% endif %}
+          {% if select_date_range._is_filtered %}
+            ${flexible_pop}
+          {% elsif select_fixed_range._is_filtered %}
+            ${fixed_pop}
+          {% elsif
+            dynamic_fiscal_year._is_filtered or dynamic_fiscal_half._is_filtered or
+            dynamic_fiscal_quarter._is_filtered or dynamic_fiscal_month._is_filtered or
+            dynamic_actual_year._is_filtered or
+            combined_week._is_filtered or combined_month._is_filtered or combined_quarter._is_filtered or combined_year._is_filtered or separate_month._is_filtered %}
+              true
+          {% else %}
+            false
+          {% endif %}
 
-      ;;
+        ;;
 
-  }
+    }
 
 
 
@@ -870,93 +863,93 @@ view: period_over_period_rj_test {
 
 
 
-  filter: select_date_range {
-    label: "Date Range"
-    group_label: "Date Filter"
-    view_label: "Date"
-    type: date
-    convert_tz: yes
-  }
-  parameter: select_fixed_range {
-    label: "Fixed Range"
-    group_label: "Date Filter"
-    view_label: "Date"
-    type: unquoted
-    allowed_value: {
-      label: "Previous Day"
-      value: "PD"
+    filter: select_date_range {
+      label: "Date Range"
+      group_label: "Date Filter"
+      view_label: "Date"
+      type: date
+      convert_tz: yes
     }
-    allowed_value: {
-      label: "Week to Date (WTD)"
-      value: "WTD"
+    parameter: select_fixed_range {
+      label: "Fixed Range"
+      group_label: "Date Filter"
+      view_label: "Date"
+      type: unquoted
+      allowed_value: {
+        label: "Previous Day"
+        value: "PD"
+      }
+      allowed_value: {
+        label: "Week to Date (WTD)"
+        value: "WTD"
+      }
+      allowed_value: {
+        label: "Month to Date (MTD)"
+        value: "MTD"
+      }
+      allowed_value: {
+        label: "Quarter to Date (QTD)"
+        value: "QTD"
+      }
+      # allowed_value: {
+      #   label: "Half to Date (HTD)"
+      #   value: "HTD"
+      # }
+      allowed_value: {
+        label: "Year to Date (YTD)"
+        value: "YTD"
+      }
     }
-    allowed_value: {
-      label: "Month to Date (MTD)"
-      value: "MTD"
+    parameter: select_comparison_period {
+      label: "Comparison Period"
+      group_label: "Comparison"
+      view_label: "Date"
+      type: unquoted
+      allowed_value: {
+        label: "Previous Period"
+        value: "Period"
+      }
+      allowed_value: {
+        label: "Previous Week"
+        value: "Week"
+      }
+      allowed_value: {
+        label: "Previous Month"
+        value: "Month"
+      }
+      allowed_value: {
+        label: "Previous Quarter"
+        value: "Quarter"
+      }
+      # allowed_value: {
+      #   label: "Previous Half"
+      #   value: "Half"
+      # }
+      allowed_value: {
+        label: "Previous Year"
+        value: "Year"
+      }
+      allowed_value: {
+        label: "Previous 2 Year"
+        value: "2YearsAgo"
+      }
+      default_value: "Period"
     }
-    allowed_value: {
-      label: "Quarter to Date (QTD)"
-      value: "QTD"
+    parameter: select_number_of_periods {
+      label: "Number of Period(s)"
+      group_label: "Comparison"
+      view_label: "Date"
+      type: unquoted
+      allowed_value: {
+        label: "1 Period Ago"
+        value: "2"
+      }
+      allowed_value: {
+        label: "2 Periods Ago"
+        value: "3"
+      }
+      default_value: "2"
     }
-    # allowed_value: {
-    #   label: "Half to Date (HTD)"
-    #   value: "HTD"
-    # }
-    allowed_value: {
-      label: "Year to Date (YTD)"
-      value: "YTD"
-    }
-  }
-  parameter: select_comparison_period {
-    label: "Comparison Period"
-    group_label: "Comparison"
-    view_label: "Date"
-    type: unquoted
-    allowed_value: {
-      label: "Previous Period"
-      value: "Period"
-    }
-    allowed_value: {
-      label: "Previous Week"
-      value: "Week"
-    }
-    allowed_value: {
-      label: "Previous Month"
-      value: "Month"
-    }
-    allowed_value: {
-      label: "Previous Quarter"
-      value: "Quarter"
-    }
-    # allowed_value: {
-    #   label: "Previous Half"
-    #   value: "Half"
-    # }
-    allowed_value: {
-      label: "Previous Year"
-      value: "Year"
-    }
-    allowed_value: {
-      label: "Previous 2 Year"
-      value: "2YearsAgo"
-    }
-    default_value: "Period"
-  }
-  parameter: select_number_of_periods {
-    label: "Number of Period(s)"
-    group_label: "Comparison"
-    view_label: "Date"
-    type: unquoted
-    allowed_value: {
-      label: "1 Period Ago"
-      value: "2"
-    }
-    allowed_value: {
-      label: "2 Periods Ago"
-      value: "3"
-    }
-    default_value: "2"
-  }
 
 
 
@@ -993,12 +986,12 @@ view: period_over_period_rj_test {
 # ██████╔╝██║░░██║░░░██║░░░███████╗
 # ╚═════╝░╚═╝░░╚═╝░░░╚═╝░░░╚══════╝
 
-  dimension_group: date {
-    view_label: "Date"
-    group_label: "Dates"
-    label: ""
-    type: time
-    sql:
+    dimension_group: date {
+      view_label: "Date"
+      group_label: "Dates"
+      label: ""
+      type: time
+      sql:
 
       {% if pivot_dimension._in_query %}
         {% if select_fixed_range._in_query %}
@@ -1022,11 +1015,11 @@ view: period_over_period_rj_test {
         ${base_date_raw}
       {% endif %}
 
-      ;;
-    timeframes: [date]
-    can_filter: no
-    allow_fill: no
-  }
+        ;;
+      timeframes: [date]
+      can_filter: no
+      allow_fill: no
+    }
 
 
 
@@ -1061,13 +1054,13 @@ view: period_over_period_rj_test {
 # ╚█████╔╝╚█████╔╝██║░╚═╝░██║██║░░░░░██║░░██║██║░░██║██║░░██║░░░██║░░░╚█████╔╝██║░░██║
 # ░╚════╝░░╚════╝░╚═╝░░░░░╚═╝╚═╝░░░░░╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░╚═╝░░╚═╝
 
-  dimension: pivot_dimension {
-    view_label: "Date"
-    label: "Compare Period"
-    description: "Pivot this to apply comparative PoP."
-    type: string
-    order_by_field: __comparator_order__
-    sql:
+    dimension: pivot_dimension {
+      view_label: "Date"
+      label: "Compare Period"
+      description: "Pivot this to apply comparative PoP."
+      type: string
+      order_by_field: __comparator_order__
+      sql:
 
            {% if select_date_range._is_filtered %}
               CASE
@@ -1137,13 +1130,13 @@ view: period_over_period_rj_test {
               NULL
             {% endif %}
 
-      ;; # need to look at this further
-    can_filter: no
-  }
-  dimension: __comparator_order__ {
-    hidden: yes
-    type: string
-    sql:
+        ;; # need to look at this further
+      can_filter: no
+    }
+    dimension: __comparator_order__ {
+      hidden: yes
+      type: string
+      sql:
 
       {% if select_number_of_periods._is_filtered and select_date_range._in_query %}
         CASE
@@ -1159,8 +1152,8 @@ view: period_over_period_rj_test {
         ${base_date_raw}
       {% endif %}
 
-      ;;
-  }
+        ;;
+    }
 
 
 
@@ -1205,36 +1198,36 @@ view: period_over_period_rj_test {
 # ╚═╝░░░░░╚══════╝╚══════╝╚═╝░░╚═╝╚═╝╚═════╝░╚══════╝╚══════╝░░░░╚═╝░░░░░░╚════╝░╚═╝░░░░░
 
 
-  filter: flexible_pop {
-    type: yesno
-    sql:
+    filter: flexible_pop {
+      type: yesno
+      sql:
 
-          {% condition base.select_date_range %} ${baseTEST.base_date_raw} {% endcondition %}
+          {% condition base.select_date_range %} ${base.base_date_raw} {% endcondition %}
           {% if base.select_date_range._is_filtered and (select_number_of_periods._in_query or select_comparison_period._in_query) %}
             {% if select_number_of_periods._parameter_value == "2" %}
-              or ${baseTEST.base_date_raw} >= ${period_2_start} and ${baseTEST.base_date_raw} < ${period_2_end}
+              or ${base.base_date_raw} >= ${period_2_start} and ${base.base_date_raw} < ${period_2_end}
             {% elsif select_number_of_periods._parameter_value == "3" %}
-              or ${baseTEST.base_date_raw} >= ${period_2_start} and ${baseTEST.base_date_raw} < ${period_2_end}
-              or ${baseTEST.base_date_raw} >= ${period_3_start} and ${baseTEST.base_date_raw} < ${period_3_end}
+              or ${base.base_date_raw} >= ${period_2_start} and ${base.base_date_raw} < ${period_2_end}
+              or ${base.base_date_raw} >= ${period_3_start} and ${base.base_date_raw} < ${period_3_end}
             {% endif %}
           {% endif %}
 
-      ;;
-    hidden: yes
-  }
+        ;;
+      hidden: yes
+    }
 
 
-  dimension_group: in_period {
-    type: duration
-    intervals: [day]
-    sql_start: {% date_start select_date_range %} ;;
-    sql_end: {% date_end select_date_range %} ;;
-    hidden:  yes
-  }
+    dimension_group: in_period {
+      type: duration
+      intervals: [day]
+      sql_start: {% date_start select_date_range %} ;;
+      sql_end: {% date_end select_date_range %} ;;
+      hidden:  yes
+    }
 
-  dimension: day_in_period {
-    type: number
-    sql:
+    dimension: day_in_period {
+      type: number
+      sql:
 
           {% if select_number_of_periods._is_filtered or select_comparison_period._in_query %}
             CASE
@@ -1247,13 +1240,13 @@ view: period_over_period_rj_test {
             END
           {% endif %}
 
-      ;;
-    hidden: yes
-  }
+        ;;
+      hidden: yes
+    }
 
-  dimension: period_2_start {
-    type: date_raw
-    sql:
+    dimension: period_2_start {
+      type: date_raw
+      sql:
 
           {% if select_date_range._in_query %}
             {% if select_comparison_period._parameter_value == "Period" %}
@@ -1273,14 +1266,14 @@ view: period_over_period_rj_test {
             {% date_start select_date_range %}
           {% endif %}
 
-      ;;
-    hidden:  yes
-  }
-  # changed from 2 * to nil
+        ;;
+      hidden:  yes
+    }
+    # changed from 2 * to nil
 
-  dimension: period_2_end {
-    type: date_raw
-    sql:
+    dimension: period_2_end {
+      type: date_raw
+      sql:
 
           {% if select_date_range._in_query %}
             {% if select_comparison_period._parameter_value == "Period" %}
@@ -1300,14 +1293,14 @@ view: period_over_period_rj_test {
             {% date_end select_date_range %}
           {% endif %}
 
-      ;;
-    hidden:  yes
-  }
-  # changed from 2 * to nil
+        ;;
+      hidden:  yes
+    }
+    # changed from 2 * to nil
 
-  dimension: period_3_start {
-    type: date_raw
-    sql:
+    dimension: period_3_start {
+      type: date_raw
+      sql:
 
             {% if select_comparison_period._parameter_value == "Period" %}
               TIMESTAMP_SUB({% date_start select_date_range %}, INTERVAL (2 * ${days_in_period}) DAY)
@@ -1323,14 +1316,14 @@ view: period_over_period_rj_test {
               TIMESTAMP(DATETIME_SUB(DATETIME({% date_start select_date_range %}), INTERVAL 2 {% parameter select_comparison_period %}))
             {% endif %}
 
-      ;;
-    hidden: yes
-  }
-  # changed from 3 * to 2 *
+        ;;
+      hidden: yes
+    }
+    # changed from 3 * to 2 *
 
-  dimension: period_3_end {
-    type: date_raw
-    sql:
+    dimension: period_3_end {
+      type: date_raw
+      sql:
 
             {% if select_comparison_period._parameter_value == "Period" %}
               TIMESTAMP_SUB(${period_2_start}, INTERVAL 0 DAY)
@@ -1346,10 +1339,10 @@ view: period_over_period_rj_test {
               TIMESTAMP(DATETIME_SUB(DATETIME_SUB(DATETIME({% date_end select_date_range %}), INTERVAL 0 DAY), INTERVAL 2 {% parameter select_comparison_period %}))
             {% endif %}
 
-      ;;
-    hidden: yes
-  }
-  # changed from 3 * to 2 *
+        ;;
+      hidden: yes
+    }
+    # changed from 3 * to 2 *
 
 
 
@@ -1404,9 +1397,9 @@ view: period_over_period_rj_test {
 
 
 
-  filter: fixed_pop {
-    type:  yesno
-    sql:
+    filter: fixed_pop {
+      type:  yesno
+      sql:
 
           {% if select_fixed_range._in_query %}
             {% if select_fixed_range._parameter_value == "PD" %}
@@ -1584,8 +1577,8 @@ view: period_over_period_rj_test {
             false
           {% endif %}
           ;;
-    hidden: yes
-  }
+      hidden: yes
+    }
 
 
 
@@ -1594,61 +1587,61 @@ view: period_over_period_rj_test {
 # █▀▄ ▄▀█ █▄█
 # █▄▀ █▀█ ░█░
 
-  dimension: previous_full_day {
-    type: yesno
-    sql: ${__target_date__} = ${__current_date__} ;;
-    hidden: yes
-  }
-  dimension: previous_full_day_LW {
-    type: yesno
-    sql: ${__target_date__} = ${__day_LW__} ;;
-    hidden: yes
-  }
-  dimension: previous_full_day_2LW {
-    type: yesno
-    sql: ${__target_date__} = ${__day_2LW__} ;;
-    hidden: yes
-  }
-  dimension: previous_full_day_LM {
-    type: yesno
-    sql: ${__target_date__} = ${__day_LM__} ;;
-    hidden: yes
-  }
-  dimension: previous_full_day_2LM {
-    type: yesno
-    sql: ${__target_date__} = ${__day_2LM__} ;;
-    hidden: yes
-  }
-  dimension: previous_full_day_LQ {
-    type: yesno
-    sql: ${__target_date__} = ${__day_LQ__} ;;
-    hidden: yes
-  }
-  dimension: previous_full_day_2LQ {
-    type: yesno
-    sql: ${__target_date__} = ${__day_2LQ__} ;;
-    hidden: yes
-  }
-  dimension: previous_full_day_LH {
-    type: yesno
-    sql: ${__target_date__} = ${__day_LH__} ;;
-    hidden: yes
-  }
-  dimension: previous_full_day_2LH {
-    type: yesno
-    sql: ${__target_date__} = ${__day_2LH__} ;;
-    hidden: yes
-  }
-  dimension: previous_full_day_LY {
-    type: yesno
-    sql: ${__target_date__} = ${__day_LY__} ;;
-    hidden: yes
-  }
-  dimension: previous_full_day_2LY {
-    type: yesno
-    sql: ${__target_date__} = ${__day_2LY__} ;;
-    hidden: yes
-  }
+    dimension: previous_full_day {
+      type: yesno
+      sql: ${__target_date__} = ${__current_date__} ;;
+      hidden: yes
+    }
+    dimension: previous_full_day_LW {
+      type: yesno
+      sql: ${__target_date__} = ${__day_LW__} ;;
+      hidden: yes
+    }
+    dimension: previous_full_day_2LW {
+      type: yesno
+      sql: ${__target_date__} = ${__day_2LW__} ;;
+      hidden: yes
+    }
+    dimension: previous_full_day_LM {
+      type: yesno
+      sql: ${__target_date__} = ${__day_LM__} ;;
+      hidden: yes
+    }
+    dimension: previous_full_day_2LM {
+      type: yesno
+      sql: ${__target_date__} = ${__day_2LM__} ;;
+      hidden: yes
+    }
+    dimension: previous_full_day_LQ {
+      type: yesno
+      sql: ${__target_date__} = ${__day_LQ__} ;;
+      hidden: yes
+    }
+    dimension: previous_full_day_2LQ {
+      type: yesno
+      sql: ${__target_date__} = ${__day_2LQ__} ;;
+      hidden: yes
+    }
+    dimension: previous_full_day_LH {
+      type: yesno
+      sql: ${__target_date__} = ${__day_LH__} ;;
+      hidden: yes
+    }
+    dimension: previous_full_day_2LH {
+      type: yesno
+      sql: ${__target_date__} = ${__day_2LH__} ;;
+      hidden: yes
+    }
+    dimension: previous_full_day_LY {
+      type: yesno
+      sql: ${__target_date__} = ${__day_LY__} ;;
+      hidden: yes
+    }
+    dimension: previous_full_day_2LY {
+      type: yesno
+      sql: ${__target_date__} = ${__day_2LY__} ;;
+      hidden: yes
+    }
 
 
 
@@ -1658,61 +1651,61 @@ view: period_over_period_rj_test {
 # █░█░█ █▀▀ █▀▀ █▄▀
 # ▀▄▀▄▀ ██▄ ██▄ █░█
 
-  dimension: week_to_date {
-    type: yesno
-    sql:  ${__target_date__} BETWEEN ${__week_start__} AND ${__week_end__}  ;;
-    hidden: yes
-  }
-  dimension: week_to_date_LW {
-    type: yesno
-    sql:  ${__target_date__} BETWEEN ${__week_LW_start__} AND ${__week_LW_end__};;
-    hidden: yes
-  }
-  dimension: week_to_date_2LW {
-    type: yesno
-    sql:  ${__target_date__} BETWEEN ${__week_2LW_start__} AND ${__week_2LW_end__}  ;;
-    hidden: yes
-  }
-  dimension: week_to_date_LM {
-    type: yesno
-    sql:  ${__target_date__} BETWEEN ${__week_LM_start__} AND ${__week_LM_end__}  ;;
-    hidden: yes
-  }
-  dimension: week_to_date_2LM {
-    type: yesno
-    sql:  ${__target_date__} BETWEEN ${__week_2LM_start__} AND ${__week_2LM_end__}  ;;
-    hidden: yes
-  }
-  dimension: week_to_date_LQ {
-    type: yesno
-    sql:  ${__target_date__} BETWEEN ${__week_LQ_start__} AND ${__week_LQ_end__}  ;;
-    hidden: yes
-  }
-  dimension: week_to_date_2LQ {
-    type: yesno
-    sql:  ${__target_date__} BETWEEN ${__week_2LQ_start__} AND ${__week_2LQ_end__};;
-    hidden: yes
-  }
-  dimension: week_to_date_LH {
-    type: yesno
-    sql:  ${__target_date__} BETWEEN ${__week_LH_start__} AND ${__week_LH_end__};;
-    hidden: yes
-  }
-  dimension: week_to_date_2LH {
-    type: yesno
-    sql:  ${__target_date__} BETWEEN ${__week_2LH_start__} AND ${__week_2LH_end__};;
-    hidden: yes
-  }
-  dimension: week_to_date_LY {
-    type: yesno
-    sql:  ${__target_date__} BETWEEN ${__week_LY_start__} AND ${__week_LY_end__};;
-    hidden: yes
-  }
-  dimension: week_to_date_2LY {
-    type: yesno
-    sql:  ${__target_date__} BETWEEN ${__week_2LY_start__} AND ${__week_2LY_end__};;
-    hidden: yes
-  }
+    dimension: week_to_date {
+      type: yesno
+      sql:  ${__target_date__} BETWEEN ${__week_start__} AND ${__week_end__}  ;;
+      hidden: yes
+    }
+    dimension: week_to_date_LW {
+      type: yesno
+      sql:  ${__target_date__} BETWEEN ${__week_LW_start__} AND ${__week_LW_end__};;
+      hidden: yes
+    }
+    dimension: week_to_date_2LW {
+      type: yesno
+      sql:  ${__target_date__} BETWEEN ${__week_2LW_start__} AND ${__week_2LW_end__}  ;;
+      hidden: yes
+    }
+    dimension: week_to_date_LM {
+      type: yesno
+      sql:  ${__target_date__} BETWEEN ${__week_LM_start__} AND ${__week_LM_end__}  ;;
+      hidden: yes
+    }
+    dimension: week_to_date_2LM {
+      type: yesno
+      sql:  ${__target_date__} BETWEEN ${__week_2LM_start__} AND ${__week_2LM_end__}  ;;
+      hidden: yes
+    }
+    dimension: week_to_date_LQ {
+      type: yesno
+      sql:  ${__target_date__} BETWEEN ${__week_LQ_start__} AND ${__week_LQ_end__}  ;;
+      hidden: yes
+    }
+    dimension: week_to_date_2LQ {
+      type: yesno
+      sql:  ${__target_date__} BETWEEN ${__week_2LQ_start__} AND ${__week_2LQ_end__};;
+      hidden: yes
+    }
+    dimension: week_to_date_LH {
+      type: yesno
+      sql:  ${__target_date__} BETWEEN ${__week_LH_start__} AND ${__week_LH_end__};;
+      hidden: yes
+    }
+    dimension: week_to_date_2LH {
+      type: yesno
+      sql:  ${__target_date__} BETWEEN ${__week_2LH_start__} AND ${__week_2LH_end__};;
+      hidden: yes
+    }
+    dimension: week_to_date_LY {
+      type: yesno
+      sql:  ${__target_date__} BETWEEN ${__week_LY_start__} AND ${__week_LY_end__};;
+      hidden: yes
+    }
+    dimension: week_to_date_2LY {
+      type: yesno
+      sql:  ${__target_date__} BETWEEN ${__week_2LY_start__} AND ${__week_2LY_end__};;
+      hidden: yes
+    }
 
 
 
@@ -1722,51 +1715,51 @@ view: period_over_period_rj_test {
 # █▀▄▀█ █▀█ █▄░█ ▀█▀ █░█
 # █░▀░█ █▄█ █░▀█ ░█░ █▀█
 
-  dimension: month_to_date {
-    type: yesno
-    sql: ${__target_date__} BETWEEN ${__month_start__} AND ${__month_end__} ;;
-    hidden: yes
-  }
-  dimension: month_to_date_LM {
-    type: yesno
-    sql: ${__target_date__} BETWEEN ${__month_LM_start__} AND ${__month_LM_end__} ;;
-    hidden: yes
-  }
-  dimension: month_to_date_2LM {
-    type: yesno
-    sql: ${__target_date__} BETWEEN ${__month_2LM_start__} AND ${__month_2LM_end__} ;;
-    hidden: yes
-  }
-  dimension: month_to_date_LQ {
-    type: yesno
-    sql: ${__target_date__} BETWEEN ${__month_LQ_start__} AND ${__month_LQ_end__} ;;
-    hidden: yes
-  }
-  dimension: month_to_date_2LQ {
-    type: yesno
-    sql: ${__target_date__} BETWEEN ${__month_2LQ_start__} AND ${__month_2LQ_end__} ;;
-    hidden: yes
-  }
-  dimension: month_to_date_LH {
-    type: yesno
-    sql: ${__target_date__} BETWEEN ${__month_LH_start__} AND ${__month_LH_end__} ;;
-    hidden: yes
-  }
-  dimension: month_to_date_2LH {
-    type: yesno
-    sql: ${__target_date__} BETWEEN ${__month_2LH_start__} AND ${__month_2LH_end__} ;;
-    hidden: yes
-  }
-  dimension: month_to_date_LY {
-    type: yesno
-    sql: ${__target_date__} BETWEEN ${__month_LY_start__} AND ${__month_LY_end__} ;;
-    hidden: yes
-  }
-  dimension: month_to_date_2LY {
-    type: yesno
-    sql: ${__target_date__} BETWEEN ${__month_2LY_start__} AND ${__month_2LY_end__} ;;
-    hidden: yes
-  }
+    dimension: month_to_date {
+      type: yesno
+      sql: ${__target_date__} BETWEEN ${__month_start__} AND ${__month_end__} ;;
+      hidden: yes
+    }
+    dimension: month_to_date_LM {
+      type: yesno
+      sql: ${__target_date__} BETWEEN ${__month_LM_start__} AND ${__month_LM_end__} ;;
+      hidden: yes
+    }
+    dimension: month_to_date_2LM {
+      type: yesno
+      sql: ${__target_date__} BETWEEN ${__month_2LM_start__} AND ${__month_2LM_end__} ;;
+      hidden: yes
+    }
+    dimension: month_to_date_LQ {
+      type: yesno
+      sql: ${__target_date__} BETWEEN ${__month_LQ_start__} AND ${__month_LQ_end__} ;;
+      hidden: yes
+    }
+    dimension: month_to_date_2LQ {
+      type: yesno
+      sql: ${__target_date__} BETWEEN ${__month_2LQ_start__} AND ${__month_2LQ_end__} ;;
+      hidden: yes
+    }
+    dimension: month_to_date_LH {
+      type: yesno
+      sql: ${__target_date__} BETWEEN ${__month_LH_start__} AND ${__month_LH_end__} ;;
+      hidden: yes
+    }
+    dimension: month_to_date_2LH {
+      type: yesno
+      sql: ${__target_date__} BETWEEN ${__month_2LH_start__} AND ${__month_2LH_end__} ;;
+      hidden: yes
+    }
+    dimension: month_to_date_LY {
+      type: yesno
+      sql: ${__target_date__} BETWEEN ${__month_LY_start__} AND ${__month_LY_end__} ;;
+      hidden: yes
+    }
+    dimension: month_to_date_2LY {
+      type: yesno
+      sql: ${__target_date__} BETWEEN ${__month_2LY_start__} AND ${__month_2LY_end__} ;;
+      hidden: yes
+    }
 
 
 
@@ -1777,41 +1770,41 @@ view: period_over_period_rj_test {
 # ▀▀█ █▄█ █▀█ █▀▄ ░█░ ██▄ █▀▄
 
 
-  dimension: quarter_to_date {
-    type: yesno
-    sql: ${__target_date__} BETWEEN ${__quarter_start__} AND ${__quarter_end__} ;;
-    hidden: yes
-  }
-  dimension: quarter_to_date_LQ {
-    type: yesno
-    sql: ${__target_date__} BETWEEN ${__quarter_LQ_start__} AND ${__quarter_LQ_end__} ;;
-    hidden: yes
-  }
-  dimension: quarter_to_date_2LQ {
-    type: yesno
-    sql: ${__target_date__} BETWEEN ${__quarter_2LQ_start__} AND ${__quarter_2LQ_end__} ;;
-    hidden: yes
-  }
-  dimension: quarter_to_date_LH {
-    type: yesno
-    sql: ${__target_date__} BETWEEN ${__quarter_LH_start__} AND ${__quarter_LH_end__} ;;
-    hidden: yes
-  }
-  dimension: quarter_to_date_2LH {
-    type: yesno
-    sql: ${__target_date__} BETWEEN ${__quarter_2LH_start__} AND ${__quarter_2LH_end__} ;;
-    hidden: yes
-  }
-  dimension: quarter_to_date_LY {
-    type: yesno
-    sql: ${__target_date__} BETWEEN ${__quarter_LY_start__} AND ${__quarter_LY_end__} ;;
-    hidden: yes
-  }
-  dimension: quarter_to_date_2LY {
-    type: yesno
-    sql: ${__target_date__} BETWEEN ${__quarter_2LY_start__} AND ${__quarter_2LY_end__} ;;
-    hidden: yes
-  }
+    dimension: quarter_to_date {
+      type: yesno
+      sql: ${__target_date__} BETWEEN ${__quarter_start__} AND ${__quarter_end__} ;;
+      hidden: yes
+    }
+    dimension: quarter_to_date_LQ {
+      type: yesno
+      sql: ${__target_date__} BETWEEN ${__quarter_LQ_start__} AND ${__quarter_LQ_end__} ;;
+      hidden: yes
+    }
+    dimension: quarter_to_date_2LQ {
+      type: yesno
+      sql: ${__target_date__} BETWEEN ${__quarter_2LQ_start__} AND ${__quarter_2LQ_end__} ;;
+      hidden: yes
+    }
+    dimension: quarter_to_date_LH {
+      type: yesno
+      sql: ${__target_date__} BETWEEN ${__quarter_LH_start__} AND ${__quarter_LH_end__} ;;
+      hidden: yes
+    }
+    dimension: quarter_to_date_2LH {
+      type: yesno
+      sql: ${__target_date__} BETWEEN ${__quarter_2LH_start__} AND ${__quarter_2LH_end__} ;;
+      hidden: yes
+    }
+    dimension: quarter_to_date_LY {
+      type: yesno
+      sql: ${__target_date__} BETWEEN ${__quarter_LY_start__} AND ${__quarter_LY_end__} ;;
+      hidden: yes
+    }
+    dimension: quarter_to_date_2LY {
+      type: yesno
+      sql: ${__target_date__} BETWEEN ${__quarter_2LY_start__} AND ${__quarter_2LY_end__} ;;
+      hidden: yes
+    }
 
 
 
@@ -1821,31 +1814,31 @@ view: period_over_period_rj_test {
 # █░█ ▄▀█ █░░ █▀▀
 # █▀█ █▀█ █▄▄ █▀░
 
-  dimension: half_to_date {
-    type: yesno
-    sql: ${__target_date__} BETWEEN ${__half_start__} AND ${__half_end__} ;;
-    hidden: yes
-  }
-  dimension: half_to_date_LH {
-    type: yesno
-    sql: ${__target_date__} BETWEEN ${__half_LH_start__} AND ${__half_LH_end__} ;;
-    hidden: yes
-  }
-  dimension: half_to_date_2LH {
-    type: yesno
-    sql: ${__target_date__} BETWEEN ${__half_2LH_start__} AND ${__half_2LH_end__} ;;
-    hidden: yes
-  }
-  dimension: half_to_date_LY {
-    type: yesno
-    sql: ${__target_date__} BETWEEN ${__half_LY_start__} AND ${__half_LY_end__} ;;
-    hidden: yes
-  }
-  dimension: half_to_date_2LY {
-    type: yesno
-    sql: ${__target_date__} BETWEEN ${__half_2LY_start__} AND ${__half_2LY_end__} ;;
-    hidden: yes
-  }
+    dimension: half_to_date {
+      type: yesno
+      sql: ${__target_date__} BETWEEN ${__half_start__} AND ${__half_end__} ;;
+      hidden: yes
+    }
+    dimension: half_to_date_LH {
+      type: yesno
+      sql: ${__target_date__} BETWEEN ${__half_LH_start__} AND ${__half_LH_end__} ;;
+      hidden: yes
+    }
+    dimension: half_to_date_2LH {
+      type: yesno
+      sql: ${__target_date__} BETWEEN ${__half_2LH_start__} AND ${__half_2LH_end__} ;;
+      hidden: yes
+    }
+    dimension: half_to_date_LY {
+      type: yesno
+      sql: ${__target_date__} BETWEEN ${__half_LY_start__} AND ${__half_LY_end__} ;;
+      hidden: yes
+    }
+    dimension: half_to_date_2LY {
+      type: yesno
+      sql: ${__target_date__} BETWEEN ${__half_2LY_start__} AND ${__half_2LY_end__} ;;
+      hidden: yes
+    }
 
 
 
@@ -1856,19 +1849,20 @@ view: period_over_period_rj_test {
 # ░█░ ██▄ █▀█ █▀▄
 
 
-  dimension: year_to_date {
-    type: yesno
-    sql: ${__target_date__} BETWEEN ${__year_start__} AND ${__year_end__} ;;
-    hidden: yes
-  }
-  dimension: year_to_date_LY {
-    type: yesno
-    sql: ${__target_date__} BETWEEN ${__year_LY_start__} AND ${__year_LY_end__} ;;
-    hidden: yes
-  }
-  dimension: year_to_date_2LY {
-    type: yesno
-    sql: ${__target_date__} BETWEEN ${__year_2LY_start__} AND ${__year_2LY_end__} ;;
-    hidden: yes
+    dimension: year_to_date {
+      type: yesno
+      sql: ${__target_date__} BETWEEN ${__year_start__} AND ${__year_end__} ;;
+      hidden: yes
     }
+    dimension: year_to_date_LY {
+      type: yesno
+      sql: ${__target_date__} BETWEEN ${__year_LY_start__} AND ${__year_LY_end__} ;;
+      hidden: yes
+    }
+    dimension: year_to_date_2LY {
+      type: yesno
+      sql: ${__target_date__} BETWEEN ${__year_2LY_start__} AND ${__year_2LY_end__} ;;
+      hidden: yes
+    }
+
   }
