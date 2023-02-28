@@ -116,12 +116,12 @@ view: pop {
       datatype: datetime
       sql:
 
-          ${base.base_date_raw}
+          ${base_noCatalogue.base_date_raw}
 
             /*CASE ${select_date_reference}
               WHEN "Placed"
                 THEN 0
-              ELSE ${base.base_date_raw}
+              ELSE ${base_noCatalogue.base_date_raw}
             END*/
 
         ;;
@@ -1202,13 +1202,13 @@ view: pop {
       type: yesno
       sql:
 
-          {% condition base.select_date_range %} ${base.base_date_raw} {% endcondition %}
-          {% if base.select_date_range._is_filtered and (select_number_of_periods._in_query or select_comparison_period._in_query) %}
+          {% condition base_noCatalogue.select_date_range %} ${base_noCatalogue.base_date_raw} {% endcondition %}
+          {% if base_noCatalogue.select_date_range._is_filtered and (select_number_of_periods._in_query or select_comparison_period._in_query) %}
             {% if select_number_of_periods._parameter_value == "2" %}
-              or ${base.base_date_raw} >= ${period_2_start} and ${base.base_date_raw} < ${period_2_end}
+              or ${base_noCatalogue.base_date_raw} >= ${period_2_start} and ${base_noCatalogue.base_date_raw} < ${period_2_end}
             {% elsif select_number_of_periods._parameter_value == "3" %}
-              or ${base.base_date_raw} >= ${period_2_start} and ${base.base_date_raw} < ${period_2_end}
-              or ${base.base_date_raw} >= ${period_3_start} and ${base.base_date_raw} < ${period_3_end}
+              or ${base_noCatalogue.base_date_raw} >= ${period_2_start} and ${base_noCatalogue.base_date_raw} < ${period_2_end}
+              or ${base_noCatalogue.base_date_raw} >= ${period_3_start} and ${base_noCatalogue.base_date_raw} < ${period_3_end}
             {% endif %}
           {% endif %}
 

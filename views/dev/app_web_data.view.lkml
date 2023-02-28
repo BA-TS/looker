@@ -1,3 +1,5 @@
+include: "/views/prod/date/base_date_noCatalogue.view.lkml"
+include: "/views/prod/date/PoP.view.lkml"
 
 view: app_web_data {
 

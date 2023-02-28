@@ -12,58 +12,58 @@ include: "/views/prod/date/PoP.view.lkml"
 # # and define the joins that connect them together.
 #
 
-# explore: calendar {
+explore: base_noCatalogue {
 
-#   extends: []
-#   label: "Transactions"
-#   description: "Explore Toolstation transactional data."
-#   required_access_grants: [is_super]
+  extends: []
+  label: "Transactions"
+  description: "Explore Toolstation transactional data."
 
-#   always_filter: {
-#     filters: [
-#       select_date_type: "Calendar",
-#       select_date_reference: "Transaction"
-#     ]
-#   }
-
-#   conditionally_filter: {
-
-#     filters: [
-#       select_date_range: "Yesterday"
-#     ]
-#     unless: [
-#       select_fixed_range,
-#       dynamic_fiscal_year,
-#       dynamic_fiscal_half,
-#       dynamic_fiscal_quarter,
-#       dynamic_fiscal_month,
-#       dynamic_actual_year,
-#       combined_week,
-#       combined_month,
-#       combined_quarter,
-#       combined_year,
-#       separate_month
-#     ]
-
-#   }
-
-#   fields: [
-#     ALL_FIELDS*
-
-#   ]
-
-#   sql_always_where:
-
-#   ${period_over_period}
-
-#         ;;
-
-
-explore: app_web_data {
-  required_access_grants: [is_super]
-  label: "Digital_Report_WebApp"
   always_filter: {
-  filters: [current_date_range: "6 months", compare_to: "Year" ]
+    filters: [
+      select_date_type: "Calendar",
+      select_date_reference: "transactiondateTEST"
+    ]
+  }
+
+  conditionally_filter: {
+
+    filters: [
+      select_date_range: "Yesterday"
+    ]
+    unless: [
+      select_fixed_range,
+      dynamic_fiscal_year,
+      dynamic_fiscal_half,
+      dynamic_fiscal_quarter,
+      dynamic_fiscal_month,
+      dynamic_actual_year,
+      combined_week,
+      combined_month,
+      combined_quarter,
+      combined_year,
+      separate_month
+    ]
+
+  }
+
+  fields: [
+    ALL_FIELDS*
+  ]
+
+  sql_always_where:
+
+  ${period_over_period}
+
+        ;;
+
+join: app_web_data {
+  #required_access_grants: [is_super]
+  view_label: "Digital_Report_WebApp"
+  type: left_outer
+  relationship: many_to_one
+  sql_on: ${base_noCatalogue.date_date} = ${app_web_data.transactiondateTEST_date};;
+  #always_filter: {
+  #filters: [current_date_range: "6 months", compare_to: "Year" ]
 }
 
 join: calendar {
