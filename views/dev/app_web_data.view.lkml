@@ -55,6 +55,8 @@ view: app_web_data {
 
         }
 
+
+
       dimension: P_K {
         description: "Primary key"
         type: number
@@ -194,6 +196,15 @@ view: app_web_data {
       sql: ${TABLE}.transactiondate IS NOT NULL ;;
       }
 
+  dimension: transaction_date_filter {
+    type: date
+    datatype: date
+    sql:
+
+    {% if base_noCatalogue.select_date_reference._parameter_value == "Placed" %} DATE(${TABLE}.transactiondate) {% else %} DATE(${TABLE}.transactiondate) {% endif %}
+
+          ;;
+  }
   parameter: compare_to {
     view_label: "_PoP"
     description: "Select the templated previous period you would like to compare to. Must be used with Current Date Range filter"

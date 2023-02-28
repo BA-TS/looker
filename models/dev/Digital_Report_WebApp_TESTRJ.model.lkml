@@ -61,7 +61,7 @@ join: app_web_data {
   view_label: "Digital_Report_WebApp"
   type: left_outer
   relationship: many_to_one
-  sql_on: ${base_noCatalogue.date_date} = ${app_web_data.transactiondateTEST_date};;
+  sql_on: ${base_noCatalogue.date_date} = ${app_web_data.transaction_date_filter};;
   #always_filter: {
   #filters: [current_date_range: "6 months", compare_to: "Year" ]
 }
@@ -69,7 +69,7 @@ join: app_web_data {
 join: calendar {
   type: inner
   relationship: one_to_many
-  sql_on: ${app_web_data.transactiondateTEST_date}=${calendar.date};;
+  sql_on: ${base_noCatalogue.date_date}=${calendar.date};;
   #required_access_grants: [is_super]
   #label: "Digital_Report_WebApp"
   #always_filter: {
@@ -80,20 +80,20 @@ join: calendar {
     type: inner
     relationship: many_to_one
     sql_on: ${app_web_data.App_web}=${total_sessions.app_web_sessions} and
-    ${calendar.date}=${total_sessions.date_date};;
+    ${base_noCatalogue.date_date}=${total_sessions.date_date};;
 
   }
 
   join: dim_date {
     type: inner
     relationship: one_to_one
-    sql_on: ${calendar.date}=${dim_date.fullDateTEST_date} ;;
+    sql_on: ${base_noCatalogue.date_date}=${dim_date.fullDateTEST_date} ;;
   }
 
   join: digital_budget {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${calendar.date}=${digital_budget.Date_date} ;;
+    sql_on: ${base_noCatalogue.date_date}=${digital_budget.Date_date} ;;
   }
 
   join: calendar_completed_date{
@@ -101,6 +101,6 @@ join: calendar {
     view_label: "Date"
     type:  inner
     relationship:  many_to_one
-    sql_on: ${calendar.date}=${calendar_completed_date.date} ;;
+    sql_on: ${base_noCatalogue.date_date}=${calendar_completed_date.date} ;;
   }
 }
