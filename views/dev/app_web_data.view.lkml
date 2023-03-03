@@ -591,6 +591,48 @@ view: digital_budget {
   }
 }
 
+view: payment_type {
+  derived_table: {
+    sql: SELECT distinct row_number () over () as P_K, PaymentType, extract(date from transactionDate) as date, count(distinct ParentOrderUID) over (partition by PaymentType, extract(date from transactionDate)) as Orders, SUM(netSalePrice * quantity) over (partition by PaymentType,extract(date from transactionDate)) as revenueDaily_PaymentType
+FROM `toolstation-data-storage.sales.transactions`
+order by date desc; ;;
+  }
+
+  dimension: P_K {
+    description: "Primary key for date"
+    type: number
+    primary_key: yes
+    hidden: yes
+    sql: ${TABLE}.P_K ;;
+  }
+
+  dimension: PaymentType {
+    description: "PaymentType"
+    type: string
+    sql: ${TABLE}.PaymentType ;;
+  }
+
+  dimension_group: Date {
+    description: "date"
+    type: time
+    timeframes: [raw,date]
+    sql: ${TABLE}.Date ;;
+  }
+
+  dimension: Orders {
+    description: "ParentOrders"
+    type: number
+    sql: ${TABLE}.Orders ;;
+  }
+
+  dimension: revenueDaily_PaymentType {
+    description: "revenueDaily_PaymentType"
+    type: number
+    sql: ${TABLE}.revenueDaily_PaymentType ;;
+  }
+
+}
+
 # view: baseTEST {
 
 #   derived_table: {

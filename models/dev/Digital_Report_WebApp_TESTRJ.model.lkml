@@ -103,4 +103,10 @@ join: calendar {
     relationship:  many_to_one
     sql_on: ${base_noCatalogue.date_date}=${calendar_completed_date.date} ;;
   }
+
+  join: payment_type {
+    type: inner
+    relationship: many_to_one
+    sql_on: ${payment_type.Date_date} = ${base_noCatalogue.date_date};;
+  }
 }
