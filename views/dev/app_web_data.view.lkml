@@ -403,23 +403,25 @@ view: total_sessions {
     sql: with sub1 as (SELECT distinct
     'App Trolley' as app_web_sessions,
     PARSE_DATE('%Y%m%d', event_date) as date,
+    traffic_source.medium as Medium,
     COUNT(DISTINCT CASE
     WHEN event_name = 'session_start' THEN CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))
     END) AS sessions
     FROM `toolstation-data-storage.analytics_265133009.events_*`
     WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() - 500
     and PARSE_DATE('%Y%m%d', event_date) >= current_date () - 500
-    GROUP BY 1,2
+    GROUP BY 1,2,3
 
     UNION ALL
 
     SELECT distinct
     'Web Trolley' as app_web_sessions,
     PARSE_DATE('%Y%m%d', date) as date,
+    trafficSource.medium as Medium,
     SUM(totals.visits) as sessions
     FROM `toolstation-data-storage.4783980.ga_sessions_*`
     WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
-    GROUP BY 1,2)
+    GROUP BY 1,2,3)
 
     select distinct row_number() over (order by date,app_web_sessions) as P_K, * from sub1
 
@@ -447,6 +449,13 @@ view: total_sessions {
     timeframes: [raw,date]
     sql: ${TABLE}.date ;;
   }
+
+  dimension: Medium {
+    description: "Medium sessions"
+    type: string
+    sql: ${TABLE}.Medium ;;
+  }
+
 
   dimension: sessions {
     description: "total sessions"
