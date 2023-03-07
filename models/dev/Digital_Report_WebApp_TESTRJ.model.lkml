@@ -2,6 +2,7 @@
 include: "/views/**/*.view"
 include: "/views/prod/date/base_date_noCatalogue.view.lkml"
 include: "/views/prod/date/PoP.view.lkml"
+include: "/views/prod/products/products.view.lkml"
 #include: "/views/prod/date/calendar.view.lkml"
 #include: "/views/prod/date/period_over_period.view"
 # include all views in the views/ folder in this project
@@ -108,5 +109,11 @@ join: calendar {
     type: inner
     relationship: many_to_one
     sql_on: ${payment_type.Date_date} = ${base_noCatalogue.date_date};;
+  }
+
+  join: products {
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${products.product_uid} = ${app_web_data.ProductUID};;
   }
 }

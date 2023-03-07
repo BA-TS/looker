@@ -7,6 +7,7 @@ view: app_web_data {
     sql: with sub1 as (SELECT distinct
         customerUID as customerID,
         parentOrderUID as OrderID,
+        productUID as productUID,
         timestamp(transactionDate) as TransactionDate,
         Case
         when userUID like 'APP' then 'App Trolley'
@@ -24,13 +25,14 @@ view: app_web_data {
         productCode not in ('85699','00053') and
         isCancelled = 0  and
        (userUID  = 'APP')
-        group by 1,2,3,4
+        group by 1,2,3,4,5
 
         union all
 
         select distinct
         customerUID as customerID,
         parentOrderUID as OrderID,
+        productUID as productUID,
         timestamp(transactionDate) as TransactionDate,
         Case
         when userUID like 'WWW' then 'Web Trolley'
@@ -48,7 +50,7 @@ view: app_web_data {
         productCode not in ('85699','00053') and
         isCancelled = 0 and
         (userUID  = 'WWW')
-        group by 1,2,3,4)
+        group by 1,2,3,4,5)
 
         select distinct row_number() over (order by (transactionDate)) as P_K, * from sub1
         ;;
@@ -75,6 +77,12 @@ view: app_web_data {
         type:string
         sql: ${TABLE}.OrderID ;;
       }
+
+  dimension: ProductUID {
+    description: "ProductUID"
+    type:string
+    sql: ${TABLE}.ProductUID ;;
+  }
 
       dimension_group: transactiondate  {
         description: "transactiondate"
@@ -641,6 +649,45 @@ order by date desc; ;;
   }
 
 }
+
+view: product_Table {
+  derived_table: {
+    sql: select distinct productUID, productCode,productDepartment,productSubdepartment,productBrand
+    from `toolstation-data-storage.range.products`;;
+    }
+
+    dimension: productUID {
+      description: "product UID"
+      type: string
+      primary_key: yes
+      sql: ${TABLE}.ProductUID ;;
+    }
+
+  dimension: productCode {
+    description: "product code"
+    type: string
+    sql: ${TABLE}.ProductCode;;
+  }
+
+  dimension: productDepartment {
+    description: "product department"
+    type: string
+    sql: ${TABLE}.productDepartment;;
+  }
+
+  dimension: productSubdepartment {
+    description: "product subdepartment"
+    type: string
+    sql: ${TABLE}.productSubdepartment;;
+  }
+
+  dimension: productBrand {
+    description: "productBrand"
+    type: string
+    sql: ${TABLE}.productBrand;;
+  }
+
+  }
 
 # view: baseTEST {
 
