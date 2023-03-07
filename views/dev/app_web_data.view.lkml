@@ -650,44 +650,7 @@ order by date desc; ;;
 
 }
 
-view: product_Table {
-  derived_table: {
-    sql: select distinct productUID, productCode,productDepartment,productSubdepartment,productBrand
-    from `toolstation-data-storage.range.products`;;
-    }
 
-    dimension: productUID {
-      description: "product UID"
-      type: string
-      primary_key: yes
-      sql: ${TABLE}.ProductUID ;;
-    }
-
-  dimension: productCode {
-    description: "product code"
-    type: string
-    sql: ${TABLE}.ProductCode;;
-  }
-
-  dimension: productDepartment {
-    description: "product department"
-    type: string
-    sql: ${TABLE}.productDepartment;;
-  }
-
-  dimension: productSubdepartment {
-    description: "product subdepartment"
-    type: string
-    sql: ${TABLE}.productSubdepartment;;
-  }
-
-  dimension: productBrand {
-    description: "productBrand"
-    type: string
-    sql: ${TABLE}.productBrand;;
-  }
-
-  }
 
 # view: baseTEST {
 
