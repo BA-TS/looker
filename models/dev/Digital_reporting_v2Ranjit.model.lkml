@@ -1,8 +1,9 @@
 #connection: "toolstation"
 
 include: "/views/**/*.view"
+#include: "/views/dev/cg_testing/catalogue.view.lkml"
 
-explore: base_noCatalogue {
+explore: base {
 
   extends: []
   label: "Summarised sales"
@@ -27,8 +28,8 @@ explore: base_noCatalogue {
       dynamic_fiscal_quarter,
       dynamic_fiscal_month,
       dynamic_actual_year,
-      #catalogue.catalogue_name,
-      #catalogue.extra_name,
+      catalogue.catalogue_name,
+      catalogue.extra_name,
       combined_week,
       combined_month,
       combined_quarter,
@@ -52,13 +53,13 @@ explore: base_noCatalogue {
       view_label: "daily sales"
       type: left_outer
       relationship: many_to_one
-      sql_on: ${base_noCatalogue.date_date} = ${summarised_daily_Sales.dated_date};;
+      sql_on: ${base.date_date} = ${summarised_daily_Sales.dated_date};;
     }
 
   join: digital_budget {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${base_noCatalogue.date_date}=${digital_budget.Date_date} ;;
+    sql_on: ${base.date_date}=${digital_budget.Date_date} ;;
   }
 
   join: calendar_completed_date{
@@ -66,12 +67,18 @@ explore: base_noCatalogue {
     view_label: "Date"
     type:  inner
     relationship:  many_to_one
-    sql_on: ${base_noCatalogue.date_date}=${calendar_completed_date.date} ;;
+    sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
+  }
+
+  join: catalogue {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date_date} AND ${catalogue.catalogue_end_date_date} ;;
   }
 }
 
 
-explore: +base_noCatalogue {
+explore: +base {
 
   query: App_Web_weekly_sales {
 
@@ -79,21 +86,21 @@ explore: +base_noCatalogue {
     description: "This provides information to user."
 
     dimensions: [
-      base_noCatalogue.combined_week, summarised_daily_Sales.App_Web
+      base.combined_week, summarised_daily_Sales.App_Web
     ]
     measures: [
       summarised_daily_Sales.revenueDaily
     ]
     filters: [
-      base_noCatalogue.select_date_range: "28 days ago for 28 days"
+      base.select_date_range: "28 days ago for 28 days"
     ]
     limit: 500
     sorts: [
-      base_noCatalogue.combined_week: desc,
+      base.combined_week: desc,
       summarised_daily_Sales.App_Web: asc
     ]
     pivots: [
-      base_noCatalogue.date_date
+      base.date_date
     ]
 
   }
@@ -104,23 +111,23 @@ explore: +base_noCatalogue {
     description: "This provides information to user."
 
     dimensions: [
-      base_noCatalogue.date_date, summarised_daily_Sales.App_Web
+      base.date_date, summarised_daily_Sales.App_Web
     ]
     measures: [
       summarised_daily_Sales.TotalNetSaleDaily,
       summarised_daily_Sales.MarginDaily
     ]
     filters: [
-      base_noCatalogue.select_date_range: "7 days ago for 7 days"
+      base.select_date_range: "7 days ago for 7 days"
     ]
     limit: 500
     sorts: [
-      base_noCatalogue.date_date: desc,
+      base.date_date: desc,
       summarised_daily_Sales.App_Web: asc,
       summarised_daily_Sales.TotalNetSaleDaily: desc
     ]
     pivots: [
-      base_noCatalogue.date_date
+      base.date_date
     ]
 
   }
