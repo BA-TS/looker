@@ -77,6 +77,14 @@ explore: base {
 
   }
 
+  join: app_web_data {
+    type: left_outer
+    relationship: one_to_many
+    sql_on:
+
+    ${base.base_date_date} = ${app_web_data.transaction_date_filter} ;;
+  }
+
   join: channel_budget {
     view_label: "Budget"
     type:  left_outer

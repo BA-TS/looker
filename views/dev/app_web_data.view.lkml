@@ -29,7 +29,7 @@ view: app_web_data {
         productCode not in ('85699','00053') and
         isCancelled = 0  and
        (userUID  = 'APP')
-        group by 1,2,3,4,5
+        group by 1,2,3,4,5,6,7
 
         union all
 
@@ -56,13 +56,13 @@ view: app_web_data {
         productCode not in ('85699','00053') and
         isCancelled = 0 and
         (userUID  = 'WWW')
-        group by 1,2,3,4,5,6)
+        group by 1,2,3,4,5,6,7)
 
-        select distinct row_number() over (order by (transactionDate)) as P_K, * from sub1
+        select distinct row_number() over (order by (Transaction_date)) as P_K, * from sub1
         ;;
 
 
-    partition_keys: ["TransactionDate"]
+    partition_keys: ["Transaction_date"]
     cluster_keys: ["salesChannel", "productUID"]
 
     datagroup_trigger: ts_transactions_datagroup
@@ -239,7 +239,7 @@ view: app_web_data {
     datatype: date
     sql:
 
-    {% if base.select_date_reference._parameter_value == "Placed" %} DATE(${TABLE}.Placed_date}) {% else %} DATE(${TABLE}.transaction_date}) {% endif %}
+    {% if base.select_date_reference._parameter_value == "Placed" %} DATE(${TABLE}.Placed_date) {% else %} DATE(${TABLE}.transaction_date) {% endif %}
 
                 ;;
   }
