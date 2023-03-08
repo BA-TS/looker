@@ -5,7 +5,7 @@ include: "/views/**/*.view"
 explore: base_noCatalogue {
 
   extends: []
-  label: "Transactions"
+  label: "Summarised sales"
   description: "Explore Toolstation transactional data."
 
   always_filter: {
@@ -91,6 +91,33 @@ explore: +base_noCatalogue {
     sorts: [
       base_noCatalogue.combined_week: desc,
       summarised_daily_Sales.App_Web: asc
+    ]
+    pivots: [
+      base_noCatalogue.date_date
+    ]
+
+  }
+
+  query: method_daily_performance {
+
+    label: "7 Day Performance (By method)"
+    description: "This provides information to user."
+
+    dimensions: [
+      base_noCatalogue.date_date, summarised_daily_Sales.App_Web
+    ]
+    measures: [
+      summarised_daily_Sales.TotalNetSaleDaily,
+      summarised_daily_Sales.MarginDaily
+    ]
+    filters: [
+      base_noCatalogue.select_date_range: "7 days ago for 7 days"
+    ]
+    limit: 500
+    sorts: [
+      base_noCatalogue.date_date: desc,
+      summarised_daily_Sales.App_Web: asc,
+      summarised_daily_Sales.TotalNetSaleDaily: desc
     ]
     pivots: [
       base_noCatalogue.date_date
