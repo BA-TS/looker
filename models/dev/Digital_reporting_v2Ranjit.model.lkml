@@ -75,6 +75,12 @@ explore: base {
     relationship: many_to_one
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date_date} AND ${catalogue.catalogue_end_date_date} ;;
   }
+
+  join: dim_date {
+    type: inner
+    relationship: one_to_one
+    sql_on: ${base.date_date}=${dim_date.fullDateTEST_date} ;;
+  }
 }
 
 
