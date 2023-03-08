@@ -209,7 +209,7 @@ view: app_web_data {
     datatype: date
     sql:
 
-    {% if base_noCatalogue.select_date_reference._parameter_value == "Placed" %} DATE(${TABLE}.transactiondate) {% else %} DATE(${TABLE}.transactiondate) {% endif %}
+    {% if base.select_date_reference._parameter_value == "Placed" %} DATE(${TABLE}.transactiondate) {% else %} DATE(${TABLE}.transactiondate) {% endif %}
 
           ;;
   }
