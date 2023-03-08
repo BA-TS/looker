@@ -117,7 +117,7 @@ view: transactionsv2 {
   }
 
   parameter: select_extranet_status {
-    view_label: "Transactions"
+    view_label: "Transactionsv2"
     label: "Select Extranet"
     type: string
     allowed_value: {
