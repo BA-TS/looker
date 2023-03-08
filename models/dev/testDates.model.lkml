@@ -76,26 +76,6 @@ explore: base {
       # {% else %}
       # AND (${transactions.product_code} NOT IN ('85699', '00053') OR ${transactions.product_code} IS NULL)
       # {% endif %}
-
-       {% if
-       (category_budget._in_query and site_budget._in_query)
-       or (channel_budget._in_query and category_budget._in_query)  %}
-       MULTIPLE_BUDGETS_SELECTED
-       {% elsif (channel_budget._in_query and site_budget._in_query) %}
-       MULTIPLE_BUDGETS_SELECTED
-       {% elsif (channel_budget._in_query and site_budget._in_query and category_budget._in_query) %}
-       MULTIPLE_BUDGETS_SELECTED
-       {% elsif channel_budget._in_query %}
-       AND ${transactions.sales_channel} IS NOT NULL
-       {% elsif category_budget._in_query %}
-       AND ${transactions.product_department} IS NOT NULL
-       {% elsif site_budget._in_query %}
-       AND ${transactions.site_uid} IS NOT NULL
-       {% else %}
-       AND (${transactions.sales_channel} IS NOT NULL AND ${transactions.site_uid} IS NOT NULL AND ${transactions.product_department} IS NOT NULL)
-       {% endif %}
-       AND
-       UPPER(${transactions.extranet_status}) = {% parameter transactions.select_extranet_status %}
       ;;
 
   }
