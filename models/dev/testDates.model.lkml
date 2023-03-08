@@ -8,7 +8,7 @@ include: "/views/**/*.view"
 explore: base {
 
   extends: []
-  label: "Transactions"
+  label: "testing the dates"
   description: "Explore Toolstation transactional data."
 
   always_filter: {
@@ -230,17 +230,17 @@ explore: base {
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date_date} AND ${catalogue.catalogue_end_date_date} ;;
   }
 
-  join: digital_transaction_mapping {
-    type: left_outer
-    relationship: one_to_one
-    sql_on: ${transactions.parent_order_uid} = ${digital_transaction_mapping.transaction_uid} ;;
-  }
+#  join: digital_transaction_mapping {
+ #   type: left_outer
+  #  relationship: one_to_one
+   # sql_on: ${transactions.parent_order_uid} = ${digital_transaction_mapping.transaction_uid} ;;
+  #}
 
-  join: backend_digital_channel_grouping {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${digital_transaction_mapping.channel_grouping} = ${backend_digital_channel_grouping.channel_grouping} ;;
-  }
+  #join: backend_digital_channel_grouping {
+   # type: left_outer
+    #relationship: many_to_one
+    #sql_on: ${digital_transaction_mapping.channel_grouping} = ${backend_digital_channel_grouping.channel_grouping} ;;
+  #}
 
 }
 
