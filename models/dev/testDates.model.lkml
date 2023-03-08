@@ -199,10 +199,10 @@ explore: base {
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date_date} AND ${catalogue.catalogue_end_date_date} ;;
   }
 
-  join: summarised_daily_Sales {
+  join: app_web_data {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${base.date_date} = ${summarised_daily_Sales.dated_date} ;;
+    sql_on: ${base.date_date} = ${app_web_data.transactiondate_date} ;;
   }
 
 #  join: digital_transaction_mapping {
