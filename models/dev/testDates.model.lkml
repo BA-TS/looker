@@ -130,18 +130,7 @@ explore: base {
   join: products {
     type:  left_outer
     relationship: many_to_one
-    sql_on:
-        {% if
-          category_budget.department_net_sales_budget._in_query
-          or category_budget.department_margin_inc_Retro_funding_budget._in_query
-          or category_budget.department_margin_inc_all_funding_budget._in_query
-          or category_budget.department_margin_rate_inc_retro_funding_budget._in_query
-        %}
-          (${transactions.product_uid}=${products.product_uid} OR ${transactions.product_uid} IS NULL)
-            AND upper(products.productDepartment) = upper(category_budget.department)
-        {% else %}
-          ${transactions.product_uid}=${products.product_uid}
-        {% endif %}
+    sql_on: ${transactions.product_uid}=${products.product_uid}
       ;;
   }
 
