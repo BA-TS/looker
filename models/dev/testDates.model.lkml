@@ -52,11 +52,11 @@ explore: base {
 
         ;;
 
-  join: total_budget {
+  join: digital_budget {
     view_label: "Budget"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${base.date_date} = ${total_budget.total_budget_date};;
+    sql_on: ${base.date_date} = ${digital_budget.Date_date};;
   }
 
   join: transactions {
@@ -197,12 +197,6 @@ explore: base {
     type: left_outer
     relationship: many_to_one
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date_date} AND ${catalogue.catalogue_end_date_date} ;;
-  }
-
-  join: app_web_data {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${base.date_date} = ${app_web_data.transactiondate_date} ;;
   }
 
 #  join: digital_transaction_mapping {

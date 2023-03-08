@@ -9,6 +9,7 @@ view: app_web_data {
         parentOrderUID as OrderID,
         productUID as productUID,
         timestamp(transactionDate) as TransactionDate,
+        timestamp(PlacedDate) as PlacedDate,
         Case
         when userUID like 'APP' then 'App Trolley'
         end as App_Web,
@@ -34,6 +35,7 @@ view: app_web_data {
         parentOrderUID as OrderID,
         productUID as productUID,
         timestamp(transactionDate) as TransactionDate,
+        timestamp(PlacedDate) as PlacedDate,
         Case
         when userUID like 'WWW' then 'Web Trolley'
         end as App_Web,
@@ -90,6 +92,13 @@ view: app_web_data {
         timeframes: [raw,date]
         sql: ${TABLE}.transactiondate ;;
       }
+
+  dimension_group: PlacedDate  {
+    description: "Placeddate"
+    type: time
+    timeframes: [raw,date]
+    sql: ${TABLE}.PlacedDate ;;
+  }
 
   dimension_group: transactiondateTEST  {
     description: "transactiondate"
