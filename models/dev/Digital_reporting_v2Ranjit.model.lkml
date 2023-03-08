@@ -12,7 +12,7 @@ explore: base_noCatalogue {
     filters: [
       select_date_type: "Calendar",
       select_date_reference: "Transaction"
-    ]
+      ]
   }
 
   conditionally_filter: {
