@@ -59,22 +59,22 @@ explore: base {
     sql_on: ${base.date_date} = ${digital_budget.Date_date};;
   }
 
-  join: transactions {
+  join: transactionsv2 {
     type: left_outer
     relationship: one_to_many
 
     sql_on:
 
-        ${base.base_date_date} = ${transactions.transaction_date_filter}
+        ${base.base_date_date} = ${transactionsv2.transaction_date_filter}
           AND
-        (${transactions.is_cancelled} = 0
+        (${transactionsv2.is_cancelled} = 0
           OR
-        ${transactions.is_cancelled} IS NULL)
+        ${transactionsv2.is_cancelled} IS NULL)
 
-      # {% if transactions.charity_status == "1" %}
-      # AND (transactions.product_code IN ('85699', '00053'))
+      # {% if transactionsv2.charity_status == "1" %}
+      # AND (transactionsv2.product_code IN ('85699', '00053'))
       # {% else %}
-      # AND (${transactions.product_code} NOT IN ('85699', '00053') OR ${transactions.product_code} IS NULL)
+      # AND (${transactionsv2.product_code} NOT IN ('85699', '00053') OR ${transactionsv2.product_code} IS NULL)
       # {% endif %}
       ;;
 
@@ -85,7 +85,7 @@ explore: base {
     type:  left_outer
     relationship: many_to_one
     sql_on:
-        ${base.date_date}=${channel_budget.date} AND ${transactions.sales_channel} = ${channel_budget.channel}
+        ${base.date_date}=${channel_budget.date} AND ${transactionsv2.sales_channel} = ${channel_budget.channel}
       ;;
   }
 
@@ -94,7 +94,7 @@ explore: base {
     type: left_outer
     relationship: many_to_one
     sql_on:
-        ${base.date_date}=${category_budget.date} AND UPPER(${transactions.product_department}) = UPPER(${category_budget.department})
+        ${base.date_date}=${category_budget.date} AND UPPER(${transactionsv2.product_department}) = UPPER(${category_budget.department})
       ;;
   }
 
@@ -103,21 +103,21 @@ explore: base {
     type: left_outer
     relationship: many_to_one
     sql_on:
-        ${base.date_date} = ${site_budget.date_date} AND ${transactions.site_uid} = ${site_budget.site_uid}
+        ${base.date_date} = ${site_budget.date_date} AND ${transactionsv2.site_uid} = ${site_budget.site_uid}
       ;;
   }
 
   join: products {
     type:  left_outer
     relationship: many_to_one
-    sql_on: ${transactions.product_uid}=${products.product_uid}
+    sql_on: ${transactionsv2.product_uid}=${products.product_uid}
       ;;
   }
 
   join: sites {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${transactions.site_uid}=${sites.site_uid} ;;
+    sql_on: ${transactionsv2.site_uid}=${sites.site_uid} ;;
   }
 
   join: calendar_completed_date{
@@ -128,11 +128,11 @@ explore: base {
     sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
   }
 
-  join: customers {
-    type :  inner
-    relationship: many_to_one
-    sql_on: ${transactions.customer_uid}=${customers.customer_uid} ;;
-  }
+  # join: customers {
+  #   type :  inner
+  #   relationship: many_to_one
+  #   sql_on: ${transactionsv2.customer_uid}=${customers.customer_uid} ;;
+  # }
 
   join: suppliers {
     type: left_outer
@@ -144,54 +144,54 @@ explore: base {
   join: customer_segmentation {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${transactions.customer_uid} = ${customer_segmentation.ucu_uid} ;;
+    sql_on: ${transactionsv2.customer_uid} = ${customer_segmentation.ucu_uid} ;;
   }
 
-  join: trade_customers {
-    type:  left_outer
-    relationship: many_to_one
-    sql_on: ${customers.customer_uid} = ${trade_customers.customer_uid} ;;
-  }
+  # join: trade_customers {
+  #   type:  left_outer
+  #   relationship: many_to_one
+  #   sql_on: ${customers.customer_uid} = ${trade_customers.customer_uid} ;;
+  # }
 
   join: promo_main_catalogue {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${transactions.product_code} = ${promo_main_catalogue.product_code} and ${base.date_date} between ${promo_main_catalogue.live_date} and ${promo_main_catalogue.end_date} ;;
+    sql_on: ${transactionsv2.product_code} = ${promo_main_catalogue.product_code} and ${base.date_date} between ${promo_main_catalogue.live_date} and ${promo_main_catalogue.end_date} ;;
   }
 
   join: promo_extra {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${transactions.product_code} = ${promo_extra.product_code} and ${base.date_date} between ${promo_extra.live_date} and ${promo_extra.end_date} ;;
+    sql_on: ${transactionsv2.product_code} = ${promo_extra.product_code} and ${base.date_date} between ${promo_extra.live_date} and ${promo_extra.end_date} ;;
   }
 
   join: single_line_transactions {
     type:  left_outer
     relationship: many_to_one
-    sql_on: ${transactions.parent_order_uid} = ${single_line_transactions.parent_order_uid} ;;
+    sql_on: ${transactionsv2.parent_order_uid} = ${single_line_transactions.parent_order_uid} ;;
   }
 
   join: product_first_sale_date {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${transactions.product_code} = ${product_first_sale_date.product_code} ;;
+    sql_on: ${transactionsv2.product_code} = ${product_first_sale_date.product_code} ;;
   }
 
-  join: trade_credit_ids {
+  # join: trade_credit_ids {
 
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${customers.customer_uid} = ${trade_credit_ids.customer_uid} ;;
+  #   type: left_outer
+  #   relationship: many_to_one
+  #   sql_on: ${customers.customer_uid} = ${trade_credit_ids.customer_uid} ;;
 
-  }
+  # }
 
-  join: trade_credit_details {
+  # join: trade_credit_details {
 
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${trade_credit_ids.main_trade_credit_account_uid} = ${trade_credit_details.main_trade_credit_account_uid} ;;
+  #   type: left_outer
+  #   relationship: many_to_one
+  #   sql_on: ${trade_credit_ids.main_trade_credit_account_uid} = ${trade_credit_details.main_trade_credit_account_uid} ;;
 
-  }
+  # }
 
   join: catalogue {
     type: left_outer
