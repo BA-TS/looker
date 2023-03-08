@@ -80,6 +80,16 @@ dimension: Primary_key {
     type: number
     sql: ${TABLE}.MarginDaily ;;
   }
+
+ # dimension: transaction_date_filter {
+    #type: date
+    #datatype: date
+    #sql:
+
+    #{% if base.select_date_reference._parameter_value == "Placed" %} DATE(${transactions.placed_date}) {% else %} DATE(${transactions.transaction_date}) {% endif %}
+
+          #;;
+  #}
 }
 
 
