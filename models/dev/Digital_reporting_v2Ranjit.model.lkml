@@ -69,3 +69,33 @@ explore: base_noCatalogue {
     sql_on: ${base_noCatalogue.date_date}=${calendar_completed_date.date} ;;
   }
 }
+
+
+explore: +base_noCatalogue {
+
+  query: App_Web_weekly_sales {
+
+    label: "Weekly Sales (By trolley method)"
+    description: "This provides information to user."
+
+    dimensions: [
+      base_noCatalogue.combined_week, summarised_daily_Sales.App_Web
+    ]
+    measures: [
+      summarised_daily_Sales.revenueDaily
+    ]
+    filters: [
+      base_noCatalogue.select_date_range: "28 days ago for 28 days"
+    ]
+    limit: 500
+    sorts: [
+      base_noCatalogue.combined_week: desc,
+      summarised_daily_Sales.App_Web: asc
+    ]
+    pivots: [
+      base_noCatalogue.date_date
+    ]
+
+  }
+
+}
