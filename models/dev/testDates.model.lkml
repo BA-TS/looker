@@ -90,7 +90,7 @@ explore: base {
     type:  left_outer
     relationship: many_to_one
     sql_on:
-        ${base.date_date}=${channel_budget.date} AND ${transactionsv2.sales_channel} = ${channel_budget.channel}
+        ${base.date_date}=${channel_budget.date} AND ${app_web_data.salesChannel} = ${channel_budget.channel}
       ;;
   }
 
