@@ -4,13 +4,14 @@ view: summarised_daily_Sales {
     dated,
 fiscalYearWeek,
 App_Web,
-Weeklytotal_customers,
-total_customers,
-ordersDaily,
-revenueDaily,
-TotalNetSaleDaily,
-MarginDaily
+max(Weeklytotal_customers) as Weeklytotal_customers,
+max(total_customers) as total_customers,
+max(ordersDaily) as ordersDaily,
+max(revenueDaily) as revenueDaily,
+max(TotalNetSaleDaily) as TotalNetSaleDaily,
+max(MarginDaily) as MarginDaily
 from `toolstation-data-storage.sales.SummarisedSales_byApp_orWeb`
+group by 1,2,3
 order by 2 desc)
 
 select distinct row_number() over () as P_K ,*
