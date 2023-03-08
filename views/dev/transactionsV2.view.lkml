@@ -111,10 +111,10 @@ view: transactionsv2 {
 
   }
 
-  dimension: extranet_status {
-    sql: ${TABLE}.extranet_status ;;
-    hidden: yes
-  }
+  # dimension: extranet_status {
+  #   sql: ${TABLE}.extranet_status ;;
+  #   hidden: yes
+  # }
 
   parameter: select_extranet_status {
     view_label: "Transactionsv2"
@@ -200,27 +200,27 @@ view: transactionsv2 {
   #   hidden: yes
   # }
 
-  dimension: charity_status {
-    view_label: "Overrides"
-    type: string
-    sql:
+  # dimension: charity_status {
+  #   view_label: "Overrides"
+  #   type: string
+  #   sql:
 
-    {% parameter include_charity %}
+  #   {% parameter include_charity %}
 
-          ;;
-    hidden: yes
-  }
+  #         ;;
+  #   hidden: yes
+  # }
 
-  dimension: epos_merge {
-    view_label: "Overrides"
-    type: string
-    sql:
+   dimension: epos_merge {
+     view_label: "Overrides"
+     type: string
+     sql:
 
-    {% parameter merge_epos %}
+     {% parameter merge_epos %}
 
-          ;;
-    hidden: yes
-  }
+           ;;
+     hidden: yes
+   }
 
 
   # dimension: cancelled_status {
@@ -280,16 +280,16 @@ view: transactionsv2 {
     sql: ${TABLE}.grossSalesValue ;;
     hidden:  yes
   }
-  dimension: is_cancelled {
-    type: number
-    sql: ${TABLE}.isCancelled ;;
-    hidden:  yes
-  }
-  dimension: line_discount {
-    type: number
-    sql: ${TABLE}.lineDiscount ;;
-    hidden:  yes
-  }
+  # dimension: is_cancelled {
+  #   type: number
+  #   sql: ${TABLE}.isCancelled ;;
+  #   hidden:  yes
+  # }
+  # dimension: line_discount {
+  #   type: number
+  #   sql: ${TABLE}.lineDiscount ;;
+  #   hidden:  yes
+  # }
   dimension: margin_excl_funding {
     type: number
     sql: ${TABLE}.marginExclFunding ;;

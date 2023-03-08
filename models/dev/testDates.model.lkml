@@ -66,10 +66,7 @@ explore: base {
     sql_on:
 
         ${base.base_date_date} = ${transactionsv2.transaction_date_filter}
-          AND
-        (${transactionsv2.is_cancelled} = 0
-          OR
-        ${transactionsv2.is_cancelled} IS NULL)
+
 
       # {% if transactionsv2.charity_status == "1" %}
       # AND (transactionsv2.product_code IN ('85699', '00053'))
