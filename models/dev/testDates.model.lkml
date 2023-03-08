@@ -71,31 +71,31 @@ explore: base {
           OR
         ${transactions.is_cancelled} IS NULL)
 
-      {% if transactions.charity_status == "1" %}
-      AND (transactions.product_code IN ('85699', '00053'))
-      {% else %}
-      AND (${transactions.product_code} NOT IN ('85699', '00053') OR ${transactions.product_code} IS NULL)
-      {% endif %}
+       {% if transactions.charity_status == "1" %}
+       AND (transactions.product_code IN ('85699', '00053'))
+       {% else %}
+       AND (${transactions.product_code} NOT IN ('85699', '00053') OR ${transactions.product_code} IS NULL)
+       {% endif %}
 
-      {% if
-      (category_budget._in_query and site_budget._in_query)
-      or (channel_budget._in_query and category_budget._in_query)  %}
-      MULTIPLE_BUDGETS_SELECTED
-      {% elsif (channel_budget._in_query and site_budget._in_query) %}
-      MULTIPLE_BUDGETS_SELECTED
-      {% elsif (channel_budget._in_query and site_budget._in_query and category_budget._in_query) %}
-      MULTIPLE_BUDGETS_SELECTED
-      {% elsif channel_budget._in_query %}
-      AND ${transactions.sales_channel} IS NOT NULL
-      {% elsif category_budget._in_query %}
-      AND ${transactions.product_department} IS NOT NULL
-      {% elsif site_budget._in_query %}
-      AND ${transactions.site_uid} IS NOT NULL
-      {% else %}
-      AND (${transactions.sales_channel} IS NOT NULL AND ${transactions.site_uid} IS NOT NULL AND ${transactions.product_department} IS NOT NULL)
-      {% endif %}
-      AND
-      UPPER(${transactions.extranet_status}) = {% parameter transactions.select_extranet_status %}
+       {% if
+       (category_budget._in_query and site_budget._in_query)
+       or (channel_budget._in_query and category_budget._in_query)  %}
+       MULTIPLE_BUDGETS_SELECTED
+       {% elsif (channel_budget._in_query and site_budget._in_query) %}
+       MULTIPLE_BUDGETS_SELECTED
+       {% elsif (channel_budget._in_query and site_budget._in_query and category_budget._in_query) %}
+       MULTIPLE_BUDGETS_SELECTED
+       {% elsif channel_budget._in_query %}
+       AND ${transactions.sales_channel} IS NOT NULL
+       {% elsif category_budget._in_query %}
+       AND ${transactions.product_department} IS NOT NULL
+       {% elsif site_budget._in_query %}
+       AND ${transactions.site_uid} IS NOT NULL
+       {% else %}
+       AND (${transactions.sales_channel} IS NOT NULL AND ${transactions.site_uid} IS NOT NULL AND ${transactions.product_department} IS NOT NULL)
+       {% endif %}
+       AND
+       UPPER(${transactions.extranet_status}) = {% parameter transactions.select_extranet_status %}
       ;;
 
   }
@@ -278,178 +278,178 @@ explore: base {
 
 # EXAMPLES #
 
-explore: +base {
+# explore: +base {
 
-  query: department_weekly_sales {
+#   query: department_weekly_sales {
 
-    label: "Weekly Sales (By Department)"
-    description: "This provides information to user."
+#     label: "Weekly Sales (By Department)"
+#     description: "This provides information to user."
 
-    dimensions: [
-      base.combined_week, transactions.product_department
-    ]
-    measures: [
-      transactions.total_net_sales
-    ]
-    filters: [
-      base.select_date_range: "28 days ago for 28 days"
-    ]
-    limit: 500
-    sorts: [
-      base.combined_week: desc,
-      transactions.product_department: asc
-    ]
-    pivots: [
-      base.date_date
-    ]
+#     dimensions: [
+#       base.combined_week, transactions.product_department
+#     ]
+#     measures: [
+#       transactions.total_net_sales
+#     ]
+#     filters: [
+#       base.select_date_range: "28 days ago for 28 days"
+#     ]
+#     limit: 500
+#     sorts: [
+#       base.combined_week: desc,
+#       transactions.product_department: asc
+#     ]
+#     pivots: [
+#       base.date_date
+#     ]
 
-  }
+#   }
 
-  query: channel_weekly_sales {
+#   query: channel_weekly_sales {
 
-    label: "Weekly Sales (By Channel)"
-    description: "This provides information to user."
+#     label: "Weekly Sales (By Channel)"
+#     description: "This provides information to user."
 
-    dimensions: [
-      base.combined_week, transactions.sales_channel
-    ]
-    measures: [
-      transactions.total_net_sales
-    ]
-    filters: [
-      base.select_date_range: "28 days ago for 28 days"
-    ]
-    limit: 500
-    sorts: [
-      base.combined_week: desc,
-      transactions.sales_channel: asc
-    ]
-    pivots: [
-      base.date_date
-    ]
+#     dimensions: [
+#       base.combined_week, transactions.sales_channel
+#     ]
+#     measures: [
+#       transactions.total_net_sales
+#     ]
+#     filters: [
+#       base.select_date_range: "28 days ago for 28 days"
+#     ]
+#     limit: 500
+#     sorts: [
+#       base.combined_week: desc,
+#       transactions.sales_channel: asc
+#     ]
+#     pivots: [
+#       base.date_date
+#     ]
 
-  }
+#   }
 
-  query: department_daily_performance {
+#   query: department_daily_performance {
 
-    label: "7 Day Performance (By Department)"
-    description: "This provides information to user."
+#     label: "7 Day Performance (By Department)"
+#     description: "This provides information to user."
 
-    dimensions: [
-      base.date_date, transactions.product_department
-    ]
-    measures: [
-      transactions.total_net_sales,
-      transactions.total_margin_rate_incl_funding
-    ]
-    filters: [
-      base.select_date_range: "7 days ago for 7 days"
-    ]
-    limit: 500
-    sorts: [
-      base.date_date: desc,
-      transactions.product_department: asc,
-      transactions.total_net_sales: desc
-    ]
-    pivots: [
-      base.date_date
-    ]
+#     dimensions: [
+#       base.date_date, transactions.product_department
+#     ]
+#     measures: [
+#       transactions.total_net_sales,
+#       transactions.total_margin_rate_incl_funding
+#     ]
+#     filters: [
+#       base.select_date_range: "7 days ago for 7 days"
+#     ]
+#     limit: 500
+#     sorts: [
+#       base.date_date: desc,
+#       transactions.product_department: asc,
+#       transactions.total_net_sales: desc
+#     ]
+#     pivots: [
+#       base.date_date
+#     ]
 
-  }
+#   }
 
-  query: previous_day_site_performance {
+#   query: previous_day_site_performance {
 
-    label: "Store Performance (PTD)"
-    description: "This provides information to user."
+#     label: "Store Performance (PTD)"
+#     description: "This provides information to user."
 
-    dimensions: [
-      sites.site_uid,
-      sites.site_name
-    ]
-    measures: [
-      transactions.total_net_sales,
-      transactions.total_margin_rate_incl_funding,
-      transactions.number_of_unique_customers,
-      transactions.number_of_transactions
-    ]
-    filters: [
-      base.select_fixed_range: "PD",
-      sites.site_name: "-Website"
-    ]
-    limit: 50
-    sorts: [
-      transactions.total_net_sales: desc
-    ]
-    pivots: [
+#     dimensions: [
+#       sites.site_uid,
+#       sites.site_name
+#     ]
+#     measures: [
+#       transactions.total_net_sales,
+#       transactions.total_margin_rate_incl_funding,
+#       transactions.number_of_unique_customers,
+#       transactions.number_of_transactions
+#     ]
+#     filters: [
+#       base.select_fixed_range: "PD",
+#       sites.site_name: "-Website"
+#     ]
+#     limit: 50
+#     sorts: [
+#       transactions.total_net_sales: desc
+#     ]
+#     pivots: [
 
-    ]
+#     ]
 
-  }
+#   }
 
-  query: ptd_yoy_sales_performance {
+#   query: ptd_yoy_sales_performance {
 
-    label: "Sales Performance (PTD)"
-    description: "This provides information to user."
+#     label: "Sales Performance (PTD)"
+#     description: "This provides information to user."
 
-    dimensions: [
-      base.dynamic_fiscal_year
-    ]
-    measures: [
-      transactions.total_net_sales,
-      transactions.total_margin_incl_funding,
-      transactions.total_margin_rate_incl_funding,
-      transactions.total_units
-    ]
-    filters: [
-      base.select_comparison_period: "Year",
-      base.select_fixed_range: "WTD",
-      base.select_number_of_periods: "3"
-    ]
-    limit: 50
-    sorts: [
-      base.dynamic_fiscal_year: desc,
-      transactions.total_net_sales: desc
-    ]
-    pivots: [
+#     dimensions: [
+#       base.dynamic_fiscal_year
+#     ]
+#     measures: [
+#       transactions.total_net_sales,
+#       transactions.total_margin_incl_funding,
+#       transactions.total_margin_rate_incl_funding,
+#       transactions.total_units
+#     ]
+#     filters: [
+#       base.select_comparison_period: "Year",
+#       base.select_fixed_range: "WTD",
+#       base.select_number_of_periods: "3"
+#     ]
+#     limit: 50
+#     sorts: [
+#       base.dynamic_fiscal_year: desc,
+#       transactions.total_net_sales: desc
+#     ]
+#     pivots: [
 
-    ]
+#     ]
 
-  }
+#   }
 
-  query: product_performance {
+#   query: product_performance {
 
-    label: "Top Performing Products (PTD)"
-    description: "This provides information to user."
+#     label: "Top Performing Products (PTD)"
+#     description: "This provides information to user."
 
-    dimensions: [
-      transactions.product_code,
-      products.description,
-      transactions.product_department,
-      products.subdepartment
-    ]
-    measures: [
-      transactions.total_net_sales,
-      transactions.margin_incl_funding,
-      transactions.total_margin_rate_incl_funding,
-      transactions.total_units,
-      transactions.number_of_transactions,
-      transactions.number_of_unique_customers
-    ]
-    filters: [
-      base.select_fixed_range: "PD"
-    ]
-    limit: 20
-    sorts: [
-      transactions.total_net_sales: desc,
-      transactions.total_margin_rate_incl_funding: desc
-    ]
-    pivots: [
+#     dimensions: [
+#       transactions.product_code,
+#       products.description,
+#       transactions.product_department,
+#       products.subdepartment
+#     ]
+#     measures: [
+#       transactions.total_net_sales,
+#       transactions.margin_incl_funding,
+#       transactions.total_margin_rate_incl_funding,
+#       transactions.total_units,
+#       transactions.number_of_transactions,
+#       transactions.number_of_unique_customers
+#     ]
+#     filters: [
+#       base.select_fixed_range: "PD"
+#     ]
+#     limit: 20
+#     sorts: [
+#       transactions.total_net_sales: desc,
+#       transactions.total_margin_rate_incl_funding: desc
+#     ]
+#     pivots: [
 
-    ]
+#     ]
 
-  }
+#   }
 
-}
+# }
 
 
 
@@ -497,140 +497,140 @@ explore: +base {
 # AA #
 
 
-explore: +base {
+# explore: +base {
 
-  # DAILY SALES #
+#   # DAILY SALES #
 
-  aggregate_table: daily_sales_summary_DATE {
-    query: {
-      dimensions: [
-        date_date,
-        base.pivot_dimension,
-        base.__comparator_order__
-      ]
-      measures: [
-        total_budget.net_sales_budget,
-        category_budget.department_net_sales_budget,
-        transactions.aov_price,
-        transactions.total_margin_rate_incl_funding,
-        transactions.total_net_sales
-      ]
-      filters: [
-        base.select_comparison_period: "Year",
-        base.select_date_range: "45 days ago for 59 days",
-        base.select_number_of_periods: "3",
-        base.select_date_reference: "Transaction"
-      ]
-    }
+#   aggregate_table: daily_sales_summary_DATE {
+#     query: {
+#       dimensions: [
+#         date_date,
+#         base.pivot_dimension,
+#         base.__comparator_order__
+#       ]
+#       measures: [
+#         total_budget.net_sales_budget,
+#         category_budget.department_net_sales_budget,
+#         transactions.aov_price,
+#         transactions.total_margin_rate_incl_funding,
+#         transactions.total_net_sales
+#       ]
+#       filters: [
+#         base.select_comparison_period: "Year",
+#         base.select_date_range: "45 days ago for 59 days",
+#         base.select_number_of_periods: "3",
+#         base.select_date_reference: "Transaction"
+#       ]
+#     }
 
-    materialization: {
-      datagroup_trigger: ts_transactions_datagroup
-    }
+#     materialization: {
+#       datagroup_trigger: ts_transactions_datagroup
+#     }
 
-  }
+#   }
 
-  aggregate_table: daily_sales_summary_PD {
-    query: {
-      dimensions: [
-        date_date
-      ]
-      measures: [
-        total_budget.net_sales_budget,
-        category_budget.department_net_sales_budget,
-        transactions.aov_price,
-        transactions.aov_net_sales,
-        transactions.total_margin_rate_incl_funding,
-        transactions.total_net_sales
-      ]
-      filters: [
-        base.select_comparison_period: "Year",
-        base.select_fixed_range: "PD",
-        base.select_number_of_periods: "3",
-        base.select_date_reference: "Transaction"
-      ]
-    }
+#   aggregate_table: daily_sales_summary_PD {
+#     query: {
+#       dimensions: [
+#         date_date
+#       ]
+#       measures: [
+#         total_budget.net_sales_budget,
+#         category_budget.department_net_sales_budget,
+#         transactions.aov_price,
+#         transactions.aov_net_sales,
+#         transactions.total_margin_rate_incl_funding,
+#         transactions.total_net_sales
+#       ]
+#       filters: [
+#         base.select_comparison_period: "Year",
+#         base.select_fixed_range: "PD",
+#         base.select_number_of_periods: "3",
+#         base.select_date_reference: "Transaction"
+#       ]
+#     }
 
-    materialization: {
-      datagroup_trigger: ts_transactions_datagroup
-    }
-  }
+#     materialization: {
+#       datagroup_trigger: ts_transactions_datagroup
+#     }
+#   }
 
-  aggregate_table: daily_sales_summary_WTD {
-    query: {
-      dimensions: [
-        date_date
-      ]
-      measures: [
-        category_budget.department_net_sales_budget,
-        transactions.aov_price,
-        transactions.total_margin_rate_incl_funding,
-        transactions.total_net_sales
-      ]
-      filters: [
-        base.select_comparison_period: "Year",
-        base.select_fixed_range: "WTD",
-        base.select_number_of_periods: "3",
-        base.select_date_reference: "Transaction"
-      ]
-    }
+#   aggregate_table: daily_sales_summary_WTD {
+#     query: {
+#       dimensions: [
+#         date_date
+#       ]
+#       measures: [
+#         category_budget.department_net_sales_budget,
+#         transactions.aov_price,
+#         transactions.total_margin_rate_incl_funding,
+#         transactions.total_net_sales
+#       ]
+#       filters: [
+#         base.select_comparison_period: "Year",
+#         base.select_fixed_range: "WTD",
+#         base.select_number_of_periods: "3",
+#         base.select_date_reference: "Transaction"
+#       ]
+#     }
 
-    materialization: {
-      datagroup_trigger: ts_transactions_datagroup
-    }
+#     materialization: {
+#       datagroup_trigger: ts_transactions_datagroup
+#     }
 
-  }
+#   }
 
-  aggregate_table: daily_sales_summary_MTD {
-    query: {
-      dimensions: [
-        date_date
-      ]
-      measures: [
-        category_budget.department_net_sales_budget,
-        transactions.aov_price,
-        transactions.total_margin_rate_incl_funding,
-        transactions.total_net_sales
-      ]
-      filters: [
-        base.select_comparison_period: "Year",
-        base.select_fixed_range: "MTD",
-        base.select_number_of_periods: "3",
-        base.select_date_reference: "Transaction"
-      ]
-    }
+#   aggregate_table: daily_sales_summary_MTD {
+#     query: {
+#       dimensions: [
+#         date_date
+#       ]
+#       measures: [
+#         category_budget.department_net_sales_budget,
+#         transactions.aov_price,
+#         transactions.total_margin_rate_incl_funding,
+#         transactions.total_net_sales
+#       ]
+#       filters: [
+#         base.select_comparison_period: "Year",
+#         base.select_fixed_range: "MTD",
+#         base.select_number_of_periods: "3",
+#         base.select_date_reference: "Transaction"
+#       ]
+#     }
 
-    materialization: {
-      datagroup_trigger: ts_transactions_datagroup
-    }
+#     materialization: {
+#       datagroup_trigger: ts_transactions_datagroup
+#     }
 
-  }
+#   }
 
-  aggregate_table: daily_sales_summary_YTD {
-    query: {
-      dimensions: [
-        date_date
-      ]
-      measures: [
-        category_budget.department_net_sales_budget,
-        transactions.aov_price,
-        transactions.total_margin_rate_incl_funding,
-        transactions.total_net_sales
-      ]
-      filters: [
-        base.select_comparison_period: "Year",
-        base.select_fixed_range: "YTD",
-        base.select_number_of_periods: "3",
-        base.select_date_reference: "Transaction"
-      ]
-    }
+#   aggregate_table: daily_sales_summary_YTD {
+#     query: {
+#       dimensions: [
+#         date_date
+#       ]
+#       measures: [
+#         category_budget.department_net_sales_budget,
+#         transactions.aov_price,
+#         transactions.total_margin_rate_incl_funding,
+#         transactions.total_net_sales
+#       ]
+#       filters: [
+#         base.select_comparison_period: "Year",
+#         base.select_fixed_range: "YTD",
+#         base.select_number_of_periods: "3",
+#         base.select_date_reference: "Transaction"
+#       ]
+#     }
 
-    materialization: {
-      datagroup_trigger: ts_transactions_datagroup
-    }
+#     materialization: {
+#       datagroup_trigger: ts_transactions_datagroup
+#     }
 
-  }
+#   }
 
-}
+# }
 
 # # Select the views that should be a part of this model,
 # # and define the joins that connect them together.
