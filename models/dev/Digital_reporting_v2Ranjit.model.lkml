@@ -81,7 +81,17 @@ explore: base {
     relationship: one_to_one
     sql_on: ${base.date_date}=${dim_date.fullDateTEST_date} ;;
   }
+
+  join: total_sessions {
+    type: inner
+    relationship: many_to_one
+    sql_on: ${summarised_daily_Sales.App_Web}=${total_sessions.app_web_sessions} and
+      ${base.date_date}=${total_sessions.date_date};;
+
+  }
+
 }
+
 
 
 explore: +base {
