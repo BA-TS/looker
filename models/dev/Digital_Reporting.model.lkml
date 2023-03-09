@@ -8,7 +8,7 @@ include: "/views/**/*.view"
 explore: base {
 
   extends: []
-  label: "testing the dates"
+  label: "digital reporting"
   description: "Explore Toolstation transactional data."
 
   always_filter: {
