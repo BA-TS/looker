@@ -12,7 +12,7 @@ explore: base {
   always_filter: {
     filters: [
       select_date_type: "Calendar",
-      select_date_reference: "dated"
+      select_date_reference: "summarised^_daily^_Sales"
       ]
   }
 
