@@ -62,7 +62,7 @@ view: app_web_data {
         ;;
 
 
-    partition_keys: ["Transaction_date"]
+    partition_keys: ["Transaction"]
     cluster_keys: ["salesChannel", "productUID"]
 
     datagroup_trigger: ts_transactions_datagroup
