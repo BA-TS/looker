@@ -88,7 +88,7 @@ join: calendar {
   join: dim_date {
     type: inner
     relationship: one_to_one
-    sql_on: ${base.date_date}=${dim_date.fullDateTEST_date} ;;
+    sql_on: ${base.date_date}=${dim_date.fullDate_date} ;;
   }
 
   join: digital_budget {

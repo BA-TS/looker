@@ -338,29 +338,80 @@ view: total_sessions {
 view: dim_date {
 
   derived_table: {
-    sql: SELECT distinct
-   dateKey,
-   fullDate,
-   fiscalYearWeek,
-  (select distinct fiscalYearWeek from `toolstation-data-storage.ts_finance.dim_date` where fullDate = (current_date()-7)) as LastFiscalWeek,
-   fiscalYearMonth,
-   fiscalYear,
-    current_date() as today,
-    (current_date()-1) as yesterday,
-    (current_date()-7) as LastWeek,
-    (DATE_SUB(current_date(), INTERVAL 1 month)) as lastMonth,
-    (DATE_SUB(current_date(), INTERVAL 1 Year)) as lastYear,
-    (DATE_SUB(DATE_SUB(current_date(), INTERVAL 1 Week),INTERVAL 1 year)) as lastWeekLastYear,
-    (DATE_SUB(DATE_SUB(current_date(), INTERVAL 1 month),INTERVAL 1 year)) as LastMonthLastYear,
-    FROM `toolstation-data-storage.ts_finance.dim_date`
-    where (date_diff(current_date(), fullDate, day) <= 15 and date_diff(current_date(), fullDate, day) >= 0)
-    or (fullDate) = (current_date()-1)
-    or (fullDate) = (current_date()-7)
-    or (fullDate) = (DATE_SUB(current_date(), INTERVAL 1 month))
-    or (fullDate) = (DATE_SUB(current_date(), INTERVAL 1 Year))
-    or (fullDate) = (DATE_SUB(DATE_SUB(current_date(), INTERVAL 1 Week),INTERVAL 1 year))
-    or (fullDate) = (DATE_SUB(DATE_SUB(current_date(), INTERVAL 1 month),INTERVAL 1 year))
-    order by fullDate DESC;;
+    sql: with sub1 as (SELECT distinct
+dateKey,
+fullDate,
+fiscalWeekOfYear,
+fiscalMonthOfYear,
+fiscalQuarter,
+fiscalYear,
+fiscalYearMonth,
+fiscalYearQuarter,
+fiscalYearWeek,
+(select distinct fiscalYearWeek from `toolstation-data-storage.ts_finance.dim_date` where fullDate = (current_date()-7)) as LastFiscalWeek
+ FROM `toolstation-data-storage.ts_finance.dim_date`),
+
+ year as (
+
+   with sub1 as (
+   select distinct fiscalYear from sub1 order by 1 asc)
+
+   select distinct  fiscalYear,
+   Lag(fiscalYear) over (order by fiscalYear asc) as priorfiscalYear
+   from sub1
+   order by 1 desc
+ ),
+
+ fiscalQuarter as (
+
+   with sub1 as (
+   select distinct fiscalQuarter from sub1 order by 1 asc)
+
+   select distinct fiscalQuarter,
+   Lag(fiscalQuarter) over (order by fiscalQuarter asc) as PriorfiscalQuarter
+   from sub1
+   order by 1 desc
+ ),
+
+  fiscalYearQuarter as (
+
+   with sub1 as (
+   select distinct fiscalYearQuarter from sub1 order by 1 asc)
+
+   select distinct fiscalYearQuarter,
+   Lag(fiscalYearQuarter) over (order by fiscalYearQuarter asc) as PriorfiscalYearQuarter
+   from sub1
+   order by 1 desc
+ ),
+
+   fiscalYearMonth as (
+
+   with sub1 as (
+   select distinct fiscalYearMonth from sub1 order by 1 asc)
+
+   select distinct fiscalYearMonth,
+   Lag(fiscalYearMonth) over (order by fiscalYearMonth asc) as PriorfiscalYearMonth
+   from sub1
+   order by 1 desc
+ ),
+
+    fiscalYearWeek as (
+
+   with sub1 as (
+   select distinct fiscalYearWeek from sub1 order by 1 asc)
+
+   select distinct fiscalYearWeek,
+   Lag(fiscalYearWeek) over (order by fiscalYearWeek asc) as PriorfiscalYearWeek
+   from sub1
+   order by 1 desc
+ )
+
+ select distinct sub1.*, year.priorfiscalYear as PriorYear, fiscalYearQuarter.PriorfiscalYearQuarter as PriorQuarter, fiscalYearMonth.PriorfiscalYearMonth as PriorYearMonth, fiscalYearWeek.PriorfiscalYearWeek as PriorfiscalYearWeek
+ from sub1
+ left outer join year on sub1.fiscalYear = year.fiscalYear
+ left outer join fiscalYearQuarter on sub1.fiscalYearQuarter = fiscalYearQuarter.fiscalYearQuarter
+ left outer join fiscalYearMonth on sub1.fiscalYearMonth = fiscalYearMonth.fiscalYearMonth
+  left outer join fiscalYearWeek on sub1.fiscalYearWeek = fiscalYearWeek.fiscalYearWeek;;
   }
 
   dimension: dateKey {
@@ -394,30 +445,7 @@ view: dim_date {
     sql: ${TABLE}.fiscalYear;;
   }
 
-  dimension_group: todayTEST  {
-    description: "todaydate"
-    type: time
-    view_label: "today_PoP"
-    timeframes: [
-      raw,
-      date,
-      day_of_week,
-      day_of_week_index,
-      day_of_month,
-      day_of_year,
-      week,
-      week_of_year,
-      month,
-      month_name,
-      month_num,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.today ;;
-    convert_tz: no
-  }
-
-  dimension_group: fullDateTEST  {
+  dimension_group: fullDate {
     description: "fullDate"
     type: time
     view_label: "fullDate"
