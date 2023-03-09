@@ -445,6 +445,12 @@ fiscalYearWeek,
     sql: ${TABLE}.fiscalYear;;
   }
 
+  dimension: PriorfiscalYear {
+    description: "Prior fiscalYear"
+    type: string
+    sql: ${TABLE}.PriorfiscalYear;;
+  }
+
   dimension_group: fullDate {
     description: "fullDate"
     type: time
