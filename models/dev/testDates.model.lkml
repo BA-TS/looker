@@ -99,31 +99,31 @@ explore: base {
     type: left_outer
     relationship: many_to_one
     sql_on:
-        ${base.date_date}=${category_budget.date} AND UPPER(${transactionsv2.product_department}) = UPPER(${category_budget.department})
+        ${base.date_date}=${category_budget.date} AND UPPER(${products.department}) = UPPER(${category_budget.department})
       ;;
   }
 
-  join: site_budget {
-    view_label: "Budget"
-    type: left_outer
-    relationship: many_to_one
-    sql_on:
-        ${base.date_date} = ${site_budget.date_date} AND ${transactionsv2.site_uid} = ${site_budget.site_uid}
-      ;;
-  }
+  # join: site_budget {
+  #   view_label: "Budget"
+  #   type: left_outer
+  #   relationship: many_to_one
+  #   sql_on:
+  #       ${base.date_date} = ${site_budget.date_date} AND ${transactionsv2.site_uid} = ${site_budget.site_uid}
+  #     ;;
+  # }
 
   join: products {
     type:  left_outer
     relationship: many_to_one
-    sql_on: ${transactionsv2.product_uid}=${products.product_uid}
+    sql_on: ${app_web_data.ProductUID}=${products.product_uid}
       ;;
   }
 
-  join: sites {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${transactionsv2.site_uid}=${sites.site_uid} ;;
-  }
+  # join: sites {
+  #   type: left_outer
+  #   relationship: many_to_one
+  #   sql_on: ${transactionsv2.site_uid}=${sites.site_uid} ;;
+  # }
 
   join: calendar_completed_date{
     from:  calendar
