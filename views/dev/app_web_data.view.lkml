@@ -390,7 +390,7 @@ fiscalYearWeek,
    select distinct fiscalYearMonth from sub1 order by 1 asc)
 
    select distinct fiscalYearMonth,
-   Lead(fiscalYearMonth) over (order by fiscalYearMonth asc) as NextPriorfiscalYearMonth
+   Lead(fiscalYearMonth) over (order by fiscalYearMonth asc) as NextfiscalYearMonth
    from sub1
    order by 1 desc
  ),
