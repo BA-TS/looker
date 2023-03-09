@@ -59,17 +59,17 @@ explore: base {
     sql_on: ${base.date_date} = ${digital_budget.Date_date};;
   }
 
-   join: transactionsv2 {
-     type: left_outer
-     relationship: one_to_many
+  # join: transactionsv2 {
+  #   type: left_outer
+  #   relationship: one_to_many
 
-     sql_on:
+  #   sql_on:
 
-         ${base.base_date_date} = ${transactionsv2.transaction_date_filter}
+  #       ${base.base_date_date} = ${transactionsv2.transaction_date_filter}
 
-       ;;
+  #     ;;
 
-   }
+  # }
 
   join: app_web_data {
     type: left_outer
