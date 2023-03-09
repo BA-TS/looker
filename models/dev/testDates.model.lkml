@@ -14,7 +14,7 @@ explore: base {
   always_filter: {
     filters: [
       select_date_type: "Calendar",
-      select_date_reference: "transactionv2"
+      select_date_reference: "app^_web^_data"
     ]
   }
 
