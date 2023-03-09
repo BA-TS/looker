@@ -139,18 +139,18 @@ explore: base {
   #   sql_on: ${transactionsv2.customer_uid}=${customers.customer_uid} ;;
   # }
 
-  join: suppliers {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${products.default_supplier}=${suppliers.supplier_uid} ;;
-    fields: [suppliers.master_supplier_name, suppliers.supplier_name, suppliers.supplier_uid, suppliers.supplier_planner, suppliers.sage_supplier_code]
-  }
+  # join: suppliers {
+  #   type: left_outer
+  #   relationship: many_to_one
+  #   sql_on: ${products.default_supplier}=${suppliers.supplier_uid} ;;
+  #   fields: [suppliers.master_supplier_name, suppliers.supplier_name, suppliers.supplier_uid, suppliers.supplier_planner, suppliers.sage_supplier_code]
+  # }
 
-  join: customer_segmentation {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${transactionsv2.customer_uid} = ${customer_segmentation.ucu_uid} ;;
-  }
+  # join: customer_segmentation {
+  #   type: left_outer
+  #   relationship: many_to_one
+  #   sql_on: ${transactionsv2.customer_uid} = ${customer_segmentation.ucu_uid} ;;
+  # }
 
   # join: trade_customers {
   #   type:  left_outer

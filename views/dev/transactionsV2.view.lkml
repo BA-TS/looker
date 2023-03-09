@@ -972,38 +972,38 @@ view: transactionsv2 {
 
 
 
-  measure: trade_net_margin {
-    type: sum
-    label: "Total Margin inc (Trade Only)"
-    group_label: "Margin"
-    description: "Placed in Transactions due to potential permissions requirement on Customers"
-    sql: CASE WHEN ${is_trade_customer} THEN ${margin_incl_funding} else 0 END ;;
-    hidden: yes
-  }
-  measure: diy_net_margin {
-    type: sum
-    label: "Total Margin inc (DIY Only)"
-    group_label: "Margin"
-    description: "Placed in Transactions due to potential permissions requirement on Customers; Where is not %T then assuming trade to avoid dropping data"
-    sql: CASE WHEN NOT ${is_trade_customer} THEN ${margin_incl_funding} else 0 END ;;
-    hidden: yes
-  }
-  measure: trade_net_units {
-    type: sum
-    label: "Total Net Units (Trade Only)"
-    group_label: "Unit"
-    description: "Placed in Transactions due to potential permissions requirement on Customers"
-    sql: CASE WHEN ${is_trade_customer} THEN ${quantity} else 0 END ;;
-    hidden: yes
-  }
-  measure: diy_net_units {
-    type: sum
-    label: "Total Net Units (DIY Only)"
-    group_label: "Unit"
-    description: "Placed in Transactions due to potential permissions requirement on Customers; Where is not %T then assuming trade to avoid dropping data"
-    sql: CASE WHEN NOT ${is_trade_customer} THEN ${quantity} else 0 END ;;
-    hidden: yes
-  }
+  # measure: trade_net_margin {
+  #   type: sum
+  #   label: "Total Margin inc (Trade Only)"
+  #   group_label: "Margin"
+  #   description: "Placed in Transactions due to potential permissions requirement on Customers"
+  #   sql: CASE WHEN ${is_trade_customer} THEN ${margin_incl_funding} else 0 END ;;
+  #   hidden: yes
+  # }
+  # measure: diy_net_margin {
+  #   type: sum
+  #   label: "Total Margin inc (DIY Only)"
+  #   group_label: "Margin"
+  #   description: "Placed in Transactions due to potential permissions requirement on Customers; Where is not %T then assuming trade to avoid dropping data"
+  #   sql: CASE WHEN NOT ${is_trade_customer} THEN ${margin_incl_funding} else 0 END ;;
+  #   hidden: yes
+  # }
+  # measure: trade_net_units {
+  #   type: sum
+  #   label: "Total Net Units (Trade Only)"
+  #   group_label: "Unit"
+  #   description: "Placed in Transactions due to potential permissions requirement on Customers"
+  #   sql: CASE WHEN ${is_trade_customer} THEN ${quantity} else 0 END ;;
+  #   hidden: yes
+  # }
+  # measure: diy_net_units {
+  #   type: sum
+  #   label: "Total Net Units (DIY Only)"
+  #   group_label: "Unit"
+  #   description: "Placed in Transactions due to potential permissions requirement on Customers; Where is not %T then assuming trade to avoid dropping data"
+  #   sql: CASE WHEN NOT ${is_trade_customer} THEN ${quantity} else 0 END ;;
+  #   hidden: yes
+  # }
   measure: margin_rate_core {
     type: number
     group_label: "Margin"
@@ -1068,18 +1068,18 @@ view: transactionsv2 {
     value_format: "##0.0%;(##0.0%)"
     hidden: yes
   }
-  dimension: customer_cluster{
-    type: string
-    description: "Placed in Transactions due to potential permissions requirement on Customers"
-    sql: ${customer_segmentation.cluster};;
-    hidden: yes #!
-  } #!
-  dimension: is_trade_customer {
-    type: yesno
-    description: "Placed in Transactions due to potential permissions requirement on Customers"
-    sql: CASE WHEN ${customer_cluster} LIKE "T%" THEN true else false END ;;
-    hidden: yes #!
-  } #!
+  # dimension: customer_cluster{
+  #   type: string
+  #   description: "Placed in Transactions due to potential permissions requirement on Customers"
+  #   sql: ${customer_segmentation.cluster};;
+  #   hidden: yes #!
+  # } #!
+  # dimension: is_trade_customer {
+  #   type: yesno
+  #   description: "Placed in Transactions due to potential permissions requirement on Customers"
+  #   sql: CASE WHEN ${customer_cluster} LIKE "T%" THEN true else false END ;;
+  #   hidden: yes #!
+  # } #!
 
 
 
