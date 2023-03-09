@@ -684,19 +684,19 @@ view: transactionsv2 {
 
   # EXTERNAL - PRODUCTS #
 
-  dimension: is_new_product {
-    view_label: "Products"
-    group_label: "Flags"
-    label: "New Product"
-    type:  yesno
+  # dimension: is_new_product {
+  #   view_label: "Products"
+  #   group_label: "Flags"
+  #   label: "New Product"
+  #   type:  yesno
 
-    sql:
+  #   sql:
 
-    (${product_first_sale_date.first_sale_date} + 182) <= ${base.base_date_date}
+  #   (${product_first_sale_date.first_sale_date} + 182) <= ${base.base_date_date}
 
-          ;;
+  #         ;;
 
-  }
+  # }
 
   # UID #
 
@@ -756,22 +756,22 @@ view: transactionsv2 {
     type: yesno
     sql: case when ${promo_main_catalogue.product_code} is null then false else true end ;;
   }
-  dimension: promo_in_extra {
-    label: "In Extra?"
-    view_label: "Products"
-    group_label: "Flags"
-    required_access_grants: [is_developer]
-    type: yesno
-    sql: case when ${promo_extra.product_code} is null then false else true end ;;
-  }
-  dimension: promo_in_any {
-    view_label: "Products"
-    group_label: "Flags"
-    label: "In Catalogue or Promo?"
-    required_access_grants: [is_developer]
-    type: yesno
-    sql: case when ${promo_main_catalogue.product_code} is null and ${promo_extra.product_code} is null then false else true end ;;
-  }
+  # dimension: promo_in_extra {
+  #   label: "In Extra?"
+  #   view_label: "Products"
+  #   group_label: "Flags"
+  #   required_access_grants: [is_developer]
+  #   type: yesno
+  #   sql: case when ${promo_extra.product_code} is null then false else true end ;;
+  # }
+  # dimension: promo_in_any {
+  #   view_label: "Products"
+  #   group_label: "Flags"
+  #   label: "In Catalogue or Promo?"
+  #   required_access_grants: [is_developer]
+  #   type: yesno
+  #   sql: case when ${promo_main_catalogue.product_code} is null and ${promo_extra.product_code} is null then false else true end ;;
+  # }
 
   # dimension: has_trade_account {
   #   group_label: "Trade Credit"
@@ -1004,27 +1004,27 @@ view: transactionsv2 {
   #   sql: CASE WHEN NOT ${is_trade_customer} THEN ${quantity} else 0 END ;;
   #   hidden: yes
   # }
-  measure: margin_rate_core {
-    type: number
-    group_label: "Margin"
-    sql:
+  # measure: margin_rate_core {
+  #   type: number
+  #   group_label: "Margin"
+  #   sql:
 
 
-          sum(CASE
-        WHEN not ${promo_in_any}
-          THEN ${margin_incl_funding}
-        ELSE 0
-        END) /
-        sum(CASE
-        WHEN not ${promo_in_any}
-          THEN ${net_sales_value}
-        ELSE 0
-        END)
+  #         sum(CASE
+  #       WHEN not ${promo_in_any}
+  #         THEN ${margin_incl_funding}
+  #       ELSE 0
+  #       END) /
+  #       sum(CASE
+  #       WHEN not ${promo_in_any}
+  #         THEN ${net_sales_value}
+  #       ELSE 0
+  #       END)
 
-      ;;
-    value_format: "##0.0%;(##0.0%)"
-    hidden: yes
-  }
+  #     ;;
+  #   value_format: "##0.0%;(##0.0%)"
+  #   hidden: yes
+  # }
   measure: net_sales_PT {
     label: "% Net Sales - PT"
     type: number

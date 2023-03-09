@@ -11,8 +11,8 @@ view: app_web_data {
         parentOrderUID as OrderID,
         productUID as productUID,
         upper(salesChannel) as salesChannel,
-        timestamp(transactionDate) as Transaction_date,
-        timestamp(PlacedDate) as Placed_date,
+        timestamp(transactionDate) as Transaction,
+        timestamp(PlacedDate) as Placed,
         Case
         when userUID like 'APP' then 'App Trolley'
         end as App_Web,
@@ -38,8 +38,8 @@ view: app_web_data {
         parentOrderUID as OrderID,
         productUID as productUID,
         upper(salesChannel) as salesChannel,
-        timestamp(transactionDate) as Transaction_date,
-        timestamp(PlacedDate) as Placed_date,
+        timestamp(transactionDate) as Transaction,
+        timestamp(PlacedDate) as Placed,
         Case
         when userUID like 'WWW' then 'Web Trolley'
         end as App_Web,
@@ -58,7 +58,7 @@ view: app_web_data {
         (userUID  = 'WWW')
         group by 1,2,3,4,5,6,7)
 
-        select distinct row_number() over (order by (Transaction_date)) as P_K, * from sub1
+        select distinct row_number() over (order by (Transaction)) as P_K, * from sub1
         ;;
 
 
@@ -102,7 +102,7 @@ view: app_web_data {
     sql: ${TABLE}.salesChannel;;
   }
 
-      dimension_group: transaction_date  {
+      dimension_group: transaction  {
         description: "transactiondate"
         type: time
         timeframes: [
@@ -111,14 +111,14 @@ view: app_web_data {
           date,
           month_num
         ]
-        sql: ${TABLE}.transaction_date ;;
+        sql: ${TABLE}.transaction ;;
       }
 
-  dimension_group: Placed_date  {
+  dimension_group: Placed  {
     description: "Placeddate"
     type: time
     timeframes: [raw,date]
-    sql: ${TABLE}.Placed_date ;;
+    sql: ${TABLE}.Placed ;;
   }
 
   # dimension_group: transactiondateTEST  {
@@ -239,7 +239,7 @@ view: app_web_data {
     datatype: date
     sql:
 
-    {% if base.select_date_reference._parameter_value == "Placed" %} DATE(${TABLE}.Placed_date) {% else %} DATE(${TABLE}.transaction_date) {% endif %}
+    {% if base.select_date_reference._parameter_value == "Placed" %} DATE(${TABLE}.Placed) {% else %} DATE(${TABLE}.transaction) {% endif %}
 
                 ;;
   }

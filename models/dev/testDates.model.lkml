@@ -14,7 +14,7 @@ explore: base {
   always_filter: {
     filters: [
       select_date_type: "Calendar",
-      select_date_reference: "Transactionv2"
+      select_date_reference: "transactionv2"
     ]
   }
 
@@ -59,23 +59,17 @@ explore: base {
     sql_on: ${base.date_date} = ${digital_budget.Date_date};;
   }
 
-  join: transactionsv2 {
-    type: left_outer
-    relationship: one_to_many
+   join: transactionsv2 {
+     type: left_outer
+     relationship: one_to_many
 
-    sql_on:
+     sql_on:
 
-        ${base.base_date_date} = ${transactionsv2.transaction_date_filter}
+         ${base.base_date_date} = ${transactionsv2.transaction_date_filter}
 
+       ;;
 
-      # {% if transactionsv2.charity_status == "1" %}
-      # AND (transactionsv2.product_code IN ('85699', '00053'))
-      # {% else %}
-      # AND (${transactionsv2.product_code} NOT IN ('85699', '00053') OR ${transactionsv2.product_code} IS NULL)
-      # {% endif %}
-      ;;
-
-  }
+   }
 
   join: app_web_data {
     type: left_outer
@@ -161,26 +155,26 @@ explore: base {
   join: promo_main_catalogue {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${transactionsv2.product_code} = ${promo_main_catalogue.product_code} and ${base.date_date} between ${promo_main_catalogue.live_date} and ${promo_main_catalogue.end_date} ;;
+    sql_on: ${products.product_code} = ${promo_main_catalogue.product_code} and ${base.date_date} between ${promo_main_catalogue.live_date} and ${promo_main_catalogue.end_date} ;;
   }
 
-  join: promo_extra {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${transactionsv2.product_code} = ${promo_extra.product_code} and ${base.date_date} between ${promo_extra.live_date} and ${promo_extra.end_date} ;;
-  }
+  # join: promo_extra {
+  #   type: left_outer
+  #   relationship: many_to_one
+  #   sql_on: ${transactionsv2.product_code} = ${promo_extra.product_code} and ${base.date_date} between ${promo_extra.live_date} and ${promo_extra.end_date} ;;
+  # }
 
-  join: single_line_transactions {
-    type:  left_outer
-    relationship: many_to_one
-    sql_on: ${transactionsv2.parent_order_uid} = ${single_line_transactions.parent_order_uid} ;;
-  }
+  # join: single_line_transactions {
+  #   type:  left_outer
+  #   relationship: many_to_one
+  #   sql_on: ${transactionsv2.parent_order_uid} = ${single_line_transactions.parent_order_uid} ;;
+  # }
 
-  join: product_first_sale_date {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${transactionsv2.product_code} = ${product_first_sale_date.product_code} ;;
-  }
+  # join: product_first_sale_date {
+  #   type: left_outer
+  #   relationship: many_to_one
+  #   sql_on: ${transactionsv2.product_code} = ${product_first_sale_date.product_code} ;;
+  # }
 
   # join: trade_credit_ids {
 
