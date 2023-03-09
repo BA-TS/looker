@@ -357,7 +357,7 @@ fiscalYearWeek,
    select distinct fiscalYear from sub1 order by 1 asc)
 
    select distinct  fiscalYear,
-   Lag(fiscalYear) over (order by fiscalYear asc) as priorfiscalYear
+   Lead(fiscalYear) over (order by fiscalYear asc) as nextfiscalYear
    from sub1
    order by 1 desc
  ),
@@ -368,7 +368,7 @@ fiscalYearWeek,
    select distinct fiscalQuarter from sub1 order by 1 asc)
 
    select distinct fiscalQuarter,
-   Lag(fiscalQuarter) over (order by fiscalQuarter asc) as PriorfiscalQuarter
+   Lead(fiscalQuarter) over (order by fiscalQuarter asc) as nextfiscalQuarter
    from sub1
    order by 1 desc
  ),
@@ -379,7 +379,7 @@ fiscalYearWeek,
    select distinct fiscalYearQuarter from sub1 order by 1 asc)
 
    select distinct fiscalYearQuarter,
-   Lag(fiscalYearQuarter) over (order by fiscalYearQuarter asc) as PriorfiscalYearQuarter
+   Lead(fiscalYearQuarter) over (order by fiscalYearQuarter asc) as NextfiscalYearQuarter
    from sub1
    order by 1 desc
  ),
@@ -390,7 +390,7 @@ fiscalYearWeek,
    select distinct fiscalYearMonth from sub1 order by 1 asc)
 
    select distinct fiscalYearMonth,
-   Lag(fiscalYearMonth) over (order by fiscalYearMonth asc) as PriorfiscalYearMonth
+   Lead(fiscalYearMonth) over (order by fiscalYearMonth asc) as NextPriorfiscalYearMonth
    from sub1
    order by 1 desc
  ),
@@ -401,12 +401,15 @@ fiscalYearWeek,
    select distinct fiscalYearWeek from sub1 order by 1 asc)
 
    select distinct fiscalYearWeek,
-   Lag(fiscalYearWeek) over (order by fiscalYearWeek asc) as PriorfiscalYearWeek
+   Lead(fiscalYearWeek) over (order by fiscalYearWeek asc) as NextfiscalYearWeek
    from sub1
    order by 1 desc
  )
 
- select distinct sub1.*, year.priorfiscalYear as PriorYear, fiscalYearQuarter.PriorfiscalYearQuarter as PriorQuarter, fiscalYearMonth.PriorfiscalYearMonth as PriorYearMonth, fiscalYearWeek.PriorfiscalYearWeek as PriorfiscalYearWeek
+ select distinct sub1.*, year.NextfiscalYear as NextfiscalYear,
+fiscalYearQuarter.NextfiscalYearQuarter as NextfiscalQuarter,
+fiscalYearMonth.NextfiscalYearMonth as NextfiscalYearMonth,
+fiscalYearWeek.NextfiscalYearWeek as NextfiscalYearWeek
  from sub1
  left outer join year on sub1.fiscalYear = year.fiscalYear
  left outer join fiscalYearQuarter on sub1.fiscalYearQuarter = fiscalYearQuarter.fiscalYearQuarter
@@ -445,10 +448,28 @@ fiscalYearWeek,
     sql: ${TABLE}.fiscalYear;;
   }
 
-  dimension: PriorfiscalYear {
+  dimension: NextfiscalYear {
     description: "Prior fiscalYear"
     type: string
-    sql: ${TABLE}.PriorfiscalYear;;
+    sql: ${TABLE}.NextfiscalYear;;
+  }
+
+  dimension: NextfiscalQuarter {
+    description: "Next fiscalQuarterr"
+    type: string
+    sql: ${TABLE}.NextfiscalQuarter;;
+  }
+
+  dimension: NextfiscalYearMonth {
+    description: "NextfiscalYearMonth"
+    type: string
+    sql: ${TABLE}.NextfiscalYearMonth;;
+  }
+
+  dimension: NextfiscalYearWeek {
+    description: "NextfiscalYearWeek"
+    type: string
+    sql: ${TABLE}.NextfiscalYearWeek;;
   }
 
   dimension_group: fullDate {
