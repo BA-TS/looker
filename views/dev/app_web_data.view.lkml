@@ -341,6 +341,8 @@ view: dim_date {
     sql: with sub1 as (SELECT distinct
 dateKey,
 fullDate,
+(fullDate - 1) as Yesterday,
+dayInYear,
 fiscalWeekOfYear,
 fiscalMonthOfYear,
 fiscalQuarter,
@@ -357,7 +359,7 @@ fiscalYearWeek,
    select distinct fiscalYear from sub1 order by 1 asc)
 
    select distinct  fiscalYear,
-   Lead(fiscalYear) over (order by fiscalYear asc) as nextfiscalYear
+   Lag(fiscalYear) over (order by fiscalYear asc) as PriorfiscalYear
    from sub1
    order by 1 desc
  ),
@@ -368,7 +370,7 @@ fiscalYearWeek,
    select distinct fiscalQuarter from sub1 order by 1 asc)
 
    select distinct fiscalQuarter,
-   Lead(fiscalQuarter) over (order by fiscalQuarter asc) as nextfiscalQuarter
+   Lag(fiscalQuarter) over (order by fiscalQuarter asc) as PriorfiscalQuarter
    from sub1
    order by 1 desc
  ),
@@ -379,7 +381,7 @@ fiscalYearWeek,
    select distinct fiscalYearQuarter from sub1 order by 1 asc)
 
    select distinct fiscalYearQuarter,
-   Lead(fiscalYearQuarter) over (order by fiscalYearQuarter asc) as NextfiscalYearQuarter
+   Lag(fiscalYearQuarter) over (order by fiscalYearQuarter asc) as PriorfiscalYearQuarter
    from sub1
    order by 1 desc
  ),
@@ -390,7 +392,7 @@ fiscalYearWeek,
    select distinct fiscalYearMonth from sub1 order by 1 asc)
 
    select distinct fiscalYearMonth,
-   Lead(fiscalYearMonth) over (order by fiscalYearMonth asc) as NextfiscalYearMonth
+   Lag(fiscalYearMonth) over (order by fiscalYearMonth asc) as PriorfiscalYearMonth
    from sub1
    order by 1 desc
  ),
@@ -401,20 +403,21 @@ fiscalYearWeek,
    select distinct fiscalYearWeek from sub1 order by 1 asc)
 
    select distinct fiscalYearWeek,
-   Lead(fiscalYearWeek) over (order by fiscalYearWeek asc) as NextfiscalYearWeek
+   Lag(fiscalYearWeek) over (order by fiscalYearWeek asc) as PriorfiscalYearWeek
    from sub1
    order by 1 desc
  )
 
- select distinct sub1.*, year.NextfiscalYear as NextfiscalYear,
-fiscalYearQuarter.NextfiscalYearQuarter as NextfiscalQuarter,
-fiscalYearMonth.NextfiscalYearMonth as NextfiscalYearMonth,
-fiscalYearWeek.NextfiscalYearWeek as NextfiscalYearWeek
+ select distinct sub1.*, year.PriorfiscalYear as PriorfiscalYear,
+fiscalYearQuarter.PriorfiscalYearQuarter as PriorfiscalQuarter,
+fiscalYearMonth.PriorfiscalYearMonth as PriorfiscalYearMonth,
+fiscalYearWeek.PriorfiscalYearWeek as PriorfiscalYearWeek
  from sub1
  left outer join year on sub1.fiscalYear = year.fiscalYear
  left outer join fiscalYearQuarter on sub1.fiscalYearQuarter = fiscalYearQuarter.fiscalYearQuarter
  left outer join fiscalYearMonth on sub1.fiscalYearMonth = fiscalYearMonth.fiscalYearMonth
-  left outer join fiscalYearWeek on sub1.fiscalYearWeek = fiscalYearWeek.fiscalYearWeek;;
+  left outer join fiscalYearWeek on sub1.fiscalYearWeek = fiscalYearWeek.fiscalYearWeek
+  Where sub1.fullDate = date(current_date());;
   }
 
   dimension: dateKey {
@@ -425,57 +428,10 @@ fiscalYearWeek.NextfiscalYearWeek as NextfiscalYearWeek
     sql: ${TABLE}.datekey ;;
   }
 
-  dimension: fiscalYearWeek {
-    description: "fiscalYearWeek"
-    type: string
-    sql: ${TABLE}.fiscalYearWeek ;;
-  }
-
-  dimension: LastfiscalWeek {
-    description: "LastfiscalWeek"
-    type: string
-    sql: ${TABLE}.LastfiscalWeek ;;
-  }
-
-  dimension: fiscalYearMonth {
-    description: "fiscalYearMonth"
-    type: string
-    sql: ${TABLE}.fiscalYearMonth ;;
-  }
-  dimension: fiscalYear {
-    description: "fiscalYear"
-    type: string
-    sql: ${TABLE}.fiscalYear;;
-  }
-
-  dimension: NextfiscalYear {
-    description: "Prior fiscalYear"
-    type: string
-    sql: ${TABLE}.NextfiscalYear;;
-  }
-
-  dimension: NextfiscalQuarter {
-    description: "Next fiscalQuarterr"
-    type: string
-    sql: ${TABLE}.NextfiscalQuarter;;
-  }
-
-  dimension: NextfiscalYearMonth {
-    description: "NextfiscalYearMonth"
-    type: string
-    sql: ${TABLE}.NextfiscalYearMonth;;
-  }
-
-  dimension: NextfiscalYearWeek {
-    description: "NextfiscalYearWeek"
-    type: string
-    sql: ${TABLE}.NextfiscalYearWeek;;
-  }
-
-  dimension_group: fullDate {
+  dimension_group: Current_Date {
     description: "fullDate"
     type: time
-    view_label: "fullDate"
+    view_label: "Current_Date"
     timeframes: [
       raw,
       date,
@@ -494,6 +450,108 @@ fiscalYearWeek.NextfiscalYearWeek as NextfiscalYearWeek
     sql: ${TABLE}.fullDate ;;
     convert_tz: no
   }
+
+  dimension_group: Yesterday {
+    description: "Yesterday_Date"
+    type: time
+    view_label: "Yesterday"
+    timeframes: [
+      raw,
+      date,
+      day_of_week,
+      day_of_week_index,
+      day_of_month,
+      day_of_year,
+      week,
+      week_of_year,
+      month,
+      month_name,
+      month_num,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.Yesterday ;;
+    convert_tz: no
+  }
+
+  dimension: dayInYear {
+    description: "dayInYear"
+    type: number
+    sql: ${TABLE}.dayInYear ;;
+  }
+
+  dimension: fiscalWeekOfYear {
+    description: "fiscalWeekOfYear"
+    type: number
+    sql: ${TABLE}.fiscalWeekOfYear ;;
+  }
+
+  dimension: fiscalMonthOfYear {
+    description: "fiscalMonthOfYear"
+    type: number
+    sql: ${TABLE}.fiscalMonthOfYear ;;
+  }
+
+  dimension: fiscalQuarter {
+    description: "fiscalQuarter"
+    type: number
+    sql: ${TABLE}.fiscalQuarter ;;
+  }
+
+  dimension: fiscalYear {
+    description: "fiscalYear"
+    type: number
+    sql: ${TABLE}.fiscalYear ;;
+  }
+
+  dimension: fiscalYearMonth {
+    description: "fiscalYearMonth"
+    type: string
+    sql: ${TABLE}.fiscalYearMonth ;;
+  }
+
+  dimension: fiscalYearQuarter {
+    description: "fiscalYearQuarter"
+    type: string
+    sql: ${TABLE}.fiscalYearQuarter;;
+  }
+
+  dimension: fiscalYearWeek {
+    description: "fiscalYearWeek"
+    type: string
+    sql: ${TABLE}.fiscalYearWeek ;;
+  }
+
+  dimension: LastFiscalWeek {
+    description: "LastFiscalWeek"
+    type: string
+    sql: ${TABLE}.LastFiscalWeek ;;
+  }
+
+  dimension: PriorfiscalYear {
+    description: "PriorfiscalYear"
+    type: number
+    sql: ${TABLE}.PriorfiscalYear ;;
+  }
+
+  dimension: PriorfiscalQuarter {
+    description: "PriorfiscalQuarter"
+    type: string
+    sql: ${TABLE}.PriorfiscalQuarter ;;
+  }
+
+  dimension: PriorfiscalYearMonth {
+    description: "PriorfiscalYearMonth"
+    type: string
+    sql: ${TABLE}.PriorfiscalYearMonth ;;
+  }
+
+  dimension: PriorfiscalYearWeek {
+    description: "PriorfiscalYearWeek"
+    type: string
+    sql: ${TABLE}.PriorfiscalYearWeek ;;
+  }
+
 }
 
 view: digital_budget {

@@ -298,7 +298,7 @@ explore: +base {
   join: dim_date {
     type: inner
     relationship: one_to_one
-    sql_on: ${base.date_date}=${dim_date.fullDate_date} ;;
+    sql_on: ${base.date_date}=${dim_date.Current_Date_date} ;;
   }
 
   join: total_sessions {
