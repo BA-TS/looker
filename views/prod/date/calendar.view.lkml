@@ -1,6 +1,6 @@
 view: calendar {
 
-  fields_hidden_by_default: yes
+  fields_hidden_by_default: no
 
   sql_table_name:
 
