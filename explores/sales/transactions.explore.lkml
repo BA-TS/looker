@@ -237,6 +237,13 @@ explore: base {
       sql_on: ${digital_transaction_mapping.channel_grouping} = ${backend_digital_channel_grouping.channel_grouping} ;;
     }
 
+  join: digital_budget {
+    view_label: "Digital Budget rf1 2023"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${base.date_date} = ${digital_budget.Date_date};;
+  }
+
   }
 
 

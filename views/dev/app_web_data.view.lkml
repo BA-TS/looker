@@ -557,8 +557,8 @@ fiscalYearWeek.PriorfiscalYearWeek as PriorfiscalYearWeek
 view: digital_budget {
 
   derived_table: {
-    sql:  select distinct row_number() over (order by date,Budgeted_Sales) as P_K, Date, Budgeted_Sales
-    from `toolstation-data-storage.digitalreporting.Digital_Budget_2023` ;;
+    sql:  SELECT distinct row_number() over () as P_K,* FROM `toolstation-data-storage.digitalreporting.rf1_digital_budget_2023`
+order by 2 asc ;;
   }
 
   dimension: P_K {
@@ -576,12 +576,46 @@ view: digital_budget {
     sql: ${TABLE}.Date ;;
   }
 
-  dimension: Budgeted_Sales {
+  dimension: Week {
+    description: "Week"
+    type: number
+    sql: ${TABLE}.Week ;;
+  }
+
+  dimension: Month {
+    description: "Month"
+    type: number
+    sql: ${TABLE}.Month ;;
+  }
+
+  dimension: CLICK_COLLECT_Budget {
     description: "budget for each date"
     type: number
     value_format_name: gbp
-    sql: ${TABLE}.Budgeted_Sales ;;
+    sql: ${TABLE}.CLICK___COLLECT ;;
   }
+
+  dimension: Dropship_Budget {
+    description: "budget for each date"
+    type: number
+    value_format_name: gbp
+    sql: ${TABLE}.DROPSHIP ;;
+  }
+
+  dimension: WEB_Budget {
+    description: "budget for each date"
+    type: number
+    value_format_name: gbp
+    sql: ${TABLE}.WEB ;;
+  }
+
+  dimension: Total_Budget {
+    description: "budget for each date"
+    type: number
+    value_format_name: gbp
+    sql: ${TABLE}.Total ;;
+  }
+
 }
 
 view: payment_type {
