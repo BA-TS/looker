@@ -557,8 +557,11 @@ fiscalYearWeek.PriorfiscalYearWeek as PriorfiscalYearWeek
 view: digital_budget {
 
   derived_table: {
-    sql:  SELECT distinct row_number() over () as P_K,* FROM `toolstation-data-storage.digitalreporting.rf1_digital_budget_2023`
-order by 2 asc ;;
+    sql:  SELECT distinct row_number() over () as P_K, rf1.*, db23.Budgeted_Sales as Budget
+FROM `toolstation-data-storage.digitalreporting.rf1_digital_budget_2023` as rf1
+inner join `toolstation-data-storage.digitalreporting.Digital_Budget_2023` as db23
+on rf1.Date = db23.Date
+order by 2 asc;;
   }
 
   dimension: P_K {
@@ -588,32 +591,39 @@ order by 2 asc ;;
     sql: ${TABLE}.Month ;;
   }
 
-  dimension: CLICK_COLLECT_Budget {
-    description: "budget for each date"
+  dimension: CLICK_COLLECT_RF1 {
+    description: "click collect rf1 for each date"
     type: number
     value_format_name: gbp
     sql: ${TABLE}.CLICK___COLLECT ;;
   }
 
-  dimension: Dropship_Budget {
-    description: "budget for each date"
+  dimension: Dropship_RF1 {
+    description: "dropship rf1 for each date"
     type: number
     value_format_name: gbp
     sql: ${TABLE}.DROPSHIP ;;
   }
 
-  dimension: WEB_Budget {
-    description: "budget for each date"
+  dimension: WEB_RF1 {
+    description: "web rf1 for each date"
     type: number
     value_format_name: gbp
     sql: ${TABLE}.WEB ;;
   }
 
-  dimension: Total_Budget {
-    description: "budget for each date"
+  dimension: Total_RF1 {
+    description: "total rf1 for each date"
     type: number
     value_format_name: gbp
     sql: ${TABLE}.Total ;;
+  }
+
+  dimension: Budget {
+    description: "budget for each date"
+    type: number
+    value_format_name: gbp
+    sql: ${TABLE}.Budget ;;
   }
 
 }
