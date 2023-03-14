@@ -6,6 +6,7 @@ fiscalYearWeek,
 App_Web,
 max(Weeklytotal_customers) as Weeklytotal_customers,
 max(total_customers) as total_customers,
+max(WeeklyOrders) as Weekly_Orders,
 max(ordersDaily) as ordersDaily,
 max(revenueDaily) as revenueDaily,
 max(TotalNetSaleDaily) as TotalNetSaleDaily,
@@ -50,6 +51,12 @@ dimension: Primary_key {
     description: "Weekly Customer"
     type: number
     sql: ${TABLE}.Weeklytotal_customers ;;
+  }
+
+  dimension: Weekly_Orders {
+    description: "Weekly_Orders"
+    type: number
+    sql: ${TABLE}.Weekly_Orders ;;
   }
 
   dimension: Dailytotal_customers {
