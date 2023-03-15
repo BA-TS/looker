@@ -1,6 +1,6 @@
 view: catalogue {
 
-  required_access_grants: [is_developer]
+  #required_access_grants: [is_developer]
   fields_hidden_by_default: yes
 
   derived_table: {
