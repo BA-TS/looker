@@ -232,6 +232,11 @@ explore: bq_daily_stock_data_history {
   }
 }
 
+  explore: test_please_delete {
+    label: "test_please_deleate"
+    from: products
+  }
+
 
 
 
