@@ -670,6 +670,140 @@ order by date desc; ;;
 
 }
 
+view: Toolstation_mobile_app {
+  derived_table: {
+    sql:SELECT distinct row_number() over () as P_K, date(PARSE_DATE('%Y%m%d', event_date)) as dated,
+      user_pseudo_id,
+      event_name,
+      traffic_source.medium as Medium,
+      MAX(IF(event_name IN ('first_visit', 'first_open'), 1, 0)) AS is_new_user,
+    count(distinct
+    CASE WHEN event_name = 'session_start' THEN
+    CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))
+    END
+    )
+
+      AS sessions,
+      count(distinct case when event_name IN ('in_app_purchase', 'purchase') then user_pseudo_id end) AS usersWhoPurchased,
+       sum(case when event_name IN ('in_app_purchase', 'purchase') then 1 end) AS TotalPurchases,
+       count(distinct case
+       when event_name = "purchase" AND ecommerce.transaction_ID is not null and ecommerce.transaction_ID != "(not set)" then ecommerce.transaction_ID  end) as TransactionIDS,
+      sum(case when event_name IN ('in_app_purchase', 'purchase') then (ecommerce.purchase_revenue) end )as purchase_revenue,
+      AVG(case when event_name IN ('in_app_purchase', 'purchase') then (user_ltv.revenue) end )as Average_userSpend,
+
+
+
+
+    -- Replace table name.
+    FROM `toolstation-data-storage.analytics_265133009.events_*`
+    --, unnest (event_params) as event_params
+    -- Replace date range.
+    --WHERE _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', start_date) and FORMAT_DATE('%Y%m%d', end_date)
+
+    GROUP BY 2,3,4,5
+    ;;
+    }
+
+  dimension: P_K {
+    description: "Primary key for date"
+    type: number
+    primary_key: yes
+    hidden: yes
+    sql: ${TABLE}.P_K ;;
+  }
+
+  dimension_group: Date {
+    description: "date"
+    type: time
+    timeframes: [raw,date]
+    sql: ${TABLE}.dated ;;
+  }
+
+  dimension: user_id {
+    description: "User ID"
+    type: string
+    sql: ${TABLE}.user_pseudo_id ;;
+  }
+
+  dimension: event_name {
+    description: "event_name"
+    type: string
+    sql: ${TABLE}.event_name ;;
+  }
+
+  dimension: Medium {
+    description: "Medium"
+    type: string
+    sql: ${TABLE}.Medium;;
+  }
+
+  measure: New_users {
+    description: "new_users"
+    type: sum
+    value_format_name: decimal_0
+    sql: ${TABLE}.is_new_user;;
+  }
+
+  measure: Sessions {
+    description: "Sessions"
+    type: sum
+    value_format_name: decimal_0
+    sql: ${TABLE}.Sessions;;
+  }
+
+  measure: usersWhoPurchased {
+    description: "usersWhoPurchased"
+    type: sum
+    value_format_name: decimal_0
+    sql: ${TABLE}.usersWhoPurchased;;
+  }
+
+  measure: TotalPurchases {
+    description: "TotalPurchases"
+    type: sum
+    value_format_name: decimal_0
+    sql: ${TABLE}.TotalPurchases;;
+  }
+
+  measure: TransactionIDS {
+    description: "TransactionIDS"
+    type: sum
+    value_format_name: decimal_0
+    sql: ${TABLE}.TransactionIDS;;
+  }
+
+  measure: purchase_revenue {
+    description: "purchase_revenue"
+    type: sum
+    value_format_name: decimal_2
+    sql: ${TABLE}.purchase_revenue;;
+  }
+
+  measure: Average_userSpend {
+    description: "Average_userSpend"
+    type: average
+    value_format_name: decimal_2
+    sql: ${TABLE}.Average_userSpend;;
+  }
+
+  measure: Total_user_id {
+    description: "Average_userSpend"
+    type: count_distinct
+    value_format_name: decimal_0
+    sql: ${TABLE}.user_pseudo_id;;
+  }
+
+  dimension: app_date_filter {
+    type: date
+    datatype: date
+    sql:
+
+    {% if base.select_date_reference._parameter_value == "Placed" %} DATE(${TABLE}.dated) {% else %} DATE(${TABLE}.dated {% endif %}
+
+                      ;;
+  }
+}
+
 
 
 # view: baseTEST {
