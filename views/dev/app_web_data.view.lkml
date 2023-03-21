@@ -704,7 +704,7 @@ view: Mobile_app {
           round(AVG(Average_userSpend) ,2) as Average_userSpend,
           FROM UserInfo
           group by 2,3
-          order by 1 desc;
+          order by 1 desc
           ;;
   }
 
