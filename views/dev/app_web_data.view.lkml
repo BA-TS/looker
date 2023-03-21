@@ -670,7 +670,7 @@ order by date desc; ;;
 
 }
 
-view: Toolstation_mobile_app {
+view: Mobile_app {
   derived_table: {
     sql:SELECT distinct row_number() over () as P_K, date(PARSE_DATE('%Y%m%d', event_date)) as dated,
       user_pseudo_id,
