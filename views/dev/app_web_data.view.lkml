@@ -784,6 +784,19 @@ view: Mobile_app {
     sql: ${TABLE}.Average_userSpend;;
   }
 
+  filter: date_filter {
+    hidden: yes
+    type: date
+    datatype: date # Or your datatype. For writing the correct condition on date_column below
+
+    sql:
+
+      ${TABLE}._TABLE_SUFFIX
+      BETWEEN {%date_start date_filter %}
+      AND {% date_end date_filter %}
+      AND {% condition date_filter %} ${TABLE}.date_column {% endcondition %}  ;;
+  }
+
 }
 
 
