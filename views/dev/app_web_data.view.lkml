@@ -688,6 +688,8 @@ view: Mobile_app {
           sum(case when event_name IN ('in_app_purchase', 'purchase') then (ecommerce.purchase_revenue) end )as purchase_revenue,
           AVG(case when event_name IN ('in_app_purchase', 'purchase') then (user_ltv.revenue) end )as Average_userSpend,
           FROM `toolstation-data-storage.analytics_265133009.events_*`
+          where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end date_filter %})
+          AND {% condition date_filter %} Dated {% endcondition %}
           GROUP BY 2,3,4,5)
           SELECT distinct
           row_number() over () as P_K,
@@ -788,16 +790,8 @@ view: Mobile_app {
     hidden: yes
     type: date
     datatype: date # Or your datatype. For writing the correct condition on date_column below
-
-    sql:
-
-      ${TABLE}._TABLE_SUFFIX
-      BETWEEN {%date_start date_filter %}
-      AND {% date_end date_filter %}
-      AND {% condition date_filter %} ${TABLE}.date_column {% endcondition %}  ;;
+    }
   }
-
-}
 
 
 

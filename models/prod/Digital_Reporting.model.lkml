@@ -16,30 +16,41 @@ explore: base {
       select_date_type: "Calendar",
       select_date_reference: "app^_web^_data"
     ]
+
   }
 
   conditionally_filter: {
+    filters:
+    {
+      field: Mobile_app.date_filter
+      value: "21 days"
 
-    filters: [
-      select_date_range: "Yesterday"
-    ]
-    unless: [
-      select_fixed_range,
-      dynamic_fiscal_year,
-      dynamic_fiscal_half,
-      dynamic_fiscal_quarter,
-      dynamic_fiscal_month,
-      dynamic_actual_year,
-      catalogue.catalogue_name,
-      catalogue.extra_name,
-      combined_week,
-      combined_month,
-      combined_quarter,
-      combined_year,
-      separate_month
-    ]
-
+    }
   }
+
+
+  #conditionally_filter: {
+
+    #filters: [
+      #select_date_range: "Yesterday"
+    #]
+    #unless: [
+      #select_fixed_range,
+      #dynamic_fiscal_year,
+      #dynamic_fiscal_half,
+      #dynamic_fiscal_quarter,
+      #dynamic_fiscal_month,
+      #dynamic_actual_year,
+      #catalogue.catalogue_name,
+      #catalogue.extra_name,
+      #combined_week,
+      #combined_month,
+      #combined_quarter,
+      #combined_year,
+      #separate_month
+    #]
+
+  #}
 
   fields: [
     ALL_FIELDS*,
@@ -198,11 +209,11 @@ explore: base {
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date_date} AND ${catalogue.catalogue_end_date_date} ;;
   }
 
-  #join: Mobile_app {
-   # type: left_outer
-    #relationship: many_to_one
-    #sql_on: ${base.base_date_date} = ${Mobile_app.Date_date} ;;
-  #}
+  join: Mobile_app {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${base.base_date_date} = ${Mobile_app.Date_date} ;;
+  }
 
 #  join: digital_transaction_mapping {
  #   type: left_outer
