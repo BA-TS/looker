@@ -212,7 +212,8 @@ explore: base {
   join: Mobile_app {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${base.base_date_date} = ${Mobile_app.Date_date} ;;
+    sql_on: ${base.base_date_date} = ${Mobile_app.Date_date}
+    and ${calendar_completed_date.date}=${Mobile_app.Date_date};;
   }
 
 #  join: digital_transaction_mapping {
