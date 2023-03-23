@@ -3,7 +3,6 @@ include: "/views/**/*.view"
 
 label: "TS - Development"
 
-
 explore: digital_sales_matrix {
   label: "Hello World"
 
@@ -18,18 +17,7 @@ explore: digital_sales_matrix {
     relationship: many_to_one
     sql_on: ${digital_sales_matrix.sku} = ${digital_promo_sku_looker.sku} AND ${digital_sales_matrix.full_date} BETWEEN ${digital_promo_sku_looker.start_date} and ${digital_promo_sku_looker.end_date} ;;
   }
-
 }
-
-
-
-
-
-
-
-
-
-
 
 explore: lcm_history {
 
@@ -54,8 +42,6 @@ explore: looker_table_concept {
   required_access_grants: [is_developer]
 }
 
-
-
 explore: cltv_orders {
   label: "orders"
   required_access_grants: [is_super]
@@ -63,13 +49,10 @@ explore: cltv_orders {
     type: inner
     relationship: many_to_one
     sql_on: ${cltv_orders.CUSTOMERUID}=${cltv_customers.CUSTOMERUID}
-
           ;;
-
   }
 
 }
-
 
 explore: competitor_matrix_history {
   label: "DEV - Competitor Matrix"
@@ -103,12 +86,6 @@ explore: competitor_matrix_history {
   fields: [competitor_matrix_history*]
 
 }
-
-
-
-
-
-
 
 explore: base {
 
@@ -145,8 +122,6 @@ explore: base {
   }
 
 }
-
-
 
 explore: products {
 
@@ -213,10 +188,6 @@ explore: promo_table_design {
 }
 
 
-
-
-
-
 explore: bq_daily_stock_data_history {
   required_access_grants: [is_developer]
   join: products {
@@ -231,14 +202,6 @@ explore: bq_daily_stock_data_history {
     sql_on: ${bq_daily_stock_data_history.product_uid} = ${aac.product_uid} ;; # TBC - ${bq_daily_stock_data_history.active_from_date}= ${aac.date} and
   }
 }
-
-  explore: test_please_delete {
-    label: "test_please_deleate"
-    from: products
-  }
-
-
-
 
 
 # explore: base {
