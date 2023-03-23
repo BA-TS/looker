@@ -672,41 +672,25 @@ order by date desc; ;;
 
 view: Mobile_app {
   derived_table: {
-    sql:WITH UserInfo AS (
-          SELECT row_number() over () as P_K,
-          date(PARSE_DATE('%Y%m%d', event_date)) as dated,
-          user_pseudo_id,
-          event_name,
-          traffic_source.medium as Medium,
-          MAX(IF(event_name IN ('first_visit', 'first_open'), 1, 0)) AS is_new_user,
-          count(distinct CASE WHEN event_name = 'session_start' THEN CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))
-          END) AS sessions,
-          count(distinct case when event_name IN ('in_app_purchase', 'purchase') then user_pseudo_id end) AS usersWhoPurchased,
-          sum(case when event_name IN ('in_app_purchase', 'purchase') then 1 end) AS TotalPurchases,
-          count(distinct case
-             when event_name = "purchase" AND ecommerce.transaction_ID is not null and ecommerce.transaction_ID != "(not set)" then ecommerce.transaction_ID  end) as TransactionIDS,
-          sum(case when event_name IN ('in_app_purchase', 'purchase') then (ecommerce.purchase_revenue) end )as purchase_revenue,
-          AVG(case when event_name IN ('in_app_purchase', 'purchase') then (user_ltv.revenue) end )as Average_userSpend,
-          FROM `toolstation-data-storage.analytics_265133009.events_*`
-          where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end date_filter %})
-          AND {% condition date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
-          GROUP BY 2,3,4,5)
-          SELECT distinct
-          row_number() over () as P_K,
-          dated,
-          Medium,
-          COUNT(distinct user_pseudo_id)  AS users,
-          SUM(is_new_user)  AS new_user_count,
-          sum(sessions)  as Sessions,
-          sum(usersWhoPurchased)  as usersWhoPurchased,
-          sum(TotalPurchases) as TotalPurchases,
-          round(safe_divide(sum(TotalPurchases)  ,sum(usersWhoPurchased) ),2) AS avg_transaction_per_purchaser,
-          sum(TransactionIDS)   as TransactionIDS,
-          round(sum(purchase_revenue)  ,2) as purchase_revenue,
-          round(AVG(Average_userSpend) ,2) as Average_userSpend,
-          FROM UserInfo
-          group by 2,3
-          order by 1 desc
+    sql:SELECT distinct
+    row_number() over () as P_K,
+    date(PARSE_DATE('%Y%m%d', event_date)) as date,
+    user_pseudo_id,
+    traffic_source.medium as Medium,
+    case when event_name = "session_start" then
+    (SELECT distinct value.int_value FROM UNNEST(event_params) WHERE key = 'ga_session_id') else null end AS SessionStart_ga_session_id,
+    (SELECT distinct value.int_value FROM UNNEST(event_params) WHERE key = 'ga_session_id') AS All_ga_session_id,
+    IF(event_name IN ('first_visit', 'first_open'), user_pseudo_id, null) AS is_new_user,
+    case when event_name IN ('in_app_purchase', 'purchase') then user_pseudo_id else null end AS usersWhoPurchased,
+    case when event_name IN ('in_app_purchase', 'purchase') then
+    (SELECT distinct value.int_value FROM UNNEST(event_params) WHERE key  = 'ga_session_id') else null end AS TotalSessions_Purchases,
+    case when event_name = "purchase" AND ecommerce.transaction_ID is not null and ecommerce.transaction_ID != "(not set)" then ecommerce.transaction_ID  end as TransactionIDS,
+    case when event_name IN ('in_app_purchase', 'purchase') then (ecommerce.purchase_revenue) end as purchase_revenue,
+    case when event_name IN ('in_app_purchase', 'purchase') then (user_ltv.revenue) end as Average_userSpend
+    FROM `toolstation-data-storage.analytics_265133009.events_*`
+    where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end date_filter %})
+    AND {% condition date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
+    ORDER BY 2 ASC
           ;;
   }
 
@@ -722,7 +706,7 @@ view: Mobile_app {
     description: "date"
     type: time
     timeframes: [raw,date]
-    sql: ${TABLE}.Dated ;;
+    sql: ${TABLE}.Date ;;
   }
 
   dimension: Medium {
@@ -731,59 +715,62 @@ view: Mobile_app {
     sql: ${TABLE}.Medium ;;
   }
 
-  dimension: Users {
+  dimension: User_ID {
     description: "Users"
-    type: number
-    value_format_name: decimal_0
-    sql: ${TABLE}.Users;;
+    type: string
+    sql: ${TABLE}.user_pseudo_id;;
   }
 
-  dimension: new_user_count {
-    description: "new_user_count"
-    type: number
-    value_format_name: decimal_0
-    sql: ${TABLE}.new_user_count;;
+  dimension: New_User_ID {
+    description: "New is_new_user"
+    type: string
+    sql: ${TABLE}.is_new_user;;
   }
 
-  dimension: Sessions {
-    description: "Sessions"
+  dimension: Sessions_start {
+    description: "GA session ID where event session_start"
     type: number
-    value_format_name: decimal_0
-    sql: ${TABLE}.sessions;;
+    sql: ${TABLE}.SessionStart_ga_session_id;;
   }
 
-  dimension: usersWhoPurchased {
+  dimension: All_Sessions {
+    description: "All_ga_session_id"
+    type: number
+    sql: ${TABLE}.All_ga_session_id;;
+  }
+
+  #TotalSessions_Purchases
+
+  dimension: User_ID_Purchasing {
     description: "usersWhoPurchased"
-    type: number
-    value_format_name: decimal_0
+    type: string
     sql: ${TABLE}.usersWhoPurchased;;
   }
-  dimension: TotalPurchases {
-    description: "TotalPurchases"
-    type: number
-    value_format_name: decimal_0
-    sql: ${TABLE}.TotalPurchases;;
+
+  dimension: Sessions_Purchasing {
+    description: "TotalSessions_Purchases"
+    type: string
+    sql: ${TABLE}.TotalSessions_Purchases;;
   }
 
-  dimension: avg_transaction_per_purchaser {
-    description: "avg_transaction_per_purchaser"
-    type: number
-    value_format_name: decimal_2
-    sql: ${TABLE}.avg_transaction_per_purchaser;;
+  dimension: Transaction_IDS {
+    description: "TransactionIDS"
+    type: string
+    sql: ${TABLE}.TransactionIDS;;
   }
 
   dimension: purchase_revenue {
     description: "purchase_revenue"
     type: number
-    value_format_name: decimal_2
-    sql: ${TABLE}.purchase_revenue;;
+    value_format_name: gbp
+    sql: ${TABLE}.purchase_revenue ;;
   }
 
   dimension: Average_userSpend {
     description: "Average_userSpend"
     type: number
-    value_format_name: decimal_2
-    sql: ${TABLE}.Average_userSpend;;
+    value_format_name: gbp
+    sql: ${TABLE}.Average_userSpend ;;
   }
 
   filter: date_filter {
