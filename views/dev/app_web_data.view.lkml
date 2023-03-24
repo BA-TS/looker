@@ -677,13 +677,12 @@ view: Mobile_app {
     date(PARSE_DATE('%Y%m%d', event_date)) as date,
     user_pseudo_id,
     traffic_source.medium as Medium,
-    case when event_name = "session_start" then
-    (SELECT distinct value.int_value FROM UNNEST(event_params) WHERE key = 'ga_session_id') else null end AS SessionStart_ga_session_id,
-    (SELECT distinct value.int_value FROM UNNEST(event_params) WHERE key = 'ga_session_id') AS All_ga_session_id,
+    case WHEN event_name = 'session_start' THEN CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))
+  END AS session_start,
     IF(event_name IN ('first_visit', 'first_open'), user_pseudo_id, null) AS is_new_user,
     case when event_name IN ('in_app_purchase', 'purchase') then user_pseudo_id else null end AS usersWhoPurchased,
     case when event_name IN ('in_app_purchase', 'purchase') then
-    (SELECT distinct value.int_value FROM UNNEST(event_params) WHERE key  = 'ga_session_id') else null end AS TotalSessions_Purchases,
+    CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING)) else null end AS TotalSessions_Purchases,
     case when event_name = "purchase" AND ecommerce.transaction_ID is not null and ecommerce.transaction_ID != "(not set)" then ecommerce.transaction_ID  end as TransactionIDS,
     case when event_name IN ('in_app_purchase', 'purchase') then (ecommerce.purchase_revenue) end as purchase_revenue,
     case when event_name IN ('in_app_purchase', 'purchase') then (user_ltv.revenue) end as Average_userSpend
@@ -729,14 +728,8 @@ view: Mobile_app {
 
   dimension: Sessions_start {
     description: "GA session ID where event session_start"
-    type: number
-    sql: ${TABLE}.SessionStart_ga_session_id;;
-  }
-
-  dimension: All_Sessions {
-    description: "All_ga_session_id"
-    type: number
-    sql: ${TABLE}.All_ga_session_id;;
+    type: string
+    sql: ${TABLE}.session_start;;
   }
 
   #TotalSessions_Purchases
