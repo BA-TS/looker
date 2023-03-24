@@ -37,8 +37,8 @@ explore: lcm_history {
 
 }
 
-explore: looker_table_concept {
-  label: "Promo"
+explore: promoHistory {
+  label: "Promo History"
   required_access_grants: [is_developer]
 }
 
