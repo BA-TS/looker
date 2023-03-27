@@ -244,6 +244,13 @@ explore: base {
     sql_on: ${base.date_date} = ${digital_budget.Date_date};;
   }
 
+    join: ecrebo {
+    view_label: "Ecrebo"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${base.date_date} = ${ecrebo.ecrebo_date_filter} AND ${transactions.parent_order_uid} = ${ecrebo.parent_order_uid};;
+  }
+
   }
 
 
