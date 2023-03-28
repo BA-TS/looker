@@ -1,5 +1,3 @@
-
-
 view: cltv_orders {
   # Or, you could make this view a derived table, like this:
   derived_table: {
