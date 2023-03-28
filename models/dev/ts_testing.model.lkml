@@ -77,11 +77,6 @@ explore: competitor_matrix_history {
     sql_on: ${products.default_supplier} = ${suppliers.supplier_uid} ;;
   }
 
-  # join: cmh_product_detail {
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${products.department} =  ;;
-  # }
 
   fields: [competitor_matrix_history*]
 
