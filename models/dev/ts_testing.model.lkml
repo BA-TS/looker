@@ -22,6 +22,7 @@ label: "TS - Development"
 explore: lcm_history {
 
   label: "Landed Cost Model"
+  required_access_grants: [is_developer]
 
   join: products {
     type: left_outer
@@ -44,7 +45,7 @@ explore: promoHistory {
 
 explore: cltv_orders {
   label: "orders"
-  required_access_grants: [is_super]
+  required_access_grants: [is_developer]
   join:  cltv_customers{
     type: inner
     relationship: many_to_one
@@ -56,6 +57,7 @@ explore: cltv_orders {
 
 explore: competitor_matrix_history {
   label: "DEV - Competitor Matrix"
+  required_access_grants: [is_developer]
 
   sql_always_where: ${competitor_matrix_history.product_code_toolstation} IS NOT NULL ;;
 
@@ -85,8 +87,7 @@ explore: competitor_matrix_history {
 explore: base {
 
   label: "DEVELOPER - Retail Pricing"
-
-  required_access_grants: [is_super]
+  required_access_grants: [is_developer]
 
   sql_always_where: ${period_over_period} ;;
 
