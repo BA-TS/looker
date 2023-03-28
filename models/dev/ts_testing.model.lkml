@@ -3,21 +3,21 @@ include: "/views/**/*.view"
 
 label: "TS - Development"
 
-explore: digital_sales_matrix {
-  label: "Hello World"
+# explore: digital_sales_matrix {
+#   label: "Hello World"
 
-  join: digital_sales_example {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${digital_sales_matrix.sku} = ${digital_sales_example.product_code} ;;
-  }
+#   join: digital_sales_example {
+#     type: left_outer
+#     relationship: many_to_one
+#     sql_on: ${digital_sales_matrix.sku} = ${digital_sales_example.product_code} ;;
+#   }
 
-  join: digital_promo_sku_looker {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${digital_sales_matrix.sku} = ${digital_promo_sku_looker.sku} AND ${digital_sales_matrix.full_date} BETWEEN ${digital_promo_sku_looker.start_date} and ${digital_promo_sku_looker.end_date} ;;
-  }
-}
+#   join: digital_promo_sku_looker {
+#     type: left_outer
+#     relationship: many_to_one
+#     sql_on: ${digital_sales_matrix.sku} = ${digital_promo_sku_looker.sku} AND ${digital_sales_matrix.full_date} BETWEEN ${digital_promo_sku_looker.start_date} and ${digital_promo_sku_looker.end_date} ;;
+#   }
+# }
 
 explore: lcm_history {
 
