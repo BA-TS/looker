@@ -57,11 +57,23 @@ view: products {
     type: string
     sql: ${TABLE}.productBrand ;;
   }
+
   dimension: is_own_brand {
-    type: yesno
-    description: "If this is Toolstation's own brand"
-    sql: ${brand} IN ("Minotaur", "Pinnacle", "Wessex Electrical", "Made4Trade", "Hawksmoor", "Ebb and Floo", "Bauker") ;;
+    type: string
+    description: "If brand is Toolstation's own brand, then Y, otherwise N, or Unknown for products which have no brands"
+    case: {
+      when: {
+        sql: ${brand} IN ("Minotaur", "Pinnacle", "Wessex Electrical", "Made4Trade", "Hawksmoor", "Ebb and Floo", "Bauker") ;;
+        label: "Y"
+        }
+      when: {
+        sql: ${brand} IS NULL ;;
+        label: "Unknown"
+      }
+      else: "N"
   }
+ }
+
   dimension: description {
     group_label: "Product Details"
     type: string
