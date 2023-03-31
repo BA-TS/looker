@@ -57,6 +57,11 @@ view: products {
     type: string
     sql: ${TABLE}.productBrand ;;
   }
+  dimension: is_own_brand {
+    type: yesno
+    description: "If this is Toolstation's own brand"
+    sql: ${brand} IN ("Minotaur", "Pinnacle", "Wessex Electrical", "Made4Trade", "Hawksmoor", "Ebb and Floo", "Bauker") ;;
+  }
   dimension: description {
     group_label: "Product Details"
     type: string
