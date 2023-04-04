@@ -281,7 +281,7 @@ view: total_sessions {
     FROM `toolstation-data-storage.analytics_265133009.events_*`
     WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() - 500
     and PARSE_DATE('%Y%m%d', event_date) >= current_date () - 500
-    and where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
+    and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
     AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
     GROUP BY 1,2,3
 
