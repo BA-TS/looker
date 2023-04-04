@@ -281,6 +281,8 @@ view: total_sessions {
     FROM `toolstation-data-storage.analytics_265133009.events_*`
     WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() - 500
     and PARSE_DATE('%Y%m%d', event_date) >= current_date () - 500
+    and where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
+    AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
     GROUP BY 1,2,3
 
     UNION ALL
@@ -292,6 +294,8 @@ view: total_sessions {
     SUM(totals.visits) as sessions
     FROM `toolstation-data-storage.4783980.ga_sessions_*`
     WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
+    and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
+    AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
     GROUP BY 1,2,3)
 
     select distinct row_number() over (order by date,app_web_sessions) as P_K, * from sub1
@@ -332,6 +336,12 @@ view: total_sessions {
     description: "total sessions"
     type: number
     sql: ${TABLE}.sessions ;;
+  }
+
+  filter: session_date_filter {
+    hidden: yes
+    type: date
+    datatype: date # Or your datatype. For writing the correct condition on date_column below
   }
 }
 
