@@ -253,11 +253,13 @@ explore: +base {
     ]
   }
 
-  conditionally_filter: {
 
-    filters: [
-      select_date_range: "Yesterday"
+  conditionally_filter: {
+    filters:
+    [
+      total_sessions.session_date_filter: "21 days"
     ]
+
     unless: [
       select_fixed_range,
       dynamic_fiscal_year,
