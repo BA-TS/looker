@@ -22,7 +22,8 @@ explore: base {
   conditionally_filter: {
     filters:
     [
-      select_date_range: "21 days"
+      select_date_range: "21 days",
+      total_sessions.session_date_filter: "21 days"
       ]
 
     unless: [
