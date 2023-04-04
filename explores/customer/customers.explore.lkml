@@ -9,33 +9,6 @@ explore: customers {
 
   view_name: base
 
-  # join: trade_customers {
-  #   view_label: "Budget"
-  #   type: left_outer
-  #   relationship: one_to_one
-  #   sql_on: ${customers.customer_uid} = ${trade_customers.customer_uid};;
-  # }
-
-  # join: trade_credit_ids {
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${customers.customer_uid} = ${trade_credit_ids.customer_uid} ;;
-  # }
-
-  # join: trade_credit_details {
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${trade_credit_ids.main_trade_credit_account_uid} = ${trade_credit_details.main_trade_credit_account_uid} ;;
-  # }
-
-# }
-
-# explore: base {
-
-  extends: []
-  # label: "Transactions"
-  # description: "Explore Toolstation transactional data."
-
   always_filter: {
     filters: [
       select_date_type: "Calendar",
@@ -63,7 +36,6 @@ explore: customers {
       combined_year,
       separate_month
     ]
-
   }
 
   fields: [
@@ -72,9 +44,7 @@ explore: customers {
   ]
 
   sql_always_where:
-    ${period_over_period}
-
-        ;;
+    ${period_over_period};;
 
  join: customers {
     type :  full_outer
@@ -86,21 +56,12 @@ explore: customers {
     type: left_outer
     relationship: many_to_one
     sql_on: ${customers.customer_uid} = ${trade_credit_ids.customer_uid} ;;
-
   }
 
   join: trade_credit_details {
     type: left_outer
     relationship: many_to_one
     sql_on: ${trade_credit_ids.main_trade_credit_account_uid} = ${trade_credit_details.main_trade_credit_account_uid} ;;
-
-  }
-
- join: total_budget {
-    view_label: "Budget"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${base.date_date} = ${total_budget.total_budget_date};;
   }
 
   join: transactions {
@@ -120,54 +81,6 @@ explore: customers {
       {% else %}
       AND (${transactions.product_code} NOT IN ('85699', '00053') OR ${transactions.product_code} IS NULL)
       {% endif %}
-
-      {% if
-      (category_budget._in_query and site_budget._in_query)
-      or (channel_budget._in_query and category_budget._in_query)  %}
-      MULTIPLE_BUDGETS_SELECTED
-      {% elsif (channel_budget._in_query and site_budget._in_query) %}
-      MULTIPLE_BUDGETS_SELECTED
-      {% elsif (channel_budget._in_query and site_budget._in_query and category_budget._in_query) %}
-      MULTIPLE_BUDGETS_SELECTED
-      {% elsif channel_budget._in_query %}
-      AND ${transactions.sales_channel} IS NOT NULL
-      {% elsif category_budget._in_query %}
-      AND ${transactions.product_department} IS NOT NULL
-      {% elsif site_budget._in_query %}
-      AND ${transactions.site_uid} IS NOT NULL
-      {% else %}
-      AND (${transactions.sales_channel} IS NOT NULL AND ${transactions.site_uid} IS NOT NULL AND ${transactions.product_department} IS NOT NULL)
-      {% endif %}
-      AND
-      UPPER(${transactions.extranet_status}) = {% parameter transactions.select_extranet_status %}
-      ;;
-
-  }
-
-  join: channel_budget {
-    view_label: "Budget"
-    type:  left_outer
-    relationship: many_to_one
-    sql_on:
-        ${base.date_date}=${channel_budget.date} AND ${transactions.sales_channel} = ${channel_budget.channel}
-      ;;
-  }
-
-  join: category_budget {
-    view_label: "Budget"
-    type: left_outer
-    relationship: many_to_one
-    sql_on:
-        ${base.date_date}=${category_budget.date} AND UPPER(${transactions.product_department}) = UPPER(${category_budget.department})
-      ;;
-  }
-
-  join: site_budget {
-    view_label: "Budget"
-    type: left_outer
-    relationship: many_to_one
-    sql_on:
-        ${base.date_date} = ${site_budget.date_date} AND ${transactions.site_uid} = ${site_budget.site_uid}
       ;;
   }
 
@@ -175,17 +88,7 @@ explore: customers {
     type:  left_outer
     relationship: many_to_one
     sql_on:
-        {% if
-          category_budget.department_net_sales_budget._in_query
-          or category_budget.department_margin_inc_Retro_funding_budget._in_query
-          or category_budget.department_margin_inc_all_funding_budget._in_query
-          or category_budget.department_margin_rate_inc_retro_funding_budget._in_query
-        %}
-          (${transactions.product_uid}=${products.product_uid} OR ${transactions.product_uid} IS NULL)
-            AND upper(products.productDepartment) = upper(category_budget.department)
-        {% else %}
           ${transactions.product_uid}=${products.product_uid}
-        {% endif %}
       ;;
   }
 
@@ -197,18 +100,9 @@ explore: customers {
 
   join: calendar_completed_date{
     from:  calendar
-    view_label: "Date"
     type:  inner
     relationship:  many_to_one
     sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
-  }
-
-
-  join: suppliers {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${products.default_supplier}=${suppliers.supplier_uid} ;;
-    fields: [suppliers.master_supplier_name, suppliers.supplier_name, suppliers.supplier_uid, suppliers.supplier_planner, suppliers.sage_supplier_code]
   }
 
   join: customer_segmentation {
@@ -247,37 +141,10 @@ explore: customers {
     sql_on: ${transactions.product_code} = ${product_first_sale_date.product_code} ;;
   }
 
-
   join: catalogue {
     type: left_outer
     relationship: many_to_one
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date_date} AND ${catalogue.catalogue_end_date_date} ;;
-  }
-
-  join: digital_transaction_mapping {
-    type: left_outer
-    relationship: one_to_one
-    sql_on: ${transactions.parent_order_uid} = ${digital_transaction_mapping.transaction_uid} ;;
-  }
-
-  join: backend_digital_channel_grouping {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${digital_transaction_mapping.channel_grouping} = ${backend_digital_channel_grouping.channel_grouping} ;;
-  }
-
-  join: digital_budget {
-    view_label: "Digital Budget rf1 2023"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${base.date_date} = ${digital_budget.Date_date};;
-  }
-
-  join: ecrebo {
-    view_label: "Ecrebo"
-    type: left_outer
-    relationship: one_to_many
-    sql_on: ${base.date_date} = ${ecrebo.ecrebo_date_filter} AND ${transactions.parent_order_uid} = ${ecrebo.parent_order_uid};;
   }
 
 }
