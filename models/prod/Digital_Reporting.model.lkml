@@ -25,7 +25,7 @@ explore: base {
       Mobile_app.date_filter: "21 days"
       ]
 
-    unless: [total_sessions.session_date_filter]
+    unless: [app_web_data.transaction_date_filter]
   }
 
 
