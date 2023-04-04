@@ -21,11 +21,11 @@ explore: base {
 
   conditionally_filter: {
     filters:
-    {
-      field: Mobile_app.date_filter
-      value: "21 days"
+    [
+      Mobile_app.date_filter: "21 days"
+      ]
 
-    }
+    unless: [total_sessions.session_date_filter]
   }
 
 
