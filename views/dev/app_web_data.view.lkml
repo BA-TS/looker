@@ -339,7 +339,7 @@ view: total_sessions {
   }
 
   filter: session_date_filter {
-    hidden: yes
+    hidden: no
     type: date
     datatype: date # Or your datatype. For writing the correct condition on date_column below
   }
