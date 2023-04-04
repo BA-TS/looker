@@ -295,7 +295,7 @@ view: total_sessions {
     FROM `toolstation-data-storage.4783980.ga_sessions_*`
     WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
     and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
-    AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
+    AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %}
     GROUP BY 1,2,3)
 
     select distinct row_number() over (order by date,app_web_sessions) as P_K, * from sub1
