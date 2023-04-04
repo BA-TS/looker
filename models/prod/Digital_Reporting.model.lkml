@@ -25,32 +25,23 @@ explore: base {
       Mobile_app.date_filter: "21 days"
       ]
 
-    unless: [app_web_data.transaction_date_filter]
+    unless: [
+      select_fixed_range,
+      dynamic_fiscal_year,
+      dynamic_fiscal_half,
+      dynamic_fiscal_quarter,
+      dynamic_fiscal_month,
+      dynamic_actual_year,
+      catalogue.catalogue_name,
+      catalogue.extra_name,
+      combined_week,
+      combined_month,
+      combined_quarter,
+      combined_year,
+      separate_month
+    ]
+
   }
-
-
-  #conditionally_filter: {
-
-    #filters: [
-      #select_date_range: "Yesterday"
-    #]
-    #unless: [
-      #select_fixed_range,
-      #dynamic_fiscal_year,
-      #dynamic_fiscal_half,
-      #dynamic_fiscal_quarter,
-      #dynamic_fiscal_month,
-      #dynamic_actual_year,
-      #catalogue.catalogue_name,
-      #catalogue.extra_name,
-      #combined_week,
-      #combined_month,
-      #combined_quarter,
-      #combined_year,
-      #separate_month
-    #]
-
-  #}
 
   fields: [
     ALL_FIELDS*,
