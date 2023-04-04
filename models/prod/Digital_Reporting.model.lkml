@@ -39,8 +39,7 @@ explore: base {
       combined_quarter,
       combined_year,
       separate_month,
-      Mobile_app.Date_date,
-      total_sessions.date_date
+      Mobile_app.Date_date
     ]
 
   }
