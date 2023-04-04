@@ -64,7 +64,7 @@ view: products {
     description: "If brand is Toolstation's own brand, then Y, otherwise N, or Unknown for products which have no brands"
     case: {
       when: {
-        sql: ${brand} IN ("Minotaur", "Pinnacle", "Wessex Electrical", "Made4Trade", "Hawksmoor", "Ebb and Floo", "Bauker","Maverick Safety") ;;
+        sql: ${brand} IN ("Minotaur", "Pinnacle", "Wessex Electrical", "Made4Trade", "Hawksmoor", "Ebb and Flo", "Bauker","Maverick Safety") ;;
         label: "Y"
         }
       when: {
