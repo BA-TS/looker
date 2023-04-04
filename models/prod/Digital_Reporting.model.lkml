@@ -22,7 +22,7 @@ explore: base {
   conditionally_filter: {
     filters:
     [
-      Mobile_app.date_filter: "21 days"
+      select_date_range: "21 days"
       ]
 
     unless: [
@@ -38,7 +38,9 @@ explore: base {
       combined_month,
       combined_quarter,
       combined_year,
-      separate_month
+      separate_month,
+      Mobile_app.Date_date,
+      total_sessions.date_date
     ]
 
   }
@@ -219,6 +221,13 @@ explore: base {
     #sql_on: ${digital_transaction_mapping.channel_grouping} = ${backend_digital_channel_grouping.channel_grouping} ;;
   #}
 
+  join: total_sessions {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${base.base_date_date} = ${total_sessions.date_date}
+    AND ${app_web_data.App_web} = ${total_sessions.app_web_sessions};;
+  }
+
 }
 
 
@@ -248,7 +257,7 @@ explore: +base {
   conditionally_filter: {
     filters:
     [
-      total_sessions.session_date_filter: "21 days"
+      summarised_daily_Sales.dated_date: "21 days"
     ]
 
     unless: [
@@ -311,15 +320,6 @@ explore: +base {
     relationship: one_to_one
     sql_on: ${base.date_date}=${dim_date.Current_Date_date} ;;
   }
-
-  join: total_sessions {
-    type: inner
-    relationship: many_to_one
-    sql_on: ${summarised_daily_Sales.App_Web}=${total_sessions.app_web_sessions} and
-      ${base.date_date}=${total_sessions.date_date};;
-
-  }
-
 }
 
 
