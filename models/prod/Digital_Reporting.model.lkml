@@ -319,6 +319,13 @@ explore: +base {
     relationship: one_to_one
     sql_on: ${base.date_date}=${dim_date.Current_Date_date} ;;
   }
+
+  join: total_sessions {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${base.base_date_date} = ${total_sessions.date_date}
+      AND ${summarised_daily_Sales.App_Web} = ${total_sessions.app_web_sessions};;
+  }
 }
 
 
