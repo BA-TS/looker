@@ -11,7 +11,7 @@ view: stock_cover {
 
   dimension: date {
     type: date
-    datatype: datetime
+    datatype: date
     sql: ${TABLE}.date ;;
     #hidden: yes
   }
