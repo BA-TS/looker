@@ -38,6 +38,7 @@ view: single_line_transactions {
     sql: CASE WHEN ${single_line_transaction_flag} = FALSE THEN 1 ELSE 0 END
     hidden: yes;;
   }
+
   measure: single_line_percent {
     view_label: "Transactions"
     group_label: "Flags"
