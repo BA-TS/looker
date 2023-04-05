@@ -228,6 +228,12 @@ explore: base {
     AND ${app_web_data.App_web} = ${total_sessions.app_web_sessions};;
   }
 
+  join: stock_cover {
+    type:  left_outer
+    relationship: many_to_one
+    sql_on: ${stock_cover.product_code} =  ${products.product_code};;
+  }
+
 }
 
 
@@ -327,6 +333,7 @@ explore: +base {
     sql_on: ${base.base_date_date} = ${total_sessions.date_date}
       AND ${summarised_daily_Sales.App_Web} = ${total_sessions.app_web_sessions};;
   }
+
 }
 
 
