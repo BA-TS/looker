@@ -38,12 +38,12 @@ view: stock_cover {
   dimension: stock_level {
     type: number
     sql: ${TABLE}.stockUnits ;;
-    hidden: yes
+    #hidden: yes
   }
   dimension: stock_cover_8 {
     type: number
     sql: ${TABLE}.cover8 ;;
-    hidden: yes
+    #hidden: yes
   }
   dimension: stock_cover_16 {
     type: number
