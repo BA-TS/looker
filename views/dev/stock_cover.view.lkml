@@ -5,7 +5,7 @@ view: stock_cover {
     sql:
       SELECT distinct
       row_number() over () as P_K,
-      date(date) as date,
+      timestamp(date) as date,
       productCode,
     type,
     weeklyUnits,

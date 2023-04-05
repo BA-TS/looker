@@ -576,7 +576,13 @@ fiscalYearWeek.PriorfiscalYearWeek as PriorfiscalYearWeek
 view: digital_budget {
 
   derived_table: {
-    sql:  SELECT distinct row_number() over () as P_K, rf1.*, db23.Budgeted_Sales as Budget
+    sql:  SELECT distinct row_number() over () as P_K, timestamp(rf1.Date) as date,
+rf1.Week,
+rf1.Month,
+rf1.CLICK___COLLECT,
+rf1.DROPSHIP,
+rf1.WEB,
+rf1.Total , db23.Budgeted_Sales as Budget
 FROM `toolstation-data-storage.digitalreporting.rf1_digital_budget_2023` as rf1
 inner join `toolstation-data-storage.digitalreporting.Digital_Budget_2023` as db23
 on rf1.Date = db23.Date
