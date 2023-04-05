@@ -112,7 +112,7 @@ explore: base {
   # }
 
   join: products {
-    type:  left_outer
+    type:  inner
     relationship: many_to_one
     sql_on: ${app_web_data.ProductUID}=${products.product_uid}
       ;;
@@ -230,7 +230,7 @@ explore: base {
   }
 
   join: stock_cover {
-    type:  left_outer
+    type:  inner
     relationship: one_to_one
     sql_on: ${products.product_code} = ${stock_cover.product_code}
     and ${base.base_date_date} = ${stock_cover.stock_date_date};;
