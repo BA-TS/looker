@@ -699,6 +699,17 @@ dimension_group: order_completed {
 
   }
 
+  dimension: is_new_product_2023 {
+    view_label: "Products"
+    group_label: "Flags"
+    label: "New Product 2023"
+    type:  yesno
+
+    sql:${product_first_sale_date.first_sale_date_group_year}=2023;;
+
+  }
+
+
   # UID #
 
   dimension: parent_order_uid {

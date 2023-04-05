@@ -1,10 +1,6 @@
 view: products {
   sql_table_name:
-
-  `toolstation-data-storage.range.products_current`
-
-  ;;
-
+  `toolstation-data-storage.range.products_current`;;
 
   # dimension_group: active_from {
   #   type: time
@@ -81,27 +77,32 @@ view: products {
     type: string
     sql: ${TABLE}.productDescription ;;
   }
+
   dimension: product_name { # changed from name
     group_label: "Product Details"
     label: "Product Name"
     type: string
     sql: ${TABLE}.productName ;;
   }
+
   dimension: product_code {
     group_label: "Product Details"
     type: string
     sql: ${TABLE}.productCode ;;
   }
+
   dimension: product_status {
     group_label: "Product Details"
     type: string
     sql: ${TABLE}.productStatus ;;
   }
+
   dimension: product_type {
     group_label: "Product Details"
     type: string
     sql: ${TABLE}.productType ;;
   }
+
   dimension: product_uid {
     group_label: "Product Details"
     label: "Product UID"
@@ -109,6 +110,7 @@ view: products {
     type: string
     sql: ${TABLE}.productUID ;;
   }
+
   dimension: warranty_years {
     group_label: "Product Details"
     type: number
@@ -123,6 +125,7 @@ view: products {
     sql: ${TABLE}.productNameQuantity ;;
     hidden: yes
   }
+
   dimension: product_name_type {
     group_label: "Product Details"
     label: "Product Name Type"
@@ -139,32 +142,38 @@ view: products {
     type: string
     sql: ${TABLE}.buyerName ;;
   }
+
   dimension: buying_manager {
     group_label: "Commercial Details"
     type: string
     sql: ${TABLE}.buyingManager ;;
   }
+
   dimension: buying_status {
     group_label: "Commercial Details"
     type: string
     sql: ${TABLE}.productBuyingStatus ;;
   }
+
   dimension: end_of_life {
     group_label: "Commercial Details"
     type: string
     sql: ${TABLE}.endOfLife ;;
   }
+
   dimension: product_channel {
     group_label: "Commercial Details"
     type: string
     sql: ${TABLE}.productChannel ;;
   }
+
   dimension: subdepartment {
     label: "Sub Department"
     group_label: "Product Details"
     type: string
     sql: ${TABLE}.productSubdepartment ;;
   }
+
   dimension: trade_department{
     group_label: "Flags"
     type: yesno
@@ -180,6 +189,7 @@ view: products {
     sql: ${TABLE}.productDepartment ;;
     hidden: no ## readded due to DIGITAL # replaced by transactions.department coalesce
   }
+
   dimension: department_uid {
     group_label: "Commercial Details"
     type: number
@@ -187,6 +197,7 @@ view: products {
     sql: ${TABLE}.productDepartmentUID ;;
     hidden: yes
   }
+
   dimension: subdepartment_uid {
     group_label: "Commercial Details"
     type: number
@@ -212,18 +223,21 @@ view: products {
     sql: ${TABLE}.manufacturer ;;
     hidden: yes
   }
+
   dimension: rec_replen_multiple {
     group_label: "Supply Chain"
     type: number
     sql: ${TABLE}.recReplenMultiple ;;
     hidden: yes
   }
+
   dimension: stock_shop_replen_delay {
     group_label: "Supply Chain"
     type: string
     sql: ${TABLE}.stockShopReplenDelay ;;
     hidden: yes
   }
+
   dimension: supplier_part_number {
     group_label: "Supply Chain"
     label: "Supplier Part Number"
@@ -238,13 +252,13 @@ view: products {
     sql: ${TABLE}.manufacturerID ;;
     hidden: yes
   }
+
   dimension: default_supplier {
     group_label: "Supply Chain"
     type: string
     sql: ${TABLE}.productDefaultSupplier ;;
     hidden: yes
   }
-
 }
 
 view: product_first_sale_date {
@@ -256,7 +270,6 @@ view: product_first_sale_date {
 
       FROM
         `toolstation-data-storage.sales.transactions`
-
       GROUP BY
         1;;
     datagroup_trigger: ts_transactions_datagroup
@@ -268,6 +281,7 @@ view: product_first_sale_date {
     type: string
     sql: ${TABLE}.productCode ;;
   }
+
   dimension: first_sale_date {
     view_label: "Products"
     group_label: "Product Details"
@@ -278,4 +292,11 @@ view: product_first_sale_date {
     hidden: yes
   }
 
+  dimension_group: first_sale_date_group {
+    view_label: "Products"
+    group_label: "Product Details"
+    type: time
+    timeframes: [date, year, month]
+    sql: ${TABLE}.first_sale_date ;;
+  }
 }
