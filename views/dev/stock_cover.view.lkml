@@ -32,12 +32,12 @@ view: stock_cover {
 
   dimension: average_weekly_units {
     type: number
-    sql: ${TABLE}.averageWeeklyUnits ;;
+    sql: ${TABLE}.weeklyUnits ;;
     hidden: yes
   }
   dimension: stock_level {
     type: number
-    sql: ${TABLE}.units ;;
+    sql: ${TABLE}.stockUnits ;;
     hidden: yes
   }
   dimension: stock_cover_8 {
@@ -70,7 +70,7 @@ view: stock_cover {
   measure: total_average_weekly_units {
     label: "Average Weekly Units"
     type: sum
-    sql: ${TABLE}.averageWeeklyUnits ;;
+    sql: ${average_weekly_units} ;;
     value_format_name: decimal_0
   }
   measure: total_stock_level {
