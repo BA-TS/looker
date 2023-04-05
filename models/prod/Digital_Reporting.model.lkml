@@ -21,36 +21,29 @@ explore: base {
 
   conditionally_filter: {
     filters:
-    {
-      field: Mobile_app.date_filter
-      value: "21 days"
+    [
+      select_date_range: "21 days",
+      total_sessions.session_date_filter: "21 days"
+      ]
 
-    }
+    unless: [
+      select_fixed_range,
+      dynamic_fiscal_year,
+      dynamic_fiscal_half,
+      dynamic_fiscal_quarter,
+      dynamic_fiscal_month,
+      dynamic_actual_year,
+      catalogue.catalogue_name,
+      catalogue.extra_name,
+      combined_week,
+      combined_month,
+      combined_quarter,
+      combined_year,
+      separate_month,
+      Mobile_app.Date_date
+    ]
+
   }
-
-
-  #conditionally_filter: {
-
-    #filters: [
-      #select_date_range: "Yesterday"
-    #]
-    #unless: [
-      #select_fixed_range,
-      #dynamic_fiscal_year,
-      #dynamic_fiscal_half,
-      #dynamic_fiscal_quarter,
-      #dynamic_fiscal_month,
-      #dynamic_actual_year,
-      #catalogue.catalogue_name,
-      #catalogue.extra_name,
-      #combined_week,
-      #combined_month,
-      #combined_quarter,
-      #combined_year,
-      #separate_month
-    #]
-
-  #}
 
   fields: [
     ALL_FIELDS*,
@@ -228,6 +221,13 @@ explore: base {
     #sql_on: ${digital_transaction_mapping.channel_grouping} = ${backend_digital_channel_grouping.channel_grouping} ;;
   #}
 
+  join: total_sessions {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${base.base_date_date} = ${total_sessions.date_date}
+    AND ${app_web_data.App_web} = ${total_sessions.app_web_sessions};;
+  }
+
 }
 
 
@@ -253,11 +253,13 @@ explore: +base {
     ]
   }
 
-  conditionally_filter: {
 
-    filters: [
-      select_date_range: "Yesterday"
+  conditionally_filter: {
+    filters:
+    [
+      summarised_daily_Sales.dated_date: "21 days"
     ]
+
     unless: [
       select_fixed_range,
       dynamic_fiscal_year,
@@ -320,13 +322,11 @@ explore: +base {
   }
 
   join: total_sessions {
-    type: inner
+    type: left_outer
     relationship: many_to_one
-    sql_on: ${summarised_daily_Sales.App_Web}=${total_sessions.app_web_sessions} and
-      ${base.date_date}=${total_sessions.date_date};;
-
+    sql_on: ${base.base_date_date} = ${total_sessions.date_date}
+      AND ${summarised_daily_Sales.App_Web} = ${total_sessions.app_web_sessions};;
   }
-
 }
 
 

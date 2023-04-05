@@ -21,7 +21,8 @@ view: app_web_data {
         sum(netSalesValue) as NetSaleValue,
         SUM(netSalePrice * quantity) as revenue,
         SUM(grossSalesValue) as revenue2,
-        sum(marginInclFunding) as Margin
+        sum(marginInclFunding) as MarginIncFunding,
+        sum(marginExclFunding) as marginExclFunding
         from `toolstation-data-storage.sales.transactions`
         where
         --date_diff(current_date (),date(transactionDate), day) <= 500 and
@@ -48,7 +49,8 @@ view: app_web_data {
         sum(netSalesValue) as NetSaleValue,
         SUM(netSalePrice * quantity) as revenue,
         SUM(grossSalesValue) as revenue2,
-        sum(marginInclFunding) as Margin
+        sum(marginInclFunding) as MarginIncFunding,
+        sum(marginExclFunding) as marginExclFunding
         from `toolstation-data-storage.sales.transactions`
         where
         --date_diff(current_date (),date(transactionDate), day) <= 500 and
@@ -198,18 +200,18 @@ view: app_web_data {
         sql: ${TABLE}.OrderID;;
       }
 
-      measure: margin_perc {
+      measure: marginFunding_perc {
         description: "margin percentage per order"
         type: number
         value_format_name: percent_2
-        sql: sum(${TABLE}.Margin)/SUM(${TABLE}.NetSaleValue) ;;
+        sql: sum(${TABLE}.MarginIncFunding)/SUM(${TABLE}.NetSaleValue) ;;
       }
 
-      measure: margin_by_order {
+      measure: marginfunding_by_order {
         description: "Margin by order"
         type: number
         value_format_name: decimal_2
-        sql: sum(${TABLE}.Margin)/(count(distinct(${TABLE}.OrderID))) ;;
+        sql: sum(${TABLE}.MarginIncFunding)/(count(distinct(${TABLE}.OrderID))) ;;
       }
 
       measure: web_based_orders {
@@ -219,11 +221,18 @@ view: app_web_data {
         filters: [App_web: "Web Trolley" ]
       }
 
-      measure: Total_Margin {
+      measure: Total_MarginIncFunding {
         description: "sum of Margin"
         type: sum
         value_format_name: decimal_2
-        sql: ${TABLE}.Margin ;;
+        sql: ${TABLE}.MarginIncFunding ;;
+      }
+
+      measure: Total_marginExclFunding {
+        description: "sum of Margin"
+        type: sum
+        value_format_name: decimal_2
+        sql: ${TABLE}.marginExclFunding ;;
       }
 
       # filter: current_date_range {
@@ -281,6 +290,8 @@ view: total_sessions {
     FROM `toolstation-data-storage.analytics_265133009.events_*`
     WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() - 500
     and PARSE_DATE('%Y%m%d', event_date) >= current_date () - 500
+    and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
+    AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
     GROUP BY 1,2,3
 
     UNION ALL
@@ -292,6 +303,8 @@ view: total_sessions {
     SUM(totals.visits) as sessions
     FROM `toolstation-data-storage.4783980.ga_sessions_*`
     WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
+    and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
+    AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %}
     GROUP BY 1,2,3)
 
     select distinct row_number() over (order by date,app_web_sessions) as P_K, * from sub1
@@ -332,6 +345,12 @@ view: total_sessions {
     description: "total sessions"
     type: number
     sql: ${TABLE}.sessions ;;
+  }
+
+  filter: session_date_filter {
+    hidden: no
+    type: date
+    datatype: date # Or your datatype. For writing the correct condition on date_column below
   }
 }
 
