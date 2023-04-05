@@ -68,7 +68,7 @@ view: products {
         label: "Y"
         }
       when: {
-        sql: ${brand} IS NULL ;;
+        sql: ${brand} IS NULL OR ${brand} = "Unbranded";;
         label: "Unknown"
       }
       else: "N"

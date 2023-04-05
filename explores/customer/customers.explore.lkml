@@ -153,60 +153,10 @@ explore: customers {
 explore: +customers {
 
 
-  query: CRM1 {
-
-    label: "Customer 20 Turbo Stores"
-    description: "This provides information to user."
-
-    dimensions: [
-      base.combined_week, transactions.product_department
-    ]
-    measures: [
-      transactions.total_net_sales
-    ]
-    filters: [
-      base.select_date_range: "28 days ago for 28 days"
-    ]
-    limit: 500
-    sorts: [
-      base.combined_week: desc,
-      transactions.product_department: asc
-    ]
-    pivots: [
-      base.date_date
-    ]
-
-  }
-
-  query: CRM2{
-
-    label: "Customer selection"
-    description: "This provides information to user."
-
-    dimensions: [
-      base.combined_week, transactions.product_department
-    ]
-    measures: [
-      transactions.total_net_sales
-    ]
-    filters: [
-      base.select_date_range: "28 days ago for 28 days"
-    ]
-    limit: 500
-    sorts: [
-      base.combined_week: desc,
-      transactions.product_department: asc
-    ]
-    pivots: [
-      base.date_date
-    ]
-
-  }
-
-  query: CRM3{
+  query: address_check{
 
     label: "Customer Address Check"
-    description: "This provides information to user."
+    description: "Customer Address Check"
 
     dimensions: [
       customer_uid,
@@ -214,11 +164,60 @@ explore: +customers {
       customers.customer__last_name,
       customers.address__address_line1,
       customers.address__address_line2,
-      customers.address__address_line3
+      customers.address__address_line3,
+      customers.address__postcode
     ]
-
+    filters: [
+      base.select_date_range: "after 2013-01-01"
+    ]
     limit: 500
   }
+  query: trade_survey{
+
+    label: "Trade Customer Survey - 20 Turbo Stores"
+    description: "A list of customers for trade survey."
+
+    dimensions: [
+      customers.customer_uid,
+      customers.customer__email,
+      customer_segmentation.cluster,
+      customers.permissions__offers_email_opt_in
+    ]
+    filters: [
+      customers.permissions__offers_email_opt_in: "Yes",
+      base.select_date_range: "after 2022-01-01",
+      customers.customer__email: "-NULL",
+      customer_segmentation.cluster: "T%",
+      sites.site_uid: "B1,B6,FQ,H7,L3,M2,O1,R1,RA,RL"
+    ]
+    limit: 500
+  }
+
+  query: customer_selection{
+
+    label: "Customer selection (Work in progress)"
+    description: "Selecting customers for catalogue marketing"
+
+    dimensions: [
+      base.combined_week, transactions.product_department
+    ]
+    measures: [
+      transactions.total_net_sales
+    ]
+    filters: [
+      base.select_date_range: "28 days ago for 28 days"
+    ]
+    limit: 500
+    sorts: [
+      base.combined_week: desc,
+      transactions.product_department: asc
+    ]
+    pivots: [
+      base.date_date
+    ]
+
+  }
+
 
 
 }
