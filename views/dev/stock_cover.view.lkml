@@ -32,12 +32,12 @@ view: stock_cover {
 
   dimension: average_weekly_units {
     type: number
-    sql: ${TABLE}.averageWeeklyUnits ;;
+    sql: ${TABLE}.weeklyUnits ;;
     hidden: yes
   }
   dimension: stock_level {
     type: number
-    sql: ${TABLE}.units ;;
+    sql: ${TABLE}.stockUnits ;;
     hidden: yes
   }
   dimension: stock_cover_8 {
