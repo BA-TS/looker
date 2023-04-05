@@ -146,5 +146,79 @@ explore: customers {
     relationship: many_to_one
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date_date} AND ${catalogue.catalogue_end_date_date} ;;
   }
+}
+
+# EXAMPLES #
+
+explore: +customers {
+
+
+  query: CRM1 {
+
+    label: "Customer 20 Turbo Stores"
+    description: "This provides information to user."
+
+    dimensions: [
+      base.combined_week, transactions.product_department
+    ]
+    measures: [
+      transactions.total_net_sales
+    ]
+    filters: [
+      base.select_date_range: "28 days ago for 28 days"
+    ]
+    limit: 500
+    sorts: [
+      base.combined_week: desc,
+      transactions.product_department: asc
+    ]
+    pivots: [
+      base.date_date
+    ]
+
+  }
+
+  query: CRM2{
+
+    label: "Customer selection"
+    description: "This provides information to user."
+
+    dimensions: [
+      base.combined_week, transactions.product_department
+    ]
+    measures: [
+      transactions.total_net_sales
+    ]
+    filters: [
+      base.select_date_range: "28 days ago for 28 days"
+    ]
+    limit: 500
+    sorts: [
+      base.combined_week: desc,
+      transactions.product_department: asc
+    ]
+    pivots: [
+      base.date_date
+    ]
+
+  }
+
+  query: CRM3{
+
+    label: "Customer Address Check"
+    description: "This provides information to user."
+
+    dimensions: [
+      customer_uid,
+      customers.customer__first_name,
+      customers.customer__last_name,
+      customers.address__address_line1,
+      customers.address__address_line2,
+      customers.address__address_line3
+    ]
+
+    limit: 500
+  }
+
 
 }
