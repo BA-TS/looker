@@ -27,16 +27,18 @@ view: single_line_transactions {
     sql: ${TABLE}.single_line_transaction_flag ;;
   }
 
-  measure: single_line_transactions {
+  measure: single_line_transactions_total {
+    view_label: "Transactions"
+    group_label: "Flags"
     type: sum
-    sql: CASE WHEN ${single_line_transaction_flag} = true THEN 1 ELSE 0 END
-    hidden: yes;;
+    sql: CASE WHEN ${single_line_transaction_flag} = true THEN 1 ELSE 0 END;;
   }
 
-  measure: non_single_line_transactions {
+  measure: non_single_line_transactions_total {
+    view_label: "Transactions"
+    group_label: "Flags"
     type: sum
-    sql: CASE WHEN ${single_line_transaction_flag} = FALSE THEN 1 ELSE 0 END
-    hidden: yes;;
+    sql: CASE WHEN ${single_line_transaction_flag} = FALSE THEN 1 ELSE 0 END;;
   }
 
   measure: single_line_percent {
@@ -45,8 +47,8 @@ view: single_line_transactions {
     label: "Single Line Percentage"
     description: "Single line transactions as a percentage of total transactions (Single Line + Non-single Line)"
     type: number
-    sql: ${single_line_transactions}/(${single_line_transactions}+${non_single_line_transactions})
-    value_format: "0.0%";;
+    sql: ${single_line_transactions_total}/(${single_line_transactions_total}+${non_single_line_transactions_total});;
+    value_format: "0.0%"
   }
 
 }
