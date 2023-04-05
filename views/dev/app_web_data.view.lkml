@@ -21,7 +21,8 @@ view: app_web_data {
         sum(netSalesValue) as NetSaleValue,
         SUM(netSalePrice * quantity) as revenue,
         SUM(grossSalesValue) as revenue2,
-        sum(marginInclFunding) as Margin
+        sum(marginInclFunding) as MarginIncFunding,
+        sum(marginExclFunding) as marginExclFunding
         from `toolstation-data-storage.sales.transactions`
         where
         --date_diff(current_date (),date(transactionDate), day) <= 500 and
@@ -48,7 +49,8 @@ view: app_web_data {
         sum(netSalesValue) as NetSaleValue,
         SUM(netSalePrice * quantity) as revenue,
         SUM(grossSalesValue) as revenue2,
-        sum(marginInclFunding) as Margin
+        sum(marginInclFunding) as MarginIncFunding,
+        sum(marginExclFunding) as marginExclFunding
         from `toolstation-data-storage.sales.transactions`
         where
         --date_diff(current_date (),date(transactionDate), day) <= 500 and
@@ -198,18 +200,18 @@ view: app_web_data {
         sql: ${TABLE}.OrderID;;
       }
 
-      measure: margin_perc {
+      measure: marginFunding_perc {
         description: "margin percentage per order"
         type: number
         value_format_name: percent_2
-        sql: sum(${TABLE}.Margin)/SUM(${TABLE}.NetSaleValue) ;;
+        sql: sum(${TABLE}.MarginIncFunding)/SUM(${TABLE}.NetSaleValue) ;;
       }
 
-      measure: margin_by_order {
+      measure: marginfunding_by_order {
         description: "Margin by order"
         type: number
         value_format_name: decimal_2
-        sql: sum(${TABLE}.Margin)/(count(distinct(${TABLE}.OrderID))) ;;
+        sql: sum(${TABLE}.MarginIncFunding)/(count(distinct(${TABLE}.OrderID))) ;;
       }
 
       measure: web_based_orders {
@@ -219,11 +221,18 @@ view: app_web_data {
         filters: [App_web: "Web Trolley" ]
       }
 
-      measure: Total_Margin {
+      measure: Total_MarginIncFunding {
         description: "sum of Margin"
         type: sum
         value_format_name: decimal_2
-        sql: ${TABLE}.Margin ;;
+        sql: ${TABLE}.MarginIncFunding ;;
+      }
+
+      measure: Total_marginExclFunding {
+        description: "sum of Margin"
+        type: sum
+        value_format_name: decimal_2
+        sql: ${TABLE}.marginExclFunding ;;
       }
 
       # filter: current_date_range {
