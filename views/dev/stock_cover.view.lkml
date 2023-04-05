@@ -13,21 +13,21 @@ view: stock_cover {
     type: date
     datatype: datetime
     sql: ${TABLE}.date ;;
-    hidden: yes
+    #hidden: yes
   }
 
   dimension: product_code {
     description: "FK for products view"
     type: string
     sql: ${TABLE}.productCode ;;
-    hidden: yes
+    #hidden: yes
   }
 
   dimension: site_location_type {
     description: "Redditch, Middleton and Daventry are DC, Bridgwater is separate. Stores contains all stores excluding the DCs."
     type: string
     sql: ${TABLE}.type ;;
-    hidden: no
+    #hidden: no
   }
 
   dimension: average_weekly_units {
