@@ -14,7 +14,7 @@ view: stock_cover {
     cover16,
     cover32,
     cover52,
-    coverOver52
+    coverOver52 from
       `toolstation-data-storage.looker_persistent_tables.stock_cover` ;;
 
     }
