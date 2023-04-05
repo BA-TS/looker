@@ -17,6 +17,7 @@ view: single_line_transactions {
     type: string
     sql: ${TABLE}.parentOrderUID ;;
   }
+
   dimension: single_line_transaction_flag {
     view_label: "Transactions"
     group_label: "Flags"
@@ -25,10 +26,27 @@ view: single_line_transactions {
     type: yesno
     sql: ${TABLE}.single_line_transaction_flag ;;
   }
+
   measure: single_line_transactions {
     type: sum
-    sql: CASE WHEN ${single_line_transaction_flag} = true THEN 1 ELSE 0 END ;;
-    hidden: yes
+    sql: CASE WHEN ${single_line_transaction_flag} = true THEN 1 ELSE 0 END
+    hidden: yes;;
+  }
+
+  measure: non_single_line_transactions {
+    type: sum
+    sql: CASE WHEN ${single_line_transaction_flag} = FALSE THEN 1 ELSE 0 END
+    hidden: yes;;
+  }
+
+  measure: single_line_percent {
+    view_label: "Transactions"
+    group_label: "Flags"
+    label: "Single Line Percentage"
+    description: "Single line transactions as a percentage of total transactions (Single Line + Non-single Line)"
+    type: number
+    sql: ${single_line_transactions}/(${single_line_transactions}+${non_single_line_transactions})
+    value_format: "0.0%";;
   }
 
 }
