@@ -231,7 +231,7 @@ explore: base {
   join: stock_cover {
     type:  left_outer
     relationship: many_to_one
-    sql_on: ${stock_cover.product_code} =  ${products.product_code};;
+    sql_on: ${products.product_code} = ${stock_cover.product_code};;
   }
 
 }
