@@ -70,7 +70,7 @@ view: stock_cover {
   measure: total_average_weekly_units {
     label: "Average Weekly Units"
     type: sum
-    sql: ${average_weekly_units} ;;
+    sql: ${TABLE}.averageWeeklyUnits ;;
     value_format_name: decimal_0
   }
   measure: total_stock_level {
