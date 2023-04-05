@@ -233,7 +233,7 @@ explore: base {
     type: left_outer
     relationship: many_to_one
     sql_on: ${products.product_code} = ${stock_cover.product_code}
-    and ${base.base_date_date} = ${stock_cover.date_filter};;
+    and ${base.base_date_date} = ${stock_cover.stock_date_date};;
   }
 
 }
