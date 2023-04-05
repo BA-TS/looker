@@ -16,7 +16,7 @@ explore: stock_cover {
 
   sql_always_where:
 
-  {% condition stock_cover.date_filter %} TIMESTAMP(${date}) {% endcondition %}
+  {% condition stock_cover.date_filter %} TIMESTAMP(${stock_cover.stock_date_date}) {% endcondition %}
 
   ;;
 

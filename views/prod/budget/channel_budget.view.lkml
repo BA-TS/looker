@@ -30,16 +30,17 @@ view: channel_budget {
     type: string
     sql: upper(${TABLE}.channel) ;;
   }
-  dimension: date {
+  dimension_group: date {
     hidden: yes
-    type: date
+    type: time
+    timeframes: [raw,date]
     sql: ${TABLE}.date ;;
   }
   dimension: date_channel {
     type: string
     primary_key: yes
     hidden: yes
-    sql: ${date}||${channel} ;;
+    sql: ${TABLE}.date||${channel} ;;
   }
   dimension: fixed_funding {
     hidden: yes

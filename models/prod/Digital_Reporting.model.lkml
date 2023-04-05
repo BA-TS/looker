@@ -89,7 +89,7 @@ explore: base {
     type:  left_outer
     relationship: many_to_one
     sql_on:
-        ${base.date_date}=${channel_budget.date} AND ${app_web_data.salesChannel} = ${channel_budget.channel}
+        ${base.date_date}=${channel_budget.date_date} AND ${app_web_data.salesChannel} = ${channel_budget.channel}
       ;;
   }
 
@@ -233,7 +233,7 @@ explore: base {
     type:  left_outer
     relationship: one_to_one
     sql_on: ${products.product_code} = ${stock_cover.product_code}
-    and ${base.base_date_date} = ${stock_cover.date};;
+    and ${base.base_date_date} = ${stock_cover.stock_date_date};;
   }
 
 }

@@ -31,15 +31,21 @@ view: stock_cover {
       label: "Date - Select 1 Day ON LY"
       description: "Date refers to the relevant stock cover based on the prescribed date. Limited to 90 days."
       type: date
+      datatype: date
       convert_tz: yes
     }
 
-    dimension: date {
-      type: date
-      datatype: date
-      sql: ${TABLE}.date ;;
-      #hidden: yes
-    }
+  dimension_group: stock_date  {
+    description: "date"
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      month_num
+    ]
+    sql: ${TABLE}.date ;;
+  }
 
     dimension: product_code {
       description: "FK for products view"
