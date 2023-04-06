@@ -798,6 +798,42 @@ view: Mobile_app {
     }
   }
 
+  view: currentRetailPrice {
+    derived_table: {
+      sql:SELECT distinct row_number() over () as P_K,
+      * from `toolstation-data-storage.range.currentRetailPrice` ;;
+      }
+
+    dimension: P_K {
+      description: "Primary key"
+      type: number
+      primary_key: yes
+      hidden: yes
+      sql: ${TABLE}.P_K ;;
+    }
+
+    dimension: Product_ID {
+      description: "productUID"
+      type: string
+      sql: ${TABLE}.productUID;;
+    }
+
+    dimension: retailBasePrice {
+      description: "retailBasePrice"
+      type: number
+      value_format_name: gbp
+      sql: ${TABLE}.retailBasePrice ;;
+    }
+
+    dimension: baseVAT {
+      description: "baseVAT"
+      type: number
+      value_format_name: baseVAT
+      sql: ${TABLE}.baseVAT ;;
+    }
+
+  }
+
 
 
 # view: baseTEST {
