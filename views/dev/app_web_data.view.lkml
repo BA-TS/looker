@@ -264,50 +264,53 @@ view: app_web_data {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 view: total_sessions {
 
   derived_table: {
-    sql: with sub1 as (SELECT distinct
+    sql: with sub0 as (with sub1 as (SELECT distinct
+'Web Trolley' as app_web_sessions,
+PARSE_DATE('%Y%m%d', date) as date,
+trafficSource.medium as Medium,
+sum(totals.visits) as sessions,
+--count(distinct CONCAT(fullVisitorId, CAST(visitStartTime AS STRING))) AS sessions2
+FROM `toolstation-data-storage.4783980.ga_sessions_*`
+ WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
+and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
+    AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %} group by 2,3),
+
+sub2 as (SELECT distinct
+'Web Trolley' as app_web_sessions,
+PARSE_DATE('%Y%m%d', date) as date,
+trafficSource.medium as Medium,
+sum(case when hits.eventInfo.EventAction like "Purchase" then (totals.visits) end) as a
+FROM `toolstation-data-storage.4783980.ga_sessions_*`, unnest (hits) as hits
+ WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
+and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
+    AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %} group by 2,3)
+
+select sub1.app_web_sessions, sub1.date, sub1.medium, sub1.sessions, sub2.a as Purchases
+from sub1 left join sub2 on sub1.date = sub2.date And sub1.medium=sub2.medium
+
+union distinct
+
+SELECT distinct
     'App Trolley' as app_web_sessions,
     PARSE_DATE('%Y%m%d', event_date) as date,
     traffic_source.medium as Medium,
     COUNT(DISTINCT CASE
     WHEN event_name = 'session_start' THEN CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))
-    END) AS sessions
+    END) AS sessions,
+    COUNT(DISTINCT CASE
+    WHEN event_name = 'purchase' THEN CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))
+    END) AS Purchases
     FROM `toolstation-data-storage.analytics_265133009.events_*`
     WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() - 500
     and PARSE_DATE('%Y%m%d', event_date) >= current_date () - 500
     and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
     AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
-    GROUP BY 1,2,3
-
-    UNION ALL
-
-    SELECT distinct
-    'Web Trolley' as app_web_sessions,
-    PARSE_DATE('%Y%m%d', date) as date,
-    trafficSource.medium as Medium,
-    SUM(totals.visits) as sessions
-    FROM `toolstation-data-storage.4783980.ga_sessions_*`
-    WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
-    and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
-    AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %}
     GROUP BY 1,2,3)
 
-    select distinct row_number() over (order by date,app_web_sessions) as P_K, * from sub1
+select distinct row_number() over (order by date,app_web_sessions) as P_K, * from sub0
 
     ;;
     }
@@ -345,6 +348,12 @@ view: total_sessions {
     description: "total sessions"
     type: number
     sql: ${TABLE}.sessions ;;
+  }
+
+  dimension: sessions_Purchases {
+    description: "Purchases"
+    type: number
+    sql: ${TABLE}.Purchases ;;
   }
 
   filter: session_date_filter {
