@@ -828,7 +828,7 @@ view: Mobile_app {
     dimension: baseVAT {
       description: "baseVAT"
       type: number
-      value_format_name: baseVAT
+      value_format_name: decimal_1
       sql: ${TABLE}.baseVAT ;;
     }
 

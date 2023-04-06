@@ -236,6 +236,12 @@ explore: base {
     and ${base.base_date_date} = ${stock_cover.stock_date_date};;
   }
 
+  join: currentRetailPrice {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${products.product_code} = ${currentRetailPrice.Product_ID} ;;
+  }
+
 }
 
 
