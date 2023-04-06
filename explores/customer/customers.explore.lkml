@@ -199,7 +199,8 @@ explore: +customers {
     description: "Selecting customers for catalogue marketing"
 
     dimensions: [
-      base.combined_week, transactions.product_department
+      base.combined_week,
+      transactions.product_department
     ]
     measures: [
       transactions.total_net_sales
@@ -214,6 +215,39 @@ explore: +customers {
     ]
     pivots: [
       base.date_date
+    ]
+
+  }
+
+  query: Emarsys{
+
+    label: "Emarsys_NewCustomer_Weekly_Upload (Work in progress)"
+    description: "Emarsys_NewCustomer_Weekly_Upload"
+
+    dimensions: [
+      customers.customer_uid,
+      customers.customer__email,
+      customers.customer__mobile,
+      customers.customer__telephone,
+      customers.address__address_line1,
+      customers.address__address_line2,
+      customers.address__address_line3,
+      customers.address__address_line4,
+      customers.address__address_line5,
+      customers.address__postcode,
+      customers.address__country,
+      customers.permissions__offers_email_opt_in,
+      customers.permissions__offers_mail_opt_in,
+      permissions__offers_notif_opt_in,
+      permissions__offers_sms_opt_in
+    ]
+
+    filters: [
+      base.select_date_range: "1 days ago for 7 days"
+    ]
+    limit: 500
+    sorts: [
+      customers.customer_uid: asc
     ]
 
   }
