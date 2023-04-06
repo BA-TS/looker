@@ -338,8 +338,8 @@ explore: +base {
   join: total_sessions {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${base.base_date_date} = ${total_sessions.date_date}
-      AND ${summarised_daily_Sales.App_Web} = ${total_sessions.app_web_sessions};;
+    sql_on: ${base.base_date_date} = ${total_sessions.date_date};;
+     # AND ${summarised_daily_Sales.App_Web} = ${total_sessions.app_web_sessions};;
   }
 
 }
