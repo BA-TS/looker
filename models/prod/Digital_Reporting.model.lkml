@@ -239,7 +239,7 @@ explore: base {
   join: currentRetailPrice {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${products.product_code} = ${currentRetailPrice.Product_ID} ;;
+    sql_on: ${products.product_uid} = ${currentRetailPrice.Product_ID} ;;
   }
 
 }
