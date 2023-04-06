@@ -276,7 +276,7 @@ sum(totals.visits) as sessions,
 FROM `toolstation-data-storage.4783980.ga_sessions_*`
  WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
-    AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %} group by 2,3),
+    AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %} group by 2,3),
 
 sub2 as (SELECT distinct
 'Web Trolley' as app_web_sessions,
@@ -286,7 +286,7 @@ sum(case when hits.eventInfo.EventAction like "Purchase" then (totals.visits) en
 FROM `toolstation-data-storage.4783980.ga_sessions_*`, unnest (hits) as hits
  WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
-    AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %} group by 2,3)
+    AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %} group by 2,3)
 
 select sub1.app_web_sessions, sub1.date, sub1.medium, sub1.sessions, sub2.a as Purchases
 from sub1 left join sub2 on sub1.date = sub2.date And sub1.medium=sub2.medium
