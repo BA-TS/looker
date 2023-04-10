@@ -295,8 +295,9 @@ view: product_first_sale_date {
   dimension_group: first_sale_date_group {
     view_label: "Products"
     group_label: "Product Details"
+    label: "First Sale"
     type: time
-    timeframes: [date, year, month]
+    timeframes: [year]
     sql: ${TABLE}.first_sale_date ;;
   }
 }
