@@ -699,13 +699,13 @@ dimension_group: order_completed {
 
   }
 
-  dimension: is_new_product_2023 {
+  dimension: is_new_product_current_year {
     view_label: "Products"
     group_label: "Flags"
-    label: "New Product 2023"
+    label: "New Product (Current Year)"
     type:  yesno
 
-    sql:${product_first_sale_date.first_sale_date_group_year}=2023;;
+    sql:${product_first_sale_date.first_sale_date_group_year}=EXTRACT(Year from CURRENT_DATE);;
 
   }
 
