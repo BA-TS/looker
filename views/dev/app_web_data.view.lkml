@@ -294,7 +294,13 @@ trafficSource.medium as Medium,
 count (distinct CONCAT(fullVisitorId, CAST(visitStartTime AS STRING))) AS sessions,
 count(distinct concat(visitId, "-",fullVisitorId, "-",hits.hitNumber)) as Total_events,
 product.productsku as Product_ProductSku,
-hits.eventInfo.eventAction as eventAction,
+case when hits.eventInfo.eventCategory like "Ecommerce" then hits.eventInfo.eventAction
+when hits.eventInfo.eventCategory like "ecommerce" then hits.eventInfo.eventAction
+when hits.eventInfo.eventCategory like "Search Actions" then hits.eventInfo.eventAction
+when hits.eventInfo.eventCategory like "Videoly" then hits.eventInfo.eventAction
+when hits.eventInfo.eventCategory like "Delivery Type" then concat(hits.eventInfo.eventCategory,'-',hits.eventInfo.eventAction)
+--when hits.eventInfo.eventCategory like "Videoly" then hits.eventInfo.eventAction
+else hits.eventInfo.eventCategory end as event_name,
 page.pagePath as PagePath
 FROM `toolstation-data-storage.4783980.ga_sessions_*`, unnest (hits) as hits, unnest(product) as product
  WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
