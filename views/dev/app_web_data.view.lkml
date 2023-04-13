@@ -309,7 +309,7 @@ AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endc
 group by 1,2,3,6,7,8
 order by 2 desc)
 
-select distinct row_number() over () as P_K, *, P.ProductUID, p.productName, p.productDepartment, productSubdepartment,
+select distinct row_number() over () as P_K, sub0.*, P.ProductUID, p.productName, p.productDepartment, productSubdepartment,
 productBrand from sub0  left join `toolstation-data-storage.range.products` p on sub0.item_id = p.productCode
 where p.isActive = 1 order by 2 desc
 
