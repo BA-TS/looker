@@ -226,7 +226,8 @@ explore: base {
     type: left_outer
     relationship: many_to_one
     sql_on: ${base.base_date_date} = ${total_sessions.date_date}
-    AND ${app_web_data.App_web} = ${total_sessions.app_web_sessions};;
+    AND ${app_web_data.App_web} = ${total_sessions.app_web_sessions}
+    and ${products.product_code} = ${total_sessions.product_code};;
   }
 
   join: stock_cover {
