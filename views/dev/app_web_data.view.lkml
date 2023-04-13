@@ -277,7 +277,7 @@ items.item_id as item_id,
 (SELECT STRING_AGG(distinct cast(value.int_value as string)) FROM UNNEST(event_params) WHERE key = 'ga_session_id') AS ga_session_id,
 CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING)) as event_count
 FROM `toolstation-data-storage.analytics_265133009.events_*`, unnest (event_params) as event_param, unnest(items) as items
-where value.string_value = 'product-detail-page' and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
+where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
     AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
 )
 
@@ -304,7 +304,6 @@ else hits.eventInfo.eventCategory end as event_name,
 page.pagePath as PagePath
 FROM `toolstation-data-storage.4783980.ga_sessions_*`, unnest (hits) as hits, unnest(product) as product
  WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
-and regexp_contains(page.pagePath, '(.*/p[0-9]*)$')
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %}
 group by 1,2,3,6,7,8
