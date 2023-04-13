@@ -59,7 +59,7 @@ explore: base {
 
   join: digital_budget {
     view_label: "Budget"
-    type: left_outer
+    type: inner
     relationship: many_to_one
     sql_on: ${base.date_date} = ${digital_budget.Date_date};;
   }
@@ -112,7 +112,7 @@ explore: base {
   # }
 
   join: products {
-    type:  inner
+    type: left_outer
     relationship: many_to_one
     sql_on: ${app_web_data.ProductUID}=${products.product_uid}
       ;;
@@ -225,7 +225,7 @@ explore: base {
   join: total_sessions {
     type: inner
     relationship: many_to_one
-    sql_on: ${base.base_date_date} = ${total_sessions.session_date_filter}
+    sql_on: ${base.base_date_date} = ${total_sessions.date_date}
     AND ${app_web_data.App_web} = ${total_sessions.app_web_sessions}
     and ${products.product_code} = ${total_sessions.product_code};;
   }
