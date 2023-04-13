@@ -227,7 +227,7 @@ explore: base {
   join: total_sessions {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${base.base_date_date} = ${total_sessions.date_date}
+    sql_on: ${base.base_date_date} = ${total_sessions.session_date_filter}
     AND ${app_web_data.App_web} = ${total_sessions.app_web_sessions}
     and ${products.product_code} = ${total_sessions.product_code};;
   }
