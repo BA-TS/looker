@@ -15,6 +15,7 @@ include: "/views/prod/products/products.view.lkml"
 
 explore: base {
 
+  required_access_grants: [is_developer]
   extends: []
   label: "Transactions"
   description: "Explore Toolstation transactional data."
@@ -58,7 +59,7 @@ explore: base {
         ;;
 
 join: app_web_data {
-  #required_access_grants: [is_super]
+  required_access_grants: [is_super]
   view_label: "Digital_Report_WebApp"
   type: left_outer
   relationship: many_to_one
@@ -81,7 +82,7 @@ join: calendar {
     type: inner
     relationship: many_to_one
     sql_on: ${app_web_data.App_web}=${total_sessions.app_web_sessions} and
-    ${base.date_date}=${total_sessions.date_date};;
+    ${base.date_date}=${total_sessions.date_date} and ${products.product_code}=${total_sessions.product_code};;
 
   }
 
@@ -91,11 +92,6 @@ join: calendar {
     sql_on: ${base.date_date}=${dim_date.Current_Date_date} ;;
   }
 
-  join: digital_budget {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${base.date_date}=${digital_budget.Date_date} ;;
-  }
 
   join: calendar_completed_date{
     from:  calendar
@@ -105,11 +101,6 @@ join: calendar {
     sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
   }
 
-  join: payment_type {
-    type: inner
-    relationship: many_to_one
-    sql_on: ${payment_type.Date_date} = ${base.date_date};;
-  }
 
   join: products {
     type: left_outer
