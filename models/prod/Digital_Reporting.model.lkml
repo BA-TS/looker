@@ -24,7 +24,8 @@ explore: base {
     [
       select_date_range: "7 days",
       total_sessions.session_date_filter: "7 days",
-      stock_cover.date_filter: "Yesterday"
+      stock_cover.date_filter: "Yesterday",
+      summarised_daily_Sales.dated_date: "21 days"
       ]
 
     unless: [
@@ -242,6 +243,14 @@ explore: base {
     relationship: many_to_one
     sql_on: ${products.product_uid} = ${currentRetailPrice.Product_ID} ;;
   }
+
+     join: summarised_daily_Sales {
+    view_label: "daily sales"
+     type: left_outer
+     relationship: many_to_one
+     sql_on: ${base.date_date} = ${summarised_daily_Sales.dated_date}
+    and ${summarised_daily_Sales.App_Web} = ${total_sessions.app_web_sessions};;
+   }
 
 }
 
