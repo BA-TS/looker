@@ -11,22 +11,20 @@ explore: base {
   label: "digital_reporting"
   description: "Explore Toolstation transactional data."
 
- # always_filter: {
-  #  filters: [
-   #   select_date_type: "Calendar",
-    #  select_date_reference: "app^_web^_data"
-    #]
+  always_filter: {
+    filters: [
+      select_date_type: "Calendar",
+      select_date_reference: "app^_web^_data"
+    ]
 
-  #}
+  }
 
   conditionally_filter: {
     filters:
     [
-      select_date_range: "21 days",
-      total_sessions.session_date_filter: "21 days",
-      stock_cover.date_filter: "Yesterday",
-      select_date_type: "Calendar",
-      select_date_reference: "app^_web^_data"
+      select_date_range: "7 days",
+      total_sessions.session_date_filter: "7 days",
+      stock_cover.date_filter: "Yesterday"
       ]
 
     unless: [
