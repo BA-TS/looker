@@ -78,7 +78,7 @@ explore: base {
 
   join: app_web_data {
     type: left_outer
-    relationship: one_to_many
+    relationship: many_to_one
     sql_on:
 
     ${base.base_date_date} = ${app_web_data.transaction_date_filter} ;;
@@ -113,7 +113,7 @@ explore: base {
 
   join: products {
     type: left_outer
-    relationship: many_to_one
+    relationship: one_to_many
     sql_on: ${app_web_data.ProductUID}=${products.product_uid}
       ;;
   }
@@ -128,7 +128,7 @@ explore: base {
     from:  calendar
     view_label: "Date"
     type:  inner
-    relationship:  many_to_one
+    relationship: one_to_many
     sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
   }
 
@@ -337,7 +337,7 @@ explore: +base {
   }
 
   join: total_sessions {
-    type: left_outer
+    type: inner
     relationship: many_to_one
     sql_on: ${base.base_date_date} = ${total_sessions.date_date};;
      # AND ${summarised_daily_Sales.App_Web} = ${total_sessions.app_web_sessions};;
