@@ -1,9 +1,7 @@
 view: trade_customers {
   view_label: "Customers"
-  sql_table_name: `toolstation-data-storage.customer.dbs_trade_customers`
-    ;;
-
-  fields_hidden_by_default: yes # pending review of segment, type
+  sql_table_name: `toolstation-data-storage.customer.dbs_trade_customers`;;
+  fields_hidden_by_default: yes #
 
   dimension: customer_uid {
     type: string
@@ -28,8 +26,6 @@ view: trade_customers {
     hidden: yes
   }
 
-  ########## Flags ##########
-
   dimension: trade_flag {
     type: string
     group_label: "Flags"
@@ -41,5 +37,4 @@ view: trade_customers {
     group_label: "Flags"
     sql: ${TABLE}.Trade_Type ;;
   }
-
 }

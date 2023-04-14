@@ -1,4 +1,4 @@
-view: purchase_orders {
+view: stock_intake {
   sql_table_name: `toolstation-data-storage.stock.purchaseOrders`
     ;;
 

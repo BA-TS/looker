@@ -1,7 +1,7 @@
 include: "/views/**/*.view"
 
-explore: purchase_orders {
-  label: "Stock Purchase Orders"
+explore: stock_intake {
+  label: "Stock Intake"
 
   required_access_grants: [is_super]
 
@@ -12,8 +12,8 @@ explore: purchase_orders {
   join: products {
     type:  inner
     relationship: many_to_one
-    # sql_on: ${stock_intake.product_uid}=${products.product_uid} ;;
-    sql_on: ${purchase_orders.product_uid}=${products.product_uid} ;;
+    sql_on: ${stock_intake.product_uid}=${products.product_uid} ;;
+    # sql_on: ${purchase_orders.product_uid}=${products.product_uid} ;;
   }
 
 
@@ -27,8 +27,8 @@ explore: purchase_orders {
   join: sites {
     type:  inner
     relationship:  many_to_one
-    # sql_on: ${stock_intake.destination_site_uid}=${sites.site_uid} ;;
-    sql_on: ${purchase_orders.destination_site_uid}=${sites.site_uid} ;;
+    sql_on: ${stock_intake.destination_site_uid}=${sites.site_uid} ;;
+    # sql_on: ${purchase_orders.destination_site_uid}=${sites.site_uid} ;;
   }
 
   # join: distribution_centre_names {
@@ -40,8 +40,8 @@ explore: purchase_orders {
   join: suppliers {
     type:  left_outer
     relationship: many_to_one
-    # sql_on: ${stock_intake.supplier_uid}=${suppliers.supplier_uid} ;;
-    sql_on: ${purchase_orders.destination_site_uid}=${sites.site_uid} ;;
+    sql_on: ${stock_intake.supplier_uid}=${suppliers.supplier_uid} ;;
+    # sql_on: ${purchase_orders.destination_site_uid}=${sites.site_uid} ;;
   }
 
 }
