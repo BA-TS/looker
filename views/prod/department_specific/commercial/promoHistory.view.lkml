@@ -118,5 +118,4 @@ view: promoHistory{
     type: yesno
     sql: ${TABLE}.retail.isFSDU ;;
   }
-
 }

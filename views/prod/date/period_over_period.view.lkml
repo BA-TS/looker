@@ -1,16 +1,8 @@
 include: "/views/dev/cg_testing/catalogue.view"
 
-
 view: period_over_period {
 
   extension: required
-
-
-
-
-
-
-
 
   parameter: select_date_type {
     label: "Date Type"
@@ -26,10 +18,7 @@ view: period_over_period {
     }
     default_value: "Calendar"
     hidden: yes
-    # required_access_grants: [is_developer]
   }
-
-
 
   parameter: select_date_reference {
     label: "Date Reference"
@@ -44,67 +33,7 @@ view: period_over_period {
       value: "Transaction"
     }
     default_value: "Transaction"
-    hidden: no
-    # required_access_grants: [is_developer]
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # ██████╗░██╗░░░██╗███╗░░██╗░█████╗░███╗░░░███╗██╗░█████╗░░░░░█████╗░░█████╗░███╗░░██╗░██████╗████████╗░█████╗░███╗░░██╗████████╗░██████╗
 # ██╔══██╗╚██╗░██╔╝████╗░██║██╔══██╗████╗░████║██║██╔══██╗░░░██╔══██╗██╔══██╗████╗░██║██╔════╝╚══██╔══╝██╔══██╗████╗░██║╚══██╔══╝██╔════╝
@@ -123,16 +52,13 @@ view: period_over_period {
     type: date
     datatype: datetime
     sql:
-
     ${base.base_date_raw}
 
     /*CASE ${select_date_reference}
       WHEN "Placed"
         THEN 0
       ELSE ${base.base_date_raw}
-    END*/
-
-    ;;
+    END*/;;
     hidden: yes
   }
   dimension: __target_date__ {
@@ -141,9 +67,6 @@ view: period_over_period {
     sql: ${__target_raw__} ;;
     hidden: yes
   }
-
-
-
 
 
 # █▀▄ ▄▀█ █▄█
@@ -209,10 +132,6 @@ view: period_over_period {
     sql: DATE_SUB(${__day_LY__}, INTERVAL ${__length_of_year__} DAY) ;;
     hidden: yes
   }
-
-
-
-
 
 # █░█░█ █▀▀ █▀▀ █▄▀
 # ▀▄▀▄▀ ██▄ ██▄ █░█
@@ -350,10 +269,6 @@ view: period_over_period {
     hidden: yes
   }
 
-
-
-
-
 # █▀▄▀█ █▀█ █▄░█ ▀█▀ █░█
 # █░▀░█ █▄█ █░▀█ ░█░ █▀█
 
@@ -465,10 +380,6 @@ view: period_over_period {
     sql: DATE_SUB(${__month_LY_end__}, INTERVAL ${__length_of_year__} DAY) ;;
     hidden: yes
   }
-
-
-
-
 
 
 # █▀█ █░█ ▄▀█ █▀█ ▀█▀ █▀▀ █▀█
@@ -584,9 +495,6 @@ view: period_over_period {
   }
 
 
-
-
-
 # █░█ ▄▀█ █░░ █▀▀
 # █▀█ █▀█ █▄▄ █▀░
 
@@ -652,10 +560,6 @@ view: period_over_period {
   }
 
 
-
-
-
-
 # █▄█ █▀▀ ▄▀█ █▀█
 # ░█░ ██▄ █▀█ █▀▄
 
@@ -696,33 +600,6 @@ view: period_over_period {
     hidden: yes
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # ███████╗██╗██╗░░██╗███████╗██████╗░░░░█████╗░░█████╗░███╗░░██╗░██████╗████████╗░█████╗░███╗░░██╗████████╗░██████╗
 # ██╔════╝██║╚██╗██╔╝██╔════╝██╔══██╗░░██╔══██╗██╔══██╗████╗░██║██╔════╝╚══██╔══╝██╔══██╗████╗░██║╚══██╔══╝██╔════╝
 # █████╗░░██║░╚███╔╝░█████╗░░██║░░██║░░██║░░╚═╝██║░░██║██╔██╗██║╚█████╗░░░░██║░░░███████║██╔██╗██║░░░██║░░░╚█████╗░
@@ -757,46 +634,12 @@ view: period_over_period {
     hidden: yes
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # ░█████╗░██╗░░░░░░██╗░░░░░░░██╗░█████╗░██╗░░░██╗░██████╗░░░░░░░██╗░░░░░░░██╗██╗░░██╗███████╗██████╗░███████╗
 # ██╔══██╗██║░░░░░░██║░░██╗░░██║██╔══██╗╚██╗░██╔╝██╔════╝░░░░░░░██║░░██╗░░██║██║░░██║██╔════╝██╔══██╗██╔════╝
 # ███████║██║░░░░░░╚██╗████╗██╔╝███████║░╚████╔╝░╚█████╗░█████╗░╚██╗████╗██╔╝███████║█████╗░░██████╔╝█████╗░░
 # ██╔══██║██║░░░░░░░████╔═████║░██╔══██║░░╚██╔╝░░░╚═══██╗╚════╝░░████╔═████║░██╔══██║██╔══╝░░██╔══██╗██╔══╝░░
 # ██║░░██║███████╗░░╚██╔╝░╚██╔╝░██║░░██║░░░██║░░░██████╔╝░░░░░░░░╚██╔╝░╚██╔╝░██║░░██║███████╗██║░░██║███████╗
 # ╚═╝░░╚═╝╚══════╝░░░╚═╝░░░╚═╝░░╚═╝░░╚═╝░░░╚═╝░░░╚═════╝░░░░░░░░░░╚═╝░░░╚═╝░░╚═╝░░╚═╝╚══════╝╚═╝░░╚═╝╚══════╝
-
 
   filter: period_over_period {
     hidden: yes
@@ -815,51 +658,8 @@ view: period_over_period {
         true
     {% else %}
       false
-    {% endif %}
-
-    ;;
-
+    {% endif %};;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # ███████╗██╗██╗░░░░░████████╗███████╗██████╗░░██████╗
 # ██╔════╝██║██║░░░░░╚══██╔══╝██╔════╝██╔══██╗██╔════╝
@@ -867,9 +667,6 @@ view: period_over_period {
 # ██╔══╝░░██║██║░░░░░░░░██║░░░██╔══╝░░██╔══██╗░╚═══██╗
 # ██║░░░░░██║███████╗░░░██║░░░███████╗██║░░██║██████╔╝
 # ╚═╝░░░░░╚═╝╚══════╝░░░╚═╝░░░╚══════╝╚═╝░░╚═╝╚═════╝░
-
-
-
 
     filter: select_date_range {
       label: "Date Range"
@@ -899,10 +696,6 @@ view: period_over_period {
         label: "Quarter to Date (QTD)"
         value: "QTD"
       }
-      # allowed_value: {
-      #   label: "Half to Date (HTD)"
-      #   value: "HTD"
-      # }
       allowed_value: {
         label: "Year to Date (YTD)"
         value: "YTD"
@@ -929,10 +722,7 @@ view: period_over_period {
         label: "Previous Quarter"
         value: "Quarter"
       }
-      # allowed_value: {
-      #   label: "Previous Half"
-      #   value: "Half"
-      # }
+
       allowed_value: {
         label: "Previous Year"
         value: "Year"
@@ -959,34 +749,6 @@ view: period_over_period {
       default_value: "2"
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # ██████╗░░█████╗░████████╗███████╗
 # ██╔══██╗██╔══██╗╚══██╔══╝██╔════╝
 # ██║░░██║███████║░░░██║░░░█████╗░░
@@ -1000,7 +762,6 @@ view: period_over_period {
       label: ""
       type: time
       sql:
-
       {% if pivot_dimension._in_query %}
         {% if select_fixed_range._in_query %}
           {% if select_fixed_range._parameter_value == "PD" and (select_comparison_period._parameter_value == "Week" or select_comparison_period._parameter_value == "Month") %}
@@ -1021,39 +782,11 @@ view: period_over_period {
         {% endif %}
       {% else %}
         ${base_date_raw}
-      {% endif %}
-
-      ;;
+      {% endif %};;
       timeframes: [date]
       can_filter: no
       allow_fill: no
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # ░█████╗░░█████╗░███╗░░░███╗██████╗░░█████╗░██████╗░░█████╗░████████╗░█████╗░██████╗░
 # ██╔══██╗██╔══██╗████╗░████║██╔══██╗██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗██╔══██╗
@@ -1069,7 +802,6 @@ view: period_over_period {
       type: string
       order_by_field: __comparator_order__
       sql:
-
            {% if select_date_range._is_filtered %}
               CASE
                 WHEN {% condition select_date_range %}  ${base_date_raw} {% endcondition %}
@@ -1136,16 +868,13 @@ view: period_over_period {
             END
             {% else %}
               NULL
-            {% endif %}
-
-          ;; # need to look at this further
+            {% endif %};; # need to look at this further
       can_filter: no
     }
     dimension: __comparator_order__ {
       hidden: yes
       type: string
       sql:
-
       {% if select_number_of_periods._is_filtered and select_date_range._in_query %}
         CASE
           WHEN {% condition select_date_range %} ${base_date_raw} {% endcondition %}
@@ -1158,45 +887,8 @@ view: period_over_period {
         END
       {% else %}
         ${base_date_raw}
-      {% endif %}
-
-      ;;
+      {% endif %};;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # ███████╗██╗░░░░░███████╗██╗░░██╗██╗██████╗░██╗░░░░░███████╗░░░░██████╗░░█████╗░██████╗░
 # ██╔════╝██║░░░░░██╔════╝╚██╗██╔╝██║██╔══██╗██║░░░░░██╔════╝░░░░██╔══██╗██╔══██╗██╔══██╗
@@ -1209,7 +901,6 @@ view: period_over_period {
     filter: flexible_pop {
       type: yesno
       sql:
-
           {% condition base.select_date_range %} ${base.base_date_raw} {% endcondition %}
           {% if base.select_date_range._is_filtered and (select_number_of_periods._in_query or select_comparison_period._in_query) %}
             {% if select_number_of_periods._parameter_value == "2" %}
@@ -1218,12 +909,9 @@ view: period_over_period {
               or ${base.base_date_raw} >= ${period_2_start} and ${base.base_date_raw} < ${period_2_end}
               or ${base.base_date_raw} >= ${period_3_start} and ${base.base_date_raw} < ${period_3_end}
             {% endif %}
-          {% endif %}
-
-          ;;
+          {% endif %};;
       hidden: yes
     }
-
 
     dimension_group: in_period {
       type: duration
@@ -1236,7 +924,6 @@ view: period_over_period {
     dimension: day_in_period {
       type: number
       sql:
-
           {% if select_number_of_periods._is_filtered or select_comparison_period._in_query %}
             CASE
               WHEN {% condition select_date_range %} ${base_date_raw} {% endcondition %}
@@ -1246,16 +933,13 @@ view: period_over_period {
               WHEN ${base_date_raw} >= ${period_3_start} and ${base_date_raw} < ${period_3_end}
                 THEN TIMESTAMP_DIFF(${base_date_raw}, ${period_3_start},DAY)+1
             END
-          {% endif %}
-
-          ;;
+          {% endif %} ;;
       hidden: yes
     }
 
     dimension: period_2_start {
       type: date_raw
       sql:
-
           {% if select_date_range._in_query %}
             {% if select_comparison_period._parameter_value == "Period" %}
               TIMESTAMP_SUB({% date_start select_date_range %} , INTERVAL ${days_in_period} DAY)
@@ -1272,9 +956,7 @@ view: period_over_period {
             {% endif %}
           {% else %}
             {% date_start select_date_range %}
-          {% endif %}
-
-          ;;
+          {% endif %};;
       hidden:  yes
     }
     # changed from 2 * to nil
@@ -1282,7 +964,6 @@ view: period_over_period {
     dimension: period_2_end {
       type: date_raw
       sql:
-
           {% if select_date_range._in_query %}
             {% if select_comparison_period._parameter_value == "Period" %}
               TIMESTAMP_SUB({% date_start select_date_range %}, INTERVAL 0 DAY)
@@ -1299,9 +980,7 @@ view: period_over_period {
             {% endif %}
           {% else %}
             {% date_end select_date_range %}
-          {% endif %}
-
-          ;;
+          {% endif %};;
       hidden:  yes
     }
     # changed from 2 * to nil
@@ -1309,7 +988,6 @@ view: period_over_period {
     dimension: period_3_start {
       type: date_raw
       sql:
-
             {% if select_comparison_period._parameter_value == "Period" %}
               TIMESTAMP_SUB({% date_start select_date_range %}, INTERVAL (2 * ${days_in_period}) DAY)
             {% elsif select_comparison_period._parameter_value == "Week" %}
@@ -1322,9 +1000,7 @@ view: period_over_period {
                 TIMESTAMP_SUB({% date_start select_date_range %} , INTERVAL (2 * ${__length_of_year__}) DAY)
             {% else %}
               TIMESTAMP(DATETIME_SUB(DATETIME({% date_start select_date_range %}), INTERVAL 2 {% parameter select_comparison_period %}))
-            {% endif %}
-
-            ;;
+            {% endif %};;
       hidden: yes
     }
     # changed from 3 * to 2 *
@@ -1332,7 +1008,6 @@ view: period_over_period {
     dimension: period_3_end {
       type: date_raw
       sql:
-
             {% if select_comparison_period._parameter_value == "Period" %}
               TIMESTAMP_SUB(${period_2_start}, INTERVAL 0 DAY)
             {% elsif select_comparison_period._parameter_value == "Week" %}
@@ -1345,55 +1020,10 @@ view: period_over_period {
                 TIMESTAMP_SUB({% date_end select_date_range %} , INTERVAL (2 * ${__length_of_year__}) DAY)
             {% else %}
               TIMESTAMP(DATETIME_SUB(DATETIME_SUB(DATETIME({% date_end select_date_range %}), INTERVAL 0 DAY), INTERVAL 2 {% parameter select_comparison_period %}))
-            {% endif %}
-
-            ;;
+            {% endif %};;
       hidden: yes
     }
     # changed from 3 * to 2 *
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # ███████╗██╗██╗░░██╗███████╗██████╗░░░██████╗░░█████╗░██████╗░
 # ██╔════╝██║╚██╗██╔╝██╔════╝██╔══██╗░░██╔══██╗██╔══██╗██╔══██╗
@@ -1402,13 +1032,9 @@ view: period_over_period {
 # ██║░░░░░██║██╔╝╚██╗███████╗██████╔╝░░██║░░░░░╚█████╔╝██║░░░░░
 # ╚═╝░░░░░╚═╝╚═╝░░╚═╝╚══════╝╚═════╝░░░╚═╝░░░░░░╚════╝░╚═╝░░░░░
 
-
-
-
     filter: fixed_pop {
       type:  yesno
       sql:
-
           {% if select_fixed_range._in_query %}
             {% if select_fixed_range._parameter_value == "PD" %}
               {% if select_comparison_period._parameter_value == "Period" %}
@@ -1583,14 +1209,9 @@ view: period_over_period {
             {% endif %}
           {% else %}
             false
-          {% endif %}
-          ;;
+          {% endif %};;
       hidden: yes
     }
-
-
-
-
 
 # █▀▄ ▄▀█ █▄█
 # █▄▀ █▀█ ░█░
@@ -1652,10 +1273,6 @@ view: period_over_period {
     }
 
 
-
-
-
-
 # █░█░█ █▀▀ █▀▀ █▄▀
 # ▀▄▀▄▀ ██▄ ██▄ █░█
 
@@ -1715,11 +1332,6 @@ view: period_over_period {
       hidden: yes
     }
 
-
-
-
-
-
 # █▀▄▀█ █▀█ █▄░█ ▀█▀ █░█
 # █░▀░█ █▄█ █░▀█ ░█░ █▀█
 
@@ -1770,10 +1382,6 @@ view: period_over_period {
     }
 
 
-
-
-
-
 # █▀█ █░█ ▄▀█ █▀█ ▀█▀ █▀▀ █▀█
 # ▀▀█ █▄█ █▀█ █▀▄ ░█░ ██▄ █▀▄
 
@@ -1814,11 +1422,6 @@ view: period_over_period {
       hidden: yes
     }
 
-
-
-
-
-
 # █░█ ▄▀█ █░░ █▀▀
 # █▀█ █▀█ █▄▄ █▀░
 
@@ -1849,10 +1452,6 @@ view: period_over_period {
     }
 
 
-
-
-
-
 # █▄█ █▀▀ ▄▀█ █▀█
 # ░█░ ██▄ █▀█ █▀▄
 
@@ -1872,50 +1471,4 @@ view: period_over_period {
       sql: ${__target_date__} BETWEEN ${__year_2LY_start__} AND ${__year_2LY_end__} ;;
       hidden: yes
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   }

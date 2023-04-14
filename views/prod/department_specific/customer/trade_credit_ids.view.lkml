@@ -1,8 +1,5 @@
-
 view: trade_credit_ids {
-
   view_label: "Trade Credit"
-
   sql_table_name: `toolstation-data-storage.customer.tradeCreditIDs`;;
 
   dimension: customer_uid {
@@ -17,5 +14,4 @@ view: trade_credit_ids {
     sql: ${TABLE}.mainTradeCreditAccountUID ;;
     hidden: yes #17/3/22
   }
-
 }

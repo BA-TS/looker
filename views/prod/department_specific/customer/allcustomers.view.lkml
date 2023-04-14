@@ -226,7 +226,6 @@ view: customers {
     group_label: "Flags"
     group_item_label: "Toolstation - Internal Address?"
     description: "Flag for Toolstation-owned account addresses."
-    hidden: no
   }
 
   dimension: permissions__catalogue_mail_opt_in {
@@ -365,7 +364,6 @@ view: customers {
     hidden: yes
   }
 
-  #####################
   dimension: is_new_customer {
     type: yesno
     description: "A new customer is classified as an account created in the last 30 days."

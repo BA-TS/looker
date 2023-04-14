@@ -1,12 +1,14 @@
-
 view: trade_credit_details {
-
-  # required_access_grants: [can_use_customer_information]
-
   fields_hidden_by_default: yes
-
   view_label: "Trade Credit"
   sql_table_name: `toolstation-data-storage.customer.tradeCreditDetails`;;
+
+  dimension: main_trade_credit_account_uid {
+    type: string
+    sql: ${TABLE}.mainTradeCreditAccountUID ;;
+    primary_key: yes
+    hidden: yes
+  }
 
   dimension: account_id {
     label: "Account ID"
@@ -21,29 +23,10 @@ view: trade_credit_details {
     hidden: yes
   }
 
-  dimension: main_trade_credit_account_uid {
-    type: string
-    sql: ${TABLE}.mainTradeCreditAccountUID ;;
-    primary_key: yes
-    hidden: yes
-  }
-
   dimension: remaining_balance {
     type: number
     sql: ${TABLE}.remainingBalance ;;
     hidden: yes
-  }
-
-  measure: total_credit_limit {
-    label: "Credit Limit"
-    type: sum
-    sql: ${credit_limit} ;;
-  }
-
-  measure: total_remaining_balance {
-    label: "Remaining Balance"
-    type: sum
-    sql: ${remaining_balance} ;;
   }
 
   dimension_group: tc_account_created {
@@ -61,22 +44,26 @@ view: trade_credit_details {
     label: "Account Name"
     type: string
     sql: ${TABLE}.tcAccountName ;;
-    # hidden: no
   }
-
 
   dimension: has_trade_account {
     type: yesno
     view_label: "Customers"
     group_label: "Flags"
     label: "Has Trade Account?"
-    sql:
-
-      ${account_id} IS NOT NULL
-
-    ;;
+    sql:${account_id} IS NOT NULL;;
     hidden: yes
   }
 
+  measure: total_credit_limit {
+    label: "Credit Limit"
+    type: sum
+    sql: ${credit_limit} ;;
+  }
 
+  measure: total_remaining_balance {
+    label: "Remaining Balance"
+    type: sum
+    sql: ${remaining_balance} ;;
+  }
 }

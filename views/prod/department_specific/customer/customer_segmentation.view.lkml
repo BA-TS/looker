@@ -1,6 +1,5 @@
 view: customer_segmentation {
-  sql_table_name: `toolstation-data-storage.ts_analytics.ts_SCVFinal`
-    ;;
+  sql_table_name: `toolstation-data-storage.ts_analytics.ts_SCVFinal` ;;
 
   dimension: catalogue_opt_in {
     group_label: "Opt In"
@@ -140,6 +139,4 @@ view: customer_segmentation {
     sql: ${TABLE}.val ;;
     hidden: yes
   }
-
-
 }

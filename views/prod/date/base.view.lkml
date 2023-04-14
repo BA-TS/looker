@@ -74,10 +74,6 @@ view: base {
     sql: {% if select_date_type._parameter_value == "Calendar" %} ${dynamic_actual_quarter} {% else %} ${dynamic_fiscal_quarter} {% endif %} ;;
   }
 
-  dimension: combined_half {
-    hidden: yes
-  }
-
   dimension: combined_year {
     view_label: "Date"
     group_label: "Dates"
