@@ -3,7 +3,6 @@ view: total_budget {
   derived_table: {
     datagroup_trigger: ts_transactions_datagroup
     sql:
-
       SELECT
         date,
         sum(netSales) AS net_sales_budget,
@@ -15,10 +14,7 @@ view: total_budget {
       FROM
         `toolstation-data-storage.ts_finance.channelBudget`
       GROUP BY
-        1
-
-      ;;
-      # publish_as_db_view: yes # look at this
+        1;;
   }
 
   dimension: total_budget_date {
@@ -85,5 +81,4 @@ view: total_budget {
     sql:  SAFE_DIVIDE(${gross_margin_inc_retro_budget}, ${net_sales_budget}) ;;
     value_format: "##0.0%;(##0.0%)"
   }
-
 }

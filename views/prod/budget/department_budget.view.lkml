@@ -1,12 +1,5 @@
-
 view: category_budget {
-  sql_table_name:
-
-  `toolstation-data-storage.ts_finance.categoryBudget`
-
-  ;;
-
-  # fields_hidden_by_default: yes
+  sql_table_name:`toolstation-data-storage.ts_finance.categoryBudget`;;
 
   dimension: category_budget_in_query {
     hidden: yes
@@ -28,32 +21,38 @@ view: category_budget {
     type: date
     sql: ${TABLE}.date ;;
   }
+
   dimension: date_department_pkey {
     type:  string
     primary_key: yes
     hidden: yes
     sql: ${date}||${department} ;;
   }
+
   dimension: department {
     hidden: yes
     type: string
     sql: ${TABLE}.department ;;
   }
+
   dimension: fixed_funding {
     hidden: yes
     type: number
     sql: ${TABLE}.fixedFunding ;;
   }
+
   dimension: gross_margin_inc_retro {
     hidden: yes
     type: number
     sql: ${TABLE}.grossMarginIncRetro ;;
   }
+
   dimension: net_sales {
     type: number
     sql: ${TABLE}.netSales ;;
     hidden:  yes
   }
+
   measure: department_net_sales_budget {
     label: "Net Sales Budget"
     description: "Budget Net Sales at Department level only"
@@ -62,6 +61,7 @@ view: category_budget {
     sql: ${net_sales} ;;
     value_format_name: gbp
   }
+
   measure: department_margin_inc_Retro_funding_budget {
     label: "Margin Inc Retro Funding Budget"
     description: "Budget Margin Inc Retro Funding at Department level only"
@@ -70,6 +70,7 @@ view: category_budget {
     sql: ${gross_margin_inc_retro} ;;
     value_format_name: gbp
   }
+
   measure: department_margin_inc_all_funding_budget {
     label: "Margin Inc All Funding Budget"
     description: "Budget Margin Inc Retro & Fixed Funding at Department level only"
@@ -78,6 +79,7 @@ view: category_budget {
     sql: ${gross_margin_inc_retro} + ${fixed_funding} ;;
     value_format_name: gbp
   }
+
   measure: department_margin_rate_inc_retro_funding_budget {
     label: "Margin Rate Inc Retro Funding Budget"
     type: number
@@ -85,6 +87,7 @@ view: category_budget {
     sql:  sum(${gross_margin_inc_retro}) / sum(${net_sales}) ;;
     value_format: "##0.0%;(##0.0%)"
   }
+
   measure: department_cogs_inc_retro_funding_budget {
     label: "COGS Inc Retro Funding Budget"
     type: number
@@ -92,6 +95,7 @@ view: category_budget {
     sql: ${department_net_sales_budget} - ${department_margin_inc_Retro_funding_budget} ;;
     value_format_name: gbp
   }
+
   measure: department_cogs_inc_all_funding_budget {
     label: "COGS Inc All Funding Budget"
     type: number
@@ -99,6 +103,7 @@ view: category_budget {
     sql: ${department_net_sales_budget} - ${department_margin_inc_all_funding_budget} ;;
     value_format_name: gbp
   }
+
   measure: department_fixed_funding_budget {
     label: "Fixed Funding Budget"
     type: sum
@@ -106,5 +111,4 @@ view: category_budget {
     sql: ${fixed_funding} ;;
     value_format_name: gbp
   }
-
 }
