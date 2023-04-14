@@ -1,17 +1,6 @@
 view: product_detail {
 
-  sql_table_name: `toolstation-data-storage.range.productDetail`
-    ;;
-
-  # dimension: ebay_category {
-  #   type: string
-  #   sql: ${TABLE}.eBayCategory ;;
-  # }
-
-  # dimension: ebay_item_id {
-  #   type: string
-  #   sql: ${TABLE}.eBayItemID ;;
-  # }
+  sql_table_name: `toolstation-data-storage.range.productDetail`;;
 
   dimension: ean {
     label: "Product EAN(s)"
@@ -75,4 +64,13 @@ view: product_detail {
     sql: ${TABLE}.ZeroVATRated = 1 ;;
   }
 
+  # dimension: ebay_category {
+  #   type: string
+  #   sql: ${TABLE}.eBayCategory ;;
+  # }
+
+  # dimension: ebay_item_id {
+  #   type: string
+  #   sql: ${TABLE}.eBayItemID ;;
+  # }
 }

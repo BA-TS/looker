@@ -1,47 +1,6 @@
 view: product_dimensions {
 
-  sql_table_name: `toolstation-data-storage.range.productDimensions`
-    ;;
-
-  # dimension: bin_bwtr {
-  #   type: string
-  #   sql: ${TABLE}.binBwtr ;;
-  # }
-
-  # dimension: bin_dvty {
-  #   type: string
-  #   sql: ${TABLE}.binDvty ;;
-  # }
-
-  # dimension: bin_mdltn {
-  #   type: string
-  #   sql: ${TABLE}.binMdltn ;;
-  # }
-
-  # dimension: bin_rdtch {
-  #   type: string
-  #   sql: ${TABLE}.binRdtch ;;
-  # }
-
-  # dimension: half_pallet_bwtr {
-  #   type: string
-  #   sql: ${TABLE}.halfPalletBwtr ;;
-  # }
-
-  # dimension: half_pallet_dvty {
-  #   type: string
-  #   sql: ${TABLE}.halfPalletDvty ;;
-  # }
-
-  # dimension: half_pallet_mdltn {
-  #   type: string
-  #   sql: ${TABLE}.halfPalletMdltn ;;
-  # }
-
-  # dimension: half_pallet_rdtch {
-  #   type: string
-  #   sql: ${TABLE}.halfPalletRdtch ;;
-  # }
+  sql_table_name: `toolstation-data-storage.range.productDimensions`;;
 
   dimension: hazardous {
     type: string
@@ -62,26 +21,6 @@ view: product_dimensions {
     type: string
     sql: ${TABLE}.packSizeFromSupplier ;;
   }
-
-  # dimension: pallet_bwtr {
-  #   type: string
-  #   sql: ${TABLE}.palletBwtr ;;
-  # }
-
-  # dimension: pallet_dvty {
-  #   type: string
-  #   sql: ${TABLE}.palletDvty ;;
-  # }
-
-  # dimension: pallet_mdltn {
-  #   type: string
-  #   sql: ${TABLE}.palletMdltn ;;
-  # }
-
-  # dimension: pallet_rdtch {
-  #   type: string
-  #   sql: ${TABLE}.palletRdtch ;;
-  # }
 
   dimension: product_uid {
     type: string
@@ -124,4 +63,63 @@ view: product_dimensions {
     sql: ${TABLE}.sellPackWidthMM ;;
   }
 
+  # dimension: pallet_bwtr {
+  #   type: string
+  #   sql: ${TABLE}.palletBwtr ;;
+  # }
+
+  # dimension: pallet_dvty {
+  #   type: string
+  #   sql: ${TABLE}.palletDvty ;;
+  # }
+
+  # dimension: pallet_mdltn {
+  #   type: string
+  #   sql: ${TABLE}.palletMdltn ;;
+  # }
+
+  # dimension: pallet_rdtch {
+  #   type: string
+  #   sql: ${TABLE}.palletRdtch ;;
+  # }
+
+  # dimension: bin_bwtr {
+  #   type: string
+  #   sql: ${TABLE}.binBwtr ;;
+  # }
+
+  # dimension: bin_dvty {
+  #   type: string
+  #   sql: ${TABLE}.binDvty ;;
+  # }
+
+  # dimension: bin_mdltn {
+  #   type: string
+  #   sql: ${TABLE}.binMdltn ;;
+  # }
+
+  # dimension: bin_rdtch {
+  #   type: string
+  #   sql: ${TABLE}.binRdtch ;;
+  # }
+
+  # dimension: half_pallet_bwtr {
+  #   type: string
+  #   sql: ${TABLE}.halfPalletBwtr ;;
+  # }
+
+  # dimension: half_pallet_dvty {
+  #   type: string
+  #   sql: ${TABLE}.halfPalletDvty ;;
+  # }
+
+  # dimension: half_pallet_mdltn {
+  #   type: string
+  #   sql: ${TABLE}.halfPalletMdltn ;;
+  # }
+
+  # dimension: half_pallet_rdtch {
+  #   type: string
+  #   sql: ${TABLE}.halfPalletRdtch ;;
+  # }
 }

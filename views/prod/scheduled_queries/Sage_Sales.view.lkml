@@ -3,7 +3,6 @@ view: Sage_Sales {
 
     datagroup_trigger: ts_transactions_datagroup
 
-
     sql: SELECT
     date(transactionDate) as completedDate,
     case
@@ -17,19 +16,12 @@ view: Sage_Sales {
     round(sum(grossSalesValue),2) as grossSales,
     round(sum(netSalesValue),2) as netSales,
     round(round(sum(grossSalesValue),2)-round(sum(netSalesValue),2),2) as VAT
-
     FROM `toolstation-data-storage.sales.transactions` txn
-
-
     where date(txn.transactionDate) >= date_sub(current_Date,interval 30 day)
     and paymentType <> 'account'
-
     group by 1,2,3,4
-    order by 1,2
-    ;;
+    order by 1,2;;
   }
-
-
 
   dimension: completed_date {
     type: date
@@ -66,6 +58,4 @@ view: Sage_Sales {
     type: number
     sql: ${TABLE}.VAT ;;
   }
-
-
 }

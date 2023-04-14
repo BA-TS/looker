@@ -1,7 +1,6 @@
 view: product_attributes {
 
-  sql_table_name: `toolstation-data-storage.range.productAttributes`
-    ;;
+  sql_table_name: `toolstation-data-storage.range.productAttributes`;;
 
   dimension: attribute {
     type: string

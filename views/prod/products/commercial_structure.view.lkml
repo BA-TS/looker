@@ -43,19 +43,12 @@ view: commercial_structure {
 
       SELECT
           *
-
       FROM
           matt_rockliff
       UNION ALL(SELECT * FROM dave_taylor)
-      UNION ALL(SELECT * FROM unallocated)
-
-    ;;
-
+      UNION ALL(SELECT * FROM unallocated);;
   datagroup_trigger: ts_range_datagroup
-
   }
-
-
 
   dimension: buyer {
     view_label: "Commercial"
@@ -90,5 +83,4 @@ view: commercial_structure {
     sql: ${TABLE}.productDepartmentUID ;;
     hidden: yes
   }
-
 }

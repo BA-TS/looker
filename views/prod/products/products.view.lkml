@@ -1,52 +1,5 @@
 view: products {
-  sql_table_name:
-  `toolstation-data-storage.range.products_current`;;
-
-  # dimension_group: active_from {
-  #   type: time
-  #   timeframes: [
-  #     raw,
-  #     time,
-  #     date,
-  #     week,
-  #     month,
-  #     quarter,
-  #     year
-  #   ]
-  #   sql: ${TABLE}.activeFrom ;;
-  # }
-  # dimension_group: active_to {
-  #   type: time
-  #   timeframes: [
-  #     raw,
-  #     time,
-  #     date,
-  #     week,
-  #     month,
-  #     quarter,
-  #     year
-  #   ]
-  #   sql: ${TABLE}.activeTo ;;
-  # }
-  # dimension_group: product_start {
-  #   type: time
-  #   timeframes: [
-  #     raw,
-  #     time,
-  #     date,
-  #     week,
-  #     month,
-  #     quarter,
-  #     year
-  #   ]
-  #   sql: ${TABLE}.productStartDate ;;
-  # }
-  # dimension: is_active {
-  #   type: number
-  #   sql: ${TABLE}.isActive ;;
-  # }
-
-  ########## Product Details ##########
+  sql_table_name: `toolstation-data-storage.range.products_current`;;
 
   dimension: brand {
     group_label: "Product Details"
@@ -78,7 +31,7 @@ view: products {
     sql: ${TABLE}.productDescription ;;
   }
 
-  dimension: product_name { # changed from name
+  dimension: product_name {
     group_label: "Product Details"
     label: "Product Name"
     type: string
@@ -117,8 +70,6 @@ view: products {
     sql: ${TABLE}.warrantyYears ;;
   }
 
-  # HIDDEN #
-
   dimension: product_name_quantity {
     group_label: "Product Details"
     type: string
@@ -131,11 +82,7 @@ view: products {
     label: "Product Name Type"
     type: string
     sql: ${TABLE}.productNameType ;;
-    hidden: no
   }
-
-
-  ########## Commercial ##########
 
   dimension: buyer {
     group_label: "Commercial Details"
@@ -180,14 +127,11 @@ view: products {
     sql: ${buying_manager} <> "Matt Rockliff" ;;
   }
 
-  # HIDDEN #
-
   dimension: department {
     group_label: "Product Details"
-    label: "Department" # department raw
+    label: "Department"
     type: string
     sql: ${TABLE}.productDepartment ;;
-    hidden: no ## readded due to DIGITAL # replaced by transactions.department coalesce
   }
 
   dimension: department_uid {
@@ -206,16 +150,12 @@ view: products {
     hidden: yes
   }
 
-  ########## Flag ##########
-
   dimension: suspended {
     group_label: "Flags"
     type: number
     sql: ${TABLE}.suspended ;;
     hidden: yes
   }
-
-  ########## Supply Chain ##########
 
   dimension: manufacturer {
     group_label: "Supply Chain"
@@ -243,14 +183,12 @@ view: products {
     label: "Supplier Part Number"
     type: string
     sql: ${TABLE}.supplierPartNumber ;;
-    hidden: no
   }
 
   dimension: manufacturer_id {
     group_label: "Supply Chain"
     type: string
     sql: ${TABLE}.manufacturerID ;;
-    hidden: yes
   }
 
   dimension: default_supplier {
@@ -267,7 +205,6 @@ view: product_first_sale_date {
       SELECT
         productCode,
         MIN(DATE(transactionDate)) AS first_sale_date
-
       FROM
         `toolstation-data-storage.sales.transactions`
       GROUP BY
@@ -300,4 +237,48 @@ view: product_first_sale_date {
     timeframes: [year]
     sql: ${TABLE}.first_sale_date ;;
   }
+
+  # dimension_group: active_from {
+  #   type: time
+  #   timeframes: [
+  #     raw,
+  #     time,
+  #     date,
+  #     week,
+  #     month,
+  #     quarter,
+  #     year
+  #   ]
+  #   sql: ${TABLE}.activeFrom ;;
+  # }
+  # dimension_group: active_to {
+  #   type: time
+  #   timeframes: [
+  #     raw,
+  #     time,
+  #     date,
+  #     week,
+  #     month,
+  #     quarter,
+  #     year
+  #   ]
+  #   sql: ${TABLE}.activeTo ;;
+  # }
+  # dimension_group: product_start {
+  #   type: time
+  #   timeframes: [
+  #     raw,
+  #     time,
+  #     date,
+  #     week,
+  #     month,
+  #     quarter,
+  #     year
+  #   ]
+  #   sql: ${TABLE}.productStartDate ;;
+  # }
+  # dimension: is_active {
+  #   type: number
+  #   sql: ${TABLE}.isActive ;;
+  # }
 }

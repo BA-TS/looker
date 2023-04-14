@@ -1,7 +1,5 @@
 view: catalogue_product_price_cat_id {
-  sql_table_name: `toolstation-data-storage.range.catalogue_product_price_catID`
-    ;;
-
+  sql_table_name: `toolstation-data-storage.range.catalogue_product_price_catID`;;
 
   dimension: cat_number {
     label: "Catalogue Number"
@@ -54,5 +52,4 @@ view: catalogue_product_price_cat_id {
     type: number
     sql: ${TABLE}.vatRate ;;
   }
-
 }
