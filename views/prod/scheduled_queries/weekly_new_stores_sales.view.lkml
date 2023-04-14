@@ -1,30 +1,22 @@
 view: weekly_new_stores_sales {
 
-  # every monday
-
   derived_table: {
     datagroup_trigger: ts_transactions_datagroup
-
     sql: with stores as (
           select
-
               siteUID,
               siteName,
               dateOpened,
               d.fiscalYearWeek as firstTradingWeek
-
               from `toolstation-data-storage.locations.sites` s
               inner join `toolstation-data-storage.ts_finance.dim_date` d
                   on date(s.dateOpened) = d.fullDate
-
               where
                   regionName like 'Region%'
                   or regionName like 'Closed%'
       )
-
       ,sales as (
       select
-
           s.siteUID,
           s.siteName,
           s.firstTradingWeek,
@@ -32,32 +24,24 @@ view: weekly_new_stores_sales {
           d.fiscalYEarWeek salesWeek,
           row_number() over (partition by s.siteUID order by d.fiscalYearWeek) as storeRelativeSalesWeek,
           sum(t.netSalesValue) netSales
-
           from `toolstation-data-storage.sales.transactions` t
               inner join stores s
                   on t.siteUID = s.siteUID
-
               inner join `toolstation-data-storage.ts_finance.dim_date` d
                   on date(t.transactionDate) = d.fullDate
                   and d.fiscalYearWeek >= s.firstTradingWeek
-
-
-
           group by 1,2,3,4,5
-
           qualify row_number() over (partition by s.siteUID order by d.fiscalYearWeek) <= 13
       )
       SELECT * FROM
       (
         select
-
           siteUID,
           siteName,
           date(dateOpened) date_opened,
           sum(netSales) over (partition by siteUID) as totalSales,
           storeRelativeSalesWeek,
           netSales
-
           from sales
       )
       PIVOT
@@ -65,11 +49,8 @@ view: weekly_new_stores_sales {
         SUM(netSales) AS actual_sales_week
         FOR storeRelativeSalesWeek in (1,2,3,4,5,6,7,8,9,10,11,12,13)
       )
-
-      order by 3 desc
-       ;;
+      order by 3 desc;;
   }
-
 
   dimension: site_uid {
     type: string
@@ -156,6 +137,4 @@ view: weekly_new_stores_sales {
     type: number
     sql: ${TABLE}.actual_sales_week_13 ;;
   }
-
-
 }

@@ -1,11 +1,8 @@
 view: daily_transactions_incomplete {
 
     derived_table: {
-
       datagroup_trigger: ts_transactions_datagroup
-
       sql:
-
         select
           i.parentOrderUID,
           i.transactionUID,
@@ -18,19 +15,15 @@ view: daily_transactions_incomplete {
           tc.creditLimit,
           tc.remainingBalance,
           round(sum(i.grossSalesValue), 3) as OrderValue
-
         from
           `toolstation-data-storage.sales.transactions_incomplete` i
-
         LEFT JOIN
           `toolstation-data-storage.customer.tradeCreditDetails` tc
         on i.customerUID = tc.mainTradeCreditAccountUID
-
         where
           status = "Pending"
             and
           paymentType = "account"
-
         group by
           1,
           2,
@@ -42,14 +35,9 @@ view: daily_transactions_incomplete {
           8,
           9,
           10
-
         order by
-          placedDate desc
-
-        ;;
+          placedDate desc;;
     }
-
-
 
     dimension: parent_order_uid {
       type: string
@@ -105,6 +93,4 @@ view: daily_transactions_incomplete {
       type: number
       sql: ${TABLE}.OrderValue ;;
     }
-
-
   }

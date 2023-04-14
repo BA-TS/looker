@@ -2,13 +2,9 @@ view: customer_rita {
   derived_table: {
 
     datagroup_trigger: ts_transactions_datagroup
-
-
     sql: select * from toolstation-data-storage.tmp.stg_customer_rita
-      order by ucn_val
-       ;;
+      order by ucn_val;;
   }
-
 
   dimension: ucn_uid {
     type: number

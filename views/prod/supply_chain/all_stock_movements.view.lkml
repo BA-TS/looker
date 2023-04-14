@@ -1,8 +1,5 @@
-
 view: all_stock_movements {
-
-  sql_table_name: `toolstation-data-storage.stock.allStockMovements`
-    ;;
+  sql_table_name: `toolstation-data-storage.stock.allStockMovements`;;
   view_label: "All Stock Movements"
 
   dimension_group: change_date {
@@ -18,29 +15,6 @@ view: all_stock_movements {
     ]
     sql: ${TABLE}.changeDate ;;
   }
-
-
-
-  measure: total_is_closed {
-    type: sum
-    sql: ${is_closed} ;;
-  }
-
-  measure: total_is_pickable {
-    type: average
-    sql: ${is_pickable} ;;
-  }
-
-  measure: total_is_movable {
-    type: average
-    sql: ${is_movable} ;;
-  }
-
-  measure: total_is_virtual {
-    type: average
-    sql: ${is_virtual} ;;
-  }
-
 
   dimension: is_closed {
     type: number
@@ -122,5 +96,23 @@ view: all_stock_movements {
     sql: ${TABLE}.virtualAdjustmentUser ;;
   }
 
+  measure: total_is_closed {
+    type: sum
+    sql: ${is_closed} ;;
+  }
 
+  measure: total_is_pickable {
+    type: average
+    sql: ${is_pickable} ;;
+  }
+
+  measure: total_is_movable {
+    type: average
+    sql: ${is_movable} ;;
+  }
+
+  measure: total_is_virtual {
+    type: average
+    sql: ${is_virtual} ;;
+  }
 }
