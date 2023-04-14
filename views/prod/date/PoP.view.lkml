@@ -1,6 +1,4 @@
 view: pop {
-  #include: "/views/dev/cg_testing/catalogue.view"
-
 
     extension: required
 
@@ -18,10 +16,7 @@ view: pop {
       }
       default_value: "Calendar"
       hidden: yes
-      # required_access_grants: [is_developer]
     }
-
-
 
     parameter: select_date_reference {
       label: "Date Reference"
@@ -37,65 +32,7 @@ view: pop {
       }
       default_value: "Transaction"
       hidden: yes
-      # required_access_grants: [is_developer]
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 # ██████╗░██╗░░░██╗███╗░░██╗░█████╗░███╗░░░███╗██╗░█████╗░░░░░█████╗░░█████╗░███╗░░██╗░██████╗████████╗░█████╗░███╗░░██╗████████╗░██████╗
@@ -123,8 +60,7 @@ view: pop {
                 THEN 0
               ELSE ${base_noCatalogue.base_date_raw}
             END*/
-
-        ;;
+            ;;
       hidden: yes
     }
     dimension: __target_date__ {
@@ -133,9 +69,6 @@ view: pop {
       sql: ${__target_raw__} ;;
       hidden: yes
     }
-
-
-
 
 
 # █▀▄ ▄▀█ █▄█
@@ -201,8 +134,6 @@ view: pop {
       sql: DATE_SUB(${__day_LY__}, INTERVAL ${__length_of_year__} DAY) ;;
       hidden: yes
     }
-
-
 
 
 
