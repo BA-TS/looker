@@ -1,4 +1,4 @@
-view: stock_intake {
+view: purchase_orders {
   sql_table_name: `toolstation-data-storage.stock.purchaseOrders`
     ;;
 
@@ -131,7 +131,6 @@ view: stock_intake {
   dimension: pack_quantity {
     type: number
     sql: ${TABLE}.packQuantity ;;
-    hidden: yes
   }
 
   dimension: product_uid {
@@ -143,7 +142,6 @@ view: stock_intake {
   dimension: quantity_ordered {
     type: number
     sql: ${TABLE}.quantityOrdered ;;
-    hidden: yes
   }
 
   dimension: quantity_received {

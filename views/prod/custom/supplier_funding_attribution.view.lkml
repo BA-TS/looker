@@ -1,8 +1,6 @@
-
 view: supplier_funding_attribution {
 
-  sql_table_name: `toolstation-data-storage.looker_custom_tables.supplier_funding_attribution`
-    ;;
+  sql_table_name:`toolstation-data-storage.looker_custom_tables.supplier_funding_attribution`;;
 
   dimension: product_code {
     group_label: "Product"
@@ -45,18 +43,6 @@ view: supplier_funding_attribution {
     hidden: yes
   }
 
-  measure: total_total_units {
-    label: "Total Units"
-    type: sum
-    sql: ${total_units} ;;
-  }
-
-  measure: average_total_units {
-    label: "Average Units"
-    type: average
-    sql: ${total_units} ;;
-  }
-
   dimension_group: transaction {
     type: time
     timeframes: [
@@ -68,4 +54,15 @@ view: supplier_funding_attribution {
     sql: ${TABLE}.transactionDate ;;
   }
 
+  measure: total_total_units {
+    label: "Total Units"
+    type: sum
+    sql: ${total_units} ;;
+  }
+
+  measure: average_total_units {
+    label: "Average Units"
+    type: average
+    sql: ${total_units} ;;
+  }
 }

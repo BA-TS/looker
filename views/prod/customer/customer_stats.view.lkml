@@ -1,15 +1,6 @@
-# The name of this view in Looker is "Customer Stats"
 view: customer_stats {
-  # The sql_table_name parameter indicates the underlying database table
-  # to be used for all fields in this view.
-  sql_table_name: `toolstation-data-storage.looker_mart.customer_stats`
-    ;;
-  # No primary key is defined for this view. In order to join this view in an Explore,
-  # define primary_key: yes on a dimension that has no repeated values.
 
-  # Here's what a typical dimension looks like in LookML.
-  # A dimension is a groupable field that can be used to filter query results.
-  # This dimension will be called "App Total Net Sales" in Explore.
+  sql_table_name: `toolstation-data-storage.looker_mart.customer_stats`;;
 
   dimension: app_total_net_sales {
     type: number
@@ -114,9 +105,6 @@ view: customer_stats {
     type: number
     sql: ${TABLE}.total_units ;;
   }
-
-  # Dates and timestamps can be represented in Looker using a dimension group of type: time.
-  # Looker converts dates and timestamps to the specified timeframes within the dimension group.
 
   dimension_group: transaction {
     type: time

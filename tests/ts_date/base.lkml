@@ -1,4 +1,4 @@
-include: "/views/prod/date/base_date.view"
+include: "/views/prod/date/base.view"
 
 test: base_start_date {
 
