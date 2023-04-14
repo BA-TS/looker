@@ -1,9 +1,7 @@
 view: sites {
-
+  label: "Location"
   derived_table: {
-
     sql:
-
       SELECT
         DISTINCT sites.siteUID AS siteUID,
         sites.* EXCEPT(siteUID),
@@ -12,10 +10,8 @@ view: sites {
         servicing_dc_id,
         servicing_dc_name,
         -- servicing_dc_site_uid
-
       FROM
       (
-
         SELECT
           sites.siteUID,
           CASE
@@ -31,33 +27,26 @@ view: sites {
           dc_site.distributionCentreID AS servicing_dc_id,
           dc_site.uncleaned_dc_name AS servicing_dc_name,
           dc_site.siteUID AS servicing_dc_site_uid
-
         FROM
           `toolstation-data-storage.locations.sites` AS sites
-
         LEFT JOIN
           `toolstation-data-storage.locations.DCtoShopMapping` AS map
         ON sites.siteUID = map.siteUID
-
         LEFT JOIN
           `toolstation-data-storage.locations.disctributionCentreNames` AS dc_site
         USING(distributionCentreID)
-
         LEFT JOIN
         (
           SELECT
             siteUID,
             dc_name
-
           FROM
             `toolstation-data-storage.locations.distributionCentreSites`
-
           INNER JOIN
             `toolstation-data-storage.locations.disctributionCentreNames`
           USING(siteUID)
         ) AS dc_data
         ON sites.siteUID = dc_data.siteUID AND dc_data.dc_name IS NOT NULL
-
         WHERE
           UPPER(sites.siteName) NOT LIKE "%D%SHIP%"
             AND
@@ -68,7 +57,6 @@ view: sites {
           )
             -- AND
           -- sites.isClosed = 0 -- added 11/05/22
-
         GROUP BY
           1,
           2,
@@ -76,28 +64,16 @@ view: sites {
           4,
           5,
           6
-
       )
-
       LEFT JOIN
         `toolstation-data-storage.locations.sites` AS sites
-      USING(siteUID)
-
-    ;;
-
+      USING(siteUID);;
     datagroup_trigger: ts_location_datagroup
-
   }
-
-  label: "Location"
-
-
-
 
   dimension: location_type {
     type: string
     sql:
-
     CASE ${servicing_dc_id}
       WHEN "1"
         THEN "RDC"
@@ -108,14 +84,8 @@ view: sites {
       WHEN "4"
         THEN "Bridgwater"
       ELSE "Stores"
-
-    END
-
-    ;;
+    END;;
   }
-
-
-
 
   dimension: site_uid {
     primary_key: yes
@@ -132,37 +102,8 @@ view: sites {
     sql: ${TABLE}.siteName ;;
   }
 
-  # dimension_group: active_from {
-  #   type: time
-  #   timeframes: [
-  #     raw,
-  #     time,
-  #     date,
-  #     week,
-  #     month,
-  #     quarter,
-  #     year
-  #   ]
-  #   sql: ${TABLE}.activeFrom ;;
-  # }
-
-  # dimension_group: active_to {
-  #   type: time
-  #   timeframes: [
-  #     raw,
-  #     time,
-  #     date,
-  #     week,
-  #     month,
-  #     quarter,
-  #     year
-  #   ]
-  #   sql: ${TABLE}.activeTo ;;
-  # }
 
   ########## Site Address ##########
-
-
   dimension: address1 {
     label: "Address Line 1"
     group_label: "Site Address"
@@ -236,8 +177,6 @@ view: sites {
     sql_longitude: ${longitude} ;;
   }
 
-  ##################################################
-
   dimension: cost_centre_id {
     label: "Cost Centre ID"
     type: string
@@ -278,21 +217,12 @@ view: sites {
     hidden: yes
   }
 
-
-  ########## Flag ##########
-
   dimension: is_active {
     group_label: "Flags"
     label: "Is Active?"
     type: yesno
     sql: ${TABLE}.isActive = 1 ;;
   }
-
-  # dimension: is_branch {
-  #   group_label: "Flags"
-  #   type: yesno
-  #   sql: ${TABLE}.isBranch = 1 ;;
-  # }
 
   dimension: is_closed {
     group_label: "Flags"
@@ -314,8 +244,6 @@ view: sites {
     type: yesno
     sql: ${TABLE}.isReducedStock = 1 ;;
   }
-
-  ########## Division and Region ##########
 
   dimension: division {
     group_label: "Division and Region"
@@ -348,8 +276,6 @@ view: sites {
     sql: ${TABLE}.regionName ;;
   }
 
-  ########## Store Classification ##########
-
   dimension: site_type {
     group_label: "Store Classification"
     type: string
@@ -368,8 +294,6 @@ view: sites {
     sql: ${TABLE}.squareFeet ;;
   }
 
-  ######### FLAGS ###########
-
   dimension: is_dc {
     group_label: "Flags"
     label: "Is Distribution Centre?"
@@ -383,9 +307,6 @@ view: sites {
     type: yesno
     sql: ${TABLE}.store_flag = 1 ;;
   }
-
-
-  ######### DC ##########
 
   dimension: servicing_dc_id {
     group_label: "Servicing DC"
@@ -402,6 +323,12 @@ view: sites {
     sql: ${TABLE}.servicing_dc_name ;;
   }
 
+  # dimension: is_branch {
+  #   group_label: "Flags"
+  #   type: yesno
+  #   sql: ${TABLE}.isBranch = 1 ;;
+  # }
+
   # dimension: servicing_dc_site_uid {
   #   group_label: "Servicing DC"
   #   label: "DC SiteUID"
@@ -409,4 +336,31 @@ view: sites {
   #   sql: ${TABLE}.servicing_dc_site_uid ;;
   # }
 
+  # dimension_group: active_from {
+  #   type: time
+  #   timeframes: [
+  #     raw,
+  #     time,
+  #     date,
+  #     week,
+  #     month,
+  #     quarter,
+  #     year
+  #   ]
+  #   sql: ${TABLE}.activeFrom ;;
+  # }
+
+  # dimension_group: active_to {
+  #   type: time
+  #   timeframes: [
+  #     raw,
+  #     time,
+  #     date,
+  #     week,
+  #     month,
+  #     quarter,
+  #     year
+  #   ]
+  #   sql: ${TABLE}.activeTo ;;
+  # }
 }

@@ -1,12 +1,6 @@
-
 view: open_to_buy_model_new {
 
-  sql_table_name:
-
-  `toolstation-data-storage.ts_analytics.open_to_buy`
-
-    ;;
-
+  sql_table_name: `toolstation-data-storage.ts_analytics.open_to_buy`;;
 
   parameter: budget_type {
     type: unquoted
@@ -29,19 +23,11 @@ view: open_to_buy_model_new {
     default_value: "0"
   }
 
-
-
   dimension: table_last_updated {
     type: date_time
     datatype: timestamp
     sql: ${TABLE}.__table_last_updated__ ;;
   }
-
-
-
-
-
-
 
   dimension_group: date {
     label: ""
@@ -132,29 +118,6 @@ view: open_to_buy_model_new {
     hidden: yes
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   dimension: cogs_budget_rf1 {
     type: number
     sql: ${TABLE}.cogs_budget_rf1 ;;
@@ -172,7 +135,6 @@ view: open_to_buy_model_new {
     sql: ${TABLE}.cogs_budget_rf3 ;;
     hidden: yes
   }
-
 
   dimension: open_to_buy_rf1 {
     type: number
@@ -192,7 +154,6 @@ view: open_to_buy_model_new {
     hidden: yes
   }
 
-
   dimension: orders_budget_rf1 {
     type: number
     sql: ${TABLE}.orders_budget_rf1 ;;
@@ -210,7 +171,6 @@ view: open_to_buy_model_new {
     sql: ${TABLE}.orders_budget_rf3 ;;
     hidden: yes
   }
-
 
   dimension: stock_budget_rf1 {
     type: number
@@ -230,7 +190,6 @@ view: open_to_buy_model_new {
     hidden: yes
   }
 
-
   dimension: stock_forecast_rf1 {
     type: number
     sql: ${TABLE}.stock_forecast_rf1 ;;
@@ -249,47 +208,11 @@ view: open_to_buy_model_new {
     hidden: yes
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   measure: total_cogs_budget {
     label: "COGS Budget"
     group_label: "COGS"
     type: sum
     sql:
-
     {% if budget_type._parameter_value == "1" %}
       ${cogs_budget_rf1}
     {% elsif budget_type._parameter_value == "2" %}
@@ -298,17 +221,15 @@ view: open_to_buy_model_new {
       ${cogs_budget_rf3}
     {% else %}
       ${cogs_budget}
-    {% endif %}
-
-    ;;
+    {% endif %};;
     value_format_name: gbp
   }
+
   measure: total_stock_budget {
     label: "Stock Budget"
     group_label: "Stock"
     type: sum
     sql:
-
     {% if budget_type._parameter_value == "1" %}
       ${stock_budget_rf1}
     {% elsif budget_type._parameter_value == "2" %}
@@ -317,18 +238,15 @@ view: open_to_buy_model_new {
       ${stock_budget_rf3}
     {% else %}
       ${stock_budget}
-    {% endif %}
-
-    ;;
+    {% endif %};;
     value_format_name: gbp
   }
+
   measure: total_orders_budget {
     label: "Orders Budget"
     group_label: "Orders"
     type: sum
     sql:
-
-
     {% if budget_type._parameter_value == "1" %}
       ${orders_budget_rf1}
     {% elsif budget_type._parameter_value == "2" %}
@@ -337,11 +255,10 @@ view: open_to_buy_model_new {
       ${orders_budget_rf3}
     {% else %}
       ${orders_budget}
-    {% endif %}
-
-    ;;
+    {% endif %};;
     value_format_name: gbp
   }
+
   measure: total_cogs_actual {
     label: "COGS Actual"
     group_label: "COGS"
@@ -349,6 +266,7 @@ view: open_to_buy_model_new {
     sql: ${cogs_actual} ;;
     value_format_name: gbp
   }
+
   measure: total_stock_actual {
     label: "Stock Actual"
     group_label: "Stock"
@@ -356,6 +274,7 @@ view: open_to_buy_model_new {
     sql: ${stock_actual} ;;
     value_format_name: gbp
   }
+
   measure: total_orders_actual {
     label: "Orders Actual"
     group_label: "Orders"
@@ -363,6 +282,7 @@ view: open_to_buy_model_new {
     sql: ${orders_actual} ;;
     value_format_name: gbp
   }
+
   measure: total_orders_received {
     label: "Orders Received (Current Month)"
     group_label: "Orders"
@@ -370,6 +290,7 @@ view: open_to_buy_model_new {
     sql: ${orders_received} ;;
     value_format_name: gbp
   }
+
   measure: total_orders_due {
     label: "Orders Due In"
     group_label: "Orders Due In"
@@ -377,12 +298,12 @@ view: open_to_buy_model_new {
     sql: ${orders_due} ;;
     value_format_name: gbp
   }
+
   measure: total_open_to_buy {
     label: "Open to Buy"
     group_label: "Open to Buy"
     type: sum
     sql:
-
     {% if budget_type._parameter_value == "1" %}
       CASE WHEN ${open_to_buy_rf1} > 0 THEN ${open_to_buy_rf1} ELSE 0 END
     {% elsif budget_type._parameter_value == "2" %}
@@ -391,17 +312,15 @@ view: open_to_buy_model_new {
       CASE WHEN ${open_to_buy_rf3} > 0 THEN ${open_to_buy_rf3} ELSE 0 END
     {% else %}
       CASE WHEN ${open_to_buy} > 0 THEN ${open_to_buy} ELSE 0 END
-    {% endif %}
-
-     ;;
+    {% endif %};;
     value_format_name: gbp
   }
+
   measure: total_open_to_buy_raw {
     label: "Open to Buy (Raw)"
     group_label: "Open to Buy"
     type: sum
     sql:
-
     {% if budget_type._parameter_value == "1" %}
       ${open_to_buy_rf1}
     {% elsif budget_type._parameter_value == "2" %}
@@ -410,17 +329,15 @@ view: open_to_buy_model_new {
       ${open_to_buy_rf3}
     {% else %}
       ${open_to_buy}
-    {% endif %}
-    ;;
+    {% endif %};;
     value_format_name: gbp
   }
+
   measure: total_stock_forecast {
     label: "Stock Forecast"
     group_label: "Stock"
     type: sum
     sql:
-
-
     {% if budget_type._parameter_value == "1" %}
       ${stock_forecast_rf1}
     {% elsif budget_type._parameter_value == "2" %}
@@ -429,14 +346,9 @@ view: open_to_buy_model_new {
       ${stock_forecast_rf3}
     {% else %}
       ${stock_forecast}
-    {% endif %}
-
-    ;;
+    {% endif %};;
     value_format_name: gbp
   }
-
-
-
 
   measure: variance_to_budget {
     label: "Variance to Budget"
@@ -447,10 +359,6 @@ view: open_to_buy_model_new {
     value_format_name: gbp
   }
 
-
-
-
-
   measure: average_stock_days {
     label: "Stock Days"
     group_label: "Stock"
@@ -458,6 +366,7 @@ view: open_to_buy_model_new {
     sql: ${TABLE}.stock_days ;;
     value_format_name: decimal_0
   }
+
   measure: average_repeater_buy {
     label: "Repeater Buy"
     group_label: "Open to Buy"
@@ -465,17 +374,4 @@ view: open_to_buy_model_new {
     sql: ${TABLE}.repeater_buy ;;
     value_format_name: percent_2
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

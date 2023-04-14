@@ -1,148 +1,13 @@
-
 view: bq_daily_supply_chain_master_data_history {
 
-  sql_table_name: `toolstation-data-storage.supplyChainReporting.BQ_DAILY_SUPPLY_CHAIN_MASTER_DATA_HISTORY`
-    ;;
-
+  sql_table_name: `toolstation-data-storage.supplyChainReporting.BQ_DAILY_SUPPLY_CHAIN_MASTER_DATA_HISTORY`;;
   fields_hidden_by_default: yes
-
-
-
-
-
-
-
-
-
-
-
-
-
-  # PRODUCTS #
 
   dimension: product_uid {
     type: string
     sql: ${TABLE}.productUID ;;
     hidden: yes
   }
-
-  # dimension: product_brand {
-  #   type: string
-  #   sql: ${TABLE}.productBrand ;;
-  # }
-
-  # dimension: product_buying_status {
-  #   type: string
-  #   sql: ${TABLE}.productBuyingStatus ;;
-  # }
-
-  # dimension: product_channel {
-  #   type: string
-  #   sql: ${TABLE}.productChannel ;;
-  # }
-
-  # dimension: product_code {
-  #   type: string
-  #   sql: ${TABLE}.productCode ;;
-  # }
-
-  # dimension: product_department {
-  #   type: string
-  #   sql: ${TABLE}.productDepartment ;;
-  # }
-
-  # dimension: product_department_uid {
-  #   type: number
-  #   value_format_name: id
-  #   sql: ${TABLE}.productDepartmentUID ;;
-  # }
-
-  # dimension: product_description {
-  #   type: string
-  #   sql: ${TABLE}.productDescription ;;
-  # }
-
-  # dimension: product_name {
-  #   type: string
-  #   sql: ${TABLE}.productName ;;
-  # }
-
-  # dimension: product_name_quantity {
-  #   type: string
-  #   sql: ${TABLE}.productNameQuantity ;;
-  # }
-
-  # dimension: product_name_type {
-  #   type: string
-  #   sql: ${TABLE}.productNameType ;;
-  # }
-
-  # dimension: product_status {
-  #   type: string
-  #   sql: ${TABLE}.productStatus ;;
-  # }
-
-  # dimension: product_subdepartment {
-  #   type: string
-  #   sql: ${TABLE}.productSubdepartment ;;
-  # }
-
-  # dimension: product_subdepartment_uid {
-  #   type: number
-  #   value_format_name: id
-  #   sql: ${TABLE}.productSubdepartmentUID ;;
-  # }
-
-  # dimension: product_type {
-  #   type: string
-  #   sql: ${TABLE}.productType ;;
-  # }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   dimension: aac {
     type: number
@@ -208,7 +73,6 @@ view: bq_daily_supply_chain_master_data_history {
     type: number
     sql: ${TABLE}.currentRetailPrice ;;
   }
-
 
   dimension: daventry_existing_store_downstream_need {
     type: number
@@ -604,4 +468,75 @@ view: bq_daily_supply_chain_master_data_history {
     sql: ${TABLE}.TPLstockUnits_exc_Kinexia ;;
   }
 
+  # dimension: product_brand {
+  #   type: string
+  #   sql: ${TABLE}.productBrand ;;
+  # }
+
+  # dimension: product_buying_status {
+  #   type: string
+  #   sql: ${TABLE}.productBuyingStatus ;;
+  # }
+
+  # dimension: product_channel {
+  #   type: string
+  #   sql: ${TABLE}.productChannel ;;
+  # }
+
+  # dimension: product_code {
+  #   type: string
+  #   sql: ${TABLE}.productCode ;;
+  # }
+
+  # dimension: product_department {
+  #   type: string
+  #   sql: ${TABLE}.productDepartment ;;
+  # }
+
+  # dimension: product_department_uid {
+  #   type: number
+  #   value_format_name: id
+  #   sql: ${TABLE}.productDepartmentUID ;;
+  # }
+
+  # dimension: product_description {
+  #   type: string
+  #   sql: ${TABLE}.productDescription ;;
+  # }
+
+  # dimension: product_name {
+  #   type: string
+  #   sql: ${TABLE}.productName ;;
+  # }
+
+  # dimension: product_name_quantity {
+  #   type: string
+  #   sql: ${TABLE}.productNameQuantity ;;
+  # }
+
+  # dimension: product_name_type {
+  #   type: string
+  #   sql: ${TABLE}.productNameType ;;
+  # }
+
+  # dimension: product_status {
+  #   type: string
+  #   sql: ${TABLE}.productStatus ;;
+  # }
+
+  # dimension: product_subdepartment {
+  #   type: string
+  #   sql: ${TABLE}.productSubdepartment ;;
+  # }
+
+  # dimension: product_subdepartment_uid {
+  #   type: number
+  #   value_format_name: id
+  #   sql: ${TABLE}.productSubdepartmentUID ;;
+  # }
+
+  # dimension: product_type {
+  #   type: string
+  #   sql: ${TABLE}.productType ;;
+  # }
 }

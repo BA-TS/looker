@@ -1,6 +1,5 @@
 view: stock_intake {
-  sql_table_name: `toolstation-data-storage.stock.purchaseOrders`
-    ;;
+  sql_table_name: `toolstation-data-storage.stock.purchaseOrders`;;
 
   dimension: order_product_site {
     primary_key: yes
@@ -220,5 +219,4 @@ view: stock_intake {
     sql: ${unit_cost} ;;
     value_format_name: gbp
   }
-
 }

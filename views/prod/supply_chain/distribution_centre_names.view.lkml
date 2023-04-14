@@ -1,7 +1,6 @@
 view: distribution_centre_names {
 
   sql_table_name: `toolstation-data-storage.locations.disctributionCentreNames` ;;
-
   label: "Location"
 
   dimension: dc_name {
@@ -30,5 +29,4 @@ view: distribution_centre_names {
     type: yesno
     sql: ${dc_name} IS NULL ;;
   }
-
 }

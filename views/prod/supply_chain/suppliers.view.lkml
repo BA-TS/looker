@@ -1,6 +1,5 @@
 view: suppliers {
-  sql_table_name: `toolstation-data-storage.range.suppliers`
-    ;;
+  sql_table_name: `toolstation-data-storage.range.suppliers`;;
   drill_fields: [supplier_uid]
 
   dimension: supplier_uid {
@@ -49,8 +48,6 @@ view: suppliers {
     sql: ${TABLE}.supplierPlanner ;;
   }
 
-  ########## Contact Details ##########
-
   dimension: supplier_contact {
     group_label: "Contact Details"
     type: string
@@ -81,8 +78,6 @@ view: suppliers {
     sql: ${TABLE}.supplierWebsite ;;
   }
 
-  ########## Rebate ##########
-
   dimension: rebate_max {
     group_label: "Rebates"
     type: number
@@ -101,8 +96,6 @@ view: suppliers {
     sql: ${TABLE}.rebatePercentage ;;
   }
 
-  ########## Flags ##########
-
   dimension: is_active {
     group_label: "Flags"
     type: number
@@ -115,51 +108,40 @@ view: suppliers {
     sql: ${TABLE}.isDoNotUse ;;
   }
 
-  ########## Accounting ##########
-
   dimension: payment_terms {
-
     type: number
     sql: ${TABLE}.paymentTerms ;;
   }
 
   dimension: sage_supplier_code {
-
     type: string
     sql: ${TABLE}.sageSupplierCode ;;
   }
 
   dimension: settlement_discount_days {
-
     type: number
     sql: ${TABLE}.settlementDiscountDays ;;
   }
 
   dimension: settlement_discount_percentage {
-
     type: number
     sql: ${TABLE}.settlementDiscountPercentage ;;
   }
 
   dimension: account_credit_limit {
-
     type: number
     sql: ${TABLE}.accountCreditLimit ;;
   }
 
   dimension: account_held {
-
     type: number
     sql: ${TABLE}.accountHeld ;;
   }
 
   dimension: account_number {
-
     type: string
     sql: ${TABLE}.accountNumber ;;
   }
-
-  ########## Supply Chain ##########
 
   dimension: non_returns_agreement {
     group_label: "Supply Chain"
@@ -213,5 +195,4 @@ view: suppliers {
     type: number
     sql: ${TABLE}.reorderFrequency ;;
   }
-
 }

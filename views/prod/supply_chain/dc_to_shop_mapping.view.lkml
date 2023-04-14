@@ -1,4 +1,3 @@
-
 view: dc_to_shop_mapping {
 
   sql_table_name: `toolstation-data-storage.locations.DCtoShopMapping` ;;
@@ -52,5 +51,4 @@ view: dc_to_shop_mapping {
     type: string
     sql: ${TABLE}.siteUID ;;
   }
-
 }

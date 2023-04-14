@@ -1,8 +1,6 @@
-
 view: stock_soq {
 
-  sql_table_name: `toolstation-data-storage.stock.SOQ`
-    ;;
+  sql_table_name: `toolstation-data-storage.stock.SOQ`;;
 
   dimension: actual_stock_holding {
     type: number
@@ -108,5 +106,4 @@ view: stock_soq {
     type: number
     sql: ${TABLE}.trigger ;;
   }
-
 }

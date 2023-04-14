@@ -1,9 +1,5 @@
-
 view: stock_sku_cover_location {
-
-  sql_table_name: `toolstation-data-storage.financeReporting.DS_DAILY_STOCK_REPORTING_SKU_COVER_LOCATION`
-    ;;
-
+  sql_table_name: `toolstation-data-storage.financeReporting.DS_DAILY_STOCK_REPORTING_SKU_COVER_LOCATION`;;
 
   dimension_group: report {
     type: time
@@ -20,7 +16,6 @@ view: stock_sku_cover_location {
     sql: ${TABLE}.reportDate ;;
   }
 
-
   dimension: product_code {
     type: string
     sql: ${TABLE}.productCode ;;
@@ -35,7 +30,6 @@ view: stock_sku_cover_location {
     type: string
     sql: ${TABLE}.productSubdepartment ;;
   }
-
 
   dimension: buying_status {
     type: string
@@ -97,11 +91,6 @@ view: stock_sku_cover_location {
     sql: ${TABLE}.stockClassification ;;
   }
 
-
-
-
-
-
   dimension: weekly_units {
     type: number
     sql: ${TABLE}.weeklyUnits ;;
@@ -112,56 +101,45 @@ view: stock_sku_cover_location {
     sql: ${TABLE}.weeklyCOGS ;;
   }
 
-
-
-
-
-
-
   dimension: total_stock_units {
     type: number
     sql: ${TABLE}.totalStockUnits ;;
   }
+
   dimension: total_stock_value {
     type: number
     sql: ${TABLE}.totalStockValue ;;
   }
 
-
-
-
-
   dimension: promo_stock_units {
     type: number
     sql: ${TABLE}.promoStockUnits ;;
   }
+
   dimension: promo_stock_value {
     type: number
     sql: ${TABLE}.promoStockValue ;;
   }
 
-
   dimension: new_stock_units {
     type: number
     sql: ${TABLE}.newStockUnits ;;
   }
+
   dimension: new_stock_value {
     type: number
     sql: ${TABLE}.newStockValue ;;
   }
 
-
   dimension: discontinued_stock_units {
     type: number
     sql: ${TABLE}.discontinuedStockUnits ;;
   }
+
   dimension: discontinued_stock_value {
     type: number
     sql: ${TABLE}.discontinuedStockValue ;;
   }
-
-
-
 
   dimension: dsv_stock_units {
     type: number
@@ -173,13 +151,6 @@ view: stock_sku_cover_location {
     sql: ${TABLE}.dsvStockValue ;;
   }
 
-
-
-
-
-
-
-
   dimension: cover8_units {
     type: number
     sql: ${TABLE}.cover8Units ;;
@@ -189,9 +160,6 @@ view: stock_sku_cover_location {
     type: number
     sql: ${TABLE}.cover8Value ;;
   }
-
-
-
 
   dimension: cover26_units {
     type: number
@@ -203,11 +171,6 @@ view: stock_sku_cover_location {
     sql: ${TABLE}.cover26Value ;;
   }
 
-
-
-
-
-
   dimension: cover52_units {
     type: number
     sql: ${TABLE}.cover52Units ;;
@@ -217,11 +180,6 @@ view: stock_sku_cover_location {
     type: number
     sql: ${TABLE}.cover52Value ;;
   }
-
-
-
-
-
 
   dimension: cover_over52_units {
     type: number
@@ -233,31 +191,6 @@ view: stock_sku_cover_location {
     sql: ${TABLE}.coverOver52Value ;;
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   dimension: other_stock_units {
     type: number
     sql: ${TABLE}.otherStockUnits ;;
@@ -267,63 +200,6 @@ view: stock_sku_cover_location {
     type: number
     sql: ${TABLE}.otherStockValue ;;
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   dimension: bridgwater_chepstow {
     type: number
@@ -365,22 +241,6 @@ view: stock_sku_cover_location {
     sql: ${TABLE}.bridgwaterStockValue ;;
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   dimension: clearance_corner {
     type: number
     sql: ${TABLE}.ClearanceCorner ;;
@@ -390,16 +250,6 @@ view: stock_sku_cover_location {
     type: number
     sql: ${TABLE}.ClearanceCornerValue ;;
   }
-
-
-
-
-
-
-
-
-
-
 
   dimension: daventry_offsite_stock_units {
     type: number
@@ -411,13 +261,6 @@ view: stock_sku_cover_location {
     sql: ${TABLE}.daventryOffsiteStockValue ;;
   }
 
-
-
-
-
-
-
-
   dimension: daventry_stock_units {
     type: number
     sql: ${TABLE}.daventryStockUnits ;;
@@ -427,12 +270,6 @@ view: stock_sku_cover_location {
     type: number
     sql: ${TABLE}.daventryStockValue ;;
   }
-
-
-
-
-
-
 
   dimension: existing_branches_stock_units {
     type: number
@@ -444,13 +281,6 @@ view: stock_sku_cover_location {
     sql: ${TABLE}.existingBranchesStockValue ;;
   }
 
-
-
-
-
-
-
-
   dimension: i_force_stock_units {
     type: number
     sql: ${TABLE}.iForceStockUnits ;;
@@ -461,12 +291,6 @@ view: stock_sku_cover_location {
     sql: ${TABLE}.iForceStockValue ;;
   }
 
-
-
-
-
-
-
   dimension: kinexia {
     type: number
     sql: ${TABLE}.Kinexia ;;
@@ -476,12 +300,6 @@ view: stock_sku_cover_location {
     type: number
     sql: ${TABLE}.KinexiaValue ;;
   }
-
-
-
-
-
-
 
   dimension: middleton_offsite_stock_units {
     type: number
@@ -503,16 +321,6 @@ view: stock_sku_cover_location {
     sql: ${TABLE}.middletonStockValue ;;
   }
 
-
-
-
-
-
-
-
-
-
-
   dimension: new_branches_stock_units {
     type: number
     sql: ${TABLE}.newBranchesStockUnits ;;
@@ -522,11 +330,6 @@ view: stock_sku_cover_location {
     type: number
     sql: ${TABLE}.newBranchesStockValue ;;
   }
-
-
-
-
-
 
   dimension: redditch_offsite_stock_units {
     type: number
@@ -547,13 +350,6 @@ view: stock_sku_cover_location {
     type: number
     sql: ${TABLE}.redditchStockValue ;;
   }
-
-
-
-
-
-
-
 
   dimension: returns_stock_units {
     type: number
@@ -577,12 +373,6 @@ view: stock_sku_cover_location {
     sql: ${TABLE}.rtvStockValue ;;
   }
 
-
-
-
-
-
-
   dimension: trojan_stock_units {
     type: number
     sql: ${TABLE}.trojanStockUnits ;;
@@ -593,12 +383,6 @@ view: stock_sku_cover_location {
     sql: ${TABLE}.trojanStockValue ;;
   }
 
-
-
-
-
-
-
   dimension: uniserve_rads {
     type: number
     sql: ${TABLE}.Uniserve_Rads ;;
@@ -608,9 +392,4 @@ view: stock_sku_cover_location {
     type: number
     sql: ${TABLE}.Uniserve_RadsValue ;;
   }
-
-
-
-
-
 }
