@@ -3,14 +3,8 @@ include: "/views/prod/department_specific/customer/trade_customers.view"
 include: "/views/prod/department_specific/customer/trade_credit_details.view"
 
 view: customers {
-
   # required_access_grants: [can_use_customers]
-
-  sql_table_name:
-
-  `toolstation-data-storage.customer.allCustomers`
-
-  ;;
+  sql_table_name: `toolstation-data-storage.customer.allCustomers`;;
 
   dimension: address__address_line1 {
     type: string
@@ -19,6 +13,7 @@ view: customers {
     group_item_label: "Address Line 1"
     required_access_grants: [can_use_customer_information]
   }
+
   dimension: address__address_line2 {
     type: string
     sql: ${TABLE}.address.addressLine2 ;;
@@ -26,6 +21,7 @@ view: customers {
     group_item_label: "Address Line 2"
     required_access_grants: [can_use_customer_information]
   }
+
   dimension: address__address_line3 {
     type: string
     sql: ${TABLE}.address.addressLine3 ;;
@@ -33,6 +29,7 @@ view: customers {
     group_item_label: "Address Line 3"
     required_access_grants: [can_use_customer_information]
   }
+
   dimension: address__address_line4 {
     type: string
     sql: ${TABLE}.address.addressLine4 ;;
@@ -40,6 +37,7 @@ view: customers {
     group_item_label: "Address Line 4"
     required_access_grants: [can_use_customer_information]
   }
+
   dimension: address__address_line5 {
     type: string
     sql: ${TABLE}.address.addressLine5 ;;
@@ -47,6 +45,7 @@ view: customers {
     group_item_label: "Address Line 5"
     required_access_grants: [can_use_customer_information]
   }
+
   dimension: address__address_uid {
     type: string
     sql: ${TABLE}.address.addressUID ;;
@@ -54,6 +53,7 @@ view: customers {
     group_item_label: "Address UID"
     required_access_grants: [can_use_customer_information]
   }
+
   dimension: address__country {
     type: string
     sql: ${TABLE}.address.country ;;
@@ -61,6 +61,7 @@ view: customers {
     group_item_label: "Country"
     required_access_grants: [can_use_customer_information]
   }
+
   dimension: address__country_code {
     type: string
     sql: ${TABLE}.address.countryCode ;;
@@ -68,6 +69,7 @@ view: customers {
     group_item_label: "Country Code"
     required_access_grants: [can_use_customer_information]
   }
+
   dimension: address__country_code2 {
     type: string
     sql: ${TABLE}.address.countryCode2 ;;
@@ -75,6 +77,7 @@ view: customers {
     group_item_label: "Country Code 2"
     required_access_grants: [can_use_customer_information]
   }
+
   dimension: address__postcode {
     type: string
     sql: ${TABLE}.address.postcode ;;
@@ -82,6 +85,7 @@ view: customers {
     group_item_label: "Postcode"
     required_access_grants: [can_use_customer_information]
   }
+
   dimension_group: creation {
     type: time
     timeframes: [
@@ -96,6 +100,7 @@ view: customers {
     sql: ${TABLE}.creationDate ;;
     hidden: yes
   }
+
   dimension: customer__company {
     type: string
     sql: ${TABLE}.customer.company ;;
@@ -103,6 +108,7 @@ view: customers {
     group_item_label: "Company"
     required_access_grants: [can_use_customer_information]
   }
+
   dimension: customer__email {
     type: string
     sql: ${TABLE}.customer.email ;;
@@ -110,6 +116,7 @@ view: customers {
     group_item_label: "Email"
     required_access_grants: [can_use_customer_information]
   }
+
   dimension: customer__first_name {
     type: string
     sql: ${TABLE}.customer.firstName ;;
@@ -117,6 +124,7 @@ view: customers {
     group_item_label: "First Name"
     required_access_grants: [can_use_customer_information]
   }
+
   dimension: customer__last_name {
     type: string
     sql: ${TABLE}.customer.lastName ;;
@@ -124,6 +132,7 @@ view: customers {
     group_item_label: "Last Name"
     required_access_grants: [can_use_customer_information]
   }
+
   dimension: customer__mobile {
     type: string
     sql: ${TABLE}.customer.mobile ;;
@@ -131,6 +140,7 @@ view: customers {
     group_item_label: "Mobile"
     required_access_grants: [can_use_customer_information]
   }
+
   dimension: customer__telephone {
     type: string
     sql: ${TABLE}.customer.telephone ;;
@@ -138,6 +148,7 @@ view: customers {
     group_item_label: "Telephone"
     required_access_grants: [can_use_customer_information]
   }
+
   dimension: customer__title {
     type: string
     sql: ${TABLE}.customer.title ;;
@@ -145,12 +156,14 @@ view: customers {
     group_item_label: "Title"
     required_access_grants: [can_use_customer_information]
   }
+
   dimension: customer_uid {
     type: string
     primary_key: yes
     sql: ${TABLE}.customerUID ;;
     label: "Customer UID"
   }
+
   dimension: flags__active_account {
     type: yesno
     sql: ${TABLE}.flags.activeAccount = true;;
@@ -158,6 +171,7 @@ view: customers {
     group_item_label: "Active Account"
     hidden: yes
   }
+
   dimension: flags__address_do_not_use {
     required_access_grants: [can_use_customer_information]
     type: yesno
@@ -166,6 +180,7 @@ view: customers {
     group_label: "Flags"
     group_item_label: "Address Do Not Use"
   }
+
   dimension: flags__address_profanity {
     required_access_grants: [can_use_customer_information]
     type: yesno
@@ -173,6 +188,7 @@ view: customers {
     group_label: "Flags"
     group_item_label: "Address - Profanity?"
   }
+
   dimension: flags__customer_do_not_use {
     required_access_grants: [can_use_customer_information]
     type: yesno
@@ -180,6 +196,7 @@ view: customers {
     group_label: "Flags"
     group_item_label: "Customer - Do Not Use?"
   }
+
   dimension: flags__customer_profanity {
     required_access_grants: [can_use_customer_information]
     type: yesno
@@ -187,12 +204,14 @@ view: customers {
     group_label: "Flags"
     group_item_label: "Customer - Profanity?"
   }
+
   dimension: flags__guest_checkout {
     type: yesno
     sql: ${TABLE}.flags.guestCheckout = true ;;
     group_label: "Flags"
     label: "Guest Checkout?"
   }
+
   dimension: flags__toolstation_account {
     type: yesno
     sql: ${TABLE}.flags.toolstationAccount = "true" ;;
@@ -200,6 +219,7 @@ view: customers {
     label: "Toolstation - Internal Account?"
     description: "Flag for accounts that are Toolstation-owned."
   }
+
   dimension: flags__toolstation_address {
     type: yesno
     sql: ${TABLE}.flags.toolstationAddress = true ;;
@@ -208,6 +228,7 @@ view: customers {
     description: "Flag for Toolstation-owned account addresses."
     hidden: no
   }
+
   dimension: permissions__catalogue_mail_opt_in {
     required_access_grants: [can_use_customer_information]
     type: yesno
@@ -215,6 +236,7 @@ view: customers {
     group_label: "Permissions (Opt In)"
     group_item_label: "Catalogue (Mail)"
   }
+
   dimension: permissions__offers_email_opt_in {
     required_access_grants: [can_use_customer_information]
     type: yesno
@@ -222,6 +244,7 @@ view: customers {
     group_label: "Permissions (Opt In)"
     group_item_label: "Email (Offers)"
   }
+
   dimension: permissions__offers_mail_opt_in {
     required_access_grants: [can_use_customer_information]
     type: yesno
@@ -229,6 +252,7 @@ view: customers {
     group_label: "Permissions (Opt In)"
     group_item_label: "Mail (Offers)"
   }
+
   dimension: permissions__offers_mobile_opt_in {
     required_access_grants: [can_use_customer_information]
     type: yesno
@@ -236,6 +260,7 @@ view: customers {
     group_label: "Permissions (Opt In)"
     group_item_label: "Mobile (Offers)"
   }
+
   dimension: permissions__offers_notif_opt_in {
     required_access_grants: [can_use_customer_information]
     type: yesno
@@ -243,6 +268,7 @@ view: customers {
     group_label: "Permissions (Opt In)"
     group_item_label: "Notification (Offers)"
   }
+
   dimension: permissions__offers_sms_opt_in {
     required_access_grants: [can_use_customer_information]
     type: yesno
@@ -250,6 +276,7 @@ view: customers {
     group_label: "Permissions (Opt In)"
     group_item_label: "SMS (Offers)"
   }
+
   dimension: permissions__order_process_email_opt_in {
     required_access_grants: [can_use_customer_information]
     type: yesno
@@ -257,6 +284,7 @@ view: customers {
     group_label: "Permissions (Opt In)"
     group_item_label: "Email (Order Process)"
   }
+
   dimension: permissions__order_process_notif_opt_in {
     required_access_grants: [can_use_customer_information]
     type: yesno
@@ -264,6 +292,7 @@ view: customers {
     group_label: "Permissions (Opt In)"
     group_item_label: "Notification (Order Process)"
   }
+
   dimension: permissions__order_process_sms_opt_in {
     required_access_grants: [can_use_customer_information]
     type: yesno
@@ -271,6 +300,7 @@ view: customers {
     group_label: "Permissions (Opt In)"
     group_item_label: "SMS (Order Process)"
   }
+
   dimension: permissions__order_query_email_opt_in {
     required_access_grants: [can_use_customer_information]
     type: yesno
@@ -278,6 +308,7 @@ view: customers {
     group_label: "Permissions (Opt In)"
     group_item_label: "Email (Order Query)"
   }
+
   dimension: permissions__order_query_mobile_opt_in {
     required_access_grants: [can_use_customer_information]
     type: yesno
@@ -285,6 +316,7 @@ view: customers {
     group_label: "Permissions (Opt In)"
     group_item_label: "Mobile (Order Query)"
   }
+
   dimension: permissions__order_query_notif_opt_in {
     required_access_grants: [can_use_customer_information]
     type: yesno
@@ -292,6 +324,7 @@ view: customers {
     group_label: "Permissions (Opt In)"
     group_item_label: "Notification (Order Query)"
   }
+
   dimension: permissions__order_query_sms_opt_in {
     required_access_grants: [can_use_customer_information]
     type: yesno
@@ -299,6 +332,7 @@ view: customers {
     group_label: "Permissions (Opt In)"
     group_item_label: "SMS (Order Query)"
   }
+
   dimension: permissions__order_query_telephone_opt_in {
     required_access_grants: [can_use_customer_information]
     type: yesno
@@ -306,16 +340,14 @@ view: customers {
     group_label: "Permissions (Opt In)"
     group_item_label: "Telephone (Order Query)"
   }
+
   dimension: is_trade {
     type:  yesno
     description: "A customer who has been classified as a 'Trade' customer. Please note that this is a dynamic field which is updated constantly, so values may vary."
     group_label: "Flags"
     label: "Is Trade"
     sql:
-
-    ${trade_customers.trade_flag} is not null
-
-     ;;
+    ${trade_customers.trade_flag} is not null;;
   }
 
   dimension_group: updated {
@@ -334,19 +366,12 @@ view: customers {
   }
 
   #####################
-
   dimension: is_new_customer {
     type: yesno
     description: "A new customer is classified as an account created in the last 30 days."
     group_label: "Flags"
-    sql:
-
-    ${creation_date} >= CURRENT_DATE() - 30
-
-    ;;
+    sql:${creation_date} >= CURRENT_DATE() - 30;;
   }
-
-
 
   measure: number_of_customers {
     label: "Number of Customers"
@@ -354,8 +379,4 @@ view: customers {
     type: count_distinct
     sql: ${customer_uid} ;;
   }
-
-
-
-
 }

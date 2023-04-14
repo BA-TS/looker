@@ -495,7 +495,6 @@ dimension_group: order_completed {
       date
     ]
     sql: ${TABLE}.placedDate ;;
-    hidden: yes
   }
   dimension: is_open18_months {
     required_access_grants: [is_developer]
