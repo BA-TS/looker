@@ -1,68 +1,14 @@
-# The name of this view in Looker is "Dpp Output"
 view: dpp_output {
-  # The sql_table_name parameter indicates the underlying database table
-  # to be used for all fields in this view.
-  sql_table_name: `toolstation-data-storage.DPP_v2.dpp_output`
-    ;;
-  # No primary key is defined for this view. In order to join this view in an Explore,
-  # define primary_key: yes on a dimension that has no repeated values.
-
-  # Here's what a typical dimension looks like in LookML.
-  # A dimension is a groupable field that can be used to filter query results.
-  # This dimension will be called "Aov" in Explore.
-
-  measure: aov {
-    type: number
-    sql: ${TABLE}.AOV ;;
-  }
-
-  measure: attached_r1_attachment_rate {
-    type: number
-    sql: ${TABLE}.attached_r1_attachment_rate ;;
-  }
+  sql_table_name: `toolstation-data-storage.DPP_v2.dpp_output`;;
 
   dimension: attached_r1_description {
     type: string
     sql: ${TABLE}.attached_r1_description ;;
   }
 
-  measure: attached_r1_dpp {
-    type: number
-    sql: ${TABLE}.attached_r1_dpp ;;
-  }
-
-  measure: attached_r1_dpp_rate {
-    type: number
-    sql: ${TABLE}.attached_r1_dpp_rate ;;
-  }
-
-  measure: attached_r1_orders {
-    type: number
-    sql: ${TABLE}.attached_r1_orders ;;
-  }
-
-  # A measure is a field that uses a SQL aggregate function. Here are defined sum and average
-  # measures for this dimension, but you can also add measures of many different aggregates.
-  # Click on the type parameter to see all the options in the Quick Help panel on the right.
-
-  # measure: total_attached_r1_orders {
-  #   type: sum
-  #   sql: ${attached_r1_orders} ;;
-  # }
-
-  # measure: average_attached_r1_orders {
-  #   type: average
-  #   sql: ${attached_r1_orders} ;;
-  # }
-
   dimension: attached_r1_sku {
     type: string
     sql: ${TABLE}.attached_r1_sku ;;
-  }
-
-  measure: attached_r2_attachment_rate {
-    type: number
-    sql: ${TABLE}.attached_r2_attachment_rate ;;
   }
 
   dimension: attached_r2_description {
@@ -70,49 +16,14 @@ view: dpp_output {
     sql: ${TABLE}.attached_r2_description ;;
   }
 
-  measure: attached_r2_dpp {
-    type: number
-    sql: ${TABLE}.attached_r2_dpp ;;
-  }
-
-  measure: attached_r2_dpp_rate {
-    type: number
-    sql: ${TABLE}.attached_r2_dpp_rate ;;
-  }
-
-  measure: attached_r2_orders {
-    type: number
-    sql: ${TABLE}.attached_r2_orders ;;
-  }
-
   dimension: attached_r2_sku {
     type: string
     sql: ${TABLE}.attached_r2_sku ;;
   }
 
-  measure: attached_r3_attachment_rate {
-    type: number
-    sql: ${TABLE}.attached_r3_attachment_rate ;;
-  }
-
   dimension: attached_r3_description {
     type: string
     sql: ${TABLE}.attached_r3_description ;;
-  }
-
-  measure: attached_r3_dpp {
-    type: number
-    sql: ${TABLE}.attached_r3_dpp ;;
-  }
-
-  measure: attached_r3_dpp_rate {
-    type: number
-    sql: ${TABLE}.attached_r3_dpp_rate ;;
-  }
-
-  measure: attached_r3_orders {
-    type: number
-    sql: ${TABLE}.attached_r3_orders ;;
   }
 
   dimension: attached_r3_sku {
@@ -124,9 +35,6 @@ view: dpp_output {
     type: number
     sql: ${TABLE}.avgGrossSalePricePerUnit ;;
   }
-
-  # Dates and timestamps can be represented in Looker using a dimension group of type: time.
-  # Looker converts dates and timestamps to the specified timeframes within the dimension group.
 
   dimension_group: end {
     type: time
@@ -188,6 +96,130 @@ view: dpp_output {
     sql: ${TABLE}.NarrowAisleIndicator ;;
   }
 
+  dimension: product_code {
+    type: string
+    sql: ${TABLE}.productCode ;;
+  }
+
+  dimension: product_department {
+    type: string
+    sql: ${TABLE}.productDepartment ;;
+  }
+
+  dimension: product_description {
+    type: string
+    sql: ${TABLE}.productDescription ;;
+  }
+
+  dimension_group: start {
+    type: time
+    timeframes: [
+      raw,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}.startDate ;;
+  }
+
+  dimension: transport_type_indicator {
+    type: string
+    sql: ${TABLE}.TransportTypeIndicator ;;
+  }
+
+  dimension: weight_g {
+    type: number
+    sql: ${TABLE}.weightG ;;
+  }
+
+  dimension: sc_cost {
+    type: string
+    sql: ${TABLE}.SC_cost ;;
+  }
+
+  dimension: sc_matrix {
+    type: string
+    sql: ${TABLE}.sc_matrix ;;
+  }
+
+  dimension: sc_size {
+    type: string
+    sql: ${TABLE}.sc_size ;;
+  }
+
+  dimension: sc_usage {
+    type: string
+    sql: ${TABLE}.SC_usage ;;
+  }
+
+  measure: attached_r3_attachment_rate {
+    type: number
+    sql: ${TABLE}.attached_r3_attachment_rate ;;
+  }
+
+  measure: attached_r2_attachment_rate {
+    type: number
+    sql: ${TABLE}.attached_r2_attachment_rate ;;
+  }
+
+  measure: aov {
+    type: number
+    sql: ${TABLE}.AOV ;;
+  }
+
+  measure: attached_r1_attachment_rate {
+    type: number
+    sql: ${TABLE}.attached_r1_attachment_rate ;;
+  }
+
+  measure: attached_r1_dpp {
+    type: number
+    sql: ${TABLE}.attached_r1_dpp ;;
+  }
+
+  measure: attached_r1_dpp_rate {
+    type: number
+    sql: ${TABLE}.attached_r1_dpp_rate ;;
+  }
+
+  measure: attached_r1_orders {
+    type: number
+    sql: ${TABLE}.attached_r1_orders ;;
+  }
+
+  measure: attached_r2_dpp {
+    type: number
+    sql: ${TABLE}.attached_r2_dpp ;;
+  }
+
+  measure: attached_r2_dpp_rate {
+    type: number
+    sql: ${TABLE}.attached_r2_dpp_rate ;;
+  }
+
+  measure: attached_r2_orders {
+    type: number
+    sql: ${TABLE}.attached_r2_orders ;;
+  }
+  measure: attached_r3_dpp {
+    type: number
+    sql: ${TABLE}.attached_r3_dpp ;;
+  }
+
+  measure: attached_r3_dpp_rate {
+    type: number
+    sql: ${TABLE}.attached_r3_dpp_rate ;;
+  }
+
+  measure: attached_r3_orders {
+    type: number
+    sql: ${TABLE}.attached_r3_orders ;;
+  }
+
   measure: order_cogs {
     type: number
     sql: ${TABLE}.orderCOGS ;;
@@ -233,24 +265,9 @@ view: dpp_output {
     sql: ${TABLE}.orders ;;
   }
 
-  dimension: product_code {
-    type: string
-    sql: ${TABLE}.productCode ;;
-  }
-
   measure: product_cogs {
     type: number
     sql: ${TABLE}.productCOGS ;;
-  }
-
-  dimension: product_department {
-    type: string
-    sql: ${TABLE}.productDepartment ;;
-  }
-
-  dimension: product_description {
-    type: string
-    sql: ${TABLE}.productDescription ;;
   }
 
   measure: product_dpp {
@@ -328,26 +345,6 @@ view: dpp_output {
     sql: ${TABLE}.productUnitsSold ;;
   }
 
-  dimension: sc_cost {
-    type: string
-    sql: ${TABLE}.SC_cost ;;
-  }
-
-  dimension: sc_matrix {
-    type: string
-    sql: ${TABLE}.sc_matrix ;;
-  }
-
-  dimension: sc_size {
-    type: string
-    sql: ${TABLE}.sc_size ;;
-  }
-
-  dimension: sc_usage {
-    type: string
-    sql: ${TABLE}.SC_usage ;;
-  }
-
   measure: slt_rate {
     type: number
     sql: ${TABLE}.slt_rate ;;
@@ -356,31 +353,6 @@ view: dpp_output {
   measure: slts {
     type: number
     sql: ${TABLE}.slts ;;
-  }
-
-  dimension_group: start {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}.startDate ;;
-  }
-
-  dimension: transport_type_indicator {
-    type: string
-    sql: ${TABLE}.TransportTypeIndicator ;;
-  }
-
-  dimension: weight_g {
-    type: number
-    sql: ${TABLE}.weightG ;;
   }
 
   measure: count {

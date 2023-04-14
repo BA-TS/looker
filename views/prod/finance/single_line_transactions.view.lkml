@@ -6,8 +6,7 @@ view: single_line_transactions {
       case when  count(distinct case when p.productCode > '10000' and lower(p.productDepartment) not in ('uncatalogued') then p.productCode else null end) over (partition by t.parentOrderUID) = 1 then true else false end single_line_transaction_flag
       from `toolstation-data-storage.sales.transactions` t
         inner join `toolstation-data-storage.range.products_current` p
-          using(productUID)
-      ;;
+          using(productUID);;
     datagroup_trigger: ts_transactions_datagroup
   }
 
@@ -50,5 +49,4 @@ view: single_line_transactions {
     sql: ${single_line_transactions_total}/(${single_line_transactions_total}+${non_single_line_transactions_total});;
     value_format: "0.0%"
   }
-
 }

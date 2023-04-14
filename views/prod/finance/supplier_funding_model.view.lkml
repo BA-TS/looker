@@ -1,8 +1,6 @@
-
 view: supplier_funding_model {
 
-  sql_table_name: `toolstation-data-storage.looker_custom_tables.supplier_funding_model`
-    ;;
+  sql_table_name: `toolstation-data-storage.looker_custom_tables.supplier_funding_model`;;
 
   dimension: daily_amount {
     label: "Daily Amount"
@@ -61,7 +59,6 @@ dimension: Supplier {
   sql: ${TABLE}.Supplier ;;
 }
 
-
   dimension_group: valid_from {
     view_label: "Date"
     type: time
@@ -86,12 +83,8 @@ dimension: Supplier {
     sql: ${TABLE}.validTo ;;
   }
 
-
   measure: average_daily_amount {
     type: average
     sql: ${daily_amount} ;;
   }
-
-
-
 }
