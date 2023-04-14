@@ -44,7 +44,7 @@ view: period_over_period {
       value: "Transaction"
     }
     default_value: "Transaction"
-    hidden: yes
+    hidden: no
     # required_access_grants: [is_developer]
   }
 

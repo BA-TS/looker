@@ -13,8 +13,8 @@ explore: base {
 
   always_filter: {
     filters: [
-      select_date_type: "Calendar",
-      select_date_reference: "app^_web^_data"
+      select_date_range: "7 days",
+      select_date_type: "Calendar"
     ]
 
   }
@@ -22,9 +22,10 @@ explore: base {
   conditionally_filter: {
     filters:
     [
-      select_date_range: "21 days",
-      total_sessions.session_date_filter: "21 days",
-      stock_cover.date_filter: "Yesterday"
+      total_sessions.session_date_filter: "7 days",
+      stock_cover.date_filter: "Yesterday",
+      summarised_daily_Sales.dated_date: "21 days",
+      select_date_reference: "app^_web^_data"
       ]
 
     unless: [
@@ -47,10 +48,9 @@ explore: base {
   }
 
   fields: [
-    ALL_FIELDS*,
-    -products.department
+    ALL_FIELDS*
   ]
-
+  #,-products.department
   sql_always_where:
 
   ${period_over_period}
@@ -59,7 +59,7 @@ explore: base {
 
   join: digital_budget {
     view_label: "Budget"
-    type: left_outer
+    type: inner
     relationship: many_to_one
     sql_on: ${base.date_date} = ${digital_budget.Date_date};;
   }
@@ -78,7 +78,7 @@ explore: base {
 
   join: app_web_data {
     type: left_outer
-    relationship: one_to_many
+    relationship: many_to_one
     sql_on:
 
     ${base.base_date_date} = ${app_web_data.transaction_date_filter} ;;
@@ -112,8 +112,8 @@ explore: base {
   # }
 
   join: products {
-    type:  inner
-    relationship: many_to_one
+    type: left_outer
+    relationship: one_to_many
     sql_on: ${app_web_data.ProductUID}=${products.product_uid}
       ;;
   }
@@ -128,7 +128,7 @@ explore: base {
     from:  calendar
     view_label: "Date"
     type:  inner
-    relationship:  many_to_one
+    relationship: one_to_many
     sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
   }
 
@@ -223,10 +223,11 @@ explore: base {
   #}
 
   join: total_sessions {
-    type: left_outer
+    type: inner
     relationship: many_to_one
-    sql_on: ${base.base_date_date} = ${total_sessions.date_date}
-    AND ${app_web_data.App_web} = ${total_sessions.app_web_sessions};;
+    sql_on: ${app_web_data.App_web}=${total_sessions.app_web_sessions} and
+      ${base.date_date}=${total_sessions.date_date} and ${products.product_code}=${total_sessions.product_code};;
+
   }
 
   join: stock_cover {
@@ -242,107 +243,115 @@ explore: base {
     sql_on: ${products.product_uid} = ${currentRetailPrice.Product_ID} ;;
   }
 
-}
-
-
-
-
-
-
-
-
-
-
-
-explore: +base {
-
-  extends: []
-  label: "Summarised sales"
-  description: "Explore Toolstation transactional data."
-
-  always_filter: {
-    filters: [
-      select_date_type: "Calendar",
-      select_date_reference: "summarised^_daily^_Sales"
-    ]
-  }
-
-
-  conditionally_filter: {
-    filters:
-    [
-      summarised_daily_Sales.dated_date: "21 days"
-    ]
-
-    unless: [
-      select_fixed_range,
-      dynamic_fiscal_year,
-      dynamic_fiscal_half,
-      dynamic_fiscal_quarter,
-      dynamic_fiscal_month,
-      dynamic_actual_year,
-      catalogue.catalogue_name,
-      catalogue.extra_name,
-      combined_week,
-      combined_month,
-      combined_quarter,
-      combined_year,
-      separate_month
-    ]
-
-  }
-
-  fields: [
-    ALL_FIELDS*
-  ]
-
-  sql_always_where:
-
-  ${period_over_period}
-
-            ;;
-
-  join: summarised_daily_Sales {
+     join: summarised_daily_Sales {
     view_label: "daily sales"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${base.date_date} = ${summarised_daily_Sales.dated_date};;
-  }
-
-  join: digital_budget {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${base.date_date}=${digital_budget.Date_date} ;;
-  }
-
-  join: calendar_completed_date{
-    from:  calendar
-    view_label: "Date"
-    type:  inner
-    relationship:  many_to_one
-    sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
-  }
-
-  join: catalogue {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date_date} AND ${catalogue.catalogue_end_date_date} ;;
-  }
-
-  join: dim_date {
-    type: inner
-    relationship: one_to_one
-    sql_on: ${base.date_date}=${dim_date.Current_Date_date} ;;
-  }
-
-  join: total_sessions {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${base.base_date_date} = ${total_sessions.date_date};;
-     # AND ${summarised_daily_Sales.App_Web} = ${total_sessions.app_web_sessions};;
-  }
+     type: left_outer
+     relationship: many_to_one
+     sql_on: ${base.date_date} = ${summarised_daily_Sales.dated_date}
+    and ${summarised_daily_Sales.App_Web} = ${total_sessions.app_web_sessions};;
+   }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+# explore: +base {
+
+#   extends: []
+#   label: "Summarised sales"
+#   description: "Explore Toolstation transactional data."
+
+#   always_filter: {
+#     filters: [
+#       select_date_type: "Calendar",
+#       select_date_reference: "summarised^_daily^_Sales"
+#     ]
+#   }
+
+
+#   conditionally_filter: {
+#     filters:
+#     [
+#       summarised_daily_Sales.dated_date: "21 days"
+#     ]
+
+#     unless: [
+#       select_fixed_range,
+#       dynamic_fiscal_year,
+#       dynamic_fiscal_half,
+#       dynamic_fiscal_quarter,
+#       dynamic_fiscal_month,
+#       dynamic_actual_year,
+#       catalogue.catalogue_name,
+#       catalogue.extra_name,
+#       combined_week,
+#       combined_month,
+#       combined_quarter,
+#       combined_year,
+#       separate_month
+#     ]
+
+#   }
+
+#   fields: [
+#     ALL_FIELDS*
+#   ]
+
+#   sql_always_where:
+
+#   ${period_over_period}
+
+#             ;;
+
+#   join: summarised_daily_Sales {
+#     view_label: "daily sales"
+#     type: left_outer
+#     relationship: many_to_one
+#     sql_on: ${base.date_date} = ${summarised_daily_Sales.dated_date};;
+#   }
+
+#   join: digital_budget {
+#     type: left_outer
+#     relationship: many_to_one
+#     sql_on: ${base.date_date}=${digital_budget.Date_date} ;;
+#   }
+
+#   join: calendar_completed_date{
+#     from:  calendar
+#     view_label: "Date"
+#     type:  inner
+#     relationship:  many_to_one
+#     sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
+#   }
+
+#   join: catalogue {
+#     type: left_outer
+#     relationship: many_to_one
+#     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date_date} AND ${catalogue.catalogue_end_date_date} ;;
+#   }
+
+#   join: dim_date {
+#     type: inner
+#     relationship: one_to_one
+#     sql_on: ${base.date_date}=${dim_date.Current_Date_date} ;;
+#   }
+
+#   # join: total_sessions {
+#   #   type: inner
+#   #   relationship: many_to_one
+#   #   sql_on: ${base.base_date_date} = ${total_sessions.date_date};;
+#   #   # AND ${summarised_daily_Sales.App_Web} = ${total_sessions.app_web_sessions};;
+#   # }
+
+# }
 
 
 

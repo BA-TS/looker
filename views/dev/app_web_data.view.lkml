@@ -268,49 +268,53 @@ view: total_sessions {
 
   derived_table: {
     sql: with sub0 as (with sub1 as (SELECT distinct
-'Web Trolley' as app_web_sessions,
-PARSE_DATE('%Y%m%d', date) as date,
-trafficSource.medium as Medium,
-sum(totals.visits) as sessions,
---count(distinct CONCAT(fullVisitorId, CAST(visitStartTime AS STRING))) AS sessions2
-FROM `toolstation-data-storage.4783980.ga_sessions_*`
- WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
-and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
-    AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %} group by 2,3),
+ 'App Trolley' as app_web_sessions,
+PARSE_DATE('%Y%m%d', event_date) as date,
+traffic_source.medium as Medium,
+event_name,
+items.item_id as item_id,
+(SELECT STRING_AGG(distinct value.string_value) FROM UNNEST(event_params) WHERE key = 'firebase_screen') AS screen,
+(SELECT STRING_AGG(distinct cast(value.int_value as string)) FROM UNNEST(event_params) WHERE key = 'ga_session_id') AS ga_session_id,
+CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING)) as event_count
+FROM `toolstation-data-storage.analytics_265133009.events_*`, unnest (event_params) as event_param, unnest(items) as items
+where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
+    AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
+)
 
-sub2 as (SELECT distinct
-'Web Trolley' as app_web_sessions,
-PARSE_DATE('%Y%m%d', date) as date,
-trafficSource.medium as Medium,
-sum(case when hits.eventInfo.EventAction like "Purchase" then (totals.visits) end) as a
-FROM `toolstation-data-storage.4783980.ga_sessions_*`, unnest (hits) as hits
- WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
-and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
-    AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %} group by 2,3)
-
-select sub1.app_web_sessions, sub1.date, sub1.medium, sub1.sessions, sub2.a as Purchases
-from sub1 left join sub2 on sub1.date = sub2.date And sub1.medium=sub2.medium
+SeLECT distinct app_web_sessions,date, medium, count(distinct ga_session_id) as sessions, count (distinct event_count) as event_count, item_id,event_name, screen,
+from sub1
+group by 1,2,3,6,7,8
 
 union distinct
 
 SELECT distinct
-    'App Trolley' as app_web_sessions,
-    PARSE_DATE('%Y%m%d', event_date) as date,
-    traffic_source.medium as Medium,
-    COUNT(DISTINCT CASE
-    WHEN event_name = 'session_start' THEN CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))
-    END) AS sessions,
-    COUNT(DISTINCT CASE
-    WHEN event_name = 'purchase' THEN CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))
-    END) AS Purchases
-    FROM `toolstation-data-storage.analytics_265133009.events_*`
-    WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() - 500
-    and PARSE_DATE('%Y%m%d', event_date) >= current_date () - 500
-    and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
-    AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
-    GROUP BY 1,2,3)
+'Web Trolley' as app_web_sessions,
+PARSE_DATE('%Y%m%d', date) as date,
+trafficSource.medium as Medium,
+count (distinct CONCAT(fullVisitorId, CAST(visitStartTime AS STRING))) AS sessions,
+count(distinct concat(visitId, "-",fullVisitorId, "-",hits.hitNumber)) as Total_events,
+product.productsku as Product_ProductSku,
+case when hits.eventInfo.eventCategory like "Ecommerce" then hits.eventInfo.eventAction
+when hits.eventInfo.eventCategory like "ecommerce" then hits.eventInfo.eventAction
+when hits.eventInfo.eventCategory like "Search Actions" then hits.eventInfo.eventAction
+when hits.eventInfo.eventCategory like "Videoly" then hits.eventInfo.eventAction
+when hits.eventInfo.eventCategory like "Delivery Type" then concat(hits.eventInfo.eventCategory,'-',hits.eventInfo.eventAction)
+--when hits.eventInfo.eventCategory like "Videoly" then hits.eventInfo.eventAction
+else hits.eventInfo.eventCategory end as event_name,
+page.pagePath as PagePath
+FROM `toolstation-data-storage.4783980.ga_sessions_*`, unnest (hits) as hits, unnest(product) as product
+ WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
+and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
+AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %}
+group by 1,2,3,6,7,8
+order by 2 desc)
 
-select distinct row_number() over (order by date,app_web_sessions) as P_K, * from sub0
+select distinct row_number() over () as P_K, sub0.*
+-- ,P.ProductUID, p.productName, p.productDepartment, productSubdepartment,productBrand
+from sub0
+--left join `toolstation-data-storage.range.products` p on sub0.item_id = p.productCode
+--where p.isActive = 1
+order by 2 desc
 
     ;;
     }
@@ -350,11 +354,53 @@ select distinct row_number() over (order by date,app_web_sessions) as P_K, * fro
     sql: ${TABLE}.sessions ;;
   }
 
-  dimension: sessions_Purchases {
+  dimension: event_count {
     description: "Purchases"
     type: number
-    sql: ${TABLE}.Purchases ;;
+    sql: ${TABLE}.event_count ;;
   }
+
+  dimension: product_code{
+    description: "product code"
+    type: string
+    sql: ${TABLE}.item_id;;
+  }
+
+  dimension: event_name {
+    description: "event_name"
+    type: string
+    sql: ${TABLE}.event_name;;
+  }
+
+  dimension: screen {
+    description: "screen"
+    type: string
+    sql: ${TABLE}.screen;;
+  }
+
+  # dimension: ProductUID {
+  #   description: "ProductUID"
+  #   type: string
+  #   sql: ${TABLE}.ProductUID;;
+  # }
+
+  # dimension: productName {
+  #   description: "productName"
+  #   type: string
+  #   sql: ${TABLE}.productName;;
+  # }
+
+  # dimension: productDepartment {
+  #   description: "productDepartment"
+  #   type: string
+  #   sql: ${TABLE}.productDepartment;;
+  # }
+
+  # dimension: productSubdepartment {
+  #   description: "productSubdepartment"
+  #   type: string
+  #   sql: ${TABLE}.productSubdepartment;;
+  # }
 
   filter: session_date_filter {
     hidden: no
