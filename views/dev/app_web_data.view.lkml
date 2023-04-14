@@ -275,6 +275,7 @@ event_name,
 items.item_id as item_id,
 items.item_revenue as item_revenue,
 items.quantity as ItemQ,
+items.price as IP,
 (SELECT STRING_AGG(distinct value.string_value) FROM UNNEST(event_params) WHERE key = 'firebase_screen') AS screen,
 (SELECT STRING_AGG(distinct cast(value.int_value as string)) FROM UNNEST(event_params) WHERE key = 'ga_session_id') AS ga_session_id,
 CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING)) as event_count
@@ -283,9 +284,9 @@ where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filt
     AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
 )
 
-SeLECT distinct app_web_sessions,date, medium, count(distinct ga_session_id) as sessions, count (distinct event_count) as event_count, item_id,event_name, screen,sum(sub1.item_revenue) as item_revenue, sum(sub1.itemQ) as itemQ
+SeLECT distinct app_web_sessions,date, medium, count(distinct ga_session_id) as sessions, count (distinct event_count) as event_count, item_id,event_name, screen,sum(sub1.item_revenue) as item_revenue, sum(sub1.itemQ) as itemQ, IP as Item_price
 from sub1
-group by 1,2,3,6,7,8
+group by 1,2,3,6,7,8,11
 
 union distinct
 
@@ -305,12 +306,13 @@ when hits.eventInfo.eventCategory like "Delivery Type" then concat(hits.eventInf
 else hits.eventInfo.eventCategory end as event_name,
 page.pagePath as PagePath,
 sum(safe_divide(product.productRevenue,1000000)) as item_revenue,
-product.productQuantity as ItemQ
+sum(product.productQuantity) as ItemQ,
+safe_divide(Product.ProductPrice,1000000) as itemPrice
 FROM `toolstation-data-storage.4783980.ga_sessions_*`, unnest (hits) as hits, unnest(product) as product
  WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %}
-group by 1,2,3,6,7,8
+group by 1,2,3,6,7,8,11
 order by 2 desc)
 
 select distinct row_number() over () as P_K, sub0.*, case when screen = "product-detail-page" then "Product Detail Page"
