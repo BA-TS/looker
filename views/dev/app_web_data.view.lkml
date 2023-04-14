@@ -393,6 +393,25 @@ order by 2 desc
     sql: ${TABLE}.screenType;;
   }
 
+  dimension: item_revenue {
+    description: "item_revenue"
+    type: number
+    value_format_name: gbp
+    sql: ${TABLE}.item_revenue ;;
+  }
+
+  dimension: Item_price {
+    description: "Item_price"
+    type: number
+    value_format_name: gbp
+    sql: ${TABLE}.Item_price ;;
+  }
+
+  dimension: Item_Quantity {
+    description: "Item_Quantity"
+    type: number
+    sql: ${TABLE}.ItemQ ;;
+  }
   # dimension: ProductUID {
   #   description: "ProductUID"
   #   type: string
