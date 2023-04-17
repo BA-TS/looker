@@ -13,7 +13,6 @@ explore: base {
 
   always_filter: {
     filters: [
-      select_date_range: "7 days",
       select_date_type: "Calendar"
     ]
 
@@ -25,7 +24,8 @@ explore: base {
       total_sessions.session_date_filter: "7 days",
       stock_cover.date_filter: "Yesterday",
       summarised_daily_Sales.dated_date: "21 days",
-      select_date_reference: "app^_web^_data"
+      select_date_reference: "app^_web^_data",
+      select_date_range: "7 days"
       ]
 
     unless: [
