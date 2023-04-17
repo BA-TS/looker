@@ -17,7 +17,7 @@ view: period_over_period {
       value: "Fiscal"
     }
     default_value: "Calendar"
-    hidden: yes
+    hidden: no
   }
 
   parameter: select_date_reference {
