@@ -279,7 +279,7 @@ items.price as IP,
 (SELECT STRING_AGG(distinct value.string_value) FROM UNNEST(event_params) WHERE key = 'firebase_screen') AS screen,
 (SELECT STRING_AGG(distinct cast(value.int_value as string)) FROM UNNEST(event_params) WHERE key = 'ga_session_id') AS ga_session_id,
 CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING)) as event_count
-FROM `toolstation-data-storage.analytics_265133009.events_*`, unnest (event_params) as event_param, unnest(items) as items
+FROM `toolstation-data-storage.analytics_265133009.events_*`, unnest (event_params) as event_param left join unnest(items) as items
 where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
     AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
 )
@@ -308,7 +308,7 @@ page.pagePath as PagePath,
 sum(safe_divide(product.productRevenue,1000000)) as item_revenue,
 sum(product.productQuantity) as ItemQ,
 safe_divide(Product.ProductPrice,1000000) as itemPrice
-FROM `toolstation-data-storage.4783980.ga_sessions_*`, unnest (hits) as hits, unnest(product) as product
+FROM `toolstation-data-storage.4783980.ga_sessions_*`, unnest (hits) as hits left join unnest(product) as product
  WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %}
