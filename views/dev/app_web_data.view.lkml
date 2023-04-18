@@ -322,7 +322,9 @@ group by 1,2,3,6,7,8,11
 
 select distinct row_number() over () as P_K, sub0.*, case when screen = "product-detail-page" then "Product Detail Page"
 When regexp_contains(screen, ".*/p[0-9]*$") then "Product Detail Page"
-else null end as ScreenType
+else null end as ScreenType,
+case When item_id is null then "NONE"
+else item_id end as item_id
 -- ,P.ProductUID, p.productName, p.productDepartment, productSubdepartment,productBrand
 from sub0
 --left join `toolstation-data-storage.range.products` p on sub0.item_id = p.productCode
