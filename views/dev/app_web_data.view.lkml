@@ -6,7 +6,7 @@ include: "/views/**/*base*.view"
 view: app_web_data {
 
   derived_table: {
-    sql: with sub1 as (SELECT distinct
+    sql: with sub1 as ((SELECT distinct
         customerUID as customerID,
         parentOrderUID as OrderID,
         case when productUID is null then "NONE" else productUID end as productUID,
@@ -58,7 +58,7 @@ view: app_web_data {
         productCode not in ('85699','00053') and
         isCancelled = 0 and
         (userUID  = 'WWW')
-        group by 1,2,3,4,5,6,7
+        group by 1,2,3,4,5,6,7)
 
                 union distinct
 
