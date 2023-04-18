@@ -84,6 +84,14 @@ explore: base {
     ${base.base_date_date} = ${app_web_data.transaction_date_filter} ;;
   }
 
+  join: total_sessions {
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${base.date_date}=${total_sessions.date_date};;
+
+  }
+
   join: channel_budget {
     view_label: "Budget"
     type:  left_outer
@@ -111,13 +119,6 @@ explore: base {
   #     ;;
   # }
 
-  join: products {
-    type: left_outer
-    relationship: one_to_many
-    sql_on: ${app_web_data.ProductUID}=${products.product_uid}
-      ;;
-  }
-
   # join: sites {
   #   type: left_outer
   #   relationship: many_to_one
@@ -130,6 +131,15 @@ explore: base {
     type:  inner
     relationship: one_to_many
     sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
+  }
+
+
+  join: summarised_daily_Sales {
+    view_label: "daily sales"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${base.date_date} = ${summarised_daily_Sales.dated_date}
+      and ${summarised_daily_Sales.App_Web} = ${total_sessions.app_web_sessions};;
   }
 
   # join: customers {
@@ -156,6 +166,14 @@ explore: base {
   #   relationship: many_to_one
   #   sql_on: ${customers.customer_uid} = ${trade_customers.customer_uid} ;;
   # }
+
+  join: products {
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${app_web_data.ProductUID}=${products.product_uid}
+    and ${total_sessions.product_code} = ${products.product_code}
+      ;;
+  }
 
   join: promo_main_catalogue {
     type: left_outer
@@ -222,13 +240,7 @@ explore: base {
     #sql_on: ${digital_transaction_mapping.channel_grouping} = ${backend_digital_channel_grouping.channel_grouping} ;;
   #}
 
-  join: total_sessions {
-    type: left_outer
-    relationship: many_to_one
-    sql_on:
-      ${base.date_date}=${total_sessions.date_date} and ${products.product_code}=${total_sessions.product_code};;
 
-  }
 
   #${app_web_data.App_web}=${total_sessions.app_web_sessions} and
 
@@ -245,13 +257,7 @@ explore: base {
     sql_on: ${products.product_uid} = ${currentRetailPrice.Product_ID} ;;
   }
 
-     join: summarised_daily_Sales {
-    view_label: "daily sales"
-     type: left_outer
-     relationship: many_to_one
-     sql_on: ${base.date_date} = ${summarised_daily_Sales.dated_date}
-    and ${summarised_daily_Sales.App_Web} = ${total_sessions.app_web_sessions};;
-   }
+
 
 }
 
