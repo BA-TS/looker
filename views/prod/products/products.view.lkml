@@ -1,5 +1,15 @@
 view: products {
-  sql_table_name: `toolstation-data-storage.range.products_current`;;
+  derived_table: {
+  sql: SELECT distinct * FROM `toolstation-data-storage.range.products_current`
+union distinct
+SELECT
+"NONE", "NONE",null, null, null,
+null, null, null, null, null,
+null, null, null, null, null,
+null, null, null, null, null,
+null, null, null, null, null,
+null, null, null, null, null;;
+  }
 
   dimension: brand {
     group_label: "Product Details"

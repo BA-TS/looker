@@ -9,7 +9,7 @@ view: app_web_data {
     sql: with sub1 as (SELECT distinct
         customerUID as customerID,
         parentOrderUID as OrderID,
-        productUID as productUID,
+        case when productUID is null then "NONE" else productUID end as productUID,
         upper(salesChannel) as salesChannel,
         timestamp(transactionDate) as Transaction,
         timestamp(PlacedDate) as Placed,
@@ -37,7 +37,7 @@ view: app_web_data {
         select distinct
         customerUID as customerID,
         parentOrderUID as OrderID,
-        productUID as productUID,
+        case when productUID is null then "NONE" else productUID end as productUID,
         upper(salesChannel) as salesChannel,
         timestamp(transactionDate) as Transaction,
         timestamp(PlacedDate) as Placed,
