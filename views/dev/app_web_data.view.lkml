@@ -272,36 +272,13 @@ view: app_web_data {
 view: total_sessions {
 
   derived_table: {
-    sql: with sub0 as (with sub1 as (SELECT distinct
- 'App Trolley' as app_web_sessions,
-PARSE_DATE('%Y%m%d', event_date) as date,
-traffic_source.medium as Medium,
-event_name,
-items.item_id as item_id,
-items.item_revenue as item_revenue,
-items.quantity as ItemQ,
-items.price as IP,
-(SELECT STRING_AGG(distinct value.string_value) FROM UNNEST(event_params) WHERE key = 'firebase_screen') AS screen,
-(SELECT STRING_AGG(distinct cast(value.int_value as string)) FROM UNNEST(event_params) WHERE key = 'ga_session_id') AS ga_session_id,
-CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING)) as event_count
-FROM `toolstation-data-storage.analytics_265133009.events_*`, unnest (event_params) as event_param left join unnest(items) as items
-where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
-    AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
-)
-
-SeLECT distinct app_web_sessions,date, medium, count(distinct ga_session_id) as sessions, count (distinct event_count) as event_count, item_id,event_name, screen,sum(sub1.item_revenue) as item_revenue, sum(sub1.itemQ) as itemQ, IP as Item_price
-from sub1
-group by 1,2,3,6,7,8,11
-
-union distinct
-
-SELECT distinct
+    sql: with sub0 as (SELECT distinct
 'Web Trolley' as app_web_sessions,
 PARSE_DATE('%Y%m%d', date) as date,
 trafficSource.medium as Medium,
-count (distinct CONCAT(fullVisitorId, CAST(visitStartTime AS STRING))) AS sessions,
-count(distinct concat(visitId, "-",fullVisitorId, "-",hits.hitNumber)) as Total_events,
-product.productsku as Product_ProductSku,
+CONCAT(fullVisitorId, CAST(visitStartTime AS STRING)) AS session_ID,
+concat(visitId, "-",fullVisitorId, "-",hits.hitNumber) as Event_id,
+product.productsku as item_id,
 case when hits.eventInfo.eventCategory like "Ecommerce" then hits.eventInfo.eventAction
 when hits.eventInfo.eventCategory like "ecommerce" then hits.eventInfo.eventAction
 when hits.eventInfo.eventCategory like "Search Actions" then hits.eventInfo.eventAction
@@ -309,7 +286,7 @@ when hits.eventInfo.eventCategory like "Videoly" then hits.eventInfo.eventAction
 when hits.eventInfo.eventCategory like "Delivery Type" then concat(hits.eventInfo.eventCategory,'-',hits.eventInfo.eventAction)
 --when hits.eventInfo.eventCategory like "Videoly" then hits.eventInfo.eventAction
 else hits.eventInfo.eventCategory end as event_name,
-page.pagePath as PagePath,
+page.pagePath as screen,
 sum(safe_divide(product.productRevenue,1000000)) as item_revenue,
 sum(product.productQuantity) as ItemQ,
 safe_divide(Product.ProductPrice,1000000) as itemPrice
@@ -317,8 +294,26 @@ FROM `toolstation-data-storage.4783980.ga_sessions_*`, unnest (hits) as hits lef
  WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %}
-group by 1,2,3,6,7,8,11
-)
+group by 1,2,3,4,5,6,7,8,11
+
+union distinct
+
+SELECT distinct
+ 'App Trolley' as app_web_sessions,
+PARSE_DATE('%Y%m%d', event_date) as date,
+traffic_source.medium as Medium,
+(SELECT STRING_AGG(distinct cast(value.int_value as string)) FROM UNNEST(event_params) WHERE key = 'ga_session_id') AS ga_session_id,
+CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING)) as event_id,
+items.item_id as item_id,
+event_name,
+(SELECT STRING_AGG(distinct value.string_value) FROM UNNEST(event_params) WHERE key = 'firebase_screen') AS screen,
+sum(items.item_revenue) as item_revenue,
+sum(items.quantity) as ItemQ,
+items.price as IP,
+FROM `toolstation-data-storage.analytics_265133009.events_*`, unnest (event_params) as event_param left join unnest(items) as items
+where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
+    AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
+group by 1,2,3,4,5,6,7,8,11)
 
 select distinct row_number() over () as P_K, sub0.* except (item_id), case when screen = "product-detail-page" then "Product Detail Page"
 When regexp_contains(screen, ".*/p[0-9]*$") then "Product Detail Page"
@@ -327,8 +322,6 @@ case When item_id is null then "NONE"
 else item_id end as item_id
 -- ,P.ProductUID, p.productName, p.productDepartment, productSubdepartment,productBrand
 from sub0
---left join `toolstation-data-storage.range.products` p on sub0.item_id = p.productCode
---where p.isActive = 1
 
 
     ;;
@@ -363,22 +356,16 @@ from sub0
   }
 
 
-  dimension: sessions {
-    description: "total sessions"
-    type: number
-    sql: ${TABLE}.sessions ;;
-  }
-
-  dimension: event_count {
-    description: "Purchases"
-    type: number
-    sql: ${TABLE}.event_count ;;
-  }
-
-  dimension: product_code{
-    description: "product code"
+  dimension: session_ID {
+    description: "session_ID"
     type: string
-    sql: ${TABLE}.item_id;;
+    sql: ${TABLE}.session_ID ;;
+  }
+
+  dimension: Event_id {
+    description: "Event_id"
+    type: string
+    sql: ${TABLE}.Event_id ;;
   }
 
   dimension: event_name {
@@ -391,6 +378,12 @@ from sub0
     description: "screen"
     type: string
     sql: ${TABLE}.screen;;
+  }
+
+  dimension: product_code{
+    description: "product code"
+    type: string
+    sql: ${TABLE}.item_id;;
   }
 
   dimension: screenType {
