@@ -225,10 +225,12 @@ explore: base {
   join: total_sessions {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${app_web_data.App_web}=${total_sessions.app_web_sessions} and
+    sql_on:
       ${base.date_date}=${total_sessions.date_date} and ${products.product_code}=${total_sessions.product_code};;
 
   }
+
+  #${app_web_data.App_web}=${total_sessions.app_web_sessions} and
 
   join: stock_cover {
     type: left_outer
