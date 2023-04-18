@@ -139,7 +139,7 @@ explore: base {
     type: left_outer
     relationship: many_to_one
     sql_on: ${base.date_date} = ${summarised_daily_Sales.dated_date}
-      and ${summarised_daily_Sales.App_Web} = ${total_sessions.app_web_sessions};;
+      and ${total_sessions.app_web_sessions} = ${summarised_daily_Sales.App_Web};;
   }
 
   # join: customers {
