@@ -320,7 +320,7 @@ AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endc
 group by 1,2,3,6,7,8,11
 )
 
-select distinct row_number() over () as P_K, sub0.*, case when screen = "product-detail-page" then "Product Detail Page"
+select distinct row_number() over () as P_K, sub0.* except (item_id), case when screen = "product-detail-page" then "Product Detail Page"
 When regexp_contains(screen, ".*/p[0-9]*$") then "Product Detail Page"
 else null end as ScreenType,
 case When item_id is null then "NONE"
