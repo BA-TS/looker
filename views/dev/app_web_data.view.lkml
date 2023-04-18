@@ -313,7 +313,7 @@ FROM `toolstation-data-storage.4783980.ga_sessions_*`, unnest (hits) as hits lef
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %}
 group by 1,2,3,6,7,8,11
-order by 2 desc)
+)
 
 select distinct row_number() over () as P_K, sub0.*, case when screen = "product-detail-page" then "Product Detail Page"
 When regexp_contains(screen, ".*/p[0-9]*$") then "Product Detail Page"
@@ -322,7 +322,7 @@ else null end as ScreenType
 from sub0
 --left join `toolstation-data-storage.range.products` p on sub0.item_id = p.productCode
 --where p.isActive = 1
-order by 2 desc
+
 
     ;;
     }
@@ -443,224 +443,224 @@ order by 2 desc
   }
 }
 
-view: dim_date {
+# view: dim_date {
 
-  derived_table: {
-    sql: with sub1 as (SELECT distinct
-dateKey,
-fullDate,
-(fullDate - 1) as Yesterday,
-dayInYear,
-fiscalWeekOfYear,
-fiscalMonthOfYear,
-fiscalQuarter,
-fiscalYear,
-fiscalYearMonth,
-fiscalYearQuarter,
-fiscalYearWeek,
-(select distinct fiscalYearWeek from `toolstation-data-storage.ts_finance.dim_date` where fullDate = (current_date()-7)) as LastFiscalWeek
- FROM `toolstation-data-storage.ts_finance.dim_date`),
+#   derived_table: {
+#     sql: with sub1 as (SELECT distinct
+# dateKey,
+# fullDate,
+# (fullDate - 1) as Yesterday,
+# dayInYear,
+# fiscalWeekOfYear,
+# fiscalMonthOfYear,
+# fiscalQuarter,
+# fiscalYear,
+# fiscalYearMonth,
+# fiscalYearQuarter,
+# fiscalYearWeek,
+# (select distinct fiscalYearWeek from `toolstation-data-storage.ts_finance.dim_date` where fullDate = (current_date()-7)) as LastFiscalWeek
+# FROM `toolstation-data-storage.ts_finance.dim_date`),
 
- year as (
+# year as (
 
-   with sub1 as (
-   select distinct fiscalYear from sub1 order by 1 asc)
+#   with sub1 as (
+#   select distinct fiscalYear from sub1 order by 1 asc)
 
-   select distinct  fiscalYear,
-   Lag(fiscalYear) over (order by fiscalYear asc) as PriorfiscalYear
-   from sub1
-   order by 1 desc
- ),
+#   select distinct  fiscalYear,
+#   Lag(fiscalYear) over (order by fiscalYear asc) as PriorfiscalYear
+#   from sub1
+#   order by 1 desc
+# ),
 
- fiscalQuarter as (
+# fiscalQuarter as (
 
-   with sub1 as (
-   select distinct fiscalQuarter from sub1 order by 1 asc)
+#   with sub1 as (
+#   select distinct fiscalQuarter from sub1 order by 1 asc)
 
-   select distinct fiscalQuarter,
-   Lag(fiscalQuarter) over (order by fiscalQuarter asc) as PriorfiscalQuarter
-   from sub1
-   order by 1 desc
- ),
+#   select distinct fiscalQuarter,
+#   Lag(fiscalQuarter) over (order by fiscalQuarter asc) as PriorfiscalQuarter
+#   from sub1
+#   order by 1 desc
+# ),
 
-  fiscalYearQuarter as (
+#   fiscalYearQuarter as (
 
-   with sub1 as (
-   select distinct fiscalYearQuarter from sub1 order by 1 asc)
+#   with sub1 as (
+#   select distinct fiscalYearQuarter from sub1 order by 1 asc)
 
-   select distinct fiscalYearQuarter,
-   Lag(fiscalYearQuarter) over (order by fiscalYearQuarter asc) as PriorfiscalYearQuarter
-   from sub1
-   order by 1 desc
- ),
+#   select distinct fiscalYearQuarter,
+#   Lag(fiscalYearQuarter) over (order by fiscalYearQuarter asc) as PriorfiscalYearQuarter
+#   from sub1
+#   order by 1 desc
+# ),
 
-   fiscalYearMonth as (
+#   fiscalYearMonth as (
 
-   with sub1 as (
-   select distinct fiscalYearMonth from sub1 order by 1 asc)
+#   with sub1 as (
+#   select distinct fiscalYearMonth from sub1 order by 1 asc)
 
-   select distinct fiscalYearMonth,
-   Lag(fiscalYearMonth) over (order by fiscalYearMonth asc) as PriorfiscalYearMonth
-   from sub1
-   order by 1 desc
- ),
+#   select distinct fiscalYearMonth,
+#   Lag(fiscalYearMonth) over (order by fiscalYearMonth asc) as PriorfiscalYearMonth
+#   from sub1
+#   order by 1 desc
+# ),
 
-    fiscalYearWeek as (
+#     fiscalYearWeek as (
 
-   with sub1 as (
-   select distinct fiscalYearWeek from sub1 order by 1 asc)
+#   with sub1 as (
+#   select distinct fiscalYearWeek from sub1 order by 1 asc)
 
-   select distinct fiscalYearWeek,
-   Lag(fiscalYearWeek) over (order by fiscalYearWeek asc) as PriorfiscalYearWeek
-   from sub1
-   order by 1 desc
- )
+#   select distinct fiscalYearWeek,
+#   Lag(fiscalYearWeek) over (order by fiscalYearWeek asc) as PriorfiscalYearWeek
+#   from sub1
+#   order by 1 desc
+# )
 
- select distinct sub1.*, year.PriorfiscalYear as PriorfiscalYear,
-fiscalYearQuarter.PriorfiscalYearQuarter as PriorfiscalQuarter,
-fiscalYearMonth.PriorfiscalYearMonth as PriorfiscalYearMonth,
-fiscalYearWeek.PriorfiscalYearWeek as PriorfiscalYearWeek
- from sub1
- left outer join year on sub1.fiscalYear = year.fiscalYear
- left outer join fiscalYearQuarter on sub1.fiscalYearQuarter = fiscalYearQuarter.fiscalYearQuarter
- left outer join fiscalYearMonth on sub1.fiscalYearMonth = fiscalYearMonth.fiscalYearMonth
-  left outer join fiscalYearWeek on sub1.fiscalYearWeek = fiscalYearWeek.fiscalYearWeek
-  Where sub1.fullDate = date(current_date());;
-  }
+# select distinct sub1.*, year.PriorfiscalYear as PriorfiscalYear,
+# fiscalYearQuarter.PriorfiscalYearQuarter as PriorfiscalQuarter,
+# fiscalYearMonth.PriorfiscalYearMonth as PriorfiscalYearMonth,
+# fiscalYearWeek.PriorfiscalYearWeek as PriorfiscalYearWeek
+# from sub1
+# left outer join year on sub1.fiscalYear = year.fiscalYear
+# left outer join fiscalYearQuarter on sub1.fiscalYearQuarter = fiscalYearQuarter.fiscalYearQuarter
+# left outer join fiscalYearMonth on sub1.fiscalYearMonth = fiscalYearMonth.fiscalYearMonth
+#   left outer join fiscalYearWeek on sub1.fiscalYearWeek = fiscalYearWeek.fiscalYearWeek
+#   Where sub1.fullDate = date(current_date());;
+#   }
 
-  dimension: dateKey {
-    description: "Primary key for date"
-    type: number
-    primary_key: yes
-    hidden: yes
-    sql: ${TABLE}.datekey ;;
-  }
+#   dimension: dateKey {
+#     description: "Primary key for date"
+#     type: number
+#     primary_key: yes
+#     hidden: yes
+#     sql: ${TABLE}.datekey ;;
+#   }
 
-  dimension_group: Current_Date {
-    description: "fullDate"
-    type: time
-    view_label: "Current_Date"
-    timeframes: [
-      raw,
-      date,
-      day_of_week,
-      day_of_week_index,
-      day_of_month,
-      day_of_year,
-      week,
-      week_of_year,
-      month,
-      month_name,
-      month_num,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.fullDate ;;
-    convert_tz: no
-  }
+#   dimension_group: Current_Date {
+#     description: "fullDate"
+#     type: time
+#     view_label: "Current_Date"
+#     timeframes: [
+#       raw,
+#       date,
+#       day_of_week,
+#       day_of_week_index,
+#       day_of_month,
+#       day_of_year,
+#       week,
+#       week_of_year,
+#       month,
+#       month_name,
+#       month_num,
+#       quarter,
+#       year
+#     ]
+#     sql: ${TABLE}.fullDate ;;
+#     convert_tz: no
+#   }
 
-  dimension_group: Yesterday {
-    description: "Yesterday_Date"
-    type: time
-    view_label: "Yesterday"
-    timeframes: [
-      raw,
-      date,
-      day_of_week,
-      day_of_week_index,
-      day_of_month,
-      day_of_year,
-      week,
-      week_of_year,
-      month,
-      month_name,
-      month_num,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.Yesterday ;;
-    convert_tz: no
-  }
+#   dimension_group: Yesterday {
+#     description: "Yesterday_Date"
+#     type: time
+#     view_label: "Yesterday"
+#     timeframes: [
+#       raw,
+#       date,
+#       day_of_week,
+#       day_of_week_index,
+#       day_of_month,
+#       day_of_year,
+#       week,
+#       week_of_year,
+#       month,
+#       month_name,
+#       month_num,
+#       quarter,
+#       year
+#     ]
+#     sql: ${TABLE}.Yesterday ;;
+#     convert_tz: no
+#   }
 
-  dimension: dayInYear {
-    description: "dayInYear"
-    type: number
-    sql: ${TABLE}.dayInYear ;;
-  }
+#   dimension: dayInYear {
+#     description: "dayInYear"
+#     type: number
+#     sql: ${TABLE}.dayInYear ;;
+#   }
 
-  dimension: fiscalWeekOfYear {
-    description: "fiscalWeekOfYear"
-    type: number
-    sql: ${TABLE}.fiscalWeekOfYear ;;
-  }
+#   dimension: fiscalWeekOfYear {
+#     description: "fiscalWeekOfYear"
+#     type: number
+#     sql: ${TABLE}.fiscalWeekOfYear ;;
+#   }
 
-  dimension: fiscalMonthOfYear {
-    description: "fiscalMonthOfYear"
-    type: number
-    sql: ${TABLE}.fiscalMonthOfYear ;;
-  }
+#   dimension: fiscalMonthOfYear {
+#     description: "fiscalMonthOfYear"
+#     type: number
+#     sql: ${TABLE}.fiscalMonthOfYear ;;
+#   }
 
-  dimension: fiscalQuarter {
-    description: "fiscalQuarter"
-    type: number
-    sql: ${TABLE}.fiscalQuarter ;;
-  }
+#   dimension: fiscalQuarter {
+#     description: "fiscalQuarter"
+#     type: number
+#     sql: ${TABLE}.fiscalQuarter ;;
+#   }
 
-  dimension: fiscalYear {
-    description: "fiscalYear"
-    type: number
-    sql: ${TABLE}.fiscalYear ;;
-  }
+#   dimension: fiscalYear {
+#     description: "fiscalYear"
+#     type: number
+#     sql: ${TABLE}.fiscalYear ;;
+#   }
 
-  dimension: fiscalYearMonth {
-    description: "fiscalYearMonth"
-    type: string
-    sql: ${TABLE}.fiscalYearMonth ;;
-  }
+#   dimension: fiscalYearMonth {
+#     description: "fiscalYearMonth"
+#     type: string
+#     sql: ${TABLE}.fiscalYearMonth ;;
+#   }
 
-  dimension: fiscalYearQuarter {
-    description: "fiscalYearQuarter"
-    type: string
-    sql: ${TABLE}.fiscalYearQuarter;;
-  }
+#   dimension: fiscalYearQuarter {
+#     description: "fiscalYearQuarter"
+#     type: string
+#     sql: ${TABLE}.fiscalYearQuarter;;
+#   }
 
-  dimension: fiscalYearWeek {
-    description: "fiscalYearWeek"
-    type: string
-    sql: ${TABLE}.fiscalYearWeek ;;
-  }
+#   dimension: fiscalYearWeek {
+#     description: "fiscalYearWeek"
+#     type: string
+#     sql: ${TABLE}.fiscalYearWeek ;;
+#   }
 
-  dimension: LastFiscalWeek {
-    description: "LastFiscalWeek"
-    type: string
-    sql: ${TABLE}.LastFiscalWeek ;;
-  }
+#   dimension: LastFiscalWeek {
+#     description: "LastFiscalWeek"
+#     type: string
+#     sql: ${TABLE}.LastFiscalWeek ;;
+#   }
 
-  dimension: PriorfiscalYear {
-    description: "PriorfiscalYear"
-    type: number
-    sql: ${TABLE}.PriorfiscalYear ;;
-  }
+#   dimension: PriorfiscalYear {
+#     description: "PriorfiscalYear"
+#     type: number
+#     sql: ${TABLE}.PriorfiscalYear ;;
+#   }
 
-  dimension: PriorfiscalQuarter {
-    description: "PriorfiscalQuarter"
-    type: string
-    sql: ${TABLE}.PriorfiscalQuarter ;;
-  }
+#   dimension: PriorfiscalQuarter {
+#     description: "PriorfiscalQuarter"
+#     type: string
+#     sql: ${TABLE}.PriorfiscalQuarter ;;
+#   }
 
-  dimension: PriorfiscalYearMonth {
-    description: "PriorfiscalYearMonth"
-    type: string
-    sql: ${TABLE}.PriorfiscalYearMonth ;;
-  }
+#   dimension: PriorfiscalYearMonth {
+#     description: "PriorfiscalYearMonth"
+#     type: string
+#     sql: ${TABLE}.PriorfiscalYearMonth ;;
+#   }
 
-  dimension: PriorfiscalYearWeek {
-    description: "PriorfiscalYearWeek"
-    type: string
-    sql: ${TABLE}.PriorfiscalYearWeek ;;
-  }
+#   dimension: PriorfiscalYearWeek {
+#     description: "PriorfiscalYearWeek"
+#     type: string
+#     sql: ${TABLE}.PriorfiscalYearWeek ;;
+#   }
 
-}
+# }
 
 view: digital_budget {
 

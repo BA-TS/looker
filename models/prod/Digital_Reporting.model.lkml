@@ -223,7 +223,7 @@ explore: base {
   #}
 
   join: total_sessions {
-    type: full_outer
+    type: left_outer
     relationship: many_to_one
     sql_on: ${app_web_data.App_web}=${total_sessions.app_web_sessions} and
       ${base.date_date}=${total_sessions.date_date} and ${products.product_code}=${total_sessions.product_code};;

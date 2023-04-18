@@ -86,11 +86,11 @@ join: calendar {
 
   }
 
-  join: dim_date {
-    type: inner
-    relationship: one_to_one
-    sql_on: ${base.date_date}=${dim_date.Current_Date_date} ;;
-  }
+  # join: dim_date {
+  #   type: inner
+  #   relationship: one_to_one
+  #   sql_on: ${base.date_date}=${dim_date.Current_Date_date} ;;
+  # }
 
 
   join: calendar_completed_date{
