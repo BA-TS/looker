@@ -20,6 +20,7 @@ view: category_budget {
     hidden: yes
     type: date
     sql: ${TABLE}.date ;;
+    description: "Date"
   }
 
   dimension: date_department_pkey {
