@@ -1,5 +1,4 @@
 view: calendar {
-
   sql_table_name:`toolstation-data-storage.ts_finance.dim_date`;;
 
   dimension: date{

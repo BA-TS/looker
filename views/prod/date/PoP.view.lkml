@@ -1,5 +1,4 @@
 view: pop {
-
     extension: required
 
     parameter: select_date_type {
@@ -69,7 +68,6 @@ view: pop {
       sql: ${__target_raw__} ;;
       hidden: yes
     }
-
 
 # █▀▄ ▄▀█ █▄█
 # █▄▀ █▀█ ░█░

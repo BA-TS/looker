@@ -1,5 +1,4 @@
 view: supplier_funding_attribution {
-
   sql_table_name:`toolstation-data-storage.looker_custom_tables.supplier_funding_attribution`;;
 
   dimension: product_code {

@@ -1,5 +1,4 @@
 view: customer_stats {
-
   sql_table_name: `toolstation-data-storage.looker_mart.customer_stats`;;
 
   dimension: app_total_net_sales {
