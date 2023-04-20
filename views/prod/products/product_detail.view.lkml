@@ -1,5 +1,4 @@
 view: product_detail {
-
   sql_table_name: `toolstation-data-storage.range.productDetail`;;
 
   dimension: ean {

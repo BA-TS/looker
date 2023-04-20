@@ -1,5 +1,4 @@
 view: product_attributes {
-
   sql_table_name: `toolstation-data-storage.range.productAttributes`;;
 
   dimension: attribute {
@@ -35,5 +34,4 @@ view: product_attributes {
   #   type: string
   #   sql: ${TABLE}.user ;;
   # }
-
 }
