@@ -4,7 +4,7 @@ view: transactions {
 
   derived_table: {
     sql:
-(SELECT
+   (SELECT
     transactionDate,
     UPPER(salesChannel) AS salesChannel,
     siteUID,
@@ -38,7 +38,7 @@ view: transactions {
     INNER JOIN
       `toolstation-data-storage.range.products_current` AS products
     USING(productUID)
-)
+    )
 UNION ALL
 (
   SELECT
@@ -583,7 +583,6 @@ dimension_group: order_completed {
   }
 
   # EXTERNAL - PRODUCTS #
-
   dimension: is_new_product {
     view_label: "Products"
     group_label: "Flags"
@@ -632,7 +631,6 @@ dimension_group: order_completed {
   # ORDER DETAILS #
 
   # PURCHASE DETAILS #
-
   dimension: payment_type {
     group_label: "Purchase Details"
     label: "Payment Type"
@@ -648,7 +646,6 @@ dimension_group: order_completed {
   }
 
   # PROMO #
-
   dimension: promo_in_main_catalogue {
     label: "In Catalogue?"
     view_label: "Products"

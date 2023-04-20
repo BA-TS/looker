@@ -1,5 +1,4 @@
 view: supplier_funding_model {
-
   sql_table_name: `toolstation-data-storage.looker_custom_tables.supplier_funding_model`;;
 
   dimension: daily_amount {
@@ -10,8 +9,6 @@ view: supplier_funding_model {
   }
 
   dimension_group: date {
-    group_label: ""
-    label: ""
     view_label: "Date"
     type: time
     timeframes: [

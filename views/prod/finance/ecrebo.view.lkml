@@ -4,7 +4,7 @@ view: ecrebo {
 
   derived_table: {
     sql:
-      (  SELECT
+      (SELECT
     DATE(et.datetime) as ecreboDate,
      ec.campaign_id,
      ec.campaign_name,

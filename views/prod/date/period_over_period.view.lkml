@@ -68,7 +68,6 @@ view: period_over_period {
     hidden: yes
   }
 
-
 # █▀▄ ▄▀█ █▄█
 # █▄▀ █▀█ ░█░
 
