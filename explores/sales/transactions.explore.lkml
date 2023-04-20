@@ -1,11 +1,8 @@
 include: "/views/**/*.view"
 
 explore: base {
-
-  extends: []
   label: "Transactions"
   description: "Explore Toolstation transactional data."
-
   always_filter: {
     filters: [
       select_date_type: "Calendar",
@@ -14,7 +11,6 @@ explore: base {
   }
 
   conditionally_filter: {
-
     filters: [
       select_date_range: "Yesterday"
     ]
@@ -33,7 +29,6 @@ explore: base {
       combined_year,
       separate_month
     ]
-
   }
 
   fields: [
@@ -41,12 +36,7 @@ explore: base {
     -products.department
   ]
 
-  sql_always_where:
-
-  ${period_over_period}
-
-    ;;
-
+  sql_always_where:${period_over_period};;
     join: total_budget {
       view_label: "Budget"
       type: left_outer
@@ -57,21 +47,17 @@ explore: base {
     join: transactions {
       type: left_outer
       relationship: one_to_many
-
       sql_on:
-
         ${base.base_date_date} = ${transactions.transaction_date_filter}
           AND
         (${transactions.is_cancelled} = 0
           OR
         ${transactions.is_cancelled} IS NULL)
-
       {% if transactions.charity_status == "1" %}
         AND (transactions.product_code IN ('85699', '00053'))
       {% else %}
         AND (${transactions.product_code} NOT IN ('85699', '00053') OR ${transactions.product_code} IS NULL)
       {% endif %}
-
         {% if
           (category_budget._in_query and site_budget._in_query)
           or (channel_budget._in_query and category_budget._in_query)  %}
@@ -90,9 +76,7 @@ explore: base {
           AND (${transactions.sales_channel} IS NOT NULL AND ${transactions.site_uid} IS NOT NULL AND ${transactions.product_department} IS NOT NULL)
         {% endif %}
           AND
-        UPPER(${transactions.extranet_status}) = {% parameter transactions.select_extranet_status %}
-      ;;
-
+        UPPER(${transactions.extranet_status}) = {% parameter transactions.select_extranet_status %};;
     }
 
     join: channel_budget {
@@ -100,8 +84,7 @@ explore: base {
       type:  left_outer
       relationship: many_to_one
       sql_on:
-        ${base.date_date}=${channel_budget.date_date} AND ${transactions.sales_channel} = ${channel_budget.channel}
-      ;;
+        ${base.date_date}=${channel_budget.date_date} AND ${transactions.sales_channel} = ${channel_budget.channel};;
     }
 
     join: category_budget {
@@ -109,8 +92,7 @@ explore: base {
       type: left_outer
       relationship: many_to_one
       sql_on:
-        ${base.date_date}=${category_budget.date} AND UPPER(${transactions.product_department}) = UPPER(${category_budget.department})
-      ;;
+        ${base.date_date}=${category_budget.date} AND UPPER(${transactions.product_department}) = UPPER(${category_budget.department});;
     }
 
     join: site_budget {
@@ -118,8 +100,7 @@ explore: base {
       type: left_outer
       relationship: many_to_one
       sql_on:
-        ${base.date_date} = ${site_budget.date_date} AND ${transactions.site_uid} = ${site_budget.site_uid}
-      ;;
+        ${base.date_date} = ${site_budget.date_date} AND ${transactions.site_uid} = ${site_budget.site_uid};;
     }
 
     join: products {
@@ -136,8 +117,7 @@ explore: base {
             AND upper(products.productDepartment) = upper(category_budget.department)
         {% else %}
           ${transactions.product_uid}=${products.product_uid}
-        {% endif %}
-      ;;
+        {% endif %};;
     }
 
     join: sites {
@@ -192,9 +172,9 @@ explore: base {
     }
 
     join: single_line_transactions {
-      type:  left_outer
-      relationship: many_to_one
-      sql_on: ${transactions.parent_order_uid} = ${single_line_transactions.parent_order_uid} ;;
+        type:  left_outer
+        relationship: many_to_one
+        sql_on: ${transactions.parent_order_uid} = ${single_line_transactions.parent_order_uid} ;;
     }
 
     join: product_first_sale_date {
@@ -204,19 +184,15 @@ explore: base {
     }
 
     join: trade_credit_ids {
-
       type: left_outer
       relationship: many_to_one
       sql_on: ${customers.customer_uid} = ${trade_credit_ids.customer_uid} ;;
-
     }
 
     join: trade_credit_details {
-
       type: left_outer
       relationship: many_to_one
       sql_on: ${trade_credit_ids.main_trade_credit_account_uid} = ${trade_credit_details.main_trade_credit_account_uid} ;;
-
     }
 
     join: catalogue {
@@ -237,58 +213,23 @@ explore: base {
       sql_on: ${digital_transaction_mapping.channel_grouping} = ${backend_digital_channel_grouping.channel_grouping} ;;
     }
 
-  join: digital_budget {
+    join: digital_budget {
     view_label: "Digital Budget rf1 2023"
     type: left_outer
     relationship: many_to_one
     sql_on: ${base.date_date} = ${digital_budget.Date_date};;
-  }
+    }
 
     join: ecrebo {
     view_label: "Ecrebo"
     type: left_outer
     relationship: one_to_many
     sql_on: ${base.date_date} = ${ecrebo.ecrebo_date_filter} AND ${transactions.parent_order_uid} = ${ecrebo.parent_order_uid};;
-  }
-
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
+}
 
 # EXAMPLES #
-
 explore: +base {
-
   query: department_weekly_sales {
 
     label: "Weekly Sales (By Department)"
@@ -311,11 +252,9 @@ explore: +base {
     pivots: [
       base.date_date
     ]
-
   }
 
   query: channel_weekly_sales {
-
     label: "Weekly Sales (By Channel)"
     description: "This provides information to user."
 
@@ -336,11 +275,9 @@ explore: +base {
     pivots: [
       base.date_date
     ]
-
   }
 
   query: department_daily_performance {
-
     label: "7 Day Performance (By Department)"
     description: "This provides information to user."
 
@@ -363,11 +300,9 @@ explore: +base {
     pivots: [
       base.date_date
     ]
-
   }
 
   query: previous_day_site_performance {
-
     label: "Store Performance (PTD)"
     description: "This provides information to user."
 
@@ -389,17 +324,11 @@ explore: +base {
     sorts: [
       transactions.total_net_sales: desc
     ]
-    pivots: [
-
-    ]
-
   }
 
   query: ptd_yoy_sales_performance {
-
     label: "Sales Performance (PTD)"
     description: "This provides information to user."
-
     dimensions: [
       base.dynamic_fiscal_year
     ]
@@ -419,17 +348,11 @@ explore: +base {
       base.dynamic_fiscal_year: desc,
       transactions.total_net_sales: desc
     ]
-    pivots: [
-
-    ]
-
   }
 
   query: product_performance {
-
     label: "Top Performing Products (PTD)"
     description: "This provides information to user."
-
     dimensions: [
       transactions.product_code,
       products.description,
@@ -452,12 +375,7 @@ explore: +base {
       transactions.total_net_sales: desc,
       transactions.total_margin_rate_incl_funding: desc
     ]
-    pivots: [
-
-    ]
-
   }
-
 }
 
 
