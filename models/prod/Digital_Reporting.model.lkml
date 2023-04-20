@@ -133,15 +133,6 @@ explore: base {
     sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
   }
 
-
-  join: summarised_daily_Sales {
-    view_label: "daily sales"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${base.date_date} = ${summarised_daily_Sales.dated_date}
-      and ${total_sessions.app_web_sessions} = ${summarised_daily_Sales.App_Web};;
-  }
-
   # join: customers {
   #   type :  inner
   #   relationship: many_to_one
@@ -226,6 +217,14 @@ explore: base {
     relationship: many_to_one
     sql_on: ${base.base_date_date} = ${Mobile_app.Date_date}
     and ${calendar_completed_date.date}=${Mobile_app.Date_date};;
+  }
+
+  join: summarised_daily_Sales {
+    view_label: "daily sales"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${base.date_date} = ${summarised_daily_Sales.dated_date}
+      and ${total_sessions.app_web_sessions} = ${summarised_daily_Sales.App_Web};;
   }
 
 #  join: digital_transaction_mapping {
