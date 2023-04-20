@@ -1,5 +1,4 @@
 view: stock_soq {
-
   sql_table_name: `toolstation-data-storage.stock.SOQ`;;
 
   dimension: actual_stock_holding {

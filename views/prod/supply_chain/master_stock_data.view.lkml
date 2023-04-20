@@ -1,5 +1,4 @@
 view: bq_daily_supply_chain_master_data_history {
-
   sql_table_name: `toolstation-data-storage.supplyChainReporting.BQ_DAILY_SUPPLY_CHAIN_MASTER_DATA_HISTORY`;;
   fields_hidden_by_default: yes
 

@@ -29,9 +29,4 @@ view: product_attributes {
     type: string
     sql: ${TABLE}.productUID ;;
   }
-
-  # dimension: user {
-  #   type: string
-  #   sql: ${TABLE}.user ;;
-  # }
 }

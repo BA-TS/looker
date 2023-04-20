@@ -1,5 +1,4 @@
 view: stock_work_in_progress {
-
   sql_table_name: `toolstation-data-storage.financeReporting.DS_DAILY_WIP_HISTORY` ;;
 
   dimension: product_uid {

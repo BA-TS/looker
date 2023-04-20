@@ -1,8 +1,6 @@
 view: Sage_Sales {
   derived_table: {
-
     datagroup_trigger: ts_transactions_datagroup
-
     sql: SELECT
     date(transactionDate) as completedDate,
     case

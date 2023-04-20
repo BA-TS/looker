@@ -1,5 +1,4 @@
 view: open_to_buy_model_new {
-
   sql_table_name: `toolstation-data-storage.ts_analytics.open_to_buy`;;
 
   parameter: budget_type {

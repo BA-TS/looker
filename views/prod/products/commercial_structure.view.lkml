@@ -1,5 +1,4 @@
 view: commercial_structure {
-
   derived_table: {
     sql:
       WITH
@@ -40,7 +39,6 @@ view: commercial_structure {
           UNION ALL(SELECT 50,'Clearance','Clearance','Unallocated','Unallocated','')
           UNION ALL(SELECT 900001,'Marketing Vouchers','Marketing Vouchers','Unallocated','Unallocated','')
       )
-
       SELECT
           *
       FROM

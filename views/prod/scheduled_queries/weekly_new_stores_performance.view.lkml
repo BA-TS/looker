@@ -1,5 +1,4 @@
 view: weekly_new_stores_performance {
-
   derived_table: {
     datagroup_trigger: ts_transactions_datagroup
     sql: with stores as (
@@ -15,7 +14,6 @@ view: weekly_new_stores_performance {
                   regionName like 'Region%'
                   or regionName like 'Closed%'
       )
-
       ,sales as (
       select
           s.siteUID,
@@ -34,7 +32,6 @@ view: weekly_new_stores_performance {
           group by 1,2,3,4,5
           qualify row_number() over (partition by s.siteUID order by d.fiscalYearWeek) <= 13
       )
-
       , vs_osm as (
           select
           siteUID,

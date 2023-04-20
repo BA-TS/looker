@@ -1,5 +1,4 @@
 view: weekly_new_stores_sales {
-
   derived_table: {
     datagroup_trigger: ts_transactions_datagroup
     sql: with stores as (

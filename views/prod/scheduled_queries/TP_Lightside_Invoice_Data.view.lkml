@@ -1,5 +1,4 @@
 view: TP_Lightside_Invoice_Data {
-
   derived_table: {
     datagroup_trigger: ts_transactions_datagroup
     sql:

@@ -1,5 +1,4 @@
 view: distribution_centre_names {
-
   sql_table_name: `toolstation-data-storage.locations.disctributionCentreNames` ;;
   label: "Location"
 

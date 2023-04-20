@@ -1,5 +1,4 @@
 view: product_dimensions {
-
   sql_table_name: `toolstation-data-storage.range.productDimensions`;;
 
   dimension: hazardous {
