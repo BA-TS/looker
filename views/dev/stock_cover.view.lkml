@@ -1,5 +1,4 @@
 view: stock_cover {
-
   derived_table: {
     sql:
       SELECT distinct

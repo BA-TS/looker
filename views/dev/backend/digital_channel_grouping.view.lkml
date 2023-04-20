@@ -1,5 +1,4 @@
 view: backend_digital_channel_grouping {
-
   fields_hidden_by_default: yes
 
   derived_table: {
@@ -21,5 +20,4 @@ view: backend_digital_channel_grouping {
     type: string
     sql: ${TABLE}.channelGrouping ;;
   }
-
 }

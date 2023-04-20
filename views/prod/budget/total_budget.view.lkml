@@ -13,8 +13,7 @@ view: total_budget {
         sum(grossProfit) + sum(retroFunding) + sum(fixedFunding) AS gross_margin_inc_retro_and_fixed_budget
       FROM
         `toolstation-data-storage.ts_finance.channelBudget`
-      GROUP BY
-        1;;
+      GROUP BY 1;;
   }
 
   dimension: total_budget_date {
