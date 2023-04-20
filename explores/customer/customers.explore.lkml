@@ -3,7 +3,6 @@ include: "/views/**/*.view"
 explore: customers {
   label: "Customer"
   description: "Explore Toolstation customer data."
-
   required_access_grants: [can_use_customer_information]
   view_name: base
   always_filter: {
@@ -12,9 +11,7 @@ explore: customers {
       select_date_reference: "Transaction"
     ]
   }
-
   conditionally_filter: {
-
     filters: [
       select_date_range: "Yesterday"
     ]
@@ -150,16 +147,12 @@ explore: customers {
         AND ${customers.address__address_line4} =${crm_master_seedlist.address__address_line4}
         AND ${customers.address__postcode} =${crm_master_seedlist.address__postcode};;
   }
-
 }
-# EXAMPLES #
 
 explore: +customers {
   query: address_check{
-
     label: "Customer Address Check"
     description: "Customer Address Check"
-
     dimensions: [
       customer_uid,
       customers.customer__first_name,
@@ -175,10 +168,8 @@ explore: +customers {
     limit: 500
   }
   query: trade_survey{
-
     label: "Trade Customer Survey - 20 Turbo Stores"
     description: "A list of customers for trade survey."
-
     dimensions: [
       customers.customer_uid,
       customers.customer__email,
@@ -196,10 +187,8 @@ explore: +customers {
   }
 
   query: customer_selection{
-
     label: "Customer selection (Work in progress)"
     description: "Selecting customers for catalogue marketing"
-
     dimensions: [
       base.combined_week,
       transactions.product_department
@@ -223,7 +212,6 @@ explore: +customers {
   query: Emarsys{
     label: "Emarsys_NewCustomer_Weekly_Upload (Work in progress)"
     description: "Emarsys_NewCustomer_Weekly_Upload"
-
     dimensions: [
       customers.customer_uid,
       customers.customer__email,
@@ -241,7 +229,6 @@ explore: +customers {
       permissions__offers_notif_opt_in,
       permissions__offers_sms_opt_in
     ]
-
     filters: [
       base.select_date_range: "1 days ago for 7 days"
     ]

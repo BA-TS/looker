@@ -1,8 +1,5 @@
 include: "/models/backend/config.model"
 include: "/views/**/*.view"
+include: "/explores/customer/*"
 
 label: "TS - Customer"
-
-include: "/explores/customer/*"
-# include: "/aggregate_awareness/.../*"
-# include: "/dashboards/.../.../*"

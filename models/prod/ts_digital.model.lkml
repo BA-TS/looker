@@ -1,8 +1,5 @@
 include: "/models/backend/config.model"
 include: "/views/**/*.view"
+include: "/explores/digital/*"
 
 label: "TS - Digital"
-
-include: "/explores/digital/*"
-# include: "/aggregate_awareness/digital/*"
-# include: "/dashboards/digital/**/*"

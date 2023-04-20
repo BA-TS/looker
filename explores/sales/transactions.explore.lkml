@@ -30,7 +30,6 @@ explore: base {
       separate_month
     ]
   }
-
   fields: [
     ALL_FIELDS*,
     -products.department
@@ -228,7 +227,6 @@ explore: base {
     }
 }
 
-# EXAMPLES #
 explore: +base {
   query: department_weekly_sales {
     label: "Weekly Sales (By Department)"
@@ -372,7 +370,6 @@ explore: +base {
     ]
   }
 }
-
 
 explore: +base {
   aggregate_table: daily_sales_summary_DATE {
