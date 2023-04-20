@@ -15,6 +15,7 @@ explore: stock_cover {
     relationship: many_to_one
     sql_on: ${stock_cover.product_code} = ${products.product_code} ;;
   }
+
   join: suppliers {
     view_label: "Supplier"
     type: left_outer

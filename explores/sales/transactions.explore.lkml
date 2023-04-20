@@ -231,10 +231,8 @@ explore: base {
 # EXAMPLES #
 explore: +base {
   query: department_weekly_sales {
-
     label: "Weekly Sales (By Department)"
     description: "This provides information to user."
-
     dimensions: [
       base.combined_week, transactions.product_department
     ]
@@ -257,7 +255,6 @@ explore: +base {
   query: channel_weekly_sales {
     label: "Weekly Sales (By Channel)"
     description: "This provides information to user."
-
     dimensions: [
       base.combined_week, transactions.sales_channel
     ]
@@ -280,7 +277,6 @@ explore: +base {
   query: department_daily_performance {
     label: "7 Day Performance (By Department)"
     description: "This provides information to user."
-
     dimensions: [
       base.date_date, transactions.product_department
     ]
@@ -305,7 +301,6 @@ explore: +base {
   query: previous_day_site_performance {
     label: "Store Performance (PTD)"
     description: "This provides information to user."
-
     dimensions: [
       sites.site_uid,
       sites.site_name
@@ -379,55 +374,7 @@ explore: +base {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# AA #
-
-
 explore: +base {
-
-  # DAILY SALES #
-
   aggregate_table: daily_sales_summary_DATE {
     query: {
       dimensions: [
@@ -449,11 +396,9 @@ explore: +base {
       base.select_date_reference: "Transaction"
       ]
     }
-
     materialization: {
       datagroup_trigger: ts_transactions_datagroup
     }
-
   }
 
   aggregate_table: daily_sales_summary_PD {
@@ -476,7 +421,6 @@ explore: +base {
       base.select_date_reference: "Transaction"
       ]
     }
-
     materialization: {
       datagroup_trigger: ts_transactions_datagroup
     }
@@ -500,11 +444,9 @@ explore: +base {
       base.select_date_reference: "Transaction"
       ]
     }
-
     materialization: {
       datagroup_trigger: ts_transactions_datagroup
     }
-
   }
 
   aggregate_table: daily_sales_summary_MTD {
@@ -525,11 +467,9 @@ explore: +base {
       base.select_date_reference: "Transaction"
       ]
     }
-
     materialization: {
       datagroup_trigger: ts_transactions_datagroup
     }
-
   }
 
   aggregate_table: daily_sales_summary_YTD {
@@ -550,11 +490,8 @@ explore: +base {
       base.select_date_reference: "Transaction"
       ]
     }
-
     materialization: {
       datagroup_trigger: ts_transactions_datagroup
     }
-
   }
-
 }

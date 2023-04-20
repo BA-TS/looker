@@ -1,14 +1,11 @@
 include: "/views/**/*.view"
 
 explore: customers {
-
   label: "Customer"
   description: "Explore Toolstation customer data."
 
   required_access_grants: [can_use_customer_information]
-
   view_name: base
-
   always_filter: {
     filters: [
       select_date_type: "Calendar",
@@ -67,29 +64,23 @@ explore: customers {
   join: transactions {
     type: left_outer
     relationship: one_to_many
-
     sql_on:
-
         ${base.base_date_date} = ${transactions.transaction_date_filter}
           AND
         (${transactions.is_cancelled} = 0
           OR
         ${transactions.is_cancelled} IS NULL)
-
       {% if transactions.charity_status == "1" %}
       AND (transactions.product_code IN ('85699', '00053'))
       {% else %}
       AND (${transactions.product_code} NOT IN ('85699', '00053') OR ${transactions.product_code} IS NULL)
-      {% endif %}
-      ;;
+      {% endif %};;
   }
 
   join: products {
     type:  left_outer
     relationship: many_to_one
-    sql_on:
-          ${transactions.product_uid}=${products.product_uid}
-      ;;
+    sql_on: ${transactions.product_uid}=${products.product_uid};;
   }
 
   join: sites {
@@ -157,18 +148,13 @@ explore: customers {
         AND ${customers.address__address_line2} =${crm_master_seedlist.address__address_line2}
         AND ${customers.address__address_line3} =${crm_master_seedlist.address__address_line3}
         AND ${customers.address__address_line4} =${crm_master_seedlist.address__address_line4}
-        AND ${customers.address__postcode} =${crm_master_seedlist.address__postcode}
-    ;;
+        AND ${customers.address__postcode} =${crm_master_seedlist.address__postcode};;
   }
 
-
 }
-
 # EXAMPLES #
 
 explore: +customers {
-
-
   query: address_check{
 
     label: "Customer Address Check"
@@ -232,11 +218,9 @@ explore: +customers {
     pivots: [
       base.date_date
     ]
-
   }
 
   query: Emarsys{
-
     label: "Emarsys_NewCustomer_Weekly_Upload (Work in progress)"
     description: "Emarsys_NewCustomer_Weekly_Upload"
 
@@ -265,9 +249,5 @@ explore: +customers {
     sorts: [
       customers.customer_uid: asc
     ]
-
   }
-
-
-
 }

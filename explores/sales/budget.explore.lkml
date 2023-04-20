@@ -100,6 +100,4 @@
 #     relationship:  many_to_one
 #     sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
 #   }
-
-
 # }

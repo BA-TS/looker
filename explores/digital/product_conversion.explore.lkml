@@ -1,6 +1,5 @@
 include: "/views/**/*.view"
 
-
 explore: digital_product_conversion {
   label: "Product Conversion"
   join: products {

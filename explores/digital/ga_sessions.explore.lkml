@@ -26,14 +26,10 @@ explore: ga_sessions {
 
   join: ga_pop {}
 
-
   join: audience_cohorts {
     type: left_outer
     sql_on:
-
-    ${ga_sessions.audience_trait} = ${audience_cohorts.audience_trait}
-
-    ;;
+    ${ga_sessions.audience_trait} = ${audience_cohorts.audience_trait};;
     relationship: many_to_one
   }
 
@@ -41,9 +37,7 @@ explore: ga_sessions {
     type: left_outer
     sql:
 
-    LEFT JOIN UNNEST(${ga_sessions.hits}) AS hits
-
-    ;;
+    LEFT JOIN UNNEST(${ga_sessions.hits}) AS hits;;
     relationship: one_to_many
   }
 

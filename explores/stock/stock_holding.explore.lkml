@@ -1,38 +1,36 @@
 include: "/views/**/*.view"
 
 explore: stock_level_date_site_product {
-
   required_access_grants: [is_super]
 
   label: "Stock Holding"
   description: "By Date, Site, Product"
-
   sql_always_where:
-
   ${products.product_type} = "Real"
   AND
   ${sites.is_active} = TRUE
   AND
   ${scmatrix.is_active} = 1
-  -- AND UPPER(${sites.site_type}) NOT LIKE "%D%SHIP%"
-
-  ;;
+  -- AND UPPER(${sites.site_type}) NOT LIKE "%D%SHIP%";;
 
   join: aac {
     type:  left_outer
     relationship: many_to_one
     sql_on: ${stock_level_date_site_product.opening_stock_date} = ${aac.date} and ${stock_level_date_site_product.product_uid} = ${aac.product_uid} ;;
   }
+
   join: products {
     type: inner
     relationship: many_to_one
     sql_on: ${stock_level_date_site_product.product_uid} = ${products.product_uid} ;;
   }
+
   join: scmatrix {
     type: left_outer
     relationship: one_to_one
     sql_on: ${products.product_code}  =   ${scmatrix.product_code};;
   }
+
   join: suppliers {
     view_label: "Supplier"
     type: left_outer
@@ -51,11 +49,9 @@ explore: stock_level_date_site_product {
   #   relationship: many_to_one
   #   sql_on: ${dc_to_shop_mapping.distribution_centre_id} = ${distribution_centre_names.site_uid} ;;
   # }
-
   join: sites {
     type: left_outer
     relationship: many_to_one
     sql_on: ${stock_level_date_site_product.site_uid} = ${sites.site_uid} ;;
   }
-
 }
