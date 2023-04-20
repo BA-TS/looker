@@ -3,11 +3,6 @@ include: "/models/backend/config.model"
 
 label: "TS - Scheduled Exports"
 
-# explore: daily_orders_placed_jnl {
-#   required_access_grants: [is_developer]
-#   label: "DAILY - Orders Placed JNL"
-# }
-
 explore: monthly_pendingOrders {
   required_access_grants: [is_developer]
   label: "Monthly - Pending Orders"
@@ -37,3 +32,8 @@ explore: Sage_Sales{
   required_access_grants: [is_developer]
   label: "Daily - Sage Sales"
 }
+
+# explore: daily_orders_placed_jnl {
+#   required_access_grants: [is_developer]
+#   label: "DAILY - Orders Placed JNL"
+# }

@@ -3,7 +3,6 @@ include: "/views/dev/prod/sales_alert.view"
 test: alert_start_date {
 
   # REASON FOR TEST: ensure that the starting date for the `sales_alerting` table is valid
-
   explore_source: sales_alerting {
 
     column: date {
@@ -19,9 +18,7 @@ test: alert_start_date {
   assert: valid_start_date {
     expression: ${base.date_date} = to_date("2021-01-01");;
   }
-
 }
-
 
 test: alert_count_date {
 

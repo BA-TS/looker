@@ -1,11 +1,8 @@
 view: competitor_matrix_history {
-
   fields_hidden_by_default: yes
   sql_table_name: `toolstation-data-storage.brandview.lookerTable`;;
 
-
   # AMAZON #
-
   dimension: product_code_amazon {
     type: string
     sql: ${TABLE}.amazon.productCode ;;
@@ -55,10 +52,7 @@ view: competitor_matrix_history {
     hidden: no
   }
 
-
-
   # BANDQ #
-
   dimension: product_code_bandq {
     type: string
     sql: ${TABLE}.bAndQ.productCode ;;
@@ -108,10 +102,7 @@ view: competitor_matrix_history {
     hidden: no
   }
 
-
-
   # CEF #
-
   dimension: product_code_cef {
     type: string
     sql: ${TABLE}.cef.productCode ;;
@@ -161,10 +152,7 @@ view: competitor_matrix_history {
     hidden: no
   }
 
-
-
   # CITYPLUMBING #
-
   dimension: product_code_cityplumbing {
     type: string
     sql: ${TABLE}.cityPlumbing.productCode ;;
@@ -214,10 +202,7 @@ view: competitor_matrix_history {
     hidden: no
   }
 
-
-
   # FFX #
-
   dimension: product_code_ffx {
     type: string
     sql: ${TABLE}.ffx.productCode ;;
@@ -266,9 +251,7 @@ view: competitor_matrix_history {
     hidden: no
   }
 
-
   # IRONMONGERYDIRECT #
-
   dimension: product_code_ironmongerydirect {
     type: string
     sql: ${TABLE}.ironmongeryDirect.productCode ;;
@@ -317,7 +300,6 @@ view: competitor_matrix_history {
     label: "Start"
     hidden: no
   }
-
 
   # ITS #
 
@@ -370,7 +352,6 @@ view: competitor_matrix_history {
     hidden: no
   }
 
-
   # SCREWFIX #
 
   dimension: product_code_screwfix {
@@ -422,10 +403,7 @@ view: competitor_matrix_history {
     hidden: no
   }
 
-
-
   # SELCOBW #
-
   dimension: product_code_selcobw {
     type: string
     sql: ${TABLE}.selcoBW.productCode ;;
@@ -474,8 +452,6 @@ view: competitor_matrix_history {
     label: "Start"
     hidden: no
   }
-
-
 
   # TLCDIRECT #
 
@@ -528,9 +504,7 @@ view: competitor_matrix_history {
     hidden: no
   }
 
-
   # TOOLSTATION #
-
   dimension: product_code_toolstation {
     type: string
     sql: ${TABLE}.toolstation.productCode ;;
@@ -684,8 +658,6 @@ view: competitor_matrix_history {
     hidden: no
   }
 
-
-
   # WICKES #
 
   dimension: product_code_wickes {
@@ -737,14 +709,6 @@ view: competitor_matrix_history {
     hidden: no
   }
 
-
-
-
-
-
-
-
-
   # GENERAL #
 
   dimension_group: load_date {
@@ -762,7 +726,6 @@ view: competitor_matrix_history {
   }
 
   # INDEXING #
-
   dimension: sales_data {
     type: number
     sql: ${TABLE}.unitsSold ;;
@@ -835,13 +798,6 @@ view: competitor_matrix_history {
 
 
   # SUPPLIER #
-
-  # dimension: product_supplier {
-  #   type: string
-  #   sql: ${products.default_supplier} ;;
-  #   hidden: yes
-  # }
-
   dimension: supplier_name {
     type: string
     sql: ${suppliers.supplier_name} ;;
@@ -857,8 +813,6 @@ view: competitor_matrix_history {
     group_label: "Supplier"
     hidden: no
   }
-
-  ############
 
   measure: sum_shelf_price_screwfix {
     type: sum
@@ -897,10 +851,6 @@ view: competitor_matrix_history {
     value_format_name: "decimal_2"
     hidden: no
   }
-
-
-
-
 
   filter: matched_with_amazon{
     type: yesno
@@ -1001,15 +951,9 @@ view: competitor_matrix_history {
     label: "Number of Matches"
     hidden: no
   }
-
-
-
 }
 
-
-
 view: cmh_product_detail {
-
   fields_hidden_by_default: yes
   sql_table_name: `toolstation-data-storage.brandview.productReference` ;;
 
@@ -1040,5 +984,4 @@ view: cmh_product_detail {
     sql: ${productCount} ;;
     hidden: no
   }
-
 }

@@ -1,23 +1,20 @@
 view: cltv_orders {
-  # Or, you could make this view a derived table, like this:
   derived_table: {
     sql: SELECT
-CUSTOMERUID,
-PARENTORDERUID,
-date(transactiondate) as transactiondate,
-SUM(NETSALESVALUE) as netsales
-from `toolstation-data-storage.sales.transactions`
-where date(transactionDate)>= '2021-01-01'
-and transactionlinetype <> 'Charity'
-and iscancelled <> 0
-group by 1,2,3
-      ;;
-datagroup_trigger:ts_transactions_datagroup
-partition_keys: ["transactiondate"]
-cluster_keys: ["CUSTOMERUID"]
+    CUSTOMERUID,
+    PARENTORDERUID,
+    date(transactiondate) as transactiondate,
+    SUM(NETSALESVALUE) as netsales
+    from `toolstation-data-storage.sales.transactions`
+    where date(transactionDate)>= '2021-01-01'
+    and transactionlinetype <> 'Charity'
+    and iscancelled <> 0
+    group by 1,2,3;;
+  datagroup_trigger:ts_transactions_datagroup
+  partition_keys: ["transactiondate"]
+  cluster_keys: ["CUSTOMERUID"]
   }
 
-  # Define your dimensions and measures here, like this:
   dimension: CUSTOMERUID {
     description: "Unique ID for each user that has ordered"
     type: string
@@ -43,7 +40,6 @@ cluster_keys: ["CUSTOMERUID"]
     sql: ${TABLE}.transactiondate ;;
   }
 
-
   measure: total_net_sales {
     description: "Sum of net sales"
     type: sum
@@ -51,11 +47,7 @@ cluster_keys: ["CUSTOMERUID"]
   }
 }
 
-
-
-
 view: cltv_customers {
-  # Or, you could make this view a derived table, like this:
   derived_table: {
     sql: select
         CUSTOMERUID,
@@ -65,12 +57,10 @@ view: cltv_customers {
         from
         `toolstation-data-storage.customer.allCustomers` a
         inner join `toolstation-data-storage.ts_analytics.ts_SCVFinal` t on a.customerUID=t.ucu_uid
-        where cluster <> 'I'
-  ;;
+        where cluster <> 'I';;
     datagroup_trigger:ts_transactions_datagroup
   }
 
-  # Define your dimensions and measures here, like this:
   dimension: CUSTOMERUID {
     description: "Unique ID for each user that has ordered"
     type: string

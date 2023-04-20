@@ -51,12 +51,7 @@ explore: base {
   fields: [
     ALL_FIELDS*
   ]
-
-  sql_always_where:
-
-  ${period_over_period}
-
-        ;;
+  sql_always_where:${period_over_period};;
 
 join: app_web_data {
   required_access_grants: [is_super]
@@ -67,7 +62,6 @@ join: app_web_data {
   #always_filter: {
   #filters: [current_date_range: "6 months", compare_to: "Year" ]
 }
-
 join: calendar {
   type: inner
   relationship: one_to_many
@@ -77,7 +71,6 @@ join: calendar {
   #always_filter: {
     #filters: [current_date_range: "6 months", compare_to: "Year" ]
   }
-
   join: total_sessions {
     type: inner
     relationship: many_to_one
@@ -92,7 +85,6 @@ join: calendar {
   #   sql_on: ${base.date_date}=${dim_date.Current_Date_date} ;;
   # }
 
-
   join: calendar_completed_date{
     from:  calendar
     view_label: "Date"
@@ -100,7 +92,6 @@ join: calendar {
     relationship:  many_to_one
     sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
   }
-
 
   join: products {
     type: left_outer

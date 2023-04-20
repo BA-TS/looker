@@ -1,22 +1,13 @@
 view: catalogue_promo {
-
   label: "Promo"
   required_access_grants: [is_developer]
-
   derived_table: {
-
     sql:
-
       SELECT
         1 AS promoID, 'eXtra1' AS promoName, CURRENT_DATE() AS liveDate, CURRENT_DATE() + 7 AS endDate, 91 AS catalogueID
-
       UNION ALL(SELECT 2, 'eXtra2', CURRENT_DATE() + 8, CURRENT_DATE() + 15, 91)
-      UNION ALL(SELECT 3, 'eXtra3', CURRENT_DATE() + 16, CURRENT_DATE() + 30, 91)
-
-    ;;
-
-    datagroup_trigger: toolstation_core_datagroup
-
+      UNION ALL(SELECT 3, 'eXtra3', CURRENT_DATE() + 16, CURRENT_DATE() + 30, 91);;
+      datagroup_trigger: toolstation_core_datagroup
   }
 
   dimension: promo_name {
@@ -50,5 +41,4 @@ view: catalogue_promo {
     type: number
     sql: ${TABLE}.catalogueID ;;
   }
-
 }

@@ -1,8 +1,5 @@
-# The name of this view in Looker is "Lcm History"
 view: lcm_history {
-
-  sql_table_name: `toolstation-data-storage.pricing.lcmHistory`
-    ;;
+  sql_table_name: `toolstation-data-storage.pricing.lcmHistory`;;
 
   dimension_group: full {
     type: time
@@ -15,15 +12,10 @@ view: lcm_history {
     sql: ${TABLE}.fullDate ;;
   }
 
-  # Here's what a typical dimension looks like in LookML.
-  # A dimension is a groupable field that can be used to filter query results.
-  # This dimension will be called "Product Code" in Explore.
-
   dimension: product_code {
     label: "Product Code"
     type: string
     sql: ${TABLE}.productCode ;;
-    hidden: no
   }
 
   dimension: product_uid {
@@ -52,7 +44,5 @@ view: lcm_history {
     description: "Max price of unit cost price in a period."
     type: max
     sql: ${unit_cost_gbp} ;;
-    hidden: no
   }
-
 }

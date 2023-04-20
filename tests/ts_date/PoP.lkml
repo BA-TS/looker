@@ -1,7 +1,6 @@
 include: "/views/prod/date/base.view"
 
 # PTD #
-
 test: PD_PP {
   explore_source: base {
     column: date {
@@ -63,13 +62,6 @@ test: PD_PY {
     expression: diff_days(${base.date_date}, add_days(-1, now())) = 0 OR diff_days(${base.date_date}, add_days(-364, add_days(-1, now()))) = 0 OR diff_days(${base.date_date}, add_days((-364 * 2), add_days(-1, now()))) = 0 ;; # include count of dates = 3
   }
 }
-
-
-
-
-
-
-
 
 
 # test: WTD_PP {
@@ -160,11 +152,6 @@ test: PD_PY {
 #     expression: count(${base.date_date}) = case(when(row()=1,${base.dynamic_day_of_week}*3),0) ;;
 #   }
 # }
-
-
-
-
-
 
 
 

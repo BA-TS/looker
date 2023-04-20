@@ -1,7 +1,5 @@
-
 view: retail_price_history {
-
-  sql_table_name: `toolstation-data-storage.range.retailPriceHistory`;;
+ sql_table_name: `toolstation-data-storage.range.retailPriceHistory`;;
 
   dimension: cert {
     type: number
@@ -25,16 +23,6 @@ view: retail_price_history {
   dimension: price_quantity {
     type: number
     sql: ${TABLE}.priceQuantity ;;
-  }
-
-  measure: total_price_quantity {
-    type: sum
-    sql: ${price_quantity} ;;
-  }
-
-  measure: average_price_quantity {
-    type: average
-    sql: ${price_quantity} ;;
   }
 
   dimension_group: price_start {
@@ -76,9 +64,18 @@ view: retail_price_history {
     sql: ${TABLE}.vatRate ;;
   }
 
+  measure: total_price_quantity {
+    type: sum
+    sql: ${price_quantity} ;;
+  }
+
+  measure: average_price_quantity {
+    type: average
+    sql: ${price_quantity} ;;
+  }
+
   measure: average_retail_price {
     type: average
     sql: ${retail_price} ;;
   }
-
 }
