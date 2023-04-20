@@ -59,7 +59,6 @@ view: digital_product_conversion {
     sql: ${TABLE}.device ;;
   }
 
-
   dimension: ga_entrances {
     type: number
     sql: ${TABLE}.ga_entrances ;;
@@ -140,8 +139,6 @@ view: digital_product_conversion {
     value_format:  "#,##0.0000%;(#,##0.0000%)"
   }
 
-
-
   measure: rate_of_exit{
     label: "Exit Rate"
     type: average
@@ -220,5 +217,4 @@ view: digital_product_conversion {
     sql: ${dual_oos_pviews} ;;
     value_format:  "#,##0.00;(#,##0.00)"
   }
-
 }

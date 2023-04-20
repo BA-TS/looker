@@ -1,7 +1,5 @@
-
 view: tmp_looker_daily_conversion {
-  sql_table_name: `toolstation-data-storage.digitalreporting.tmp_looker_daily_conversion`
-    ;;
+  sql_table_name: `toolstation-data-storage.digitalreporting.tmp_looker_daily_conversion`;;
 
   dimension: aov {
     type: number
@@ -84,5 +82,4 @@ view: tmp_looker_daily_conversion {
     sql: ${sessions} ;;
     value_format_name: decimal_0
   }
-
 }
