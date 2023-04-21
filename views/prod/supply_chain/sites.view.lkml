@@ -187,6 +187,7 @@ view: sites {
   dimension_group: date_opened {
     group_label: "Opened Date"
     label: "Opened"
+    description: "Date when the branch was opened"
     type: time
     timeframes: [date]
     sql: ${TABLE}.dateOpened ;;
@@ -204,6 +205,7 @@ view: sites {
   dimension_group: branch_age {
     group_label: "Opened Date"
     label: "Branch Age"
+    description: "Age of the branch since it was opened"
     type: duration
     intervals: [year]
     sql_start: dateOpened ;;
