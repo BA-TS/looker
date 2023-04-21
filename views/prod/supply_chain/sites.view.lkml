@@ -215,10 +215,10 @@ view: sites {
       year
     ]
     sql: ${TABLE}.dateOpened ;;
-    hidden: yes
   }
 
   dimension_group: branch_age {
+    group_label: "Opened Date"
     label: "Branch Age"
     type: duration
     intervals: [year]
