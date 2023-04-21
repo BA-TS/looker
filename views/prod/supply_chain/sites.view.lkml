@@ -143,6 +143,7 @@ view: sites {
     map_layer_name: countries
     sql: ${TABLE}.country ;;
   }
+
   dimension: postcode {
     group_label: "Site Address"
     type: string
@@ -216,6 +217,15 @@ view: sites {
     sql: ${TABLE}.dateOpened ;;
     hidden: yes
   }
+
+  dimension_group: branch_age {
+    label: "Branch Age"
+    type: duration
+    intervals: [year]
+    sql_start: dateOpened ;;
+    sql_end: CURRENT_TIMESTAMP() ;;
+  }
+
 
   dimension: is_active {
     group_label: "Flags"
@@ -322,45 +332,4 @@ view: sites {
     type: string
     sql: ${TABLE}.servicing_dc_name ;;
   }
-
-  # dimension: is_branch {
-  #   group_label: "Flags"
-  #   type: yesno
-  #   sql: ${TABLE}.isBranch = 1 ;;
-  # }
-
-  # dimension: servicing_dc_site_uid {
-  #   group_label: "Servicing DC"
-  #   label: "DC SiteUID"
-  #   type: string
-  #   sql: ${TABLE}.servicing_dc_site_uid ;;
-  # }
-
-  # dimension_group: active_from {
-  #   type: time
-  #   timeframes: [
-  #     raw,
-  #     time,
-  #     date,
-  #     week,
-  #     month,
-  #     quarter,
-  #     year
-  #   ]
-  #   sql: ${TABLE}.activeFrom ;;
-  # }
-
-  # dimension_group: active_to {
-  #   type: time
-  #   timeframes: [
-  #     raw,
-  #     time,
-  #     date,
-  #     week,
-  #     month,
-  #     quarter,
-  #     year
-  #   ]
-  #   sql: ${TABLE}.activeTo ;;
-  # }
 }
