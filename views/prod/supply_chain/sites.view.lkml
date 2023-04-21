@@ -184,37 +184,21 @@ view: sites {
     sql: ${TABLE}.costCentreID ;;
   }
 
-  dimension_group: date_closed {
-    group_label: "Closed Date"
-    label: "Closed"
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.dateClosed ;;
-    hidden: yes
-  }
-
   dimension_group: date_opened {
     group_label: "Opened Date"
     label: "Opened"
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
+    timeframes: [date]
     sql: ${TABLE}.dateOpened ;;
+  }
+
+  dimension_group: date_closed {
+    group_label: "Opened Date"
+    label: "Closed"
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.dateClosed ;;
+    hidden: yes
   }
 
   dimension_group: branch_age {
@@ -225,7 +209,6 @@ view: sites {
     sql_start: dateOpened ;;
     sql_end: CURRENT_TIMESTAMP() ;;
   }
-
 
   dimension: is_active {
     group_label: "Flags"
