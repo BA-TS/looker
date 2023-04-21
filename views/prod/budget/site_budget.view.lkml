@@ -1,5 +1,19 @@
 view: site_budget {
-  sql_table_name:`toolstation-data-storage.ts_finance.site_budget`;;
+
+  derived_table: {
+    sql:
+      (
+      SELECT
+      date,
+      CASE WHEN siteUID = 'RDS' THEN 'ZZ' ELSE siteUID END as siteUID,
+      sum(AOP) AOP
+      FROM `toolstation-data-storage.ts_finance.AOPBySiteAndDate`
+      GROUP BY 1, 2
+      );;
+    datagroup_trigger: ts_transactions_datagroup
+  }
+
+  # sql_table_name:`toolstation-data-storage.ts_finance.site_budget`;;
 
   dimension: site_budget_in_query {
     hidden: yes
