@@ -148,6 +148,7 @@ UNION ALL
   dimension: is_next_day_click_and_collect {
     group_label: "Flags"
     label: "Is Next Day Click and Collect"
+    description: "Selecting 'Yes' will show only Next Day Click & Collect transactions"
     type: yesno
     sql: UPPER(${originating_site_uid}) = "XN" ;;
   }
@@ -273,6 +274,7 @@ UNION ALL
   dimension: sales_channel {
     label: "Sales Channel"
     group_label: "Purchase Details"
+    description: "The sales channel the customer used"
     type: string
     sql:
     {% if ${transactions.epos_merge} == "1" %}
@@ -329,10 +331,11 @@ UNION ALL
   }
 
    dimension: has_trade_account {
-     type: yesno
      view_label: "Customers"
      group_label: "Flags"
      label: "Has Trade Account?"
+     description: "Flags whether the customer has a trade account"
+     type: yesno
      sql:
        ${trade_credit_details.account_id} IS NOT NULL
          AND
@@ -359,6 +362,7 @@ UNION ALL
     label: "Originating Site UID"
     view_label: "Location"
     group_label: ""
+    description: "The site UID of where the order was placed"
     type: string
     sql: ${TABLE}.originatingSiteUID ;;
   }
@@ -380,6 +384,7 @@ UNION ALL
   dimension: user_uid {
     label: "User UID"
     group_label: "Order ID"
+    description: "The ID of the colleague processing the transaction"
     type: string
     sql: ${TABLE}.userUID ;;
   }
@@ -408,6 +413,7 @@ dimension_group: order_completed {
 
   dimension_group: placed {
     label: "Placed"
+    description: "Date and time the order was placed"
     type: time
     timeframes: [
       raw,
@@ -465,6 +471,7 @@ dimension_group: order_completed {
   dimension: order_special_requests {
     group_label: "Order Details"
     label: "Special Requests"
+    description: "Any special requests made by the customer when ordering"
     type: string
     sql: ${TABLE}.orderSpecialRequests ;;
   }
@@ -578,6 +585,7 @@ dimension_group: order_completed {
     view_label: "Products"
     group_label: "Product Details"
     label: "Department"
+    description: "Product Deprtmant"
     type:  string
     sql: initcap(${TABLE}.productDepartment) ;;
   }
@@ -587,6 +595,7 @@ dimension_group: order_completed {
     view_label: "Products"
     group_label: "Flags"
     label: "New Product"
+    description: "Flags if a product is new to the business within the last 6 months old"
     type:  yesno
     sql:(${product_first_sale_date.first_sale_date} + 182) <= ${base.base_date_date};;
   }
@@ -595,6 +604,7 @@ dimension_group: order_completed {
     view_label: "Products"
     group_label: "Flags"
     label: "New Product (Current Year)"
+    description: "Flags if a product is new to the business this calendar year"
     type:  yesno
     sql:${product_first_sale_date.first_sale_date_group_year}=EXTRACT(Year from CURRENT_DATE);;
   }
@@ -603,6 +613,7 @@ dimension_group: order_completed {
   dimension: parent_order_uid {
     group_label: "Order ID"
     label: "Parent Order UID"
+    description: "Main order ID"
     type: string
     sql: ${TABLE}.parentOrderUID ;;
   }
@@ -610,6 +621,7 @@ dimension_group: order_completed {
   dimension: transaction_uid {
     label: "Child Order UID"
     group_label: "Order ID"
+    description: "Child order ID linked to a parent order ID"
     type: string
     sql: ${TABLE}.transactionUID ;;
   }
@@ -618,6 +630,7 @@ dimension_group: order_completed {
   dimension: is_lfl {
     group_label: "Flags"
     label: "LFL"
+    description: "Flags if an order is Like For Like. Orders placed at site IDs that have been open for 1 year or more"
     type: yesno
     sql: ${TABLE}.isLFL = 1 ;;
   }
@@ -625,6 +638,7 @@ dimension_group: order_completed {
 
     group_label: "Flags"
     label: "Mature"
+    description: "Flags if an order is Like For Like. Orders placed at site IDs that have been open for 5 years or more"
     type: yesno
     sql: ${TABLE}.isMature = 1 ;;
   }
@@ -634,6 +648,7 @@ dimension_group: order_completed {
   dimension: payment_type {
     group_label: "Purchase Details"
     label: "Payment Type"
+    description: "Payment method used"
     type: string
     sql: ${TABLE}.paymentType ;;
   }
@@ -641,6 +656,7 @@ dimension_group: order_completed {
   dimension: vat_rate {
     group_label: "Purchase Details"
     label: "VAT Rate"
+    description: "VAT rate"
     type: number
     sql: ${TABLE}.vatRate ;;
   }
@@ -651,6 +667,7 @@ dimension_group: order_completed {
     view_label: "Products"
     group_label: "Flags"
     required_access_grants: [is_developer]
+    description: "Flags if a product is in the main catalogue"
     type: yesno
     sql: case when ${promo_main_catalogue.product_code} is null then false else true end ;;
   }
@@ -660,6 +677,7 @@ dimension_group: order_completed {
     view_label: "Products"
     group_label: "Flags"
     required_access_grants: [is_developer]
+    description: "Flags if a product is in the extra publication"
     type: yesno
     sql: case when ${promo_extra.product_code} is null then false else true end ;;
   }
@@ -669,6 +687,7 @@ dimension_group: order_completed {
     group_label: "Flags"
     label: "In Catalogue or Promo?"
     required_access_grants: [is_developer]
+    description: "Flags is a product in the main catalogue or extra publication"
     type: yesno
     sql: case when ${promo_main_catalogue.product_code} is null and ${promo_extra.product_code} is null then false else true end ;;
   }
@@ -779,6 +798,7 @@ dimension_group: order_completed {
   # Core #
  measure: total_gross_sales {
     label: "Gross Sales"
+    description: "Sales value including VAT"
     type:  sum
     view_label: "Measures"
     group_label: "Core Metrics"
@@ -790,6 +810,7 @@ dimension_group: order_completed {
     label: "Net Sales"
     view_label: "Measures"
     group_label: "Core Metrics"
+    description: "Sales value excluding VAT"
     type:  sum
     sql: coalesce(${net_sales_value},null) ;;
     value_format_name: gbp
@@ -799,6 +820,7 @@ dimension_group: order_completed {
     label: "COGS"
     view_label: "Measures"
     group_label: "Core Metrics"
+    description: "Product cost price"
     type:  sum
     sql: ${cogs} ;;
     value_format_name: gbp
@@ -808,6 +830,7 @@ dimension_group: order_completed {
     label: "Unit Funding"
     view_label: "Measures"
     group_label: "Core Metrics"
+    description: "Retro funding"
     type:  sum
     sql: ${unit_funding} ;;
     value_format_name: gbp
@@ -817,6 +840,7 @@ dimension_group: order_completed {
     label: "Margin (Excluding Funding)"
     view_label: "Measures"
     group_label: "Core Metrics"
+    description: "Standard margin excluding unit funding"
     type:  sum
     sql: ${margin_excl_funding} ;;
     value_format_name: gbp
@@ -826,6 +850,7 @@ dimension_group: order_completed {
     label: "Margin (Including Funding)"
     view_label: "Measures"
     group_label: "Core Metrics"
+    description: "Margin including unit funding"
     type:  sum
     sql: ${margin_incl_funding} ;;
     value_format_name: gbp
@@ -835,6 +860,7 @@ dimension_group: order_completed {
     label: "Margin Rate (Excluding Funding)"
     view_label: "Measures"
     group_label: "Core Metrics"
+    description: "Standard margin % excluding unit funding"
     type:  number
     sql:COALESCE(SAFE_DIVIDE(${total_margin_excl_funding}, ${total_net_sales}),null);;
     value_format: "##0.00%;(##0.00%)"
@@ -844,6 +870,7 @@ dimension_group: order_completed {
     label: "Margin Rate (Including Funding)"
     view_label: "Measures"
     group_label: "Core Metrics"
+    description: "Margin % including unit funding"
     type:  number
     sql:
     COALESCE(SAFE_DIVIDE(${total_margin_incl_funding}, ${total_net_sales}),null) ;;
@@ -854,6 +881,7 @@ dimension_group: order_completed {
     label: "Units"
     view_label: "Measures"
     group_label: "Core Metrics"
+    description: "Number of units sold - only inclduing retial products"
     type:  sum
     sql: case when ${product_code} like '0%' then 0 else ${quantity} end ;;
     value_format: "#,##0;(#,##0)"
@@ -863,6 +891,7 @@ dimension_group: order_completed {
     label: "Units (System Codes)"
     view_label: "Measures"
     group_label: "Core Metrics"
+    description: "Number of units sold - including retail products and system codes (i.e carrier bags, vouchers)"
     type:  sum
     sql: ${quantity} ;;
     value_format: "#,##0;(#,##0)"
@@ -872,6 +901,7 @@ dimension_group: order_completed {
     label: "Number of Transactions"
     view_label: "Measures"
     group_label: "Core Metrics"
+    description: "Number of orders"
     type: count_distinct
     sql: ${parent_order_uid} ;;
     value_format: "#,##0;(#,##0)"
@@ -881,6 +911,7 @@ dimension_group: order_completed {
     label: "Number of Products"
     view_label: "Measures"
     group_label: "Core Metrics"
+    description: "Number of unique product codes sold"
     type: count_distinct
     sql: ${product_code} ;;
     value_format: "#,##0;(#,##0)"
@@ -890,6 +921,7 @@ dimension_group: order_completed {
     label: "Number of Customers"
     view_label: "Measures"
     group_label: "Core Metrics"
+    description: "Number of unique customers"
     type: count_distinct
     sql: ${customer_uid} ;;
     value_format: "#,##0;(#,##0)"
@@ -900,6 +932,7 @@ dimension_group: order_completed {
     label: "Gross Sales AOV"
     view_label: "Measures"
     group_label: "AOV"
+    description: "Average gross sales per order"
     type:  number
     sql: COALESCE(SAFE_DIVIDE(${total_gross_sales}, ${number_of_transactions}),0) ;;
     value_format_name: gbp
@@ -909,6 +942,7 @@ dimension_group: order_completed {
     label: "Net Sales AOV"
     view_label: "Measures"
     group_label: "AOV"
+    description: "Average net sales per order"
     type:  number
     sql: COALESCE(SAFE_DIVIDE(${total_net_sales}, ${number_of_transactions}),0) ;;
     value_format_name: gbp
@@ -918,6 +952,7 @@ dimension_group: order_completed {
     label: "Margin (Excluding Funding) AOV"
     view_label: "Measures"
     group_label: "AOV"
+    description: "Average margin (excluding unit funding) per order"
     type:  number
     sql: COALESCE(SAFE_DIVIDE(${total_margin_excl_funding}, ${number_of_transactions}),0) ;;
     value_format_name: gbp
@@ -927,6 +962,7 @@ dimension_group: order_completed {
     label: "Margin (Including Funding) AOV"
     view_label: "Measures"
     group_label: "AOV"
+    description: "Average margin (including unit funding) per order"
     type:  number
     sql: COALESCE(AFE_DIVIDE(${total_margin_incl_funding}, ${number_of_transactions}),0) ;;
     value_format_name: gbp
@@ -936,6 +972,7 @@ dimension_group: order_completed {
     label: "Units AOV" #  (Transaction)
     view_label: "Measures"
     group_label: "AOV"
+    description: "Average units (only retail products) per order"
     type: number
     sql: COALESCE(SAFE_DIVIDE(${total_units}, ${number_of_transactions}),0) ;;
     value_format: "#,##0.00;(\#,##0.00)"
@@ -945,6 +982,7 @@ dimension_group: order_completed {
     label: "Average Units Inc System" # (Transaction)
     view_label: "Measures"
     group_label: "AOV"
+    description: "Average units (retail products and system codes) per order"
     type: number
     sql: COALESCE(SAFE_DIVIDE(${total_units_incl_system_codes}, ${number_of_transactions}),0) ;;
     value_format: "#,##0.00;(\#,##0.00)"
@@ -965,6 +1003,7 @@ dimension_group: order_completed {
     label: "Gross Sales (LFL)"
     view_label: "Measures"
     group_label: "LFL"
+    description: "Like for like gross sales. Only sites open for 1 year or more are eligible"
     type: sum
     sql: case when ${is_lfl} then ${gross_sales_value} else 0 end;;
   }
@@ -973,6 +1012,7 @@ dimension_group: order_completed {
     label: "Net Sales (LFL)"
     view_label: "Measures"
     group_label: "LFL"
+    description: "Like for like net sales. Only sites open for 1 year or more are eligible"
     type: sum
     sql: case when ${is_lfl} then ${net_sales_value} else 0 end;;
   }
@@ -981,6 +1021,7 @@ dimension_group: order_completed {
     label: "Margin (Excluding Funding) (LFL)"
     view_label: "Measures"
     group_label: "LFL"
+    description: "Like for like margin excluing unit funding. Only sites open for 1 year or more are eligible"
     type: sum
     sql: case when ${is_lfl} then ${margin_excl_funding} else 0 end;;
   }
@@ -989,6 +1030,7 @@ dimension_group: order_completed {
     label: "Margin (Including Funding) (LFL)"
     view_label: "Measures"
     group_label: "LFL"
+    description: "Like for like margin including unit funding. Only sites open for 1 year or more are eligible"
     type: sum
     sql: case when ${is_lfl} then ${margin_incl_funding} else 0 end;;
   }
@@ -997,6 +1039,7 @@ dimension_group: order_completed {
     label: "Margin Rate (Excluding Funding) (LFL)"
     view_label: "Measures"
     group_label: "LFL"
+    description: "Like for like margin % (excluding unit funding). Only sites open for 1 year or more are eligible"
     type:  number
     sql: SAFE_DIVIDE(${lfl_margin_excl_funding}, ${lfl_net_sales}) ;;
     value_format: "0.00%;(0.00%)"
@@ -1006,6 +1049,7 @@ dimension_group: order_completed {
     label: "Margin Rate (Including Funding) (LFL)"
     view_label: "Measures"
     group_label: "LFL"
+    description: "Like for like margin % (including unit funding). Only sites open for 1 year or more are eligible"
     type:  number
     sql: SAFE_DIVIDE(${lfl_margin_incl_funding}, ${lfl_net_sales}) ;;
     value_format: "0.00%;(0.00%)"
@@ -1015,6 +1059,7 @@ dimension_group: order_completed {
     label: "Number of Customers (LFL)"
     view_label: "Measures"
     group_label: "LFL"
+    description: "Number of customers at like for like sites (sites open for 1 year or more)"
     type: sum
     sql: case when ${is_lfl} then ${customer_uid} else 0 end;;
   }
@@ -1023,6 +1068,7 @@ dimension_group: order_completed {
     label: "Number of Transactions (LFL)"
     view_label: "Measures"
     group_label: "LFL"
+    description: "Number of orders at like for like sites (sites open for 1 year or more)"
     type: count_distinct
     sql: case when ${is_lfl} then ${parent_order_uid} else null end;;
   }
@@ -1031,6 +1077,7 @@ dimension_group: order_completed {
     label: "Units (LFL)"
     view_label: "Measures"
     group_label: "LFL"
+    description: "Number of units sold at like for like sites (sites open for 1 year or more)"
     type: sum
     sql: case when ${is_lfl} and ${product_code} not like '0%' then ${quantity} else 0 end;;
   }
