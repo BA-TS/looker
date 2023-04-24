@@ -151,19 +151,27 @@ explore: customers {
 
 explore: +customers {
   query: address_check{
-    label: "Customer Address Check"
-    description: "Customer Address Check"
+    label: "Customer Address and Permissions Check"
+    description: "Customer Address and Permissions Check"
     dimensions: [
-      customer_uid,
+      customers.customer_uid,
       customers.customer__first_name,
       customers.customer__last_name,
       customers.address__address_line1,
       customers.address__address_line2,
       customers.address__address_line3,
-      customers.address__postcode
+      customers.address__postcode,
+      customers.customer__email,
+      customers.customer__mobile,
+      customers.customer__telephone,
+      customers.permissions__offers_email_opt_in,
+      customers.permissions__offers_mail_opt_in,
+      customers.permissions__offers_notif_opt_in,
+      customers.permissions__offers_sms_opt_in
     ]
     filters: [
-      base.select_date_range: "after 2013-01-01"
+      base.select_date_range: "after 2000-01-01"
+      # base.select_date_range: "any time"
     ]
     limit: 500
   }
