@@ -185,11 +185,11 @@ view: sites {
   }
 
   dimension_group: date_opened {
-    group_label: "Opened Date"
+    group_label: "Opened Year"
     label: "Opened"
-    description: "Date when the branch was opened"
+    description: "Year of when the branch was opened"
     type: time
-    timeframes: [date]
+    timeframes: [year]
     sql: ${TABLE}.dateOpened ;;
   }
 
