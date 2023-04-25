@@ -2,10 +2,12 @@ access_grant: can_use_customer_information {
   user_attribute: ts_sensitive_customer
   allowed_values: ["Y"]
 }
+
 access_grant: is_developer {
   user_attribute: ts_developer
   allowed_values: ["Y"]
 }
+
 access_grant: is_super {
   user_attribute: ts_super
   allowed_values: ["Y"]
