@@ -3,10 +3,11 @@ include: "/views/prod/department_specific/customer/trade_customers.view"
 include: "/views/prod/department_specific/customer/trade_credit_details.view"
 
 view: customers {
-  required_access_grants: [can_use_customer_information]
+  # required_access_grants: [can_use_customer_information]
   sql_table_name: `toolstation-data-storage.customer.allCustomers`;;
 
   dimension: address__address_line1 {
+    required_access_grants: [can_use_customer_information]
     type: string
     sql: ${TABLE}.address.addressLine1 ;;
     group_label: "Address"
@@ -14,6 +15,7 @@ view: customers {
   }
 
   dimension: address__address_line2 {
+    required_access_grants: [can_use_customer_information]
     type: string
     sql: ${TABLE}.address.addressLine2 ;;
     group_label: "Address"
@@ -21,6 +23,7 @@ view: customers {
   }
 
   dimension: address__address_line3 {
+    required_access_grants: [can_use_customer_information]
     type: string
     sql: ${TABLE}.address.addressLine3 ;;
     group_label: "Address"
@@ -28,6 +31,7 @@ view: customers {
   }
 
   dimension: address__address_line4 {
+    required_access_grants: [can_use_customer_information]
     type: string
     sql: ${TABLE}.address.addressLine4 ;;
     group_label: "Address"
@@ -35,6 +39,7 @@ view: customers {
   }
 
   dimension: address__address_line5 {
+    required_access_grants: [can_use_customer_information]
     type: string
     sql: ${TABLE}.address.addressLine5 ;;
     group_label: "Address"
@@ -56,6 +61,7 @@ view: customers {
   }
 
   dimension: address__country_code {
+    required_access_grants: [can_use_customer_information]
     type: string
     sql: ${TABLE}.address.countryCode ;;
     group_label: "Address"
@@ -63,6 +69,7 @@ view: customers {
   }
 
   dimension: address__country_code2 {
+    required_access_grants: [can_use_customer_information]
     type: string
     sql: ${TABLE}.address.countryCode2 ;;
     group_label: "Address"
@@ -70,6 +77,7 @@ view: customers {
   }
 
   dimension: address__postcode {
+    required_access_grants: [can_use_customer_information]
     type: string
     sql: ${TABLE}.address.postcode ;;
     group_label: "Address"
@@ -99,6 +107,7 @@ view: customers {
   }
 
   dimension: customer__email {
+    required_access_grants: [can_use_customer_information]
     type: string
     sql: ${TABLE}.customer.email ;;
     group_label: "Customer"
@@ -120,6 +129,7 @@ view: customers {
   }
 
   dimension: customer__mobile {
+    required_access_grants: [can_use_customer_information]
     type: string
     sql: ${TABLE}.customer.mobile ;;
     group_label: "Customer"
@@ -127,6 +137,7 @@ view: customers {
   }
 
   dimension: customer__telephone {
+    required_access_grants: [can_use_customer_information]
     type: string
     sql: ${TABLE}.customer.telephone ;;
     group_label: "Customer"
