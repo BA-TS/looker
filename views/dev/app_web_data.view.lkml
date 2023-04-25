@@ -289,7 +289,7 @@ else hits.eventInfo.eventCategory end as event_name,
 page.pagePath as screen,
 sum(safe_divide(product.productRevenue,1000000)) as item_revenue,
 sum(product.productQuantity) as ItemQ,
-safe_divide(Product.ProductPrice,1000000) as itemPrice
+safe_divide(Product.ProductPrice,1000000) as Item_price
 FROM `toolstation-data-storage.4783980.ga_sessions_*`, unnest (hits) as hits left join unnest(product) as product
  WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
