@@ -1,6 +1,6 @@
 include: "/models/backend/config.model"
 include: "/views/**/*.view"
-include: "/explores/dev/alerts/*"
+include: "/explores/sales/alerts.explore"
 include: "/dashboards/dev/transaction_alerts/*"
 
-label: "Alerts"
+label: "Sales"
