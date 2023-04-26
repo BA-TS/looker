@@ -276,7 +276,7 @@ view: total_sessions {
 'Web Trolley' as app_web_sessions,
 PARSE_DATE('%Y%m%d', date) as date,
 trafficSource.medium as Medium,
-count(distinct concat(fullVisitorID,visitStartTime)) over (partition by date,trafficSource.medium)as sessions_by_medium,
+count(distinct concat(fullVisitorID,visitStartTime)) over (partition by date,trafficSource.medium) as sessions_by_medium,
 count(distinct concat(fullVisitorID,visitStartTime)) over (partition by date) as total_sessions,
 FROM `toolstation-data-storage.4783980.ga_sessions_*`
  WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
@@ -379,10 +379,16 @@ select distinct row_number() over (order by date,app_web_sessions) as P_K, * fro
   }
 
 
-  dimension: sessions {
-    description: "Total sessions by medium"
+  dimension: total_sessions {
+    description: "Total sessions"
     type: number
-    sql: ${TABLE}.sessions ;;
+    sql: ${TABLE}.total_sessions ;;
+  }
+
+  dimension: sessions_by_medium {
+    description: "sessions_by_medium"
+    type: number
+    sql: ${TABLE}.sessions_by_medium ;;
   }
 
   dimension: event_name {
