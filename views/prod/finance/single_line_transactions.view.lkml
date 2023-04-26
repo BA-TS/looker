@@ -46,7 +46,7 @@ view: single_line_transactions {
     label: "Single Line Percentage"
     description: "Single line transactions as a percentage of total transactions (Single Line + Non-single Line)"
     type: number
-    sql: ${single_line_transactions_total}/(${single_line_transactions_total}+${non_single_line_transactions_total});;
+    sql: ${single_line_transactions_total}/NULLIF((${single_line_transactions_total}+${non_single_line_transactions_total}),0);;
     value_format: "0.0%"
   }
 }
