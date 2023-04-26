@@ -3,4 +3,4 @@ include: "/views/**/*.view"
 include: "/explores/stock/*"
 include: "/explores/distribution/*"
 
-label: "TS - Stock"
+label: "Stock"

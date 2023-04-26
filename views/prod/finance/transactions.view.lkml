@@ -897,6 +897,15 @@ dimension_group: order_completed {
     value_format: "#,##0;(#,##0)"
   }
 
+  measure: first_transaction_date {
+    label: "First Transaction Date"
+    view_label: "Measures"
+    group_label: "Core Metrics"
+    description: "First transaction date"
+    type: date
+    sql: min(${transactions.transaction_date});;
+  }
+
   measure: number_of_transactions {
     label: "Number of Transactions"
     view_label: "Measures"
