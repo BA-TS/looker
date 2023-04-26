@@ -25,7 +25,8 @@ explore: base {
       stock_cover.date_filter: "Yesterday",
       summarised_daily_Sales.dated_date: "21 days",
       select_date_reference: "app^_web^_data",
-      select_date_range: "7 days"
+      select_date_range: "7 days",
+      total_sessionsv2.session_date_filter: "7 days"
       ]
 
     unless: [
@@ -89,7 +90,14 @@ explore: base {
     relationship: many_to_one
     sql_on:
       ${base.date_date}=${total_sessions.date_date};;
+  }
 
+  join: total_sessionsv2 {
+    view_label: "Eccomerce Events"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${base.date_date}=${total_sessionsv2.date_date};;
   }
 
   join: channel_budget {
@@ -160,18 +168,17 @@ explore: base {
 
   join: products {
     type: left_outer
-    relationship: one_to_many
+    relationship: many_to_one
     sql_on: ${app_web_data.ProductUID}=${products.product_uid}
       ;;
   }
 
-  join: productv2 {
-    from: products
-    type: left_outer
-    relationship: one_to_many
-    sql_on: ${total_sessions.product_code} = ${productv2.product_code} ;;
-
-  }
+   join: productv2 {
+     from: products
+     type: left_outer
+     relationship: one_to_many
+     sql_on: ${total_sessionsv2.product_code} = ${productv2.product_code} ;;
+ }
 
   join: promo_main_catalogue {
     type: left_outer
@@ -231,7 +238,8 @@ explore: base {
     type: left_outer
     relationship: many_to_one
     sql_on: ${base.date_date} = ${summarised_daily_Sales.dated_date}
-      and ${total_sessions.app_web_sessions} = ${summarised_daily_Sales.App_Web};;
+      --and ${total_sessions.app_web_sessions} = ${summarised_daily_Sales.App_Web}
+      ;;
   }
 
 #  join: digital_transaction_mapping {
