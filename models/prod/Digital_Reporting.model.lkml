@@ -169,18 +169,16 @@ explore: base {
   join: products {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${app_web_data.ProductUID}=${products.product_uid} and
-    ${total_sessionsv2.product_code} = ${products.product_code}
+    sql_on: ${app_web_data.ProductUID}=${products.product_uid}
       ;;
   }
 
-  # join: productv2 {
-  #   from: products
-  #   type: left_outer
-  #   relationship: one_to_many
-  #   sql_on: ${total_sessions.product_code} = ${productv2.product_code} ;;
-
-  # }
+   join: productv2 {
+     from: products
+     type: left_outer
+     relationship: one_to_many
+     sql_on: ${total_sessionsv2.product_code} = ${productv2.product_code} ;;
+ }
 
   join: promo_main_catalogue {
     type: left_outer
