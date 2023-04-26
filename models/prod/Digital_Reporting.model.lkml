@@ -160,9 +160,8 @@ explore: base {
 
   join: products {
     type: left_outer
-    relationship: one_to_many
+    relationship: many_to_one
     sql_on: ${app_web_data.ProductUID}=${products.product_uid}
-    and ${total_sessions.product_code} = ${products.product_code}
       ;;
   }
 
@@ -232,7 +231,8 @@ explore: base {
     type: left_outer
     relationship: many_to_one
     sql_on: ${base.date_date} = ${summarised_daily_Sales.dated_date}
-      and ${total_sessions.app_web_sessions} = ${summarised_daily_Sales.App_Web};;
+      --and ${total_sessions.app_web_sessions} = ${summarised_daily_Sales.App_Web}
+      ;;
   }
 
 #  join: digital_transaction_mapping {

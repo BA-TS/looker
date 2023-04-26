@@ -268,8 +268,82 @@ view: app_web_data {
 
 }
 
-
 view: total_sessions {
+
+  derived_table: {
+
+    sql: with sub1 as (SELECT distinct
+'Web Trolley' as app_web_sessions,
+PARSE_DATE('%Y%m%d', date) as date,
+trafficSource.medium as Medium,
+count(distinct concat(fullVisitorID,visitStartTime)) as sessions,
+FROM `toolstation-data-storage.4783980.ga_sessions_*`
+ WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
+and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
+AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %}
+ group by 2,3
+
+
+union distinct
+SELECT distinct
+    'App Trolley' as app_web_sessions,
+    PARSE_DATE('%Y%m%d', event_date) as date,
+    traffic_source.medium as Medium,
+    COUNT(DISTINCT CASE
+    WHEN event_name = 'session_start' THEN CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))
+    END) AS sessions
+    FROM `toolstation-data-storage.analytics_265133009.events_*`
+     WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
+and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
+AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
+    GROUP BY 2,3)
+
+    Select distinct row_number() over () as P_K, sub1.* from sub1 ;;
+  }
+
+  dimension: P_K {
+    description: "Primary key"
+    type: number
+    primary_key: yes
+    hidden: yes
+    sql: ${TABLE}.P_K ;;
+  }
+
+  dimension: app_web_sessions {
+    description: "Web or App sessions"
+    type: string
+    sql: ${TABLE}.app_web_sessions ;;
+  }
+
+  dimension_group: date {
+    description: "Date of sessions"
+    type: time
+    timeframes: [raw,date]
+    sql: ${TABLE}.date ;;
+  }
+
+  dimension: Medium {
+    description: "Medium sessions"
+    type: string
+    sql: ${TABLE}.Medium ;;
+  }
+
+  dimension: sessions {
+    description: "sessions"
+    type: number
+    sql: ${TABLE}.sessions ;;
+  }
+
+  filter: session_date_filter {
+    hidden: no
+    type: date
+    datatype: date # Or your datatype. For writing the correct condition on date_column below
+  }
+
+}
+
+
+view: total_sessionsv2 {
 
   derived_table: {
     sql: with sub0 as (with sub1 as (SELECT distinct
