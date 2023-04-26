@@ -378,9 +378,9 @@ SELECT distinct
     sum(items.quantity) as itemQ,
     items.price as Item_Price
     FROM `toolstation-data-storage.analytics_265133009.events_*` left join unnest(items) as items
-     WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
+     WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
-AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %}
+AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
     and event_name in ('purchase', 'add_to_cart')
     GROUP BY 2,3,4,5,7,10)
 
