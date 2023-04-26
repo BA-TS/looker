@@ -19,7 +19,7 @@ view: single_line_transactions {
 
   dimension: single_line_transaction_flag {
     view_label: "Transactions"
-    group_label: "Flags"
+    group_label: "Single Line Transactions"
     label: "Single Line"
     description: "Yes/No whether the transaction contained only one product line."
     type: yesno
@@ -28,21 +28,21 @@ view: single_line_transactions {
 
   measure: single_line_transactions_total {
     view_label: "Transactions"
-    group_label: "Flags"
+    group_label: "Single Line Transactions"
     type: sum
     sql: CASE WHEN ${single_line_transaction_flag} = true THEN 1 ELSE 0 END;;
   }
 
   measure: non_single_line_transactions_total {
     view_label: "Transactions"
-    group_label: "Flags"
+    group_label: "Single Line Transactions"
     type: sum
     sql: CASE WHEN ${single_line_transaction_flag} = FALSE THEN 1 ELSE 0 END;;
   }
 
   measure: single_line_percent {
     view_label: "Transactions"
-    group_label: "Flags"
+    group_label: "Single Line Transactions"
     label: "Single Line Percentage"
     description: "Single line transactions as a percentage of total transactions (Single Line + Non-single Line)"
     type: number
