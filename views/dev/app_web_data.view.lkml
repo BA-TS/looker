@@ -346,18 +346,7 @@ AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {
 view: total_sessionsv2 {
 
   derived_table: {
-    sql: with sub0 as (with sub1 as (SELECT distinct
-'Web Trolley' as app_web_sessions,
-PARSE_DATE('%Y%m%d', date) as date,
-trafficSource.medium as Medium,
-concat(fullVisitorID,visitStartTime) as sessions,
-FROM `toolstation-data-storage.4783980.ga_sessions_*`
- WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
-and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
-AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %}
-),
-
-sub2 as (SELECT distinct
+    sql: with sub0 as (SELECT distinct
 'Web Trolley' as app_web_sessions,
 PARSE_DATE('%Y%m%d', date) as date,
 trafficSource.medium as Medium,
@@ -373,27 +362,11 @@ WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %}
 and hits.eventInfo.EventAction in ("Purchase", "Add to Cart")
-group by 2,3,4,5,7,10)
-
-select distinct sub1.app_web_sessions, sub1.date, sub1.medium, sub1.sessions, sub2.event_name, sub2.screen, sub2.events as events, sub2.item_id, sub2.item_revenue, sub2.ItemQ, sub2.Item_price
-from sub1 left join sub2 on sub1.date = sub2.date And sub1.medium=sub2.medium
+group by 2,3,4,5,7,10
 
 union distinct
 
-(with sub3 as (SELECT distinct
-    'App Trolley' as app_web_sessions,
-    PARSE_DATE('%Y%m%d', event_date) as date,
-    traffic_source.medium as Medium,
-    (CASE
-    WHEN event_name = 'session_start' THEN CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))
-    END) AS sessions
-    FROM `toolstation-data-storage.analytics_265133009.events_*`
-     WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
-and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
-AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
-    ),
-
-    sub4 as (SELECT distinct
+SELECT distinct
     'App Trolley' as app_web_sessions,
     PARSE_DATE('%Y%m%d', event_date) as date,
     traffic_source.medium as Medium,
@@ -405,16 +378,13 @@ AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {
     sum(items.quantity) as itemQ,
     items.price as Item_Price
     FROM `toolstation-data-storage.analytics_265133009.events_*` left join unnest(items) as items
-     WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
+     WHERE WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
-AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
+AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %}
     and event_name in ('purchase', 'add_to_cart')
     GROUP BY 2,3,4,5,7,10)
 
-select distinct sub3.app_web_sessions, sub3.date, sub3.medium, sub3.sessions,sub4.event_name, sub4.screen, sub4.events as events, sub4.item_id, sub4.item_revenue, sub4.itemQ, sub4.Item_Price
-from sub3 left join sub4 on sub3.date = sub4.date And sub3.medium=sub4.medium))
-
-select distinct row_number() over (order by date,app_web_sessions) as P_K, * from sub0
+select distinct row_number() over () as P_K, * from sub0
 
 
     ;;
@@ -427,7 +397,6 @@ select distinct row_number() over (order by date,app_web_sessions) as P_K, * fro
     hidden: yes
     sql: ${TABLE}.P_K ;;
   }
-
 
   dimension: app_web_sessions {
     description: "Web or App sessions"
@@ -443,16 +412,9 @@ select distinct row_number() over (order by date,app_web_sessions) as P_K, * fro
   }
 
   dimension: Medium {
-    description: "Medium sessions"
+    description: "Medium"
     type: string
     sql: ${TABLE}.Medium ;;
-  }
-
-
-  dimension: sessions {
-    description: "sessions"
-    type: number
-    sql: ${TABLE}.sessions ;;
   }
 
   dimension: event_name {
