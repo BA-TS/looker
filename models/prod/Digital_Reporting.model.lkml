@@ -93,6 +93,7 @@ explore: base {
   }
 
   join: total_sessionsv2 {
+    view_label: "Eccomerce Events"
     type: left_outer
     relationship: many_to_one
     sql_on:
