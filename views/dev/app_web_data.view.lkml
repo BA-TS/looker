@@ -276,12 +276,13 @@ view: total_sessions {
 'Web Trolley' as app_web_sessions,
 PARSE_DATE('%Y%m%d', date) as date,
 trafficSource.medium as Medium,
-count(distinct concat(fullVisitorID,visitStartTime)) as sessions,
-FROM `toolstation-data-storage.4783980.ga_sessions_*`, unnest (hits) as hits
+count(distinct concat(fullVisitorID,visitStartTime)) over (partition by date,trafficSource.medium)as sessions_by_medium,
+count(distinct concat(fullVisitorID,visitStartTime)) over (partition by date) as total_sessions,
+FROM `toolstation-data-storage.4783980.ga_sessions_*`
  WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %}
- group by 2,3),
+),
 
 sub2 as (SELECT distinct
 'Web Trolley' as app_web_sessions,
@@ -301,7 +302,7 @@ AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endc
 and hits.eventInfo.EventAction in ("Purchase", "Add to Cart")
 group by 2,3,4,5,7,10)
 
-select sub1.app_web_sessions, sub1.date, sub1.medium, sub1.sessions, sub2.event_name, sub2.screen, sub2.events as events, sub2.item_id, sub2.item_revenue, sub2.ItemQ, sub2.Item_price
+select distinct sub1.app_web_sessions, sub1.date, sub1.medium, sub1.total_sessions, sub1.sessions_by_medium, sub2.event_name, sub2.screen, sub2.events as events, sub2.item_id, sub2.item_revenue, sub2.ItemQ, sub2.Item_price
 from sub1 left join sub2 on sub1.date = sub2.date And sub1.medium=sub2.medium
 
 union distinct
@@ -310,14 +311,17 @@ union distinct
     'App Trolley' as app_web_sessions,
     PARSE_DATE('%Y%m%d', event_date) as date,
     traffic_source.medium as Medium,
+        COUNT(DISTINCT CASE
+    WHEN event_name = 'session_start' THEN CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))
+    END) over (partition by event_date,traffic_source.medium) AS sessions_by_medium,
     COUNT(DISTINCT CASE
     WHEN event_name = 'session_start' THEN CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))
-    END) AS sessions
+    END) over (partition by event_date) AS total_sessions
     FROM `toolstation-data-storage.analytics_265133009.events_*`
      WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
-    GROUP BY 1,2,3),
+    ),
 
     sub4 as (SELECT distinct
     'App Trolley' as app_web_sessions,
@@ -337,7 +341,7 @@ AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {
     and event_name in ('purchase', 'add_to_cart')
     GROUP BY 2,3,4,5,7,10)
 
-select sub3.app_web_sessions, sub3.date, sub3.medium, sub3.sessions,sub4.event_name, sub4.screen, sub4.events as events, sub4.item_id, sub4.item_revenue, sub4.itemQ, sub4.Item_Price
+select distinct sub3.app_web_sessions, sub3.date, sub3.medium, sub3.total_sessions, sub3.sessions_by_medium,sub4.event_name, sub4.screen, sub4.events as events, sub4.item_id, sub4.item_revenue, sub4.itemQ, sub4.Item_Price
 from sub3 left join sub4 on sub3.date = sub4.date And sub3.medium=sub4.medium))
 
 select distinct row_number() over (order by date,app_web_sessions) as P_K, * from sub0
@@ -425,10 +429,6 @@ select distinct row_number() over (order by date,app_web_sessions) as P_K, * fro
     sql: ${TABLE}.ItemQ ;;
   }
 
-  measure: sessionss {
-    type: sum
-    sql: ${TABLE}.sessions ;;
-  }
   # dimension: ProductUID {
   #   description: "ProductUID"
   #   type: string
