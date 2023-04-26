@@ -1,14 +1,7 @@
 view: products {
   derived_table: {
   sql: SELECT distinct * FROM `toolstation-data-storage.range.products_current`
-  union distinct
-  SELECT
-  "NONE", "NONE",null, null, null,
-  null, null, null, null, null,
-  null, null, null, null, null,
-  null, null, null, null, null,
-  null, null, null, null, null,
-  null, null, null, null, null;;
+  ;;
   }
 
   dimension: brand {
