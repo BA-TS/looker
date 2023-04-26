@@ -424,6 +424,11 @@ select distinct row_number() over (order by date,app_web_sessions) as P_K, * fro
     type: number
     sql: ${TABLE}.ItemQ ;;
   }
+
+  measure: sessionss {
+    type: sum
+    sql: ${TABLE}.sessions ;;
+  }
   # dimension: ProductUID {
   #   description: "ProductUID"
   #   type: string
