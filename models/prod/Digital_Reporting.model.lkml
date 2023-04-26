@@ -169,7 +169,8 @@ explore: base {
   join: products {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${app_web_data.ProductUID}=${products.product_uid}
+    sql_on: ${app_web_data.ProductUID}=${products.product_uid} and
+    ${total_sessionsv2.product_code} = ${products.product_code}
       ;;
   }
 
