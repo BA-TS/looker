@@ -3,6 +3,7 @@ include: "/views/**/*.view"
 explore: stock_soq {
   required_access_grants: [is_developer]
   label: "Stock SOQ"
+  hidden: yes
   join: products {
     type: left_outer
     relationship: many_to_one
