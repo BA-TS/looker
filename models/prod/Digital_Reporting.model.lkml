@@ -177,7 +177,7 @@ explore: base {
      from: products
      type: left_outer
      relationship: one_to_many
-     sql_on: ${total_sessionsv2.product_code} = ${productv2.product_code} ;;
+     sql_on: ${total_sessionsv2.product_code} = ${productv2.product_code} and ${app_web_data.ProductUID}=${products.product_uid};;
  }
 
   join: promo_main_catalogue {
