@@ -18,7 +18,6 @@ explore: daily_transactions_incomplete {
   label: "Daily - Incomplete Transactions"
 }
 
-
 explore: weekly_new_stores_sales {
   required_access_grants: [is_developer]
   label: "Weekly - New Stores Sales"
@@ -28,7 +27,6 @@ explore: TP_Lightside_Invoice_Data {
   required_access_grants: [is_developer]
   label: "Daily - TP Lightside Invoice Data"
 }
-
 
 explore: monthly_pendingOrders {
   required_access_grants: [is_developer]
