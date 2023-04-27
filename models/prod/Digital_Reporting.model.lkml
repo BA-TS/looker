@@ -114,7 +114,7 @@ explore: base {
     type: left_outer
     relationship: many_to_one
     sql_on:
-        ${base.date_date}=${category_budget.date} AND UPPER(${products.department}) = UPPER(${category_budget.department})
+        ${base.date_date}=${category_budget.date} AND UPPER(${productv2.department}) = UPPER(${category_budget.department})
       ;;
   }
 
@@ -166,24 +166,24 @@ explore: base {
   #   sql_on: ${customers.customer_uid} = ${trade_customers.customer_uid} ;;
   # }
 
-  join: products {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${app_web_data.ProductUID}=${products.product_uid}
-      ;;
-  }
+  # join: products {
+  #   type: left_outer
+  #   relationship: many_to_one
+  #   sql_on: ${app_web_data.ProductUID}=${products.product_uid}
+  #     ;;
+  # }
 
    join: productv2 {
      from: products
      type: left_outer
      relationship: one_to_many
-     sql_on: ${total_sessionsv2.product_code} = ${productv2.product_code} and ${app_web_data.ProductUID}=${products.product_uid};;
+     sql_on: ${total_sessionsv2.product_code} = ${productv2.product_code} and ${app_web_data.ProductUID}=${productv2.product_uid};;
  }
 
   join: promo_main_catalogue {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${products.product_code} = ${promo_main_catalogue.product_code} and ${base.date_date} between ${promo_main_catalogue.live_date} and ${promo_main_catalogue.end_date} ;;
+    sql_on: ${productv2.product_code} = ${promo_main_catalogue.product_code} and ${base.date_date} between ${promo_main_catalogue.live_date} and ${promo_main_catalogue.end_date} ;;
   }
 
   # join: promo_extra {
@@ -261,14 +261,14 @@ explore: base {
   join: stock_cover {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${products.product_code} = ${stock_cover.product_code}
+    sql_on: ${productv2.product_code} = ${stock_cover.product_code}
     and ${base.base_date_date} = ${stock_cover.stock_date_date};;
   }
 
   join: currentRetailPrice {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${products.product_uid} = ${currentRetailPrice.Product_ID} ;;
+    sql_on: ${productv2.product_uid} = ${currentRetailPrice.Product_ID} ;;
   }
 
 
