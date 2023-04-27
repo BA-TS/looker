@@ -90,6 +90,7 @@ view: sites {
   dimension: site_uid {
     primary_key: yes
     view_label: "Location"
+    group_label: "Site Information"
     label: "Site UID"
     type: string
     sql: ${TABLE}.siteUID ;;
@@ -97,6 +98,7 @@ view: sites {
 
   dimension: site_name {
     view_label: "Location"
+    group_label: "Site Information"
     label: "Site Name"
     type: string
     sql: ${TABLE}.siteName ;;
@@ -185,7 +187,7 @@ view: sites {
   }
 
   dimension_group: date_opened {
-    group_label: "Site Opened Date"
+    group_label: "Site Information"
     label: "Opened"
     description: "Year of when the branch was opened"
     type: time
@@ -194,7 +196,7 @@ view: sites {
   }
 
   dimension_group: date_closed {
-    group_label: "Site Opened Date"
+    group_label: "Site Information"
     label: "Closed"
     type: time
     timeframes: [date]
@@ -203,7 +205,7 @@ view: sites {
   }
 
   dimension_group: branch_age {
-    group_label: "Opened Date"
+    group_label: "Site Information"
     label: "Branch Age"
     description: "Age of the branch since it was opened"
     type: duration
@@ -272,19 +274,19 @@ view: sites {
   }
 
   dimension: site_type {
-    group_label: "Store Classification"
+    group_label: "Site Information"
     type: string
     sql: ${TABLE}.siteType ;;
   }
 
   dimension: format {
-    group_label: "Store Classification"
+    group_label: "Site Information"
     type: string
     sql: ${TABLE}.format ;;
   }
 
   dimension: square_feet {
-    group_label: "Store Classification"
+    group_label: "Site Information"
     type: number
     sql: ${TABLE}.squareFeet ;;
   }
