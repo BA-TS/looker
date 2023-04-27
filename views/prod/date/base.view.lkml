@@ -40,6 +40,7 @@ view: base {
     label: "Month Name"
     sql: ${dynamic_month_name} ;;
     can_filter: no
+    hidden: yes
   }
 
   dimension: combined_week {
@@ -56,6 +57,7 @@ view: base {
     label: "Month (Only)"
     type: string
     sql: {% if select_date_type._parameter_valuie == "Calendar" %} ${dynamic_actual_month_only} {% else %} ${dynamic_fiscal_month_only} {% endif %} ;;
+    hidden: yes
   }
 
   dimension: combined_month {
@@ -100,7 +102,7 @@ view: base {
   dimension: dynamic_day_of_week {
     view_label: "Date"
     group_label: "Calendar"
-    label: "Day of Week"
+    label: "Day of Week Number"
     type: number
     sql: ${calendar_completed_date.day_in_week} ;;
     hidden: yes
@@ -109,7 +111,7 @@ view: base {
   dimension: dynamic_day_name {
     view_label: "Date"
     group_label: "Calendar"
-    label: "Day Name"
+    label: "Day of Week"
     type: string
     sql: ${calendar_completed_date.day_name_in_week} ;;
     hidden: yes
