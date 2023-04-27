@@ -185,7 +185,7 @@ view: sites {
   }
 
   dimension_group: date_opened {
-    group_label: "Opened Date"
+    group_label: "Site Opened Date"
     label: "Opened"
     description: "Year of when the branch was opened"
     type: time
@@ -194,7 +194,7 @@ view: sites {
   }
 
   dimension_group: date_closed {
-    group_label: "Opened Date"
+    group_label: "Site Opened Date"
     label: "Closed"
     type: time
     timeframes: [date]
