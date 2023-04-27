@@ -13,7 +13,7 @@ view: base {
   dimension: combined_day_name {
     view_label: "Date"
     group_label: "Dates"
-    label: "Day Name"
+    label: "Day of Week (Name)"
     sql: ${dynamic_day_name} ;;
     can_filter: no
   }
@@ -21,7 +21,7 @@ view: base {
   dimension: combined_month_number {
     view_label: "Date"
     group_label: "Dates"
-    label: "Month Number"
+    label: "Month"
     sql: ${dynamic_month_number} ;;
     can_filter: yes
   }
@@ -29,7 +29,7 @@ view: base {
   dimension: combined_day_of_week {
     view_label: "Date"
     group_label: "Dates"
-    label: "Day of Week"
+    label: "Day of Week (Number)"
     sql: ${dynamic_day_of_week} ;;
     can_filter: no #! check this for fiscal/calendar switch
   }
@@ -46,7 +46,7 @@ view: base {
   dimension: combined_week {
     view_label: "Date"
     group_label: "Dates"
-    label: "Week"
+    label: "Year Week"
     type: string
     sql: {% if select_date_type._parameter_value == "Calendar" %} ${dynamic_actual_week} {% else %} ${dynamic_fiscal_week} {% endif %} ;;
   }
@@ -63,7 +63,7 @@ view: base {
   dimension: combined_month {
     view_label: "Date"
     group_label: "Dates"
-    label: "Month"
+    label: "Year Month"
     type: string
     sql: {% if select_date_type._parameter_value == "Calendar" %} ${dynamic_actual_month} {% else %} ${dynamic_fiscal_month} {% endif %} ;;
   }
@@ -71,7 +71,7 @@ view: base {
   dimension: combined_quarter {
     view_label: "Date"
     group_label: "Dates"
-    label: "Quarter"
+    label: "Year Quarter"
     type: string
     sql: {% if select_date_type._parameter_value == "Calendar" %} ${dynamic_actual_quarter} {% else %} ${dynamic_fiscal_quarter} {% endif %} ;;
   }
