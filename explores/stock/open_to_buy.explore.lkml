@@ -9,4 +9,5 @@ explore: open_to_buy_model_new {
       open_to_buy_model_new.budget_type: "0"
     ]
   }
+  hidden: yes
 }
