@@ -29,12 +29,14 @@ view: calendar {
     group_label: "Calendar"
     type: string
     sql: ${TABLE}.calendarYearQuarter ;;
+    hidden: yes
   }
 
   dimension: date_key {
     group_label: "Date"
     type: number
     sql: ${TABLE}.dateKey ;;
+    hidden: yes
   }
 
   dimension: date_name {
@@ -47,18 +49,21 @@ view: calendar {
     group_label: "Date"
     type: string
     sql: ${TABLE}.dateNameEU ;;
+    hidden: yes
   }
 
   dimension: date_name_usa {
     group_label: "Date"
     type: string
     sql: ${TABLE}.dateNameUSA ;;
+    hidden: yes
   }
 
   dimension: day_in_month {
     group_label: "Day"
     type: number
     sql: ${TABLE}.dayInMonth ;;
+    hidden: yes
   }
 
   dimension: day_in_week {
@@ -71,12 +76,14 @@ view: calendar {
     group_label: "Day"
     type: number
     sql: ${TABLE}.dayInYear ;;
+    hidden: yes
   }
 
   dimension: day_name_in_week {
     group_label: "Day"
     type: string
     sql: ${TABLE}.dayNameInWeek ;;
+    hidden: yes
   }
 
   dimension: fiscal_month_of_year {
@@ -101,18 +108,21 @@ view: calendar {
     group_label: "Fiscal"
     type: number
     sql: ${TABLE}.fiscalYear ;;
+    hidden: yes
   }
 
   dimension: fiscal_year_month {
     group_label: "Fiscal"
     type: string
     sql: ${TABLE}.fiscalYearMonth ;;
+    hidden: yes
   }
 
   dimension: fiscal_year_quarter {
     group_label: "Fiscal"
     type: string
     sql: ${TABLE}.fiscalYearQuarter ;;
+    hidden: yes
   }
 
   dimension: fiscal_year_week {
@@ -132,6 +142,7 @@ view: calendar {
     group_label: "Holiday"
     type: string
     sql: ${TABLE}.holidayNameScotland ;;
+    hidden: yes
   }
 
   dimension: is_holiday {
@@ -144,18 +155,21 @@ view: calendar {
     group_label: "Flags"
     type: yesno
     sql: ${TABLE}.isHolidayScotland = 1;;
+    hidden: yes
   }
 
   dimension: is_last_day_of_month {
     group_label: "Flags"
     type: yesno
     sql: ${TABLE}.isLastDayOfMonth = 1 ;;
+    hidden: yes
   }
 
   dimension: is_first_day_of_month {
     group_label: "Flags"
     type: yesno
     sql: ${TABLE}.dayInMonth = 1 ;;
+    hidden: yes
   }
 
   dimension: is_weekend {
@@ -174,11 +188,13 @@ view: calendar {
     group_label: "Calendar"
     type: string
     sql: ${TABLE}.monthNameInYear ;;
+    hidden: yes
   }
 
   dimension: week_in_year {
     group_label: "Calendar"
     type: number
     sql: ${TABLE}.weekInYear ;;
+    hidden: yes
   }
 }
