@@ -99,26 +99,16 @@ view: catalogue {
     hidden: no
   }
 
-  dimension_group: catalogue_live_date {
-    type: time
-    datatype: datetime
+  dimension: catalogue_live_date {
+    label: "Catalogue Live_date"
+    type: date
     sql: ${TABLE}.catalogue_live_date ;;
-    timeframes: [
-      raw,
-      time,
-      date
-    ]
   }
 
-  dimension_group: catalogue_end_date {
-    type: time
-    datatype: datetime
+  dimension: catalogue_end_date {
+    label: "Catalogue End Date"
+    type: date
     sql: ${TABLE}.catalogue_end_date ;;
-    timeframes: [
-      raw,
-      time,
-      date
-    ]
   }
 
   dimension: catalogue_active {
@@ -144,26 +134,16 @@ view: catalogue {
     hidden: no
   }
 
-  dimension_group: extra_live_date {
-    type: time
-    datatype: datetime
+  dimension: extra_live_date {
+    label: "Extra Live Date"
+    type: date
     sql: ${TABLE}.extra_live_date ;;
-    timeframes: [
-      raw,
-      time,
-      date
-    ]
   }
 
-  dimension_group: extra_end_date {
-    type: time
-    datatype: datetime
+  dimension: extra_end_date {
+    label: "Extra End Date"
+    type: date
     sql: ${TABLE}.extra_end_date ;;
-    timeframes: [
-      raw,
-      time,
-      date
-    ]
   }
 
   dimension: extra_active {

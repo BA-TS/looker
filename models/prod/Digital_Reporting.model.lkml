@@ -228,7 +228,7 @@ explore: base {
   join: catalogue {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date_date} AND ${catalogue.catalogue_end_date_date} ;;
+    sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
   }
 
   join: Mobile_app {
