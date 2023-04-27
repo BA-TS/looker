@@ -4,6 +4,7 @@ explore: stock_cover {
   required_access_grants: [is_super]
   label: "Stock Cover"
   description: "Still under development/QA, please contact Business Analytics."
+  hidden: yes
   conditionally_filter: {
     filters: [
       stock_cover.date_filter: "Yesterday"
