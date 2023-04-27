@@ -4,18 +4,18 @@
 # include: "/**/*.view.lkml"                 # include all views in this project
 # include: "my_dashboard.dashboard.lookml"   # include a LookML dashboard called my_dashboard
 include: "/views/**/*.view"
+label: "Digital"
 
 explore: base {
 
   extends: []
-  label: "digital_reporting"
+  label: "Digital Reporting"
   description: "Explore Toolstation transactional data."
 
   always_filter: {
     filters: [
       select_date_type: "Calendar"
     ]
-
   }
 
   conditionally_filter: {
@@ -574,48 +574,6 @@ explore: base {
 #   }
 
 # }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 # AA #
