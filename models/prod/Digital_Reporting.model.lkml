@@ -92,14 +92,6 @@ explore: base {
       ${base.date_date}=${total_sessions.date_date};;
   }
 
-  join: total_sessionsv2 {
-    view_label: "Eccomerce Events"
-    type: left_outer
-    relationship: many_to_one
-    sql_on:
-      ${base.date_date}=${total_sessionsv2.date_date};;
-  }
-
   join: channel_budget {
     view_label: "Budget"
     type:  left_outer
@@ -176,9 +168,18 @@ explore: base {
    join: productv2 {
      from: products
      type: left_outer
-     relationship: one_to_many
-     sql_on: ${total_sessionsv2.product_code} = ${productv2.product_code} and ${app_web_data.ProductUID}=${productv2.product_uid};;
+     relationship: many_to_one
+     sql_on: ${app_web_data.ProductUID}=${productv2.product_uid};;
  }
+
+
+  join: total_sessionsv2 {
+    view_label: "Eccomerce Events"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${base.date_date}=${total_sessionsv2.date_date} and ${total_sessionsv2.product_code} = ${productv2.product_code};;
+  }
 
   join: promo_main_catalogue {
     type: left_outer
