@@ -185,7 +185,7 @@ view: sites {
   }
 
   dimension_group: date_opened {
-    group_label: "Opened Year"
+    group_label: "Opened Date"
     label: "Opened"
     description: "Year of when the branch was opened"
     type: time
