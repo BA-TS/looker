@@ -351,7 +351,7 @@ view: total_sessionsv2 {
 PARSE_DATE('%Y%m%d', date) as date,
 trafficSource.medium as Medium,
 case when regexp_contains(page.pagePath, ".*/p[0-9]*$") then "Product Detail Page" else "Other Page" end as Screen,
-hits.eventInfo.EventAction as event_name,
+case when regexp_contains(hits.eventInfo.EventCategory, ".*OOS$") then hits.eventInfo.EventCategory else hits.eventInfo.EventAction end as event_name,
 count(distinct concat(fullVisitorID,visitStartTime)) as events,
 product.productsku as item_id,
 sum(safe_divide(product.productRevenue,1000000)) as item_revenue,
@@ -361,7 +361,7 @@ FROM `toolstation-data-storage.4783980.ga_sessions_*`, unnest (hits) as hits lef
 WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %}
-and hits.eventInfo.EventAction in ("Purchase", "Add to Cart")
+and (hits.eventInfo.EventAction in ("Purchase", "Add to Cart") or regexp_contains(hits.eventInfo.EventCategory, ".*OOS$"))
 group by 2,3,4,5,7,10
 
 union distinct
@@ -381,7 +381,7 @@ SELECT distinct
      WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
-    and event_name in ('purchase', 'add_to_cart')
+    and event_name in ('purchase', 'add_to_cart', 'out_of_stock')
     GROUP BY 2,3,4,5,7,10)
 
 select distinct row_number() over () as P_K, * from sub0
