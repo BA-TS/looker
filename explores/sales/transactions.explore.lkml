@@ -177,6 +177,7 @@ explore: base {
     }
 
     join: product_first_sale_date {
+      view_label: "Products"
       type: left_outer
       relationship: many_to_one
       sql_on: ${transactions.product_code} = ${product_first_sale_date.product_code} ;;
@@ -189,12 +190,14 @@ explore: base {
     }
 
     join: trade_credit_details {
+      view_label: "Customers"
       type: left_outer
       relationship: many_to_one
       sql_on: ${trade_credit_ids.main_trade_credit_account_uid} = ${trade_credit_details.main_trade_credit_account_uid} ;;
     }
 
     join: catalogue {
+      view_label: "Catalogue"
       type: left_outer
       relationship: many_to_one
       sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;

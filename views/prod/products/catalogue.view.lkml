@@ -88,7 +88,6 @@ view: catalogue {
   }
 
   dimension: catalogue_name {
-    view_label: "Date"
     group_label: "Publication"
     label: "Catalogue"
     type: string
@@ -109,7 +108,6 @@ view: catalogue {
   }
 
   dimension: catalogue_active {
-    view_label: "Date"
     group_label: "Publication"
     label: "Active Catalogue?"
     type: yesno
@@ -123,7 +121,6 @@ view: catalogue {
   }
 
   dimension: extra_name {
-    view_label: "Date"
     group_label: "Publication"
     label: "Extra"
     type: string
@@ -144,7 +141,6 @@ view: catalogue {
   }
 
   dimension: extra_active {
-    view_label: "Date"
     group_label: "Publication"
     label: "Active Extra(s)?"
     type: yesno

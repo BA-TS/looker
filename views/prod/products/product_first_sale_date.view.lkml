@@ -17,7 +17,6 @@ view: product_first_sale_date {
   }
 
   dimension: first_sale_date {
-    view_label: "Products"
     group_label: "Product Details"
     label: "First Sale Date"
     type: date
@@ -27,7 +26,6 @@ view: product_first_sale_date {
   }
 
   dimension_group: first_sale_date_group {
-    view_label: "Products"
     group_label: "Product Details"
     label: "First Sale"
     type: time

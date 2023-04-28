@@ -48,7 +48,6 @@ view: trade_credit_details {
 
   dimension: has_trade_account {
     type: yesno
-    view_label: "Customers"
     group_label: "Flags"
     label: "Has Trade Account?"
     sql:${account_id} IS NOT NULL;;
