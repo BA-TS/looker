@@ -4,6 +4,7 @@ view: aac {
   dimension: product_uid {
     type: string
     sql: ${TABLE}.productUID ;;
+    primary_key: yes
     hidden: yes
   }
 

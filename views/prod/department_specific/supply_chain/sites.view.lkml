@@ -57,18 +57,21 @@ view: sites {
           )
             -- AND
           -- sites.isClosed = 0 -- added 11/05/22
-        GROUP BY
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
+        GROUP BY 1,2,3,4,5,6
       )
       LEFT JOIN
         `toolstation-data-storage.locations.sites` AS sites
       USING(siteUID);;
     datagroup_trigger: ts_location_datagroup
+  }
+
+  dimension: site_uid {
+    primary_key: yes
+    view_label: "Location"
+    group_label: "Site Information"
+    label: "Site UID"
+    type: string
+    sql: ${TABLE}.siteUID ;;
   }
 
   dimension: location_type {
@@ -87,15 +90,6 @@ view: sites {
     END;;
   }
 
-  dimension: site_uid {
-    primary_key: yes
-    view_label: "Location"
-    group_label: "Site Information"
-    label: "Site UID"
-    type: string
-    sql: ${TABLE}.siteUID ;;
-  }
-
   dimension: site_name {
     view_label: "Location"
     group_label: "Site Information"
@@ -103,7 +97,6 @@ view: sites {
     type: string
     sql: ${TABLE}.siteName ;;
   }
-
 
   ########## Site Address ##########
   dimension: address1 {

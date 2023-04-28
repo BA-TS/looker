@@ -1,5 +1,4 @@
 view: scmatrix {
-
   sql_table_name: `toolstation-data-storage.range.SCMatrix`;;
     view_label: "SC Matrix"
 

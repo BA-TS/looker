@@ -6,6 +6,13 @@ view: customers {
   # required_access_grants: [can_use_customer_information]
   sql_table_name: `toolstation-data-storage.customer.allCustomers`;;
 
+  dimension: customer_uid {
+    type: string
+    primary_key: yes
+    sql: ${TABLE}.customerUID ;;
+    label: "Customer UID"
+  }
+
   dimension: address__address_line1 {
     required_access_grants: [can_use_customer_information]
     type: string
@@ -149,13 +156,6 @@ view: customers {
     sql: ${TABLE}.customer.title ;;
     group_label: "Customer"
     group_item_label: "Title"
-  }
-
-  dimension: customer_uid {
-    type: string
-    primary_key: yes
-    sql: ${TABLE}.customerUID ;;
-    label: "Customer UID"
   }
 
   dimension: flags__active_account {

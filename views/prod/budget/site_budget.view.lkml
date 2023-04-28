@@ -10,6 +10,19 @@ view: site_budget {
     datagroup_trigger: ts_transactions_datagroup
   }
 
+  dimension: date_site  {
+    type: string
+    primary_key: yes
+    hidden: yes
+    sql: ${date_date}||${site_uid} ;;
+  }
+
+  dimension: site_uid {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.siteUID ;;
+  }
+
   dimension: site_budget_in_query {
     hidden: yes
     sql:
@@ -46,19 +59,6 @@ view: site_budget {
     convert_tz: no
     datatype: date
     sql: ${TABLE}.date ;;
-  }
-
-  dimension: date_site  {
-    type: string
-    primary_key: yes
-    hidden: yes
-    sql: ${date_date}||${site_uid} ;;
-  }
-
-  dimension: site_uid {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.siteUID ;;
   }
 
   measure: site_net_sales_budget {

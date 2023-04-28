@@ -168,6 +168,7 @@ view: sales_alerts {
     label: "WoW Warning"
     sql:if (${net_sales_wow_percent} <= ${deviation_flag}, ${flag} , 0 );;
   }
+
   measure: 2wow_flag {
     type: number
     label: "2WoW Warning"

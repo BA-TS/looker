@@ -1,6 +1,14 @@
 view: customer_segmentation {
   sql_table_name: `toolstation-data-storage.ts_analytics.ts_SCVFinal` ;;
 
+  dimension: ucu_uid {
+    label: "Customer UID"
+    primary_key: yes
+    type: string
+    sql: ${TABLE}.ucu_uid ;;
+    hidden: yes
+  }
+
   dimension: catalogue_opt_in {
     group_label: "Opt In"
     type: yesno
@@ -117,14 +125,6 @@ view: customer_segmentation {
     group_label: "Segmentation"
     type: string
     sql: ${TABLE}.Trade_Type_Grouping ;;
-    hidden: yes
-  }
-
-  dimension: ucu_uid {
-    label: "Customer UID"
-    primary_key: yes
-    type: string
-    sql: ${TABLE}.ucu_uid ;;
     hidden: yes
   }
 

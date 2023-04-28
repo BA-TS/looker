@@ -9,6 +9,11 @@ view: promo_extra{
     hidden: yes
   }
 
+  dimension: product_code {
+    type: string
+    sql: ${TABLE}.productCode ;;
+  }
+
   dimension: end_date {
     type: date
     sql: date(${TABLE}.endDate) ;;
@@ -17,11 +22,6 @@ view: promo_extra{
   dimension: live_date {
     type: date
     sql: date(${TABLE}.liveDate) ;;
-  }
-
-  dimension: product_code {
-    type: string
-    sql: ${TABLE}.productCode ;;
   }
 
   dimension: promo_publication {

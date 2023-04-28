@@ -39,10 +39,8 @@ view: commercial_structure {
           UNION ALL(SELECT 50,'Clearance','Clearance','Unallocated','Unallocated','')
           UNION ALL(SELECT 900001,'Marketing Vouchers','Marketing Vouchers','Unallocated','Unallocated','')
       )
-      SELECT
-          *
-      FROM
-          matt_rockliff
+      SELECT *
+      FROM matt_rockliff
       UNION ALL(SELECT * FROM dave_taylor)
       UNION ALL(SELECT * FROM unallocated);;
   datagroup_trigger: ts_range_datagroup

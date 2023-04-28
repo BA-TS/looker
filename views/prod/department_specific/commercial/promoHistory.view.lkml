@@ -6,6 +6,7 @@ view: promoHistory{
     description: "SKU of the product"
     type: string
     sql: ${TABLE}.productCode ;;
+    primary_key: yes
   }
 
   dimension: cycleID {

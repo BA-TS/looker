@@ -1,6 +1,12 @@
 view: customer_stats {
   sql_table_name: `toolstation-data-storage.looker_mart.customer_stats`;;
 
+  dimension: customer_uid {
+    type: string
+    sql: ${TABLE}.customerUID ;;
+    primary_key: yes
+  }
+
   dimension: app_total_net_sales {
     type: number
     sql: ${TABLE}.app_total_net_sales ;;
@@ -34,11 +40,6 @@ view: customer_stats {
   dimension: customer_lifetime_units {
     type: number
     sql: ${TABLE}.customer_lifetime_units ;;
-  }
-
-  dimension: customer_uid {
-    type: string
-    sql: ${TABLE}.customerUID ;;
   }
 
   dimension: dbs_trade_category {

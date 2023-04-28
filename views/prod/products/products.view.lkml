@@ -8,6 +8,14 @@ view: products {
   null, null, null, null, null, null, null, null, null, null;;
   }
 
+  dimension: product_uid {
+    group_label: "Product Details"
+    label: "Product UID"
+    primary_key:  yes
+    type: string
+    sql: ${TABLE}.productUID ;;
+  }
+
   dimension: brand {
     group_label: "Product Details"
     type: string
@@ -61,14 +69,6 @@ view: products {
     group_label: "Product Details"
     type: string
     sql: ${TABLE}.productType ;;
-  }
-
-  dimension: product_uid {
-    group_label: "Product Details"
-    label: "Product UID"
-    primary_key:  yes
-    type: string
-    sql: ${TABLE}.productUID ;;
   }
 
   dimension: warranty_years {

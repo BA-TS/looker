@@ -1,16 +1,15 @@
 include: "/views/**/*base*.view"
 
 view: transactions {
-
   derived_table: {
-    sql:
+  sql:
    (SELECT
     transactionDate,
     UPPER(salesChannel) AS salesChannel,
     siteUID,
     products.productDepartment,
     t.* EXCEPT (transactionDate, salesChannel, siteUID)
-  FROM
+   FROM
     (
       SELECT
         transactions.*,
@@ -35,12 +34,11 @@ view: transactions {
         FROM
           `toolstation-data-storage.sales.transactions_incomplete` AS incomplete)
     ) AS t
-    INNER JOIN
-      `toolstation-data-storage.range.products_current` AS products
+    INNER JOIN `toolstation-data-storage.range.products_current` AS products
     USING(productUID)
     )
-UNION ALL
-(
+  UNION ALL
+  (
   SELECT
     TIMESTAMP(missing_dimensions.date) AS transactionDate,
     missing_dimensions.salesChannel AS salesChannel,
@@ -84,13 +82,19 @@ UNION ALL
     NULL,
     NULL,
     NULL
-  FROM
-    `toolstation-data-storage.looker_persistent_tables.missing_channel_dimensions` AS missing_dimensions);;
+    FROM `toolstation-data-storage.looker_persistent_tables.missing_channel_dimensions` AS missing_dimensions);;
     partition_keys: ["transactionDate"]
     cluster_keys: ["salesChannel", "productDepartment", "productCode"]
     # increment_key: "transaction_date"
     # increment_offset: 100 # change to yearly when done... funding is calculated over last 3 months (limited to YTD) ie 30/1 is only 29 days
     datagroup_trigger: ts_transactions_datagroup
+  }
+
+  dimension: order_line_key {
+    primary_key:  yes
+    type:  string
+    sql: concat(${parent_order_uid},${product_uid},${transaction_line_type}) ;;
+    hidden:  yes
   }
 
   dimension: extranet_status {
@@ -172,13 +176,6 @@ UNION ALL
     type: string
     sql:{% parameter merge_epos %};;
     hidden: yes
-  }
-
-  dimension: order_line_key {
-    primary_key:  yes
-    type:  string
-    sql: concat(${parent_order_uid},${product_uid},${transaction_line_type}) ;;
-    hidden:  yes
   }
 
   dimension: event_raw {

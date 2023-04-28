@@ -3,6 +3,13 @@ view: stock_level_date_site_product {
 
   sql_table_name: `toolstation-data-storage.stock.stock_level_date_site_product`;;
 
+  dimension: date_site_product_pk {
+    type: string
+    hidden: yes
+    primary_key: yes
+    sql: ${opening_stock_date}||${site_uid}||${product_uid} ;;
+  }
+
   dimension_group: opening_stock {
     view_label: "Dates"
     type: time
@@ -51,13 +58,6 @@ view: stock_level_date_site_product {
     label: "Is Last Day of Month?"
     type: yesno
     sql:  EXTRACT(DAY FROM DATE_ADD(${opening_stock_date}, INTERVAL 1 DAY)) = 1 ;;
-  }
-
-  dimension: date_site_product_pk {
-    type: string
-    hidden: yes
-    primary_key: yes
-    sql: ${opening_stock_date}||${site_uid}||${product_uid} ;;
   }
 
   dimension: product_uid {

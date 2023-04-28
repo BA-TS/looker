@@ -1,6 +1,13 @@
 view: product_dimensions {
   sql_table_name: `toolstation-data-storage.range.productDimensions`;;
 
+  dimension: product_uid {
+    type: string
+    sql: ${TABLE}.productUID ;;
+    hidden: yes
+    primary_key: yes
+  }
+
   dimension: hazardous {
     type: string
     sql: ${TABLE}.hazardous ;;
@@ -19,12 +26,6 @@ view: product_dimensions {
   dimension: pack_size_from_supplier {
     type: string
     sql: ${TABLE}.packSizeFromSupplier ;;
-  }
-
-  dimension: product_uid {
-    type: string
-    sql: ${TABLE}.productUID ;;
-    hidden: yes
   }
 
   dimension: sell_pack_height_mm {

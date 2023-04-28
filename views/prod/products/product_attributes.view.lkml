@@ -4,6 +4,7 @@ view: product_attributes {
   dimension: product_uid {
     type: string
     sql: ${TABLE}.productUID ;;
+    primary_key: yes
     hidden: yes
   }
 

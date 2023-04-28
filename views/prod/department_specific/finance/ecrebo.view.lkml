@@ -26,8 +26,7 @@ view: ecrebo {
       WHERE
       ec.campaign_id IS NOT NULL
       GROUP BY
-      1,2,3,4
-      );;
+      1,2,3,4);;
     datagroup_trigger: ts_transactions_datagroup
   }
 
