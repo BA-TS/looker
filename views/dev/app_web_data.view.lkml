@@ -12,7 +12,7 @@ view: app_web_data {
         timestamp(transactionDate) as Transaction,
         timestamp(PlacedDate) as Placed,
         Case
-        when userUID like 'APP' then 'App Trolley'
+        when userUID like 'APP' then 'App'
         end as App_Web,
         sum(netsalePrice) as NetSalePrice,
         sum(quantity) as Quantity,
@@ -39,7 +39,7 @@ view: app_web_data {
         timestamp(transactionDate) as Transaction,
         timestamp(PlacedDate) as Placed,
         Case
-        when userUID like 'WWW' then 'Web Trolley'
+        when userUID like 'WWW' then 'Web'
         end as App_Web,
         sum(netsalePrice) as NetSalePrice,
         sum(quantity) as Quantity,
@@ -212,7 +212,7 @@ view: app_web_data {
         description: "web based orders"
         type: count_distinct
         sql: ${TABLE}.OrderID ;;
-        filters: [App_web: "Web Trolley" ]
+        filters: [App_web: "Web" ]
       }
 
       measure: Total_MarginIncFunding {
@@ -262,7 +262,7 @@ view: total_sessions {
   derived_table: {
 
     sql: with sub1 as (SELECT distinct
-'Web Trolley' as app_web_sessions,
+'Web' as app_web_sessions,
 PARSE_DATE('%Y%m%d', date) as date,
 trafficSource.medium as Medium,
 count(distinct concat(fullVisitorID,visitStartTime)) as sessions,
@@ -275,7 +275,7 @@ AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endc
 
 union distinct
 SELECT distinct
-    'App Trolley' as app_web_sessions,
+    'App' as app_web_sessions,
     PARSE_DATE('%Y%m%d', event_date) as date,
     traffic_source.medium as Medium,
     COUNT(DISTINCT CASE
@@ -335,7 +335,7 @@ view: total_sessionsv2 {
 
   derived_table: {
     sql: with sub0 as (SELECT distinct
-'Web Trolley' as app_web_sessions,
+'Web' as app_web_sessions,
 PARSE_DATE('%Y%m%d', date) as date,
 trafficSource.medium as Medium,
 case when regexp_contains(page.pagePath, ".*/p[0-9]*$") then "Product Detail Page" else "Other Page" end as Screen,
@@ -353,7 +353,7 @@ and (hits.eventInfo.EventAction in ("Purchase", "Add to Cart") or regexp_contain
 group by 2,3,4,5,7,10
 union distinct
 SELECT distinct
-    'App Trolley' as app_web_sessions,
+    'App' as app_web_sessions,
     PARSE_DATE('%Y%m%d', event_date) as date,
     traffic_source.medium as Medium,
     case when (SELECT STRING_AGG(distinct value.string_value) FROM UNNEST(event_params) WHERE key = 'firebase_screen') = "product-detail-page" then "Product Detail Page" else "Other page" end as screen,
