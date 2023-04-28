@@ -3,7 +3,6 @@
 include: "/views/**/*base*.view"
 
 view: app_web_data {
-
   derived_table: {
     sql: with sub1 as ((SELECT distinct
         customerUID as customerID,
@@ -30,7 +29,6 @@ view: app_web_data {
         isCancelled = 0  and
        (userUID  = 'APP')
         group by 1,2,3,4,5,6,7
-
         union all
 
         select distinct

@@ -1,6 +1,19 @@
 view: lcm_history {
   sql_table_name: `toolstation-data-storage.pricing.lcmHistory`;;
 
+  dimension: product_uid {
+    label: "Product UID"
+    type: string
+    sql: ${TABLE}.productUID ;;
+    hidden: yes
+  }
+
+  dimension: product_code {
+    label: "Product Code"
+    type: string
+    sql: ${TABLE}.productCode ;;
+  }
+
   dimension_group: full {
     type: time
     timeframes: [
@@ -10,19 +23,6 @@ view: lcm_history {
     convert_tz: no
     datatype: date
     sql: ${TABLE}.fullDate ;;
-  }
-
-  dimension: product_code {
-    label: "Product Code"
-    type: string
-    sql: ${TABLE}.productCode ;;
-  }
-
-  dimension: product_uid {
-    label: "Product UID"
-    type: string
-    sql: ${TABLE}.productUID ;;
-    hidden: yes
   }
 
   dimension: supplier_uid {
