@@ -14,8 +14,7 @@ view: catalogue {
               THEN TRUE
           ELSE FALSE
       END AS catalogue_is_active
-  FROM
-      `toolstation-data-storage.range.catSchedule` a
+  FROM `toolstation-data-storage.range.catSchedule` a
   LEFT OUTER JOIN
   (
       SELECT
@@ -75,13 +74,11 @@ view: catalogue {
   )
   SELECT
       *
-  FROM
-      catalogue
+  FROM catalogue
   FULL OUTER JOIN
     extra
   USING(catalogue_id)
-  WHERE
-      extra.extra_name IS NOT NULL;;
+  WHERE extra.extra_name IS NOT NULL;;
   datagroup_trigger: ts_daily_datagroup
   }
 

@@ -59,24 +59,15 @@ view: app_web_data {
         isCancelled = 0 and
         (userUID  = 'WWW')
         group by 1,2,3,4,5,6,7)
-
                 union distinct
-
         SELECT
         "NONE","NONE","NONE", null, null, null, null, null, null, null, null, null, null, null )
-
-        select distinct row_number() over (order by (Transaction)) as P_K, * from sub1
-        ;;
-
+        select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
 
     partition_keys: ["Transaction"]
     cluster_keys: ["salesChannel", "productUID"]
-
     datagroup_trigger: ts_transactions_datagroup
-
         }
-
-
 
       dimension: P_K {
         description: "Primary key"
@@ -85,6 +76,7 @@ view: app_web_data {
         hidden: yes
         sql: ${TABLE}.P_K ;;
       }
+
       dimension: CustomerID {
         description: "customers for the last week"
         type: string
@@ -297,7 +289,6 @@ SELECT distinct
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
     GROUP BY 2,3)
-
     Select distinct row_number() over () as P_K, sub1.* from sub1 ;;
   }
 
@@ -363,9 +354,7 @@ and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %}
 and (hits.eventInfo.EventAction in ("Purchase", "Add to Cart") or regexp_contains(hits.eventInfo.EventCategory, ".*OOS$"))
 group by 2,3,4,5,7,10
-
 union distinct
-
 SELECT distinct
     'App Trolley' as app_web_sessions,
     PARSE_DATE('%Y%m%d', event_date) as date,
@@ -383,12 +372,7 @@ and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
     and event_name in ('purchase', 'add_to_cart', 'out_of_stock')
     GROUP BY 2,3,4,5,7,10)
-
-select distinct row_number() over () as P_K, * from sub0
-
-
-    ;;
-    }
+select distinct row_number() over () as P_K, * from sub0;;}
 
   dimension: P_K {
     description: "Primary key"
@@ -1260,23 +1244,6 @@ view: Mobile_app {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #   dimension: dynamic_actual_month {
 #     view_label: "Date"
 #     group_label: "Calendar"
@@ -1721,5 +1688,4 @@ view: Mobile_app {
 #     type: number
 #     sql: ${TABLE}.weekInYear ;;
 #   }
-
 # }
