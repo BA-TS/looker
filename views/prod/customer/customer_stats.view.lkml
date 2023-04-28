@@ -31,16 +31,6 @@ view: customer_stats {
     sql: ${TABLE}.customer_lifetime_orders ;;
   }
 
-  measure: total_customer_lifetime_orders {
-    type: sum
-    sql: ${customer_lifetime_orders} ;;
-  }
-
-  measure: average_customer_lifetime_orders {
-    type: average
-    sql: ${customer_lifetime_orders} ;;
-  }
-
   dimension: customer_lifetime_units {
     type: number
     sql: ${TABLE}.customer_lifetime_units ;;
@@ -119,6 +109,16 @@ view: customer_stats {
   dimension: web_total_net_sales {
     type: number
     sql: ${TABLE}.web_total_net_sales ;;
+  }
+
+  measure: total_customer_lifetime_orders {
+    type: sum
+    sql: ${customer_lifetime_orders} ;;
+  }
+
+  measure: average_customer_lifetime_orders {
+    type: average
+    sql: ${customer_lifetime_orders} ;;
   }
 
   measure: count {

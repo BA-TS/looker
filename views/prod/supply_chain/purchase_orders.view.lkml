@@ -94,7 +94,6 @@ view: stock_intake {
     sql: ${TABLE}.orderPlacedDate ;;
   }
 
-
   dimension_group: order_booked {
     label: "Order Booked"
     type: time
@@ -173,6 +172,13 @@ view: stock_intake {
     hidden: yes
   }
 
+  dimension: department {
+    view_label: "Products"
+    group_label: "Product Details"
+    type:  string
+    sql:  ${products.department} ;;
+  }
+
   measure: total_units_ordered {
     type:  sum
     sql:  ${quantity_ordered} ;;
@@ -181,13 +187,6 @@ view: stock_intake {
   measure: total_units_received {
     type:  sum
     sql:  ${quantity_received} ;;
-  }
-
-  dimension: department {
-    view_label: "Products"
-    group_label: "Product Details"
-    type:  string
-    sql:  ${products.department} ;;
   }
 
   measure: total_value_ordered {

@@ -1,6 +1,12 @@
 view: product_detail {
   sql_table_name: `toolstation-data-storage.range.productDetail`;;
 
+  dimension: product_uid {
+    type: string
+    sql: ${TABLE}.productUID ;;
+    hidden: yes
+  }
+
   dimension: ean {
     label: "Product EAN(s)"
     type: string
@@ -45,12 +51,6 @@ view: product_detail {
   dimension: product_review_rating {
     type: number
     sql: ${TABLE}.productReviewRating ;;
-  }
-
-  dimension: product_uid {
-    type: string
-    sql: ${TABLE}.productUID ;;
-    hidden: yes
   }
 
   dimension: risk_code {

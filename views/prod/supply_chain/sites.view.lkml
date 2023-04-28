@@ -173,6 +173,7 @@ view: sites {
     sql: ${TABLE}.longitude ;;
     hidden: yes
   }
+
   dimension: map_point {
     group_label: "Site Address"
     type:  location

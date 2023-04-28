@@ -1,6 +1,12 @@
 view: product_attributes {
   sql_table_name: `toolstation-data-storage.range.productAttributes`;;
 
+  dimension: product_uid {
+    type: string
+    sql: ${TABLE}.productUID ;;
+    hidden: yes
+  }
+
   dimension: attribute {
     type: string
     sql: ${TABLE}.attribute ;;
@@ -23,10 +29,5 @@ view: product_attributes {
       year
     ]
     sql: ${TABLE}.dateUpdated ;;
-  }
-
-  dimension: product_uid {
-    type: string
-    sql: ${TABLE}.productUID ;;
   }
 }

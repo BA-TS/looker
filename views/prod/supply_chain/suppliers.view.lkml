@@ -160,6 +160,7 @@ view: suppliers {
     type: string
     sql: ${TABLE}.orderType ;;
   }
+
   dimension: autogen_max_order_lines {
     group_label: "Supply Chain"
     type: number

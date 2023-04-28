@@ -2,10 +2,9 @@ view: product_first_sale_date {
   derived_table: {
     sql:
       SELECT
-        productCode,
-        MIN(DATE(transactionDate)) AS first_sale_date
-      FROM
-        `toolstation-data-storage.sales.transactions`
+      productCode,
+      MIN(DATE(transactionDate)) AS first_sale_date
+      FROM `toolstation-data-storage.sales.transactions`
       GROUP BY 1;;
     datagroup_trigger: ts_transactions_datagroup
   }

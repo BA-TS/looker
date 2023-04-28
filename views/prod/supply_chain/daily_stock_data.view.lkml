@@ -457,7 +457,6 @@ view: bq_daily_stock_data_history {
     sql: ${bridgwaterbranchtrait} ;;
   }
 
-
   measure: total_bridgwaterbranchusage {
     view_label: "Stock"
     group_label: "Bridgwater"

@@ -29,7 +29,6 @@ view: open_to_buy_model_new {
   }
 
   dimension_group: date {
-    label: ""
     type: time
     timeframes: [
       raw,

@@ -2,6 +2,13 @@ view: promo_extra{
   sql_table_name: `toolstation-data-storage.range.catalogue_extra_promo`;;
   fields_hidden_by_default: yes
 
+  dimension: extra_promo_pk {
+    type: string
+    sql: concat(${product_code},${live_date},${end_date},${promo_publication}) ;;
+    primary_key: yes
+    hidden: yes
+  }
+
   dimension: end_date {
     type: date
     sql: date(${TABLE}.endDate) ;;
@@ -20,12 +27,5 @@ view: promo_extra{
   dimension: promo_publication {
     type: string
     sql: ${TABLE}.promoPublication ;;
-  }
-
-  dimension: extra_promo_pk {
-    type: string
-    sql: concat(${product_code},${live_date},${end_date},${promo_publication}) ;;
-    primary_key: yes
-    hidden: yes
   }
 }

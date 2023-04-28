@@ -1,6 +1,12 @@
 view: aac {
   sql_table_name: `toolstation-data-storage.stock.aacHistory`;;
 
+  dimension: product_uid {
+    type: string
+    sql: ${TABLE}.productUID ;;
+    hidden: yes
+  }
+
   dimension: average_cost_price {
     type: number
     sql: ${TABLE}.averageCostPrice ;;
@@ -10,12 +16,6 @@ view: aac {
   dimension: date {
     type: number
     sql: ${TABLE}.date ;;
-    hidden: yes
-  }
-
-  dimension: product_uid {
-    type: string
-    sql: ${TABLE}.productUID ;;
     hidden: yes
   }
 }
