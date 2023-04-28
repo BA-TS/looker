@@ -1,4 +1,4 @@
-include: "/views/prod/finance/transactions.view"
+include: "/views/prod/department_specific/finance/transactions.view"
 include: "/views/prod/department_specific/customer/trade_customers.view"
 include: "/views/prod/department_specific/customer/trade_credit_details.view"
 
