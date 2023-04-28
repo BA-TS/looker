@@ -7,10 +7,8 @@ view: backend_digital_channel_grouping {
       channelGrouping AS channelGrouping
     FROM
       `toolstation-data-storage.4783980.ga_sessions_*`
-
     WHERE
       _TABLE_SUFFIX = FORMAT_DATE("%Y%m%d",CURRENT_DATE() - 1);;
-
     datagroup_trigger: ts_daily_datagroup
   }
 

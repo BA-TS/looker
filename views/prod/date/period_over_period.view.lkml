@@ -1,5 +1,3 @@
-include: "/views/dev/cg_testing/catalogue.view"
-
 view: period_over_period {
   extension: required
 
