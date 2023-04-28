@@ -49,7 +49,7 @@ include: "/views/**/*.view"
 #   join: catalogue {
 #     type: left_outer
 #     relationship: many_to_one
-#     sql_on: ${base.date_date} BETWEEN ${catalogue.catalogue_live_date_date} AND ${catalogue.catalogue_end_date_date} ;;
+#     sql_on: ${base.date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
 #   }
 # }
 
