@@ -1,4 +1,4 @@
-view: stock_sku_cover_location {
+view: sku_cover_location {
   sql_table_name: `toolstation-data-storage.financeReporting.DS_DAILY_STOCK_REPORTING_SKU_COVER_LOCATION`;;
 
   dimension_group: report {

@@ -1,4 +1,4 @@
-view: bq_daily_stock_data_history {
+view: daily_stock_data {
   sql_table_name: `toolstation-data-storage.supplyChainReporting.BQ_DAILY_STOCK_DATA_HISTORY` ;;
 
   dimension_group: reportdate {
