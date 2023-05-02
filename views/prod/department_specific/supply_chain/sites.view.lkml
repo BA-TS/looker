@@ -1,5 +1,4 @@
 view: sites {
-  label: "Location"
   derived_table: {
     sql:
       SELECT
@@ -67,7 +66,6 @@ view: sites {
 
   dimension: site_uid {
     primary_key: yes
-    view_label: "Location"
     group_label: "Site Information"
     label: "Site UID"
     type: string
@@ -75,6 +73,8 @@ view: sites {
   }
 
   dimension: location_type {
+    group_label: "Site Information"
+    label: "DC Type"
     type: string
     sql:
     CASE ${servicing_dc_id}
@@ -91,7 +91,6 @@ view: sites {
   }
 
   dimension: site_name {
-    view_label: "Location"
     group_label: "Site Information"
     label: "Site Name"
     type: string
@@ -175,6 +174,7 @@ view: sites {
   }
 
   dimension: cost_centre_id {
+    group_label: "Site Information"
     label: "Cost Centre ID"
     type: string
     sql: ${TABLE}.costCentreID ;;
@@ -300,7 +300,7 @@ view: sites {
   }
 
   dimension: servicing_dc_id {
-    group_label: "Servicing DC"
+    group_label: "Site Information"
     label: "DC ID"
     type: string
     sql: ${TABLE}.servicing_dc_id ;;
@@ -308,7 +308,7 @@ view: sites {
   }
 
   dimension: servicing_dc_name {
-    group_label: "Servicing DC"
+    group_label: "Site Information"
     label: "DC Name"
     type: string
     sql: ${TABLE}.servicing_dc_name ;;

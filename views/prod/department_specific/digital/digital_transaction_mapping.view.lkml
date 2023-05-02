@@ -1,8 +1,5 @@
-
 view: digital_transaction_mapping {
-
-  sql_table_name: `toolstation-data-storage.looker_persistent_tables.digital_transaction_mapping`
-    ;;
+  sql_table_name: `toolstation-data-storage.looker_persistent_tables.digital_transaction_mapping`;;
 
   dimension: channel_grouping {
     view_label: "Digital"
@@ -51,9 +48,7 @@ view: digital_transaction_mapping {
     type: yesno
     sql:
 
-    ${channel_grouping} IS NOT NULL
-
-    ;;
+    ${channel_grouping} IS NOT NULL;;
     # required_access_grants: [is_developer]
   }
 

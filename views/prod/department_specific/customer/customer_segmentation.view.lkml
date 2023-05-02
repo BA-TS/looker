@@ -17,7 +17,6 @@ view: customer_segmentation {
   }
 
   dimension: cluster {
-    view_label: "Customers"
     group_label: "Segmentation"
     type: string
     sql: ${TABLE}.cluster ;;
@@ -104,7 +103,6 @@ view: customer_segmentation {
   }
 
   dimension: trade_flag {
-    view_label: "Customers"
     group_label: "Flags"
     label: "Trade Type"
     type: string
@@ -113,7 +111,6 @@ view: customer_segmentation {
   }
 
   dimension: trade_type {
-    view_label: "Customers"
     group_label: "Segmentation"
     type: string
     sql: ${TABLE}.Trade_Type ;;
@@ -121,7 +118,6 @@ view: customer_segmentation {
   }
 
   dimension: trade_type_grouping {
-    view_label: "Customers"
     group_label: "Segmentation"
     type: string
     sql: ${TABLE}.Trade_Type_Grouping ;;

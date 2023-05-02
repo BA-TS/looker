@@ -151,13 +151,15 @@ view: transactions {
 
   dimension: is_next_day_click_and_collect {
     group_label: "Flags"
-    label: "Is Next Day Click and Collect"
+    label: "Next Day Click and Collect"
     description: "Selecting 'Yes' will show only Next Day Click & Collect transactions"
     type: yesno
     sql: UPPER(${originating_site_uid}) = "XN" ;;
   }
 
   dimension: transaction_date_filter {
+    group_label: "Placed Date"
+    label: "Placed Date Filter"
     type: date
     datatype: date
     sql:
@@ -341,7 +343,7 @@ view: transactions {
 
   dimension: customer_uid {
     label: "Customer UID"
-    group_label: "Order ID"
+    group_label: "Order Details"
     type: string
     sql: ${TABLE}.customerUID ;;
     hidden: yes
@@ -349,7 +351,7 @@ view: transactions {
 
   dimension: delivery_address_uid {
     label: "Delivery Address UID"
-    group_label: "Order ID"
+    group_label: "Order Details"
     type: string
     sql: ${TABLE}.deliveryAddressUID ;;
     hidden: yes
@@ -357,8 +359,7 @@ view: transactions {
 
   dimension: originating_site_uid {
     label: "Originating Site UID"
-    view_label: "Location"
-    group_label: ""
+    group_label: "Order Details"
     description: "The site UID of where the order was placed"
     type: string
     sql: ${TABLE}.originatingSiteUID ;;
@@ -380,7 +381,7 @@ view: transactions {
 
   dimension: user_uid {
     label: "User UID"
-    group_label: "Order ID"
+    group_label: "Order Details"
     description: "The ID of the colleague processing the transaction"
     type: string
     sql: ${TABLE}.userUID ;;
@@ -608,7 +609,7 @@ dimension_group: order_completed {
 
   # UID #
   dimension: parent_order_uid {
-    group_label: "Order ID"
+    group_label: "Order Details"
     label: "Parent Order UID"
     description: "Main order ID"
     type: string
@@ -617,7 +618,7 @@ dimension_group: order_completed {
 
   dimension: transaction_uid {
     label: "Child Order UID"
-    group_label: "Order ID"
+    group_label: "Order Details"
     description: "Child order ID linked to a parent order ID"
     type: string
     sql: ${TABLE}.transactionUID ;;

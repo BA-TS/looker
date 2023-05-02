@@ -36,17 +36,20 @@ explore: base {
   ]
 
   sql_always_where:${period_over_period};;
-    join: total_budget {
-      view_label: "Budget"
-      type: left_outer
-      relationship: many_to_one
-      sql_on: ${base.date_date} = ${total_budget.total_budget_date};;
-    }
 
-    join: transactions {
-      type: left_outer
-      relationship: one_to_many
-      sql_on:
+  join: calendar_completed_date{
+    from:  calendar
+    view_label: "Date"
+    type:  inner
+    relationship:  many_to_one
+    sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
+  }
+
+  join: transactions {
+    view_label: "Transactions"
+    type: left_outer
+    relationship: one_to_many
+    sql_on:
         ${base.base_date_date} = ${transactions.transaction_date_filter}
           AND
         (${transactions.is_cancelled} = 0
@@ -76,36 +79,20 @@ explore: base {
         {% endif %}
           AND
         UPPER(${transactions.extranet_status}) = {% parameter transactions.select_extranet_status %};;
-    }
+  }
 
-    join: channel_budget {
-      view_label: "Budget"
-      type:  left_outer
-      relationship: many_to_one
-      sql_on:
-        ${base.date_date}=${channel_budget.date_date} AND ${transactions.sales_channel} = ${channel_budget.channel};;
-    }
+  join: single_line_transactions {
+    view_label: "Transactions"
+    type:  left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.parent_order_uid} = ${single_line_transactions.parent_order_uid} ;;
+  }
 
-    join: category_budget {
-      view_label: "Budget"
-      type: left_outer
-      relationship: many_to_one
-      sql_on:
-        ${base.date_date}=${category_budget.date} AND UPPER(${transactions.product_department}) = UPPER(${category_budget.department});;
-    }
-
-    join: site_budget {
-      view_label: "Budget"
-      type: left_outer
-      relationship: many_to_one
-      sql_on:
-        ${base.date_date} = ${site_budget.date_date} AND ${transactions.site_uid} = ${site_budget.site_uid};;
-    }
-
-    join: products {
-      type:  left_outer
-      relationship: many_to_one
-      sql_on:
+  join: products {
+    view_label: "Products"
+    type:  left_outer
+    relationship: many_to_one
+    sql_on:
         {% if
           category_budget.department_net_sales_budget._in_query
           or category_budget.department_margin_inc_Retro_funding_budget._in_query
@@ -117,117 +104,140 @@ explore: base {
         {% else %}
           ${transactions.product_uid}=${products.product_uid}
         {% endif %};;
-    }
+  }
 
-    join: sites {
-      type: left_outer
-      relationship: many_to_one
-      sql_on: ${transactions.site_uid}=${sites.site_uid} ;;
-    }
+  join: product_first_sale_date {
+    view_label: "Products"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.product_code} = ${product_first_sale_date.product_code} ;;
+  }
 
-    join: calendar_completed_date{
-      from:  calendar
-      view_label: "Date"
-      type:  inner
-      relationship:  many_to_one
-      sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
-    }
+  join: total_budget {
+    view_label: "Budget"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${base.date_date} = ${total_budget.total_budget_date};;
+  }
 
-    join: customers {
-      type :  inner
-      relationship: many_to_one
-      sql_on: ${transactions.customer_uid}=${customers.customer_uid} ;;
-    }
+  join: channel_budget {
+    view_label: "Budget"
+    type:  left_outer
+    relationship: many_to_one
+    sql_on:${base.date_date}=${channel_budget.date_date} AND ${transactions.sales_channel} = ${channel_budget.channel};;
+  }
 
-    join: suppliers {
-      type: left_outer
-      relationship: many_to_one
-      sql_on: ${products.default_supplier}=${suppliers.supplier_uid} ;;
-      fields: [suppliers.master_supplier_name, suppliers.supplier_name, suppliers.supplier_uid, suppliers.supplier_planner, suppliers.sage_supplier_code]
-    }
+  join: category_budget {
+    view_label: "Budget"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${base.date_date}=${category_budget.date} AND UPPER(${transactions.product_department}) = UPPER(${category_budget.department});;
+  }
 
-    join: customer_segmentation {
-      type: left_outer
-      relationship: many_to_one
-      sql_on: ${transactions.customer_uid} = ${customer_segmentation.ucu_uid} ;;
-    }
+  join: site_budget {
+    view_label: "Budget"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${base.date_date} = ${site_budget.date_date} AND ${transactions.site_uid} = ${site_budget.site_uid};;
+  }
 
-    join: trade_customers {
-      type:  left_outer
-      relationship: many_to_one
-      sql_on: ${customers.customer_uid} = ${trade_customers.customer_uid} ;;
-    }
+  join: sites {
+    view_label: "Location"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.site_uid}=${sites.site_uid} ;;
+  }
 
-    join: promo_main_catalogue {
-      type: left_outer
-      relationship: many_to_one
-      sql_on: ${transactions.product_code} = ${promo_main_catalogue.product_code} and ${base.date_date} between ${promo_main_catalogue.live_date} and ${promo_main_catalogue.end_date} ;;
-    }
+  join: customers {
+    view_label: "Customers"
+    type :  inner
+    relationship: many_to_one
+    sql_on: ${transactions.customer_uid}=${customers.customer_uid} ;;
+  }
 
-    join: promo_extra {
-      type: left_outer
-      relationship: many_to_one
-      sql_on: ${transactions.product_code} = ${promo_extra.product_code} and ${base.date_date} between ${promo_extra.live_date} and ${promo_extra.end_date} ;;
-    }
+  join: customer_segmentation {
+    view_label: "Customers"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.customer_uid} = ${customer_segmentation.ucu_uid} ;;
+  }
 
-    join: single_line_transactions {
-        type:  left_outer
-        relationship: many_to_one
-        sql_on: ${transactions.parent_order_uid} = ${single_line_transactions.parent_order_uid} ;;
-    }
+  join: trade_customers {
+    view_label: "Customers"
+    type:  left_outer
+    relationship: many_to_one
+    sql_on: ${customers.customer_uid} = ${trade_customers.customer_uid} ;;
+  }
 
-    join: product_first_sale_date {
-      view_label: "Products"
-      type: left_outer
-      relationship: many_to_one
-      sql_on: ${transactions.product_code} = ${product_first_sale_date.product_code} ;;
-    }
+  join: trade_credit_details {
+    view_label: "Customers"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${trade_credit_ids.main_trade_credit_account_uid} = ${trade_credit_details.main_trade_credit_account_uid} ;;
+  }
 
-    join: trade_credit_ids {
-      type: left_outer
-      relationship: many_to_one
-      sql_on: ${customers.customer_uid} = ${trade_credit_ids.customer_uid} ;;
-    }
+  join: trade_credit_ids {
+    view_label: "Customers"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${customers.customer_uid} = ${trade_credit_ids.customer_uid} ;;
+  }
 
-    join: trade_credit_details {
-      view_label: "Customers"
-      type: left_outer
-      relationship: many_to_one
-      sql_on: ${trade_credit_ids.main_trade_credit_account_uid} = ${trade_credit_details.main_trade_credit_account_uid} ;;
-    }
+  join: suppliers {
+    view_label: "Suppliers"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${products.default_supplier}=${suppliers.supplier_uid} ;;
+    fields: [suppliers.master_supplier_name, suppliers.supplier_name, suppliers.supplier_uid, suppliers.supplier_planner, suppliers.sage_supplier_code]
+  }
 
-    join: catalogue {
-      view_label: "Catalogue"
-      type: left_outer
-      relationship: many_to_one
-      sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
-    }
+  join: promo_main_catalogue {
+    view_label: "Catalogue"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.product_code} = ${promo_main_catalogue.product_code} and ${base.date_date} between ${promo_main_catalogue.live_date} and ${promo_main_catalogue.end_date} ;;
+  }
 
-    join: digital_transaction_mapping {
-      type: left_outer
-      relationship: one_to_one
-      sql_on: ${transactions.parent_order_uid} = ${digital_transaction_mapping.transaction_uid} ;;
-    }
+  join: promo_extra {
+    view_label: "Catalogue"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.product_code} = ${promo_extra.product_code} and ${base.date_date} between ${promo_extra.live_date} and ${promo_extra.end_date} ;;
+  }
 
-    join: backend_digital_channel_grouping {
-      type: left_outer
-      relationship: many_to_one
-      sql_on: ${digital_transaction_mapping.channel_grouping} = ${backend_digital_channel_grouping.channel_grouping} ;;
-    }
+  join: catalogue {
+    view_label: "Catalogue"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
+  }
 
-    join: digital_budget {
+  join: digital_transaction_mapping {
+    view_label: "Digital"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${transactions.parent_order_uid} = ${digital_transaction_mapping.transaction_uid} ;;
+  }
+
+  join: backend_digital_channel_grouping {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${digital_transaction_mapping.channel_grouping} = ${backend_digital_channel_grouping.channel_grouping} ;;
+  }
+
+  join: digital_budget {
     view_label: "Digital Budget rf1 2023"
     type: left_outer
     relationship: many_to_one
     sql_on: ${base.date_date} = ${digital_budget.Date_date};;
-    }
+  }
 
-    join: ecrebo {
+  join: ecrebo {
     view_label: "Ecrebo"
     type: left_outer
     relationship: one_to_many
     sql_on: ${base.date_date} = ${ecrebo.ecrebo_date_filter} AND ${transactions.parent_order_uid} = ${ecrebo.parent_order_uid};;
-    }
+  }
 }
 
 explore: +base {
