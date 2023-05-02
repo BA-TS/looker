@@ -3,7 +3,9 @@ view: summarised_daily_Sales {
     sql: with sub1 as (SELECT distinct
     dated,
 fiscalYearWeek,
-App_Web,
+case when App_Web = 'Web Trolley' then 'Web'
+when App_Web = 'App Trolley' then 'App'
+else null end as App_web,
 max(Weeklytotal_customers) as Weeklytotal_customers,
 max(total_customers) as total_customers,
 max(WeeklyOrders) as Weekly_Orders,
