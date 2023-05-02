@@ -1,7 +1,7 @@
 include: "/views/prod/scheduled_queries/*.view.lkml"
 include: "/models/backend/config.model"
 
-label: "TS - Scheduled Exports"
+label: "Scheduled Exports"
 
 explore: weekly_new_stores_performance {
   required_access_grants: [is_developer]
