@@ -958,6 +958,52 @@ view: Mobile_app {
 
   }
 
+view: TalkSport_BrandFunnel {
+  derived_table: {
+    sql:
+    SELECT distinct row_number() over () as P_K,* FROM `toolstation-data-storage.digitalreporting.TalkSport_BrandFunnel`;;
+  }
+
+  dimension: P_K {
+    description: "Primary key"
+    type: number
+    primary_key: yes
+    hidden: yes
+    sql: ${TABLE}.P_K ;;
+  }
+
+  dimension_group: Date {
+    description: "date"
+    type: time
+    timeframes: [raw,date]
+    sql: ${TABLE}.Date ;;
+  }
+
+  dimension: Brand_Funnel {
+    description: "Brand_Funnel"
+    type: string
+    sql: ${TABLE}.Brand_Funnel;;
+  }
+
+  dimension: DIY {
+    description: "DIY"
+    type: number
+    sql: ${TABLE}.DIY;;
+  }
+
+  dimension: Trade {
+    description: "Trade"
+    type: number
+    sql: ${TABLE}.Trade;;
+  }
+
+  dimension: TalkSport_Listeners {
+    description: "TalkSport_Listeners"
+    type: number
+    sql: ${TABLE}.TalkSport_Listeners;;
+  }
+}
+
 
 
 # view: baseTEST {

@@ -276,6 +276,12 @@ explore: base {
     sql_on: ${productv2.product_uid} = ${currentRetailPrice.Product_ID} ;;
   }
 
+  join: TalkSport_BrandFunnel {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${calendar_completed_date.date}=${TalkSport_BrandFunnel.Date_date} ;;
+  }
+
 
 
 }
