@@ -164,6 +164,7 @@ view: transactions {
     datatype: date
     sql:
     {% if base.select_date_reference._parameter_value == "Placed" %} DATE(${transactions.placed_date}) {% else %} DATE(${transactions.transaction_date}) {% endif %};;
+    hidden: yes
   }
 
   dimension: charity_status {
@@ -401,20 +402,20 @@ view: transactions {
   }
 
 dimension_group: order_completed {
-    view_label: "Date"
-    group_label: "Time"
+    description: "Date and time the order was completed"
     type: time
-    timeframes: [hour_of_day]
+    timeframes: [
+      time,
+      date
+    ]
     sql: ${TABLE}.transactionDate ;;
-    hidden: yes
   }
 
   dimension_group: placed {
-    label: "Placed"
+    label: "Order Placed"
     description: "Date and time the order was placed"
     type: time
     timeframes: [
-      raw,
       time,
       date
     ]
