@@ -289,6 +289,13 @@ explore: base {
   }
 
 
+  join: TalkSport_SOV_vs_Cost {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${calendar_completed_date.date}=${TalkSport_SOV_vs_Cost.Date_date} ;;
+  }
+
+
 }
 
 
