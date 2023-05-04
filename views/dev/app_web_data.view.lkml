@@ -985,22 +985,16 @@ view: TalkSport_BrandFunnel {
     sql: ${TABLE}.Brand_Funnel;;
   }
 
-  dimension: DIY {
-    description: "DIY"
+  dimension: Perc {
+    description: "Perc"
     type: number
-    sql: ${TABLE}.DIY;;
+    sql: ${TABLE}.Perc;;
   }
 
-  dimension: Trade {
-    description: "Trade"
-    type: number
-    sql: ${TABLE}.Trade;;
-  }
-
-  dimension: TalkSport_Listeners {
-    description: "TalkSport_Listeners"
-    type: number
-    sql: ${TABLE}.TalkSport_Listeners;;
+  dimension: CustomerType {
+    description: "CustomerType"
+    type: string
+    sql: ${TABLE}.CustomerType;;
   }
 }
 
