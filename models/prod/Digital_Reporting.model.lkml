@@ -282,6 +282,11 @@ explore: base {
     sql_on: ${calendar_completed_date.date}=${TalkSport_BrandFunnel.Date_date} ;;
   }
 
+  join: TalkSport_Customers {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${calendar_completed_date.week_in_year}=${TalkSport_Customers.Week_Number} ;;
+  }
 
 
 }

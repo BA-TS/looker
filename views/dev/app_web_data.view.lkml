@@ -1004,6 +1004,52 @@ view: TalkSport_BrandFunnel {
   }
 }
 
+view: TalkSport_Customers {
+  derived_table: {
+    sql:
+    SELECT distinct row_number() over () as P_K,* FROM `toolstation-data-storage.digitalreporting.TalkSport_TotalCustomers`;;
+  }
+
+  dimension: P_K {
+    description: "Primary key"
+    type: number
+    primary_key: yes
+    hidden: yes
+    sql: ${TABLE}.P_K ;;
+  }
+
+  dimension: Week_Number {
+    description: "Week_Number"
+    type: number
+    sql: ${TABLE}.Week_Number;;
+  }
+
+  dimension: DIY_actual_customers {
+    description: "DIY__actual_"
+    type: number
+    sql: ${TABLE}.DIY__actual_;;
+  }
+
+  dimension: Trade_actual_customers {
+    description: "Trade__actual_"
+    type: number
+    sql: ${TABLE}.Trade__actual_;;
+  }
+
+  dimension: DIY_budget_customers {
+    description: "DIY__budget_"
+    type: number
+    sql: ${TABLE}.DIY__budget_;;
+  }
+
+  dimension: Trade_budget_customers {
+    description: "Trade__budget_"
+    type: number
+    sql: ${TABLE}.Trade__budget_;;
+  }
+
+}
+
 
 
 # view: baseTEST {
