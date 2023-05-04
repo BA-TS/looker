@@ -961,7 +961,7 @@ view: Mobile_app {
 view: TalkSport_BrandFunnel {
   derived_table: {
     sql:
-    SELECT distinct row_number() over () as P_K,* FROM `toolstation-data-storage.digitalreporting.TalkSport_BrandFunnel`;;
+    SELECT distinct row_number() over () as P_K,* FROM `toolstation-data-storage.digitalreporting.TalkSport_BrandFunnels`;;
   }
 
   dimension: P_K {
