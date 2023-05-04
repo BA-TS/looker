@@ -279,7 +279,7 @@ explore: base {
   join: TalkSport_BrandFunnel {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${calendar_completed_date.date}=${TalkSport_BrandFunnel.Date_date} ;;
+    sql_on: ${base.base_date_date}=${TalkSport_BrandFunnel.Date_date} ;;
   }
 
 
