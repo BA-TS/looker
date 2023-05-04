@@ -1020,7 +1020,7 @@ view: TalkSport_Customers {
 
   dimension: Week_Number {
     description: "Week_Number"
-    type: number
+    type: string
     sql: ${TABLE}.Week_Number;;
   }
 
