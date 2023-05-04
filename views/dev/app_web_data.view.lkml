@@ -1066,100 +1066,16 @@ view: TalkSport_SOV_vs_Cost {
     sql: ${TABLE}.Date ;;
   }
 
-  dimension: B_Q {
-    description: "BQ"
-    type: number
-    sql: ${TABLE}.B_Q ;;
+  dimension: competitor {
+    description: "competitor"
+    type: string
+    sql: ${TABLE}.competitor ;;
   }
 
-  dimension: Homebase {
-    description: "Homebase"
+  dimension: SOV {
+    description: "SOV"
     type: number
-    sql: ${TABLE}.Homebase ;;
-  }
-
-  dimension: Wickes {
-    description: "Wickes"
-    type: number
-    sql: ${TABLE}.Wickes ;;
-  }
-
-  dimension: Screwfix {
-    description: "Screwfix"
-    type: number
-    sql: ${TABLE}.Screwfix ;;
-  }
-
-  dimension: Machine_Mart {
-    description: "Machine_Mart"
-    type: number
-    sql: ${TABLE}.Machine_Mart ;;
-  }
-
-  dimension: Toolstation {
-    description: "Toolstation"
-    type: number
-    sql: ${TABLE}.Toolstation ;;
-  }
-
-  dimension: Victorian_Plumbing {
-    description: "Victorian_Plumbing"
-    type: number
-    sql: ${TABLE}.Victorian_Plumbing ;;
-  }
-
-  dimension: Selco {
-    description: "Selco"
-    type: number
-    sql: ${TABLE}.Selco ;;
-  }
-
-  dimension: Manomano {
-    description: "Manomano"
-    type: number
-    sql: ${TABLE}.Manomano ;;
-  }
-
-  dimension: Travis_Perkins {
-    description: "Travis_Perkins"
-    type: number
-    sql: ${TABLE}.Travis_Perkins ;;
-  }
-
-  dimension: Jewson {
-    description: "Jewson"
-    type: number
-    sql: ${TABLE}.Jewson ;;
-  }
-
-  dimension: City_Electrical_Factors_Ltd {
-    description: "City_Electrical_Factors_Ltd"
-    type: number
-    sql: ${TABLE}.City_Electrical_Factors_Ltd ;;
-  }
-
-  dimension: Its_Industrial_Tool_Supplies {
-    description: "Its_Industrial_Tool_Supplies"
-    type: number
-    sql: ${TABLE}.Its_Industrial_Tool_Supplies ;;
-  }
-
-  dimension: Consideration_DIY {
-    description: "Consideration_DIY"
-    type: number
-    sql: ${TABLE}.Consideration_DIY ;;
-  }
-
-  dimension: Consideration_Trade {
-    description: "Consideration_Trade"
-    type: number
-    sql: ${TABLE}.Consideration_Trade ;;
-  }
-
-  dimension: Toolstation_Talksport_Only {
-    description: "Toolstation_Talksport_Only"
-    type: number
-    sql: ${TABLE}.Toolstation_Talksport_Only ;;
+    sql: ${TABLE}.SOV ;;
   }
 }
 
