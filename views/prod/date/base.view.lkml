@@ -24,6 +24,7 @@ view: base {
     label: "Month (mm)"
     sql: ${dynamic_month_number} ;;
     can_filter: yes
+    hidden: yes
   }
 
   dimension: combined_day_of_week {
@@ -75,7 +76,8 @@ view: base {
     label: "Year Quarter(yyyy qq)"
     type: string
     sql: {% if select_date_type._parameter_value == "Calendar" %} ${dynamic_actual_quarter} {% else %} ${dynamic_fiscal_quarter} {% endif %} ;;
-  }
+    hidden: yes
+ }
 
   dimension: combined_year {
     view_label: "Date"

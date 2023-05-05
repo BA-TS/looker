@@ -10,10 +10,10 @@ view: calendar {
   }
 
   dimension: calendar_quarter {
-    group_label: "Dates Calendar"
+    group_label: "Dates"
+    label: "Quarter (q)"
     type: number
     sql: ${TABLE}.calendarQuarter ;;
-    hidden: yes
   }
 
   dimension: calendar_year {
@@ -38,7 +38,7 @@ view: calendar {
   }
 
   dimension: month_in_year {
-    group_label: "Dates Calendar"
+    group_label: "Dates"
     label: "Month (mm)"
     type: number
     sql: ${TABLE}.monthInYear ;;
@@ -74,7 +74,7 @@ view: calendar {
 
   dimension: date_name_eu {
     group_label: "Dates"
-    label: "Dates (dd/mm/yyyy)"
+    label: "Date (dd/mm/yyyy)"
     type: string
     sql: ${TABLE}.dateNameEU ;;
   }
