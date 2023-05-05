@@ -87,10 +87,11 @@ view: calendar {
   }
 
   dimension: day_in_week {
-    group_label: "Dates Calendar"
+    group_label: "Dates"
+    label: "Day in Week (ddd)"
+    description:"First day of week is Sunday,Sun=1,Mon=2,Tue=3,Wed=4,Thu=5,Fri=6,Sat=7"
     type: number
     sql: ${TABLE}.dayInWeek ;;
-    hidden: yes
   }
 
   dimension: day_in_year {

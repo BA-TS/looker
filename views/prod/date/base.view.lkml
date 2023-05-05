@@ -16,6 +16,7 @@ view: base {
     label: "Day of Week (Name)"
     sql: ${dynamic_day_name} ;;
     can_filter: no
+    hidden: yes
   }
 
   dimension: combined_month_number {
@@ -33,6 +34,7 @@ view: base {
     label: "Day of Week (Number)"
     sql: ${dynamic_day_of_week} ;;
     can_filter: no #! check this for fiscal/calendar switch
+    hidden: yes
   }
 
   dimension: combined_month_name {
