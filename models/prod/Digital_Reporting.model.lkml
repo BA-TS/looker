@@ -165,25 +165,26 @@ explore: base {
   #     ;;
   # }
 
-   join: productv2 {
-    view_label: "Products"
-     from: products
-     type: left_outer
-     relationship: many_to_one
-     sql_on: ${app_web_data.ProductUID}=${productv2.product_uid};;
- }
-
-
   join: total_sessionsv2 {
     view_label: "Eccomerce Events"
     type: left_outer
     relationship: many_to_one
     sql_on:
-      ${base.date_date}=${total_sessionsv2.date_date} and ${total_sessionsv2.product_code} = ${productv2.product_code}
+      ${base.date_date}=${total_sessionsv2.date_date}
+      and ${productv2.product_code}=${total_sessionsv2.product_code}
       and ${app_web_data.App_web} = ${total_sessionsv2.app_web_sessions}
       and ${total_sessions.Medium} = ${total_sessionsv2.Medium}
       and ${total_sessions.app_web_sessions} = ${total_sessionsv2.app_web_sessions};;
   }
+
+  join: productv2 {
+    view_label: "Products"
+    from: products
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${app_web_data.ProductUID}=${productv2.product_uid};;
+  }
+
 
   join: promo_main_catalogue {
     type: left_outer
