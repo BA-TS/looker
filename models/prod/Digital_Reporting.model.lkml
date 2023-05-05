@@ -179,10 +179,19 @@ explore: base {
     type: left_outer
     relationship: many_to_one
     sql_on:
-      ${base.date_date}=${total_sessionsv2.date_date} and ${total_sessionsv2.product_code} = ${productv2.product_code}
+      ${base.date_date}=${total_sessionsv2.date_date}
       and ${app_web_data.App_web} = ${total_sessionsv2.app_web_sessions}
       and ${total_sessions.Medium} = ${total_sessionsv2.Medium}
       and ${total_sessions.app_web_sessions} = ${total_sessionsv2.app_web_sessions};;
+  }
+
+
+  join: products {
+    view_label: "Products"
+    from: products
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${total_sessionsv2.product_code}=${products.product_uid};;
   }
 
   join: promo_main_catalogue {
