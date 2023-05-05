@@ -122,7 +122,7 @@ view: calendar {
   }
 
   dimension: fiscal_week_of_year {
-    group_label: "Dates"
+    group_label: "Dates Fiscal"
     label: "Week (Fiscal)"
     type: number
     sql: ${TABLE}.fiscalWeekOfYear ;;
