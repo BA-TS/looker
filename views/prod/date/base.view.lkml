@@ -63,7 +63,7 @@ view: base {
   dimension: combined_month {
     view_label: "Date"
     group_label: "Dates"
-    label: "Year Month"
+    label: "Year Month (yyyy-mm)"
     type: string
     sql: {% if select_date_type._parameter_value == "Calendar" %} ${dynamic_actual_month} {% else %} ${dynamic_fiscal_month} {% endif %} ;;
   }
@@ -71,7 +71,7 @@ view: base {
   dimension: combined_quarter {
     view_label: "Date"
     group_label: "Dates"
-    label: "Year Quarter"
+    label: "Year Quarter(yyyy qq)"
     type: string
     sql: {% if select_date_type._parameter_value == "Calendar" %} ${dynamic_actual_quarter} {% else %} ${dynamic_fiscal_quarter} {% endif %} ;;
   }

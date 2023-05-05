@@ -8,6 +8,7 @@ view: customers {
   dimension: customer_uid {
     group_label: "Customer"
     label: "Customer UID"
+    required_access_grants: [can_use_customer_information]
     type: string
     primary_key: yes
     sql: ${TABLE}.customerUID ;;
@@ -57,6 +58,7 @@ view: customers {
   dimension: address__address_uid {
     group_label: "Customer Address"
     group_item_label: "Address UID"
+    required_access_grants: [can_use_customer_information]
     type: string
     sql: ${TABLE}.address.addressUID ;;
     hidden: yes
@@ -113,6 +115,7 @@ view: customers {
   dimension: customer__company {
     group_label: "Customer"
     group_item_label: "Company"
+    required_access_grants: [can_use_customer_information]
     type: string
     sql: ${TABLE}.customer.company ;;
   }
@@ -128,6 +131,7 @@ view: customers {
   dimension: customer__first_name {
     group_label: "Customer"
     group_item_label: "First Name"
+    required_access_grants: [can_use_customer_information]
     type: string
     sql: ${TABLE}.customer.firstName ;;
   }
@@ -135,6 +139,7 @@ view: customers {
   dimension: customer__last_name {
     group_label: "Customer"
     group_item_label: "Last Name"
+    required_access_grants: [can_use_customer_information]
     type: string
     sql: ${TABLE}.customer.lastName ;;
   }
@@ -158,6 +163,7 @@ view: customers {
   dimension: customer__title {
     group_label: "Customer"
     group_item_label: "Title"
+    required_access_grants: [can_use_customer_information]
     type: string
     sql: ${TABLE}.customer.title ;;
   }
@@ -225,6 +231,7 @@ view: customers {
   dimension: permissions__catalogue_mail_opt_in {
     group_label: "Permissions (Opt In)"
     group_item_label: "Catalogue (Mail)"
+    required_access_grants: [can_use_customer_information]
     type: yesno
     sql: ${TABLE}.permissions.catalogue_mail_opt_in = true ;;
   }
@@ -232,6 +239,7 @@ view: customers {
   dimension: permissions__offers_email_opt_in {
     group_label: "Permissions (Opt In)"
     group_item_label: "Email (Offers)"
+    required_access_grants: [can_use_customer_information]
     type: yesno
     sql: ${TABLE}.permissions.offers_email_opt_in = true ;;
   }
@@ -239,6 +247,7 @@ view: customers {
   dimension: permissions__offers_mail_opt_in {
     group_label: "Permissions (Opt In)"
     group_item_label: "Mail (Offers)"
+    required_access_grants: [can_use_customer_information]
     type: yesno
     sql: ${TABLE}.permissions.offers_mail_opt_in = true ;;
   }
@@ -246,6 +255,7 @@ view: customers {
   dimension: permissions__offers_mobile_opt_in {
     group_label: "Permissions (Opt In)"
     group_item_label: "Mobile (Offers)"
+    required_access_grants: [can_use_customer_information]
     type: yesno
     sql: ${TABLE}.permissions.offers_mobile_opt_in = true ;;
   }
@@ -253,6 +263,7 @@ view: customers {
   dimension: permissions__offers_notif_opt_in {
     group_label: "Permissions (Opt In)"
     group_item_label: "Notification (Offers)"
+    required_access_grants: [can_use_customer_information]
     type: yesno
     sql: ${TABLE}.permissions.Offers_Notif_Opt_In = true ;;
   }
@@ -260,6 +271,7 @@ view: customers {
   dimension: permissions__offers_sms_opt_in {
     group_label: "Permissions (Opt In)"
     group_item_label: "SMS (Offers)"
+    required_access_grants: [can_use_customer_information]
     type: yesno
     sql: ${TABLE}.permissions.offers_sms_opt_in = true ;;
   }
@@ -267,6 +279,7 @@ view: customers {
   dimension: permissions__order_process_email_opt_in {
     group_label: "Permissions (Opt In)"
     group_item_label: "Email (Order Process)"
+    required_access_grants: [can_use_customer_information]
     type: yesno
     sql: ${TABLE}.permissions.order_process_email_opt_in = true ;;
   }
@@ -274,6 +287,7 @@ view: customers {
   dimension: permissions__order_process_notif_opt_in {
     group_label: "Permissions (Opt In)"
     group_item_label: "Notification (Order Process)"
+    required_access_grants: [can_use_customer_information]
     type: yesno
     sql: ${TABLE}.permissions.Order_Process_Notif_Opt_In = true ;;
   }
@@ -281,6 +295,7 @@ view: customers {
   dimension: permissions__order_process_sms_opt_in {
     group_label: "Permissions (Opt In)"
     group_item_label: "SMS (Order Process)"
+    required_access_grants: [can_use_customer_information]
     type: yesno
     sql: ${TABLE}.permissions.order_process_sms_opt_in = true ;;
   }
@@ -288,6 +303,7 @@ view: customers {
   dimension: permissions__order_query_email_opt_in {
     group_label: "Permissions (Opt In)"
     group_item_label: "Email (Order Query)"
+    required_access_grants: [can_use_customer_information]
     type: yesno
     sql: ${TABLE}.permissions.order_query_email_opt_in = true ;;
   }
@@ -295,6 +311,7 @@ view: customers {
   dimension: permissions__order_query_mobile_opt_in {
     group_label: "Permissions (Opt In)"
     group_item_label: "Mobile (Order Query)"
+    required_access_grants: [can_use_customer_information]
     type: yesno
     sql: ${TABLE}.permissions.order_query_mobile_opt_in = true ;;
   }
@@ -302,6 +319,7 @@ view: customers {
   dimension: permissions__order_query_notif_opt_in {
     group_label: "Permissions (Opt In)"
     group_item_label: "Notification (Order Query)"
+    required_access_grants: [can_use_customer_information]
     type: yesno
     sql: ${TABLE}.permissions.Order_Query_Notif_Opt_In = true ;;
   }
@@ -309,6 +327,7 @@ view: customers {
   dimension: permissions__order_query_sms_opt_in {
     group_label: "Permissions (Opt In)"
     group_item_label: "SMS (Order Query)"
+    required_access_grants: [can_use_customer_information]
     type: yesno
     sql: ${TABLE}.permissions.order_query_sms_opt_in = true ;;
   }
@@ -316,6 +335,7 @@ view: customers {
   dimension: permissions__order_query_telephone_opt_in {
     group_label: "Permissions (Opt In)"
     group_item_label: "Telephone (Order Query)"
+    required_access_grants: [can_use_customer_information]
     type: yesno
     sql: ${TABLE}.permissions.order_query_telephone_opt_in = true ;;
   }
