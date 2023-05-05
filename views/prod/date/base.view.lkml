@@ -50,6 +50,7 @@ view: base {
     label: "Year Week"
     type: string
     sql: {% if select_date_type._parameter_value == "Calendar" %} ${dynamic_actual_week} {% else %} ${dynamic_fiscal_week} {% endif %} ;;
+    hidden: yes
   }
 
   dimension: separate_month {
