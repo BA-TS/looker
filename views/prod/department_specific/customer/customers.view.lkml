@@ -66,6 +66,7 @@ view: customers {
 
   dimension: address__country {
     group_label: "Customer Address"
+    required_access_grants: [can_use_customer_information]
     group_item_label: "Country"
     type: string
     sql: ${TABLE}.address.country ;;
