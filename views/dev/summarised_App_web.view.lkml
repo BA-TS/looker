@@ -1,7 +1,7 @@
 view: summarised_daily_Sales {
   derived_table: {
     sql: with sub1 as (SELECT distinct
-    dated,
+    date(dated) as date,
 fiscalYearWeek,
 case when App_Web = 'Web Trolley' then 'Web'
 when App_Web = 'App Trolley' then 'App'
@@ -30,11 +30,11 @@ dimension: Primary_key {
   sql: ${TABLE}.P_K ;;
 }
 
-  dimension_group: dated  {
+  dimension_group: date  {
     description: "transaction_date"
     type: time
     timeframes: [raw,date]
-    sql: ${TABLE}.dated ;;
+    sql: ${TABLE}.date ;;
   }
 
   dimension: fiscalYearWeek {
