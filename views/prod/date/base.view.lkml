@@ -21,7 +21,7 @@ view: base {
   dimension: combined_month_number {
     view_label: "Date"
     group_label: "Dates"
-    label: "Month"
+    label: "Month (mm)"
     sql: ${dynamic_month_number} ;;
     can_filter: yes
   }
