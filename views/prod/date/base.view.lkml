@@ -79,7 +79,7 @@ view: base {
   dimension: combined_year {
     view_label: "Date"
     group_label: "Dates"
-    label: "Year"
+    label: "Year (yyyy)"
     type: number
     sql: {% if select_date_type._parameter_value == "Calendar" %} ${dynamic_actual_year} {% else %} ${dynamic_fiscal_year} {% endif %} ;;
   }
