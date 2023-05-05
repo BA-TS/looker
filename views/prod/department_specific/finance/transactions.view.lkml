@@ -402,6 +402,7 @@ view: transactions {
   }
 
 dimension_group: order_completed {
+    group_label: "Order Details"
     description: "Date and time the order was completed"
     type: time
     timeframes: [
@@ -412,6 +413,7 @@ dimension_group: order_completed {
   }
 
   dimension_group: placed {
+    group_label: "Order Details"
     label: "Order Placed"
     description: "Date and time the order was placed"
     type: time

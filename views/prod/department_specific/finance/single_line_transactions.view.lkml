@@ -45,4 +45,13 @@ view: single_line_transactions {
     sql: ${single_line_transactions_total}/NULLIF((${single_line_transactions_total}+${non_single_line_transactions_total}),0);;
     value_format: "0.0%"
   }
+
+  measure: attachment_rate_percent {
+    group_label: "Single Line Transactions"
+    label: "Attachment Rate Percentage"
+    description: "Attachment rate as a percentage of total transactions (Single Line + Non-single Line)"
+    type: number
+    sql: 1-${single_line_transactions_total}/NULLIF((${single_line_transactions_total}+${non_single_line_transactions_total}),0);;
+    value_format: "0.0%"
+  }
 }
