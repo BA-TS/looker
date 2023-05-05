@@ -958,6 +958,127 @@ view: Mobile_app {
 
   }
 
+view: TalkSport_BrandFunnel {
+  derived_table: {
+    sql:
+    SELECT distinct row_number() over () as P_K,* FROM `toolstation-data-storage.digitalreporting.TalkSport_BrandFunnels`;;
+  }
+
+  dimension: P_K {
+    description: "Primary key"
+    type: number
+    primary_key: yes
+    hidden: yes
+    sql: ${TABLE}.P_K ;;
+  }
+
+  dimension_group: Date {
+    description: "date"
+    type: time
+    timeframes: [raw,date]
+    sql: ${TABLE}.Date ;;
+  }
+
+  dimension: Brand_Funnel {
+    description: "Brand_Funnel"
+    type: string
+    sql: ${TABLE}.Brand_Funnel;;
+  }
+
+  dimension: Perc {
+    description: "Perc"
+    type: number
+    sql: ${TABLE}.Perc;;
+  }
+
+  dimension: CustomerType {
+    description: "CustomerType"
+    type: string
+    sql: ${TABLE}.CustomerType;;
+  }
+}
+
+view: TalkSport_Customers {
+  derived_table: {
+    sql:
+    SELECT distinct row_number() over () as P_K,* FROM `toolstation-data-storage.digitalreporting.TalkSport_TotalCustomers`;;
+  }
+
+  dimension: P_K {
+    description: "Primary key"
+    type: number
+    primary_key: yes
+    hidden: yes
+    sql: ${TABLE}.P_K ;;
+  }
+
+  dimension: Week_Number {
+    description: "Week_Number"
+    type: string
+    sql: ${TABLE}.Week_Number;;
+  }
+
+  dimension: DIY_actual_customers {
+    description: "DIY__actual_"
+    type: number
+    sql: ${TABLE}.DIY__actual_;;
+  }
+
+  dimension: Trade_actual_customers {
+    description: "Trade__actual_"
+    type: number
+    sql: ${TABLE}.Trade__actual_;;
+  }
+
+  dimension: DIY_budget_customers {
+    description: "DIY__budget_"
+    type: number
+    sql: ${TABLE}.DIY__budget_;;
+  }
+
+  dimension: Trade_budget_customers {
+    description: "Trade__budget_"
+    type: number
+    sql: ${TABLE}.Trade__budget_;;
+  }
+
+}
+
+
+view: TalkSport_SOV_vs_Cost {
+  derived_table: {
+    sql:
+    SELECT distinct row_number() over () as P_K,* FROM `toolstation-data-storage.digitalreporting.SOV_vs_Costs`;;
+  }
+
+  dimension: P_K {
+    description: "Primary key"
+    type: number
+    primary_key: yes
+    hidden: yes
+    sql: ${TABLE}.P_K ;;
+  }
+
+  dimension_group: Date {
+    description: "date"
+    type: time
+    timeframes: [raw,date]
+    sql: ${TABLE}.Date ;;
+  }
+
+  dimension: competitor {
+    description: "competitor"
+    type: string
+    sql: ${TABLE}.competitor ;;
+  }
+
+  dimension: SOV {
+    description: "SOV"
+    type: number
+    sql: ${TABLE}.SOV ;;
+  }
+}
+
 
 
 # view: baseTEST {

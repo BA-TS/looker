@@ -276,6 +276,24 @@ explore: base {
     sql_on: ${productv2.product_uid} = ${currentRetailPrice.Product_ID} ;;
   }
 
+  join: TalkSport_BrandFunnel {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${calendar_completed_date.date}=${TalkSport_BrandFunnel.Date_date} ;;
+  }
+
+  join: TalkSport_Customers {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: (${calendar_completed_date.calendar_year} || LPAD (cast(${calendar_completed_date.week_in_year} as string),2,"0"))=cast(${TalkSport_Customers.Week_Number} as string);;
+  }
+
+
+  join: TalkSport_SOV_vs_Cost {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${calendar_completed_date.date}=${TalkSport_SOV_vs_Cost.Date_date} ;;
+  }
 
 
 }
