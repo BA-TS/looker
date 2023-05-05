@@ -1,7 +1,7 @@
 view: summarised_daily_Sales {
   derived_table: {
     sql: with sub1 as (SELECT distinct
-    date(dated) as date,
+    timestamp(dated) as date,
 fiscalYearWeek,
 case when App_Web = 'Web Trolley' then 'Web'
 when App_Web = 'App Trolley' then 'App'
