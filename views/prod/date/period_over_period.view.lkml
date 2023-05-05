@@ -868,6 +868,7 @@ view: period_over_period {
       timeframes: [date]
       can_filter: no
       allow_fill: no
+      hidden: yes
     }
 
 # ░█████╗░░█████╗░███╗░░░███╗██████╗░░█████╗░██████╗░░█████╗░████████╗░█████╗░██████╗░

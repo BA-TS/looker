@@ -24,10 +24,10 @@ view: calendar {
   }
 
   dimension: calendar_year_month {
-    group_label: "Dates Calendar"
+    group_label: "Dates"
+    label: "Year Month (yyyy-mm)"
     type: string
     sql: ${TABLE}.calendarYearMonth ;;
-    hidden: yes
   }
 
   dimension: calendar_year_quarter {
@@ -39,9 +39,9 @@ view: calendar {
 
   dimension: month_in_year {
     group_label: "Dates Calendar"
+    label: "Month (mm)"
     type: number
     sql: ${TABLE}.monthInYear ;;
-    hidden: yes
   }
 
   dimension: month_name_in_year {
@@ -73,10 +73,10 @@ view: calendar {
   }
 
   dimension: date_name_eu {
-    group_label: "Dates Calendar"
+    group_label: "Dates"
+    label: "Dates (dd/mm/yyyy)"
     type: string
     sql: ${TABLE}.dateNameEU ;;
-    hidden: yes
   }
 
   dimension: day_in_month {
@@ -123,7 +123,7 @@ view: calendar {
 
   dimension: fiscal_week_of_year {
     group_label: "Dates Fiscal"
-    label: "Week (Fiscal)"
+    label: "Week (ww)"
     type: number
     sql: ${TABLE}.fiscalWeekOfYear ;;
   }

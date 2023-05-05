@@ -66,6 +66,7 @@ view: base {
     label: "Year Month (yyyy-mm)"
     type: string
     sql: {% if select_date_type._parameter_value == "Calendar" %} ${dynamic_actual_month} {% else %} ${dynamic_fiscal_month} {% endif %} ;;
+    hidden: yes
   }
 
   dimension: combined_quarter {
