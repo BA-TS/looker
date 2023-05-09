@@ -154,10 +154,10 @@ view: calendar {
 
   dimension: fiscal_year_week {
     group_label: "Dates Fiscal"
+    label: "Fiscal Year Week (yyyyww)"
     type: string
     sql: ${TABLE}.fiscalYearWeek ;;
-    can_filter: no
-    hidden: yes
+
   }
 
   dimension: holiday_name {
