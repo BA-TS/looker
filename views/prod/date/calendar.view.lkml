@@ -2,11 +2,12 @@ view: calendar {
   sql_table_name:`toolstation-data-storage.ts_finance.dim_date`;;
 
   dimension: date{
-    group_label: "Dates Calendar"
+    group_label: "Dates"
+    label: "Date (dd/mm/yyyy)"
     type: date
     primary_key: yes
     sql: ${TABLE}.fullDate ;;
-    hidden: yes
+    html: {{ rendered_value | date: "%d/%m/%Y" }};;
   }
 
   dimension: calendar_quarter {
@@ -77,6 +78,7 @@ view: calendar {
     label: "Date (dd/mm/yyyy)"
     type: string
     sql: ${TABLE}.dateNameEU ;;
+    hidden: yes
   }
 
   dimension: day_in_month {
