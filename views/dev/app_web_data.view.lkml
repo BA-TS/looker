@@ -321,7 +321,7 @@ AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {
   dimension: channel_grouping {
     description: "channel_grouping sessions"
     type: string
-    sql: ${TABLE}.channel_grouping ;;
+    sql: ${TABLE}.channelGrouping ;;
   }
 
   dimension: sessions {
