@@ -265,12 +265,16 @@ view: total_sessions {
 'Web' as app_web_sessions,
 PARSE_DATE('%Y%m%d', date) as date,
 trafficSource.medium as Medium,
+channelGrouping,
+hits.eventInfo.eventCategory as event_name,
+Case when hits.eventInfo.eventCategory = "Videoly" then hits.eventInfo.eventAction
+else null end as event,
 count(distinct concat(fullVisitorID,visitStartTime)) as sessions,
 FROM `toolstation-data-storage.4783980.ga_sessions_*`
  WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %}
- group by 2,3
+ group by 2,3,4,5,6
 
 
 union distinct
@@ -278,6 +282,12 @@ SELECT distinct
     'App' as app_web_sessions,
     PARSE_DATE('%Y%m%d', event_date) as date,
     traffic_source.medium as Medium,
+    `toolstation-data-storage.analytics_265133009.channel_grouping`(traffic_source.source, traffic_source.medium, traffic_source.name) as channel_grouping,
+    event_name,
+    case when event_name = "videoly" and event_params.key = "video_percent" then concat(event_params.key, " - ", cast(event_params.value.int_value as string))
+when event_name = "videoly" and event_params.key = "action" then event_params.value.string_value
+else null
+end as event,
     COUNT(DISTINCT CASE
     WHEN event_name = 'session_start' THEN CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))
     END) AS sessions
@@ -285,7 +295,7 @@ SELECT distinct
      WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
-    GROUP BY 2,3)
+    GROUP BY 2,3,4,5,6)
     Select distinct row_number() over () as P_K, sub1.* from sub1 ;;
   }
 
@@ -314,6 +324,24 @@ AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {
     description: "Medium sessions"
     type: string
     sql: ${TABLE}.Medium ;;
+  }
+
+  dimension: channel_grouping {
+    description: "channel_grouping sessions"
+    type: string
+    sql: ${TABLE}.channel_grouping ;;
+  }
+
+  dimension: event_name {
+    description: "event_name"
+    type: string
+    sql: ${TABLE}.event_name ;;
+  }
+
+  dimension: event {
+    description: "event"
+    type: string
+    sql: ${TABLE}.event ;;
   }
 
   dimension: sessions {
