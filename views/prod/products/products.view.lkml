@@ -8,21 +8,16 @@ view: products {
   null, null, null, null, null, null, null, null, null, null;;
   }
 
-  # parameter: include_charity {
-  #   view_label: "Overrides"
-  #   label: "Show Charity"
-  #   description: "By default, SKU 85699 and 00053 are excluded. Selecting 'Yes' will isolate those SKUs in the query."
-  #   type: string
-  #   allowed_value: {
-  #     label: "Yes"
-  #     value: "1"
-  #   }
-  #   allowed_value: {
-  #     label: "No"
-  #     value: "0"
-  #   }
-  #   default_value: "0"
-  # }
+  parameter: product_code_attachment {
+    label: "Attachment - Product List"
+    description: "Please enter the product codes"
+    type: string
+    # allowed_value: {
+    #   label: "Yes"
+    #   value: "1"
+    # }
+    default_value: "86627"
+  }
 
   dimension: product_uid {
     group_label: "Product Details"

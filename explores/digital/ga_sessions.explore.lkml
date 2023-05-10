@@ -5,16 +5,11 @@ include: "/**/Google_Analytics/Custom_Views/*.view.lkml"
 include: "/views/prod/department_specific/digital_dev/Google_Analytics/ga_period_over_period.view.lkml"
 
 explore: ga_sessions {
-
   # required_access_grants: [is_super]
-
   label: "Google Analytics"
   description: "Explores Google Analytics sessions data."
-
   # always_join: [base]
-
   sql_always_where: _table_suffix >= FORMAT_DATE('%Y%m%d',date_sub(date_trunc(current_date, year), interval 2 year))  ;; # AND ${ga_pop.period_over_period} # AND ${base.period_over_period}
-
   conditionally_filter: {
     filters: [
       ga_pop.select_date_range: "Yesterday"
@@ -36,292 +31,211 @@ explore: ga_sessions {
   join: hits {
     type: left_outer
     sql:
-
     LEFT JOIN UNNEST(${ga_sessions.hits}) AS hits;;
     relationship: one_to_many
   }
 
   join: page_funnel {
     type: left_outer
-    sql_on:
-
-    ${page_funnel.page1_hit_id} = ${hits.id}
-
-    ;;
+    sql_on: ${page_funnel.page1_hit_id} = ${hits.id};;
     relationship: one_to_one
   }
 
   join: event_action_funnel {
     type: left_outer
-    sql_on:
-
-    ${event_action_funnel.event1_hit_id} = ${hits.id}
-
-    ;;
+    sql_on: ${event_action_funnel.event1_hit_id} = ${hits.id} ;;
     relationship: one_to_one
   }
 
   join: event_action_facts {
     type: left_outer
-    sql_on:
-
-    ${ga_sessions.id} = ${event_action_facts.session_id} AND (${hits.hit_number} BETWEEN ${event_action_facts.hit_number} AND COALESCE(${event_action_facts.next_event_hit_number}-1, ${event_action_facts.hit_number})
-
-    ;;
+    sql_on: ${ga_sessions.id} = ${event_action_facts.session_id} AND (${hits.hit_number} BETWEEN ${event_action_facts.hit_number} AND COALESCE(${event_action_facts.next_event_hit_number}-1, ${event_action_facts.hit_number});;
     relationship: one_to_one
   }
 
   join: page_facts {
     type: left_outer
-    sql_on:
-
-    ${ga_sessions.id} = ${page_facts.session_id} AND (${hits.hit_number} BETWEEN ${page_facts.hit_number} AND COALESCE(${page_facts.next_page_hit_number}-1, ${page_facts.hit_number}))
-
-    ;;
+    sql_on: ${ga_sessions.id} = ${page_facts.session_id} AND (${hits.hit_number} BETWEEN ${page_facts.hit_number} AND COALESCE(${page_facts.next_page_hit_number}-1, ${page_facts.hit_number})) ;;
     relationship: one_to_one
   }
 
   join: session_flow {
     type: left_outer
-    sql_on:
-
-    ${ga_sessions.id} = ${session_flow.session_id}
-
-    ;;
+    sql_on:${ga_sessions.id} = ${session_flow.session_id};;
     relationship: one_to_one
   }
 
   join: time_on_page {
     view_label: "Behavior"
     type: left_outer
-    sql_on:
-
-    ${hits.id} = ${time_on_page.hit_id}
-
-    ;;
+    sql_on: ${hits.id} = ${time_on_page.hit_id} ;;
     relationship: one_to_one
   }
 
   join: user_segment {
     type: left_outer
-    sql_on:
-
-    ${ga_sessions.full_visitor_id} = ${user_segment.full_visitor_id}
-
-    ;;
+    sql_on: ${ga_sessions.full_visitor_id} = ${user_segment.full_visitor_id};;
     relationship: many_to_one
   }
 
   join: custom_dimensions {
     type: left_outer
     relationship: one_to_one
-    sql:
-
-    LEFT JOIN UNNEST(${ga_sessions.custom_dimensions}) AS custom_dimensions
-
-    ;;
+    sql:LEFT JOIN UNNEST(${ga_sessions.custom_dimensions}) AS custom_dimensions ;;
   }
 
   join: custom_variables {
     type: left_outer
     relationship: one_to_one
-    sql:
-
-    LEFT JOIN UNNEST(${ga_sessions.custom_variables}) AS custom_variables
-
-    ;;
+    sql:LEFT JOIN UNNEST(${ga_sessions.custom_variables}) AS custom_variables ;;
   }
-
 }
 
 
 # AA #
 
-
 explore: +ga_sessions {
 
   aggregate_table: sessions_by_session_start_date {
-
     query: {
       dimensions: [visit_start_date]
       measures: [visits_total]
     }
-
     materialization: {
       sql_trigger_value: SELECT EXTRACT(YEAR FROM CURRENT_DATE()) ;;
     }
-
   }
 
   ## Aggregate Tables for LookML Dashboards
   ## GA360 Overview Dashboard
-
   aggregate_table: percent_new_sessions_visits_total {
-
     query: {
       dimensions: [ga_sessions.partition_date, ga_sessions.landing_page_hostname, ga_sessions.channel_grouping, ga_sessions.medium, ga_sessions.source, ga_sessions.continent, ga_sessions.country]
       measures: [percent_new_sessions, visits_total]
     }
-
     materialization: {
       persist_for: "24 hours"
     }
-
   }
 
   aggregate_table: bounce_rate_bounces_total {
-
     query: {
       dimensions: [ga_sessions.partition_date, ga_sessions.landing_page_hostname]
       measures: [bounce_rate, bounces_total]
     }
-
     materialization: {
       persist_for: "24 hours"
     }
-
   }
 
   aggregate_table: time_on_site_average_per_session {
-
     query: {
       dimensions: [ga_sessions.partition_date, ga_sessions.landing_page_hostname]
       measures: [timeonsite_average_per_session]
     }
-
     materialization: {
       persist_for: "24 hours"
     }
-
   }
 
   aggregate_table: time_on_site_tier {
-
     query: {
       dimensions: [time_on_site_tier, ga_sessions.partition_date, ga_sessions.landing_page_hostname]
       measures: [visits_total]
       timezone: "Europe/London"
     }
-
     materialization: {
       persist_for: "24 hours"
     }
-
   }
 
   aggregate_table: continent_visit_start_month {
-
     query: {
       dimensions: [continent, ga_sessions.visit_start_month, ga_sessions.partition_date, ga_sessions.landing_page_hostname]
       measures: [visits_total]
       timezone: "Europe/London"
     }
-
     materialization: {
       persist_for: "24 hours"
     }
-
   }
 
   aggregate_table: region {
-
     query: {
       dimensions: [region, ga_sessions.country, ga_sessions.partition_date, ga_sessions.landing_page_hostname]
       measures: [visits_total]
       timezone: "Europe/London"
     }
-
     materialization: {
       persist_for: "24 hours"
     }
-
   }
 
   aggregate_table: source {
-
     query: {
       dimensions: [source, ga_sessions.medium, ga_sessions.source_medium, ga_sessions.partition_date, ga_sessions.landing_page_hostname, ga_sessions.continent, ga_sessions.country]
       measures: [visits_total]
       timezone: "Europe/London"
     }
-
     materialization: {
       persist_for: "24 hours"
     }
-
   }
 
   aggregate_table: landing_page_formatted {
-
     query: {
       dimensions: [landing_page_formatted, ga_sessions.landing_page_hostname, ga_sessions.partition_date, ga_sessions.channel_grouping, ga_sessions.medium, ga_sessions.source, ga_sessions.source_medium, ga_sessions.continent, ga_sessions.country]
       measures: [visits_total, percent_new_sessions]
       timezone: "Europe/London"
     }
-
     materialization: {
       persist_for: "24 hours"
     }
-
   }
 
   aggregate_table: hits_page_count_hits_unique_page_count {
-
     query: {
       dimensions: [ga_sessions.partition_date, ga_sessions.landing_page_hostname]
       measures: [hits.page_count, hits.unique_page_count]
     }
-
     materialization: {
       persist_for: "24 hours"
     }
-
   }
 
   aggregate_table: hits_page_path_formatted {
-
     query: {
       dimensions: [hits.page_path_formatted, ga_sessions.partition_date, ga_sessions.landing_page_hostname]
       measures: [hits.page_count, hits.unique_page_count]
     }
-
     materialization: {
       persist_for: "24 hours"
     }
-
   }
 
   ## End GA360 Dashboard
   ## Acquisition Dashboard
-
   aggregate_table: unique_visitors {
-
     query: {
       dimensions: [ga_sessions.partition_date, ga_sessions.channel_grouping, ga_sessions.medium, ga_sessions.source, ga_sessions.continent, ga_sessions.country, ga_sessions.landing_page_hostname]
       measures: [unique_visitors]
     }
-
     materialization: {
       persist_for: "24 hours"
     }
-
   }
 
   aggregate_table: hits_page_count {
-
     query: {
       dimensions: [ga_sessions.partition_date, ga_sessions.channel_grouping, ga_sessions.medium, ga_sessions.source, ga_sessions.continent, ga_sessions.country, ga_sessions.landing_page_hostname]
       measures: [hits.page_count]
     }
-
     materialization: {
       persist_for: "24 hours"
     }
-
   }
 
   aggregate_table: audience_trait {
-
     query: {
       dimensions: [audience_trait]
       measures: [bounce_rate, page_views_session, percent_new_sessions, timeonsite_average_per_session, visits_total]
@@ -330,18 +244,14 @@ explore: +ga_sessions {
         ga_sessions.partition_date: "7 days"
       ]
     }
-
     materialization: {
       persist_for: "24 hours"
     }
-
   }
 
   ## End Acquisition Dashboard
   ## Audience Dashboard
-
   aggregate_table: visits_total {
-
     query: {
       dimensions: [ga_sessions.partition_date, ga_sessions.channel_grouping, ga_sessions.medium, ga_sessions.source, ga_sessions.source_medium, ga_sessions.continent, ga_sessions.country]
       measures: [visits_total]
@@ -349,15 +259,12 @@ explore: +ga_sessions {
         ga_sessions.audience_selector: "Device"
       ]
     }
-
     materialization: {
       persist_for: "24 hours"
     }
-
   }
 
   aggregate_table: unique_visitors_02 {
-
     query: {
       dimensions: [ga_sessions.partition_date, ga_sessions.channel_grouping, ga_sessions.medium, ga_sessions.source, ga_sessions.source_medium, ga_sessions.continent, ga_sessions.country]
       measures: [unique_visitors]
@@ -365,15 +272,12 @@ explore: +ga_sessions {
         ga_sessions.audience_selector: "Device"
       ]
     }
-
     materialization: {
       persist_for: "24 hours"
     }
-
   }
 
   aggregate_table: hits_page_count_02 {
-
     query: {
       dimensions: [ga_sessions.partition_date, ga_sessions.channel_grouping, ga_sessions.medium, ga_sessions.source, ga_sessions.source_medium, ga_sessions.continent, ga_sessions.country]
       measures: [hits.page_count]
@@ -381,15 +285,12 @@ explore: +ga_sessions {
         ga_sessions.audience_selector: "Device"
       ]
     }
-
     materialization: {
       persist_for: "24 hours"
     }
-
   }
 
   aggregate_table: visit_number_tier {
-
     query: {
       dimensions: [visit_number_tier, ga_sessions.partition_date, ga_sessions.landing_page_hostname]
       measures: [unique_visitors]
@@ -398,62 +299,48 @@ explore: +ga_sessions {
       ]
       timezone: "Europe/London"
     }
-
     materialization: {
       persist_for: "24 hours"
     }
-
   }
 
   aggregate_table: session_flow_days_since_previous_session_tier {
-
     query: {
       dimensions: [session_flow.days_since_previous_session_tier, ga_sessions.partition_date, ga_sessions.visit_number]
       measures: [visits_total]
       timezone: "Europe/London"
     }
-
     materialization: {
       persist_for: "24 hours"
     }
-
   }
 
   aggregate_table: session_flow_pages_visited {
-
     query: {
       dimensions: [ga_sessions.partition_date, session_flow.pages_visited]
       measures: [visits_total]
       timezone: "Europe/London"
     }
-
     materialization: {
       persist_for: "24 hours"
     }
-
   }
 
   ## End Audience Dashboard
   ## Behavior Dashboard
-
   aggregate_table: hits_full_event {
-
     query: {
       dimensions: [hits.full_event, ga_sessions.partition_date, hits.host_name]
       measures: [hits.event_count, hits.unique_event_count]
     }
-
     materialization: {
       persist_for: "24 hours"
     }
-
   }
 
   ## End Behavior Dashboard
   ## Custom Page Funnel Dashboard
-
   aggregate_table: top_page_paths {
-
     query: {
       dimensions: [ga_sessions.partition_date,
         session_flow.page_path_1,
@@ -469,9 +356,6 @@ explore: +ga_sessions {
     materialization: {
       persist_for: "24 hours"
     }
-
   }
-
   ## End Custom Page Funnel Dashboard
-
 }
