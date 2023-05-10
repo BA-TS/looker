@@ -19,7 +19,7 @@ view: channel_budget {
   }
 
   dimension: channel {
-    hidden: yes
+    #hidden: yes
     type: string
     sql: upper(${TABLE}.channel) ;;
   }
