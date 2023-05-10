@@ -1,7 +1,4 @@
-
-
 view: custom_navigation_buttons {
-
 
   measure: dash_nav {
     view_label: "Session"

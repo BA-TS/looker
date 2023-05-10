@@ -1,5 +1,3 @@
-
-
 view: event_action_facts {
 
   derived_table: {
@@ -29,9 +27,6 @@ view: event_action_facts {
     persist_for: "24 hours"
   }
 
-
-  ########## PRIMARY KEY ##########
-
   dimension: hit_id {
     type: number
     hidden: yes
@@ -39,14 +34,13 @@ view: event_action_facts {
     sql: ${TABLE}.hit_id ;;
   }
 
-  ########## FOREIGN KEY ##########
-
   dimension: full_visitor_id {
     label: "Session Full User ID"
     description: "The unique visitor ID (also known as client ID)."
     hidden: yes
     sql: ${TABLE}.full_visitor_id ;;
   }
+
   dimension: session_id {
     label: "Session User/Session ID"
     description: "Unique ID for Session: Full User ID | Session ID | Session Start Date"
@@ -54,14 +48,13 @@ view: event_action_facts {
     sql: ${TABLE}.id ;;
   }
 
-  ########## DIMENSIONS ##########
-
   dimension: hit_number {
     description: "The sequenced hit number. For the first hit of each session, this is set to 1."
     type: number
     hidden: yes
     sql: ${TABLE}.hit_number ;;
   }
+
   dimension_group: hit_time {
     description: "The time at which the hit occurred"
     type: time
@@ -81,7 +74,6 @@ view: event_action_facts {
   dimension: event_sequence_number {
     type: number
     hidden: yes
-
   }
 
   dimension: current_event_minus_1  {
@@ -89,26 +81,31 @@ view: event_action_facts {
     sql: ${TABLE}.current_event_minus_1 ;;
     group_label: "Reverse Event Flow"
   }
+
   dimension: current_event_minus_2  {
     type: string
     sql: ${TABLE}.current_event_minus_2 ;;
     group_label: "Reverse Event Flow"
   }
+
   dimension: current_event_minus_3  {
     type: string
     sql: ${TABLE}.current_event_minus_3 ;;
     group_label: "Reverse Event Flow"
   }
+
   dimension: current_event_minus_4  {
     type: string
     sql: ${TABLE}.current_event_minus_4 ;;
     group_label: "Reverse Event Flow"
   }
+
   dimension: current_event_minus_5  {
     type: string
     sql: ${TABLE}.current_event_minus_5 ;;
     group_label: "Reverse Event Flow"
   }
+
   dimension: current_event_minus_6  {
     type: string
     sql: ${TABLE}.current_event_minus_6 ;;
@@ -127,13 +124,11 @@ view: event_action_facts {
     group_label: "Event Flow"
   }
 
-
   dimension: current_event_plus_3  {
     type: string
     sql: ${TABLE}.current_event_plus_3 ;;
     group_label: "Event Flow"
   }
-
 
   dimension: current_event_plus_4  {
     type: string
@@ -141,19 +136,15 @@ view: event_action_facts {
     group_label: "Event Flow"
   }
 
-
   dimension: current_event_plus_5  {
     type: string
     sql: ${TABLE}.current_event_plus_5 ;;
     group_label: "Event Flow"
   }
 
-
   dimension: current_event_plus_6  {
     type: string
     sql: ${TABLE}.current_event_plus_6 ;;
     group_label: "Event Flow"
   }
-
-
 }

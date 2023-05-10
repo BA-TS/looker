@@ -7,10 +7,8 @@ include: "/**/traffic_source.view.lkml"
 include: "/**/device.view.lkml"
 include: "/**/calendar.view.lkml"
 include: "/**/Custom_Views/custom_navigation_buttons.view.lkml"
-
 include: "partition_date.view.lkml"
 include: "session_goals.view.lkml"
-
 
 view: ga_sessions {
   view_label: "Session"
@@ -24,8 +22,6 @@ view: ga_sessions {
     custom_navigation_buttons,
     ga_sessions_partition_date,
   ]
-
-  ########## PRIMARY KEYS ##########
 
   dimension: id {
     # primary_key: yes # creates 27 errors if uncommented - to investigate
@@ -42,7 +38,6 @@ view: ga_sessions {
         ) ;;
   }
 
-  ########## FOREIGN KEYS ##########
   dimension: full_visitor_id {
     label: "Full User ID"
     group_label: "ID"
@@ -76,8 +71,6 @@ view: ga_sessions {
     sql: ${TABLE}.visitorId ;;
   }
 
-  ########## PARAMETERS ############
-
   parameter: audience_selector {
     view_label: "Audience"
     description: "Use to set 'Audience Trait' field to dynamically choose a user cohort."
@@ -91,7 +84,6 @@ view: ga_sessions {
     allowed_value: {
       value: "Browser"
     }
-
     allowed_value: {
       value: "Country"
     }
@@ -104,7 +96,6 @@ view: ga_sessions {
     allowed_value: {
       value: "Language"
     }
-
     allowed_value: {
       value: "Channel"
     }
@@ -118,8 +109,6 @@ view: ga_sessions {
       value: "Source Medium"
     }
   }
-
-  ########## DIMENSIONS ############
 
   dimension: trafficSource { # nested field, needs to remain hidden
     hidden: yes
@@ -231,8 +220,7 @@ view: ga_sessions {
     type: string
     sql: CONCAT('This data is from the ','last 30 days') ;;
     hidden: no
-    html:  <a style="background: #FFF;float: center; padding:15px; font-weight: bold;font-size: 30%;">{{value}}  </a></strong>
-   ;;
+    html:  <a style="background: #FFF;float: center; padding:15px; font-weight: bold;font-size: 30%;">{{value}}  </a></strong>;;
   }
 
   dimension: social_engagement_type {
@@ -260,7 +248,6 @@ view: ga_sessions {
           WHEN ${visit_number} = 1 THEN 'New User'
           ELSE 'Returning User'
          END;;
-
     drill_fields: [visit_number]
   }
 
@@ -322,8 +309,6 @@ view: ga_sessions {
     convert_tz: no
   }
 
-  ########## MEASURES ##############
-
   measure: first_time_sessions {
     group_label: "Session"
     label: "New Sessions"
@@ -331,12 +316,10 @@ view: ga_sessions {
     type: count_distinct
     allow_approximate_optimization: yes
     sql: ${id} ;;
-
     filters: {
       field: visit_number
       value: "1"
     }
-
     value_format_name: decimal_0
     drill_fields: [source_medium, first_time_sessions]
   }
@@ -349,12 +332,10 @@ view: ga_sessions {
     type: count_distinct
     allow_approximate_optimization: yes
     sql: ${full_visitor_id} ;;
-
     filters: {
       field: visit_number
       value: "1"
     }
-
     value_format_name: decimal_0
     drill_fields: [source_medium, first_time_visitors]
   }
@@ -377,7 +358,6 @@ view: ga_sessions {
     description: "The total number of users for the requested time period where the visitNumber is not 1."
     type: number
     sql: ${first_time_sessions} / ${unique_visitors};;
-
     value_format_name: percent_3
     drill_fields: [source_medium, returning_visitors]
   }
@@ -389,7 +369,6 @@ view: ga_sessions {
     description: "The total number of users for the requested time period where the visitNumber is not 1."
     type: number
     sql: ${returning_visitors} / ${unique_visitors};;
-
     value_format_name: percent_3
     drill_fields: [source_medium, returning_visitors]
   }
@@ -402,12 +381,10 @@ view: ga_sessions {
     type: count_distinct
     allow_approximate_optimization: yes
     sql: ${full_visitor_id};;
-
     filters: {
       field: visit_number
       value: "<> 1"
     }
-
     value_format_name: decimal_0
     drill_fields: [source_medium, returning_visitors]
   }
@@ -419,7 +396,6 @@ view: ga_sessions {
     description: "(Total Sessions / Unique Visitors). Should only be used at the session-level."
     type: number
     sql: ${visits_total}/NULLIF(${unique_visitors}, 0) ;;
-
     value_format_name: decimal_2
     drill_fields: [source_medium, visits_total, unique_visitors, sessions_per_user]
   }
@@ -432,10 +408,7 @@ view: ga_sessions {
     type: count_distinct
     allow_approximate_optimization: yes
     sql: ${full_visitor_id} ;;
-
     value_format_name: decimal_0
     drill_fields: [client_id, account.id, visit_number, hits_total, page_views_total, time_on_site_total]
   }
-
-
 }

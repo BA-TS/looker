@@ -1,9 +1,6 @@
 #Purpose of this file is to house the fields used to generate Custom Goals. This file is extended into the `hits` view.
-
-
 view: goals {
   extension: required
-   ########## FILTERS ##########
 
   filter: event_action_goal_selection {
     label: "Event Action"
@@ -44,8 +41,6 @@ view: goals {
     suggest_explore: ga_sessions
     suggest_dimension:  hits.page_path_formatted
   }
-
-  ########## DIMENSIONS ##########
 
   dimension: dynamic_goal {
     view_label: "Goals"
@@ -89,7 +84,6 @@ view: goals {
         );;
   }
 
-  ########## MEASURES ##########
   measure: conversion_count {
     view_label: "Goals"
     group_label: "Goal Conversions"
@@ -98,12 +92,10 @@ view: goals {
     type: count_distinct
     allow_approximate_optimization: yes
     sql: ${id} ;;
-
     filters: {
       field: has_completed_goal
       value: "Yes"
     }
-
     value_format_name: decimal_0
     drill_fields: []
   }
@@ -116,12 +108,10 @@ view: goals {
     type: count_distinct
     allow_approximate_optimization: yes
     sql: ${ga_sessions.id} ;;
-
     filters: {
       field: has_completed_goal
       value: "Yes"
     }
-
     value_format_name: decimal_0
     drill_fields: [client_id, visit_number, sessions_with_conversions]
   }
@@ -133,9 +123,7 @@ view: goals {
     description: "Percentage of sessions resulting in a conversion based on 'Goal Selection' filters."
     type: number
     sql: (1.0*${sessions_with_conversions})/NULLIF(${ga_sessions.visits_total}, 0) ;;
-
     value_format_name: percent_1
     drill_fields: []
   }
-
 }

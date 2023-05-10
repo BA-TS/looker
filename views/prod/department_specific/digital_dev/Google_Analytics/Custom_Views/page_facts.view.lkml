@@ -1,5 +1,3 @@
-
-
 view: page_facts {
 
   derived_table: {
@@ -40,8 +38,6 @@ view: page_facts {
     type: number
   }
 
-  ########## FOREIGN KEYS ##########
-
   dimension: session_id {
     hidden: yes
     description: "Unique ID for Session: Full User ID | Session ID | Session Start Date"
@@ -53,8 +49,6 @@ view: page_facts {
     description: "The unique visitor ID (also known as client ID)."
   }
 
-  ########## JOIN Fields #########
-
   dimension: hit_number {
     hidden: yes
     type: number
@@ -65,8 +59,6 @@ view: page_facts {
     description: "The hit number associated to the next PAGE hit based on the current page. Used to associate this table to all respective hits (i.e. EVENT and PAGE)."
     type: number
   }
-
-  ########## DIMENSIONS ##########
 
   dimension: cumulative_page_path {
     view_label: "Session"
@@ -82,30 +74,35 @@ view: page_facts {
     description: "Page Path for page that came directly before current page."
     type: string
   }
+
   dimension: current_page_minus_2 {
     view_label: "Page Flow"
     group_label: "Reverse Page Path"
     description: "Page Path for page that came 2 pages before current page."
     type: string
   }
+
   dimension: current_page_minus_3 {
     view_label: "Page Flow"
     group_label: "Reverse Page Path"
     description: "Page Path for page that came 3 pages before current page."
     type: string
   }
+
   dimension: current_page_minus_4 {
     view_label: "Page Flow"
     group_label: "Reverse Page Path"
     description: "Page Path for page that came 4 pages before current page."
     type: string
   }
+
   dimension: current_page_minus_5 {
     view_label: "Page Flow"
     group_label: "Reverse Page Path"
     description: "Page Path for page that came 5 pages before current page."
     type: string
   }
+
   dimension: current_page_minus_6 {
     view_label: "Page Flow"
     group_label: "Reverse Page Path"
@@ -119,30 +116,35 @@ view: page_facts {
     description: "Page Path for page that came directly before current page."
     type: string
   }
+
   dimension: current_page_plus_2 {
     view_label: "Page Flow"
     group_label: "Relative Page Path"
     description: "Page Path for page that came 2 pages before current page."
     type: string
   }
+
   dimension: current_page_plus_3 {
     view_label: "Page Flow"
     group_label: "Relative Page Path"
     description: "Page Path for page that came 3 pages before current page."
     type: string
   }
+
   dimension: current_page_plus_4 {
     view_label: "Page Flow"
     group_label: "Relative Page Path"
     description: "Page Path for page that came 4 pages before current page."
     type: string
   }
+
   dimension: current_page_plus_5 {
     view_label: "Page Flow"
     group_label: "Relative Page Path"
     description: "Page Path for page that came 5 pages before current page."
     type: string
   }
+
   dimension: current_page_plus_6 {
     view_label: "Page Flow"
     group_label: "Relative Page Path"

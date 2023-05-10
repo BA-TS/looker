@@ -1,7 +1,5 @@
-
-
 view: page_funnel {
-  
+
  derived_table: {
    sql: SELECT page1.full_visitor_id as full_vistor_id,
                page1.page_sequence_number as page1_page_sequence_number, page1.hit_time as page1_hit_time, page1.page_path as page1_page, page1.hit_id as page1_hit_id, page1.id as page1_session_id,
@@ -20,12 +18,9 @@ view: page_funnel {
          LEFT JOIN ${page_facts.SQL_TABLE_NAME} page5
         ON page1.id = page5.id AND page1.page_sequence_number + 4 = page5.page_sequence_number
          LEFT JOIN ${page_facts.SQL_TABLE_NAME} page6
-        ON page1.id = page6.id AND page1.page_sequence_number + 5 = page6.page_sequence_number
-        ;;
+        ON page1.id = page6.id AND page1.page_sequence_number + 5 = page6.page_sequence_number;;
         persist_for: "24 hours"
  }
-
- ########## FILTERS ##########
 
   filter: page_1 {
     group_label: "Funnel Pages"
@@ -62,8 +57,6 @@ view: page_funnel {
     suggest_explore: ga_sessions
     suggest_dimension: hits.page_path_formatted
   }
-
-   ########## DIMENSIONS ##########
 
   dimension: full_vistor_id {
     type: string
@@ -251,8 +244,6 @@ view: page_funnel {
     hidden: yes
   }
 
-
-
   dimension: page1_hit_time_tagged {
     sql: CASE WHEN {% condition page_1 %} ${page1_page} {% endcondition %} THEN ${page1_hit_time_raw}
               ELSE NULL END ;;
@@ -289,51 +280,41 @@ view: page_funnel {
     hidden: yes
   }
 
-
   dimension: page1_session_id_tagged {
     sql:  CASE WHEN {% condition page_1 %} ${page1_page} {% endcondition %}  THEN ${page1_session_id}
-              ELSE NULL END
-            ;;
+              ELSE NULL END;;
     hidden: yes
   }
 
   dimension: page2_session_id_tagged {
-    sql:
-          CASE WHEN {% condition page_2 %} ${page2_page} {% endcondition %}  AND ${page1_hit_time_tagged} < ${page2_hit_time_tagged} THEN ${page2_session_id}
-            ELSE NULL END
-            ;;
+    sql:CASE WHEN {% condition page_2 %} ${page2_page} {% endcondition %}  AND ${page1_hit_time_tagged} < ${page2_hit_time_tagged} THEN ${page2_session_id}
+            ELSE NULL END;;
     hidden: yes
   }
 
   dimension: page3_session_id_tagged {
     sql:  CASE WHEN {% condition page_3 %} ${page3_page} {% endcondition %}  AND ${page1_hit_time_tagged} < ${page3_hit_time_tagged} AND ${page2_hit_time_tagged} < ${page3_hit_time_tagged} THEN ${page3_session_id}
-            ELSE NULL END
-            ;;
+            ELSE NULL END;;
     hidden: yes
   }
 
   dimension: page4_session_id_tagged {
     sql:  CASE WHEN {% condition page_4 %} ${page4_page} {% endcondition %} AND ${page1_hit_time_tagged} < ${page4_hit_time_tagged} AND ${page2_hit_time_tagged} < ${page4_hit_time_tagged} AND ${page3_hit_time_tagged} < ${page4_hit_time_tagged} THEN ${page4_session_id}
-            ELSE NULL END
-            ;;
+            ELSE NULL END;;
     hidden: yes
   }
 
   dimension: page5_session_id_tagged {
     sql:  CASE WHEN {% condition page_5 %} ${page5_page} {% endcondition %}  AND ${page1_hit_time_tagged} < ${page5_hit_time_tagged} AND ${page2_hit_time_tagged} < ${page5_hit_time_tagged} AND ${page3_hit_time_tagged} < ${page5_hit_time_tagged}  AND ${page4_hit_time_tagged} < ${page5_hit_time_tagged} THEN ${page5_session_id}
-            ELSE NULL END
-            ;;
+            ELSE NULL END;;
     hidden: yes
   }
 
   dimension: page6_session_id_tagged {
     sql:  CASE WHEN {% condition page_6 %} ${page6_page} {% endcondition %} AND ${page1_hit_time_tagged} < ${page6_hit_time_tagged} AND ${page2_hit_time_tagged} < ${page6_hit_time_tagged} AND ${page3_hit_time_tagged} < ${page6_hit_time_tagged}  AND ${page4_hit_time_tagged} < ${page6_hit_time_tagged} AND ${page5_hit_time_tagged} < ${page6_hit_time_tagged} THEN ${page6_session_id}
-            ELSE NULL END
-            ;;
+            ELSE NULL END;;
     hidden: yes
   }
-
-   ########## MEASURES ##########
 
   measure: count_of_page_1 {
     type: count_distinct
@@ -430,5 +411,4 @@ view: page_funnel {
       url: "/dashboards/google_analytics_360::event_action_funnel?Page={{_filters['page_funnel.page_6']}}"
     }
   }
-
 }

@@ -1,10 +1,8 @@
 #############################################################################################################
 # Purpose: A derived table that extracts session information such as page flow and time between sessions for each visitor
 #############################################################################################################
-
-
 view: session_flow {
-  
+
   derived_table: {
     sql:
         SELECT
@@ -19,12 +17,9 @@ view: session_flow {
           , MAX(IF(page_sequence_number = 5, page_path, NULL)) AS fifth_page_path
           , MAX(IF(page_sequence_number = 6, page_path, NULL)) AS sixth_page_path
         FROM ${page_facts.SQL_TABLE_NAME} AS page_facts
-        GROUP BY 1,2
-       ;;
+        GROUP BY 1,2;;
     persist_for: "24 hours"
   }
-
-  ########## PRIMARY KEYS ##########
 
   dimension: session_id {
     hidden: yes
@@ -32,8 +27,6 @@ view: session_flow {
     type: string
     sql: ${TABLE}.id ;;
   }
-
-  ########## DIMENSIONS ##########
 
   dimension: full_page_history  {
     view_label: "Session"

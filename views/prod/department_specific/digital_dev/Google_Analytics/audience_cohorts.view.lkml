@@ -1,16 +1,12 @@
 # Purpose: Dynamically rank audience traits based on query filters so field can be used and sorted in pivots.
-
-
 view: audience_cohorts {
   derived_table: {
     explore_source: ga_sessions {
       column: audience_trait {}
       column: visits_total {}
-
       derived_column: rank {
         sql: ROW_NUMBER() OVER() ;;
       }
-
       bind_all_filters: yes
       sorts: [ga_sessions.visits_total: desc]
     }

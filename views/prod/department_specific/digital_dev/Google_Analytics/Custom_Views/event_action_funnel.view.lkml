@@ -1,7 +1,5 @@
-
-
 view: event_action_funnel {
-  
+
   derived_table: {
     sql: SELECT event1.full_visitor_id as full_vistor_id,
                event1.event_sequence_number as event1_event_sequence_number, event1.hit_time as event1_hit_time, event1.event_action as event1_event_action, event1.hit_id as event1_hit_id, event1.id as event1_session_id,
@@ -20,22 +18,9 @@ view: event_action_funnel {
          LEFT JOIN ${event_action_facts.SQL_TABLE_NAME} event5
         ON event1.id = event5.id AND event1.event_sequence_number + 4 = event5.event_sequence_number
          LEFT JOIN ${event_action_facts.SQL_TABLE_NAME} event6
-        ON event1.id = event6.id AND event1.event_sequence_number + 5 = event6.event_sequence_number
-        ;;
+        ON event1.id = event6.id AND event1.event_sequence_number + 5 = event6.event_sequence_number;;
     persist_for: "24 hours"
   }
-
- ########## PRIMARY KEYS ##########
-
-  dimension: event1_hit_id {
-    type: string
-    sql: ${TABLE}.event1_hit_id ;;
-    primary_key: yes
-    hidden: yes
-  }
-
-
- ########## FILTERS ##########
 
   filter: event_1 {
     group_label: "Funnel Events"
@@ -79,12 +64,17 @@ view: event_action_funnel {
     description: "Event 6 to be used with Count of Event 6"
   }
 
+  dimension: event1_hit_id {
+    type: string
+    sql: ${TABLE}.event1_hit_id ;;
+    primary_key: yes
+    hidden: yes
+  }
+
   dimension: full_vistor_id {
     type: string
     sql: ${TABLE}.full_vistor_id ;;
   }
-
- ########## DIMENSIONS ##########
 
   dimension: event1_event_sequence_number {
     type: number
@@ -103,7 +93,6 @@ view: event_action_funnel {
     sql: ${TABLE}.event1_event_action ;;
     hidden: yes
   }
-
 
   dimension: event1_session_id {
     type: string
@@ -261,7 +250,6 @@ view: event_action_funnel {
     hidden: yes
   }
 
-
   dimension: event1_hit_time_tagged {
     sql: CASE WHEN {% condition event_1 %} ${event1_event_action} {% endcondition %} THEN ${event1_hit_time_raw}
       ELSE NULL END ;;
@@ -301,49 +289,39 @@ view: event_action_funnel {
 
   dimension: event1_session_id_tagged {
     sql:  CASE WHEN {% condition event_1 %} ${event1_event_action} {% endcondition %}  THEN ${event1_session_id}
-              ELSE NULL END
-            ;;
+              ELSE NULL END;;
     hidden: yes
   }
 
   dimension: event2_session_id_tagged {
-    sql:
-          CASE WHEN {% condition event_2 %} ${event2_event_action} {% endcondition %}  AND ${event1_hit_time_tagged} < ${event2_hit_time_tagged} THEN ${event2_session_id}
-            ELSE NULL END
-            ;;
+    sql:CASE WHEN {% condition event_2 %} ${event2_event_action} {% endcondition %}  AND ${event1_hit_time_tagged} < ${event2_hit_time_tagged} THEN ${event2_session_id}
+            ELSE NULL END;;
     hidden: yes
   }
 
   dimension: event3_session_id_tagged {
     sql:  CASE WHEN {% condition event_3 %} ${event3_event_action} {% endcondition %}  AND ${event1_hit_time_tagged} < ${event3_hit_time_tagged} AND ${event2_hit_time_tagged} < ${event3_hit_time_tagged} THEN ${event3_session_id}
-            ELSE NULL END
-            ;;
+            ELSE NULL END;;
     hidden: yes
   }
 
   dimension: event4_session_id_tagged {
     sql:  CASE WHEN {% condition event_4 %} ${event4_event_action} {% endcondition %} AND ${event1_hit_time_tagged} < ${event4_hit_time_tagged} AND ${event2_hit_time_tagged} < ${event4_hit_time_tagged} AND ${event3_hit_time_tagged} < ${event4_hit_time_tagged} THEN ${event4_session_id}
-            ELSE NULL END
-            ;;
+            ELSE NULL END;;
     hidden: yes
   }
 
   dimension: event5_session_id_tagged {
     sql:  CASE WHEN {% condition event_5 %} ${event5_event_action} {% endcondition %}  AND ${event1_hit_time_tagged} < ${event5_hit_time_tagged} AND ${event2_hit_time_tagged} < ${event5_hit_time_tagged} AND ${event3_hit_time_tagged} < ${event5_hit_time_tagged}  AND ${event4_hit_time_tagged} < ${event5_hit_time_tagged} THEN ${event5_session_id}
-            ELSE NULL END
-            ;;
+            ELSE NULL END;;
     hidden: yes
   }
 
   dimension: event6_session_id_tagged {
     sql:  CASE WHEN {% condition event_6 %} ${event6_event_action} {% endcondition %} AND ${event1_hit_time_tagged} < ${event6_hit_time_tagged} AND ${event2_hit_time_tagged} < ${event6_hit_time_tagged} AND ${event3_hit_time_tagged} < ${event6_hit_time_tagged}  AND ${event4_hit_time_tagged} < ${event6_hit_time_tagged} AND ${event5_hit_time_tagged} < ${event6_hit_time_tagged} THEN ${event6_session_id}
-            ELSE NULL END
-            ;;
+            ELSE NULL END;;
     hidden: yes
   }
-
-
- ########## MEASURES ##########
 
   measure: count_of_event_1 {
     type: count_distinct
@@ -416,6 +394,4 @@ view: event_action_funnel {
     {% endif %}"
     description: "Count of Event 6 to be used with Event 6 filter, if no filter is selected it shows all events"
   }
-
-
 }

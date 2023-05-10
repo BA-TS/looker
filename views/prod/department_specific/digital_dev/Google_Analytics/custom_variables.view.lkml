@@ -2,13 +2,9 @@
 # Purpose: Defines the fields within the `customvariables` struct in google analytics. Is joined to the ga_sessions explore
 #          by unnesting the values.
 #############################################################################################################
-
-
 view: custom_variables {
-
   view_label: "Custom Dimensions"
 
-  # Add view customizations here
   dimension: custom_var_name {
     hidden: yes
     group_label: "Custom Variables"
@@ -38,6 +34,4 @@ view: custom_variables {
   #   type: number
   #   sql: CASE WHEN ${index} = 1 THEN ${custom_var_value} ELSE NULL END ;;
   # }
-
-
 }

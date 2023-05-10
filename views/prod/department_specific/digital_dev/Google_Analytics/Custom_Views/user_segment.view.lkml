@@ -1,5 +1,3 @@
-
-
 view: user_segment_filters {
   filter: user_segment_timeframe {
     type: date
