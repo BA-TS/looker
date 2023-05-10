@@ -3,10 +3,8 @@
 # Numbers will not match Google Analytics UI because the PDT calculates Time on Page for Exit pages, which GA does not.
 # - Time on the final page of a session is calculated by the difference between start of the final page visit and the last EVENT recorded on the page.
 #############################################################################################################
-
-
 view: time_on_page {
-  
+
   derived_table: {
     persist_for: "1 hour"
     sql:
@@ -64,16 +62,12 @@ view: time_on_page {
       FROM next_pageview ;;
   }
 
-  ########## PRIMARY KEYS ##########
-
   dimension: hit_id {
     primary_key: yes
     hidden: yes
     type: string
     sql: ${TABLE}.hit_id ;;
   }
-
-  ########## DIMENSIONS ##########
 
   dimension: has_time_on_page {
     hidden: yes
@@ -96,8 +90,6 @@ view: time_on_page {
     sql: ${TABLE}.time_on_page;;
     value_format_name: hour_format
   }
-
-  ########## MEASURES ##########
 
   measure: average_time_on_page {
     label: "Avg Time on Page"
@@ -122,7 +114,6 @@ view: time_on_page {
     type: count_distinct
     allow_approximate_optimization: yes
     sql: ${hit_id};;
-
     filters: [has_time_on_page: "yes"]
   }
 }

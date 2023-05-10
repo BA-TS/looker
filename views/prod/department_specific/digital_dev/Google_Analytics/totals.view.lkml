@@ -2,11 +2,8 @@
 # Purpose: Defines the fields within the totals struct in google analytics. Is extending into ga_sessions.view.lkml
 #          and should not be joined into GA sessions explore as an independent view file.
 #############################################################################################################
-
-
 view: totals {
   extension: required
-  ########## DIMENSIONS ############
 
   dimension: time_on_screen_total_unique {
     label: "Time On Screen Total"
@@ -37,13 +34,10 @@ view: totals {
     sql: ${TABLE}.totals.transactions >= 1 ;;
   }
 
-  ########## MEASURES ############
-
   measure: bounce_rate {
     group_label: "Session"
     type:  number
     sql: 1.0 * ${bounces_total} / NULLIF(${visits_total},0) ;;
-
     value_format_name: percent_2
   }
 
@@ -52,7 +46,6 @@ view: totals {
     label: "Bounces"
     type: sum
     sql: ${TABLE}.totals.bounces ;;
-
     value_format_name: decimal_0
   }
 
@@ -62,7 +55,6 @@ view: totals {
     description: "The average number of hits per session. Includes both PAGE and EVENT hits."
     type: number
     sql: ${hits_total} / NULLIF(${visits_total},0);;
-
     value_format_name: decimal_2
   }
 
@@ -81,7 +73,6 @@ view: totals {
     description: "The average number of pages viewed during a session, including repeated views of a single page."
     type: number
     sql: 1.0 * ${page_views_total} / NULLIF(${visits_total},0) ;;
-
     value_format_name: decimal_2
   }
 
@@ -116,7 +107,6 @@ view: totals {
     description: "Total duration of users' sessions."
     type: sum
     sql: ${time_on_site} / 86400;;
-
     value_format_name: hour_format
   }
 
@@ -126,7 +116,6 @@ view: totals {
     description: "Total duration of users' sessions."
     type: number
     sql: (${timeonsite_total_formatted} / NULLIF(${visits_total},0));;
-
     value_format_name: hour_format
   }
 
@@ -148,7 +137,6 @@ view: totals {
     description: "Total number of ecommerce transactions within the session."
     type: sum
     sql: ${TABLE}.totals.transactions ;;
-
     value_format_name: decimal_0
   }
 
@@ -158,7 +146,6 @@ view: totals {
     group_label: "Transactions"
     type: number
     sql: 1.0 * (${transactions_count}/NULLIF(${visits_total},0)) ;;
-
     value_format_name: percent_2
   }
 
@@ -169,7 +156,6 @@ view: totals {
     description: "Total transaction revenue, expressed as the value passed to Analytics multiplied by 10^6 (e.g., 2.40 would be given as 2400000)."
     type: sum
     sql: (${TABLE}.totals.totalTransactionRevenue/1000000) ;;
-
     value_format_name: gbp_0
     drill_fields: [transactions_count, transaction_revenue_total]
   }
@@ -181,7 +167,6 @@ view: totals {
     description: "Total transaction revenue, expressed as the value passed to Analytics multiplied by 10^6 (e.g., 2.40 would be given as 2400000), per unique visitor ID."
     type: number
     sql: ${transaction_revenue_total}/NULLIF(${ga_sessions.unique_visitors},0);;
-
     value_format_name: gbp_0
     drill_fields: [transactions_count, transaction_revenue_total, transaction_revenue_per_user]
   }
@@ -201,7 +186,6 @@ view: totals {
     description: "Session-level rollup of Sessions."
     type: sum
     sql: ${TABLE}.totals.visits;;
-
     value_format_name: decimal_0
     drill_fields: [source_medium, visits_total, new_visits_total, hits.page_count, bounces_rate, timeonsite_average_per_session]
   }

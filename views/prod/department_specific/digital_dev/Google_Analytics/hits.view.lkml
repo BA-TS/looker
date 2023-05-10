@@ -8,7 +8,6 @@ include: "Custom_Views/goals.view.lkml"
 view: hits {
   extends: [goals]
   view_label: "Hits"
-  ########## PRIMARY KEYS ##########
 
   dimension: id {
     primary_key: yes
@@ -18,8 +17,6 @@ view: hits {
     description: "Unique Session ID | Hit Number"
     sql: CONCAT(${ga_sessions.id},'|',FORMAT('%05d',${hit_number})) ;;
   }
-
-  ########## DIMENSIONS ##########
 
   dimension: custom_dimensions {
     description: "Used for unnesting the custom dimension struct in the table. This dimension should not be queried directly"
@@ -60,7 +57,6 @@ view: hits {
     sql: ${TABLE}.eventInfo.eventCategory ;;
     full_suggestions: yes
     suggest_persist_for: "24 hours"
-
     drill_fields: [event_action, event_label, event_value]
   }
 
@@ -72,16 +68,15 @@ view: hits {
     sql: ${TABLE}.eventInfo.eventLabel ;;
     full_suggestions: yes
     suggest_persist_for: "24 hours"
-
     drill_fields: [event_action, event_category, event_value]
   }
+
   dimension: event_value {
     view_label: "Behavior"
     group_label: "Event Tracking"
     description: "Total value of web events for the profile."
     type: number
     sql: ${TABLE}.eventInfo.eventValue ;;
-
     drill_fields: [event_action, event_category, event_label]
   }
 
@@ -105,7 +100,6 @@ view: hits {
     description: "The full URL including the hostname and path."
     type: string
     sql: CONCAT(${host_name}, ${page_path_formatted});;
-
     link: {
       label: "Go to Page"
       url: "https://{{ value }}"
@@ -119,7 +113,6 @@ view: hits {
     description: "The full URL including the hostname and path."
     type: string
     sql: CONCAT(${host_name}, ${page_path});;
-
     link: {
       label: "Go to Page"
       url: "https://{{ value }}"
@@ -145,7 +138,6 @@ view: hits {
     label: "Hostname"
     description: "The hostname from which the tracking request was made."
     sql: ${TABLE}.page.hostName ;;
-
     link: {
       label: "Go To Link"
       url: "https://{{ value }}"
@@ -245,7 +237,6 @@ view: hits {
     group_label: "Pages"
     description: "The page's title. Multiple pages might have the same page title."
     sql: ${TABLE}.page.pageTitle ;;
-
     drill_fields: [page_path]
   }
 
@@ -336,15 +327,12 @@ view: hits {
     sql: ${TABLE}.social.uniqueSocialInteractions ;;
   }
 
-  ########## MEASURES ##########
-
   measure: count {
     group_label: "Hits"
     label: "Hits"
     description: "Total number of hits within the session."
     type: count
     allow_approximate_optimization: yes
-
     value_format_name: decimal_0
     drill_fields: [detail*]
   }
@@ -357,12 +345,10 @@ view: hits {
     type: count_distinct
     allow_approximate_optimization: yes
     sql: ${id} ;;
-
     filters: {
       field: is_entrance
       value: "Yes"
     }
-
     value_format_name: decimal_0
     drill_fields: [detail*]
   }
@@ -383,12 +369,10 @@ view: hits {
     type: count_distinct
     allow_approximate_optimization: yes
     sql: ${id} ;;
-
     filters: {
       field: type
       value: "EVENT"
     }
-
     value_format_name: decimal_0
     drill_fields: [event_category, event_action, event_label, event_value, event_count, unique_event_count]
   }
@@ -401,12 +385,10 @@ view: hits {
     type: count_distinct
     allow_approximate_optimization: yes
     sql: ${id} ;;
-
     filters: {
       field: is_exit
       value: "Yes"
     }
-
     value_format_name: decimal_0
     drill_fields: [detail*]
   }
@@ -418,7 +400,6 @@ view: hits {
     description: "Exit is (number of exits) / (number of pageviews) for the page or set of pages. It indicates how often users exit from that page or set of pages when they view the page(s)."
     type: number
     sql: ${exit_pageviews_total}/NULLIF(${page_count}, 0) ;;
-
     value_format_name: percent_2
   }
 
@@ -430,12 +411,10 @@ view: hits {
     type: count_distinct
     allow_approximate_optimization: yes
     sql: ${id} ;;
-
     filters: {
       field: type
       value: "PAGE"
     }
-
     value_format_name: decimal_0
     drill_fields: [ga_sessions.visit_start_date, unique_page_count, entrance_pageviews_total, exit_pageviews_total, time_on_page.average_time_on_page]
   }
@@ -447,7 +426,6 @@ view: hits {
     description: "The average number of web events per session (with web event)."
     type: number
     sql: ${event_count}/NULLIF(${sessions_with_events},0);;
-
     value_format_name: decimal_2
     drill_fields: [detail*]
   }
@@ -459,12 +437,10 @@ view: hits {
     type: count_distinct
     allow_approximate_optimization: yes
     sql: ${ga_sessions.id} ;;
-
     filters: {
       field: type
       value: "EVENT"
     }
-
     value_format_name: decimal_0
     drill_fields: [detail*]
   }
@@ -477,12 +453,10 @@ view: hits {
     type: count_distinct
     allow_approximate_optimization: yes
     sql: CONCAT(${ga_sessions.id}, ${page_path}, ${page_title});;
-
     filters: {
       field: type
       value: "PAGE"
     }
-
     value_format_name: decimal_0
     drill_fields: [event_category, event_action, event_label, event_value, event_count, unique_event_count]
   }
@@ -495,17 +469,13 @@ view: hits {
     type: count_distinct
     allow_approximate_optimization: yes
     sql: CONCAT(${ga_sessions.id}, COALESCE(${event_action},""), COALESCE(${event_category},""), COALESCE(${event_label},"")) ;;
-
     filters: {
       field: type
       value: "EVENT"
     }
-
     value_format_name: decimal_0
     drill_fields: [detail*]
   }
-
-  ########## SETS ##########
 
   set: detail {
     fields: [

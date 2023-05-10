@@ -2,12 +2,8 @@
 # Purpose: Defines the fields within the traffic source struct in google analytics. Is extending into ga_sessions.view.lkml
 #          and should not be joined into GA sessions explore as an independent view file.
 #############################################################################################################
-
-
 view: traffic_source {
   extension: required
-
-  ########## DIMENSIONS ############
 
   dimension: adcontent {
     view_label: "Acquisition"
@@ -15,7 +11,6 @@ view: traffic_source {
     label: "Ad Content"
     description: "The ad content of the traffic source. Can be set by the utm_content URL parameter."
     sql: ${TABLE}.trafficsource.adContent ;;
-
     drill_fields: [campaign, keyword, source, source_medium]
   }
 
@@ -38,7 +33,6 @@ view: traffic_source {
     sql: ${TABLE}.trafficsource.campaignCode ;;
   }
 
-
   dimension: full_referrer {
     view_label: "Acquisition"
     group_label: "Traffic Sources"
@@ -53,7 +47,6 @@ view: traffic_source {
     description: "The keyword of the traffic source, usually set when the trafficSource.medium is 'organic' or 'cpc'. Can be set by the utm_term URL parameter."
     type: string
     sql: ${TABLE}.trafficsource.keyword ;;
-
    drill_fields: [ad_content, campaign, source, source_medium]
   }
 
@@ -63,8 +56,7 @@ view: traffic_source {
     description: "The medium of the traffic source. Could be 'organic', 'cpc', 'referral', or the value of the utm_medium URL parameter."
     type: string
     sql: ${TABLE}.trafficsource.medium ;;
-
-   drill_fields: [ad_content, campaign, keyword, source, source_medium]
+    drill_fields: [ad_content, campaign, keyword, source, source_medium]
   }
 
   dimension: referralpath {
@@ -73,7 +65,6 @@ view: traffic_source {
     group_label: "Traffic Sources"
     description: "If medium is 'referral', then this is set to the path of the referrer. (The host name of the referrer is in source.)"
     sql: ${TABLE}.trafficsource.referralPath ;;
-
     drill_fields: [source]
   }
 
@@ -83,8 +74,7 @@ view: traffic_source {
     description: "The source of the traffic source. Could be the name of the search engine, the referring hostname, or a value of the utm_source URL parameter."
     type: string
     sql: ${TABLE}.trafficsource.source ;;
-
-   drill_fields: [ad_content, campaign, keyword, source_medium]
+    drill_fields: [ad_content, campaign, keyword, source_medium]
   }
 
   dimension: source_medium {
@@ -94,11 +84,8 @@ view: traffic_source {
     description: "Combined values of source and medium."
     type: string
     sql: CONCAT(${source}, ' / ', ${medium}) ;;
-
-   drill_fields: [ad_content, campaign, keyword, source]
+    drill_fields: [ad_content, campaign, keyword, source]
   }
-
-  ########## MEASURES ############
 
   measure: keyword_count {
     view_label: "Acquisition"

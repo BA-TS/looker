@@ -2,13 +2,8 @@
 # Purpose: Defines the fields within the geonetwork struct in google analytics. Is extending into ga_sessions.view.lkml
 #          and should not be joined into GA sessions explore as an independent view file.
 #############################################################################################################
-
-
-
 view: geonetwork {
   extension: required
-
-  ########## DIMENSIONS ##########
 
   dimension: approximate_network_location {
     view_label: "Audience"
