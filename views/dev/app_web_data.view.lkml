@@ -101,6 +101,7 @@ view: app_web_data {
       dimension_group: transaction  {
         description: "transactiondate"
         type: time
+        hidden: yes
         timeframes: [
           raw,
           time,
@@ -113,6 +114,7 @@ view: app_web_data {
   dimension_group: Placed  {
     description: "Placeddate"
     type: time
+    hidden: yes
     timeframes: [raw,date]
     sql: ${TABLE}.Placed ;;
   }
@@ -308,6 +310,7 @@ AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {
   dimension_group: date {
     description: "Date of sessions"
     type: time
+    hidden: yes
     timeframes: [raw,date]
     sql: ${TABLE}.date ;;
   }
@@ -396,6 +399,7 @@ select distinct row_number() over () as P_K, * from sub0;;}
   dimension_group: date {
     description: "Date of sessions"
     type: time
+    hidden: yes
     timeframes: [raw,date]
     sql: ${TABLE}.date ;;
   }
@@ -817,6 +821,7 @@ order by date desc; ;;
   dimension_group: Date {
     description: "date"
     type: time
+    hidden: yes
     timeframes: [raw,date]
     sql: ${TABLE}.Date ;;
   }
@@ -869,6 +874,7 @@ view: Mobile_app {
   dimension_group: Date {
     description: "date"
     type: time
+    hidden: yes
     timeframes: [raw,date]
     sql: ${TABLE}.Date ;;
   }
@@ -991,6 +997,7 @@ view: TalkSport_BrandFunnel {
   dimension_group: Date {
     description: "date"
     type: time
+    hidden: yes
     timeframes: [raw,date]
     sql: ${TABLE}.Date ;;
   }
@@ -1078,6 +1085,7 @@ view: TalkSport_SOV_vs_Cost {
   dimension_group: Date {
     description: "date"
     type: time
+    hidden: yes
     timeframes: [raw,date]
     sql: ${TABLE}.Date ;;
   }
