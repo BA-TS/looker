@@ -20,6 +20,8 @@ view: channel_budget {
 
   dimension: channel {
     #hidden: yes
+    label: "Channel"
+    group_label: "Sales Channel"
     type: string
     sql: upper(${TABLE}.channel) ;;
   }
