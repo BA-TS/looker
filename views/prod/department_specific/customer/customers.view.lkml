@@ -8,7 +8,7 @@ view: customers {
   dimension: customer_uid {
     group_label: "Customer"
     label: "Customer UID"
-    required_access_grants: [can_use_customer_information]
+    required_access_grants: [can_use_customer_information2]
     type: string
     primary_key: yes
     sql: ${TABLE}.customerUID ;;

@@ -3,6 +3,11 @@ access_grant: can_use_customer_information {
   allowed_values: ["Y"]
 }
 
+access_grant: can_use_customer_information2 {
+  user_attribute: ts_sensitive_customer2
+  allowed_values: ["Y"]
+}
+
 access_grant: is_developer {
   user_attribute: ts_developer
   allowed_values: ["Y"]
