@@ -1,5 +1,8 @@
 view: calendar {
-  sql_table_name:`toolstation-data-storage.ts_finance.dim_date`;;
+  derived_table: {
+    sql:
+    select distinct *, current_date() as today from `toolstation-data-storage.ts_finance.dim_date`;;
+    }
 
   dimension: date{
     group_label: "Dates"
@@ -7,6 +10,14 @@ view: calendar {
     type: date
     primary_key: yes
     sql: ${TABLE}.fullDate ;;
+    html: {{ rendered_value | date: "%d/%m/%Y" }};;
+  }
+
+  dimension: today{
+    group_label: "Dates"
+    label: "today (dd/mm/yyyy)"
+    type: date
+    sql: ${TABLE}.today ;;
     html: {{ rendered_value | date: "%d/%m/%Y" }};;
   }
 
