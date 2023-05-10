@@ -753,7 +753,7 @@ order by 2 asc;;
 
   dimension: CLICK_COLLECT_RF1 {
     description: "click collect rf1 for each date"
-    group_label: "Digital Budget"
+    group_label: "Digital"
     type: number
     value_format_name: gbp
     sql: ${TABLE}.CLICK___COLLECT ;;
@@ -761,7 +761,7 @@ order by 2 asc;;
 
   dimension: Dropship_RF1 {
     description: "dropship rf1 for each date"
-    group_label: "Digital Budget"
+    group_label: "Digital"
     type: number
     value_format_name: gbp
     sql: ${TABLE}.DROPSHIP ;;
@@ -769,7 +769,7 @@ order by 2 asc;;
 
   dimension: WEB_RF1 {
     description: "web rf1 for each date"
-    group_label: "Digital Budget"
+    group_label: "Digital"
     type: number
     value_format_name: gbp
     sql: ${TABLE}.WEB ;;
@@ -777,7 +777,7 @@ order by 2 asc;;
 
   dimension: Total_RF1 {
     description: "total rf1 for each date"
-    group_label: "Digital Budget"
+    group_label: "Digital"
     type: number
     value_format_name: gbp
     sql: ${TABLE}.Total ;;
@@ -785,7 +785,7 @@ order by 2 asc;;
 
   dimension: Budget {
     description: "budget for each date"
-    group_label: "Digital Budget"
+    group_label: "Digital"
     type: number
     value_format_name: gbp
     sql: ${TABLE}.Budget ;;
