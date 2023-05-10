@@ -268,8 +268,9 @@ view: total_sessions {
 PARSE_DATE('%Y%m%d', date) as date,
 trafficSource.medium as Medium,
 channelGrouping,
-count(distinct concat(fullVisitorID,visitStartTime)) as sessions,
-FROM `toolstation-data-storage.4783980.ga_sessions_*`
+count(distinct case when hits.eventInfo.eventCategory = "Web Vitals" then concat(fullVisitorID,visitStartTime) end)  as sessions,
+--count(distinct concat(fullVisitorID,visitStartTime)) as sessions,
+FROM `toolstation-data-storage.4783980.ga_sessions_*`, unnest(hits) as hits
  WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %}
