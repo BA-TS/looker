@@ -226,7 +226,7 @@ explore: base {
   }
 
   join: digital_budget {
-    view_label: "Digital Budget rf1 2023"
+    view_label: "Budget"
     type: left_outer
     relationship: many_to_one
     sql_on: ${base.date_date} = ${digital_budget.Date_date};;

@@ -265,12 +265,13 @@ view: total_sessions {
 'Web' as app_web_sessions,
 PARSE_DATE('%Y%m%d', date) as date,
 trafficSource.medium as Medium,
+channelGrouping,
 count(distinct concat(fullVisitorID,visitStartTime)) as sessions,
 FROM `toolstation-data-storage.4783980.ga_sessions_*`
  WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %}
- group by 2,3
+ group by 2,3,4
 
 
 union distinct
@@ -278,6 +279,7 @@ SELECT distinct
     'App' as app_web_sessions,
     PARSE_DATE('%Y%m%d', event_date) as date,
     traffic_source.medium as Medium,
+    `toolstation-data-storage.analytics_265133009.channel_grouping`(traffic_source.source, traffic_source.medium, traffic_source.name) as channel_grouping,
     COUNT(DISTINCT CASE
     WHEN event_name = 'session_start' THEN CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))
     END) AS sessions
@@ -285,7 +287,7 @@ SELECT distinct
      WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
-    GROUP BY 2,3)
+    GROUP BY 2,3,4)
     Select distinct row_number() over () as P_K, sub1.* from sub1 ;;
   }
 
@@ -314,6 +316,12 @@ AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {
     description: "Medium sessions"
     type: string
     sql: ${TABLE}.Medium ;;
+  }
+
+  dimension: channel_grouping {
+    description: "channel_grouping sessions"
+    type: string
+    sql: ${TABLE}.channelGrouping ;;
   }
 
   dimension: sessions {
@@ -724,6 +732,7 @@ order by 2 asc;;
   dimension_group: Date {
     description: "date"
     type: time
+    hidden: yes
     timeframes: [raw,date]
     sql: ${TABLE}.Date ;;
   }
@@ -731,17 +740,20 @@ order by 2 asc;;
   dimension: Week {
     description: "Week"
     type: number
+    hidden: yes
     sql: ${TABLE}.Week ;;
   }
 
   dimension: Month {
     description: "Month"
     type: number
+    hidden: yes
     sql: ${TABLE}.Month ;;
   }
 
   dimension: CLICK_COLLECT_RF1 {
     description: "click collect rf1 for each date"
+    group_label: "Digital"
     type: number
     value_format_name: gbp
     sql: ${TABLE}.CLICK___COLLECT ;;
@@ -749,6 +761,7 @@ order by 2 asc;;
 
   dimension: Dropship_RF1 {
     description: "dropship rf1 for each date"
+    group_label: "Digital"
     type: number
     value_format_name: gbp
     sql: ${TABLE}.DROPSHIP ;;
@@ -756,6 +769,7 @@ order by 2 asc;;
 
   dimension: WEB_RF1 {
     description: "web rf1 for each date"
+    group_label: "Digital"
     type: number
     value_format_name: gbp
     sql: ${TABLE}.WEB ;;
@@ -763,6 +777,7 @@ order by 2 asc;;
 
   dimension: Total_RF1 {
     description: "total rf1 for each date"
+    group_label: "Digital"
     type: number
     value_format_name: gbp
     sql: ${TABLE}.Total ;;
@@ -770,6 +785,7 @@ order by 2 asc;;
 
   dimension: Budget {
     description: "budget for each date"
+    group_label: "Digital"
     type: number
     value_format_name: gbp
     sql: ${TABLE}.Budget ;;
