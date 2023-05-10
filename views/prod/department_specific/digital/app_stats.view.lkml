@@ -1,6 +1,4 @@
 view: app_stats {
-  # The sql_table_name parameter indicates the underlying database table
-  # to be used for all fields in this view.
   sql_table_name: `toolstation-data-storage.looker_mart.app_stats`;;
 
   measure: customer_first_installs {
@@ -33,16 +31,6 @@ view: app_stats {
     sql: ${TABLE}.number_of_customers ;;
   }
 
-  # measure: total_number_of_customers {
-  #   type: sum
-  #   sql: ${number_of_customers} ;;
-  # }
-
-  # measure: average_number_of_customers {
-  #   type: average
-  #   sql: ${number_of_customers} ;;
-  # }
-
   measure: number_of_orders {
     type: sum
     sql: ${TABLE}.number_of_orders ;;
@@ -67,6 +55,16 @@ view: app_stats {
     type: sum
     sql: ${TABLE}.raw_installs ;;
   }
+
+  # measure: total_number_of_customers {
+  #   type: sum
+  #   sql: ${number_of_customers} ;;
+  # }
+
+  # measure: average_number_of_customers {
+  #   type: average
+  #   sql: ${number_of_customers} ;;
+  # }
 
   # measure: count {
   #   type: count

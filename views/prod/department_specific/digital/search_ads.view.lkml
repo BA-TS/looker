@@ -3,7 +3,6 @@ view: search_ads {
 
   # derived_table: {
   #   sql:
-
   #   SELECT
   #     *,
   #     ROUND(coalesce(cost,
@@ -54,6 +53,7 @@ view: search_ads {
     type: string
     sql: ${TABLE}.account ;;
   }
+
   dimension: accountId {
     label: "Account ID"
     type: string
@@ -73,18 +73,21 @@ view: search_ads {
     hidden: yes
     value_format_name: gbp
   }
+
   dimension: google_tax {
     type: number
     sql: ${TABLE}.google_tax ;;
     hidden: yes
     value_format_name: gbp
   }
+
   dimension: sa360_cost {
     type: number
     sql: ${TABLE}.sa360_cost ;;
     hidden: yes
     value_format_name: gbp
   }
+
   dimension: inc_tax_cost {
     type: number
     sql: ${TABLE}.inc_tax_cost ;;
@@ -98,22 +101,24 @@ view: search_ads {
     sql: ${cost} ;;
     value_format_name: gbp
   }
+
   measure: total_google_tax {
     type: sum
     sql: ${google_tax} ;;
     value_format_name: gbp
   }
+
   measure: total_sa360_cost {
     label: "Total SA360 Cost"
     type: sum
     sql: ${sa360_cost} ;;
     value_format_name: gbp
   }
+
   measure: total_inc_tax_cost {
     label: "Total Cost"
     type: sum
     sql: ${inc_tax_cost} ;;
     value_format_name: gbp
   }
-
 }

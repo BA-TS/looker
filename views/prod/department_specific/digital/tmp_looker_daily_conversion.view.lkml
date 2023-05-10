@@ -13,18 +13,6 @@ view: tmp_looker_daily_conversion {
     hidden: yes
   }
 
-  # measure: total_conversion {
-  #   type: sum
-  #   sql: ${conversion} ;;
-  #   value_format_name: percent_2
-  # }
-
-  measure: average_conversion {
-    type: average
-    sql: ${conversion} ;;
-    value_format_name: percent_2
-  }
-
   dimension: net_sales {
     type: number
     sql: ${TABLE}.NetSales ;;
@@ -65,6 +53,12 @@ view: tmp_looker_daily_conversion {
     value_format_name: gbp
   }
 
+  measure: average_conversion {
+    type: average
+    sql: ${conversion} ;;
+    value_format_name: percent_2
+  }
+
   measure: total_net_sales {
     type: sum
     sql:${net_sales};;
@@ -82,4 +76,10 @@ view: tmp_looker_daily_conversion {
     sql: ${sessions} ;;
     value_format_name: decimal_0
   }
+
+  # measure: total_conversion {
+  #   type: sum
+  #   sql: ${conversion} ;;
+  #   value_format_name: percent_2
+  # }
 }

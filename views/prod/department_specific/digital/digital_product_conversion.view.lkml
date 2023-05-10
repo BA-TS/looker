@@ -2,8 +2,6 @@ view: digital_product_conversion {
   label: "Digital Product Conversion"
   sql_table_name: `toolstation-data-storage.digitalreporting.DGTL_product_conversion`;;
 
-  # DIMENSION GROUPS
-
   dimension_group: date {
     label: "Conversion"
     type: time
@@ -20,8 +18,6 @@ view: digital_product_conversion {
     sql: ${TABLE}.date ;;
   }
 
-  # DIMENSIONS
-
   dimension: ga_sku {
     primary_key: yes
     label: "Product Code (SKU)"
@@ -34,18 +30,6 @@ view: digital_product_conversion {
     sql: ${TABLE}.exitRate ;;
     hidden: yes
   }
-
-  # dimension: ga_brand {
-  #   label: "Brand"
-  #   type: string
-  #   sql: ${TABLE}.ga_brand ;;
-  # }
-
-  # dimension: ga_category {
-  #   label: "Category"
-  #   type: string
-  #   sql: ${TABLE}.ga_category ;;
-  # }
 
   dimension: channel_grouping {
     label: "Channel Grouping"
@@ -123,16 +107,23 @@ view: digital_product_conversion {
     hidden: yes
   }
 
-  # MEASURES
+  # dimension: ga_brand {
+  #   label: "Brand"
+  #   type: string
+  #   sql: ${TABLE}.ga_brand ;;
+  # }
+
+  # dimension: ga_category {
+  #   label: "Category"
+  #   type: string
+  #   sql: ${TABLE}.ga_category ;;
+  # }
 
   measure: conversion_rate {
     label: "Conversion Rate"
     type: average
-    sql:
-
-    ${ga_product_conversion}
-
-     ;; # (${ga_total_product_sold} / ${ga_total_product_page_views}) / 100 # ${ga_product_conversion}
+    sql:${ga_product_conversion};;
+    # (${ga_total_product_sold} / ${ga_total_product_page_views}) / 100 # ${ga_product_conversion}
     # -- ${ga_product_conversion}
     # -- (${product_sold} / ${page_views})
     # (sum(${ga_total_product_sold}) / sum(${ga_total_product_page_views})) / 100

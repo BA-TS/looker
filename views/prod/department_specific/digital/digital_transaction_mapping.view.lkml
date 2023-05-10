@@ -21,11 +21,6 @@ view: digital_transaction_mapping {
     hidden: yes
   }
 
-  # dimension: transaction_revenue {
-  #   type: number
-  #   sql: ${TABLE}.transactionRevenue ;;
-  # }
-
   dimension: transaction_uid {
     type: string
     sql: ${TABLE}.transactionUID ;;
@@ -46,10 +41,12 @@ view: digital_transaction_mapping {
     # group_label: "Digital Mapping"
     label: "Is Digital Purchase?"
     type: yesno
-    sql:
-
-    ${channel_grouping} IS NOT NULL;;
+    sql:${channel_grouping} IS NOT NULL;;
     # required_access_grants: [is_developer]
   }
 
+  # dimension: transaction_revenue {
+  #   type: number
+  #   sql: ${TABLE}.transactionRevenue ;;
+  # }
 }
