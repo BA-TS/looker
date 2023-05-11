@@ -185,6 +185,18 @@ explore: base {
       and ${total_sessions.app_web_sessions} = ${EcommerceEvents.app_web_sessions};;
   }
 
+  join: NonEcommerceEvents {
+    view_label: " Non Eccomerce Events"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${base.date_date}=${NonEcommerceEvents.date_date}
+      and ${total_sessions.channel_grouping}=${NonEcommerceEvents.channel_grouping}
+      and ${app_web_data.App_web} = ${NonEcommerceEvents.app_web_sessions}
+      and ${total_sessions.Medium} = ${NonEcommerceEvents.Medium}
+      and ${total_sessions.app_web_sessions} = ${NonEcommerceEvents.app_web_sessions};;
+  }
+
   join: productv2 {
     view_label: "Products"
     from: products
