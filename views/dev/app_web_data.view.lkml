@@ -269,13 +269,11 @@ PARSE_DATE('%Y%m%d', date) as date,
 trafficSource.medium as Medium,
 channelGrouping,
 count(distinct case when hits.eventInfo.eventCategory = "Web Vitals" then concat(fullVisitorID,visitStartTime) end)  as sessions,
-case when hits.eventInfo.EventCategory = "Videoly" then hits.eventInfo.EventAction end as event,
-count(distinct case when hits.eventInfo.EventCategory = "Videoly" and customDimensions.index = 14 then concat(fullVisitorId,cast(customDimensions.value as string)) end) as event_count
-FROM `toolstation-data-storage.4783980.ga_sessions_*`, unnest(hits) as hits,unnest(hits.customDimensions) as customDimensions
+FROM `toolstation-data-storage.4783980.ga_sessions_*`, unnest (hits) as hits
  WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %}
- group by 2,3,4,hits.eventInfo.EventCategory,hits.eventInfo.EventAction
+ group by 2,3,4
 
 
 union distinct
@@ -286,14 +284,12 @@ SELECT distinct
     `toolstation-data-storage.analytics_265133009.channel_grouping`(traffic_source.source, traffic_source.medium, traffic_source.name) as channel_grouping,
     COUNT(DISTINCT CASE
     WHEN event_name = 'session_start' THEN CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))
-    END) AS sessions,
-    case when event_name in ("videoly") and ep.key in ("action") then ep.value.string_value when event_name in ("videoly") and ep.key in ("video_percent") then concat(ep.key, "-",cast(ep.value.int_value as string)) end as event_info,
-    COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS Event_count
-    FROM `toolstation-data-storage.analytics_265133009.events_*`, unnest(event_params) as ep
+    END) AS sessions
+    FROM `toolstation-data-storage.analytics_265133009.events_*`
      WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
-    GROUP BY 2,3,4, event_name, ep.key,ep.value.string_value,ep.value.int_value)
+    GROUP BY 2,3,4)
     Select distinct row_number() over () as P_K, sub1.* from sub1 ;;
   }
 
@@ -331,11 +327,6 @@ AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {
     sql: ${TABLE}.channelGrouping ;;
   }
 
-  dimension: Event {
-    description: "event"
-    type: string
-    sql: ${TABLE}.event ;;
-  }
 
   dimension: sessions {
     description: "sessions"
@@ -343,11 +334,6 @@ AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {
     sql: ${TABLE}.sessions ;;
   }
 
-  dimension: event_count {
-    description: "event_count"
-    type: number
-    sql: ${TABLE}.event_count ;;
-  }
 
   filter: session_date_filter {
     hidden: no
