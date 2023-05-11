@@ -15,7 +15,7 @@ view: calendar {
 
   dimension: today{
     group_label: "Dates"
-    label: "today (dd/mm/yyyy)"
+    label: "Today (dd/mm/yyyy)"
     type: date
     sql: ${TABLE}.today ;;
     html: {{ rendered_value | date: "%d/%m/%Y" }};;
@@ -29,10 +29,10 @@ view: calendar {
   }
 
   dimension: calendar_year {
-    group_label: "Dates Calendar"
+    group_label: "Dates"
+    label: "Year (yyyy)"
     type: number
     sql: ${TABLE}.calendarYear ;;
-    hidden: yes
   }
 
   dimension: calendar_year_month {
