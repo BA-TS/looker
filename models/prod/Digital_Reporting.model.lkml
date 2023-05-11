@@ -26,7 +26,7 @@ explore: base {
       summarised_daily_Sales.date_date: "21 days",
       select_date_reference: "app^_web^_data",
       select_date_range: "7 days",
-      total_sessionsv2.session_date_filter: "7 days"
+      EcommerceEvents.session_date_filter: "7 days"
       ]
 
     unless: [
@@ -173,16 +173,16 @@ explore: base {
   #     ;;
   # }
 
-  join: total_sessionsv2 {
+  join: EcommerceEvents {
     view_label: "Eccomerce Events"
     type: left_outer
     relationship: many_to_one
     sql_on:
-      ${base.date_date}=${total_sessionsv2.date_date}
-      and ${productv2.product_code}=${total_sessionsv2.product_code}
-      and ${app_web_data.App_web} = ${total_sessionsv2.app_web_sessions}
-      and ${total_sessions.Medium} = ${total_sessionsv2.Medium}
-      and ${total_sessions.app_web_sessions} = ${total_sessionsv2.app_web_sessions};;
+      ${base.date_date}=${EcommerceEvents.date_date}
+      and ${productv2.product_code}=${EcommerceEvents.product_code}
+      and ${app_web_data.App_web} = ${EcommerceEvents.app_web_sessions}
+      and ${total_sessions.Medium} = ${EcommerceEvents.Medium}
+      and ${total_sessions.app_web_sessions} = ${EcommerceEvents.app_web_sessions};;
   }
 
   join: productv2 {

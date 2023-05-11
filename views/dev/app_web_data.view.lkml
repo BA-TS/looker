@@ -344,7 +344,7 @@ AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {
 }
 
 
-view: total_sessionsv2 {
+view: EcommerceEvents {
 
   derived_table: {
     sql: with sub0 as (SELECT distinct
