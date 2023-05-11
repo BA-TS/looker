@@ -118,6 +118,7 @@ explore: single_line_transactions {
   }
 
   join: single_line_transactions {
+    view_label: "Transactions"
     type:  left_outer
     relationship: many_to_one
     sql_on: ${transactions.parent_order_uid} = ${single_line_transactions.parent_order_uid} ;;
