@@ -344,7 +344,7 @@ AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {
 }
 
 
-view: total_sessionsv2 {
+view: EcommerceEvents {
 
   derived_table: {
     sql: with sub0 as (SELECT distinct
@@ -1103,6 +1103,100 @@ view: TalkSport_SOV_vs_Cost {
     type: number
     sql: ${TABLE}.SOV ;;
   }
+}
+
+
+view: NonEcommerceEvents {
+
+  derived_table: {
+
+    sql: with sub1 as (SELECT distinct
+      'Web' as app_web_sessions,
+      PARSE_DATE('%Y%m%d', date) as date,
+      trafficSource.medium as Medium,
+      channelGrouping,
+      case when hits.eventInfo.EventCategory = "Videoly" then hits.eventInfo.EventAction end as event,
+      count(distinct case when hits.eventInfo.EventCategory = "Videoly" and cd.index = 14 then concat(fullVisitorId,cast(cd.value as string)) end) as event_count,
+      FROM `toolstation-data-storage.4783980.ga_sessions_*`, unnest (hits) as hits, unnest(hits.customDimensions) as cd
+       WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
+      and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start event_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end event_date_filter %})
+      AND {% condition event_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %}
+       group by 2,3,4, hits.eventInfo.EventCategory, hits.eventInfo.EventAction
+
+
+      union distinct
+      SELECT distinct
+      'App' as app_web_sessions,
+    PARSE_DATE('%Y%m%d', event_date) as date,
+    traffic_source.medium as Medium,
+    `toolstation-data-storage.analytics_265133009.channel_grouping`(traffic_source.source, traffic_source.medium, traffic_source.name) as channel_grouping,
+    case when event_name in ("videoly") and ep.key in ("action") then ep.value.string_value
+   when event_name in ("videoly") and ep.key in ("video_percent") then concat(ep.key, "-",cast(ep.value.int_value as string)) end as event_info,
+    COUNT(DISTINCT CASE
+    WHEN event_name = 'videoly' and ep.key in ("action","video_percent") THEN CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))
+    END) AS events
+    FROM `toolstation-data-storage.analytics_265133009.events_*`, unnest(event_params) as ep
+      WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
+      and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start event_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end event_date_filter %})
+      AND {% condition event_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
+      GROUP BY 2,3,4, event_name, ep.key, ep.value.string_value, ep.value.int_value)
+      Select distinct row_number() over () as P_K, sub1.* from sub1 ;;
+  }
+
+  dimension: P_K {
+    description: "Primary key"
+    type: number
+    primary_key: yes
+    hidden: yes
+    sql: ${TABLE}.P_K ;;
+  }
+
+  dimension: app_web_sessions {
+    description: "Web or App sessions"
+    type: string
+    sql: ${TABLE}.app_web_sessions ;;
+  }
+
+  dimension_group: date {
+    description: "Date of sessions"
+    type: time
+    hidden: yes
+    timeframes: [raw,date]
+    sql: ${TABLE}.date ;;
+  }
+
+  dimension: Medium {
+    description: "Medium sessions"
+    type: string
+    sql: ${TABLE}.Medium ;;
+  }
+
+  dimension: channel_grouping {
+    description: "channel_grouping sessions"
+    type: string
+    sql: ${TABLE}.channelGrouping ;;
+  }
+
+  dimension: event {
+    description: "non ecommerce event"
+    type: string
+    sql: ${TABLE}.event ;;
+  }
+
+
+  dimension: event_count {
+    description: "event_count"
+    type: number
+    sql: ${TABLE}.event_count ;;
+  }
+
+
+  filter: event_date_filter {
+    hidden: no
+    type: date
+    datatype: date
+  }
+
 }
 
 
