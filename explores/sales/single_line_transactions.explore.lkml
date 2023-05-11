@@ -123,6 +123,13 @@ explore: single_line_transactions {
     sql_on: ${transactions.parent_order_uid} = ${single_line_transactions.parent_order_uid} ;;
   }
 
+  join: single_line_transactions_products {
+    view_label: "Transactions"
+    type: left_outer
+    relationship: many_to_many
+    sql_on: ${single_line_transactions.parent_order_uid} = ${single_line_transactions_products.parent_order_uid} ;;
+  }
+
   join: product_first_sale_date {
     type: left_outer
     relationship: many_to_one
