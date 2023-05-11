@@ -3,7 +3,7 @@ include: "/views/**/*.view"
 explore: single_line_transactions {
   label: "Single Line Transactions"
   description: "Explore Toolstation customer data."
-  required_access_grants: [can_use_customer_information]
+  required_access_grants: [is_developer]
   view_name: base
   always_filter: {
     filters: [
@@ -37,8 +37,8 @@ explore: single_line_transactions {
     -products.department
   ]
 
-  sql_always_where:
-    ${period_over_period};;
+  # sql_always_where:
+  #   ${period_over_period};;
 
   join: customers {
     type :  full_outer
@@ -134,17 +134,4 @@ explore: single_line_transactions {
     relationship: many_to_one
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
   }
-
-  # join: crm_master_seedlist {
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${customers.customer_uid} =${crm_master_seedlist.customer_uid}
-  #       AND ${customers.customer__first_name} =${crm_master_seedlist.customer__first_name}
-  #       AND ${customers.customer__company} =${crm_master_seedlist.customer__company}
-  #       AND ${customers.address__address_line1} =${crm_master_seedlist.address__address_line1}
-  #       AND ${customers.address__address_line2} =${crm_master_seedlist.address__address_line2}
-  #       AND ${customers.address__address_line3} =${crm_master_seedlist.address__address_line3}
-  #       AND ${customers.address__address_line4} =${crm_master_seedlist.address__address_line4}
-  #       AND ${customers.address__postcode} =${crm_master_seedlist.address__postcode};;
-  # }
 }
