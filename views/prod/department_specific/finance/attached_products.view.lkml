@@ -14,6 +14,17 @@ view: attached_products {
     datagroup_trigger: ts_transactions_datagroup
   }
 
+  parameter: product_code_attachment {
+    label: "Attachment - Product List"
+    description: "Please enter the product codes"
+    type: unquoted
+    # allowed_value: {
+    #   label: "Yes"
+    #   value: "1"
+    # }
+    default_value: "86627"
+  }
+
   dimension: prim_key {
     type: number
     primary_key: yes
@@ -51,7 +62,8 @@ view: attached_products {
     group_label: "Single Line Transactions"
     label: "Attached Product (Y/N)"
     type: number
-    sql: case when ${product_code_attached} IN ("86627", "93763","31668" ) and ${filter_match} is false then 1 else 0 end;;
+    # sql: case when {% product_code_attachment %} = 1 then 1 else 0 end;;
+    sql: case when ${product_code_attached} IN ("86627","93763","31668" ) and ${filter_match} is false then 1 else 0 end;;
   }
 
   measure: attached_count {
