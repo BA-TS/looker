@@ -99,10 +99,11 @@ view: base {
   }
 
   dimension: base_date_pk {
+    view_label: "Date"
+    group_label: "Calendar"
     primary_key: yes
     type: date
     sql: date(${TABLE}.date;;
-    hidden: yes
   }
 
   # DATE v2 #
