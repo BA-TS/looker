@@ -37,8 +37,8 @@ explore: single_line_transactions {
     -products.department
   ]
 
-  # sql_always_where:
-  #   ${period_over_period};;
+  sql_always_where:
+    ${period_over_period};;
 
   join: customers {
     type :  full_outer
