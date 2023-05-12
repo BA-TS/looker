@@ -12,7 +12,11 @@ view: attached_products_test {
       column: number_of_transactions { field: transactions.number_of_transactions }
       column: product_code_attached { field: attached_products.product_code_attached }
       column: product_description_attached { field: attached_products.product_description_attached }
-      filters: {
+      derived_column: user_sequence {
+        sql: RANK () OVER (PARTITION BY product_code ORDER BY number_of_transactions DESC) ;;
+      }
+
+     filters: {
         field: base.select_date_type
         value: "Calendar"
       }
@@ -30,6 +34,10 @@ view: attached_products_test {
       }
     }
   }
+  dimension: user_sequence {
+    type: number
+  }
+
   dimension: product_code {
     description: ""
   }
