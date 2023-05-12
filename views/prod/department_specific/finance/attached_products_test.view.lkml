@@ -10,9 +10,12 @@ view: attached_products_test {
       column: description { field: products.description }
       # column: non_single_line_transactions_total {}
       column: number_of_transactions { field: transactions.number_of_transactions }
+      column: filter_match  { field: attached_products.filter_match  }
+      column: attached_count  { field: attached_products.attached_count  }
+
       column: product_code_attached { field: attached_products.product_code_attached }
       column: product_description_attached { field: attached_products.product_description_attached }
-      derived_column: user_sequence {
+      derived_column: attached_product_rank {
         sql: RANK () OVER (PARTITION BY product_code ORDER BY number_of_transactions DESC) ;;
       }
 
@@ -32,9 +35,17 @@ view: attached_products_test {
         field: products.product_code
         value: "69989,66027,90885,36950,91728,15960,42670,10938,73380,94239,74331,54341,49846,17219"
       }
+      filters: {
+        field: attached_products.product_code_attached
+        value: "-0%"
+      }
+      filters: {
+        field: attached_products.filter_match
+        value: "No"
+      }
     }
   }
-  dimension: user_sequence {
+  dimension: attached_product_rank {
     type: number
   }
 
@@ -50,17 +61,22 @@ view: attached_products_test {
   #   type: number
   # }
   dimension: number_of_transactions {
-    label: "Measures Number of Transactions"
+    label: "Number of Transactions"
     description: "Number of orders"
     value_format: "#,##0;(#,##0)"
     type: number
   }
   dimension: product_code_attached {
-    label: "Transactions Product Code Attached"
+    label: "Product Code Attached"
     description: ""
   }
   dimension: product_description_attached {
-    label: "Transactions Product Description Attached"
+    description: ""
+  }
+  dimension: filter_match {
+    description: ""
+  }
+  dimension: attached_count  {
     description: ""
   }
 }

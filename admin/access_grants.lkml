@@ -18,6 +18,11 @@ access_grant: is_super {
   allowed_values: ["Y"]
 }
 
+access_grant: testing {
+  user_attribute: ts_testing
+  allowed_values: ["Y"]
+}
+
 # explore access #
 
 # access_grant: access_transaction {
