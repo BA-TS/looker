@@ -6,11 +6,12 @@
 include: "/views/**/*.view"
 label: "Digital"
 
-explore: base {
+explore: digital_reporting {
 
   extends: []
   label: "Digital Reporting"
   description: "Explore Toolstation transactional data."
+  view_name: base
 
   always_filter: {
     filters: [
