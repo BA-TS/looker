@@ -1,10 +1,11 @@
 include: "/explores/**/sales/single_line_transactions.explore.lkml"
-# include: "/views/**/single_line_transactions.view"
+# include: "/explores/**/sales/transactions.explore.lkml"
 
 
 view: attached_products_derived {
   derived_table: {
     explore_source: single_line_transactions {
+    # explore_source: base {
       column: product_code { field: products.product_code }
       column: description { field: products.description }
       # column: non_single_line_transactions_total {}
@@ -44,6 +45,7 @@ view: attached_products_derived {
       }
     }
   }
+
   dimension: attached_product_rank {
     type: number
   }
@@ -51,30 +53,37 @@ view: attached_products_derived {
   dimension: product_code {
     description: ""
   }
+
   dimension: description {
     description: ""
   }
+
   # dimension: non_single_line_transactions_total {
   #   label: "Transactions Non Single Line Transactions Total"
   #   description: ""
   #   type: number
   # }
+
   dimension: number_of_transactions {
     label: "Number of Transactions"
     description: "Number of orders"
     value_format: "#,##0;(#,##0)"
     type: number
   }
+
   dimension: product_code_attached {
     label: "Product Code Attached"
     description: ""
   }
+
   dimension: product_description_attached {
     description: ""
   }
+
   dimension: filter_match {
     description: ""
   }
+
   dimension: attached_count  {
     description: ""
   }
