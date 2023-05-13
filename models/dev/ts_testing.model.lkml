@@ -1,10 +1,10 @@
 include: "/models/backend/config.model"
 include: "/views/**/*.view"
 
-# label: "Development"
+label: "Development"
 
-# explore: attached_products_derived {
-# }
+explore: attached_products_derived {
+}
 
 # explore: competitor_matrix_history {
 #   label: "DEV - Competitor Matrix"
