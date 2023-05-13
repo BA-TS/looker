@@ -1,5 +1,3 @@
-# include: "/views/**/products.view"
-
 view: attached_products {
   derived_table: {
     sql:
@@ -17,7 +15,7 @@ view: attached_products {
   parameter: product_code_attachment {
     label: "Attachment - Product List"
     description: "Please enter the product codes"
-    type: unquoted
+    type: string
     # allowed_value: {
     #   label: "Yes"
     #   value: "1"
@@ -58,12 +56,18 @@ view: attached_products {
     sql: ${product_code_attached}=${products.product_code};;
   }
 
+  dimension: user_selected_products {
+    group_label: "Single Line Transactions"
+    label: "User Selected Products"
+    type: string
+    sql: {% parameter product_code_attachment %};;
+  }
+
   dimension: attached_product_flag {
     group_label: "Single Line Transactions"
     label: "Attached Product (Y/N)"
     type: number
-    # sql: case when {% product_code_attachment %} = 1 then 1 else 0 end;;
-    sql: case when ${product_code_attached} IN ("86627","93763","31668" ) and ${filter_match} is false then 1 else 0 end;;
+    sql: case when ${product_code_attached} IN UNNEST(SPLIT(${user_selected_products})) and ${filter_match} is false then 1 else 0 end;;
   }
 
   measure: attached_count {
