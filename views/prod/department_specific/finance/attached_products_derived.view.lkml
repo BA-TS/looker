@@ -1,9 +1,8 @@
-# If necessary, uncomment the line below to include explore_source.
 include: "/explores/**/sales/single_line_transactions.explore.lkml"
 # include: "/views/**/single_line_transactions.view"
 
 
-view: attached_products_test {
+view: attached_products_derived {
   derived_table: {
     explore_source: single_line_transactions {
       column: product_code { field: products.product_code }
