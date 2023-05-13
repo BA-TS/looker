@@ -2,6 +2,7 @@ view: attached_products {
   derived_table: {
     sql:
       select distinct
+      transactionDate,
       parentOrderUID,
       p.productCode,
       p.productDescription,
@@ -13,7 +14,7 @@ view: attached_products {
   }
 
   parameter: product_code_attachment {
-    label: "Attachment - Product List"
+    label: "Attached Products - Filter by Product Code"
     description: "Please enter the product codes"
     type: string
     # allowed_value: {
@@ -27,6 +28,17 @@ view: attached_products {
     type: number
     primary_key: yes
     sql: ${TABLE}.prim_key ;;
+  }
+
+  dimension_group: transaction {
+    label: "Transaction"
+    type: time
+    timeframes: [
+      raw,
+      date
+    ]
+    sql: ${TABLE}.transactionDate ;;
+    hidden: yes
   }
 
   dimension: parent_order_uid {

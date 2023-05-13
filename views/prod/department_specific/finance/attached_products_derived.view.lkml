@@ -7,8 +7,8 @@ view: attached_products_derived {
     # explore_source: base {
       column: product_code { field: products.product_code }
       column: description { field: products.description }
-      # column: non_single_line_transactions_total {}
       column: number_of_transactions { field: transactions.number_of_transactions }
+      column: transaction_date  { field: attached_products.transaction_date  }
       column: filter_match  { field: attached_products.filter_match  }
       column: attached_count  { field: attached_products.attached_count  }
       column: product_code_attached { field: attached_products.product_code_attached }
@@ -49,28 +49,21 @@ view: attached_products_derived {
   }
 
   dimension: product_code {
-    description: ""
+  }
+
+  dimension: transaction_date {
   }
 
   dimension: description {
-    description: ""
   }
 
-  # dimension: non_single_line_transactions_total {
-  #   label: "Transactions Non Single Line Transactions Total"
-  #   description: ""
-  #   type: number
-  # }
-
   dimension: number_of_transactions {
-    label: "Number of Transactions"
     description: "Number of orders"
     value_format: "#,##0;(#,##0)"
     type: number
   }
 
   dimension: product_code_attached {
-    label: "Product Code Attached"
     description: ""
   }
 
