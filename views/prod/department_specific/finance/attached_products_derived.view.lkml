@@ -1,11 +1,11 @@
-include: "/explores/**/sales/single_line_transactions.explore.lkml"
-# include: "/explores/**/sales/transactions.explore.lkml"
+# include: "/explores/**/sales/single_line_transactions.explore.lkml"
+include: "/explores/**/sales/transactions.explore.lkml"
 
 
 view: attached_products_derived {
   derived_table: {
-    explore_source: single_line_transactions {
-    # explore_source: base {
+    # explore_source: single_line_transactions {
+    explore_source: base {
       column: product_code { field: products.product_code }
       column: description { field: products.description }
       # column: non_single_line_transactions_total {}
