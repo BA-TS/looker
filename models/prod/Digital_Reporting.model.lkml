@@ -42,8 +42,7 @@ explore: base {
       combined_month,
       combined_quarter,
       combined_year,
-      separate_month,
-      Mobile_app.Date_date
+      separate_month
     ]
 
   }
@@ -252,12 +251,12 @@ explore: base {
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
   }
 
-  join: Mobile_app {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${base.base_date_date} = ${Mobile_app.Date_date}
-    and ${calendar_completed_date.date}=${Mobile_app.Date_date};;
-  }
+ # join: Mobile_app {
+  #  type: left_outer
+   # relationship: many_to_one
+    #sql_on: ${base.base_date_date} = ${Mobile_app.Date_date}
+    #and ${calendar_completed_date.date}=${Mobile_app.Date_date};;
+  #}
 
   join: summarised_daily_Sales {
     view_label: "daily sales"
