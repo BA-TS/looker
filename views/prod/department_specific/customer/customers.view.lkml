@@ -211,7 +211,7 @@ view: customers {
     label: "Customer - Anonymous?"
     description: "If customer's first name and last name are both blank then the customer is anonymous"
     type: yesno
-    sql:coalesce(${customer__first_name},${customer__last_name}) is null;;
+    sql:${customer__email} LIKE "TILL_%TOOLSTATION.COM";;
   }
 
   dimension: flags__guest_checkout {
