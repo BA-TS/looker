@@ -211,7 +211,7 @@ view: customers {
     label: "Customer - Anonymous?"
     description: "If customer's first name and last name are both blank then the customer is anonymous"
     type: yesno
-    sql:case when concat(${customer__first_name},${customer__last_name}) is not null then false else true end;;
+    sql:case when coalesce(${customer__first_name},${customer__last_name}) is null then true else false end;;
   }
 
   dimension: flags__guest_checkout {
