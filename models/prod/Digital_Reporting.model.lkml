@@ -209,7 +209,8 @@ explore: digital_reporting {
   join: promo_main_catalogue {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${productv2.product_code} = ${promo_main_catalogue.product_code} and ${base.date_date} between ${promo_main_catalogue.live_date} and ${promo_main_catalogue.end_date} ;;
+    sql_on: ${productv2.product_code} = ${promo_main_catalogue.product_code}
+        and ${base.date_date} between ${promo_main_catalogue.live_date} and ${promo_main_catalogue.end_date} ;;
   }
 
   # join: promo_extra {
