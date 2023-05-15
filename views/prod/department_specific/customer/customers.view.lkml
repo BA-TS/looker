@@ -209,7 +209,7 @@ view: customers {
   dimension: flags__customer_anonymous {
     group_label: "Flags"
     label: "Customer - Anonymous?"
-    description: "If customer's first name and last name are both blank then the customer is anonymous"
+    description: "If a customer is anonymous"
     type: yesno
     sql:${customer__email} LIKE "TILL_%TOOLSTATION.COM";;
   }
