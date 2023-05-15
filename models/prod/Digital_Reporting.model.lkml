@@ -6,7 +6,8 @@
 include: "/views/**/*.view"
 label: "Digital"
 
-explore: base {
+explore: digital_reporting {
+  view_name: base
 
   extends: []
   label: "Digital Reporting"
