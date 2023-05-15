@@ -8,7 +8,7 @@ view: attached_products_derived {
       column: product_code { field: products.product_code }
       column: description { field: products.description }
       column: number_of_transactions { field: transactions.number_of_transactions }
-      column: transaction_date  { field: attached_products.transaction_date  }
+      # column: transaction_date  { field: attached_products.transaction_date  }
       column: filter_match  { field: attached_products.filter_match  }
       column: attached_count  { field: attached_products.attached_count  }
       column: product_code_attached { field: attached_products.product_code_attached }
@@ -30,10 +30,6 @@ view: attached_products_derived {
         value: "30 days"
       }
       filters: {
-        field: products.product_code
-        value: "69989,66027,90885,36950,91728,15960,42670,10938,73380,94239,74331,54341,49846,17219"
-      }
-      filters: {
         field: attached_products.product_code_attached
         value: "-0%"
       }
@@ -51,8 +47,8 @@ view: attached_products_derived {
   dimension: product_code {
   }
 
-  dimension: transaction_date {
-  }
+  # dimension: transaction_date {
+  # }
 
   dimension: description {
   }
