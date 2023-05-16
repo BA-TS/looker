@@ -3,9 +3,9 @@ include: "/views/**/*.view"
 
 label: "Development"
 
-explore: attached_products_derived {
-  hidden: yes
-}
+# explore: attached_products_derived {
+#   hidden: yes
+# }
 
 # explore: competitor_matrix_history {
 #   label: "DEV - Competitor Matrix"
