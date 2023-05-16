@@ -33,8 +33,9 @@ view: ecrebo {
   dimension: ecrebo_date_filter {
     type: date
     datatype: date
-    sql: ${TABLE}.ecreboDate};;
+    sql: ${TABLE}.ecreboDate;;
   }
+
   dimension: parent_order_uid {
     group_label: "Order ID"
     label: "Parent Order UID"
