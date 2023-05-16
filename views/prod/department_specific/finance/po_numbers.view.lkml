@@ -12,11 +12,18 @@ view: po_numbers {
   # This dimension will be called "Order ID" in Explore.
 
   dimension: order_id {
+    label: "Order ID"
+    description: "Transaction Parent Order UID"
+    primary_key: yes
     type: string
     sql: ${TABLE}.orderID ;;
+    hidden:  yes
   }
 
   dimension: po_number {
+    label: "PO Number"
+    group_label: "Purchase Details"
+    description: "PO number provided by the customer at point of purchase"
     type: string
     sql: ${TABLE}.PO_Number ;;
   }
