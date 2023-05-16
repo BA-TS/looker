@@ -245,6 +245,13 @@ explore: base {
     relationship: one_to_many
     sql_on: ${base.date_date} = ${ecrebo.ecrebo_date_filter} AND ${transactions.parent_order_uid} = ${ecrebo.parent_order_uid};;
   }
+
+  join: po_numbers {
+    view_label: "Transactions"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.parent_order_uid} = ${po_numbers.order_id};;
+  }
 }
 
 explore: +base {
