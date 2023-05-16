@@ -8,17 +8,6 @@ view: products {
   null, null, null, null, null, null, null, null, null, null;;
   }
 
-  parameter: product_code_attachment {
-    label: "Attachment - Product List"
-    description: "Please enter the product codes"
-    type: string
-    # allowed_value: {
-    #   label: "Yes"
-    #   value: "1"
-    # }
-    default_value: "86627"
-  }
-
   dimension: product_uid {
     group_label: "Product Details"
     label: "Product UID"

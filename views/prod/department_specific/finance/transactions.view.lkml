@@ -667,7 +667,7 @@ dimension_group: order_completed {
     label: "In Catalogue?"
     view_label: "Products"
     group_label: "Flags"
-    required_access_grants: [is_developer]
+    # required_access_grants: [is_developer]
     description: "Flags if a product is in the main catalogue"
     type: yesno
     sql: case when ${promo_main_catalogue.product_code} is null then false else true end ;;
@@ -677,7 +677,7 @@ dimension_group: order_completed {
     label: "In Extra?"
     view_label: "Products"
     group_label: "Flags"
-    required_access_grants: [is_developer]
+    # required_access_grants: [is_developer]
     description: "Flags if a product is in the extra publication"
     type: yesno
     sql: case when ${promo_extra.product_code} is null then false else true end ;;
@@ -687,7 +687,7 @@ dimension_group: order_completed {
     view_label: "Products"
     group_label: "Flags"
     label: "In Catalogue or Promo?"
-    required_access_grants: [is_developer]
+    # required_access_grants: [is_developer]
     description: "Flags is a product in the main catalogue or extra publication"
     type: yesno
     sql: case when ${promo_main_catalogue.product_code} is null and ${promo_extra.product_code} is null then false else true end ;;

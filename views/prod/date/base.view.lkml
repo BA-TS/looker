@@ -104,6 +104,7 @@ view: base {
     primary_key: yes
     type: date
     sql: date(${TABLE}.date;;
+    hidden: yes
   }
 
   # DATE v2 #

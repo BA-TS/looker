@@ -6,7 +6,8 @@
 include: "/views/**/*.view"
 label: "Digital"
 
-explore: base {
+explore: digital_reporting {
+  view_name: base
 
   extends: []
   label: "Digital Reporting"
@@ -42,8 +43,7 @@ explore: base {
       combined_month,
       combined_quarter,
       combined_year,
-      separate_month,
-      Mobile_app.Date_date
+      separate_month
     ]
 
   }
@@ -209,7 +209,8 @@ explore: base {
   join: promo_main_catalogue {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${productv2.product_code} = ${promo_main_catalogue.product_code} and ${base.date_date} between ${promo_main_catalogue.live_date} and ${promo_main_catalogue.end_date} ;;
+    sql_on: ${productv2.product_code} = ${promo_main_catalogue.product_code}
+        and ${base.date_date} between ${promo_main_catalogue.live_date} and ${promo_main_catalogue.end_date} ;;
   }
 
   # join: promo_extra {
@@ -252,12 +253,12 @@ explore: base {
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
   }
 
-  join: Mobile_app {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${base.base_date_date} = ${Mobile_app.Date_date}
-    and ${calendar_completed_date.date}=${Mobile_app.Date_date};;
-  }
+ # join: Mobile_app {
+  #  type: left_outer
+   # relationship: many_to_one
+    #sql_on: ${base.base_date_date} = ${Mobile_app.Date_date}
+    #and ${calendar_completed_date.date}=${Mobile_app.Date_date};;
+  #}
 
   join: summarised_daily_Sales {
     view_label: "daily sales"

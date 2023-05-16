@@ -88,6 +88,13 @@ explore: base {
     sql_on: ${transactions.parent_order_uid} = ${single_line_transactions.parent_order_uid} ;;
   }
 
+  join: attached_products {
+    view_label: "Transactions"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${single_line_transactions.parent_order_uid} = ${attached_products.parent_order_uid} ;;
+  }
+
   join: products {
     view_label: "Products"
     type:  left_outer

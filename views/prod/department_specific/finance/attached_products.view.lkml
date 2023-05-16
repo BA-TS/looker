@@ -1,9 +1,8 @@
-# include: "/views/**/products.view"
-
 view: attached_products {
   derived_table: {
     sql:
       select distinct
+      transactionDate,
       parentOrderUID,
       p.productCode,
       p.productDescription,
@@ -14,10 +13,32 @@ view: attached_products {
     datagroup_trigger: ts_transactions_datagroup
   }
 
+  parameter: product_code_attachment {
+    label: "Attached Products - Filter by Product Code"
+    description: "Please enter the product codes"
+    type: string
+    # allowed_value: {
+    #   label: "Yes"
+    #   value: "1"
+    # }
+    default_value: "86627"
+  }
+
   dimension: prim_key {
     type: number
     primary_key: yes
     sql: ${TABLE}.prim_key ;;
+  }
+
+  dimension_group: transaction {
+    label: "Transaction"
+    type: time
+    timeframes: [
+      raw,
+      date
+    ]
+    sql: ${TABLE}.transactionDate ;;
+    hidden: yes
   }
 
   dimension: parent_order_uid {
@@ -47,11 +68,18 @@ view: attached_products {
     sql: ${product_code_attached}=${products.product_code};;
   }
 
+  dimension: user_selected_products {
+    group_label: "Single Line Transactions"
+    label: "User Selected Products"
+    type: string
+    sql: {% parameter product_code_attachment %};;
+  }
+
   dimension: attached_product_flag {
     group_label: "Single Line Transactions"
     label: "Attached Product (Y/N)"
     type: number
-    sql: case when ${product_code_attached} IN ("86627", "93763","31668" ) and ${filter_match} is false then 1 else 0 end;;
+    sql: case when ${product_code_attached} IN UNNEST(SPLIT(${user_selected_products})) and ${filter_match} is false then 1 else 0 end;;
   }
 
   measure: attached_count {
