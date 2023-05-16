@@ -288,6 +288,22 @@ view: transactions {
     {% endif %};;
   }
 
+  dimension: sales_channel_digital {
+    label: "Sales Channel - Digital"
+    group_label: "Purchase Details"
+    description: "If the sales channel is digital"
+    type: yesno
+    sql:${sales_channel} IN ("WEB", "CLICK & COLLECT", "EBAY","CONTACT CENTRE");;
+  }
+
+  dimension: sales_channel_branch {
+    label: "Sales Channel - branch"
+    group_label: "Purchase Details"
+    description: "if the sales channel is branch"
+    type: yesno
+    sql:${sales_channel} IN ("BRANCHES", "EPOSAV", "EPOSER");;
+  }
+
   dimension: row_id {
     type: number
     sql: ${TABLE}.rowID ;;

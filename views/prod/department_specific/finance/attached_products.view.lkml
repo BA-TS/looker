@@ -9,7 +9,8 @@ view: attached_products {
       row_number() OVER(ORDER BY parentOrderUID) AS prim_key,
      from `toolstation-data-storage.sales.transactions` t
         inner join `toolstation-data-storage.range.products_current` p
-          using(productUID);;
+          using(productUID)
+    where  p.productCode not in ("85699","44842") ;;
     datagroup_trigger: ts_transactions_datagroup
   }
 
@@ -88,4 +89,17 @@ view: attached_products {
     type: sum
     sql: ${attached_product_flag};;
   }
+
+  # measure: product_count {
+  #   group_label: "Single Line Transactions"
+  #   label: "Total number of attached transactions "
+  #   type: sum
+  #   sql: ${product_code_attached};;
+  # }
+
+  # measure: attachment_rate_product_filter{
+  #   group_label: "Single Line Transactions"
+  #   type: number
+  #   sql: ${attached_count}/${product_count}
+  # }
 }
