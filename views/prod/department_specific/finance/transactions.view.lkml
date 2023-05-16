@@ -297,7 +297,7 @@ view: transactions {
   }
 
   dimension: sales_channel_branch {
-    label: "Sales Channel - branch"
+    label: "Sales Channel - Branch"
     group_label: "Purchase Details"
     description: "if the sales channel is branch"
     type: yesno
