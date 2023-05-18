@@ -334,6 +334,13 @@ AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {
     sql: ${TABLE}.sessions ;;
   }
 
+  measure: Sum_ofSessions {
+    description: "Sum of sessions"
+    type: sum
+    value_format_name: decimal_0
+    sql: ${TABLE}.sessions ;;
+  }
+
 
   filter: session_date_filter {
     hidden: no
