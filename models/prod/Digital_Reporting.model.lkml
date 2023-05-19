@@ -182,7 +182,8 @@ explore: digital_reporting {
       and ${productv2.product_code}=${EcommerceEvents.product_code}
       and ${app_web_data.App_web} = ${EcommerceEvents.app_web_sessions}
       and ${total_sessions.Medium} = ${EcommerceEvents.Medium}
-      and ${total_sessions.app_web_sessions} = ${EcommerceEvents.app_web_sessions};;
+      and ${total_sessions.app_web_sessions} = ${EcommerceEvents.app_web_sessions}
+      and ${total_sessions.deviceCategory} = ${EcommerceEvents.deviceCategory};;
   }
 
   join: NonEcommerceEvents {
@@ -194,7 +195,8 @@ explore: digital_reporting {
       and ${total_sessions.channel_grouping}=${NonEcommerceEvents.channel_grouping}
       and ${app_web_data.App_web} = ${NonEcommerceEvents.app_web_sessions}
       and ${total_sessions.Medium} = ${NonEcommerceEvents.Medium}
-      and ${total_sessions.app_web_sessions} = ${NonEcommerceEvents.app_web_sessions};;
+      and ${total_sessions.app_web_sessions} = ${NonEcommerceEvents.app_web_sessions}
+      and ${total_sessions.deviceCategory} = ${NonEcommerceEvents.deviceCategory};;
   }
 
   join: productv2 {

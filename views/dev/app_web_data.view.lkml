@@ -266,6 +266,7 @@ view: total_sessions {
     sql: with sub1 as (SELECT distinct
 'Web' as app_web_sessions,
 PARSE_DATE('%Y%m%d', date) as date,
+device.deviceCategory,
 trafficSource.medium as Medium,
 channelGrouping,
 count(distinct case when hits.eventInfo.eventCategory = "Web Vitals" then concat(fullVisitorID,visitStartTime) end)  as sessions,
@@ -273,13 +274,14 @@ FROM `toolstation-data-storage.4783980.ga_sessions_*`, unnest (hits) as hits
  WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %}
- group by 2,3,4
+ group by 2,3,4,5
 
 
 union distinct
 SELECT distinct
     'App' as app_web_sessions,
     PARSE_DATE('%Y%m%d', event_date) as date,
+    device.category,
     traffic_source.medium as Medium,
     `toolstation-data-storage.analytics_265133009.channel_grouping`(traffic_source.source, traffic_source.medium, traffic_source.name) as channel_grouping,
     COUNT(DISTINCT CASE
@@ -289,7 +291,7 @@ SELECT distinct
      WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
-    GROUP BY 2,3,4)
+    GROUP BY 2,3,4,5)
     Select distinct row_number() over () as P_K, sub1.* from sub1 ;;
   }
 
@@ -319,6 +321,12 @@ AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {
     description: "Medium sessions"
     type: string
     sql: ${TABLE}.Medium ;;
+  }
+
+  dimension: deviceCategory {
+    description: "deviceCategory"
+    type: string
+    sql: ${TABLE}.deviceCategory ;;
   }
 
   dimension: channel_grouping {
