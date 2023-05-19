@@ -266,6 +266,7 @@ view: total_sessions {
     sql: with sub1 as (SELECT distinct
 'Web' as app_web_sessions,
 PARSE_DATE('%Y%m%d', date) as date,
+device.deviceCategory,
 trafficSource.medium as Medium,
 channelGrouping,
 count(distinct case when hits.eventInfo.eventCategory = "Web Vitals" then concat(fullVisitorID,visitStartTime) end)  as sessions,
@@ -273,13 +274,14 @@ FROM `toolstation-data-storage.4783980.ga_sessions_*`, unnest (hits) as hits
  WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %}
- group by 2,3,4
+ group by 2,3,4,5
 
 
 union distinct
 SELECT distinct
     'App' as app_web_sessions,
     PARSE_DATE('%Y%m%d', event_date) as date,
+    device.category,
     traffic_source.medium as Medium,
     `toolstation-data-storage.analytics_265133009.channel_grouping`(traffic_source.source, traffic_source.medium, traffic_source.name) as channel_grouping,
     COUNT(DISTINCT CASE
@@ -289,7 +291,7 @@ SELECT distinct
      WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
-    GROUP BY 2,3,4)
+    GROUP BY 2,3,4,5)
     Select distinct row_number() over () as P_K, sub1.* from sub1 ;;
   }
 
@@ -319,6 +321,12 @@ AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {
     description: "Medium sessions"
     type: string
     sql: ${TABLE}.Medium ;;
+  }
+
+  dimension: deviceCategory {
+    description: "deviceCategory"
+    type: string
+    sql: ${TABLE}.deviceCategory ;;
   }
 
   dimension: channel_grouping {
@@ -357,6 +365,8 @@ view: EcommerceEvents {
     sql: with sub0 as (SELECT distinct
 'Web' as app_web_sessions,
 PARSE_DATE('%Y%m%d', date) as date,
+device.deviceCategory,
+channelGrouping,
 trafficSource.medium as Medium,
 case when regexp_contains(page.pagePath, ".*/p[0-9]*$") then "Product Detail Page" else "Other Page" end as Screen,
 case when regexp_contains(hits.eventInfo.EventCategory, ".*OOS$") then hits.eventInfo.EventCategory else hits.eventInfo.EventAction end as event_name,
@@ -370,11 +380,13 @@ WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %}
 and (hits.eventInfo.EventAction in ("Purchase", "Add to Cart") or regexp_contains(hits.eventInfo.EventCategory, ".*OOS$"))
-group by 2,3,4,5,7,10
+group by 2,3,4,5,6,7,9,12
 union distinct
 SELECT distinct
     'App' as app_web_sessions,
     PARSE_DATE('%Y%m%d', event_date) as date,
+    device.category,
+    `toolstation-data-storage.analytics_265133009.channel_grouping`(traffic_source.source, traffic_source.medium, traffic_source.name) as channel_grouping,
     traffic_source.medium as Medium,
     case when (SELECT STRING_AGG(distinct value.string_value) FROM UNNEST(event_params) WHERE key = 'firebase_screen') = "product-detail-page" then "Product Detail Page" else "Other Page" end as screen,
     event_name,
@@ -388,7 +400,7 @@ SELECT distinct
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
     and event_name in ('purchase', 'add_to_cart', 'out_of_stock')
-    GROUP BY 2,3,4,5,7,10)
+    GROUP BY 2,3,4,5,6,7,9,12)
 select distinct row_number() over () as P_K, * from sub0;;}
 
   dimension: P_K {
@@ -418,6 +430,19 @@ select distinct row_number() over () as P_K, * from sub0;;}
     type: string
     sql: ${TABLE}.Medium ;;
   }
+
+  dimension: channelGrouping {
+    description: "channelGrouping"
+    type: string
+    sql: ${TABLE}.channelGrouping ;;
+  }
+
+  dimension: deviceCategory {
+    description: "deviceCategory"
+    type: string
+    sql: ${TABLE}.deviceCategory ;;
+  }
+
 
   dimension: event_name {
     description: "event_name"
@@ -1120,6 +1145,7 @@ view: NonEcommerceEvents {
     sql: with sub1 as (SELECT distinct
       'Web' as app_web_sessions,
       PARSE_DATE('%Y%m%d', date) as date,
+      device.deviceCategory,
       trafficSource.medium as Medium,
       channelGrouping,
       case when hits.eventInfo.EventCategory = "Videoly" then hits.eventInfo.EventAction end as event,
@@ -1128,13 +1154,14 @@ view: NonEcommerceEvents {
        WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
       and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start event_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end event_date_filter %})
       AND {% condition event_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %}
-       group by 2,3,4, hits.eventInfo.EventCategory, hits.eventInfo.EventAction
+       group by 2,3,4,5, hits.eventInfo.EventCategory, hits.eventInfo.EventAction
 
 
       union distinct
       SELECT distinct
       'App' as app_web_sessions,
     PARSE_DATE('%Y%m%d', event_date) as date,
+    device.category,
     traffic_source.medium as Medium,
     `toolstation-data-storage.analytics_265133009.channel_grouping`(traffic_source.source, traffic_source.medium, traffic_source.name) as channel_grouping,
     case when event_name in ("videoly") and ep.key in ("action") then ep.value.string_value
@@ -1146,7 +1173,7 @@ view: NonEcommerceEvents {
       WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
       and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start event_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end event_date_filter %})
       AND {% condition event_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
-      GROUP BY 2,3,4, event_name, ep.key, ep.value.string_value, ep.value.int_value)
+      GROUP BY 2,3,4,5, event_name, ep.key, ep.value.string_value, ep.value.int_value)
       Select distinct row_number() over () as P_K, sub1.* from sub1 ;;
   }
 
@@ -1176,6 +1203,12 @@ view: NonEcommerceEvents {
     description: "Medium sessions"
     type: string
     sql: ${TABLE}.Medium ;;
+  }
+
+  dimension: deviceCategory {
+    description: "deviceCategory"
+    type: string
+    sql: ${TABLE}.deviceCategory ;;
   }
 
   dimension: channel_grouping {
