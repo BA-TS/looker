@@ -67,6 +67,7 @@ view: attached_products {
     label: "Product Match"
     type: yesno
     sql: ${product_code_attached}=${products.product_code};;
+    hidden: yes
   }
 
   dimension: user_selected_products {
