@@ -67,7 +67,13 @@ view: attached_products {
     label: "Product Match"
     type: yesno
     sql: ${product_code_attached}=${products.product_code};;
-    hidden: yes
+  }
+
+  dimension: filter_match2 {
+    group_label: "Single Line Transactions"
+    label: "Product Match"
+    type: number
+    sql: case when ${product_code_attached} IN (${products.product_code}) then 0 else 1 end;;
   }
 
   dimension: user_selected_products {
@@ -90,6 +96,13 @@ view: attached_products {
     type: sum
     sql: ${attached_product_flag};;
   }
+
+  measure: product_match_count {
+    group_label: "Total number of attached products"
+    type: sum
+    sql: ${filter_match2};;
+  }
+
 
   # measure: product_count {
   #   group_label: "Single Line Transactions"
