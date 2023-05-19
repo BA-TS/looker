@@ -357,6 +357,8 @@ view: EcommerceEvents {
     sql: with sub0 as (SELECT distinct
 'Web' as app_web_sessions,
 PARSE_DATE('%Y%m%d', date) as date,
+device.deviceCategory,
+channelGrouping,
 trafficSource.medium as Medium,
 case when regexp_contains(page.pagePath, ".*/p[0-9]*$") then "Product Detail Page" else "Other Page" end as Screen,
 case when regexp_contains(hits.eventInfo.EventCategory, ".*OOS$") then hits.eventInfo.EventCategory else hits.eventInfo.EventAction end as event_name,
@@ -370,11 +372,13 @@ WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %}
 and (hits.eventInfo.EventAction in ("Purchase", "Add to Cart") or regexp_contains(hits.eventInfo.EventCategory, ".*OOS$"))
-group by 2,3,4,5,7,10
+group by 2,3,4,5,6,7,9,12
 union distinct
 SELECT distinct
     'App' as app_web_sessions,
     PARSE_DATE('%Y%m%d', event_date) as date,
+    device.category,
+    `toolstation-data-storage.analytics_265133009.channel_grouping`(traffic_source.source, traffic_source.medium, traffic_source.name) as channel_grouping,
     traffic_source.medium as Medium,
     case when (SELECT STRING_AGG(distinct value.string_value) FROM UNNEST(event_params) WHERE key = 'firebase_screen') = "product-detail-page" then "Product Detail Page" else "Other Page" end as screen,
     event_name,
@@ -388,7 +392,7 @@ SELECT distinct
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
     and event_name in ('purchase', 'add_to_cart', 'out_of_stock')
-    GROUP BY 2,3,4,5,7,10)
+    GROUP BY 2,3,4,5,6,7,9,12)
 select distinct row_number() over () as P_K, * from sub0;;}
 
   dimension: P_K {
@@ -418,6 +422,19 @@ select distinct row_number() over () as P_K, * from sub0;;}
     type: string
     sql: ${TABLE}.Medium ;;
   }
+
+  dimension: channelGrouping {
+    description: "channelGrouping"
+    type: string
+    sql: ${TABLE}.channelGrouping ;;
+  }
+
+  dimension: deviceCategory {
+    description: "deviceCategory"
+    type: string
+    sql: ${TABLE}.deviceCategory ;;
+  }
+
 
   dimension: event_name {
     description: "event_name"
