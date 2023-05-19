@@ -1137,6 +1137,7 @@ view: NonEcommerceEvents {
     sql: with sub1 as (SELECT distinct
       'Web' as app_web_sessions,
       PARSE_DATE('%Y%m%d', date) as date,
+      device.deviceCategory,
       trafficSource.medium as Medium,
       channelGrouping,
       case when hits.eventInfo.EventCategory = "Videoly" then hits.eventInfo.EventAction end as event,
@@ -1145,13 +1146,14 @@ view: NonEcommerceEvents {
        WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
       and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start event_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end event_date_filter %})
       AND {% condition event_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %}
-       group by 2,3,4, hits.eventInfo.EventCategory, hits.eventInfo.EventAction
+       group by 2,3,4,5, hits.eventInfo.EventCategory, hits.eventInfo.EventAction
 
 
       union distinct
       SELECT distinct
       'App' as app_web_sessions,
     PARSE_DATE('%Y%m%d', event_date) as date,
+    device.category,
     traffic_source.medium as Medium,
     `toolstation-data-storage.analytics_265133009.channel_grouping`(traffic_source.source, traffic_source.medium, traffic_source.name) as channel_grouping,
     case when event_name in ("videoly") and ep.key in ("action") then ep.value.string_value
@@ -1163,7 +1165,7 @@ view: NonEcommerceEvents {
       WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
       and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start event_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end event_date_filter %})
       AND {% condition event_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
-      GROUP BY 2,3,4, event_name, ep.key, ep.value.string_value, ep.value.int_value)
+      GROUP BY 2,3,4,5, event_name, ep.key, ep.value.string_value, ep.value.int_value)
       Select distinct row_number() over () as P_K, sub1.* from sub1 ;;
   }
 
@@ -1193,6 +1195,12 @@ view: NonEcommerceEvents {
     description: "Medium sessions"
     type: string
     sql: ${TABLE}.Medium ;;
+  }
+
+  dimension: deviceCategory {
+    description: "deviceCategory"
+    type: string
+    sql: ${TABLE}.deviceCategory ;;
   }
 
   dimension: channel_grouping {
