@@ -2,91 +2,26 @@ include: "/views/**/*base*.view"
 
 view: transactions {
   derived_table: {
-  sql:
-   (SELECT
-    transactionDate,
-    UPPER(salesChannel) AS salesChannel,
-    siteUID,
-    products.productDepartment,
-    t.* EXCEPT (transactionDate, salesChannel, siteUID)
-   FROM
-    (
-      SELECT
-        transactions.*,
-        "SALE" AS extranet_status
-      FROM
-        `toolstation-data-storage.sales.transactions` AS transactions
-      UNION ALL
-      (
-        SELECT
-          incomplete.* EXCEPT(status, rowID),
-          NULL,
-          NULL,
-          NULL,
-          NULL,
-          NULL,
-          NULL,
-          incomplete.rowID,
-          CAST(UPPER(incomplete.status) = "CANCELLED" AS INT64),
-          NULL,
-          NULL,
-          "INCOMPLETE"
+    sql:
+       (SELECT
+        transactionDate, UPPER(salesChannel) AS salesChannel,siteUID,products.productDepartment,t.* EXCEPT (transactionDate, salesChannel, siteUID)
         FROM
-          `toolstation-data-storage.sales.transactions_incomplete` AS incomplete)
-    ) AS t
-    INNER JOIN `toolstation-data-storage.range.products_current` AS products
-    USING(productUID)
-    )
-  UNION ALL
-  (
-  SELECT
-    TIMESTAMP(missing_dimensions.date) AS transactionDate,
-    missing_dimensions.salesChannel AS salesChannel,
-    missing_dimensions.siteUID,
-    missing_dimensions.department,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL
-    FROM `toolstation-data-storage.looker_persistent_tables.missing_channel_dimensions` AS missing_dimensions);;
+        (SELECT
+        transactions.*,"SALE" AS extranet_status
+        FROM `toolstation-data-storage.sales.transactions` AS transactions
+        UNION ALL
+        (SELECT
+        incomplete.* EXCEPT(status, rowID),NULL, NULL, NULL, NULL,NULL,NULL,incomplete.rowID,CAST(UPPER(incomplete.status) = "CANCELLED" AS INT64),NULL,NULL,"INCOMPLETE"
+        FROM `toolstation-data-storage.sales.transactions_incomplete` AS incomplete)) AS t
+        INNER JOIN `toolstation-data-storage.range.products_current` AS products USING(productUID))
+       UNION ALL
+       (SELECT
+        TIMESTAMP(missing_dimensions.date) AS transactionDate,missing_dimensions.salesChannel AS salesChannel,missing_dimensions.siteUID,missing_dimensions.department,
+        NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+        NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, NULL,NULL,NULL
+        FROM `toolstation-data-storage.looker_persistent_tables.missing_channel_dimensions` AS missing_dimensions);;
     partition_keys: ["transactionDate"]
     cluster_keys: ["salesChannel", "productDepartment", "productCode"]
-    # increment_key: "transaction_date"
-    # increment_offset: 100 # change to yearly when done... funding is calculated over last 3 months (limited to YTD) ie 30/1 is only 29 days
     datagroup_trigger: ts_transactions_datagroup
   }
 
@@ -346,17 +281,17 @@ view: transactions {
     hidden:  yes
   }
 
-   dimension: has_trade_account {
-     view_label: "Customers"
-     group_label: "Flags"
-     label: "Has Trade Account?"
-     description: "Flags whether the customer has a trade account"
-     type: yesno
-     sql:
+  dimension: has_trade_account {
+    view_label: "Customers"
+    group_label: "Flags"
+    label: "Has Trade Account?"
+    description: "Flags whether the customer has a trade account"
+    type: yesno
+    sql:
        ${trade_credit_details.account_id} IS NOT NULL
          AND
        ${transactions.transaction_time} > ${trade_credit_details.tc_account_created_time} ;;
-   }
+  }
 
   dimension: customer_uid {
     label: "Customer UID"
@@ -417,7 +352,7 @@ view: transactions {
     hidden: yes
   }
 
-dimension_group: order_completed {
+  dimension_group: order_completed {
     group_label: "Order Details"
     description: "Date and time the order was completed"
     type: time
@@ -813,7 +748,7 @@ dimension_group: order_completed {
   }
 
   # Core #
- measure: total_gross_sales {
+  measure: total_gross_sales {
     label: "Gross Sales"
     description: "Sales value including VAT"
     type:  sum
