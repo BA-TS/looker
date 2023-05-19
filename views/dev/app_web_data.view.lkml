@@ -376,7 +376,7 @@ SELECT distinct
     'App' as app_web_sessions,
     PARSE_DATE('%Y%m%d', event_date) as date,
     traffic_source.medium as Medium,
-    case when (SELECT STRING_AGG(distinct value.string_value) FROM UNNEST(event_params) WHERE key = 'firebase_screen') = "product-detail-page" then "Product Detail Page" else "Other page" end as screen,
+    case when (SELECT STRING_AGG(distinct value.string_value) FROM UNNEST(event_params) WHERE key = 'firebase_screen') = "product-detail-page" then "Product Detail Page" else "Other Page" end as screen,
     event_name,
     COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events,
     items.item_id as item_id,
