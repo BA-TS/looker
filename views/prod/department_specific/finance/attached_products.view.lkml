@@ -101,6 +101,7 @@ view: attached_products {
     group_label: "Total number of attached products"
     type: sum
     sql: ${filter_match2};;
+    hidden: yes
   }
 
 
