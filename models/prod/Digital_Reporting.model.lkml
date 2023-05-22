@@ -22,7 +22,7 @@ explore: digital_reporting {
   conditionally_filter: {
     filters:
     [
-      total_sessions.session_date_filter: "7 days",
+      total_sessions.select_date_range: "7 days",
       select_date_reference: "app^_web^_data",
       select_date_range: "7 days",
       EcommerceEvents.session_date_filter: "7 days"
