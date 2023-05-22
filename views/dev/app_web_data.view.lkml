@@ -265,7 +265,7 @@ view: total_sessions {
 
     sql: with sub1 as (SELECT distinct
 'Web' as app_web_sessions,
-PARSE_DATE('%Y%m%d', date) as date,
+timestamp(PARSE_DATE('%Y%m%d', date)) as date,
 device.deviceCategory,
 trafficSource.medium as Medium,
 channelGrouping,
@@ -280,7 +280,7 @@ AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', date)) {% endcon
 union distinct
 SELECT distinct
     'App' as app_web_sessions,
-    PARSE_DATE('%Y%m%d', event_date) as date,
+    timestamp(PARSE_DATE('%Y%m%d', event_date)) as date,
     device.category,
     traffic_source.medium as Medium,
     `toolstation-data-storage.analytics_265133009.channel_grouping`(traffic_source.source, traffic_source.medium, traffic_source.name) as channel_grouping,
@@ -361,6 +361,7 @@ AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% 
     group_label: "Date Filter"
     view_label: "Total Session Date"
     type: date
+    datatype: date
     convert_tz: yes
   }
 
