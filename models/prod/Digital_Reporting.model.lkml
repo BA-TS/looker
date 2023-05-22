@@ -23,12 +23,13 @@ explore: digital_reporting {
     filters:
     [
       total_sessions.session_date_filter: "7 days",
-      stock_cover.date_filter: "Yesterday",
-      summarised_daily_Sales.date_date: "21 days",
       select_date_reference: "app^_web^_data",
       select_date_range: "7 days",
       EcommerceEvents.session_date_filter: "7 days"
       ]
+
+      #stock_cover.date_filter: "Yesterday",
+      #summarised_daily_Sales.date_date: "21 days",
 
     unless: [
       select_fixed_range,
@@ -89,9 +90,13 @@ explore: digital_reporting {
     type: left_outer
     relationship: many_to_one
     sql_on:
-      ${base.base_date_date}=${total_sessions.date_date}
+    ${base.date_date}=${total_sessions.date_date}
       and ${app_web_data.App_web} = ${total_sessions.app_web_sessions};;
   }
+  #and ${app_web_data.transaction_date_filter} = ${total_sessions.session_date_filter}
+  #      ${calendar_completed_date.date}=${total_sessions.session_date_filter}
+
+
 
   join: channel_budget {
     view_label: "Budget"

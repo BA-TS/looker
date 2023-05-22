@@ -369,8 +369,9 @@ device.deviceCategory,
 channelGrouping,
 trafficSource.medium as Medium,
 case when regexp_contains(page.pagePath, ".*/p[0-9]*$") then "Product Detail Page" else "Other Page" end as Screen,
-case when regexp_contains(hits.eventInfo.EventCategory, ".*OOS$") then hits.eventInfo.EventCategory else hits.eventInfo.EventAction end as event_name,
-count(distinct concat(fullVisitorID,visitStartTime)) as events,
+case when regexp_contains(hits.eventInfo.EventCategory, ".*OOS$") then hits.eventInfo.EventCategory
+else hits.eventInfo.EventAction end as event_name,
+count (distinct concat(fullVisitorID,visitStartTime)) as events,
 product.productsku as item_id,
 sum(safe_divide(product.productRevenue,1000000)) as item_revenue,
 sum(product.productQuantity) as ItemQ,
@@ -395,7 +396,7 @@ SELECT distinct
     round(sum(items.item_revenue),2) as item_revenue,
     sum(items.quantity) as itemQ,
     items.price as Item_Price
-    FROM `toolstation-data-storage.analytics_265133009.events_*` left join unnest(items) as items
+    FROM `toolstation-data-storage.analytics_265133009.events_*` left join unnest(items) as items, unnest (event_params) as ep
      WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
