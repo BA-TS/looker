@@ -90,6 +90,7 @@ explore: digital_reporting {
     relationship: many_to_one
     sql_on:
       ${base.base_date_date}=${total_sessions.date_date}
+      and ${app_web_data.transaction_date_filter} = ${total_sessions.session_date_filter}
       and ${app_web_data.App_web} = ${total_sessions.app_web_sessions};;
   }
 
