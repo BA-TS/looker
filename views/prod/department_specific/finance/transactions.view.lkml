@@ -3,8 +3,12 @@ include: "/views/**/*base*.view"
 view: transactions {
   derived_table: {
     sql:
-       (SELECT
-        transactionDate, UPPER(salesChannel) AS salesChannel,siteUID,products.productDepartment,t.* EXCEPT (transactionDate, salesChannel, siteUID)
+    SELECT *, row_number() OVER(ORDER BY salesChannel) AS prim_key
+    FROM
+    ((
+        SELECT
+        transactionDate, UPPER(salesChannel) AS salesChannel,siteUID,products.productDepartment,
+        t.* EXCEPT (transactionDate, salesChannel, siteUID)
         FROM
         (SELECT
         transactions.*,"SALE" AS extranet_status
@@ -19,14 +23,20 @@ view: transactions {
         TIMESTAMP(missing_dimensions.date) AS transactionDate,missing_dimensions.salesChannel AS salesChannel,missing_dimensions.siteUID,missing_dimensions.department,
         NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
         NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, NULL,NULL,NULL
-        FROM `toolstation-data-storage.looker_persistent_tables.missing_channel_dimensions` AS missing_dimensions);;
+        FROM `toolstation-data-storage.looker_persistent_tables.missing_channel_dimensions` AS missing_dimensions
+        ));;
     partition_keys: ["transactionDate"]
     cluster_keys: ["salesChannel", "productDepartment", "productCode"]
     datagroup_trigger: ts_transactions_datagroup
   }
 
+  dimension: prim_key {
+    type: number
+    primary_key: yes
+    sql: ${TABLE}.prim_key ;;
+  }
+
   dimension: order_line_key {
-    primary_key:  yes
     type:  string
     sql: concat(${parent_order_uid},${product_uid},${transaction_line_type}) ;;
     hidden:  yes

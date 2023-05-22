@@ -3,16 +3,22 @@ view: single_line_transactions {
     sql:
       select distinct
       parentOrderUID,
-      case when  count(distinct case when p.productCode > '10000' and lower(p.productDepartment) not in ('uncatalogued') then p.productCode else null end) over (partition by t.parentOrderUID) = 1 then true else false end single_line_transaction_flag
+      case when  count(distinct case when p.productCode > '10000' and lower(p.productDepartment) not in ('uncatalogued') then p.productCode else null end) over (partition by t.parentOrderUID) = 1 then true else false end single_line_transaction_flag,
+      row_number() OVER(ORDER BY parentOrderUID) AS prim_key,
       from `toolstation-data-storage.sales.transactions` t
         inner join `toolstation-data-storage.range.products_current` p
           using(productUID);;
     datagroup_trigger: ts_transactions_datagroup
   }
 
+  dimension: prim_key {
+    type: number
+    primary_key: yes
+    sql: ${TABLE}.prim_key ;;
+  }
+
   dimension: parent_order_uid {
     hidden:  yes
-    primary_key: yes
     type: string
     sql: ${TABLE}.parentOrderUID ;;
   }
