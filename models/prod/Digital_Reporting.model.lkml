@@ -90,6 +90,7 @@ explore: digital_reporting {
     type: left_outer
     relationship: many_to_one
     sql_on:
+    ${base.date_date}=${total_sessions.date_date} and
       ${calendar_completed_date.date}=${total_sessions.session_date_filter}
       and ${app_web_data.App_web} = ${total_sessions.app_web_sessions};;
   }
