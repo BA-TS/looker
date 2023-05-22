@@ -81,6 +81,7 @@ view: attached_products {
     label: "User Selected Products"
     type: string
     sql: {% parameter product_code_attachment %};;
+    hidden: yes
   }
 
   dimension: attached_product_flag {
