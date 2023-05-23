@@ -1,7 +1,7 @@
 view: calendar {
   derived_table: {
     sql:
-    select distinct *, current_date() as today from `toolstation-data-storage.ts_finance.dim_date`;;
+    select distinct * except(fiscalYearWeek), cast(fiscalYearWeek as string) as fiscalYearWeek,current_date() as today from `toolstation-data-storage.ts_finance.dim_date`;;
     }
 
   dimension: date{
