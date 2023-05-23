@@ -27,7 +27,7 @@ view: attached_products_derived {
       }
       filters: {
         field: base.select_date_range
-        value: "30 days"
+        value: "84 days"
       }
       filters: {
         field: attached_products.product_code_attached
