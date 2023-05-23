@@ -357,9 +357,9 @@ AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% 
   #}
 
   filter: select_date_range {
-    label: "Date Range"
+    label: "Total Session Date Range"
     group_label: "Date Filter"
-    view_label: "Total Session Date"
+    view_label: "Date"
     type: date
     datatype: date
     convert_tz: yes
