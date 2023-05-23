@@ -29,6 +29,7 @@ view: product_first_sale_date {
     group_label: "Product Details"
     label: "First Sale"
     type: time
+    datatype: date
     timeframes: [year]
     sql: ${TABLE}.first_sale_date ;;
   }
