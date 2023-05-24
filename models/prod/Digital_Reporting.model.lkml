@@ -324,6 +324,19 @@ explore: digital_reporting {
     sql_on: ${calendar_completed_date.date}=${TalkSport_SOV_vs_Cost.Date_date} ;;
   }
 
+  join: customers {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${app_web_data.CustomerID}=${customers.customer_uid} ;;
+  }
+
+  join: trade_customers {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${app_web_data.CustomerID}=${trade_customers.customer_uid}
+    and ${customers.customer_uid}=${trade_customers.customer_uid};;
+  }
+
 
 }
 
