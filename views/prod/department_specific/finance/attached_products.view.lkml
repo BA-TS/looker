@@ -105,6 +105,7 @@ view: attached_products {
     label: "Attached Product (Y/N)"
     type: number
     sql: case when ${product_code_attached} IN UNNEST(SPLIT(${user_selected_products})) and ${filter_match} is false then 1 else 0 end;;
+    hidden: yes
   }
 
   measure: attached_count {
