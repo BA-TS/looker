@@ -15,6 +15,7 @@ view: single_line_transactions {
     type: number
     primary_key: yes
     sql: ${TABLE}.prim_key ;;
+    hidden: yes
   }
 
   dimension: parent_order_uid {
