@@ -6,6 +6,8 @@ view: attached_products {
       parentOrderUID,
       p.productCode,
       p.productDescription,
+      productDepartment,
+      productSubdepartment,
       row_number() OVER(ORDER BY parentOrderUID) AS prim_key,
      from `toolstation-data-storage.sales.transactions` t
         inner join `toolstation-data-storage.range.products_current` p
@@ -61,6 +63,18 @@ view: attached_products {
     group_label: "Single Line Transactions"
     type: string
     sql:${TABLE}.productDescription;;
+  }
+
+  dimension: product_department_attached {
+    group_label: "Single Line Transactions"
+    type: string
+    sql: ${TABLE}.productDepartment ;;
+  }
+
+  dimension: product_subdepartment_attached {
+    group_label: "Single Line Transactions"
+    type: string
+    sql: ${TABLE}.productSubdepartment ;;
   }
 
   dimension: filter_match {
