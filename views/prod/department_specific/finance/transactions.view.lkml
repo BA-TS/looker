@@ -34,6 +34,7 @@ view: transactions {
     type: number
     primary_key: yes
     sql: ${TABLE}.prim_key ;;
+    hidden: yes
   }
 
   dimension: order_line_key {
