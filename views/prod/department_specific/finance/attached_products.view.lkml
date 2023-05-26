@@ -89,6 +89,7 @@ view: attached_products {
     label: "Product Match"
     type: number
     sql: case when ${product_code_attached} IN (${products.product_code}) then 0 else 1 end;;
+    hidden: yes
   }
 
   dimension: user_selected_products {
