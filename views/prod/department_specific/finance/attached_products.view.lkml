@@ -29,6 +29,7 @@ view: attached_products {
     type: number
     primary_key: yes
     sql: ${TABLE}.prim_key ;;
+    hidden: yes
   }
 
   dimension_group: transaction {
