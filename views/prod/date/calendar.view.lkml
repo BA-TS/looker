@@ -28,6 +28,13 @@ view: calendar {
     sql: ${TABLE}.calendarQuarter ;;
   }
 
+  dimension: today_calendar_quarter {
+    group_label: "Dates"
+    label: "today Quarter (q)"
+    type: number
+    sql: case when ${TABLE}.fullDate = ${TABLE}.today then ${TABLE}.calendarQuarter else null end;;
+  }
+
   dimension: calendar_year {
     group_label: "Dates"
     label: "Year (yyyy)"
