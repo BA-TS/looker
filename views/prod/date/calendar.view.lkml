@@ -13,8 +13,8 @@ view: calendar {
     html: {{ rendered_value | date: "%d/%m/%Y" }};;
   }
 
-  dimension: today{
-    group_label: "Dates"
+  dimension: today_date{
+    group_label: "Today Dates"
     label: "Today (dd/mm/yyyy)"
     type: date
     sql: ${TABLE}.today ;;
@@ -29,7 +29,7 @@ view: calendar {
   }
 
   dimension: today_calendar_quarter {
-    group_label: "Dates"
+    group_label: "Today Dates"
     label: "today Quarter (q)"
     type: number
     sql: case when ${TABLE}.fullDate = ${TABLE}.today then ${TABLE}.calendarQuarter end;;
@@ -42,11 +42,25 @@ view: calendar {
     sql: ${TABLE}.calendarYear ;;
   }
 
+  dimension: today_calendar_year {
+    group_label: "Today Dates"
+    label: "Year (yyyy)"
+    type: number
+    sql: case when ${TABLE}.fullDate = ${TABLE}.today then ${TABLE}.calendarYear end;;
+  }
+
   dimension: calendar_year_month {
     group_label: "Dates"
     label: "Year Month (yyyy-mm)"
     type: string
     sql: ${TABLE}.calendarYearMonth ;;
+  }
+
+  dimension: today_calendar_year_month {
+    group_label: "Today Dates"
+    label: "Year Month (yyyy-mm)"
+    type: string
+    sql: case when ${TABLE}.fullDate = ${TABLE}.today then ${TABLE}.calendarYearMonth end;;
   }
 
   dimension: calendar_year_quarter {
@@ -61,6 +75,13 @@ view: calendar {
     label: "Month (mm)"
     type: number
     sql: ${TABLE}.monthInYear ;;
+  }
+
+  dimension: today_month_in_year {
+    group_label: "Today Dates"
+    label: "Month (mm)"
+    type: number
+    sql: case when ${TABLE}.fullDate = ${TABLE}.today then ${TABLE}.monthInYear end;;
   }
 
   dimension: month_name_in_year {
@@ -114,6 +135,14 @@ view: calendar {
     sql: ${TABLE}.dayInWeek ;;
   }
 
+  dimension: today_day_in_week {
+    group_label: "Today Dates"
+    label: "Day of Week (d)"
+    description:"First day of week is Sunday,Sun=1,Mon=2,Tue=3,Wed=4,Thu=5,Fri=6,Sat=7"
+    type: number
+    sql: case when ${TABLE}.fullDate = ${TABLE}.today then ${TABLE}.dayInWeek end;;
+  }
+
   dimension: day_in_year {
     group_label: "Dates Calendar"
     type: number
@@ -149,6 +178,13 @@ view: calendar {
     sql: ${TABLE}.fiscalWeekOfYear ;;
   }
 
+  dimension: today_fiscal_week_of_year {
+    group_label: "Dates Fiscal"
+    label: "Today Fiscal Week (ww)"
+    type: number
+    sql: case when ${TABLE}.fullDate = ${TABLE}.today then ${TABLE}.fiscalWeekOfYear end;;
+  }
+
   dimension: fiscal_year {
     group_label: "Dates Fiscal"
     type: number
@@ -175,7 +211,13 @@ view: calendar {
     label: "Fiscal Year Week (yyyyww)"
     type: string
     sql: ${TABLE}.fiscalYearWeek ;;
+  }
 
+  dimension: today_fiscal_year_week {
+    group_label: "Dates Fiscal"
+    label: "Today Fiscal Year Week (yyyyww)"
+    type: string
+    sql: case when ${TABLE}.fullDate = ${TABLE}.today then ${TABLE}.fiscalYearWeek end;;
   }
 
   dimension: holiday_name {
