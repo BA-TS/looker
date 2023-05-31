@@ -42,8 +42,9 @@ view: single_line_transactions {
 
   measure: non_single_line_transactions_total {
     group_label: "Single Line Transactions"
-    type: sum
-    sql: CASE WHEN ${single_line_transaction_flag} = FALSE THEN 1 ELSE 0 END;;
+    type: count_distinct
+    value_format: "#,##0;(#,##0)"
+    sql: CASE WHEN ${single_line_transaction_flag} = false THEN ${parent_order_uid}  ELSE NULL END;;
    hidden: yes
   }
 
