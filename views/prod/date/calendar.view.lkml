@@ -32,7 +32,7 @@ view: calendar {
     group_label: "Dates"
     label: "today Quarter (q)"
     type: number
-    sql: case when ${TABLE}.fullDate = ${TABLE}.today then ${TABLE}.calendarQuarter else null end;;
+    sql: case when ${TABLE}.fullDate = ${TABLE}.today then ${TABLE}.calendarQuarter end;;
   }
 
   dimension: calendar_year {
