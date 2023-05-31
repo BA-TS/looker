@@ -36,12 +36,14 @@ view: single_line_transactions {
     group_label: "Single Line Transactions"
     type: sum
     sql: CASE WHEN ${single_line_transaction_flag} = true THEN 1 ELSE 0 END;;
+    hidden: yes
   }
 
   measure: non_single_line_transactions_total {
     group_label: "Single Line Transactions"
     type: sum
     sql: CASE WHEN ${single_line_transaction_flag} = FALSE THEN 1 ELSE 0 END;;
+   hidden: yes
   }
 
   measure: single_line_percent {
