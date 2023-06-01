@@ -378,10 +378,12 @@ device.deviceCategory,
 channelGrouping,
 trafficSource.medium as Medium,
 case when regexp_contains(page.pagePath, ".*/p[0-9]*$") then "Product Detail Page" else "Other Page" end as Screen,
+product.productSKU as item_id,
 case when regexp_contains(hits.eventInfo.EventCategory, ".*OOS$") then hits.eventInfo.EventCategory
-else hits.eventInfo.EventAction end as event_name,
-count (distinct concat(fullVisitorID,visitStartTime)) as events,
-product.productsku as item_id,
+when (hits.eventInfo.EventAction in ("Purchase", "Add to Cart")) then hits.eventInfo.EventAction
+else "Other Events" end as event_name,
+count(distinct CASE when hits.eCommerceAction.action_type = "2" then (CONCAT(fullvisitorID, cast(visitId as STRING), date, hits.hitNumber)) end) as PDP_screenViews,
+count(distinct(CONCAT(fullvisitorID, cast(visitId as STRING), date, hits.hitNumber))) as events,
 sum(safe_divide(product.productRevenue,1000000)) as item_revenue,
 sum(product.productQuantity) as ItemQ,
 safe_divide(Product.ProductPrice,1000000) as Item_price
@@ -389,8 +391,8 @@ FROM `toolstation-data-storage.4783980.ga_sessions_*`, unnest (hits) as hits lef
 WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %}
-and (hits.eventInfo.EventAction in ("Purchase", "Add to Cart") or regexp_contains(hits.eventInfo.EventCategory, ".*OOS$"))
-group by 2,3,4,5,6,7,9,12
+--and (hits.eventInfo.EventAction in ("Purchase", "Add to Cart") or regexp_contains(hits.eventInfo.EventCategory, ".*OOS$"))
+group by 2,3,4,5,6,7,8,13
 union distinct
 SELECT distinct
     'App' as app_web_sessions,
@@ -399,9 +401,10 @@ SELECT distinct
     `toolstation-data-storage.analytics_265133009.channel_grouping`(traffic_source.source, traffic_source.medium, traffic_source.name) as channel_grouping,
     traffic_source.medium as Medium,
     case when (SELECT STRING_AGG(distinct value.string_value) FROM UNNEST(event_params) WHERE key = 'firebase_screen') = "product-detail-page" then "Product Detail Page" else "Other Page" end as screen,
-    event_name,
-    COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events,
     items.item_id as item_id,
+    case when event_name in ('purchase', 'add_to_cart', 'out_of_stock') then event_name else "Other Event" end as event_name,
+    count(distinct case when (SELECT STRING_AGG(distinct value.string_value) FROM UNNEST(event_params) WHERE key = 'firebase_screen') = "product-detail-page" then CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING)) end) as PDP_screen_views,
+    COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events,
     round(sum(items.item_revenue),2) as item_revenue,
     sum(items.quantity) as itemQ,
     items.price as Item_Price
@@ -409,7 +412,7 @@ SELECT distinct
      WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
-    and event_name in ('purchase', 'add_to_cart', 'out_of_stock')
+    --and event_name in ('purchase', 'add_to_cart', 'out_of_stock')
     GROUP BY 2,3,4,5,6,7,9,12)
 select distinct row_number() over () as P_K, * from sub0;;}
 
@@ -478,6 +481,12 @@ select distinct row_number() over () as P_K, * from sub0;;}
     sql: ${TABLE}.events;;
   }
 
+  dimension: PDP_screenViews {
+    description: "number of sessions with event"
+    type: number
+    sql: ${TABLE}.PDP_screenViews;;
+  }
+
   dimension: item_revenue {
     description: "item_revenue"
     type: number
@@ -498,7 +507,7 @@ select distinct row_number() over () as P_K, * from sub0;;}
     sql: ${TABLE}.ItemQ ;;
   }
 
-  measure: Eventss {
+  measure: sumEvents {
     type: sum
     sql: ${TABLE}.events;;
   }
