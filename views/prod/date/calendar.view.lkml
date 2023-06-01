@@ -146,10 +146,20 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
   }
 
   dimension: day_in_month {
-    group_label: "Dates Calendar"
+    group_label: "Dates"
+    label: "Day of Month (dd)"
     type: number
     sql: ${TABLE}.dayInMonth ;;
-    hidden: yes
+    #hidden: yes
+  }
+
+
+  dimension: today_day_in_month {
+    group_label: "Today Dates"
+    label: "Day of Month (dd)"
+    type: number
+    sql: ${TABLE}.todaydayInMonth ;;
+    #hidden: yes
   }
 
   dimension: day_in_week {
@@ -169,11 +179,21 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
   }
 
   dimension: day_in_year {
-    group_label: "Dates Calendar"
+    group_label: "Dates"
+    label: "Day of Year (ddd)"
     type: number
     sql: ${TABLE}.dayInYear ;;
-    hidden: yes
+    #hidden: yes
   }
+
+  dimension: today_day_in_year {
+    group_label: "Today Dates"
+    label: "Day of Year (ddd)"
+    type: number
+    sql: ${TABLE}.todaydayInYear ;;
+    #hidden: yes
+  }
+
 
   dimension: day_name_in_week {
     group_label: "Dates Calendar"
