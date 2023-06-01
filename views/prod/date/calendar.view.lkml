@@ -1,7 +1,32 @@
 view: calendar {
   derived_table: {
     sql:
-    select distinct * except(fiscalYearWeek), cast(fiscalYearWeek as string) as fiscalYearWeek,current_date() as today from `toolstation-data-storage.ts_finance.dim_date`;;
+    select distinct * except(fiscalYearWeek), cast(fiscalYearWeek as string) as fiscalYearWeek,
+current_date() as todayFullDate,
+(select dateName from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayDateName,
+(select dateNameUSA from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaydateNameUSA,
+(select dateNameEU from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaydateNameEU,
+(select dayInWeek from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaydayInWeek,
+(select dayNameInWeek from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaydayNameInWeek,
+(select dayInMonth from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaydayInMonth,
+(select dayInYear from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaydayInYear,
+(select weekInYear from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayweekInYear,
+
+(select monthNameInYear from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaymonthNameInYear,
+(select monthInYear from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaymonthInYear,
+(select calendarQuarter from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaycalendarQuarter,
+(select calendarYear from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaycalendarYear,
+(select calendarYearMonth from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaydaycalendarYearMonth,
+(select calendarYearQuarter from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaycalendarYearQuarter,
+(select fiscalWeekOfYear from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayfiscalWeekOfYear,
+(select fiscalMonthOfYear from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayfiscalMonthOfYear,
+
+(select fiscalQuarter from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayfiscalQuarter,
+(select fiscalYear from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayfiscalYear,
+(select fiscalYearMonth from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayfiscalYearMonth,
+(select fiscalYearQuarter from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayfiscalYearQuarter,
+(select cast(fiscalYearWeek as string) from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayfiscalYearWeek
+from `toolstation-data-storage.ts_finance.dim_date`;;
     }
 
   dimension: date{
@@ -17,7 +42,7 @@ view: calendar {
     group_label: "Today Dates"
     label: "Today (dd/mm/yyyy)"
     type: date
-    sql: ${TABLE}.today ;;
+    sql: ${TABLE}.todayFullDate ;;
     html: {{ rendered_value | date: "%d/%m/%Y" }};;
   }
 
@@ -32,7 +57,7 @@ view: calendar {
     group_label: "Today Dates"
     label: "today Quarter (q)"
     type: number
-    sql: case when ${TABLE}.fullDate = ${TABLE}.today then ${TABLE}.calendarQuarter end;;
+    sql: ${TABLE}.todaycalendarQuarter;;
   }
 
   dimension: calendar_year {
@@ -46,7 +71,7 @@ view: calendar {
     group_label: "Today Dates"
     label: "Year (yyyy)"
     type: number
-    sql: case when ${TABLE}.fullDate = ${TABLE}.today then ${TABLE}.calendarYear end;;
+    sql: ${TABLE}.todaycalendarYear;;
   }
 
   dimension: calendar_year_month {
@@ -60,7 +85,7 @@ view: calendar {
     group_label: "Today Dates"
     label: "Year Month (yyyy-mm)"
     type: string
-    sql: case when ${TABLE}.fullDate = ${TABLE}.today then ${TABLE}.calendarYearMonth end;;
+    sql: ${TABLE}.todaydaycalendarYearMonth;;
   }
 
   dimension: calendar_year_quarter {
@@ -81,7 +106,7 @@ view: calendar {
     group_label: "Today Dates"
     label: "Month (mm)"
     type: number
-    sql: case when ${TABLE}.fullDate = ${TABLE}.today then ${TABLE}.monthInYear end;;
+    sql: ${TABLE}.todaymonthInYear;;
   }
 
   dimension: month_name_in_year {
@@ -140,7 +165,7 @@ view: calendar {
     label: "Day of Week (d)"
     description:"First day of week is Sunday,Sun=1,Mon=2,Tue=3,Wed=4,Thu=5,Fri=6,Sat=7"
     type: number
-    sql: case when ${TABLE}.fullDate = ${TABLE}.today then ${TABLE}.dayInWeek end;;
+    sql: ${TABLE}.todaydayInWeek;;
   }
 
   dimension: day_in_year {
@@ -182,7 +207,7 @@ view: calendar {
     group_label: "Dates Fiscal"
     label: "Today Fiscal Week (ww)"
     type: number
-    sql: case when ${TABLE}.fullDate = ${TABLE}.today then ${TABLE}.fiscalWeekOfYear end;;
+    sql: ${TABLE}.todayfiscalWeekOfYear;;
   }
 
   dimension: fiscal_year {
@@ -217,7 +242,7 @@ view: calendar {
     group_label: "Dates Fiscal"
     label: "Today Fiscal Year Week (yyyyww)"
     type: string
-    sql: case when ${TABLE}.fullDate = ${TABLE}.today then ${TABLE}.fiscalYearWeek end;;
+    sql: ${TABLE}.todayfiscalYearWeek;;
   }
 
   dimension: holiday_name {
