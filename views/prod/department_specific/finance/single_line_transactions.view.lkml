@@ -44,6 +44,7 @@ view: single_line_transactions {
     type: count_distinct
     value_format: "#,##0;(#,##0)"
     sql: CASE WHEN ${single_line_transaction_flag} = false THEN ${parent_order_uid}  ELSE NULL END;;
+    hidden: yes
   }
 
   measure: single_line_percent {
