@@ -413,7 +413,7 @@ SELECT distinct
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start session_date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end session_date_filter %})
 AND {% condition session_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
     --and event_name in ('purchase', 'add_to_cart', 'out_of_stock')
-    GROUP BY 2,3,4,5,6,7,9,12)
+    GROUP BY 2,3,4,5,6,7,8,13)
 select distinct row_number() over () as P_K, * from sub0;;}
 
   dimension: P_K {
