@@ -313,4 +313,23 @@ view: sites {
     type: string
     sql: ${TABLE}.servicing_dc_name ;;
   }
+
+  dimension: salesTier {
+    group_label: "Site Information"
+    label: "Sales Tier"
+    type: string
+    sql: ${TABLE}.salesTier ;;
+  }
+
+
+  dimension: labourTier {
+    group_label: "Site Information"
+    label: "Labour Tier"
+    type: string
+    sql: ${TABLE}.labourTier ;;
+  }
+
+
+
+
 }
