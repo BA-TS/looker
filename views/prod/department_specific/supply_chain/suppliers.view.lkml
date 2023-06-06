@@ -114,14 +114,12 @@ view: suppliers {
 
   dimension: is_active {
     group_label: "Flags"
-    required_access_grants: [can_use_customer_information]
     type: number
     sql: ${TABLE}.isActive ;;
   }
 
   dimension: is_do_not_use {
     group_label: "Flags"
-    required_access_grants: [can_use_customer_information]
     type: number
     sql: ${TABLE}.isDoNotUse ;;
   }
