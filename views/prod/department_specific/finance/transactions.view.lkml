@@ -910,6 +910,17 @@ view: transactions {
     value_format_name: gbp
   }
 
+  measure: spc_gross_sales{
+    label: "Spend Per Customer"
+    view_label: "Measures"
+    group_label: "AOV"
+    description: "Spend per customer"
+    type:  number
+    sql: COALESCE(SAFE_DIVIDE(${total_gross_sales}, ${number_of_unique_customers}),0) ;;
+    value_format_name: gbp
+    hidden: yes
+  }
+
   measure: aov_net_sales {
     label: "Net Sales AOV"
     view_label: "Measures"
