@@ -2,6 +2,7 @@ view: trade_credit_details {
   fields_hidden_by_default: yes
   view_label: "Trade Credit"
   sql_table_name: `toolstation-data-storage.customer.tradeCreditDetails`;;
+  required_access_grants: [can_use_customer_information]
 
   dimension: main_trade_credit_account_uid {
     type: string

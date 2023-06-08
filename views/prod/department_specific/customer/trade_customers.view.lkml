@@ -1,7 +1,8 @@
 view: trade_customers {
   view_label: "Customers"
   sql_table_name: `toolstation-data-storage.customer.dbs_trade_customers`;;
-  fields_hidden_by_default: yes #
+  fields_hidden_by_default: yes
+  required_access_grants: [can_use_customer_information]
 
   dimension: customer_uid {
     type: string
