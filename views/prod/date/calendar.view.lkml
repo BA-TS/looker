@@ -150,7 +150,6 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
     label: "Day of Month (dd)"
     type: number
     sql: ${TABLE}.dayInMonth ;;
-    #hidden: yes
   }
 
 
@@ -159,7 +158,6 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
     label: "Day of Month (dd)"
     type: number
     sql: ${TABLE}.todaydayInMonth ;;
-    #hidden: yes
   }
 
   dimension: day_in_week {
@@ -183,7 +181,6 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
     label: "Day of Year (ddd)"
     type: number
     sql: ${TABLE}.dayInYear ;;
-    #hidden: yes
   }
 
   dimension: today_day_in_year {
@@ -191,7 +188,6 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
     label: "Day of Year (ddd)"
     type: number
     sql: ${TABLE}.todaydayInYear ;;
-    #hidden: yes
   }
 
 
