@@ -321,15 +321,10 @@ view: sites {
     sql: ${TABLE}.salesTier ;;
   }
 
-
   dimension: labourTier {
     group_label: "Site Information"
     label: "Labour Tier"
     type: string
     sql: ${TABLE}.labourTier ;;
   }
-
-
-
-
 }
