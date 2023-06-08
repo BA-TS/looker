@@ -92,7 +92,6 @@ view: catalogue {
     label: "Catalogue"
     type: string
     sql: ${TABLE}.catalogue_name ;;
-    hidden: no
   }
 
   dimension: catalogue_live_date {
@@ -112,7 +111,6 @@ view: catalogue {
     label: "Active Catalogue?"
     type: yesno
     sql: ${TABLE}.catalogue_is_active = true ;;
-    hidden: no
   }
 
   dimension: extra_id {
@@ -125,7 +123,6 @@ view: catalogue {
     label: "Extra"
     type: string
     sql: ${TABLE}.extra_name || " (" || ${catalogue_name} || ")" ;;
-    hidden: no
   }
 
   dimension: extra_live_date {
@@ -145,6 +142,5 @@ view: catalogue {
     label: "Active Extra(s)?"
     type: yesno
     sql: ${TABLE}.extra_is_active = true ;;
-    hidden: no
   }
 }
