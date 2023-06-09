@@ -293,7 +293,7 @@ and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %
 AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
     GROUP BY 2,3,4,5)
     Select distinct row_number() over () as P_K, sub1.* from sub1 ;;
-    datagroup_trigger: ts_googleanalytics_datagroup
+    #datagroup_trigger: ts_googleanalytics_datagroup
   }
 
   dimension: P_K {
