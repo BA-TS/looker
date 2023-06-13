@@ -1173,9 +1173,9 @@ view: total_sessionsGA4 {
     WHEN event_name = 'session_start' THEN CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))
     END) AS sessions
     FROM `toolstation-data-storage.analytics_251803804.events_*`
-       WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
+       WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
       and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
-      AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %}
+      AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
        group by 2,3,4,5
 
 
@@ -1260,7 +1260,7 @@ view: total_sessionsGA4 {
   #}
 
   filter: select_date_range {
-    label: "Total Session Date Range"
+    label: "Total SessionGA4 Date Range"
     group_label: "Date Filter"
     view_label: "Date"
     type: date
