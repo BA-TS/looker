@@ -1166,7 +1166,7 @@ view: total_sessionsGA4 {
     sql: with sub1 as (SELECT distinct
     'Web' as app_web_sessions,
     timestamp(PARSE_DATE('%Y%m%d', event_date)) as date,
-    device.category,
+    device.category as deviceCategory,
     traffic_source.medium as Medium,
     `toolstation-data-storage.analytics_251803804.channel_grouping`(traffic_source.source, traffic_source.medium, traffic_source.name) as channel_grouping,
     COUNT(DISTINCT CASE
