@@ -1235,7 +1235,7 @@ view: total_sessionsGA4 {
   dimension: channel_grouping {
     description: "channel_grouping sessions"
     type: string
-    sql: ${TABLE}.channelGrouping ;;
+    sql: ${TABLE}.channel_grouping ;;
   }
 
 
