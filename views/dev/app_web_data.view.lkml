@@ -896,110 +896,6 @@ order by date desc; ;;
 
 }
 
-view: Mobile_app {
-  derived_table: {
-    sql:SELECT distinct
-    row_number() over () as P_K,
-    date(PARSE_DATE('%Y%m%d', event_date)) as date,
-    user_pseudo_id,
-    traffic_source.medium as Medium,
-    case WHEN event_name = 'session_start' THEN CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))
-  END AS session_start,
-    IF(event_name IN ('first_visit', 'first_open'), user_pseudo_id, null) AS is_new_user,
-    case when event_name IN ('in_app_purchase', 'purchase') then user_pseudo_id else null end AS usersWhoPurchased,
-    case when event_name IN ('in_app_purchase', 'purchase') then
-    CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING)) else null end AS TotalSessions_Purchases,
-    case when event_name = "purchase" AND ecommerce.transaction_ID is not null and ecommerce.transaction_ID != "(not set)" then ecommerce.transaction_ID  end as TransactionIDS,
-    case when event_name IN ('in_app_purchase', 'purchase') then (ecommerce.purchase_revenue) end as purchase_revenue,
-    case when event_name IN ('in_app_purchase', 'purchase') then (user_ltv.revenue) end as Average_userSpend
-    FROM `toolstation-data-storage.analytics_265133009.events_*`
-    where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start date_filter %}) and FORMAT_DATE('%Y%m%d', {% date_end date_filter %})
-    AND {% condition date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
-    ORDER BY 2 ASC
-          ;;
-  }
-
-  dimension: P_K {
-    description: "Primary key"
-    type: number
-    primary_key: yes
-    hidden: yes
-    sql: ${TABLE}.P_K ;;
-  }
-
-  dimension_group: Date {
-    description: "date"
-    type: time
-    hidden: yes
-    timeframes: [raw,date]
-    sql: ${TABLE}.Date ;;
-  }
-
-  dimension: Medium {
-    description: "Medium of session"
-    type:  string
-    sql: ${TABLE}.Medium ;;
-  }
-
-  dimension: User_ID {
-    description: "Users"
-    type: string
-    sql: ${TABLE}.user_pseudo_id;;
-  }
-
-  dimension: New_User_ID {
-    description: "New is_new_user"
-    type: string
-    sql: ${TABLE}.is_new_user;;
-  }
-
-  dimension: Sessions_start {
-    description: "GA session ID where event session_start"
-    type: string
-    sql: ${TABLE}.session_start;;
-  }
-
-  #TotalSessions_Purchases
-
-  dimension: User_ID_Purchasing {
-    description: "usersWhoPurchased"
-    type: string
-    sql: ${TABLE}.usersWhoPurchased;;
-  }
-
-  dimension: Sessions_Purchasing {
-    description: "TotalSessions_Purchases"
-    type: string
-    sql: ${TABLE}.TotalSessions_Purchases;;
-  }
-
-  dimension: Transaction_IDS {
-    description: "TransactionIDS"
-    type: string
-    sql: ${TABLE}.TransactionIDS;;
-  }
-
-  dimension: purchase_revenue {
-    description: "purchase_revenue"
-    type: number
-    value_format_name: gbp
-    sql: ${TABLE}.purchase_revenue ;;
-  }
-
-  dimension: Average_userSpend {
-    description: "Average_userSpend"
-    type: number
-    value_format_name: gbp
-    sql: ${TABLE}.Average_userSpend ;;
-  }
-
-  filter: date_filter {
-    hidden: yes
-    type: date
-    datatype: date # Or your datatype. For writing the correct condition on date_column below
-    }
-  }
-
   view: currentRetailPrice {
     derived_table: {
       sql:SELECT distinct row_number() over () as P_K,
@@ -1258,6 +1154,118 @@ view: NonEcommerceEvents {
     hidden: no
     type: date
     datatype: date
+  }
+
+}
+
+
+view: total_sessionsGA4 {
+
+  derived_table: {
+
+    sql: with sub1 as (SELECT distinct
+    'Web' as app_web_sessions,
+    timestamp(PARSE_DATE('%Y%m%d', event_date)) as date,
+    device.category,
+    traffic_source.medium as Medium,
+    `toolstation-data-storage.analytics_251803804.channel_grouping`(traffic_source.source, traffic_source.medium, traffic_source.name) as channel_grouping,
+    COUNT(DISTINCT CASE
+    WHEN event_name = 'session_start' THEN CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))
+    END) AS sessions
+    FROM `toolstation-data-storage.analytics_251803804.events_*`
+       WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500
+      and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
+      AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %}
+       group by 2,3,4,5
+
+
+      union distinct
+      SELECT distinct
+      'App' as app_web_sessions,
+      timestamp(PARSE_DATE('%Y%m%d', event_date)) as date,
+      device.category,
+      traffic_source.medium as Medium,
+      `toolstation-data-storage.analytics_265133009.channel_grouping`(traffic_source.source, traffic_source.medium, traffic_source.name) as channel_grouping,
+      COUNT(DISTINCT CASE
+      WHEN event_name = 'session_start' THEN CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))
+      END) AS sessions
+      FROM `toolstation-data-storage.analytics_265133009.events_*`
+      WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
+      and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
+      AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
+      GROUP BY 2,3,4,5)
+      Select distinct row_number() over () as P_K, sub1.* from sub1 ;;
+    datagroup_trigger: ts_googleanalytics_datagroup
+  }
+
+  dimension: P_K {
+    description: "Primary key"
+    type: number
+    primary_key: yes
+    hidden: yes
+    sql: ${TABLE}.P_K ;;
+  }
+
+  dimension: app_web_sessions {
+    description: "Web or App sessions"
+    type: string
+    sql: ${TABLE}.app_web_sessions ;;
+  }
+
+  dimension_group: date {
+    description: "Date of sessions"
+    type: time
+    hidden: yes
+    timeframes: [raw,date]
+    sql: ${TABLE}.date ;;
+  }
+
+  dimension: Medium {
+    description: "Medium sessions"
+    type: string
+    sql: ${TABLE}.Medium ;;
+  }
+
+  dimension: deviceCategory {
+    description: "deviceCategory"
+    type: string
+    sql: ${TABLE}.deviceCategory ;;
+  }
+
+  dimension: channel_grouping {
+    description: "channel_grouping sessions"
+    type: string
+    sql: ${TABLE}.channelGrouping ;;
+  }
+
+
+  dimension: sessions {
+    description: "sessions"
+    type: number
+    sql: ${TABLE}.sessions ;;
+  }
+
+  measure: Sum_ofSessions {
+    description: "Sum of sessions"
+    type: sum
+    value_format_name: decimal_0
+    sql: ${TABLE}.sessions ;;
+  }
+
+
+  #filter: session_date_filter {
+  #hidden: no
+  #type: date
+  #datatype: date # Or your datatype. For writing the correct condition on date_column below
+  #}
+
+  filter: select_date_range {
+    label: "Total Session Date Range"
+    group_label: "Date Filter"
+    view_label: "Date"
+    type: date
+    datatype: date
+    convert_tz: yes
   }
 
 }
