@@ -25,6 +25,7 @@ view: single_line_transactions {
   }
 
   dimension: single_line_transaction_flag {
+    view_label: "Measures"
     group_label: "Flags"
     label: "Single Line Transaction"
     description: "Yes/No whether the transaction contained only one product line."
@@ -33,6 +34,7 @@ view: single_line_transactions {
   }
 
   measure: single_line_transactions_total {
+    view_label: "Measures"
     group_label: "Single Line Transactions"
     type: count_distinct
     value_format: "#,##0;(#,##0)"
@@ -40,6 +42,7 @@ view: single_line_transactions {
   }
 
   measure: non_single_line_transactions_total {
+    view_label: "Measures"
     group_label: "Single Line Transactions"
     type: count_distinct
     value_format: "#,##0;(#,##0)"
@@ -48,6 +51,7 @@ view: single_line_transactions {
   }
 
   measure: single_line_percent {
+    view_label: "Measures"
     group_label: "Single Line Transactions"
     label: "Single Line Transactions %"
     description: "Single line transactions as a percentage of total transactions (Single Line + Non-single Line)"
@@ -57,6 +61,7 @@ view: single_line_transactions {
   }
 
   measure: attachment_rate_percent {
+    view_label: "Measures"
     group_label: "Single Line Transactions"
     label: "Attachment Rate %"
     description: "Attachment rate as a percentage of total transactions (Single Line + Non-single Line)"

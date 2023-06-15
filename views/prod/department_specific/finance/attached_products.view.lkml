@@ -109,6 +109,7 @@ view: attached_products {
   }
 
   measure: attached_count {
+    view_label: "Measures"
     group_label: "Single Line Transactions"
     label: "Total number of attached transactions "
     type: sum
