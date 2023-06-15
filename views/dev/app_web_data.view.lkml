@@ -1093,7 +1093,7 @@ view: NonEcommerceEvents {
       AND {% condition event_date_filter %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
       GROUP BY 2,3,4,5, event_name, ep.key, ep.value.string_value, ep.value.int_value)
       Select distinct row_number() over () as P_K, sub1.* from sub1 ;;
-    datagroup_trigger: ts_googleanalytics_datagroup
+    #datagroup_trigger: ts_googleanalytics_datagroup
   }
 
   dimension: P_K {
