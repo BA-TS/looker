@@ -23,6 +23,12 @@ access_grant: is_super {
   allowed_values: ["Y"]
 }
 
+access_grant: is_finance {
+  user_attribute: ts_finance
+  allowed_values: ["Y"]
+}
+
+
 access_grant: testing {
   user_attribute: ts_testing
   allowed_values: ["Y"]

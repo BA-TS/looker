@@ -2,7 +2,7 @@ include: "/views/**/*.view"
 
 explore: stock_intake {
   label: "Stock Intake"
-  required_access_grants: [is_super]
+  required_access_grants: [is_finance]
   sql_always_where:
   ${products.product_type} = "Real" AND ${scmatrix.is_active} = 1;;
 
