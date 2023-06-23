@@ -23,11 +23,12 @@ explore: digital_reporting {
     filters:
     [
       total_sessions.select_date_range: "7 days",
-      total_sessionsGA4.select_date_range: "7 days",
       select_date_reference: "app^_web^_data",
       select_date_range: "7 days",
       EcommerceEvents.session_date_filter: "7 days"
       ]
+
+    #total_sessionsGA4.select_date_range: "7 days",
 
       #stock_cover.date_filter: "Yesterday",
       #summarised_daily_Sales.date_date: "21 days",
@@ -95,13 +96,13 @@ explore: digital_reporting {
     and ${app_web_data.App_web} = ${total_sessions.app_web_sessions};;
   }
 
-  join: total_sessionsGA4 {
-    type: left_outer
-    relationship: many_to_one
-    sql_on:
-    ${base.date_date}=${total_sessionsGA4.date_date}
-    and ${app_web_data.App_web} = ${total_sessionsGA4.app_web_sessions};;
-  }
+  #join: total_sessionsGA4 {
+    #type: left_outer
+    #relationship: many_to_one
+    #sql_on:
+    #${base.date_date}=${total_sessionsGA4.date_date}
+    #and ${app_web_data.App_web} = ${total_sessionsGA4.app_web_sessions};;
+  #}
   #and ${app_web_data.transaction_date_filter} = ${total_sessions.session_date_filter}
   #      ${calendar_completed_date.date}=${total_sessions.session_date_filter}
 
