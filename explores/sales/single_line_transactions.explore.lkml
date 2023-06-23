@@ -13,7 +13,7 @@ explore: single_line_transactions {
   }
   conditionally_filter: {
     filters: [
-      select_date_range: "Yesterday"
+      select_date_range: "7 days"
     ]
     unless: [
       select_fixed_range,
