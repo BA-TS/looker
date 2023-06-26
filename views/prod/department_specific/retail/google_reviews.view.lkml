@@ -4,12 +4,14 @@ view: google_reviews {
 
   dimension: month {
     type: string
+    view_label: "Date"
     label: "Year Month (yyyymm)"
     sql: ${TABLE}.month ;;
   }
 
   dimension: siteUID {
     type: string
+    view_label: "Site Information"
     label: "Site UID"
     sql: ${TABLE}.siteUID ;;
   }
