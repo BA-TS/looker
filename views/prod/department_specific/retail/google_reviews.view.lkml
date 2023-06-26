@@ -24,7 +24,21 @@ view: google_reviews {
 
   dimension: rating {
     type: string
-    description: "Rating (0-5)"
+    description: "Rating"
     sql: ${TABLE}.rating ;;
   }
+
+  measure: TotalReviews {
+    type: sum
+    label: "Total Number of Reviews"
+    sql: ${newReviews};;
+  }
+
+  measure: AverageRating {
+    type: average
+    label: "Average Rating"
+    sql: ${rating} ;;
+  }
+
+
  }
