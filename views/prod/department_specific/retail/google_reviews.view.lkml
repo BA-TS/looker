@@ -1,24 +1,28 @@
-view: sc_google_reviews {
+view: google_reviews {
 
   sql_table_name:`toolstation-data-storage.retailReporting.SC_GOOGLE_REVIEWS`;;
 
   dimension: month {
     type: string
+    label: "Year Month (yyyymm)"
     sql: ${TABLE}.month ;;
   }
 
   dimension: siteUID {
     type: string
+    label: "Site UID"
     sql: ${TABLE}.siteUID ;;
   }
 
   dimension: newReviews {
     type: string
+    label: "Number of New Reviews"
     sql: ${TABLE}.newReviews ;;
   }
 
   dimension: rating {
     type: string
+    label: "Rating (0-5)"
     sql: ${TABLE}.rating ;;
   }
  }
