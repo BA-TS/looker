@@ -16,13 +16,13 @@ view: google_reviews {
 
   dimension: newReviews {
     type: string
-    label: "Number of New Reviews"
+    label: "Number of Reviews"
     sql: ${TABLE}.newReviews ;;
   }
 
   dimension: rating {
     type: string
-    label: "Rating (0-5)"
+    description: "Rating (0-5)"
     sql: ${TABLE}.rating ;;
   }
  }
