@@ -11,5 +11,4 @@ explore: retail {
     relationship: many_to_one
     sql_on: ${google_reviews.siteUID}=${sites.site_uid} ;;
   }
-
 }

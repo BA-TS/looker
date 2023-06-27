@@ -39,6 +39,4 @@ view: google_reviews {
     label: "Average Rating"
     sql: ${rating} ;;
   }
-
-
- }
+}
