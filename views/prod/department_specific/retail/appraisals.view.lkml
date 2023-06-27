@@ -16,12 +16,12 @@ view: appraisals {
     sql: ${TABLE}.siteUID ;;
   }
 
-  dimension: colleagues {
+  dimension: number_of_colleagues {
     type: number
     sql: ${TABLE}.colleagues ;;
   }
 
-  dimension: appraisals {
+  dimension: number_of_appraisals {
     type: number
     sql: ${TABLE}.appraisals ;;
   }
