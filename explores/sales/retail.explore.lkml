@@ -11,4 +11,11 @@ explore: retail {
     relationship: many_to_one
     sql_on: ${google_reviews.siteUID}=${sites.site_uid} ;;
   }
+
+  join: appraisals {
+    view_label: "Appraisals"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${google_reviews.siteUID}=${appraisals.siteUID} ;;
+  }
 }
