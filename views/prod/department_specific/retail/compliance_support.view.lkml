@@ -25,4 +25,10 @@ view: compliance_support {
     type: number
     sql: ${TABLE}.Comp_Target ;;
   }
+
+  dimension: TargetActual{
+    type: number
+    label: "Target - Actual"
+    sql: ${Compliance_Target}-${Compliance_Actual} ;;
+  }
 }
