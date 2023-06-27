@@ -7,6 +7,7 @@ view: appraisals {
     view_label: "Date"
     label: "Year Month (yyyymm)"
     sql: ${TABLE}.month ;;
+    hidden: yes
   }
 
   dimension: siteUID {
@@ -14,6 +15,7 @@ view: appraisals {
     view_label: "Site Information"
     label: "Site UID"
     sql: ${TABLE}.siteUID ;;
+    hidden: yes
   }
 
   dimension: number_of_colleagues {

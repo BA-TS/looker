@@ -7,6 +7,7 @@ view: compliance_support {
     view_label: "Date"
     label: "Year Month (yyyymm)"
     sql: ${TABLE}.month ;;
+    hidden: yes
   }
 
   dimension: siteUID {
@@ -14,6 +15,7 @@ view: compliance_support {
     view_label: "Site Information"
     label: "Site UID"
     sql: ${TABLE}.Shop_code ;;
+    hidden: yes
   }
 
   dimension: Compliance_Actual {
