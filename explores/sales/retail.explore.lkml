@@ -2,7 +2,7 @@ include: "/views/**/*.view"
 
 explore: retail {
   view_name: google_reviews
-  required_access_grants: [testing]
+  required_access_grants: [lz_testing]
   label: "Retail"
 
   join: sites {

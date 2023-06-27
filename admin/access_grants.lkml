@@ -29,8 +29,8 @@ access_grant: is_finance {
 }
 
 
-access_grant: testing {
-  user_attribute: ts_testing
+access_grant: lz_testing {
+  user_attribute: lz_testing
   allowed_values: ["Y"]
 }
 
