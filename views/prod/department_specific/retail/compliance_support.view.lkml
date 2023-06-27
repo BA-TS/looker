@@ -16,13 +16,13 @@ view: compliance_support {
     sql: ${TABLE}.Shop_code ;;
   }
 
-  dimension: colleagues {
+  dimension: Compliance_Actual {
     type: number
-    sql: ${TABLE}.colleagues ;;
+    sql: ${TABLE}.Comp_Actual ;;
   }
 
-  dimension: appraisals {
+  dimension: Compliance_Target {
     type: number
-    sql: ${TABLE}.appraisals ;;
+    sql: ${TABLE}.Comp_Target ;;
   }
 }
