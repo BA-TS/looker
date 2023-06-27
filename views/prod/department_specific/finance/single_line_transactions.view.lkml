@@ -25,7 +25,7 @@ view: single_line_transactions {
   }
 
   dimension: single_line_transaction_flag {
-    view_label: "Measures"
+    view_label: "Transactions"
     group_label: "Flags"
     label: "Single Line Transaction"
     description: "Yes/No whether the transaction contained only one product line."
