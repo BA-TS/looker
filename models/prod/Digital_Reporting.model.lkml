@@ -25,7 +25,8 @@ explore: digital_reporting {
       total_sessions.select_date_range: "7 days",
       select_date_reference: "app^_web^_data",
       select_date_range: "7 days",
-      EcommerceEvents.session_date_filter: "7 days"
+      EcommerceEvents.session_date_filter: "7 days",
+      EcommerceEventsGA4.select_date_range: "7 days"
       ]
 
     #total_sessionsGA4.select_date_range: "7 days",

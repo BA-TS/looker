@@ -1326,7 +1326,7 @@ Order by 2 desc)
   dimension: app_web_sessions {
     description: "Web or App sessions"
     type: string
-    sql: ${TABLE}.app_web_sessions ;;
+    sql: ${TABLE}.UserUID ;;
   }
 
   dimension_group: date {
