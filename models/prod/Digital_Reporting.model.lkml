@@ -97,6 +97,18 @@ explore: digital_reporting {
     and ${app_web_data.App_web} = ${total_sessions.app_web_sessions};;
   }
 
+  #and ${app_web_data.transaction_date_filter} = ${total_sessions.session_date_filter}
+  #      ${calendar_completed_date.date}=${total_sessions.session_date_filter}
+  #and ${app_web_data.App_web} = ${EcommerceEventsGA4.app_web_sessions}
+
+  join: total_sessionsGA4 {
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+    ${base.date_date}=${total_sessionsGA4.date_date}
+    and ${app_web_data.App_web} = ${total_sessionsGA4.app_web_sessions};;
+  }
+
   join: EcommerceEventsGA4 {
     type: left_outer
     relationship: many_to_one
@@ -105,11 +117,6 @@ explore: digital_reporting {
     and ${productv2.product_code}=${EcommerceEventsGA4.product_Sku}
     and ${app_web_data.App_web} = ${EcommerceEventsGA4.app_web_sessions};;
   }
-  #and ${app_web_data.transaction_date_filter} = ${total_sessions.session_date_filter}
-  #      ${calendar_completed_date.date}=${total_sessions.session_date_filter}
-  #and ${app_web_data.App_web} = ${EcommerceEventsGA4.app_web_sessions}
-
-
 
   join: channel_budget {
     view_label: "Budget"
