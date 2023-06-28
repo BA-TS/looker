@@ -102,7 +102,8 @@ explore: digital_reporting {
     relationship: many_to_one
     sql_on:
     ${base.date_date}=${EcommerceEventsGA4.date_date}
-    and ${productv2.product_code}=${EcommerceEventsGA4.product_Sku};;
+    and ${productv2.product_code}=${EcommerceEventsGA4.product_Sku}
+    and ${app_web_data.App_web} = ${EcommerceEventsGA4.app_web_sessions};;
   }
   #and ${app_web_data.transaction_date_filter} = ${total_sessions.session_date_filter}
   #      ${calendar_completed_date.date}=${total_sessions.session_date_filter}
