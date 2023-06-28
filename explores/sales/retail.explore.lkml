@@ -29,4 +29,10 @@ explore: retail {
     relationship: many_to_one
     sql_on: ${google_reviews.siteUID}=${paid_hours.siteUID} and ${google_reviews.month}=${paid_hours.month} ;;
   }
+
+  join: holiday_management {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${google_reviews.siteUID}=${holiday_management.siteUID} and ${google_reviews.month}=${holiday_management.month} ;;
+  }
 }
