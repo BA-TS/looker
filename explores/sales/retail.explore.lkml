@@ -13,16 +13,20 @@ explore: retail {
   }
 
   join: appraisals {
-    view_label: "Appraisals"
     type: left_outer
     relationship: many_to_one
     sql_on: ${google_reviews.siteUID}=${appraisals.siteUID} and ${google_reviews.month}=${appraisals.month} ;;
   }
 
   join: compliance_support {
-    view_label: "Compliance Support"
     type: left_outer
     relationship: many_to_one
     sql_on: ${google_reviews.siteUID}=${compliance_support.siteUID} and ${google_reviews.month}=${compliance_support.month} ;;
+  }
+
+  join: paid_hours {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${google_reviews.siteUID}=${paid_hours.siteUID} and ${google_reviews.month}=${paid_hours.month} ;;
   }
 }
