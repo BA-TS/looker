@@ -1312,7 +1312,7 @@ and event_name in ('purchase', 'add_to_cart', 'out_of_stock', "screen_view")
 GROUP BY 2,3,4,5,6,7,8,9
 Order by 2 desc)
       select distinct row_number() over () as P_K, * from sub0;;
-    datagroup_trigger: ts_googleanalytics_datagroup
+    #datagroup_trigger: ts_googleanalytics_datagroup
   }
 
   dimension: P_K {
