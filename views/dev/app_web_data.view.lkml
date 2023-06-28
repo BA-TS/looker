@@ -1195,7 +1195,9 @@ view: total_sessionsGA4 {
       and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
       AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
       GROUP BY 2,3,4,5)
-      Select distinct row_number() over () as P_K, sub1.* from sub1 ;;
+      Select distinct row_number() over () as P_K, sub1.*,
+      sum(sessions) over (partition by date) as TotalDailySessions,
+      sum(sessions) over (partition by date,app_web_sessions) as DailySessions from sub1 ;;
     datagroup_trigger: ts_googleanalytics_datagroup
   }
 
@@ -1244,6 +1246,18 @@ view: total_sessionsGA4 {
     description: "sessions"
     type: number
     sql: ${TABLE}.sessions ;;
+  }
+
+  dimension: TotalDailySessions {
+    description: "TotalDailySessions"
+    type: number
+    sql: ${TABLE}.TotalDailySessions ;;
+  }
+
+  dimension: DailySessions {
+    description: "DailySessions"
+    type: number
+    sql: ${TABLE}.DailySessions ;;
   }
 
   measure: Sum_ofSessions {
