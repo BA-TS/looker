@@ -1168,8 +1168,8 @@ view: total_sessionsGA4 {
     'Web' as app_web_sessions,
     timestamp(PARSE_DATE('%Y%m%d', event_date)) as date,
     device.category as deviceCategory,
-    traffic_source.medium as Medium,
-    traffic_source.name as Campaign_name,
+    case when traffic_source.medium is null then "null" else traffic_source.medium end as Medium,
+      case when traffic_source.name is null then "null" else traffic_source.name end as Campaign_name,
     `toolstation-data-storage.analytics_251803804.channel_grouping`(traffic_source.source, traffic_source.medium, traffic_source.name) as channel_grouping,
     COUNT(DISTINCT CASE
     WHEN event_name = 'session_start' THEN CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))
@@ -1186,8 +1186,8 @@ view: total_sessionsGA4 {
       'App' as app_web_sessions,
       timestamp(PARSE_DATE('%Y%m%d', event_date)) as date,
       device.category,
-      traffic_source.medium as Medium,
-      traffic_source.name as Campaign_name,
+      case when traffic_source.medium is null then "null" else traffic_source.medium end as Medium,
+      case when traffic_source.name is null then "null" else traffic_source.name end as Campaign_name,
       `toolstation-data-storage.analytics_265133009.channel_grouping`(traffic_source.source, traffic_source.medium, traffic_source.name) as channel_grouping,
       COUNT(DISTINCT CASE
       WHEN event_name = 'session_start' THEN CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))
@@ -1295,8 +1295,8 @@ view: EcommerceEventsGA4 {
 date(PARSE_DATE('%Y%m%d', event_date)) as date,
 device.category as DeviceCategory,
 `toolstation-data-storage.analytics_251803804.channel_grouping`(traffic_source.source, traffic_source.medium, traffic_source.name) as channel_grouping,
-traffic_source.medium as Medium,
-traffic_source.name as Campaign_name,
+case when traffic_source.medium is null then "null" else traffic_source.medium end as Medium,
+case when traffic_source.name is null then "null" else traffic_source.name end as Campaign_name,
 event_name,
 "null" as Screen_name,
 case when items.item_id is null then
@@ -1318,8 +1318,8 @@ SELECT distinct
 PARSE_DATE('%Y%m%d', event_date) as date,
 device.category,
 `toolstation-data-storage.analytics_265133009.channel_grouping`(traffic_source.source, traffic_source.medium, traffic_source.name) as channel_grouping,
-traffic_source.medium as Medium,
-traffic_source.name as Campaign_name,
+case when traffic_source.medium is null then "null" else traffic_source.medium end as Medium,
+case when traffic_source.name is null then "null" else traffic_source.name end as Campaign_name,
 event_name,
 case when (SELECT distinct (value.string_value) FROM UNNEST(event_params) WHERE key = 'firebase_screen') = "product-detail-page" then "Product Detail Page" else "Other Page" end as screen,
 items.item_id as item_id,
