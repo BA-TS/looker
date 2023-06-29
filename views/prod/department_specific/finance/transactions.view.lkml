@@ -597,14 +597,21 @@ view: transactions {
     type: yesno
     sql: ${TABLE}.isLFL = 1 ;;
   }
-  dimension: is_mature {
 
+  dimension: is_mature {
     group_label: "Flags"
     label: "Mature"
     description: "Flags if an order is Like For Like. Orders placed at site IDs that have been open for 5 years or more"
     type: yesno
     sql: ${TABLE}.isMature = 1 ;;
   }
+
+  dimension: is_return {
+    group_label: "Flags"
+    type: yesno
+    sql: ${transaction_line_type} = "Return" ;;
+  }
+
   # ORDER DETAILS #
 
   # PURCHASE DETAILS #
