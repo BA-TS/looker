@@ -610,6 +610,7 @@ view: transactions {
     group_label: "Flags"
     type: yesno
     sql: ${transaction_line_type} = "Return" ;;
+    hidden: yes
   }
 
   # ORDER DETAILS #
