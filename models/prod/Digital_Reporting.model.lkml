@@ -115,16 +115,8 @@ explore: digital_reporting {
     sql_on:
     ${base.date_date}=${EcommerceEventsGA4.date_date}
     and ${productv2.product_code}=${EcommerceEventsGA4.product_Sku}
-    and ${app_web_data.App_web} = ${EcommerceEventsGA4.app_web_sessions};;
-  }
-
-
-  join: Econ4v2 {
-    from: EcommerceEventsGA4
-    type: left_outer
-    relationship: many_to_one
-    sql_on:
-    ${total_sessionsGA4.Medium} = ${EcommerceEventsGA4.Medium}
+    and ${app_web_data.App_web} = ${EcommerceEventsGA4.app_web_sessions}
+    and ${total_sessionsGA4.Medium} = ${EcommerceEventsGA4.Medium}
     and ${total_sessionsGA4.app_web_sessions} = ${EcommerceEventsGA4.app_web_sessions}
     and ${total_sessionsGA4.deviceCategory} = ${EcommerceEventsGA4.deviceCategory}
     and ${total_sessionsGA4.Campaign_name} = ${EcommerceEventsGA4.Campaign_name};;
