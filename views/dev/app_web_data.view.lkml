@@ -1178,7 +1178,7 @@ view: total_sessionsGA4 {
        WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
       and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
       AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
-       group by 2,3,4,5
+       group by 2,3,4,5,6
 
 
       union distinct
@@ -1196,7 +1196,7 @@ view: total_sessionsGA4 {
       WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
       and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
       AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
-      GROUP BY 2,3,4,5)
+      GROUP BY 2,3,4,5,6)
       Select distinct row_number() over () as P_K, sub1.*,
       sum(sessions) over (partition by date) as TotalDailySessions,
       sum(sessions) over (partition by date,app_web_sessions) as DailySessions from sub1 ;;
