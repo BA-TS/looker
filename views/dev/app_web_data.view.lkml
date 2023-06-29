@@ -1288,6 +1288,7 @@ date(PARSE_DATE('%Y%m%d', event_date)) as date,
 device.category as DeviceCategory,
 `toolstation-data-storage.analytics_251803804.channel_grouping`(traffic_source.source, traffic_source.medium, traffic_source.name) as channel_grouping,
 traffic_source.medium as Medium,
+traffic_source.name as Campaign_name,
 event_name,
 "null" as Screen_name,
 case when items.item_id is null then
@@ -1302,7 +1303,7 @@ WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
 AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
 and event_name in ("view_item", "out_of_stock", "purchase", "add_to_cart")
-GROUP BY 2,3,4,5,6,7,8,9
+GROUP BY 2,3,4,5,6,7,8,9,10
 UNION DISTINCT
 SELECT distinct
 'App' as UserUID,
@@ -1310,6 +1311,7 @@ PARSE_DATE('%Y%m%d', event_date) as date,
 device.category,
 `toolstation-data-storage.analytics_265133009.channel_grouping`(traffic_source.source, traffic_source.medium, traffic_source.name) as channel_grouping,
 traffic_source.medium as Medium,
+traffic_source.name as Campaign_name,
 event_name,
 case when (SELECT distinct (value.string_value) FROM UNNEST(event_params) WHERE key = 'firebase_screen') = "product-detail-page" then "Product Detail Page" else "Other Page" end as screen,
 items.item_id as item_id,
@@ -1323,7 +1325,7 @@ WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
 AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
 and event_name in ('purchase', 'add_to_cart', 'out_of_stock', "screen_view")
-GROUP BY 2,3,4,5,6,7,8,9
+GROUP BY 2,3,4,5,6,7,8,9,10
 Order by 2 desc)
       select distinct row_number() over () as P_K, * from sub0;;
     datagroup_trigger: ts_googleanalytics_datagroup
@@ -1355,6 +1357,12 @@ Order by 2 desc)
     description: "Medium"
     type: string
     sql: ${TABLE}.Medium ;;
+  }
+
+  dimension: Campaign_name {
+    description: "Campaign_name"
+    type: string
+    sql: ${TABLE}.Campaign_name ;;
   }
 
   dimension: channelGrouping {
