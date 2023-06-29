@@ -609,6 +609,7 @@ view: transactions {
   dimension: is_sale {
     group_label: "Flags"
     type: yesno
+    description: "True when an order is a sale, false when an order is not a sale - return, delivery charges etc"
     sql: ${transaction_line_type} = "Sale" ;;
     required_access_grants: [lz_testing]
   }
