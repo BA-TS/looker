@@ -1169,6 +1169,7 @@ view: total_sessionsGA4 {
     timestamp(PARSE_DATE('%Y%m%d', event_date)) as date,
     device.category as deviceCategory,
     traffic_source.medium as Medium,
+    traffic_source.name as Campaign_name,
     `toolstation-data-storage.analytics_251803804.channel_grouping`(traffic_source.source, traffic_source.medium, traffic_source.name) as channel_grouping,
     COUNT(DISTINCT CASE
     WHEN event_name = 'session_start' THEN CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))
@@ -1186,6 +1187,7 @@ view: total_sessionsGA4 {
       timestamp(PARSE_DATE('%Y%m%d', event_date)) as date,
       device.category,
       traffic_source.medium as Medium,
+      traffic_source.name as Campaign_name,
       `toolstation-data-storage.analytics_265133009.channel_grouping`(traffic_source.source, traffic_source.medium, traffic_source.name) as channel_grouping,
       COUNT(DISTINCT CASE
       WHEN event_name = 'session_start' THEN CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))
@@ -1227,6 +1229,12 @@ view: total_sessionsGA4 {
     description: "Medium sessions"
     type: string
     sql: ${TABLE}.Medium ;;
+  }
+
+  dimension: Campaign_name {
+    description: "Campaign_name"
+    type: string
+    sql: ${TABLE}.Campaign_name ;;
   }
 
   dimension: deviceCategory {
