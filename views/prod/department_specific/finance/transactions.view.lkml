@@ -606,6 +606,13 @@ view: transactions {
     sql: ${TABLE}.isMature = 1 ;;
   }
 
+  dimension: is_sale {
+    group_label: "Flags"
+    type: yesno
+    sql: ${transaction_line_type} = "Sale" ;;
+    required_access_grants: [lz_testing]
+  }
+
   dimension: is_return {
     group_label: "Flags"
     type: yesno
