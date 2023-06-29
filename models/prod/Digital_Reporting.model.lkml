@@ -118,7 +118,8 @@ explore: digital_reporting {
     and ${app_web_data.App_web} = ${EcommerceEventsGA4.app_web_sessions}
     and ${total_sessionsGA4.Medium} = ${EcommerceEventsGA4.Medium}
     and ${total_sessionsGA4.app_web_sessions} = ${EcommerceEventsGA4.app_web_sessions}
-    and ${total_sessionsGA4.deviceCategory} = ${EcommerceEventsGA4.deviceCategory};;
+    and ${total_sessionsGA4.deviceCategory} = ${EcommerceEventsGA4.deviceCategory}
+    and ${total_sessionsGA4.Campaign_name} = ${EcommerceEventsGA4.Campaign_name};;
   }
 
   join: channel_budget {
