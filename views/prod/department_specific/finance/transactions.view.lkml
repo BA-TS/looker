@@ -268,7 +268,7 @@ view: transactions {
     type: string
     description: "Field is currently under review - please do not use"
     sql: ${TABLE}.transactionLineType ;;
-    hidden:  yes
+    required_access_grants: [lz_testing]
   }
 
   dimension: unit_funding {
@@ -610,7 +610,7 @@ view: transactions {
     group_label: "Flags"
     type: yesno
     sql: ${transaction_line_type} = "Return" ;;
-    hidden: yes
+    required_access_grants: [lz_testing]
   }
 
   # ORDER DETAILS #
