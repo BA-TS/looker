@@ -7,6 +7,12 @@ include: "/views/**/*.view"
 label: "Digital"
 
 explore: GA4 {
+
+  always_filter: {
+    filters: [
+      EcommerceEventsGA4.select_date_range: "7 days"
+      ]
+  }
   view_name: EcommerceEventsGA4
 }
 

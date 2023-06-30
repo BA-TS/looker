@@ -1463,7 +1463,7 @@ Order by 2 desc)
   }
 
   filter: select_date_range {
-    label: "Eccomerce Events GA4 Date Range"
+    label: "GA4 Date Range"
     group_label: "Date Filter"
     view_label: "Date"
     type: date
