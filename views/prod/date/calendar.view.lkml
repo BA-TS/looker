@@ -202,7 +202,7 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
     group_label: "Dates Fiscal"
     type: number
     sql: ${TABLE}.fiscalMonthOfYear ;;
-    hidden: yes
+    required_access_grants: [is_nigel_burch]
   }
 
   dimension: fiscal_quarter {
