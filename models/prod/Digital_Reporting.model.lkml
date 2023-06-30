@@ -6,9 +6,9 @@
 include: "/views/**/*.view"
 label: "Digital"
 
-#explore: GA4 {
- # view_name: EcommerceEventsGA4
-#}
+explore: GA4 {
+  view_name: EcommerceEventsGA4
+}
 
 explore: digital_reporting {
   view_name: base
