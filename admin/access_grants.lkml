@@ -28,6 +28,10 @@ access_grant: is_finance {
   allowed_values: ["Y"]
 }
 
+access_grant: is_nigel_burch {
+  user_attribute: user_nigel_burch
+  allowed_values: ["Y"]
+}
 
 access_grant: lz_testing {
   user_attribute: lz_testing
