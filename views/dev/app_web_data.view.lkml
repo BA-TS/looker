@@ -1300,6 +1300,7 @@ case when traffic_source.name is null then "null" else traffic_source.name end a
 event_name,
 case when ep.key = "action" then ep.value.string_value else null end as action,
 ecommerce.transaction_id,
+user_id,
 "null" as Screen_name,
 case when items.item_id is null then
 (SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'event_label') else items.item_id end as item_id,
@@ -1325,6 +1326,7 @@ case when traffic_source.name is null then "null" else traffic_source.name end a
 event_name,
 case when ep.key = "action" then ep.value.string_value else null end as action,
 ecommerce.transaction_id,
+user_id,
 case when (SELECT distinct (value.string_value) FROM UNNEST(event_params) WHERE key = 'firebase_screen') = "product-detail-page" then "Product Detail Page" else "Other Page" end as screen,
 items.item_id as item_id,
 items.price as Item_Price,
@@ -1337,7 +1339,7 @@ WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
 AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
 and event_name in ('purchase', 'add_to_cart', 'out_of_stock', "screen_view", "videoly")
-GROUP BY 2,3,4,5,6,7,8,9,10,11,12
+GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13
 Order by 2 desc)
       select distinct row_number() over () as P_K, * from sub0;;
     datagroup_trigger: ts_googleanalytics_datagroup
