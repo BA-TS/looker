@@ -25,15 +25,16 @@ explore: digital_reporting {
       total_sessions.select_date_range: "7 days",
       select_date_reference: "app^_web^_data",
       select_date_range: "7 days",
-      EcommerceEvents.session_date_filter: "7 days",
-      EcommerceEventsGA4.select_date_range: "7 days",
-      Purchase_events_GA4.select_date_range: "7 days"
+      EcommerceEvents.session_date_filter: "7 days"
       ]
 
     #total_sessionsGA4.select_date_range: "7 days",
 
       #stock_cover.date_filter: "Yesterday",
       #summarised_daily_Sales.date_date: "21 days",
+      #,
+      #EcommerceEventsGA4.select_date_range: "7 days",
+      #Purchase_events_GA4.select_date_range: "7 days"
 
     unless: [
       select_fixed_range,
@@ -101,47 +102,6 @@ explore: digital_reporting {
   #and ${app_web_data.transaction_date_filter} = ${total_sessions.session_date_filter}
   #      ${calendar_completed_date.date}=${total_sessions.session_date_filter}
   #and ${app_web_data.App_web} = ${EcommerceEventsGA4.app_web_sessions}
-
-  join: total_sessionsGA4 {
-    type: left_outer
-    relationship: many_to_one
-    sql_on:
-    ${base.date_date}=${total_sessionsGA4.date_date}
-    and ${app_web_data.App_web} = ${total_sessionsGA4.app_web_sessions};;
-  }
-
-  join: Purchase_events_GA4 {
-    from:  EcommerceEventsGA4
-    view_label: "Purchase events GA4"
-    type: left_outer
-    relationship: many_to_one
-    sql_on:
-    ${base.date_date}=${EcommerceEventsGA4.date_date}
-    and ${productv2.product_code}=${EcommerceEventsGA4.product_Sku}
-    and ${app_web_data.App_web} = ${EcommerceEventsGA4.app_web_sessions}
-    and ${app_web_data.OrderID} = ${EcommerceEventsGA4.transaction_id}
-    and ${total_sessionsGA4.Medium} = ${EcommerceEventsGA4.Medium}
-    and ${total_sessionsGA4.app_web_sessions} = ${EcommerceEventsGA4.app_web_sessions}
-    and ${total_sessionsGA4.deviceCategory} = ${EcommerceEventsGA4.deviceCategory}
-    and ${total_sessionsGA4.Campaign_name} = ${EcommerceEventsGA4.Campaign_name};;
-  }
-
-
-  join: EcommerceEventsGA4 {
-    from:  EcommerceEventsGA4
-    view_label: "EcommerceEventsGA4"
-    type: full_outer
-    relationship: many_to_one
-    sql_on:
-    ${base.date_date}=${EcommerceEventsGA4.date_date}
-    and ${productv2.product_code}=${EcommerceEventsGA4.product_Sku}
-    and ${app_web_data.App_web} = ${EcommerceEventsGA4.app_web_sessions}
-    --and ${app_web_data.OrderID} = ${EcommerceEventsGA4.transaction_id}
-    and ${total_sessionsGA4.Medium} = ${EcommerceEventsGA4.Medium}
-    and ${total_sessionsGA4.app_web_sessions} = ${EcommerceEventsGA4.app_web_sessions}
-    and ${total_sessionsGA4.deviceCategory} = ${EcommerceEventsGA4.deviceCategory}
-    and ${total_sessionsGA4.Campaign_name} = ${EcommerceEventsGA4.Campaign_name};;
-  }
 
   join: channel_budget {
     view_label: "Budget"
@@ -484,3 +444,44 @@ explore: digital_reporting {
 #   # }
 
 # }
+
+#join: total_sessionsGA4 {
+  #type: left_outer
+  #relationship: many_to_one
+  #sql_on:
+    #${base.date_date}=${total_sessionsGA4.date_date}
+    #and ${app_web_data.App_web} = ${total_sessionsGA4.app_web_sessions};;
+#}
+
+#join: Purchase_events_GA4 {
+  #from:  EcommerceEventsGA4
+  #view_label: "Purchase events GA4"
+  #type: left_outer
+  #relationship: many_to_one
+  #sql_on:
+    #${base.date_date}=${EcommerceEventsGA4.date_date}
+    #and ${productv2.product_code}=${EcommerceEventsGA4.product_Sku}
+    #and ${app_web_data.App_web} = ${EcommerceEventsGA4.app_web_sessions}
+    #and ${app_web_data.OrderID} = ${EcommerceEventsGA4.transaction_id}
+    #and ${total_sessionsGA4.Medium} = ${EcommerceEventsGA4.Medium}
+    #and ${total_sessionsGA4.app_web_sessions} = ${EcommerceEventsGA4.app_web_sessions}
+    #and ${total_sessionsGA4.deviceCategory} = ${EcommerceEventsGA4.deviceCategory}
+    #and ${total_sessionsGA4.Campaign_name} = ${EcommerceEventsGA4.Campaign_name};;
+#}
+
+
+#join: EcommerceEventsGA4 {
+  #from:  EcommerceEventsGA4
+  #view_label: "EcommerceEventsGA4"
+  #type: full_outer
+  #relationship: many_to_one
+  #sql_on:
+    #${base.date_date}=${EcommerceEventsGA4.date_date}
+    #and ${productv2.product_code}=${EcommerceEventsGA4.product_Sku}
+    #and ${app_web_data.App_web} = ${EcommerceEventsGA4.app_web_sessions}
+    #--and ${app_web_data.OrderID} = ${EcommerceEventsGA4.transaction_id}
+    #and ${total_sessionsGA4.Medium} = ${EcommerceEventsGA4.Medium}
+    #and ${total_sessionsGA4.app_web_sessions} = ${EcommerceEventsGA4.app_web_sessions}
+    #and ${total_sessionsGA4.deviceCategory} = ${EcommerceEventsGA4.deviceCategory}
+    #and ${total_sessionsGA4.Campaign_name} = ${EcommerceEventsGA4.Campaign_name};;
+#}
