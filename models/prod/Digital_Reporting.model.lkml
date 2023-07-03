@@ -25,10 +25,9 @@ explore: GA4 {
   fields: [
     ALL_FIELDS*
   ]
-  #,-products.department
-  sql_always_where:
+  #sql_always_where:
 
-  ${period_over_period};;
+  #${period_over_period};;
 
   join: calendar_completed_date{
     from:  calendar
@@ -45,6 +44,7 @@ explore: GA4 {
   }
 
   join: catalogue {
+    view_label: ""
     type: left_outer
     relationship: one_to_many
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
@@ -107,8 +107,7 @@ explore: digital_reporting {
   sql_always_where:
 
   ${period_over_period}
-
-        ;;
+ ;;
 
   join: digital_budget {
     view_label: "Budget"
