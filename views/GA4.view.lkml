@@ -9,7 +9,7 @@ view: ga4 {
         case when traffic_source.medium is null then "null" else traffic_source.medium end as Medium,
         case when traffic_source.name is null then "null" else traffic_source.name end as Campaign_name,
         event_name,
-        case when ep.key = "action" then ep.value.string_value else null end as action,
+        (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'action') as action,
         ecommerce.transaction_id,
         user_id,
         "null" as Screen_name,
@@ -20,7 +20,7 @@ view: ga4 {
         sum(items.quantity) as item_quantity,
         COUNT(DISTINCT concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id'))) AS sessions,
         COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events
-        FROM `toolstation-data-storage.analytics_251803804.events_*`, unnest (event_params) as ep left join unnest (items) as items
+        FROM `toolstation-data-storage.analytics_251803804.events_*` left join unnest (items) as items
         WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
         and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
         AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
@@ -35,7 +35,7 @@ view: ga4 {
         case when traffic_source.medium is null then "null" else traffic_source.medium end as Medium,
         case when traffic_source.name is null then "null" else traffic_source.name end as Campaign_name,
         event_name,
-        case when ep.key = "action" then ep.value.string_value else null end as action,
+        (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'action') as action,
         ecommerce.transaction_id,
         user_id,
         case when (SELECT distinct (value.string_value) FROM UNNEST(event_params) WHERE key = 'firebase_screen') = "product-detail-page" then "Product Detail Page" else "Other Page" end as screen,
@@ -45,7 +45,7 @@ view: ga4 {
         sum(items.quantity) as itemQ,
         COUNT(DISTINCT concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id'))) AS sessions,
         COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events,
-        FROM `toolstation-data-storage.analytics_265133009.events_*`, unnest (event_params) as ep left join unnest(items) as items
+        FROM `toolstation-data-storage.analytics_265133009.events_*` left join unnest(items) as items
         WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
         and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
         AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
