@@ -783,7 +783,13 @@ view: period_over_period {
     }
 
     parameter: select_comparison_period {
-      label: "Comparison Period"
+      #label: "Comparison Period"
+      label: "
+      {% if _explore._name == 'GA4' %}
+
+      {% else %}
+      Comparison Period
+      {% endif %}"
       group_label: "Comparison"
       view_label: "Date"
       type: unquoted
