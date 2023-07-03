@@ -789,8 +789,16 @@ view: period_over_period {
       {% else %}
       Comparison Period
       {% endif %}"
-      group_label: "Comparison"
-      view_label: "Date"
+      group_label: "
+      {% if _explore._name == 'GA4' %}
+      {% else %}
+      Comparison
+      {% endif %}"
+      view_label: "
+      {% if _explore._name == 'GA4' %}
+      {% else %}
+      Date
+      {% endif %}"
       type: unquoted
       allowed_value: {
         label: "Previous Period"
