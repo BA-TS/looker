@@ -57,10 +57,10 @@ explore: GA4 {
   #,select_date_reference: "ga4"
 
   fields: [
-    ALL_FIELDS*, -base.period_over_period
+    ALL_FIELDS*, -base.period_over_period, -base.flexible_pop
   ]
-  sql_always_where:
-  ${period_over_period};;
+  #sql_always_where:
+  #${period_over_period};;
 
   join: calendar_completed_date{
     from:  calendar
