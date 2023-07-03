@@ -4,6 +4,7 @@ view: ga4 {
       sql: with sub0 as (SELECT distinct
         "Web" as UserUID,
         date(PARSE_DATE('%Y%m%d', event_date)) as date,
+        geo.country as country,
         device.category as DeviceCategory,
         `toolstation-data-storage.analytics_251803804.channel_grouping`(traffic_source.source, traffic_source.medium, traffic_source.name) as channel_grouping,
         case when traffic_source.medium is null then "null" else traffic_source.medium end as Medium,
@@ -25,11 +26,12 @@ view: ga4 {
         and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
         AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
         and event_name in ("view_item", "out_of_stock", "purchase", "add_to_cart", "videoly")
-        GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13
+        GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14
         UNION DISTINCT
         SELECT distinct
         'App' as UserUID,
         PARSE_DATE('%Y%m%d', event_date) as date,
+        geo.country as country,
         device.category,
         `toolstation-data-storage.analytics_265133009.channel_grouping`(traffic_source.source, traffic_source.medium, traffic_source.name) as channel_grouping,
         case when traffic_source.medium is null then "null" else traffic_source.medium end as Medium,
@@ -50,7 +52,7 @@ view: ga4 {
         and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
         AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
         and event_name in ('purchase', 'add_to_cart', 'out_of_stock', "screen_view", "videoly")
-        GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13
+        GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14
         Order by 2 desc)
               select distinct row_number() over () as P_K, * from sub0;;
       datagroup_trigger: ts_googleanalytics_datagroup
@@ -83,6 +85,12 @@ view: ga4 {
       type: string
       sql: ${TABLE}.Medium ;;
     }
+
+  dimension: country {
+    description: "country"
+    type: string
+    sql: ${TABLE}.country ;;
+  }
 
     dimension: Campaign_name {
       description: "Campaign_name"
