@@ -17,7 +17,8 @@ explore: GA4 {
 
   always_filter: {
     filters: [
-      select_date_type: "Calendar"
+      select_date_type: "Calendar",
+      select_date_reference: "Placed"
     ]}
 
   conditionally_filter: {
