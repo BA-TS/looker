@@ -786,7 +786,6 @@ view: period_over_period {
       #label: "Comparison Period"
       label: "
       {% if _explore._name == 'GA4' %}
-
       {% else %}
       Comparison Period
       {% endif %}"
