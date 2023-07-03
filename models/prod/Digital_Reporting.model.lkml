@@ -81,6 +81,13 @@ explore: GA4 {
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
   }
 
+  join: products {
+    view_label: "Products"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${ga4.product_Sku}=${products.product_code};;
+  }
+
 }
 
 explore: digital_reporting {
