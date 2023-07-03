@@ -4,16 +4,52 @@
 # include: "/**/*.view.lkml"                 # include all views in this project
 # include: "my_dashboard.dashboard.lookml"   # include a LookML dashboard called my_dashboard
 include: "/views/**/*.view"
+include: "/views/GA4.view.lkml"
 label: "Digital"
 
 explore: GA4 {
 
+  view_name: base
+
+  extends: []
+  label: "GA4"
+  description: "Explore Toolstation transactional data."
+
   always_filter: {
     filters: [
-      EcommerceEventsGA4.select_date_range: "7 days"
-      ]
+      select_date_type: "Calendar",
+      ga4.select_date_range: "7 days"
+    ]
   }
-  view_name: EcommerceEventsGA4
+
+  fields: [
+    ALL_FIELDS*
+  ]
+  #,-products.department
+  sql_always_where:
+
+  ${period_over_period};;
+
+  join: calendar_completed_date{
+    from:  calendar
+    view_label: "Date"
+    type:  inner
+    relationship: one_to_many
+    sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
+  }
+
+  join: ga4 {
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${base.date_date} = ${ga4.date_date};;
+  }
+
+  join: catalogue {
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
+  }
+
 }
 
 explore: digital_reporting {
