@@ -22,12 +22,13 @@ explore: GA4 {
     ]
   }
 
+  #,select_date_reference: "ga4"
+
   fields: [
     ALL_FIELDS*
   ]
-  #sql_always_where:
-
-  #${period_over_period};;
+  sql_always_where:
+  ${period_over_period};;
 
   join: calendar_completed_date{
     from:  calendar
