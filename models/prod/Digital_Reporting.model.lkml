@@ -18,7 +18,8 @@ explore: GA4 {
   always_filter: {
     filters: [
       select_date_type: "Calendar",
-      ga4.select_date_range: "7 days"
+      ga4.select_date_range: "7 days",
+      select_date_range: "7 days"
     ]
   }
 
@@ -45,7 +46,7 @@ explore: GA4 {
   }
 
   join: catalogue {
-    view_label: ""
+    view_label: "test"
     type: left_outer
     relationship: one_to_many
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
