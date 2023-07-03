@@ -13,7 +13,7 @@ explore: GA4 {
 
   extends: []
   label: "GA4"
-  description: "Explore Toolstation transactional data."
+  description: "GA4 Web and App data"
 
   always_filter: {
     filters: [
@@ -57,7 +57,7 @@ explore: GA4 {
   #,select_date_reference: "ga4"
 
   fields: [
-    ALL_FIELDS*
+    ALL_FIELDS*, -base.period_over_period
   ]
   sql_always_where:
   ${period_over_period};;
@@ -77,7 +77,7 @@ explore: GA4 {
   }
 
   join: catalogue {
-    view_label: "test"
+    view_label: ""
     type: left_outer
     relationship: one_to_many
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
