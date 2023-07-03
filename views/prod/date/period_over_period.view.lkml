@@ -829,9 +829,24 @@ view: period_over_period {
     }
 
     parameter: select_number_of_periods {
-      label: "Number of Period(s)"
-      group_label: "Comparison"
-      view_label: "Date"
+      label:
+      "
+      {% if _explore._name == 'GA4' %}
+      {% else %}
+      Number of Period(s)
+      {% endif %}"
+      group_label:
+      "
+      {% if _explore._name == 'GA4' %}
+      {% else %}
+      Comparison
+      {% endif %}"
+      view_label:
+      "
+      {% if _explore._name == 'GA4' %}
+      {% else %}
+      Date
+      {% endif %}"
       type: unquoted
       allowed_value: {
         label: "1 Period Ago"
@@ -892,8 +907,18 @@ view: period_over_period {
 # ░╚════╝░░╚════╝░╚═╝░░░░░╚═╝╚═╝░░░░░╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░╚═╝░░╚═╝
 
   dimension: pivot_dimension {
-      view_label: "Date"
-      label: "Compare Period"
+      view_label:
+      "
+      {% if _explore._name == 'GA4' %}
+      {% else %}
+      Date
+      {% endif %}"
+      label:
+      "
+      {% if _explore._name == 'GA4' %}
+      {% else %}
+      Compare Period
+      {% endif %}"
       description: "Pivot this to apply comparative PoP."
       type: string
       order_by_field: __comparator_order__
