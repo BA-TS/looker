@@ -17,10 +17,40 @@ explore: GA4 {
 
   always_filter: {
     filters: [
-      select_date_type: "Calendar",
+      select_date_type: "Calendar"
+    ]}
+
+  conditionally_filter: {
+    filters:
+    [
       ga4.select_date_range: "7 days",
       select_date_range: "7 days"
     ]
+
+    #total_sessionsGA4.select_date_range: "7 days",
+
+    #stock_cover.date_filter: "Yesterday",
+    #summarised_daily_Sales.date_date: "21 days",
+    #,
+    #EcommerceEventsGA4.select_date_range: "7 days",
+    #Purchase_events_GA4.select_date_range: "7 days"
+
+    unless: [
+      select_fixed_range,
+      dynamic_fiscal_year,
+      dynamic_fiscal_half,
+      dynamic_fiscal_quarter,
+      dynamic_fiscal_month,
+      dynamic_actual_year,
+      catalogue.catalogue_name,
+      catalogue.extra_name,
+      combined_week,
+      combined_month,
+      combined_quarter,
+      combined_year,
+      separate_month
+    ]
+
   }
 
   #,select_date_reference: "ga4"
