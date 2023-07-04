@@ -28,7 +28,7 @@ else  (SELECT distinct value.string_value FROM UNNEST(event_params) WHERE key = 
         WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
         and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
         AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
-        and event_name in ("view_item", "out_of_stock", "purchase", "add_to_cart", "videoly")
+        and event_name in ("view_item", "out_of_stock", "purchase", "add_to_cart", "videoly", "session_start")
         GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14
         UNION DISTINCT
         SELECT distinct
@@ -54,7 +54,7 @@ else  (SELECT distinct value.string_value FROM UNNEST(event_params) WHERE key = 
         WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
         and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
         AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
-        and event_name in ('purchase', 'add_to_cart', 'out_of_stock', "screen_view", "videoly")
+        and event_name in ('purchase', 'add_to_cart', 'out_of_stock', "screen_view", "videoly", "session_start"))
         GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14
         Order by 2 desc)
               select distinct row_number() over () as P_K, * from sub0;;
