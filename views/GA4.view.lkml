@@ -89,7 +89,9 @@ view: ga4 {
       sql: ${TABLE}.Medium ;;
     }
 
-  dimension: country {
+  dimension: Country {
+    label: "Country"
+    group_label: "User Attributes"
     description: "country"
     type: string
     sql: ${TABLE}.country ;;
@@ -112,6 +114,8 @@ view: ga4 {
     }
 
     dimension: deviceCategory {
+      label: "Device Category"
+      group_label: "User Attributes"
       description: "deviceCategory"
       type: string
       sql: ${TABLE}.deviceCategory ;;
@@ -119,30 +123,40 @@ view: ga4 {
 
 
     dimension: event_name {
+      label: "Event Name"
+      group_label: "Event"
       description: "event_name"
       type: string
       sql: ${TABLE}.event_name;;
     }
 
     dimension: action {
+      label: "Event Action"
+      group_label: "Event"
       description: "action"
       type: string
       sql: ${TABLE}.action;;
     }
 
     dimension: transaction_id {
+      label: "Transaction ID"
+      group_label: "Ecommerce"
       description: "transaction_id"
       type: string
       sql: ${TABLE}.transaction_id;;
     }
 
   dimension: user_id {
+    label: "User ID"
+    group_label: "User Attributes"
     description: "user_id"
     type: string
     sql: ${TABLE}.user_id;;
   }
 
     dimension: screen {
+      label: "Screen(App only)"
+      group_label: "Page"
       description: "screen"
       type: string
       sql: ${TABLE}.screen_name;;
@@ -150,11 +164,15 @@ view: ga4 {
 
     dimension: product_Sku{
       description: "product code"
+      label: "Product SKU"
+      group_label: "Product Info"
       type: string
       sql: ${TABLE}.item_id;;
     }
 
     dimension: Item_price {
+      label: "Product Price"
+      group_label: "Product Info"
       description: "Item_price"
       type: number
       value_format_name: gbp
@@ -162,6 +180,8 @@ view: ga4 {
     }
 
     dimension: item_revenue {
+      label: "Product revenue"
+      group_label: "Product Info"
       description: "item_revenue"
       type: number
       value_format_name: gbp
@@ -169,6 +189,8 @@ view: ga4 {
     }
 
     dimension: Item_Quantity {
+      label: "Product Quantity"
+      group_label: "Product Info"
       description: "Item_Quantity"
       type: number
       sql: ${TABLE}.item_quantity ;;
@@ -181,17 +203,23 @@ view: ga4 {
     }
 
     measure: sumSessions {
+      label: "Sessions"
+      group_label: "Measures"
       type: sum
       sql: ${TABLE}.sessions;;
     }
 
     dimension: Events {
-      description: "number of sessions with event"
+      label: "Events"
+      group_label: "Event"
+      description: "number of events"
       type: number
       sql: ${TABLE}.events;;
     }
 
     measure: sumEvents {
+      label: "Events"
+      group_label: "Measures"
       type: sum
       sql: ${TABLE}.events;;
     }
