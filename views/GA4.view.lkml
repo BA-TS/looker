@@ -67,6 +67,7 @@ view: ga4 {
     }
 
     dimension: app_web_sessions {
+      label: "Web/App"
       description: "Web or App sessions"
       type: string
       sql: ${TABLE}.UserUID ;;
@@ -81,6 +82,8 @@ view: ga4 {
     }
 
     dimension: Medium {
+      label: "Medium"
+      group_label: "Traffic Source"
       description: "Medium"
       type: string
       sql: ${TABLE}.Medium ;;
@@ -93,6 +96,8 @@ view: ga4 {
   }
 
     dimension: Campaign_name {
+      label: "Campaign Name"
+      group_label: "Traffic Source"
       description: "Campaign_name"
       type: string
       sql: ${TABLE}.Campaign_name ;;
@@ -100,6 +105,8 @@ view: ga4 {
 
     dimension: channelGrouping {
       description: "channelGrouping"
+      label: "Channel Grouping"
+      group_label: "Traffic Source"
       type: string
       sql: ${TABLE}.channel_grouping ;;
     }
