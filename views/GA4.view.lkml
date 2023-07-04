@@ -22,14 +22,14 @@ else  (SELECT distinct value.string_value FROM UNNEST(event_params) WHERE key = 
         items.price,
         sum(items.item_revenue) as item_revenue,
         sum(items.quantity) as item_quantity,
-        COUNT(DISTINCT concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id'))) AS sessions,
+        concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) AS sessions,
         COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events
         FROM `toolstation-data-storage.analytics_251803804.events_*` left join unnest (items) as items
         WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
         and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
         AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
         and event_name in ("view_item", "out_of_stock", "purchase", "add_to_cart", "videoly", "session_start")
-        GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14
+        GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,17
         UNION DISTINCT
         SELECT distinct
         'App' as UserUID,
@@ -48,14 +48,14 @@ else  (SELECT distinct value.string_value FROM UNNEST(event_params) WHERE key = 
         items.price as Item_Price,
         round(sum(items.item_revenue),2) as item_revenue,
         sum(items.quantity) as itemQ,
-        COUNT(DISTINCT concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id'))) AS sessions,
+        concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) AS sessions,
         COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events,
         FROM `toolstation-data-storage.analytics_265133009.events_*` left join unnest(items) as items
         WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
         and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
         AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
         and event_name in ('purchase', 'add_to_cart', 'out_of_stock', "screen_view", "videoly", "session_start")
-        GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14
+        GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,17
         Order by 2 desc)
               select distinct row_number() over () as P_K, * from sub0;;
       datagroup_trigger: ts_googleanalytics_datagroup
@@ -205,10 +205,10 @@ else  (SELECT distinct value.string_value FROM UNNEST(event_params) WHERE key = 
       sql: ${TABLE}.sessions;;
     }
 
-    measure: sumSessions {
+    measure: Sessions {
       label: "Sessions"
       group_label: "Measures"
-      type: sum
+      type: count_distinct
       sql: ${TABLE}.sessions;;
     }
 
@@ -216,6 +216,7 @@ else  (SELECT distinct value.string_value FROM UNNEST(event_params) WHERE key = 
       label: "Events"
       group_label: "Event"
       description: "number of events"
+      hidden: yes
       type: number
       sql: ${TABLE}.events;;
     }
