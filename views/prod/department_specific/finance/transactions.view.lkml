@@ -609,17 +609,17 @@ view: transactions {
   dimension: is_sale {
     group_label: "Flags"
     type: yesno
-    description: "True when an order is a sale, do NOT use the false flag"
+    description: "True when an order is a sale, do NOT use the false flag as false can include multiple categories"
     sql: ${transaction_line_type} = "Sale" ;;
-    required_access_grants: [lz_testing]
+    # required_access_grants: [lz_testing]
   }
 
   dimension: is_return {
     group_label: "Flags"
     type: yesno
-    description: "True when an order is a return, do NOT use the false flag"
+    description: "True when an order is a return, do NOT use the false flag as false can include multiple categories"
     sql: ${transaction_line_type} = "Return" ;;
-    required_access_grants: [lz_testing]
+    # required_access_grants: [lz_testing]
   }
 
   # ORDER DETAILS #
