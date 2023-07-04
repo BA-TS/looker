@@ -40,7 +40,7 @@ view: ga4 {
         (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'action') as action,
         ecommerce.transaction_id,
         user_id,
-        case when (SELECT distinct (value.string_value) FROM UNNEST(event_params) WHERE key = 'firebase_screen') = "product-detail-page" then "Product Detail Page" else "Other Page" end as screen,
+        (SELECT distinct (value.string_value) FROM UNNEST(event_params) WHERE key = 'firebase_screen') as screen,
         items.item_id as item_id,
         items.price as Item_Price,
         round(sum(items.item_revenue),2) as item_revenue,
