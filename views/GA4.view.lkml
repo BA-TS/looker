@@ -201,6 +201,7 @@ else  (SELECT distinct value.string_value FROM UNNEST(event_params) WHERE key = 
     dimension: sessions {
       description: "number of sessions with event"
       type: string
+      hidden:  yes
       sql: ${TABLE}.sessions;;
     }
 
