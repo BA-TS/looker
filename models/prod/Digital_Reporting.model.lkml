@@ -69,7 +69,7 @@ explore: GA4 {
   }
 
   join: ga4 {
-    type: left_outer
+    type: inner
     relationship: one_to_many
     sql_on: ${base.date_date} = ${ga4.date_date};;
   }
