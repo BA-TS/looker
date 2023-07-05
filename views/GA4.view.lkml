@@ -26,13 +26,13 @@ view: ga4 {
         sum(items.quantity) as item_quantity,
         concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) AS sessions,
         COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events
-        count(distinct concat(user_pseudo_id,(select value.int_value from unnest(event_params) where key = 'ga_session_id'))) - count(distinct case when (select value.string_value from unnest(event_params) where key = 'session_engaged') = '1' then concat(user_pseudo_id,(select value.int_value from unnest(event_params) where key = 'ga_session_id')) end) as bounces
+        case when (select value.string_value from unnest(event_params) where key = 'session_engaged') = '1' then 0 else 1 end as bounces
         FROM `toolstation-data-storage.analytics_251803804.events_*` left join unnest (items) as items
         WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
         and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
         AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
         and event_name in ("view_item", "out_of_stock", "purchase", "add_to_cart", "videoly", "session_start", "search_actions")
-        GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19
+        GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,21
         UNION DISTINCT
         SELECT distinct
         'App' as UserUID,
@@ -55,13 +55,13 @@ view: ga4 {
         sum(items.quantity) as itemQ,
         concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) AS sessions,
         COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events,
-        count(distinct concat(user_pseudo_id,(select value.int_value from unnest(event_params) where key = 'ga_session_id'))) - count(distinct case when (select value.string_value from unnest(event_params) where key = 'session_engaged') = '1' then concat(user_pseudo_id,(select value.int_value from unnest(event_params) where key = 'ga_session_id')) end) as bounces
+        case when (select value.string_value from unnest(event_params) where key = 'session_engaged') = '1' then 0 else 1 end as bounces
         FROM `toolstation-data-storage.analytics_265133009.events_*` left join unnest(items) as items
         WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
         and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
         AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
         and event_name in ("search","search_suggestion_tapped","search_category_viewed", "search_recent_tapped", "search_product_tapped", "search_category_tapped",'purchase', 'add_to_cart', 'out_of_stock', "screen_view", "videoly")
-        GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19)
+        GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,21)
         select distinct row_number() over () as P_K, * from sub0;;
       datagroup_trigger: ts_googleanalytics_datagroup
     }
@@ -254,8 +254,8 @@ view: ga4 {
   measure: bounces {
     label: "bounces"
     group_label: "Measures"
-    type: sum
-    sql: ${TABLE}.bounces;;
+    type: number
+    sql: count_distinct(${TABLE}.sessions) - count_distinct(case when ${TABLE}.bounces = 0 then sessions end);;
   }
 
     filter: select_date_range {
