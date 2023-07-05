@@ -265,6 +265,13 @@ view: ga4 {
     sql: ${TABLE}.sessions;;
   }
 
+  measure: bs {
+    label: "Bounced sessions"
+    group_label: "Measures"
+    sql: ${Sessions}-${bounces} ;;
+
+  }
+
     filter: select_date_range {
       label: "GA4 Date Range"
       group_label: "Date Filter"
