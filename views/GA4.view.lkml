@@ -31,7 +31,6 @@ view: ga4 {
         WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
         and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
         AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
-        and event_name in ("view_item", "out_of_stock", "purchase", "add_to_cart", "videoly", "session_start", "search_actions")
         GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,21
         UNION DISTINCT
         SELECT distinct
@@ -65,6 +64,7 @@ view: ga4 {
         select distinct row_number() over () as P_K, * from sub0;;
       datagroup_trigger: ts_googleanalytics_datagroup
     }
+    #and event_name in ("view_item", "out_of_stock", "purchase", "add_to_cart", "videoly", "session_start", "search_actions")
 
     dimension: P_K {
       description: "Primary key"
