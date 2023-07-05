@@ -144,6 +144,23 @@ view: ga4 {
       sql: ${TABLE}.action;;
     }
 
+  dimension: event_label {
+    label: "Event Label"
+    group_label: "Event"
+    description: "action"
+    type: string
+    sql: ${TABLE}.event_label;;
+  }
+
+
+  dimension: event_attribute {
+    label: "Event info"
+    group_label: "Event"
+    description: "event_attribute"
+    type: string
+    sql: ${TABLE}.event_attribute;;
+  }
+
     dimension: transaction_id {
       label: "Transaction ID"
       group_label: "Ecommerce"
