@@ -26,7 +26,7 @@ view: ga4 {
         sum(items.quantity) as item_quantity,
         concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) AS sessions,
         COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events,
-        case when (select value.string_value from unnest(event_params) where key = 'session_engaged') = '1' then 1 else 0 end as bounces
+        case when (select value.string_value from unnest(event_params) where key = 'session_engaged') = '1' then "1" else "0" end as bounces
         FROM `toolstation-data-storage.analytics_251803804.events_*` left join unnest (items) as items
         WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
         and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
@@ -55,7 +55,7 @@ view: ga4 {
         sum(items.quantity) as itemQ,
         concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) AS sessions,
         COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events,
-        case when (select value.string_value from unnest(event_params) where key = 'session_engaged') = '1' then 1 else 0 end as bounces
+        case when (select value.string_value from unnest(event_params) where key = 'session_engaged') = '1' then "1" else "0" end as bounces
         FROM `toolstation-data-storage.analytics_265133009.events_*` left join unnest(items) as items
         WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
         and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
