@@ -54,17 +54,19 @@ view: ga4 {
         sum(items.quantity) as itemQ,
         concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) AS sessions,
         COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events,
-        case when (select value.string_value from unnest(event_params) where key = 'session_engaged') = '1' then "1" else "0" end as bounces
+        case when (select value.string_value from unnest(event_params) where key = 'engaged_session_event') = '1' then "1" else "0" end as bounces
         FROM `toolstation-data-storage.analytics_265133009.events_*` left join unnest(items) as items
         WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
         and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
         AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
-        and event_name in ("search","search_suggestion_tapped","search_category_viewed", "search_recent_tapped", "search_product_tapped", "search_category_tapped",'purchase', 'add_to_cart', 'out_of_stock', "screen_view", "videoly")
         GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,21)
         select distinct row_number() over () as P_K, * from sub0;;
       datagroup_trigger: ts_googleanalytics_datagroup
     }
+    #Event names for Web
     #and event_name in ("view_item", "out_of_stock", "purchase", "add_to_cart", "videoly", "session_start", "search_actions")
+    #Event names for App
+    # and event_name in ("search","search_suggestion_tapped","search_category_viewed", "search_recent_tapped", "search_product_tapped", "search_category_tapped",'purchase', 'add_to_cart', 'out_of_stock', "screen_view", "videoly")
 
     dimension: P_K {
       description: "Primary key"
@@ -222,7 +224,7 @@ view: ga4 {
     }
 
   dimension: bounce_def {
-    description: "if session is bounce 1 = no, 0 = yes"
+    description: "if session is bounce 0 = no, 1 = yes"
     type: string
     sql: ${TABLE}.bounces ;;
   }
@@ -260,6 +262,7 @@ view: ga4 {
   measure: bounces {
     label: "bounces"
     group_label: "Measures"
+    hidden: yes
     type: count_distinct
     filters: [bounce_def: "1"]
     sql: ${TABLE}.sessions;;
