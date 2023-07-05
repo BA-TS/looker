@@ -944,7 +944,7 @@ view: transactions {
     group_label: "LFL"
     description: "total customer spend"
     type:  number
-    sql: sum(${net_sales_value} over (partition by ${customer_uid}) ;;
+    sql: sum(${net_sales_value}) over (partition by ${customer_uid}) ;;
     value_format_name: gbp
   }
 
