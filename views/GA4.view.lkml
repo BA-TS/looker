@@ -226,6 +226,7 @@ view: ga4 {
   dimension: bounce_def {
     description: "if session is bounce 0 = no, 1 = yes"
     type: string
+    hidden: yes
     sql: ${TABLE}.bounces ;;
   }
 
