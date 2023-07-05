@@ -178,7 +178,7 @@ view: ga4 {
   }
 
     dimension: screen {
-      label: "Screen(App only)"
+      label: "Screen"
       group_label: "Page"
       description: "screen"
       type: string
@@ -204,7 +204,7 @@ view: ga4 {
 
     dimension: item_revenue {
       label: "Product revenue"
-      group_label: "Product Info"
+      group_label: "Ecommerce"
       description: "item_revenue"
       type: number
       value_format_name: gbp
