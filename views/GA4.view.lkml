@@ -255,7 +255,7 @@ view: ga4 {
     label: "bounces"
     group_label: "Measures"
     type: number
-    sql: count_distinct(${TABLE}.sessions) - count_distinct(case when ${TABLE}.bounces = 0 then sessions end);;
+    sql: count(distinct(${TABLE}.sessions)) - count(distinct(case when ${TABLE}.bounces = 0 then sessions end));;
   }
 
     filter: select_date_range {
