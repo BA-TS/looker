@@ -938,6 +938,16 @@ view: transactions {
     hidden: yes
   }
 
+  measure: spends_per_customer{
+    label: "Spend Per Customer"
+    view_label: "Measures"
+    group_label: "LFL"
+    description: "total customer spend"
+    type:  number
+    sql: sum(${net_sales_value} over (partition by ${customer_uid}) ;;
+    value_format_name: gbp
+  }
+
   measure: aov_net_sales {
     label: "Net Sales AOV"
     view_label: "Measures"
