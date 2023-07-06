@@ -165,6 +165,14 @@ view: ga4 {
     sql: ${TABLE}.event_attribute;;
   }
 
+  dimension: Event_Act {
+    label: "Event Act"
+    group_label: "Event"
+    description: "event_action and info"
+    type: string
+    sql: CONCAT(${TABLE}.event_attribute,${TABLE}.action);;
+  }
+
   dimension: transaction_id {
     label: "Transaction ID"
     group_label: "Ecommerce"
@@ -239,7 +247,7 @@ view: ga4 {
     }
 
     measure: Sessions {
-      label: "Sessions"
+      label: "Sessions (per event)"
       group_label: "Measures"
       type: count_distinct
       sql: ${TABLE}.sessions;;
@@ -281,7 +289,7 @@ view: ga4 {
   }
 
   measure: session_start {
-    label: "Distinct Sessions"
+    label: "Total Sessions"
     group_label: "Measures"
     #hidden: yes
     type: count_distinct
