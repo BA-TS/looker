@@ -165,13 +165,13 @@ view: ga4 {
     sql: ${TABLE}.event_attribute;;
   }
 
-    dimension: transaction_id {
-      label: "Transaction ID"
-      group_label: "Ecommerce"
-      description: "transaction_id"
-      type: string
-      sql: ${TABLE}.transaction_id;;
-    }
+  dimension: transaction_id {
+    label: "Transaction ID"
+    group_label: "Ecommerce"
+    description: "transaction_id"
+    type: string
+    sql: ${TABLE}.transaction_id;;
+  }
 
   dimension: user_id {
     label: "User ID"
@@ -253,6 +253,15 @@ view: ga4 {
       sql: ${TABLE}.events;;
     }
 
+
+  measure: Count_transaction_id {
+    label: "Transactions"
+    group_label: "Ecommerce"
+    description: "transaction_id"
+    type: count_distinct
+    sql: ${TABLE}.transaction_id;;
+  }
+
     measure: sumEvents {
       label: "Events"
       group_label: "Measures"
@@ -297,7 +306,7 @@ view: ga4 {
     label: "Conversion rate"
     group_label: "Measures"
     value_format: "0.00\%"
-    sql: ${transaction_id}/${session_start} * 100 ;;
+    sql: ${Count_transaction_id}/${session_start} * 100 ;;
   }
 
     filter: select_date_range {
