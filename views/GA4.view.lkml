@@ -288,7 +288,16 @@ view: ga4 {
   measure: bounce_rate {
     label: "Bounce rate"
     group_label: "Measures"
+    value_format: "0.00\%"
     sql: ${bs}/${session_start} ;;
+  }
+
+
+  measure: conversion_rate {
+    label: "Conversion rate"
+    group_label: "Measures"
+    value_format: "0.00\%"
+    sql: ${transaction_id}/${session_start} ;;
   }
 
     filter: select_date_range {
