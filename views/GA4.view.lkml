@@ -206,12 +206,13 @@ view: ga4 {
       sql: ${TABLE}.price ;;
     }
 
-    dimension: item_revenue {
+    measure: item_revenue {
       label: "Product revenue"
       group_label: "Ecommerce"
       description: "item_revenue"
-      type: number
+      type: sum
       value_format_name: gbp
+      filters: [event_label: "purchase"]
       sql: ${TABLE}.item_revenue ;;
     }
 
@@ -256,7 +257,7 @@ view: ga4 {
 
   measure: Count_transaction_id {
     label: "Transactions"
-    group_label: "Measures"
+    group_label: "Ecommerce"
     description: "transaction_id"
     type: count_distinct
     filters: [transaction_id: "-(not set)"]
@@ -306,7 +307,7 @@ view: ga4 {
 
   measure: conversion_rate {
     label: "Conversion rate"
-    group_label: "Measures"
+    group_label: "Ecommerce"
     value_format: "0.00\%"
     #sql: ${Count_transaction_id}/${session_start} * 100
     sql: safe_divide(${Count_transaction_id},${session_start}) * 100;;
