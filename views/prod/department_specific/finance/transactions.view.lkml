@@ -928,8 +928,8 @@ view: transactions {
   measure: spc_gross_sales{
     label: "Spend Per Customer (Gross sales)"
     view_label: "Measures"
-    group_label: "AOV"
-    description: "Spend per customer"
+    group_label: "Core Metrics"
+    description: "Spend per customer - Gross sales divided by number of unique customers"
     type:  number
     sql: COALESCE(SAFE_DIVIDE(${total_gross_sales}, ${number_of_unique_customers}),0) ;;
     value_format_name: gbp
@@ -958,11 +958,20 @@ view: transactions {
   measure: spc_net_sales{
     label: "Spend Per Customer (Net sales)"
     view_label: "Measures"
-    group_label: "AOV"
-    description: "Spend per customer (Net Sales)"
+    group_label: "Core Metrics"
+    description: "Net sales divided by number of unique customers"
     type:  number
     sql: COALESCE(SAFE_DIVIDE(${total_net_sales}, ${number_of_unique_customers}),0) ;;
     value_format_name: gbp
+  }
+
+  measure: transaction_frequency{
+    view_label: "Measures"
+    group_label: "Core Metrics"
+    description: "Number of transactions divided by number of unique customers"
+    type:  number
+    sql: COALESCE(SAFE_DIVIDE(${number_of_transactions}, ${number_of_unique_customers}),0) ;;
+    value_format_name: "decimal_2"
   }
 
   measure: aov_margin_excl_funding {
