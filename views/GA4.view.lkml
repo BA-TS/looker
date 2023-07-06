@@ -168,7 +168,6 @@ view: ga4 {
   dimension: transaction_id {
     label: "Transaction ID"
     group_label: "Ecommerce"
-    hidden: yes
     description: "transaction_id"
     type: string
     sql: ${TABLE}.transaction_id;;
