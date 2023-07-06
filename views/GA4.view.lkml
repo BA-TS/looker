@@ -259,6 +259,7 @@ view: ga4 {
     group_label: "Measures"
     description: "transaction_id"
     type: count_distinct
+    filters: [transaction_id: "-(not set)"]
     sql: ${TABLE}.transaction_id;;
   }
 
