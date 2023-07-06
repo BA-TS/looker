@@ -611,7 +611,6 @@ view: transactions {
     type: yesno
     description: "True when an order is a sale, do NOT use the false flag as false can include multiple categories"
     sql: ${transaction_line_type} = "Sale" ;;
-    # required_access_grants: [lz_testing]
   }
 
   dimension: is_return {
@@ -619,7 +618,6 @@ view: transactions {
     type: yesno
     description: "True when an order is a return, do NOT use the false flag as false can include multiple categories"
     sql: ${transaction_line_type} = "Return" ;;
-    # required_access_grants: [lz_testing]
   }
 
   # ORDER DETAILS #
@@ -928,14 +926,13 @@ view: transactions {
   }
 
   measure: spc_gross_sales{
-    label: "Spend Per Customer"
+    label: "Spend Per Customer (Gross sales)"
     view_label: "Measures"
     group_label: "AOV"
     description: "Spend per customer"
     type:  number
     sql: COALESCE(SAFE_DIVIDE(${total_gross_sales}, ${number_of_unique_customers}),0) ;;
     value_format_name: gbp
-    hidden: yes
   }
 
   measure: aov_net_sales {
@@ -945,6 +942,16 @@ view: transactions {
     description: "Average net sales per order"
     type:  number
     sql: COALESCE(SAFE_DIVIDE(${total_net_sales}, ${number_of_transactions}),0) ;;
+    value_format_name: gbp
+  }
+
+  measure: spc_net_sales{
+    label: "Spend Per Customer (Net sales)"
+    view_label: "Measures"
+    group_label: "AOV"
+    description: "Spend per customer (Net Sales)"
+    type:  number
+    sql: COALESCE(SAFE_DIVIDE(${aov_net_sales}, ${number_of_unique_customers}),0) ;;
     value_format_name: gbp
   }
 
