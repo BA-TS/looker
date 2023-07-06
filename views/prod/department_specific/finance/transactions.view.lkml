@@ -961,7 +961,7 @@ view: transactions {
     group_label: "AOV"
     description: "Spend per customer (Net Sales)"
     type:  number
-    sql: COALESCE(SAFE_DIVIDE(${aov_net_sales}, ${number_of_unique_customers}),0) ;;
+    sql: COALESCE(SAFE_DIVIDE(${total_net_sales}, ${number_of_unique_customers}),0) ;;
     value_format_name: gbp
   }
 
