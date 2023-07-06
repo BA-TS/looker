@@ -310,18 +310,19 @@ view: ga4 {
     label: "Bounce rate"
     group_label: "Measures"
     type: number
-    #value_format: "0.00\%"
+    value_format_name: percent_2
     #sql: (${bs}/${session_start}) * 100
-    sql: safe_divide(${bs},${session_start}) * 100;;
+    sql: safe_divide(${bs},${session_start});;
   }
 
 
   measure: conversion_rate {
     label: "Conversion rate"
     group_label: "Ecommerce"
-    value_format: "0.00\%"
+    type: number
+    value_format_name: percent_2
     #sql: ${Count_transaction_id}/${session_start} * 100
-    sql: safe_divide(${Count_transaction_id},${session_start}) * 100;;
+    sql: safe_divide(${Count_transaction_id},${session_start});;
   }
 
     filter: select_date_range {
