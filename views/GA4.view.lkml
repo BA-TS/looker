@@ -212,7 +212,7 @@ view: ga4 {
       description: "item_revenue"
       type: sum
       value_format_name: gbp
-      filters: [event_label: "purchase"]
+      filters: [event_name: "purchase"]
       sql: ${TABLE}.item_revenue ;;
     }
 
