@@ -38,6 +38,11 @@ access_grant: lz_testing {
   allowed_values: ["Y"]
 }
 
+access_grant: GA4_access {
+  user_attribute: ga4_ranjit_test
+  allowed_values: ["Y"]
+}
+
 # explore access #
 
 # access_grant: access_transaction {

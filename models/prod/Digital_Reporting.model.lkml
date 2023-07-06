@@ -8,7 +8,8 @@ include: "/views/GA4.view.lkml"
 label: "Digital"
 
 explore: GA4 {
-
+  #required_access_grants: []
+  required_access_grants: [GA4_access]
   view_name: base
 
   extends: []
