@@ -297,7 +297,7 @@ view: ga4 {
     label: "Conversion rate"
     group_label: "Measures"
     value_format: "0.00\%"
-    sql: ${transaction_id}/${session_start} ;;
+    sql: ${transaction_id}/${session_start} * 100 ;;
   }
 
     filter: select_date_range {
