@@ -144,6 +144,7 @@ view: ga4 {
       label: "Event Action"
       group_label: "Event"
       description: "action"
+      hidden: yes
       type: string
       sql: ${TABLE}.action;;
     }
@@ -161,12 +162,13 @@ view: ga4 {
     label: "Event info"
     group_label: "Event"
     description: "event_attribute"
+    hidden: yes
     type: string
     sql: ${TABLE}.event_attribute;;
   }
 
   dimension: Event_Act {
-    label: "Event Act"
+    label: "Event Action"
     group_label: "Event"
     description: "event_action and info"
     type: string
