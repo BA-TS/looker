@@ -269,11 +269,26 @@ view: ga4 {
     sql: ${TABLE}.sessions;;
   }
 
+  measure: session_start {
+    label: "Distinct Sessions"
+    group_label: "Measures"
+    #hidden: yes
+    type: count_distinct
+    filters: [event_name: "session_start"]
+    sql: ${TABLE}.sessions;;
+  }
+
   measure: bs {
     label: "Bounced sessions"
     group_label: "Measures"
     sql: ${Sessions}-${bounces} ;;
 
+  }
+
+  measure: bounce_rate {
+    label: "Bounce rate"
+    group_label: "Measures"
+    sql: ${bs}/${session_start} ;;
   }
 
     filter: select_date_range {
