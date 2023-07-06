@@ -170,7 +170,7 @@ view: ga4 {
     group_label: "Event"
     description: "event_action and info"
     type: string
-    sql: case when ${action} is null then ${event_attribute} else ${action};;
+    sql: case when ${action} is null then ${event_attribute} else ${action} end;;
   }
 
   dimension: transaction_id {
