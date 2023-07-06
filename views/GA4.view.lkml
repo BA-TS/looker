@@ -288,7 +288,7 @@ view: ga4 {
   measure: bounce_rate {
     label: "Bounce rate"
     group_label: "Measures"
-    value_format: "0.00\%"
+    #value_format: "0.00\%"
     sql: ${bs}/${session_start} ;;
   }
 
