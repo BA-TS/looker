@@ -168,6 +168,7 @@ view: ga4 {
   dimension: transaction_id {
     label: "Transaction ID"
     group_label: "Ecommerce"
+    hidden: yes
     description: "transaction_id"
     type: string
     sql: ${TABLE}.transaction_id;;
@@ -256,7 +257,7 @@ view: ga4 {
 
   measure: Count_transaction_id {
     label: "Transactions"
-    group_label: "Ecommerce"
+    group_label: "Measures"
     description: "transaction_id"
     type: count_distinct
     sql: ${TABLE}.transaction_id;;
