@@ -17,8 +17,7 @@ explore: GA4 {
 
   always_filter: {
     filters: [
-      select_date_type: "Calendar",
-      select_date_reference: "Placed"
+      select_date_type: "Calendar"
     ]}
 
   conditionally_filter: {
@@ -29,6 +28,7 @@ explore: GA4 {
     ]
 
     #total_sessionsGA4.select_date_range: "7 days",
+    #,select_date_reference: "Placed"
 
     #stock_cover.date_filter: "Yesterday",
     #summarised_daily_Sales.date_date: "21 days",
@@ -69,7 +69,7 @@ explore: GA4 {
   }
 
   join: ga4 {
-    type: left_outer
+    type: inner
     relationship: one_to_many
     sql_on: ${base.date_date} = ${ga4.date_date};;
   }
