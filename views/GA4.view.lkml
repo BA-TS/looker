@@ -147,7 +147,6 @@ GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,18,20)
       label: "Event Action"
       group_label: "Event"
       description: "action"
-      hidden: yes
       type: string
       sql: ${TABLE}.event_action;;
     }
