@@ -859,7 +859,7 @@ view: transactions {
     label: "Units"
     view_label: "Measures"
     group_label: "Core Metrics"
-    description: "Number of units sold - only inclduing retial products"
+    description: "Number of units sold - only inclduing retail products"
     type:  sum
     sql: case when ${product_code} like '0%' then 0 else ${quantity} end ;;
     value_format: "#,##0;(#,##0)"
