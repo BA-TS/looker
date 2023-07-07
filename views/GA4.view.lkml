@@ -165,6 +165,14 @@ GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,22,24)
     sql: ${TABLE}.event_label;;
   }
 
+  dimension: error_message {
+    label: "Error Message"
+    group_label: "Event"
+    description: "error_message"
+    type: string
+    sql: ${TABLE}.error_message;;
+  }
+
 
   # dimension: event_attribute {
   #   label: "Event info"
