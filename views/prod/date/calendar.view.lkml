@@ -56,6 +56,7 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
   dimension: today_calendar_quarter {
     group_label: "Today Dates"
     label: "today Quarter (q)"
+    hidden: yes
     type: number
     sql: ${TABLE}.todaycalendarQuarter;;
   }
@@ -70,6 +71,7 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
   dimension: today_calendar_year {
     group_label: "Today Dates"
     label: "Year (yyyy)"
+    hidden: yes
     type: number
     sql: ${TABLE}.todaycalendarYear;;
   }
@@ -84,6 +86,7 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
   dimension: today_calendar_year_month {
     group_label: "Today Dates"
     label: "Year Month (yyyy-mm)"
+    hidden: yes
     type: string
     sql: ${TABLE}.todaydaycalendarYearMonth;;
   }
@@ -105,6 +108,7 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
   dimension: today_month_in_year {
     group_label: "Today Dates"
     label: "Month (mm)"
+    hidden: yes
     type: number
     sql: ${TABLE}.todaymonthInYear;;
   }
@@ -154,7 +158,7 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
 
 
   dimension: today_day_in_month {
-    group_label: "Today Dates"
+    group_label: "Current Date"
     label: "Day of Month (dd)"
     type: number
     sql: ${TABLE}.todaydayInMonth ;;
@@ -169,7 +173,7 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
   }
 
   dimension: today_day_in_week {
-    group_label: "Today Dates"
+    group_label: "Current Date"
     label: "Day of Week (d)"
     description:"First day of week is Sunday,Sun=1,Mon=2,Tue=3,Wed=4,Thu=5,Fri=6,Sat=7"
     type: number
@@ -184,7 +188,7 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
   }
 
   dimension: today_day_in_year {
-    group_label: "Today Dates"
+    group_label: "Current Date"
     label: "Day of Year (ddd)"
     type: number
     sql: ${TABLE}.todaydayInYear ;;
@@ -223,6 +227,7 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
   dimension: today_fiscal_week_of_year {
     group_label: "Dates Fiscal"
     label: "Today Fiscal Week (ww)"
+    hidden: yes
     type: number
     sql: ${TABLE}.todayfiscalWeekOfYear;;
   }
@@ -258,6 +263,7 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
   dimension: today_fiscal_year_week {
     group_label: "Dates Fiscal"
     label: "Today Fiscal Year Week (yyyyww)"
+    hidden: yes
     type: string
     sql: ${TABLE}.todayfiscalYearWeek;;
   }
