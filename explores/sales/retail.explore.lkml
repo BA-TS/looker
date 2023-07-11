@@ -35,4 +35,10 @@ explore: retail {
     relationship: many_to_one
     sql_on: ${google_reviews.siteUID}=${holiday_management.siteUID} and ${google_reviews.month}=${holiday_management.month} ;;
   }
+
+  join: profit_protection {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${profit_protection.siteUID}=${holiday_management.siteUID} and ${profit_protection.month}=${holiday_management.month} ;;
+  }
 }
