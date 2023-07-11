@@ -968,6 +968,7 @@ view: transactions {
   measure: transaction_frequency{
     view_label: "Measures"
     group_label: "Core Metrics"
+    label: "Frequency"
     description: "Number of transactions divided by number of unique customers"
     type:  number
     sql: COALESCE(SAFE_DIVIDE(${number_of_transactions}, ${number_of_unique_customers}),0) ;;
