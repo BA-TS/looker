@@ -100,7 +100,7 @@ explore: digital_reporting {
 
   always_filter: {
     filters: [
-      select_date_type: "Calendar"
+      select_date_range: "7 days"
     ]
   }
 
@@ -109,7 +109,6 @@ explore: digital_reporting {
     [
       total_sessions.select_date_range: "7 days",
       select_date_reference: "app^_web^_data",
-      select_date_range: "7 days",
       EcommerceEvents.session_date_filter: "7 days"
       ]
 

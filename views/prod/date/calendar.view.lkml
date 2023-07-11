@@ -39,7 +39,7 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
   }
 
   dimension: today_date{
-    group_label: "Today Dates"
+    group_label: "Current Date"
     label: "Today (dd/mm/yyyy)"
     type: date
     sql: ${TABLE}.todayFullDate ;;
