@@ -5,6 +5,7 @@
 # include: "my_dashboard.dashboard.lookml"   # include a LookML dashboard called my_dashboard
 include: "/views/**/*.view"
 include: "/views/GA4.view.lkml"
+include: "/Videoly_conversion.view.lkml"
 label: "Digital"
 
 explore: GA4 {
@@ -423,6 +424,13 @@ explore: digital_reporting {
     relationship: many_to_one
     sql_on: ${app_web_data.CustomerID}=${trade_customers.customer_uid}
     and ${customers.customer_uid}=${trade_customers.customer_uid};;
+  }
+
+  join: videoly_conversion {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${base.date_date} = ${videoly_conversion.date_date}
+    and ${base.select_date_range} = ${videoly_conversion.select_date_range};;
   }
 
 
