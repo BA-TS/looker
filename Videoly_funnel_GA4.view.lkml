@@ -168,11 +168,11 @@ sub1 as (SELECT distinct coalesce(total_sessions_PDP_Views.UserUID,Videoly_shown
 coalesce(total_sessions_PDP_Views.date,Videoly_shown.date,Videoly_started.date,add_to_cart.date,purchase.date) as date,
 Videoly_shown.event_info as Videoly_shown_info,
 Videoly_started.event_info as Videoly_started_info,
-total_sessions_PDP_Views.session_id as total_sessions_PDP_Views,
-Videoly_shown.session_id as Videoly_shown_sesions,
-Videoly_started.session_id as Videoly_started_sesions,
-add_to_cart.session_id as add_to_cart_sesions,
-purchase.session_id as purchase_sessions,
+total_sessions_PDP_Views.session_id as PDP_View_session_id,
+Videoly_shown.session_id as Videoly_shown_session_id,
+Videoly_started.session_id as Videoly_started_session_id,
+add_to_cart.session_id as add_to_cart_session_id,
+purchase.session_id as purchase_session_id,
 purchase.revenue as revenue
 from total_sessions_PDP_Views
 full outer join Videoly_shown on total_sessions_PDP_Views.session_id = Videoly_shown.session_id
@@ -180,7 +180,7 @@ full outer join Videoly_started on total_sessions_PDP_Views.session_id = Videoly
 full outer join add_to_cart on total_sessions_PDP_Views.session_id = add_to_cart.session_id
 full outer join purchase on purchase.session_id = add_to_cart.session_id)
 
-SELECT coalesce(sub1.USERUID,bounces.USERUID) as userUID,timestamp(coalesce(sub1.date,bounces.date)) as date,sub1.* except (UserUID,date), bounces.session_id, bounces.bounces from sub1 full outer join bounces on coalesce(total_sessions_PDP_Views,Videoly_shown_sesions,Videoly_started_sesions,add_to_cart_sesions,purchase_sessions) = bounces.session_id
+SELECT coalesce(sub1.USERUID,bounces.USERUID) as userUID,timestamp(coalesce(sub1.date,bounces.date)) as date,sub1.* except (UserUID,date), bounces.session_id, bounces.bounces from sub1 full outer join bounces on coalesce(PDP_View_session_id,Videoly_shown_session_id,Videoly_started_session_id,add_to_cart_session_id,purchase_session_id) = bounces.session_id
 )
 
 SELECT distinct row_number () over () as ROW_NUM, sub1.* from sub1;;
@@ -226,60 +226,97 @@ SELECT distinct row_number () over () as ROW_NUM, sub1.* from sub1;;
     sql: ${TABLE}.Videoly_started_info ;;
   }
 
+  dimension: PDP_View_session_id{
+    type: string
+    sql: ${TABLE}.PDP_View_session_id ;;
+  }
+
+  dimension: Videoly_shown_session_id{
+    type: string
+    sql: ${TABLE}.Videoly_shown_session_id ;;
+  }
+
+  dimension: Videoly_started_session_id{
+    type: string
+    sql: ${TABLE}.Videoly_started_session_id ;;
+  }
+
+  dimension: add_to_cart_session_id{
+    type: string
+    sql: ${TABLE}.add_to_cart_session_id ;;
+  }
+
+  dimension: purchase_session_id{
+    type: string
+    sql: ${TABLE}.purchase_session_id ;;
+  }
+
+  dimension: session_id{
+    type: string
+    sql: ${TABLE}.session_id ;;
+  }
   measure: sessions_with_PDP_views {
     description: "sessions with PDP views"
     label: "sessions with PDP"
     type: count_distinct
-    sql: ${TABLE}.total_sessions_PDP_Views ;;
+    sql: ${TABLE}.PDP_View_session_id ;;
   }
 
   measure: sessions_with_videoly_shown {
     description: "Videoly Shown sessions"
     label: "Videoly Shown sessions"
     type: count_distinct
-    sql: ${TABLE}.Videoly_shown_sesions ;;
+    sql: ${TABLE}.Videoly_shown_session_id ;;
   }
 
   measure: sessions_with_videoly_shown_not_started {
-    description: "Videoly Shown sessions"
+    description: "Videoly Shown sessions not started"
     label: "Videoly Shown sessions"
     type: count_distinct
-    filters: [Videoly_started_sesions: "NULL"]
-    sql: ${TABLE}.Videoly_shown_sesions ;;
+    filters: [Videoly_started_session_id: "NULL"]
+    sql: ${TABLE}.Videoly_shown_session_id ;;
   }
 
-  dimension: Videoly_started_sesions {
+  measure: Videoly_started_sesions {
     description: "Videoly started sessions"
     label: "Videoly started sessions"
-    type: string
-    sql: ${TABLE}.Videoly_started_sesions ;;
+    type: count_distinct
+    sql: ${TABLE}.Videoly_started_session_id ;;
   }
 
-  dimension: add_to_cart_sesions {
+  measure: Videoly_started_and_purchase_sesions {
+    description: "Videoly started then Purchase sessions"
+    label: "Videoly started then Purchase sessions"
+    type: count_distinct
+    filters: [purchase_session_id: "-NULL"]
+    sql: ${TABLE}.Videoly_started_session_id ;;
+  }
+
+  measure: add_to_cart_sesions {
     description: "Add to Cart sessions"
     label: "Add to Cart sessions"
-    type: string
-    sql: ${TABLE}.add_to_cart_sesions ;;
+    type: count_distinct
+    sql: ${TABLE}.add_to_cart_session_id ;;
   }
 
-  dimension: purchase_sessions {
+  measure: purchase_sessions {
     description: "Purchase sessions"
     label: "Purchase sessions"
-    type: string
-    sql: ${TABLE}.purchase_sessions ;;
+    type: count_distinct
+    sql: ${TABLE}.purchase_session_id ;;
   }
 
-  dimension: session_id {
+  measure: all_sessions {
     description: "All sessions"
     label: "All sessions"
-    type: string
+    type: count_distinct
     sql: ${TABLE}.session_id ;;
   }
 
-  dimension: revenue {
+  measure: revenue {
     description: "revenue from purchase events"
     label: "Revenue"
-    type: number
+    type: sum
     value_format_name: gbp
     sql: ${TABLE}.revenue ;;
   }
