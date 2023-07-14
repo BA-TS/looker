@@ -18,9 +18,9 @@ explore: GA4 {
 
   always_filter: {
     filters: [
-      select_date_reference: "app^_web^_data",
       select_date_range: "7 days"
     ]}
+  #select_date_reference: "app^_web^_data",
 
   conditionally_filter: {
     filters:
@@ -69,14 +69,14 @@ explore: GA4 {
     sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
   }
 
-  join: app_web_data {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${base.base_date_date} = ${app_web_data.transaction_date_filter} ;;
-  }
+ # join: app_web_data {
+  #  type: left_outer
+   # relationship: many_to_one
+    #sql_on: ${base.base_date_date} = ${app_web_data.transaction_date_filter} ;;
+  #}
 
   join: ga4 {
-    type: inner
+    type: left_outer
     relationship: many_to_one
     sql_on: ${base.date_date} = ${ga4.date_date};;
   }
