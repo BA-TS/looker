@@ -207,6 +207,7 @@ SELECT distinct row_number () over () as ROW_NUM, sub1.* from sub1;;
    dimension_group: date {
      description: "The date when each user last ordered"
      type: time
+    hidden: yes
      timeframes: [raw,date]
      sql: ${TABLE}.date ;;
    }
