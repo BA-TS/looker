@@ -205,7 +205,6 @@ SELECT distinct row_number () over () as ROW_NUM, sub1.* from sub1;;
    }
   #
    dimension_group: date {
-     description: "The date when each user last ordered"
      type: time
     hidden: yes
      timeframes: [raw,date]
@@ -264,6 +263,7 @@ SELECT distinct row_number () over () as ROW_NUM, sub1.* from sub1;;
   measure: sessions_with_PDP_views {
     description: "sessions with PDP views"
     label: "sessions with PDP"
+    group_label: "Sessions"
     type: count_distinct
     sql: ${TABLE}.PDP_View_session_id ;;
   }
@@ -271,6 +271,7 @@ SELECT distinct row_number () over () as ROW_NUM, sub1.* from sub1;;
   measure: sessions_with_videoly_shown {
     description: "Videoly Shown sessions"
     label: "Videoly Shown sessions"
+    group_label: "Sessions"
     type: count_distinct
     sql: ${TABLE}.Videoly_shown_session_id ;;
   }
@@ -278,6 +279,7 @@ SELECT distinct row_number () over () as ROW_NUM, sub1.* from sub1;;
   measure: sessions_with_videoly_shown_not_started {
     description: "Videoly Shown sessions not started"
     label: "Videoly Shown not started sessions"
+    group_label: "Sessions"
     type: count_distinct
     filters: [Videoly_started_session_id: "NULL"]
     sql: ${TABLE}.Videoly_shown_session_id ;;
@@ -286,6 +288,7 @@ SELECT distinct row_number () over () as ROW_NUM, sub1.* from sub1;;
   measure: transactional_sessions_with_videoly_shown_not_started {
     description: "Transactional Videoly Shown sessions not started"
     label: "Transactional Videoly Shown not started sessions"
+    group_label: "Sessions"
     type: count_distinct
     filters: [Videoly_started_session_id: "NULL", purchase_session_id: "-NULL"]
     sql: ${TABLE}.Videoly_shown_session_id ;;
@@ -294,13 +297,15 @@ SELECT distinct row_number () over () as ROW_NUM, sub1.* from sub1;;
   measure: Videoly_started_sesions {
     description: "Videoly started sessions"
     label: "Videoly started sessions"
+    group_label: "Sessions"
     type: count_distinct
     sql: ${TABLE}.Videoly_started_session_id ;;
   }
 
   measure: Videoly_started_and_purchase_sesions {
     description: "Videoly started then Purchase sessions"
-    label: "Videoly started then Purchase sessions"
+    label: "Transactional Videoly started sessions"
+    group_label: "Sessions"
     type: count_distinct
     filters: [purchase_session_id: "-NULL"]
     sql: ${TABLE}.Videoly_started_session_id ;;
@@ -309,6 +314,7 @@ SELECT distinct row_number () over () as ROW_NUM, sub1.* from sub1;;
   measure: add_to_cart_sesions {
     description: "Add to Cart sessions"
     label: "Add to Cart sessions"
+    group_label: "Sessions"
     type: count_distinct
     sql: ${TABLE}.add_to_cart_session_id ;;
   }
@@ -316,6 +322,7 @@ SELECT distinct row_number () over () as ROW_NUM, sub1.* from sub1;;
   measure: purchase_sessions {
     description: "Purchase sessions"
     label: "Purchase sessions"
+    group_label: "Sessions"
     type: count_distinct
     sql: ${TABLE}.purchase_session_id ;;
   }
@@ -323,13 +330,15 @@ SELECT distinct row_number () over () as ROW_NUM, sub1.* from sub1;;
   measure: all_sessions {
     description: "All sessions"
     label: "All sessions"
+    group_label: "Sessions"
     type: count_distinct
     sql: ${TABLE}.session_id ;;
   }
 
   measure: revenue {
     description: "revenue from purchase events"
-    label: "Revenue"
+    label: "Total Revenue"
+    group_label: "Revenue"
     type: sum
     value_format_name: gbp
     sql: ${TABLE}.revenue ;;
@@ -337,7 +346,8 @@ SELECT distinct row_number () over () as ROW_NUM, sub1.* from sub1;;
 
   measure: Videoly_transactional {
     description: "revenue from purchase events"
-    label: "Revenue from Videoly Transactional"
+    label: "Revenue from Videoly viewed"
+    group_label: "Revenue"
     type: sum
     value_format_name: gbp
     filters: [purchase_session_id: "-NULL", Videoly_started_session_id: "-NULL"]
@@ -346,7 +356,8 @@ SELECT distinct row_number () over () as ROW_NUM, sub1.* from sub1;;
 
   measure: revenue_videoly_shown_not_started {
     description: "revenue Videoly Shown sessions not started"
-    label: "Revenue Videoly Shown not started sessions"
+    label: "Revenue Videoly Shown not started"
+    group_label: "Revenue"
     value_format_name: gbp
     type: sum
     filters: [Videoly_shown_session_id: "-NULL", Videoly_started_session_id: "NULL", purchase_session_id: "-NULL"]
@@ -371,6 +382,7 @@ SELECT distinct row_number () over () as ROW_NUM, sub1.* from sub1;;
 
   measure: bs {
     label: "Bounced sessions"
+    hidden: yes
     group_label: "Measures"
     sql: ${all_sessions}-${bounces} ;;
 
