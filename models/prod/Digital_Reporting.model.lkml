@@ -78,7 +78,7 @@ explore: GA4 {
   join: ga4 {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${base.date_date} = ${ga4.date_date};;
+    sql_on: ${base.select_date_range} = ${ga4.select_date_range};;
   }
 
   join: catalogue {
