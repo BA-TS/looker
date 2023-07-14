@@ -271,7 +271,7 @@ SELECT distinct row_number () over () as ROW_NUM, sub1.* from sub1;;
 
   measure: sessions_with_videoly_shown_not_started {
     description: "Videoly Shown sessions not started"
-    label: "Videoly Shown sessions"
+    label: "Videoly Shown not started sessions"
     type: count_distinct
     filters: [Videoly_started_session_id: "NULL"]
     sql: ${TABLE}.Videoly_shown_session_id ;;
