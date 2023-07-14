@@ -226,17 +226,25 @@ SELECT distinct row_number () over () as ROW_NUM, sub1.* from sub1;;
     sql: ${TABLE}.Videoly_started_info ;;
   }
 
-  dimension: sessions_with_PDP_views {
+  measure: sessions_with_PDP_views {
     description: "sessions with PDP views"
     label: "sessions with PDP"
-    type: string
+    type: count_distinct
     sql: ${TABLE}.total_sessions_PDP_Views ;;
   }
 
-  dimension: sessions_with_videoly_shown {
+  measure: sessions_with_videoly_shown {
     description: "Videoly Shown sessions"
     label: "Videoly Shown sessions"
-    type: string
+    type: count_distinct
+    sql: ${TABLE}.Videoly_shown_sesions ;;
+  }
+
+  measure: sessions_with_videoly_shown_not_started {
+    description: "Videoly Shown sessions"
+    label: "Videoly Shown sessions"
+    type: count_distinct
+    filters: [Videoly_started_sesions: "NULL"]
     sql: ${TABLE}.Videoly_shown_sesions ;;
   }
 
