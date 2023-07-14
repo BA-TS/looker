@@ -228,31 +228,37 @@ SELECT distinct row_number () over () as ROW_NUM, sub1.* from sub1;;
 
   dimension: PDP_View_session_id{
     type: string
+    hidden: yes
     sql: ${TABLE}.PDP_View_session_id ;;
   }
 
   dimension: Videoly_shown_session_id{
     type: string
+    hidden: yes
     sql: ${TABLE}.Videoly_shown_session_id ;;
   }
 
   dimension: Videoly_started_session_id{
     type: string
+    hidden: yes
     sql: ${TABLE}.Videoly_started_session_id ;;
   }
 
   dimension: add_to_cart_session_id{
     type: string
+    hidden: yes
     sql: ${TABLE}.add_to_cart_session_id ;;
   }
 
   dimension: purchase_session_id{
     type: string
+    hidden: yes
     sql: ${TABLE}.purchase_session_id ;;
   }
 
   dimension: session_id{
     type: string
+    hidden: yes
     sql: ${TABLE}.session_id ;;
   }
   measure: sessions_with_PDP_views {
@@ -318,6 +324,15 @@ SELECT distinct row_number () over () as ROW_NUM, sub1.* from sub1;;
     label: "Revenue"
     type: sum
     value_format_name: gbp
+    sql: ${TABLE}.revenue ;;
+  }
+
+  measure: Videoly_transactional {
+    description: "revenue from purchase events"
+    label: "Revenue from Videoly Transactional"
+    type: sum
+    value_format_name: gbp
+    filters: [purchase_session_id: "-NULL", Videoly_started_session_id: "-NULL"]
     sql: ${TABLE}.revenue ;;
   }
 
