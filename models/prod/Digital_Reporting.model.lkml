@@ -5,6 +5,7 @@
 # include: "my_dashboard.dashboard.lookml"   # include a LookML dashboard called my_dashboard
 include: "/views/**/*.view"
 include: "/views/GA4.view.lkml"
+include: "/Videoly_funnel_GA4.view.lkml"
 label: "Digital"
 
 explore: GA4 {
@@ -93,6 +94,13 @@ explore: GA4 {
     type: left_outer
     relationship: many_to_one
     sql_on: ${ga4.product_Sku}=${products.product_code};;
+  }
+
+  join: videoly_funnel_ga4 {
+    view_label: "Videoly_funnel"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${base.date_date} = ${videoly_funnel_ga4.date_date} ;;
   }
 
 }
