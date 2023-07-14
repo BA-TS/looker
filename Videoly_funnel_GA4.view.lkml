@@ -366,7 +366,7 @@ SELECT distinct row_number () over () as ROW_NUM, sub1.* from sub1;;
     hidden: yes
     type: count_distinct
     filters: [bounce_def: "0"]
-    sql: ${TABLE}.sessions;;
+    sql: ${TABLE}.session_id;;
   }
 
   measure: bs {
