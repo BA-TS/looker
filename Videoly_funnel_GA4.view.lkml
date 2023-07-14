@@ -148,7 +148,7 @@ bounces as (SELECT distinct
 "App" as USERUID,
 PARSE_DATE('%Y%m%d', event_date) as date,
 concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id'))  as session_id,
-case when (select distinct cast(value.int_value as string) from unnest(event_params) where key = 'engaged_session_event') = '1' then "0" else "1" end as bounces
+case when (select distinct cast(value.int_value as string) from unnest(event_params) where key = 'engaged_session_event') = '1' then "1" else "0" end as bounces
 FROM `toolstation-data-storage.analytics_265133009.events_*`
 WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK)) and FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK))
@@ -158,7 +158,7 @@ SELECT distinct
 "Web" as USERUID,
 date(PARSE_DATE('%Y%m%d', date)) as date,
 (concat(fullVisitorID,visitStartTime))  as session_id,
-case when totals.bounces = 1 then "1" else "0" end as bounces
+case when totals.bounces = 1 then "0" else "1" end as bounces
 FROM `toolstation-data-storage.4783980.ga_sessions_*`
 WHERE PARSE_DATE('%Y%m%d', date)  >= current_date() -500 and PARSE_DATE('%Y%m%d', date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK)) and FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK))
@@ -283,6 +283,14 @@ SELECT distinct row_number () over () as ROW_NUM, sub1.* from sub1;;
     sql: ${TABLE}.Videoly_shown_session_id ;;
   }
 
+  measure: transactional_sessions_with_videoly_shown_not_started {
+    description: "Transactional Videoly Shown sessions not started"
+    label: "Transactional Videoly Shown not started sessions"
+    type: count_distinct
+    filters: [Videoly_started_session_id: "NULL", purchase_session_id: "-NULL"]
+    sql: ${TABLE}.Videoly_shown_session_id ;;
+  }
+
   measure: Videoly_started_sesions {
     description: "Videoly started sessions"
     label: "Videoly started sessions"
@@ -334,6 +342,38 @@ SELECT distinct row_number () over () as ROW_NUM, sub1.* from sub1;;
     value_format_name: gbp
     filters: [purchase_session_id: "-NULL", Videoly_started_session_id: "-NULL"]
     sql: ${TABLE}.revenue ;;
+  }
+
+  measure: revenue_videoly_shown_not_started {
+    description: "revenue Videoly Shown sessions not started"
+    label: "Revenue Videoly Shown not started sessions"
+    value_format_name: gbp
+    type: sum
+    filters: [Videoly_shown_session_id: "-NULL", Videoly_started_session_id: "NULL", purchase_session_id: "-NULL"]
+    sql: ${TABLE}.revenue ;;
+  }
+
+  dimension: bounce_def {
+    description: "if session is bounce 0 = no, 1 = yes"
+    type: string
+    hidden: yes
+    sql: ${TABLE}.bounces ;;
+  }
+
+  measure: bounces {
+    label: "bounces"
+    group_label: "Measures"
+    hidden: yes
+    type: count_distinct
+    filters: [bounce_def: "0"]
+    sql: ${TABLE}.sessions;;
+  }
+
+  measure: bs {
+    label: "Bounced sessions"
+    group_label: "Measures"
+    sql: ${all_sessions}-${bounces} ;;
+
   }
 
   #
