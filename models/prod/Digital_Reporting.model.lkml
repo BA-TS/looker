@@ -18,14 +18,14 @@ explore: GA4 {
 
   always_filter: {
     filters: [
-      select_date_type: "Calendar"
+      select_date_reference: "app^_web^_data",
+      select_date_range: "7 days"
     ]}
 
   conditionally_filter: {
     filters:
     [
-      ga4.select_date_range: "7 days",
-      select_date_range: "7 days"
+      ga4.select_date_range: "7 days"
     ]
 
     #total_sessionsGA4.select_date_range: "7 days",
@@ -69,9 +69,15 @@ explore: GA4 {
     sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
   }
 
+  join: app_web_data {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${base.base_date_date} = ${app_web_data.transaction_date_filter} ;;
+  }
+
   join: ga4 {
     type: inner
-    relationship: one_to_many
+    relationship: many_to_one
     sql_on: ${base.date_date} = ${ga4.date_date};;
   }
 
