@@ -58,8 +58,9 @@ explore: GA4 {
   #,select_date_reference: "ga4"
 
   fields: [
-    ALL_FIELDS*, -base.period_over_period, -base.flexible_pop,  -base.__comparator_order__
+    ALL_FIELDS*
   ]
+  #, -base.period_over_period, -base.flexible_pop,  -base.__comparator_order__
   #sql_always_where:
   #${period_over_period};;
 
