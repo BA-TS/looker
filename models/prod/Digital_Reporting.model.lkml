@@ -39,7 +39,6 @@ explore: GA4 {
     #Purchase_events_GA4.select_date_range: "7 days"
 
     unless: [
-      select_date_range,
       select_fixed_range,
       dynamic_fiscal_year,
       dynamic_fiscal_half,
