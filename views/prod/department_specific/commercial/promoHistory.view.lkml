@@ -76,6 +76,7 @@ select distinct row_number() over () as P_K, sub1.* from sub1
     label: "Promo Price"
     description: "Promo Price of the product"
     type: number
+    value_format_name: gbp
     sql: ${TABLE}.promoPrice ;;
   }
 
