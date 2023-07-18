@@ -262,9 +262,9 @@ explore: base {
 
   join: product_dimensions {
     type: left_outer
-    relationship: many_to_one
     view_label: "Products"
-    sql: ${products.product_uid} = ${product_dimensions.product_uid};;
+    relationship: many_to_one
+    sql_on: ${products.product_uid} = ${product_dimensions.product_uid};;
   }
 }
 
