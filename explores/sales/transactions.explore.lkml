@@ -266,6 +266,14 @@ explore: base {
     relationship: many_to_one
     sql_on: ${products.product_uid} = ${product_dimensions.product_uid};;
   }
+
+  join: retail_price_history {
+    type: left_outer
+    view_label: "Products"
+    relationship: many_to_one
+    sql_on: ${products.product_uid} = ${retail_price_history.product_uid}
+    and ${base.base_date_date} BETWEEN ${retail_price_history.price_start_date} AND ${retail_price_history.price_end_date};;
+  }
 }
 
 explore: +base {
