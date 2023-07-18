@@ -19,6 +19,7 @@ select distinct row_number() over () as P_K, sub1.* from sub1
       type: string
       sql: ${TABLE}.P_K ;;
       primary_key: yes
+      hidden: yes
     }
 
   dimension: product_code {
@@ -37,8 +38,9 @@ select distinct row_number() over () as P_K, sub1.* from sub1
   }
 
   dimension: catalogueName {
-    description: "catalogueName"
+    description: "Catalogue Name"
     type: string
+    hidden: yes
     sql: ${TABLE}.publicationName ;;
   }
 
@@ -47,6 +49,7 @@ select distinct row_number() over () as P_K, sub1.* from sub1
     label: "Cost Price"
     description: "Cost price of the product"
     type: number
+    value_format_name: gbp
     sql: ${TABLE}.costPrice ;;
   }
 
@@ -55,6 +58,7 @@ select distinct row_number() over () as P_K, sub1.* from sub1
     label: "VAT Rate"
     description: "VAT rate of the product"
     type: number
+    value_format_name: gbp
     sql: ${TABLE}.vatRate ;;
   }
 
@@ -63,7 +67,8 @@ select distinct row_number() over () as P_K, sub1.* from sub1
     label: "Regular Price"
     description: "Regular Price of the product"
     type: number
-    sql: ${TABLE}.vatRate ;;
+    value_format_name: gbp
+    sql: ${TABLE}.regularPrice ;;
   }
 
   dimension: financial_promoPrice {
@@ -71,7 +76,7 @@ select distinct row_number() over () as P_K, sub1.* from sub1
     label: "Promo Price"
     description: "Promo Price of the product"
     type: number
-    sql: ${TABLE}.vatRate ;;
+    sql: ${TABLE}.promoPrice ;;
   }
 
   dimension: retail_descriptionFOH {
