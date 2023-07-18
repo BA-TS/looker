@@ -1,12 +1,32 @@
-view: promoHistory{
-  sql_table_name: `toolstation-data-storage.promotions.promoHistory`;;
+view: promoHistory_Current{
+  derived_table: {
+  sql:with sub1 as (SELECT distinct date(inputtedBy.
+completedAt) as endDate, publication.catalogue.
+publicationName, productCode, cycleID,financial.costPrice,financial.vatRate, financial.regularPrice, financial.promoPrice,retail.descriptionFOH,retail.isAisleEnd,retail.isTrough,retail.isGrabBin,retail.isCounterTop, retail.isPoster, retail.isStand,retail.isDumpStack,retail.isFSDU
+FROM `toolstation-data-storage.promotions.promoHistory`
+union distinct
+SELECT distinct date(inputtedBy.
+completedAt) as endDate, publication.catalogue.
+publicationName, productCode, cycleID,financial.costPrice,financial.vatRate, financial.regularPrice, financial.promoPrice,retail.descriptionFOH,retail.isAisleEnd,retail.isTrough,retail.isGrabBin,retail.isCounterTop, retail.isPoster, retail.isStand,retail.isDumpStack,retail.isFSDU
+FROM `toolstation-data-storage.promotions.promoWorking` )
+
+select distinct row_number() over () as P_K, sub1.* from sub1
+  ;;}
+
+
+    dimension: P_K {
+      description: "Primary Key"
+      type: string
+      sql: ${TABLE}.P_K ;;
+      primary_key: yes
+    }
 
   dimension: product_code {
     label: "1. Product Code"
     description: "SKU of the product"
     type: string
     sql: ${TABLE}.productCode ;;
-    primary_key: yes
+    #primary_key: yes
   }
 
   dimension: cycleID {
@@ -16,12 +36,18 @@ view: promoHistory{
     sql: ${TABLE}.cycleID ;;
   }
 
+  dimension: catalogueName {
+    description: "catalogueName"
+    type: string
+    sql: ${TABLE}.publicationName ;;
+  }
+
   dimension: financial_costPrice {
     group_label: "3. Financial"
     label: "Cost Price"
     description: "Cost price of the product"
     type: number
-    sql: ${TABLE}.financial.costPrice ;;
+    sql: ${TABLE}.costPrice ;;
   }
 
   dimension: financial_vatRate {
@@ -29,7 +55,7 @@ view: promoHistory{
     label: "VAT Rate"
     description: "VAT rate of the product"
     type: number
-    sql: ${TABLE}.financial.vatRate ;;
+    sql: ${TABLE}.vatRate ;;
   }
 
   dimension: financial_regularPrice {
@@ -37,7 +63,7 @@ view: promoHistory{
     label: "Regular Price"
     description: "Regular Price of the product"
     type: number
-    sql: ${TABLE}.financial.vatRate ;;
+    sql: ${TABLE}.vatRate ;;
   }
 
   dimension: financial_promoPrice {
@@ -45,7 +71,7 @@ view: promoHistory{
     label: "Promo Price"
     description: "Promo Price of the product"
     type: number
-    sql: ${TABLE}.financial.vatRate ;;
+    sql: ${TABLE}.vatRate ;;
   }
 
   dimension: retail_descriptionFOH {
@@ -53,7 +79,7 @@ view: promoHistory{
     label: "Description FOH"
     description: ""
     type: string
-    sql: ${TABLE}.retail.descriptionFOH ;;
+    sql: ${TABLE}.descriptionFOH ;;
   }
 
   dimension: retail_isAisleEnd {
@@ -61,7 +87,7 @@ view: promoHistory{
     label: "AisleEnd"
     description: ""
     type: yesno
-    sql: ${TABLE}.retail.isAisleEnd ;;
+    sql: ${TABLE}.isAisleEnd ;;
   }
 
   dimension: retail_isTrough {
@@ -69,7 +95,7 @@ view: promoHistory{
     label: "Trough"
     description: ""
     type: yesno
-    sql: ${TABLE}.retail.isTrough ;;
+    sql: ${TABLE}.isTrough ;;
   }
 
   dimension: retail_isGrabBin {
@@ -77,7 +103,7 @@ view: promoHistory{
     label: "GrabBin"
     description: ""
     type: yesno
-    sql: ${TABLE}.retail.isGrabBin ;;
+    sql: ${TABLE}.isGrabBin ;;
   }
 
   dimension: retail_isCounterTop {
@@ -85,7 +111,7 @@ view: promoHistory{
     label: "CounterTop"
     description: ""
     type: yesno
-    sql: ${TABLE}.retail.isCounterTop ;;
+    sql: ${TABLE}.isCounterTop ;;
   }
 
   dimension: retail_isPoster {
@@ -93,7 +119,7 @@ view: promoHistory{
     label: "Poster"
     description: ""
     type: yesno
-    sql: ${TABLE}.retail.isGrabBin ;;
+    sql: ${TABLE}.isPoster ;;
   }
 
   dimension: retail_isStand {
@@ -101,7 +127,7 @@ view: promoHistory{
     label: "Stand"
     description: ""
     type: yesno
-    sql: ${TABLE}.retail.isGrabBin ;;
+    sql: ${TABLE}.retail.isStand ;;
   }
 
   dimension: retail_isDumpStack {

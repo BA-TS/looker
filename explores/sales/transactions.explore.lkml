@@ -252,6 +252,13 @@ explore: base {
     relationship: many_to_one
     sql_on: ${transactions.parent_order_uid} = ${po_numbers.order_id};;
   }
+
+  join: promoHistory_Current {
+    type: full_outer
+    view_label: "Promos"
+    relationship: many_to_one
+    sql_on: ${products.product_code} = ${promoHistory_Current.product_code} and ${catalogue.catalogue_name}=${promoHistory_Current.catalogueName} ;;
+  }
 }
 
 explore: +base {
