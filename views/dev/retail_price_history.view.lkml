@@ -57,6 +57,7 @@ view: retail_price_history {
 
   dimension: retail_price {
     type: number
+    value_format_name: gbp
     sql: ${TABLE}.retailPrice ;;
   }
 
