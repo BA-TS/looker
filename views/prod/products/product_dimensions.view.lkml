@@ -9,21 +9,25 @@ view: product_dimensions {
   }
 
   dimension: hazardous {
+    group_label: "Product Details"
     type: string
     sql: ${TABLE}.hazardous ;;
   }
 
   dimension: item_type {
+    group_label: "Product Details"
     type: string
     sql: ${TABLE}.itemType ;;
   }
 
   dimension: pack_description {
+    group_label: "Product Details"
     type: string
     sql: ${TABLE}.packDescription ;;
   }
 
   dimension: pack_size_from_supplier {
+    group_label: "Dimensions"
     type: string
     sql: ${TABLE}.packSizeFromSupplier ;;
   }

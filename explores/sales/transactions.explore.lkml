@@ -259,6 +259,13 @@ explore: base {
     relationship: many_to_one
     sql_on: ${products.product_code} = ${promoHistory_Current.product_code} and ${catalogue.catalogue_name}=${promoHistory_Current.catalogueName} ;;
   }
+
+  join: product_dimensions {
+    type: left_outer
+    relationship: many_to_one
+    view_label: "Products"
+    sql: ${product_dimensions.product_uid} = ${products.product_uid} ;;
+  }
 }
 
 explore: +base {
