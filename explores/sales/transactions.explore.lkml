@@ -264,7 +264,7 @@ explore: base {
     type: left_outer
     relationship: many_to_one
     view_label: "Products"
-    sql: ${product_dimensions.product_uid} = ${products.product_uid} ;;
+    sql: ${products.product_uid} = ${product_dimensions.product_uid};;
   }
 }
 
