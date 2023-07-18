@@ -189,8 +189,10 @@ view: transactions {
 
   dimension: net_sale_price {
     type: number
+    value_format_name: gbp
     sql: ${TABLE}.netSalePrice ;;
-    hidden: yes
+    label: "Price"
+    group_label: "Products"
   }
 
   dimension: net_sales_value {
