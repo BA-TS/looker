@@ -269,7 +269,6 @@ view: transactions {
     type: string
     description: "Field is currently under review - please do not use"
     sql: ${TABLE}.transactionLineType ;;
-    required_access_grants: [lz_testing]
   }
 
   dimension: unit_funding {
