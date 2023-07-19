@@ -151,4 +151,32 @@ select distinct row_number() over () as P_K, sub1.* from sub1
     type: yesno
     sql: ${TABLE}.retail.isFSDU ;;
   }
+
+  measure: avg_financial_costPrice {
+    group_label: "Financial"
+    label: "Avg Cost Price"
+    description: "Cost price of the product"
+    type: average
+    value_format_name: gbp
+    sql: ${TABLE}.costPrice ;;
+  }
+
+  measure: avg_financial_vatRate {
+    group_label: "Financial"
+    label: "Avg VAT Rate"
+    description: "VAT rate of the product"
+    type: average
+    value_format_name: gbp
+    sql: ${TABLE}.vatRate ;;
+  }
+
+  measure: avg_financial_regularPrice {
+    group_label: "Financial"
+    label: "Avg Regular Price"
+    description: "Regular Price of the product"
+    type: average
+    value_format_name: gbp
+    sql: ${TABLE}.regularPrice ;;
+  }
+
 }
