@@ -1,10 +1,16 @@
 view: retail_price_history {
  sql_table_name: `toolstation-data-storage.range.retailPriceHistory`;;
 
+  dimension: price_uid {
+    type: string
+    primary_key: yes
+    #hidden: yes
+    sql: ${TABLE}.priceUID ;;
+  }
+
   dimension: product_uid {
     type: string
     sql: ${TABLE}.productUID ;;
-    primary_key: yes
   }
 
   dimension: cert {
@@ -50,10 +56,10 @@ view: retail_price_history {
     sql: ${TABLE}.priceType ;;
   }
 
-  dimension: price_uid {
-    type: string
-    sql: ${TABLE}.priceUID ;;
-  }
+  #dimension: price_uid {
+    #type: string
+    #sql: ${TABLE}.priceUID ;;
+  #}
 
   dimension: retail_price {
     type: number
