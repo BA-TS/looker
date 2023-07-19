@@ -89,6 +89,7 @@ view: retail_price_history {
 
   measure: var_retail_price {
     type: number
+    value_format: "0.####"
     sql: variance(${TABLE}.retailPrice) ;;
   }
 }
