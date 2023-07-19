@@ -179,4 +179,14 @@ select distinct row_number() over () as P_K, sub1.* from sub1
     sql: ${TABLE}.regularPrice ;;
   }
 
+  measure: avg_financial_promoPrice {
+    group_label: "Financial"
+    label: "Avg Promo Price"
+    description: "Promo Price of the product"
+    type: average
+    value_format_name: gbp
+    sql: ${TABLE}.promoPrice ;;
+  }
+
+
 }
