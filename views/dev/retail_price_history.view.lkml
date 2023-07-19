@@ -86,4 +86,9 @@ view: retail_price_history {
     type: average
     sql: ${retail_price} ;;
   }
+
+  measure: var_retail_price {
+    type: number
+    sql: variance(${TABLE}.retailPrice) ;;
+  }
 }
