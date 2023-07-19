@@ -84,6 +84,7 @@ view: retail_price_history {
 
   measure: average_retail_price {
     type: average
+    value_format_name: gbp
     sql: ${retail_price} ;;
   }
 
