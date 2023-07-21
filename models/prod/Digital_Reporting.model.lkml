@@ -105,6 +105,13 @@ explore: GA4 {
     sql_on: ${base.date_date} = ${videoly_funnel_ga4.date_date} ;;
   }
 
+  join: stock_cover {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${products.product_code} = ${stock_cover.product_code}
+      and ${base.base_date_date} = ${stock_cover.stock_date_date};;
+  }
+
 }
 
 explore: digital_reporting {
