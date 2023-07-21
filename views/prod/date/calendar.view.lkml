@@ -313,4 +313,13 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
     sql: ${TABLE}.dayInMonth = 1 ;;
     hidden: yes
   }
+
+  measure: year_month_count {
+    view_label: "Measures"
+    group_label: "Core Metrics"
+    label: "Number of Year Months (yyyy-mm) with at least one transaction"
+    required_access_grants: [lz_testing]
+    type: count_distinct
+    sql: ${calendar_year_month} ;;
+  }
 }
