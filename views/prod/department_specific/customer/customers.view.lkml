@@ -385,4 +385,27 @@ view: customers {
     type: count_distinct
     sql: ${customer_uid} ;;
   }
+
+  measure: trade_customers_total {
+    type: count_distinct
+    value_format: "#,##0;(#,##0)"
+    sql: CASE WHEN ${is_trade} = true THEN ${customer_uid}  ELSE NULL END;;
+    hidden: yes
+  }
+
+  measure: non_trade_customers_total {
+    type: count_distinct
+    value_format: "#,##0;(#,##0)"
+    sql: CASE WHEN ${is_trade} = false THEN ${customer_uid}  ELSE NULL END;;
+    hidden: yes
+  }
+
+  measure: trade_percent {
+    view_label: "Measures"
+    group_label: "Core Metrics"
+    label: "Trade Customer %"
+   type: number
+    sql: ${trade_customers_total}/NULLIF((${trade_customers_total}+${non_trade_customers_total}),0);;
+    value_format: "0.0%"
+  }
 }
