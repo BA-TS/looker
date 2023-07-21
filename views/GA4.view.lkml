@@ -365,6 +365,13 @@ GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,22,24)
     sql: safe_divide(${Count_transaction_id},${session_start});;
   }
 
+  measure: rank_sessions {
+    label: "Rank Sessions"
+    group_label: "Measures"
+    type: number
+    sql: rank() over (PARTITION BY ${date_date} ORDER BY ${session_start} DESC)  ;;
+  }
+
     filter: select_date_range {
       label: "GA4 Date Range"
       group_label: "Date Filter"
