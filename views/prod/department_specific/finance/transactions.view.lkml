@@ -894,6 +894,16 @@ view: transactions {
     value_format: "#,##0;(#,##0)"
   }
 
+  measure: number_of_departments {
+    label: "Number of Departments"
+    view_label: "Measures"
+    group_label: "Core Metrics"
+    description: "Number of unique departments"
+    type: count_distinct
+    sql: ${product_department} ;;
+    value_format: "#,##0;(#,##0)"
+  }
+
   measure: number_of_unique_products {
     label: "Number of Products"
     view_label: "Measures"
@@ -911,6 +921,16 @@ view: transactions {
     description: "Number of unique customers"
     type: count_distinct
     sql: ${customer_uid} ;;
+    value_format: "#,##0;(#,##0)"
+  }
+
+  measure: number_of_branches {
+    label: "Number of Branches"
+    view_label: "Measures"
+    group_label: "Core Metrics"
+    description: "Number of unique branches"
+    type: count_distinct
+    sql: ${site_uid} ;;
     value_format: "#,##0;(#,##0)"
   }
 

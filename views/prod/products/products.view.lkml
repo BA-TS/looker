@@ -204,4 +204,14 @@ view: products {
     sql: ${TABLE}.productDefaultSupplier ;;
     hidden: yes
   }
+
+  measure: number_of_subdepartments {
+    label: "Number of SubDepartments"
+    view_label: "Measures"
+    group_label: "Core Metrics"
+    description: "Number of unique Sub departments"
+    type: count_distinct
+    sql: ${subdepartment} ;;
+    value_format: "#,##0;(#,##0)"
+  }
 }
