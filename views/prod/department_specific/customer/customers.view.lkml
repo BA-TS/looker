@@ -403,7 +403,7 @@ view: customers {
   measure: trade_percent {
     view_label: "Measures"
     group_label: "Core Metrics"
-    label: "Trade Customer %"
+    label: "Trade Customers %"
    type: number
     sql: ${trade_customers_total}/NULLIF((${trade_customers_total}+${non_trade_customers_total}),0);;
     value_format: "0.0%"
