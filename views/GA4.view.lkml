@@ -372,7 +372,7 @@ GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,22,24)
     group_label: "Ecommerce"
     type: number
     value_format_name: gbp
-    sql: safe_divide(${Count_transaction_id},${item_revenue}) ;;
+    sql: safe_divide(${item_revenue},${Count_transaction_id}) ;;
   }
 
 
