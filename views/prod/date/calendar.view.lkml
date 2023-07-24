@@ -236,7 +236,6 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
     group_label: "Dates Fiscal"
     type: number
     sql: ${TABLE}.fiscalYear ;;
-    hidden: yes
   }
 
   dimension: fiscal_year_month {
