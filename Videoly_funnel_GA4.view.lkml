@@ -383,7 +383,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
 
   measure: bs {
     label: "Bounced sessions"
-    #hidden: yes
+    hidden: yes
     group_label: "Measures"
     sql: ${all_sessions}-${bounces} ;;
 
