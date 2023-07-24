@@ -317,6 +317,7 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
   measure: unique_month_count {
     view_label: "Measures"
     group_label: "Core Metrics"
+    label: "Number of Unique Months"
     required_access_grants: [lz_testing]
     type: count_distinct
     sql: ${calendar_year_month} ;;
