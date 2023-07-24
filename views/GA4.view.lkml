@@ -33,7 +33,6 @@ sum(items.quantity) as item_quantity,
 concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) AS sessions,
 COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events,
 case when (select value.string_value from unnest(event_params) where key = 'session_engaged') = '1' then "1" else "0" end as bounces,
-(max(event_timestamp)-min(event_timestamp))/1000000 as session_length_in_seconds
 FROM `toolstation-data-storage.analytics_251803804.events_*` left join unnest (items) as items
 WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
@@ -65,7 +64,6 @@ sum(items.quantity) as itemQ,
 concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) AS sessions,
 COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events,
 case when (select distinct cast(value.int_value as string) from unnest(event_params) where key = 'engaged_session_event') = '1' then "1" else "0" end as bounces,
-(max(event_timestamp)-min(event_timestamp))/1000000 as session_length_in_seconds
 FROM `toolstation-data-storage.analytics_265133009.events_*` left join unnest(items) as items
 WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
@@ -375,13 +373,6 @@ GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,22,24)
     sql: safe_divide(${item_revenue},${Count_transaction_id}) ;;
   }
 
-  measure: Avg_session_length {
-    label: "Avg Session Length"
-    group_label: "Measures"
-    type: number
-    value_format_name: decimal_4
-    sql: sum(${TABLE}.session_length_in_seconds) ;;
-  }
 
 
     filter: select_date_range {
