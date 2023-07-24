@@ -236,7 +236,6 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
     group_label: "Dates Fiscal"
     type: number
     sql: ${TABLE}.fiscalYear ;;
-    hidden: yes
   }
 
   dimension: fiscal_year_month {
@@ -314,12 +313,21 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
     hidden: yes
   }
 
-  measure: year_month_count {
+  measure: unique_month_count {
     view_label: "Measures"
     group_label: "Core Metrics"
-    label: "Number of Year Months (yyyy-mm) with at least one transaction"
+    label: "Number of Unique Months"
     required_access_grants: [lz_testing]
     type: count_distinct
     sql: ${calendar_year_month} ;;
+  }
+
+  measure: unique_week_count {
+    view_label: "Measures"
+    group_label: "Core Metrics"
+    label: "Number of Unique Weeks"
+    required_access_grants: [lz_testing]
+    type: count_distinct
+    sql: ${week_in_year} ;;
   }
 }
