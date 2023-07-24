@@ -375,6 +375,14 @@ GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,22,24)
     sql: safe_divide(${item_revenue},${Count_transaction_id}) ;;
   }
 
+  measure: Avg_session_length {
+    label: "Avg Session Length"
+    group_label: "Measures"
+    type: number
+    value_format_name: decimal_4
+    sql: safe_divide(sum(${TABLE}.session_length_in_seconds),${session_start}) ;;
+  }
+
 
     filter: select_date_range {
       label: "GA4 Date Range"
