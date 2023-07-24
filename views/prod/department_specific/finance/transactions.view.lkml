@@ -895,7 +895,7 @@ view: transactions {
   }
 
   measure: number_of_departments {
-    label: "Number of Departments"
+    label: "Number of Unique Departments"
     view_label: "Measures"
     group_label: "Core Metrics"
     description: "Number of unique departments"
