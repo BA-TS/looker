@@ -204,6 +204,7 @@ GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,22,24)
     group_label: "User Attributes"
     description: "user_id"
     type: string
+    hidden: yes
     sql: ${TABLE}.user_id;;
   }
 
@@ -371,6 +372,29 @@ GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,22,24)
     type: number
     value_format_name: gbp
     sql: safe_divide(${item_revenue},${Count_transaction_id}) ;;
+  }
+
+  measure: total_users {
+    label: "Total Users"
+    group_label: "Measures"
+    type: count_distinct
+    sql: ${user_id} ;;
+  }
+
+  measure: New_users {
+    label: "New Users"
+    group_label: "Measures"
+    type: count_distinct
+    filters: [event_name: "first_visit,first_open"]
+    sql: ${user_id} ;;
+  }
+
+  measure: returning_users {
+    label: "Returning Users"
+    group_label: "Measures"
+    type: count_distinct
+    filters: [event_name: "-first_visit,-first_open"]
+    sql: ${user_id} ;;
   }
 
 
