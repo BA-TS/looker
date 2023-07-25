@@ -274,6 +274,14 @@ explore: base {
     sql_on: ${products.product_uid} = ${retail_price_history.product_uid}
     and ${base.base_date_date} BETWEEN ${retail_price_history.price_start_date} AND ${retail_price_history.price_end_date};;
   }
+
+  join: currentRetailPrice {
+    type: left_outer
+    view_label: "Products"
+    relationship: many_to_one
+    sql_on: ${products.product_uid} = ${currentRetailPrice.Product_ID} ;;
+  }
+
 }
 
 explore: +base {
