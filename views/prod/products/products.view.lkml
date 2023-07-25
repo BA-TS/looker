@@ -211,6 +211,7 @@ view: products {
     group_label: "Core Metrics"
     description: "Number of unique Sub departments"
     type: count_distinct
+    hidden: yes
     sql: ${subdepartment} ;;
     value_format: "#,##0;(#,##0)"
   }

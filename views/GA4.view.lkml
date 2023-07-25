@@ -392,9 +392,8 @@ GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,22,24)
   measure: returning_users {
     label: "Returning Users"
     group_label: "Measures"
-    type: count_distinct
-    filters: [event_name: "-first_visit,-first_open"]
-    sql: ${user_id} ;;
+    type: number
+    sql: ${total_users}-${New_users} ;;
   }
 
 
