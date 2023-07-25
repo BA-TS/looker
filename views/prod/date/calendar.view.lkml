@@ -65,6 +65,7 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
     group_label: "Dates"
     label: "Year (yyyy)"
     type: number
+    value_format: "0"
     sql: ${TABLE}.calendarYear ;;
   }
 
