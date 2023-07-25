@@ -914,11 +914,14 @@ order by date desc; ;;
     dimension: Product_ID {
       description: "productUID"
       type: string
+      hidden: yes
       sql: ${TABLE}.productUID;;
     }
 
     dimension: retailBasePrice {
-      description: "retailBasePrice"
+      description: "Retail Base Price"
+      label: "Retail Base Price"
+      group_label: "Current Retail Price"
       type: number
       value_format_name: gbp
       sql: ${TABLE}.retailBasePrice ;;
@@ -926,6 +929,8 @@ order by date desc; ;;
 
     dimension: baseVAT {
       description: "baseVAT"
+      label: "Base VAT"
+      group_label: "Current Retail Price"
       type: number
       value_format_name: decimal_1
       sql: ${TABLE}.baseVAT ;;

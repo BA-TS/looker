@@ -4,17 +4,20 @@ view: retail_price_history {
   dimension: price_uid {
     type: string
     primary_key: yes
-    #hidden: yes
+    hidden: yes
     sql: ${TABLE}.priceUID ;;
   }
 
   dimension: product_uid {
     type: string
+    hidden: yes
     sql: ${TABLE}.productUID ;;
   }
 
   dimension: cert {
     type: number
+    label: "Cert"
+    group_label: "Retail Price History"
     sql: ${TABLE}.cert ;;
   }
 
@@ -29,16 +32,19 @@ view: retail_price_history {
       quarter,
       year
     ]
+    hidden: yes
     sql: ${TABLE}.priceEnd ;;
   }
 
   dimension: price_quantity {
     type: number
+    hidden: yes
     sql: ${TABLE}.priceQuantity ;;
   }
 
   dimension_group: price_start {
     type: time
+    hidden: yes
     timeframes: [
       raw,
       time,
@@ -53,6 +59,8 @@ view: retail_price_history {
 
   dimension: price_type {
     type: string
+    label: "Price Type"
+    group_label: "Retail Price History"
     sql: ${TABLE}.priceType ;;
   }
 
@@ -63,33 +71,43 @@ view: retail_price_history {
 
   dimension: retail_price {
     type: number
+    label: "Price"
+    group_label: "Retail Price History"
     value_format_name: gbp
     sql: ${TABLE}.retailPrice ;;
   }
 
   dimension: vat_rate {
     type: number
+    label: "Vat Rate"
+    group_label: "Retail Price History"
     sql: ${TABLE}.vatRate ;;
   }
 
   measure: total_price_quantity {
+    hidden: yes
     type: sum
     sql: ${price_quantity} ;;
   }
 
   measure: average_price_quantity {
     type: average
+    hidden: yes
     sql: ${price_quantity} ;;
   }
 
   measure: average_retail_price {
     type: average
+    label: "Avg Retail Price"
+    group_label: "Retail Price History"
     value_format_name: gbp
     sql: ${retail_price} ;;
   }
 
   measure: var_retail_price {
     type: number
+    label: "Var Retail Price"
+    group_label: "Retail Price History"
     value_format: "0.####"
     sql: variance(${TABLE}.retailPrice) ;;
   }
