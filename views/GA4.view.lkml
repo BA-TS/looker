@@ -17,7 +17,7 @@ case when traffic_source.name is null then "null" else traffic_source.name end a
  (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'item_id')) as event_label,
  cast(null as string) as error_message,
 ecommerce.transaction_id,
-user_id,
+case when user_id is null then user_pseudo_id else user_id end as user_id,
 CASE when regexp_contains((SELECT distinct value.string_value FROM UNNEST(event_params) WHERE key = 'page_location'),".*/p([0-9]*)$") then "product-detail-page"
 when regexp_contains((SELECT distinct value.string_value FROM UNNEST(event_params) WHERE key = 'page_location'), ".*/p[0-9]*[^0-9a-zA-Z]") then "product-detail-page"
 when regexp_contains((SELECT distinct value.string_value FROM UNNEST(event_params) WHERE key = 'page_location'),".*/c([0-9]*)$") then "product-listing-page"
@@ -52,7 +52,7 @@ coalesce((SELECT distinct key FROM UNNEST(event_params) WHERE key in ('search_te
 coalesce((SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params)WHERE key in ('search_term', 'query', 'category_id', 'product_code','redirected_query','redirected_category')),(SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'title')) as event_label,
 (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key in ('error_message')) as error_message,
 ecommerce.transaction_id,
-user_id,
+case when user_id is null then user_pseudo_id else user_id end as user_id,
 (SELECT distinct (value.string_value) FROM UNNEST(event_params) WHERE key = 'firebase_screen') as screen,
 items.item_id as item_id,
 items.price as Item_Price,
