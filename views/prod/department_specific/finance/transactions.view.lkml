@@ -1,4 +1,5 @@
 include: "/views/**/*base*.view"
+include: "/views/**/calendar.view"
 
 view: transactions {
   derived_table: {
@@ -357,7 +358,8 @@ view: transactions {
       raw,
       time,
       date,
-      month_num
+      month_num,
+      day_of_week_index
     ]
     sql: ${TABLE}.transactionDate ;;
     hidden: yes
@@ -437,6 +439,57 @@ view: transactions {
     description: "Any special requests made by the customer when ordering"
     type: string
     sql: ${TABLE}.orderSpecialRequests ;;
+  }
+
+  dimension: is_working_hours {
+    view_label: "Date"
+    group_label: "Time"
+    label: "Within normal working hours"
+    required_access_grants: [lz_testing]
+    type:  yesno
+    sql: (TIME(${transaction_raw}) BETWEEN "07:00:00" AND "16:59:59.999999");;
+  }
+
+  dimension: is_working_day {
+    view_label: "Date"
+    group_label: "Time"
+    required_access_grants: [lz_testing]
+    type:  yesno
+    sql: (${transaction_day_of_week_index} BETWEEN 1 and 5);;
+  }
+
+  dimension: is_working_day_hours {
+    view_label: "Date"
+    group_label: "Time"
+    label: "Within normal working days and hours"
+    required_access_grants: [lz_testing]
+    type:  yesno
+    sql: ${is_working_day} and ${is_working_hours};;
+  }
+
+  measure: working_day_hours_total {
+    type: count_distinct
+    value_format: "#,##0;(#,##0)"
+    required_access_grants: [lz_testing]
+    sql: CASE WHEN ${is_working_day_hours} = true THEN ${parent_order_uid}  ELSE NULL END;;
+    hidden: yes
+  }
+
+  measure: non_working_day_hours_total {
+    type: count_distinct
+    value_format: "#,##0;(#,##0)"
+    required_access_grants: [lz_testing]
+    sql: CASE WHEN ${is_working_day_hours} = false THEN ${parent_order_uid}  ELSE NULL END;;
+    hidden: yes
+  }
+
+  measure: working_day_hour_percent {
+    view_label: "Measures"
+    group_label: "Core Metrics"
+    required_access_grants: [lz_testing]
+    type: number
+    sql: ${working_day_hours_total}/NULLIF((${working_day_hours_total}+${non_working_day_hours_total}),0);;
+    value_format: "0.0%"
   }
 
   dimension: time_bucket {
