@@ -937,6 +937,13 @@ view: transactions {
     sql: min(${transactions.transaction_date});;
   }
 
+  measure: last_transaction_date {
+    view_label: "Measures"
+    group_label: "Core Metrics"
+    type: date
+    sql: max(${transactions.transaction_date});;
+  }
+
   measure: number_of_transactions {
     label: "Number of Transactions"
     view_label: "Measures"
