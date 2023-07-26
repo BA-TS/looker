@@ -485,7 +485,7 @@ view: transactions {
 
   measure: working_day_hour_percent {
     view_label: "Measures"
-    group_label: "Core Metrics"
+    group_label: "Other Metrics"
     required_access_grants: [lz_testing]
     type: number
     sql: ${working_day_hours_total}/NULLIF((${working_day_hours_total}+${non_working_day_hours_total}),0);;
