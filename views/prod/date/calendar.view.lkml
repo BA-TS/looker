@@ -314,19 +314,18 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
     hidden: yes
   }
 
-  measure: unique_month_count {
+  measure: distinct_month_count {
     view_label: "Measures"
-    group_label: "Core Metrics"
-    label: "Number of Unique Months"
-    required_access_grants: [lz_testing]
+    group_label: "Other Metrics"
+    label: "Number of Distinct Months"
     type: count_distinct
     sql: ${calendar_year_month} ;;
   }
 
-  measure: unique_week_count {
+  measure: distinct_week_count {
     view_label: "Measures"
-    group_label: "Core Metrics"
-    label: "Number of Unique Weeks"
+    group_label: "Other Metrics"
+    label: "Number of Distinct Weeks"
     required_access_grants: [lz_testing]
     type: count_distinct
     sql: ${week_in_year} ;;
