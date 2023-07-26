@@ -208,7 +208,7 @@ view: products {
   measure: number_of_subdepartments {
     label: "Number of SubDepartments"
     view_label: "Measures"
-    group_label: "Core Metrics"
+    group_label: "Other Metrics"
     description: "Number of unique Sub departments"
     type: count_distinct
     hidden: yes

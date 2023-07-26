@@ -948,7 +948,6 @@ view: transactions {
   }
 
   measure: number_of_departments {
-    label: "Number of Unique Departments"
     view_label: "Measures"
     group_label: "Other Metrics"
     description: "Number of unique departments"
@@ -960,7 +959,7 @@ view: transactions {
   measure: number_of_unique_products {
     label: "Number of Products"
     view_label: "Measures"
-    group_label: "Other Metrics"
+    group_label: "Core Metrics"
     description: "Number of unique product codes sold"
     type: count_distinct
     sql: ${product_code} ;;
@@ -978,10 +977,9 @@ view: transactions {
   }
 
   measure: number_of_branches {
-    label: "Number of Branches"
     view_label: "Measures"
     group_label: "Other Metrics"
-    description: "Number of unique branches"
+    description: "Number of branches"
     type: count_distinct
     sql: ${site_uid} ;;
     value_format: "#,##0;(#,##0)"
