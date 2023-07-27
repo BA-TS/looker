@@ -71,13 +71,14 @@ SELECT distinct row_number() over () as row_num, * from sub0
 
   dimension: ItemID {
     description: "Item"
-
+    hidden: yes
     type: string
     sql: ${TABLE}.ItemID ;;
   }
 
   dimension: item_revenue {
     description: "Revenue"
+    hidden: yes
     type: number
     value_format_name: gbp
     sql: ${TABLE}.item_revenue ;;
@@ -85,9 +86,32 @@ SELECT distinct row_number() over () as row_num, * from sub0
 
   measure: PDP_sessions {
     description: "Distinct sessions with PDP View"
+    label: "PDP view sessions"
     type: count_distinct
     sql: ${PDP_SessionID} ;;
   }
+
+  measure: PDP_Purchase_sessions {
+    description: "Distinct sessions with PDP View then Purchase"
+    label: "PDP then Purchase sessions"
+    type: count_distinct
+    sql: ${Purchase_SessionID} ;;
+  }
+
+  measure: Revenue {
+    description: "sum of revenue"
+    label: "Revenue"
+    type: sum
+    sql: ${item_revenue} ;;
+  }
+
+  measure: PDP_Purchase_CR {
+    description: "PDP then Purchase CR"
+    label: "PDP then Purchase CR"
+    type: number
+    sql: safe_divide(${PDP_Purchase_sessions},${PDP_sessions}) ;;
+  }
+
   #
   # dimension: lifetime_orders {
   #   description: "The total number of orders for each user"
