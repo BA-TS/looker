@@ -3,20 +3,20 @@ view: pdp_purchase_funnel {
     sql: with sub0 as (with test as (SELECT distinct
 "Web" as UserUID,
 PARSE_DATE('%Y%m%d', event_date) as date,
-TIMESTAMP_MICROS(event_timestamp) as timestamp,
+min(TIMESTAMP_MICROS(event_timestamp)) as timestamp,
 event_name,
 concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id'))  as session_id,
 case when items.item_id is null then
 (SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'event_label') else items.item_id end as item_id,
 ecommerce.transaction_id,
-sum(items.item_revenue) as item_revenue
+items.item_revenue as item_revenue
 FROM `toolstation-data-storage.analytics_251803804.events_*`, unnest (items) as items
 WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500 and PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK)) and FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK))
 AND ((( date(PARSE_DATE('%Y%m%d', event_date)) ) >= ((DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK))) AND ( date(PARSE_DATE('%Y%m%d', event_date)) ) < ((DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK)))))
 and event_name in ("view_item", "Purchase", "purchase", "session_start")
 and concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) is not null
-group by 1,2,3,4,5,6,7),
+group by 1,2,4,5,6,7,8),
 
 PDP as (SELECT distinct * from test where event_name in ("view_item")),
 purchase as (SELECT distinct * from test where event_name in ("purchase"))
