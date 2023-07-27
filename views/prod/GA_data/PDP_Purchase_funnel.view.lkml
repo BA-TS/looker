@@ -109,6 +109,7 @@ SELECT distinct row_number() over () as row_num, * from sub0
     description: "PDP then Purchase CR"
     label: "PDP then Purchase CR"
     type: number
+    value_format_name: percent_2
     sql: safe_divide(${PDP_Purchase_sessions},${PDP_sessions}) ;;
   }
 
