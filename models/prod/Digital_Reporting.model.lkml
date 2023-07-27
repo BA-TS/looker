@@ -4,8 +4,8 @@
 # include: "/**/*.view.lkml"                 # include all views in this project
 # include: "my_dashboard.dashboard.lookml"   # include a LookML dashboard called my_dashboard
 include: "/views/**/*.view"
-include: "/views/GA4.view.lkml"
-include: "/views/Videoly_funnel_GA4.view.lkml"
+include: "/views/prod/GA_data/GA4.view.lkml"
+include: "/views/prod/GA_data/Videoly_funnel_GA4.view.lkml"
 label: "Digital"
 
 explore: GA4 {
