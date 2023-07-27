@@ -51,9 +51,7 @@ explore: GA4 {
       combined_month,
       combined_quarter,
       combined_year,
-      separate_month,
-      videoly_funnel_ga4.purchase_sessions,
-      select_date_range
+      separate_month
     ]
 
   }
