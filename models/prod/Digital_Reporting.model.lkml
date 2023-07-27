@@ -79,7 +79,7 @@ explore: GA4 {
     view_label: "Products"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${base.date_date}=${products.date_date};;
+    sql_on: ${base.date_date}>=${products.date_date};;
   }
 
  # join: app_web_data {
@@ -91,7 +91,7 @@ explore: GA4 {
   join: ga4 {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${base.date_date} >= ${ga4.date_date} and ${products.product_code}=${ga4.product_Sku};;
+    sql_on: ${base.date_date} = ${ga4.date_date} and ${products.product_code}=${ga4.product_Sku};;
   }
 
   join: app_web_data {
