@@ -8,6 +8,13 @@ view: products {
   null, null, null, null, null, null, null, null, null, null;;
   }
 
+  dimension_group: date {
+    type: time
+    hidden: yes
+    timeframes: [raw,date]
+    sql: ${TABLE}.productStartDate ;;
+  }
+
   dimension: product_uid {
     group_label: "Product Details"
     label: "Product UID"

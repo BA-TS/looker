@@ -75,6 +75,13 @@ explore: GA4 {
     sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
   }
 
+  join: products {
+    view_label: "Products"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${base.date_date}=${products.date_date};;
+  }
+
  # join: app_web_data {
   #  type: left_outer
    # relationship: many_to_one
@@ -84,7 +91,7 @@ explore: GA4 {
   join: ga4 {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${base.date_date} = ${ga4.date_date};;
+    sql_on: ${base.date_date} = ${ga4.date_date} and ${products.product_code}=${ga4.product_Sku};;
   }
 
   join: app_web_data {
@@ -98,13 +105,6 @@ explore: GA4 {
     type: left_outer
     relationship: one_to_many
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
-  }
-
-  join: products {
-    view_label: "Products"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${ga4.product_Sku}=${products.product_code};;
   }
 
   join: videoly_funnel_ga4 {
