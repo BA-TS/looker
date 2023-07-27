@@ -340,6 +340,15 @@ GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,22,24)
     sql: ${TABLE}.sessions;;
   }
 
+  measure: session_purchase {
+    label: "Purchase sessions"
+    group_label: "Measures"
+    #hidden: yes
+    type: count_distinct
+    filters: [event_name: "Purchase, purchase"]
+    sql: ${TABLE}.sessions;;
+  }
+
   measure: bs {
     label: "Bounced sessions"
     group_label: "Measures"
@@ -363,7 +372,7 @@ GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,22,24)
     type: number
     value_format_name: percent_2
     #sql: ${Count_transaction_id}/${session_start} * 100
-    sql: safe_divide(${Count_transaction_id},${session_start});;
+    sql: safe_divide(${session_purchase},${session_start});;
   }
 
   measure: Average_order_value{
