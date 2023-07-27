@@ -102,6 +102,7 @@ SELECT distinct row_number() over () as row_num, * from sub0
     description: "sum of revenue"
     label: "Revenue"
     type: sum
+    value_format_name: gbp
     sql: ${item_revenue} ;;
   }
 

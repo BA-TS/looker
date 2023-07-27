@@ -89,7 +89,7 @@ explore: GA4 {
   #}
 
   join: ga4 {
-    type: left_outer
+    type: full_outer
     relationship: many_to_one
     sql_on: ${base.date_date} = ${ga4.date_date} and ${products.product_code}=${ga4.product_Sku};;
   }
