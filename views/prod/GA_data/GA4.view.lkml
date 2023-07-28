@@ -28,8 +28,8 @@ items.price,
 items.promotion_id as PromoID,
 items.promotion_name as PromoName,
 items.creative_name as creative_name,
-sum(items.item_revenue) as item_revenue,
-sum(items.quantity) as item_quantity,
+items.item_revenue as item_revenue,
+items.quantity as item_quantity,
 concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) AS sessions,
 COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events,
 case when (select value.string_value from unnest(event_params) where key = 'session_engaged') = '1' then "1" else "0" end as bounces,
@@ -37,7 +37,7 @@ FROM `toolstation-data-storage.analytics_251803804.events_*` left join unnest (i
 WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
 AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
-GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,22,24
+GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,24
 union distinct
 SELECT distinct
 'App' as UserUID,
@@ -59,8 +59,8 @@ items.price as Item_Price,
 items.promotion_id as PromoID,
 items.promotion_name as PromoName,
 items.creative_name as creative_name,
-round(sum(items.item_revenue),2) as item_revenue,
-sum(items.quantity) as itemQ,
+items.item_revenue as item_revenue,
+items.quantity as itemQ,
 concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) AS sessions,
 COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events,
 case when (select distinct cast(value.int_value as string) from unnest(event_params) where key = 'engaged_session_event') = '1' then "1" else "0" end as bounces,
@@ -68,7 +68,7 @@ FROM `toolstation-data-storage.analytics_265133009.events_*` left join unnest(it
 WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
 AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
-GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,22,24)
+GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,24)
         select distinct row_number() over () as P_K, * from sub0;;
       datagroup_trigger: ts_googleanalytics_datagroup
     }
@@ -243,6 +243,7 @@ GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,22,24)
     dimension: product_Sku{
       description: "product code"
       label: "Product SKU"
+      hidden: yes
       group_label: "Product Info"
       type: string
       sql: ${TABLE}.item_id;;
@@ -267,11 +268,11 @@ GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,22,24)
       sql: ${TABLE}.item_revenue ;;
     }
 
-    dimension: Item_Quantity {
+    measure: Item_Quantity {
       label: "Product Quantity"
       group_label: "Product Info"
       description: "Item_Quantity"
-      type: number
+      type: sum
       sql: ${TABLE}.item_quantity ;;
     }
 
