@@ -270,7 +270,7 @@ GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,24)
 
     measure: Item_Quantity {
       label: "Product Quantity"
-      group_label: "Product Info"
+      group_label: "Measures"
       description: "Item_Quantity"
       type: sum
       sql: ${TABLE}.item_quantity ;;
