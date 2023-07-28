@@ -412,6 +412,7 @@ view: ga4 {
 
   measure:  time_hours {
     type: average
+    hidden: yes
     label: "Avg Session Duration"
     group_label: "Measures"
     value_format: "h:mm:ss"
@@ -420,6 +421,7 @@ view: ga4 {
 
   measure:  time_sec {
     type: average
+    hidden: yes
     label: "Avg Session Duration ss"
     group_label: "Measures"
     sql: ${TABLE}.session_duration;;
