@@ -212,13 +212,12 @@ view: products {
     hidden: yes
   }
 
-  dimension: trade_products {
+  dimension: trade_products_10_subdepartments {
     group_label: "Product Details"
-    label: "Trade Only Products"
     type: yesno
     required_access_grants: [lz_testing]
     description: "These are the products that only trade customers will buy"
-   sql: ${subdepartment} IN ("John Guest Speedfit","MDPE Pipe & Fittings","110mm Underground","160mm Underground","Expanding Foam","LV transformers","Din Rail & Terminals","Conduit & Trunking","Shower Pumps","%Consumer Units%") OR ${subdepartment} LIKE "%Consumer Units%" ;;
+    sql: ${subdepartment} IN ("John Guest Speedfit","MDPE Pipe & Fittings","110mm Underground","160mm Underground","Expanding Foam","LV transformers","Din Rail & Terminals","Conduit & Trunking","Shower Pumps") OR ${subdepartment} LIKE "%Consumer Units%" ;;
   }
 
   measure: number_of_subdepartments {
@@ -229,6 +228,15 @@ view: products {
     type: count_distinct
     hidden: yes
     sql: ${subdepartment} ;;
+    value_format: "#,##0;(#,##0)"
+  }
+
+  measure: has_trade_products_10_subdepartments {
+    view_label: "Measures"
+    group_label: "Other Metrics"
+    type: count_distinct
+    required_access_grants: [lz_testing]
+    sql: case when ${trade_products_10_subdepartments} = true THEN ${trade_products_10_subdepartments} ELSE NULL END ;;
     value_format: "#,##0;(#,##0)"
   }
 }
