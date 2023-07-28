@@ -949,7 +949,7 @@ view: transactions {
     group_label: "Core Metrics"
     required_access_grants: [lz_testing]
     type: number
-    sql: date_diff(${last_transaction_date},${first_transaction_date},day)/${number_of_unique_customers};;
+    sql: date_diff(${last_transaction_date},${first_transaction_date},day);;
   }
 
   measure: number_of_transactions {
