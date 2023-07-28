@@ -412,8 +412,17 @@ view: ga4 {
 
   measure:  time_hours {
     type: average
+    label: "Avg Session Duration"
+    group_label: "Measures"
     value_format: "h:mm:ss"
     sql: ${TABLE}.session_duration / 86400.0;;
+  }
+
+  measure:  time_sec {
+    type: average
+    label: "Avg Session Duration ss"
+    group_label: "Measures"
+    sql: ${TABLE}.session_duration;;
   }
 
   filter: select_date_range {
