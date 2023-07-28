@@ -934,14 +934,22 @@ view: transactions {
     group_label: "Core Metrics"
     description: "First transaction date"
     type: date
-    sql: min(${transactions.transaction_date});;
+    sql: min(timestamp(${transactions.transaction_date}));;
   }
 
   measure: last_transaction_date {
     view_label: "Measures"
     group_label: "Core Metrics"
     type: date
-    sql: max(${transactions.transaction_date});;
+    sql: max(timestamp(${transactions.transaction_date}));;
+  }
+
+  measure: average_customer_tenure{
+    view_label: "Measures"
+    group_label: "Core Metrics"
+    required_access_grants: [lz_testing]
+    type: number
+    sql: date_diff(${last_transaction_date},${first_transaction_date},day);;
   }
 
   measure: number_of_transactions {
