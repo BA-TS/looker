@@ -87,7 +87,7 @@ explore: GA4 {
   }
 
   join: app_web_data {
-    type: left_outer
+    type: full_outer
     relationship: many_to_one
     sql_on: regexp_extract(${ga4.transaction_id},"^.{0,11}") = ${app_web_data.OrderID} ;;
   }
