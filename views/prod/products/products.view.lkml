@@ -226,7 +226,7 @@ view: products {
     group_label: "Other Metrics"
     description: "Number of unique Sub departments"
     type: count_distinct
-    hidden: yes
+    required_access_grants: [lz_testing]
     sql: ${subdepartment} ;;
     value_format: "#,##0;(#,##0)"
   }
