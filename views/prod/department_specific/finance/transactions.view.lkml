@@ -947,6 +947,7 @@ view: transactions {
   measure: average_customer_tenure{
     view_label: "Measures"
     group_label: "Core Metrics"
+    label: "Number of days between first and last transactions"
     required_access_grants: [lz_testing]
     type: number
     sql: date_diff(${last_transaction_date},${first_transaction_date},day);;
