@@ -410,6 +410,15 @@ view: ga4 {
     sql: ${total_users}-${New_users} ;;
   }
 
+  measure: Active_Users {
+    label: "Active Users"
+    group_label: "Measures"
+    hidden: yes
+    type: count_distinct
+    filters: [bounce_def: "0"]
+    sql: ${user_id};;
+  }
+
   measure:  time_hours {
     type: average
     hidden: yes
