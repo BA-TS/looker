@@ -413,7 +413,6 @@ view: ga4 {
   measure: Active_Users {
     label: "Active Users"
     group_label: "Measures"
-    hidden: yes
     type: count_distinct
     filters: [bounce_def: "0"]
     sql: ${user_id};;
