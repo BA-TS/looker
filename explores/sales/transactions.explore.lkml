@@ -288,6 +288,7 @@ explore: base {
     type: left_outer
     relationship: many_to_one
     sql_on: ${customer_segmentation.cluster} = ${top_10_test.Cluster};;
+    sql_where: ${top_10_test.brand_rank_top_brands_bigquery} != "Other" ;;
   }
 
 }
