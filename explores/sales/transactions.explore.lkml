@@ -284,7 +284,7 @@ explore: base {
   }
 
   join: top_10_test {
-    view_label: "TOTT - Top N Ranking"
+    view_label: "Top Customer Segments N Ranking"
     type: left_outer
     relationship: many_to_one
     sql_on: ${customer_segmentation.cluster} = ${top_10_test.Cluster};;
