@@ -283,6 +283,13 @@ explore: base {
     and ${retail_price_history.product_uid} =  ${currentRetailPrice.Product_ID};;
   }
 
+  join: top_10_test {
+    view_label: "TOTT - Top N Ranking"
+    type: inner
+    relationship: many_to_one
+    sql_on: ${products.brand} = ${top_10_test.Cluster} ;;
+  }
+
 }
 
 explore: +base {
