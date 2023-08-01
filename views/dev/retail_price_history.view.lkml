@@ -79,7 +79,7 @@ view: retail_price_history {
 
   dimension: last_retail_price {
     type: number
-    hidden: yes
+    #hidden: yes
     label: "Last Price"
     group_label: "Retail Price History"
     value_format_name: gbp
@@ -135,7 +135,7 @@ view: retail_price_history {
     label: "Variance Retail Price"
     group_label: "Retail Price History"
     value_format_name: gbp
-    sql:${currentPrice} - ${last_retail_price};;
+    sql:case when ${currentPrice} - ${last_retail_price}<0 then (${currentPrice} - ${last_retail_price}) *-1 else ${currentPrice} - ${last_retail_price} end;;
   }
 
 }
