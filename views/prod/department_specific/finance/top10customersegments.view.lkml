@@ -11,7 +11,6 @@ view: top10customersegments {
       -- Did not use base::daily_sales_summary_MTD; filter field base.select_date_range was filtered in the query but not in the aggregate table
       -- Did not use base::daily_sales_summary_YTD; filter field base.select_date_range was filtered in the query but not in the aggregate table
       SELECT distinct
-      row_number() over () as P_K,
           customer_segmentation.cluster  AS customer_segmentation_cluster,
           sum( transactions.netSalesValue  ) over (partition by  customer_segmentation.cluster) AS transactions_net_sales_by_customer_segment
       FROM `toolstation-data-storage.looker_persistent_tables.LR_9FA9Y1690848211647_base` AS base
@@ -38,17 +37,14 @@ view: top10customersegments {
   measure: count {
     type: count
     drill_fields: [detail*]
+    hidden: yes
   }
 
-  dimension: P_K {
-    type: number
-    primary_key: yes
-    hidden: yes
-    sql: ${TABLE}.P_K ;;
-  }
 
   dimension: customer_segmentation_cluster {
+    label: "Top 10 Customer Segments"
     type: string
+    primary_key: yes
     sql: ${TABLE}.customer_segmentation_cluster ;;
   }
 
