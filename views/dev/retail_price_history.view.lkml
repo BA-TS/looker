@@ -135,7 +135,7 @@ view: retail_price_history {
     label: "Variance Retail Price"
     group_label: "Retail Price History"
     value_format_name: gbp
-    sql:case when ${currentPrice} - ${last_retail_price}<0 then (${currentPrice} - ${last_retail_price}) *-1 else ${currentPrice} - ${last_retail_price} end;;
+    sql: ${currentPrice} - ${last_retail_price};;
   }
 
 }
