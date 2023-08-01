@@ -1197,6 +1197,11 @@ view: transactions {
     sql: case when ${is_lfl} and ${product_code} not like '0%' then ${quantity} else 0 end;;
   }
 
+  measure: net_sales_by_customer_segment {
+    type: number
+    sql: sum(${net_sales_value}) over partition by ${customer_cluster};;
+  }
+
 # ██╗░░██╗██╗██████╗░██████╗░███████╗███╗░░██╗
 # ██║░░██║██║██╔══██╗██╔══██╗██╔════╝████╗░██║
 # ███████║██║██║░░██║██║░░██║█████╗░░██╔██╗██║
