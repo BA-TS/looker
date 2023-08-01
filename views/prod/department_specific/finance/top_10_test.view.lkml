@@ -7,7 +7,7 @@ view: top_10_test {
       column: Cluster { field: customer_segmentation.cluster }
       column: Net_sales { field: transactions.total_net_sales }
       derived_column: ranking {
-        sql: rank() over (order by transactions.total_net_sales desc) ;;
+        sql: rank() over (order by Net_sales desc) ;;
       }
     }
   }
