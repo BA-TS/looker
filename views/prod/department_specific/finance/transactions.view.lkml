@@ -1202,7 +1202,7 @@ view: transactions {
     view_label: "Measures"
     group_label: "Core Metrics"
     type: number
-    sql: sum(${net_sales_value}) over partition by ${customer_cluster};;
+    sql: sum(${net_sales_value}) over (partition by ${customer_cluster});;
   }
 
 # ██╗░░██╗██╗██████╗░██████╗░███████╗███╗░░██╗
