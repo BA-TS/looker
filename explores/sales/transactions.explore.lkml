@@ -279,7 +279,8 @@ explore: base {
     type: left_outer
     view_label: "Products"
     relationship: many_to_one
-    sql_on: ${products.product_uid} = ${currentRetailPrice.Product_ID} ;;
+    sql_on: ${products.product_uid} = ${currentRetailPrice.Product_ID}
+    and ${retail_price_history.product_uid} =  ${currentRetailPrice.Product_ID};;
   }
 
 }

@@ -77,11 +77,26 @@ view: retail_price_history {
     sql: ${TABLE}.retailPrice ;;
   }
 
+  dimension: last_retail_price {
+    type: number
+    hidden: yes
+    label: "Last Price"
+    group_label: "Retail Price History"
+    value_format_name: gbp
+    sql: max_by(${TABLE}.retailPrice,${price_start_date}) ;;
+  }
+
   dimension: vat_rate {
     type: number
     label: "Vat Rate"
     group_label: "Retail Price History"
     sql: ${TABLE}.vatRate ;;
+  }
+
+  dimension: currentPrice {
+    type: number
+    label: "current price"
+    sql: ${currentRetailPrice.retailBasePrice} ;;
   }
 
   measure: total_price_quantity {
@@ -95,6 +110,7 @@ view: retail_price_history {
     hidden: yes
     sql: ${price_quantity} ;;
   }
+
 
   measure: average_retail_price {
     type: average
@@ -111,4 +127,12 @@ view: retail_price_history {
     value_format: "0.####"
     sql: variance(${TABLE}.retailPrice) ;;
   }
+
+  measure: variance_current_history_price{
+    type: number
+    label: "Variance Retail Price"
+    group_label: "Retail Price History"
+    sql:  ${currentPrice} - ${last_retail_price};;
+  }
+
 }
