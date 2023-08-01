@@ -282,14 +282,6 @@ explore: base {
     sql_on: ${products.product_uid} = ${currentRetailPrice.Product_ID} ;;
   }
 
-  join: top10customersegments {
-    type: inner
-    view_label: "Top 10 Customer segments Net Sales"
-    relationship: one_to_many
-    sql_on: ${customer_segmentation.cluster} = ${top10customersegments.customer_segmentation_cluster} ;;
-
-  }
-
 }
 
 explore: +base {
