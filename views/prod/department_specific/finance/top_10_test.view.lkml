@@ -49,7 +49,7 @@ view: top_10_test {
   }
 
   dimension: brand_rank_top_brands_bigquery {
-    hidden: yes
+    #hidden: yes
     label_from_parameter: top_rank_limit
     type: string
     sql:
