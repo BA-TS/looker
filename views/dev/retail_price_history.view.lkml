@@ -132,6 +132,7 @@ view: retail_price_history {
     type: number
     label: "Variance Retail Price"
     group_label: "Retail Price History"
+    value_format_name: gbp
     sql:  ${currentPrice} - ${last_retail_price};;
   }
 
