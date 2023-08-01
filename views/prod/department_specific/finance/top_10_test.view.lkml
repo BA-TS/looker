@@ -27,7 +27,7 @@ view: top_10_test {
 
 #### This parameter will allow a user to select a Top N ranking limit for bucketing the brands, almost like parameterizing the Row Limit in the UI
   parameter: top_rank_limit {
-    view_label: "Top N Customer Segment Ranking"
+    view_label: "Top N Customer Segment"
     type: unquoted
     default_value: "5"
     allowed_value: {
