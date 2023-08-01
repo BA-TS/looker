@@ -114,6 +114,7 @@ view: retail_price_history {
 
   measure: average_retail_price {
     type: average
+    hidden: yes
     label: "Avg Retail Price"
     group_label: "Retail Price History"
     value_format_name: gbp
@@ -122,6 +123,7 @@ view: retail_price_history {
 
   measure: var_retail_price {
     type: number
+    hidden: yes
     label: "Var Retail Price"
     group_label: "Retail Price History"
     value_format: "0.####"
@@ -133,7 +135,7 @@ view: retail_price_history {
     label: "Variance Retail Price"
     group_label: "Retail Price History"
     value_format_name: gbp
-    sql:  ${currentPrice} - ${last_retail_price};;
+    sql:${currentPrice} - ${last_retail_price};;
   }
 
 }
