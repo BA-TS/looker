@@ -16,7 +16,7 @@ view: top_10_test {
     primary_key: yes
     hidden: yes
     type: string
-    sql: ${TABLE}.brand_name ;;
+    sql: ${TABLE}.Cluster ;;
   }
 
   dimension: cluster_rank {
