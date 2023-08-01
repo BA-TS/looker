@@ -287,7 +287,7 @@ explore: base {
     view_label: "TOTT - Top N Ranking"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${customer_segmentation.cluster} = ${top_10_test.Cluster} where ${top_10_test.brand_rank_top_brands_bigquery} is not "Other" ;;
+    sql_on: ${customer_segmentation.cluster} = ${top_10_test.Cluster};;
   }
 
 }
