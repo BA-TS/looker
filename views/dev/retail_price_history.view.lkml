@@ -79,7 +79,7 @@ view: retail_price_history {
 
   dimension: last_retail_price {
     type: number
-    #hidden: yes
+    hidden: yes
     label: "Last Price"
     group_label: "Retail Price History"
     value_format_name: gbp
