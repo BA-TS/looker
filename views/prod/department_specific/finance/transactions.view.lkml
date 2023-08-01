@@ -1198,6 +1198,9 @@ view: transactions {
   }
 
   measure: net_sales_by_customer_segment {
+    label: "Net Sales by customer cluster"
+    view_label: "Measures"
+    group_label: "Core Metrics"
     type: number
     sql: sum(${net_sales_value}) over partition by ${customer_cluster};;
   }
