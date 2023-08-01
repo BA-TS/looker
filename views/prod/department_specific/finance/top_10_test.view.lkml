@@ -49,7 +49,7 @@ view: top_10_test {
   }
 
   dimension: brand_rank_top_brands_bigquery {
-    #hidden: yes
+    hidden: yes
     label_from_parameter: top_rank_limit
     type: string
     sql:
@@ -60,7 +60,7 @@ view: top_10_test {
               WHEN ${cluster_rank}<10 THEN  CONCAT('0', CAST(${cluster_rank} AS STRING))
               ELSE CAST(${cluster_rank} AS STRING)
             END
-        ELSE 'Other'
+        ELSE
       END
     ;;
   }
