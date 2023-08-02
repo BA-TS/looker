@@ -291,6 +291,15 @@ explore: base {
     sql_where: ${top_10_test.brand_rank_top_brands_bigquery} != "Other" ;;
   }
 
+  join: top_10_test_2 {
+    from: top_10_test
+    view_label: "Top N Ranking"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${customer_segmentation.cluster} = ${top_10_test_2.Cluster};;
+    sql_where: ${top_10_test_2.brand_rank_top_brands_bigquery_2} != "Other" ;;
+  }
+
 }
 
 explore: +base {
