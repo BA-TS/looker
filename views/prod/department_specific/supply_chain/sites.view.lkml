@@ -327,4 +327,28 @@ view: sites {
     type: string
     sql: ${TABLE}.labourTier ;;
   }
+
+  dimension: Opening_times_Mon_Fri {
+    group_label: "Site Information"
+    label: "Opening Times Mon - Fri"
+    type: string
+    sql: ${TABLE}.Opening_times_Mon_Fri ;;
+    hidden: yes
+  }
+
+  dimension: Opening_times_Sat {
+    group_label: "Site Information"
+    label: "Opening Times Sat"
+    type: string
+    sql: ${TABLE}.Opening_times_Sat ;;
+    hidden: yes
+  }
+
+  dimension: Opening_times_Sun {
+    group_label: "Site Information"
+    label: "Opening Times Sun"
+    type: string
+    sql: ${TABLE}.Opening_times_Sun ;;
+    hidden: yes
+  }
 }
