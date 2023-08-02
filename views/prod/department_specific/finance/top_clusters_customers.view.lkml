@@ -1,4 +1,4 @@
-view: top_10_test_2 {
+view: top_clusters_customers {
 
   derived_table: {
     #parameter value specifies which of the rankings from the inner table to use
@@ -40,7 +40,7 @@ view: top_10_test_2 {
 
 
   parameter: top_rank_limit_2 {
-    label: "Top Customers - Customer Segment N Filter"
+    label: "Top N Customer Segments by Customers Filter"
     type: unquoted
     default_value: "5"
     allowed_value: {

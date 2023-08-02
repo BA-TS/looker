@@ -284,31 +284,31 @@ explore: base {
     and ${retail_price_history.product_uid} =  ${currentRetailPrice.Product_ID};;
   }
 
-  join: top_10_test {
+  join: top_clusters_net_sales {
     view_label: "Top N Ranking"
     type: left_outer
     relationship: many_to_one
-    fields: [top_rank_limit,top_10_test.brand_rank_top_brands_bigquery]
-    sql_on: ${customer_segmentation.cluster} = ${top_10_test.Cluster};;
-    sql_where: ${top_10_test.brand_rank_top_brands_bigquery} != "Other" ;;
+    fields: [top_rank_limit,top_clusters_net_sales.brand_rank_top_brands_bigquery]
+    sql_on: ${customer_segmentation.cluster} = ${top_clusters_net_sales.Cluster};;
+    sql_where: ${top_clusters_net_sales.brand_rank_top_brands_bigquery} != "Other" ;;
   }
 
-  join: top_10_test_2 {
+  join: top_clusters_customers {
    view_label: "Top N Ranking"
     type: left_outer
     relationship: many_to_one
-    fields: [top_10_test_2.top_rank_limit_2,top_10_test_2.brand_rank_top_brands_bigquery_2]
-    sql_on: ${customer_segmentation.cluster} = ${top_10_test_2.Cluster};;
-    sql_where: ${top_10_test_2.brand_rank_top_brands_bigquery_2} != "Other" ;;
+    fields: [top_clusters_customers.top_rank_limit_2,top_clusters_customers.brand_rank_top_brands_bigquery_2]
+    sql_on: ${customer_segmentation.cluster} = ${top_clusters_customers.Cluster};;
+    sql_where: ${top_clusters_customers.brand_rank_top_brands_bigquery_2} != "Other" ;;
   }
 
-  join: top_10_test_3 {
+  join: top_subdepartment_customers {
     view_label: "Top N Ranking"
     type: left_outer
     relationship: many_to_one
-    fields: [top_10_test_3.top_rank_limit_3,top_10_test_3.brand_rank_top_brands_bigquery_3]
-    sql_on: ${products.subdepartment} = ${top_10_test_3.SubDepartment};;
-    sql_where: ${top_10_test_3.brand_rank_top_brands_bigquery_3} != "Other" ;;
+    fields: [top_subdepartment_customers.top_rank_limit_3,top_subdepartment_customers.brand_rank_top_brands_bigquery_3]
+    sql_on: ${products.subdepartment} = ${top_subdepartment_customers.SubDepartment};;
+    sql_where: ${top_subdepartment_customers.brand_rank_top_brands_bigquery_3} != "Other" ;;
   }
 
 }

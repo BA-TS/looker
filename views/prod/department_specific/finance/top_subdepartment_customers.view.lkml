@@ -1,4 +1,4 @@
-view: top_10_test_3 {
+view: top_subdepartment_customers {
 
   derived_table: {
     #parameter value specifies which of the rankings from the inner table to use
@@ -40,7 +40,7 @@ view: top_10_test_3 {
 
 
   parameter: top_rank_limit_3 {
-    label: "Top Subdepartment by N Customers Filter"
+    label: "Top N Subdepartment by Customers Filter"
     type: unquoted
     default_value: "5"
     allowed_value: {

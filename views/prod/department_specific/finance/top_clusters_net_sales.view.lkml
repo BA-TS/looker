@@ -1,4 +1,4 @@
-view: top_10_test {
+view: top_clusters_net_sales {
 
   derived_table: {
     #parameter value specifies which of the rankings from the inner table to use
