@@ -316,7 +316,7 @@ explore: base {
     type: left_outer
     relationship: many_to_one
     fields: [top_subdepartment_net_sales.top_rank_limit_4,top_subdepartment_net_sales.brand_rank_top_brands_bigquery_4]
-    sql_on: ${products.subdepartment} = ${top_subdepartment_customers.SubDepartment};;
+    sql_on: ${products.subdepartment} = ${top_subdepartment_net_sales.SubDepartment};;
     sql_where: ${top_subdepartment_net_sales.brand_rank_top_brands_bigquery_4} != "Other" ;;
   }
 
