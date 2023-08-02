@@ -287,6 +287,7 @@ explore: base {
     view_label: "Top N Ranking"
     type: left_outer
     relationship: many_to_one
+    fields: [top_rank_limit,top_10_test.brand_rank_top_brands_bigquery]
     sql_on: ${customer_segmentation.cluster} = ${top_10_test.Cluster};;
     sql_where: ${top_10_test.brand_rank_top_brands_bigquery} != "Other" ;;
   }
@@ -296,6 +297,7 @@ explore: base {
     view_label: "Top N Ranking"
     type: left_outer
     relationship: many_to_one
+    fields: [top_10_test_2.top_rank_limit_2,top_10_test_2.brand_rank_top_brands_bigquery_2]
     sql_on: ${customer_segmentation.cluster} = ${top_10_test_2.Cluster};;
     sql_where: ${top_10_test_2.brand_rank_top_brands_bigquery_2} != "Other" ;;
   }
