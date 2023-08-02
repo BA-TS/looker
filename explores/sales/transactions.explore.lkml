@@ -320,6 +320,15 @@ explore: base {
     sql_where: ${top_subdepartment_net_sales.brand_rank_top_brands_bigquery_4} != "Other" ;;
   }
 
+  join: top_trade_types_sales {
+    view_label: "Top N Ranking"
+    type: left_outer
+    relationship: many_to_one
+    fields: [top_trade_types_sales.top_rank_limit_4,top_trade_types_sales.brand_rank_top_brands_bigquery_4]
+    sql_on: ${trade_customers.trade_type} = ${top_trade_types_sales.Trade_type};;
+    sql_where: ${top_trade_types_sales.brand_rank_top_brands_bigquery_4} != "Other" ;;
+  }
+
 }
 
 explore: +base {
