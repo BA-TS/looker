@@ -40,7 +40,7 @@ view: top_trade_types_customers {
 
 
   parameter: top_rank_limit_4 {
-    label: "Top N Trade Type Sales"
+    label: "Top N Trade Type Customers"
     type: unquoted
     default_value: "5"
     allowed_value: {
