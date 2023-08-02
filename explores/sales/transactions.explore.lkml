@@ -302,6 +302,15 @@ explore: base {
     sql_where: ${top_10_test_2.brand_rank_top_brands_bigquery_2} != "Other" ;;
   }
 
+  join: top_10_test_3 {
+    view_label: "Top N Ranking"
+    type: left_outer
+    relationship: many_to_one
+    fields: [top_10_test_3.top_rank_limit_3,top_10_test_3.brand_rank_top_brands_bigquery_3]
+    sql_on: ${products.subdepartment} = ${top_10_test_3.SubDepartment};;
+    sql_where: ${top_10_test_3.brand_rank_top_brands_bigquery_3} != "Other" ;;
+  }
+
 }
 
 explore: +base {
