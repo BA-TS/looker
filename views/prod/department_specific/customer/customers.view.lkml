@@ -453,10 +453,9 @@ view: customers {
 
   measure: opt_in_percent {
     label: "Customer Permissions Total Opt in %"
-    group_label: "Permissions (Opt In)"
     type: number
     sql:${number_of_opt_ins}/(${number_of_opt_ins}+${number_of_opt_outs}) ;;
     value_format: "0.00%"
-    required_access_grants: [can_use_customer_information]
+    required_access_grants: [lz_testing]
   }
 }
