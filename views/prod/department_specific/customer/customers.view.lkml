@@ -404,8 +404,59 @@ view: customers {
     view_label: "Measures"
     group_label: "Core Metrics"
     label: "Trade Customers %"
-   type: number
+    type: number
     sql: ${trade_customers_total}/NULLIF((${trade_customers_total}+${non_trade_customers_total}),0);;
     value_format: "0.0%"
+  }
+
+  measure: number_of_opt_ins {
+    description: "A count of the number of unique Opt ins."
+    type: sum_distinct
+    sql:
+    (case when ${permissions__catalogue_mail_opt_in} then 1 else 0 end)
+    +(case when ${permissions__offers_email_opt_in} then 1 else 0 end)
+    +(case when ${permissions__offers_mail_opt_in} then 1 else 0 end)
+    +(case when ${permissions__offers_mobile_opt_in} then 1 else 0 end)
+    +(case when ${permissions__offers_notif_opt_in} then 1 else 0 end)
+    +(case when ${permissions__offers_sms_opt_in} then 1 else 0 end)
+    +(case when ${permissions__order_process_email_opt_in} then 1 else 0 end)
+    +(case when ${permissions__order_process_notif_opt_in} then 1 else 0 end)
+    +(case when ${permissions__order_process_sms_opt_in} then 1 else 0 end)
+    +(case when ${permissions__order_query_email_opt_in} then 1 else 0 end)
+    +(case when ${permissions__order_query_mobile_opt_in} then 1 else 0 end)
+    +(case when ${permissions__order_query_notif_opt_in} then 1 else 0 end)
+    +(case when ${permissions__order_query_sms_opt_in} then 1 else 0 end)
+    +(case when ${permissions__order_query_telephone_opt_in} then 1 else 0 end) ;;
+    required_access_grants: [lz_testing]
+  }
+
+  measure: number_of_opt_outs {
+    description: "A count of the number of unique Opt ins."
+    type: sum_distinct
+    sql:
+    (case when ${permissions__catalogue_mail_opt_in}=false then 1 else 0 end)
+    +(case when ${permissions__offers_email_opt_in}=false then 1 else 0 end)
+    +(case when ${permissions__offers_mail_opt_in}=false then 1 else 0 end)
+    +(case when ${permissions__offers_mobile_opt_in}=false then 1 else 0 end)
+    +(case when ${permissions__offers_notif_opt_in}=false then 1 else 0 end)
+    +(case when ${permissions__offers_sms_opt_in}=false then 1 else 0 end)
+    +(case when ${permissions__order_process_email_opt_in}=false then 1 else 0 end)
+    +(case when ${permissions__order_process_notif_opt_in}=false then 1 else 0 end)
+    +(case when ${permissions__order_process_sms_opt_in}=false then 1 else 0 end)
+    +(case when ${permissions__order_query_email_opt_in}=false then 1 else 0 end)
+    +(case when ${permissions__order_query_mobile_opt_in}=false then 1 else 0 end)
+    +(case when ${permissions__order_query_notif_opt_in}=false then 1 else 0 end)
+    +(case when ${permissions__order_query_sms_opt_in}=false then 1 else 0 end)
+    +(case when ${permissions__order_query_telephone_opt_in}=false then 1 else 0 end) ;;
+    required_access_grants: [lz_testing]
+  }
+
+  measure: opt_in_percent {
+    label: "Customer Permissions Total Opt in %"
+    group_label: "Permissions (Opt In)"
+    type: number
+    sql:${number_of_opt_ins}/(${number_of_opt_ins}+${number_of_opt_outs}) ;;
+    value_format: "0.00%"
+    required_access_grants: [can_use_customer_information]
   }
 }

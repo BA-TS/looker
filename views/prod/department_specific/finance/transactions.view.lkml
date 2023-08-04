@@ -986,7 +986,7 @@ view: transactions {
   measure: number_of_unique_customers {
     label: "Number of Customers"
     view_label: "Measures"
-    group_label: "Other Metrics"
+    group_label: "Core Metrics"
     description: "Number of unique customers"
     type: count_distinct
     sql: ${customer_uid} ;;
