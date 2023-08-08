@@ -184,7 +184,7 @@ SELECT coalesce(sub1.USERUID,bounces.USERUID) as userUID,timestamp(coalesce(sub1
 )
 
 SELECT distinct row_number () over () as ROW_NUM, sub1.* from sub1;;
-datagroup_trigger: ts_googleanalytics_datagroup
+#datagroup_trigger: ts_googleanalytics_datagroup
   }
   # # You can specify the table name if it's different from the view name:
   # sql_table_name: my_schema_name.tester ;;
