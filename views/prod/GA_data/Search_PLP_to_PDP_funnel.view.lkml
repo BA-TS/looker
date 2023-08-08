@@ -72,10 +72,11 @@ SELECT distinct row_number() over () as P_K, * from sub0 ;;
   }
   #
    dimension_group: date {
-     description: "The date when each user last ordered"
-     type: time
-     timeframes: [raw,date]
-     sql: ${TABLE}.date ;;
+    description: "The date when each user last ordered"
+    type: time
+    hidden: yes
+    timeframes: [raw,date]
+    sql: ${TABLE}.date ;;
    }
 
   dimension: Search_sessionID {
@@ -97,43 +98,42 @@ SELECT distinct row_number() over () as P_K, * from sub0 ;;
     type: count_distinct
     sql: ${Search_sessionID} ;;
    }
-}
 
-# view: search_plp_to_pdp_funnel {
-#   # Or, you could make this view a derived table, like this:
-#   derived_table: {
-#     sql: SELECT
-#         user_id as user_id
-#         , COUNT(*) as lifetime_orders
-#         , MAX(orders.created_at) as most_recent_purchase_at
-#       FROM orders
-#       GROUP BY user_id
-#       ;;
-#   }
-#
-#   # Define your dimensions and measures here, like this:
-#   dimension: user_id {
-#     description: "Unique ID for each user that has ordered"
-#     type: number
-#     sql: ${TABLE}.user_id ;;
-#   }
-#
-#   dimension: lifetime_orders {
-#     description: "The total number of orders for each user"
-#     type: number
-#     sql: ${TABLE}.lifetime_orders ;;
-#   }
-#
-#   dimension_group: most_recent_purchase {
-#     description: "The date when each user last ordered"
-#     type: time
-#     timeframes: [date, week, month, year]
-#     sql: ${TABLE}.most_recent_purchase_at ;;
-#   }
-#
-#   measure: total_lifetime_orders {
-#     description: "Use this for counting lifetime orders across many users"
-#     type: sum
-#     sql: ${lifetime_orders} ;;
-#   }
-# }
+  dimension: PLP_sessionID {
+    label: "SessionID PLP"
+    description: "Session ID of PLP page view"
+    hidden: yes
+    type: string
+    sql: ${TABLE}.PLPSessionID ;;
+  }
+
+  measure: Sessions_PLP {
+    description: "Sessions with PLP"
+    label: "Sessions PLP"
+    type: count_distinct
+    sql: ${PLP_sessionID} ;;
+  }
+
+  dimension: PDP_sessionID {
+    label: "SessionID PDP"
+    description: "Session ID of PDP page view"
+    hidden: yes
+    type: string
+    sql: ${TABLE}.PDPSessionID ;;
+  }
+
+  measure: Sessions_PDP {
+    description: "Sessions with PDP"
+    label: "Sessions PDP"
+    type: count_distinct
+    sql: ${PDP_sessionID} ;;
+  }
+
+  measure: Sessions_PLP_then_PDP {
+    description: "Sessions with PLP then PDP"
+    label: "Sessions PLP then PDP"
+    type: count_distinct
+    filters: [PDP_sessionID: "-NULL"]
+    sql: ${PLP_sessionID} ;;
+  }
+}

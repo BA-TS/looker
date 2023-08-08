@@ -7,6 +7,7 @@ include: "/views/**/*.view"
 include: "/views/prod/GA_data/GA4.view.lkml"
 include: "/views/prod/GA_data/Videoly_funnel_GA4.view.lkml"
 include: "/views/prod/GA_data/PDP_Purchase_funnel.view.lkml"
+include: "/views/prod/GA_data/Search_PLP_to_PDP_funnel.view.lkml"
 label: "Digital"
 
 explore: GA4 {
@@ -113,6 +114,13 @@ explore: GA4 {
     relationship: one_to_many
     sql_on: ${base.date_date} = ${pdp_purchase_funnel.PDP_date_date}
     and ${products.product_code} = ${pdp_purchase_funnel.ItemID};;
+  }
+
+  join: search_plp_to_pdp_funnel {
+    view_label: "Search/PLP to PDP funnel"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${base.date_date} = ${search_plp_to_pdp_funnel.date_date} ;;
   }
 
   join: products {
