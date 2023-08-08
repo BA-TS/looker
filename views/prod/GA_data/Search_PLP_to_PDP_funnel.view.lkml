@@ -66,7 +66,8 @@ SELECT distinct row_number() over () as P_K, * from sub0 ;;
     }
   #
   dimension: UserUID{
-    description: "Primary Key"
+    description: "web or App"
+    label: "Web/App"
     type: string
     sql: ${TABLE}.UserUID;;
   }
@@ -135,5 +136,13 @@ SELECT distinct row_number() over () as P_K, * from sub0 ;;
     type: count_distinct
     filters: [PDP_sessionID: "-NULL"]
     sql: ${PLP_sessionID} ;;
+  }
+
+  measure: Sessions_Search_then_PDP {
+    description: "Sessions with Search then PDP"
+    label: "Sessions Search then PDP"
+    type: count_distinct
+    filters: [PDP_sessionID: "-NULL"]
+    sql: ${Search_sessionID} ;;
   }
 }
