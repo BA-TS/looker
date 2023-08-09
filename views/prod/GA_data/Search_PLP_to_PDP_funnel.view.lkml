@@ -91,6 +91,20 @@ from pop ;;
     sql: ${TABLE}.date ;;
    }
 
+  dimension: Search_PLPsessionID {
+    label: "SessionID Search/PLP Event"
+    description: "Session ID of Search/PLP event"
+    hidden: yes
+    type: string
+    sql: ${TABLE}.sessionID ;;
+  }
+  measure: Sessions_PLPSearchEvent {
+    description: "Sessions with Search/PLP events"
+    label: "Sessions Search/PLP Events"
+    type: count_distinct
+    sql: ${Search_PLPsessionID} ;;
+  }
+
   dimension: Search_sessionID {
     label: "SessionID Search Event"
     description: "Session ID of Search event"
@@ -167,4 +181,12 @@ from pop ;;
     filters: [Search_PDP_TIME: ">0"]
     sql: ${Search_sessionID} ;;
   }
+
+  measure: Sessions_SearchPLP_then_PDP {
+    description: "Sessions with Search/PLP then PDP"
+    label: "Sessions Search/PLP then PDP"
+    type: number
+    sql:  COUNT(DISTINCT CASE WHEN (${Search_PDP_TIME}  > 0) or (${PLP_PDP_TIME} > 0) THEN ${Search_PLPsessionID}  ELSE NULL END) ;;
+  }
+
 }
