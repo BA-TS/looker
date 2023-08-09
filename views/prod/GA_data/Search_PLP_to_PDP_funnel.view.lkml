@@ -132,7 +132,7 @@ from pop ;;
     label: "Millis time Search and PDP"
     description: "time in milliseconds between Search event and PDP view"
     hidden: yes
-    type: string
+    type: number
     sql: ${TABLE}.Search_PDP ;;
   }
 
