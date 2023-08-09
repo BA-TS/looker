@@ -136,8 +136,17 @@ from pop ;;
     sql: ${TABLE}.Search_PDP ;;
   }
 
+  dimension: PLP_PDP_TIME {
+    label: "Millis time PLP and PDP"
+    description: "time in milliseconds between PLP view and PDP view"
+    hidden: yes
+    type: number
+    sql: ${TABLE}.PLP_PDP ;;
+  }
+
   measure: Sessions_PDP {
     description: "Sessions with PDP"
+    hidden: yes
     label: "Sessions PDP"
     type: count_distinct
     sql: ${PDP_sessionID} ;;
@@ -147,7 +156,7 @@ from pop ;;
     description: "Sessions with PLP then PDP"
     label: "Sessions PLP then PDP"
     type: count_distinct
-    filters: [PDP_sessionID: "-NULL"]
+    filters: [PLP_PDP_TIME: ">0"]
     sql: ${PLP_sessionID} ;;
   }
 
