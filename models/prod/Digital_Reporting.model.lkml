@@ -95,7 +95,7 @@ explore: GA4 {
   }
 
   join: videoly_funnel_ga4 {
-    view_label: "Videoly_funnel"
+    view_label: "Videoly_funnel - Last Complete Week"
     type: left_outer
     relationship: one_to_many
     sql_on: ${base.date_date} = ${videoly_funnel_ga4.date_date} ;;
@@ -109,7 +109,7 @@ explore: GA4 {
   }
 
   join: pdp_purchase_funnel {
-    view_label: "PDP to Purchase funnel WEB ONLY"
+    view_label: "PDP to Purchase funnel WEB ONLY - Last Complete Week"
     type: left_outer
     relationship: one_to_many
     sql_on: ${base.date_date} = ${pdp_purchase_funnel.PDP_date_date}
@@ -117,7 +117,7 @@ explore: GA4 {
   }
 
   join: search_plp_to_pdp_funnel {
-    view_label: "Search/PLP to PDP funnel"
+    view_label: "Search/PLP to PDP funnel - Last Complete Week"
     type: left_outer
     relationship: one_to_many
     sql_on: ${base.date_date} = ${search_plp_to_pdp_funnel.date_date} ;;
