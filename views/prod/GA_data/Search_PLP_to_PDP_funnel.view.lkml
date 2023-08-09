@@ -22,7 +22,7 @@ union distinct
 SELECT distinct
 "App" as UserUID,
 PARSE_DATE('%Y%m%d', event_date) as date,
-min(TIMESTAMP_MICROS(event_timestamp)) as timestamp,
+(TIMESTAMP_MICROS(event_timestamp)) as timestamp,
 --COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events,
 event_name,
 (SELECT distinct (value.string_value) FROM UNNEST(event_params) WHERE key = 'firebase_screen') as screen,
