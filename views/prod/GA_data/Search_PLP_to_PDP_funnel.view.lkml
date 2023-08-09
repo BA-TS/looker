@@ -3,8 +3,8 @@ view: search_plp_to_pdp_funnel {
     sql: with sub0 as (SELECT distinct
 "Web" as UserUID,
 PARSE_DATE('%Y%m%d', event_date) as date,
-min(TIMESTAMP_MICROS(event_timestamp)) as timestamp,
-#COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events,
+(TIMESTAMP_MICROS(event_timestamp)) as timestamp,
+--COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events,
 event_name,
 CASE when regexp_contains((SELECT distinct value.string_value FROM UNNEST(event_params) WHERE key = 'page_location'),".*/p([0-9]*)$") then "product-detail-page"
       --when regexp_contains((SELECT distinct value.string_value FROM UNNEST(event_params) WHERE key = 'page_location'), ".*/p[0-9]*[^0-9a-zA-Z]") then "product-detail-page"
@@ -17,13 +17,13 @@ and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_TRUNC(CURRENT_DATE
 AND ((( date(PARSE_DATE('%Y%m%d', event_date)) ) >= ((DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK))) AND ( date(PARSE_DATE('%Y%m%d', event_date)) ) < ((DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK)))))
 and event_name in ("search_actions", "page_view", "view_item")
 and concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) is not null
-group by 1,2,4,5,6
+group by 1,2,3,4,5,6
 union distinct
 SELECT distinct
 "App" as UserUID,
 PARSE_DATE('%Y%m%d', event_date) as date,
 min(TIMESTAMP_MICROS(event_timestamp)) as timestamp,
-#COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events,
+--COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events,
 event_name,
 (SELECT distinct (value.string_value) FROM UNNEST(event_params) WHERE key = 'firebase_screen') as screen,
 concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id'))  as session_id
@@ -33,25 +33,28 @@ and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_TRUNC(CURRENT_DATE
 AND ((( date(PARSE_DATE('%Y%m%d', event_date)) ) >= ((DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK))) AND ( date(PARSE_DATE('%Y%m%d', event_date)) ) < ((DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK)))))
 and event_name in ("search", "screen_view")
 and concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) is not null
-group by 1,2,4,5,6)
+group by 1,2,3,4,5,6)
 ,
-search_events as (SELECT distinct UserUID, date, event_name, session_id,min(timestamp) as timestamp
+search_events as (SELECT distinct UserUID, date, event_name, session_id,(timestamp) as timestamp
 from sub0 where event_name in ("search", "search_actions")
-group by 1,2,3,4),
+--group by 1,2,3,4
+),
 
-PLP as (SELECT distinct UserUID, date, event_name, screen_name, session_id,min(timestamp) as timestamp  from sub0
+PLP as (SELECT distinct UserUID, date, event_name, screen_name, session_id,(timestamp) as timestamp  from sub0
 where event_name in ("page_view", "screen_view") and screen_name in ("product-listing-page")
-group by 1,2,3,4,5),
+--group by 1,2,3,4,5
+),
 
-PDP as (SELECT distinct UserUID, date, event_name, screen_name, session_id,min(timestamp) as timestamp from sub0
+PDP as (SELECT distinct UserUID, date, event_name, screen_name, session_id,(timestamp) as timestamp from sub0
 where event_name in ("screen_view") and screen_name in ("product-detail-page") and userUID in ("App")
-group by 1,2,3,4,5
+--group by 1,2,3,4,5
 
 union distinct
 
-SELECT distinct UserUID, date, event_name, screen_name, session_id,min(timestamp) as timestamp from sub0
+SELECT distinct UserUID, date, event_name, screen_name, session_id,(timestamp) as timestamp from sub0
 where event_name in ("view_item") and UserUID in ("Web")
-group by 1,2,3,4,5),
+--group by 1,2,3,4,5
+),
 
 all_1 as (SELECT distinct UserUID, date, session_id from search_events
 union distinct
