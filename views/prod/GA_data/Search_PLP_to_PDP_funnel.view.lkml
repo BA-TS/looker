@@ -96,7 +96,7 @@ from pop ;;
     description: "Session ID of Search/PLP event"
     hidden: yes
     type: string
-    sql: ${TABLE}.sessionID ;;
+    sql: ${TABLE}.session_id ;;
   }
   measure: Sessions_PLPSearchEvent {
     description: "Sessions with Search/PLP events"
