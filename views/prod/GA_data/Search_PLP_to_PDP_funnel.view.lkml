@@ -15,7 +15,7 @@ FROM `toolstation-data-storage.analytics_251803804.events_*`
 WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500 and PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK)) and FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK))
 AND ((( date(PARSE_DATE('%Y%m%d', event_date)) ) >= ((DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK))) AND ( date(PARSE_DATE('%Y%m%d', event_date)) ) < ((DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK)))))
-and event_name in ("search_actions", "page_view")
+and event_name in ("search_actions", "page_view", "view_item")
 and concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) is not null
 group by 1,2,4,5,6
 union distinct
@@ -44,7 +44,13 @@ where event_name in ("page_view", "screen_view") and screen_name in ("product-li
 group by 1,2,3,4,5),
 
 PDP as (SELECT distinct UserUID, date, event_name, screen_name, session_id,min(timestamp) as timestamp from sub0
-where event_name in ("page_view", "screen_view") and screen_name in ("product-detail-page")
+where event_name in ("screen_view") and screen_name in ("product-detail-page") and userUID in ("App")
+group by 1,2,3,4,5
+
+union distinct
+
+SELECT distinct UserUID, date, event_name, screen_name, session_id,min(timestamp) as timestamp from sub0
+where event_name in ("view_item") and UserUID in ("Web")
 group by 1,2,3,4,5),
 
 all_1 as (SELECT distinct UserUID, date, session_id from search_events
