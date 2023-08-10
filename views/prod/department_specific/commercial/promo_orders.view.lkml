@@ -11,7 +11,7 @@ pm.grant_type,
 FROM `toolstation-data-storage.promotions.promotions_applied_by_order`
 , unnest (promotions_applied) as pm
 where pm.type not in ("trade_account_5%", "staff_discount")
-order by 1 asc;
+order by 1 asc
        ;;
    }
 
