@@ -142,4 +142,12 @@ explore: single_line_transactions {
     relationship: many_to_one
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
   }
+
+  join: promo_orders {
+    view_label: ""
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.transaction_uid} = ${promo_orders.order_id} and ${base.date_date} = ${promo_orders.date_date} ;;
+  }
+
 }

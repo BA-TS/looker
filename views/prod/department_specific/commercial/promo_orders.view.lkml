@@ -34,6 +34,7 @@ order by 1 asc
 
   dimension: order_id {
     description: "To be joined to transaction table"
+    hidden: yes
     type: string
     sql: ${TABLE}.order_id ;;
   }
@@ -41,25 +42,36 @@ order by 1 asc
   dimension: promo_id {
     description: "promo ID"
     type: number
+    hidden: yes
     sql: ${TABLE}.promo_id ;;
   }
 
   dimension: promo_name {
     description: "promo name"
+    label: "Promo Name"
     type: string
     sql: ${TABLE}.title ;;
   }
 
   dimension: promo_type {
     description: "promo type"
+    label: "Promo Type"
     type: string
     sql: ${TABLE}.type ;;
   }
 
   dimension: grant_type {
     description: "grant type"
+    label: "Grant Type"
     type: string
     sql: ${TABLE}.grant_type ;;
+  }
+
+  measure: Orders_using_promo {
+    description: "Orders using Promo"
+    label: "Transactions (using Promo)"
+    type: count_distinct
+    sql: ${order_id} ;;
   }
 
 #

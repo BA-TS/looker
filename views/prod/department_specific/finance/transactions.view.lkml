@@ -1197,6 +1197,13 @@ view: transactions {
     sql: case when ${is_lfl} and ${product_code} not like '0%' then ${quantity} else 0 end;;
   }
 
+  dimension: promoFlag {
+    label: "Used Promo? (Yes/No)"
+    group_label: "Order Details"
+    type: yesno
+    sql: case when ${promo_orders.promo_id} not null  then true else false end;;
+  }
+
 
 # ██╗░░██╗██╗██████╗░██████╗░███████╗███╗░░██╗
 # ██║░░██║██║██╔══██╗██╔══██╗██╔════╝████╗░██║

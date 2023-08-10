@@ -147,6 +147,13 @@ explore: customers {
         AND ${customers.address__address_line4} =${crm_master_seedlist.address__address_line4}
         AND ${customers.address__postcode} =${crm_master_seedlist.address__postcode};;
   }
+
+  join: promo_orders {
+    view_label: ""
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.transaction_uid} = ${promo_orders.order_id} and ${base.date_date} = ${promo_orders.date_date} ;;
+  }
 }
 
 explore: +customers {
