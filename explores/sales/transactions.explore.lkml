@@ -338,6 +338,13 @@ explore: base {
     sql_where: ${top_trade_types_customers.brand_rank_top_brands_bigquery_4} != "Other" ;;
   }
 
+  join: promo_orders {
+    view_label: "Promos"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.transaction_uid} = ${promo_orders.order_id} and ${base.date_date} = ${promo_orders.date_date} ;;
+  }
+
 }
 
 explore: +base {
