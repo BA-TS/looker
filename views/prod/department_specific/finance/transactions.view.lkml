@@ -1198,10 +1198,10 @@ view: transactions {
   }
 
   dimension: promoFlag {
-    label: "Used Promo? (Yes/No)"
+    label: "Used Promo?"
     group_label: "Order Details"
     type: yesno
-    sql: case when ${promo_orders.promo_id} not null  then true else false end;;
+    sql: case when ${promo_orders.promo_id} is not null then true else false end;;
   }
 
 
