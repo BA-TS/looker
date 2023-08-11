@@ -1,17 +1,16 @@
 view: promo_orders {
+  #using ecrebo data
    derived_table: {
-     sql: SELECT distinct
-row_number() over () as P_K,
-date,
-order_id,
-pm.promo_id,
-pm.title,
-pm.type,
-pm.grant_type,
-FROM `toolstation-data-storage.promotions.promotions_applied_by_order`
-, unnest (promotions_applied) as pm
-where pm.type not in ("trade_account_5%", "staff_discount")
-order by 1 asc
+     sql: row_number() over () as P_K,
+    date(ts.placedDate) as date,
+    ts.parentOrderUID as OrdersFromTrolleySales,
+    et.transaction_uuid as transactionID_ecrebo,
+    ec.issuance_redemption as CouponType,
+    ec.campaign_id as CampaignID,
+    ec.campaign_name as EcreboCoupon_name,
+    from`toolstation-data-storage.sales.TrolleySales` ts
+    inner join `toolstation-data-storage.sales.ecreboTransactions` as et on ts.trolleyUID=et.transaction_uuid
+    inner join `toolstation-data-storage.sales.ecreboCoupons` as ec on et.transaction_uuid = ec.transaction_uuid
        ;;
    }
 
@@ -36,36 +35,36 @@ order by 1 asc
     description: "To be joined to transaction table"
     hidden: yes
     type: string
-    sql: ${TABLE}.order_id ;;
+    sql: ${TABLE}.OrdersFromTrolleySales ;;
   }
 
   dimension: promo_id {
     description: "promo ID"
     type: number
     hidden: yes
-    sql: ${TABLE}.promo_id ;;
+    sql: ${TABLE}.CampaignID ;;
   }
 
   dimension: promo_name {
     description: "promo name"
     label: "Promo Name"
     type: string
-    sql: ${TABLE}.title ;;
+    sql: ${TABLE}.EcreboCoupon_name ;;
   }
 
   dimension: promo_type {
     description: "promo type"
     label: "Promo Type"
     type: string
-    sql: ${TABLE}.type ;;
+    sql: ${TABLE}.CouponType ;;
   }
 
-  dimension: grant_type {
-    description: "grant type"
-    label: "Grant Type"
-    type: string
-    sql: ${TABLE}.grant_type ;;
-  }
+  #dimension: grant_type {
+    #description: "grant type"
+    #label: "Grant Type"
+    #type: string
+    #sql: ${TABLE}.grant_type ;;
+  #}
 
   measure: Orders_using_promo {
     description: "Orders using Promo"
