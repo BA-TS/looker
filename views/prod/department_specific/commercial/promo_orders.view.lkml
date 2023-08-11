@@ -1,7 +1,7 @@
 view: promo_orders {
   #using ecrebo data
    derived_table: {
-     sql: row_number() over () as P_K,
+     sql: SELECT distinct row_number() over () as P_K,
     date(ts.placedDate) as date,
     ts.parentOrderUID as OrdersFromTrolleySales,
     et.transaction_uuid as transactionID_ecrebo,
