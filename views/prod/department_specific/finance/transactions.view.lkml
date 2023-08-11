@@ -1205,12 +1205,22 @@ view: transactions {
   }
 
   measure: orders_using_promo {
-    label: "orders using coupon"
+    label: "Number of Transactions (using coupon)"
     view_label: "Measures"
     group_label: "Core Metrics"
     filters: [promoFlag: "Yes"]
     type: count_distinct
     sql: ${parent_order_uid} ;;
+  }
+
+  measure: Net_sales_using_promo {
+    label: "Net Sales (using coupon)"
+    view_label: "Measures"
+    group_label: "Core Metrics"
+    filters: [promoFlag: "Yes"]
+    type: sum
+    value_format_name: gbp
+    sql: ${net_sales_value} ;;
   }
 
 
