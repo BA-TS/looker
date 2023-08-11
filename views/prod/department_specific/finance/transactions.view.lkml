@@ -1204,6 +1204,15 @@ view: transactions {
     sql: case when ${promo_orders.promo_id} is not null then true else false end;;
   }
 
+  measure: orders_using_promo {
+    label: "orders using coupon"
+    view_label: "Measures"
+    group_label: "Core Metrics"
+    filters: [promoFlag: "Yes"]
+    type: count_distinct
+    sql: ${parent_order_uid} ;;
+  }
+
 
 # ██╗░░██╗██╗██████╗░██████╗░███████╗███╗░░██╗
 # ██║░░██║██║██╔══██╗██╔══██╗██╔════╝████╗░██║
