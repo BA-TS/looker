@@ -247,7 +247,7 @@ view: products {
   }
 
   dimension: isActive {
-    view_label: "isActive"
+    label: "isActive"
     group_label: "Flags"
     type: yesno
     sql: ${TABLE}.isActive = 1 ;;
