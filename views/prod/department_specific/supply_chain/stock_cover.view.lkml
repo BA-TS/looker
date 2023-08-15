@@ -120,7 +120,7 @@ view: stock_cover {
   measure: total_stock_value {
     label: "Stock Level Value"
     type: sum
-    sql: ${stock_cover_8}*${aac_averagePrice} ;;
+    sql: ${stock_level}*${aac_averagePrice} ;;
     value_format_name: gbp
   }
 

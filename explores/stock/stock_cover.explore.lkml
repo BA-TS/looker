@@ -29,4 +29,18 @@ explore: stock_cover {
     relationship: many_to_one
     sql_on: ${stock_cover.stock_date_date} = ${aac.date} and ${products.product_uid} = ${aac.product_uid} ;;
   }
+
+  join: catalogue {
+    view_label: "Catalogue"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${stock_cover.stock_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
+  }
+
+  join: promoworking {
+    view_label: "Active Promotions"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${products.product_code} = ${promoworking.Product_Code} ;;
+  }
 }
