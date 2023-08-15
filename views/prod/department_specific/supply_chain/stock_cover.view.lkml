@@ -138,12 +138,26 @@ view: stock_cover {
       value_format_name: decimal_0
     }
 
+  measure: total_cover_value_16 {
+    label: "Cover 8-16 value"
+    type: sum
+    sql: ${stock_cover_16}*${aac_averagePrice} ;;
+    value_format_name: gbp
+  }
+
     measure: total_cover_32 {
       label: "Cover 16-32"
       type: sum
       sql: ${stock_cover_32} ;;
       value_format_name: decimal_0
     }
+
+  measure: total_cover_value_32 {
+    label: "Cover 16-32 value"
+    type: sum
+    sql: ${stock_cover_32}*${aac_averagePrice} ;;
+    value_format_name: gbp
+  }
 
     measure: total_cover_52 {
       label: "Cover 32-52"
@@ -152,10 +166,25 @@ view: stock_cover {
       value_format_name: decimal_0
     }
 
+  measure: total_cover_value_52 {
+    label: "Cover 32-52 value"
+    type: sum
+    sql: ${stock_cover_52}*${aac_averagePrice} ;;
+    value_format_name: gbp
+  }
+
     measure: total_cover_over_52 {
       label: "Cover 52+"
       type: sum
       sql: ${stock_cover_over_52} ;;
       value_format_name: decimal_0
     }
+
+  measure: total_cover_value_over_52 {
+    label: "Cover 52+ value"
+    type: sum
+    sql: ${stock_cover_over_52}*${aac_averagePrice} ;;
+    value_format_name: gbp
+  }
+
   }
