@@ -5,14 +5,18 @@ explore: stock_cover {
   label: "Stock Cover"
   description: "Still under development/QA, please contact Business Analytics."
   #hidden: yes
+
+  always_filter: {
+    filters: [products.isActive: "Yes"]
+  }
   conditionally_filter: {
     filters: [
       stock_cover.date_filter: "Yesterday"
     ]
   }
   sql_always_where:{% condition stock_cover.date_filter %} (${stock_cover.stock_date_date}) {% endcondition %}
-  and
-  ${products.isActive};;
+  --and ${products.isActive}
+  ;;
   join: products {
     type: inner
     relationship: many_to_one
