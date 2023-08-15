@@ -91,6 +91,12 @@ view: stock_cover {
       hidden: yes
     }
 
+    dimension: aac_averagePrice {
+      type: number
+      value_format_name: gbp
+      sql: ${aac.average_cost_price} ;;
+    }
+
     dimension: stock_cover_over_52 {
       type: number
       sql: ${TABLE}.coverOver52 ;;

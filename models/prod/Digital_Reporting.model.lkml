@@ -137,6 +137,13 @@ explore: GA4 {
     and ${products.product_uid} = ${app_web_data.ProductUID};;
   }
 
+  join: aac {
+    view_label: ""
+    type:  left_outer
+    relationship: many_to_one
+    sql_on: ${stock_cover.stock_date_date} = ${aac.date} and ${products.product_uid} = ${aac.product_uid} ;;
+  }
+
 }
 
 explore: digital_reporting {
@@ -471,6 +478,13 @@ explore: digital_reporting {
     relationship: many_to_one
     sql_on: ${app_web_data.CustomerID}=${trade_customers.customer_uid}
     and ${customers.customer_uid}=${trade_customers.customer_uid};;
+  }
+
+  join: aac {
+    view_label: ""
+    type:  left_outer
+    relationship: many_to_one
+    sql_on: ${stock_cover.stock_date_date} = ${aac.date} and ${productv2.product_uid} = ${aac.product_uid} ;;
   }
 
 
