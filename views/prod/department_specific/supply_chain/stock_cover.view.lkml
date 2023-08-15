@@ -119,8 +119,8 @@ view: stock_cover {
 
   measure: total_stock_value {
     label: "Stock Level Value"
-    #type: sum
-    sql: sum(${stock_cover_8})*${aac_averagePrice} ;;
+    type: sum
+    sql: ${stock_cover_8}*${aac_averagePrice} ;;
     value_format_name: gbp
   }
 
@@ -133,8 +133,8 @@ view: stock_cover {
 
   measure: total_cover_value_8 {
     label: "Cover <8 value"
-    #type: sum
-    sql: sum(${stock_cover_8})*${aac_averagePrice} ;;
+    type: sum
+    sql: ${stock_cover_8}*${aac_averagePrice} ;;
     value_format_name: gbp
   }
 
@@ -147,8 +147,8 @@ view: stock_cover {
 
   measure: total_cover_value_16 {
     label: "Cover 8-16 value"
-    #type: sum
-    sql: sum(${stock_cover_16})*${aac_averagePrice} ;;
+    type: sum
+    sql: ${stock_cover_16}*${aac_averagePrice} ;;
     value_format_name: gbp
   }
 
@@ -161,8 +161,8 @@ view: stock_cover {
 
   measure: total_cover_value_32 {
     label: "Cover 16-32 value"
-    #type: sum
-    sql: sum(${stock_cover_32})*${aac_averagePrice} ;;
+    type: sum
+    sql: ${stock_cover_32}*${aac_averagePrice} ;;
     value_format_name: gbp
   }
 
@@ -175,8 +175,8 @@ view: stock_cover {
 
   measure: total_cover_value_52 {
     label: "Cover 32-52 value"
-    #type: sum
-    sql: sum(${stock_cover_52})*${aac_averagePrice} ;;
+    type: sum
+    sql: ${stock_cover_52}*${aac_averagePrice} ;;
     value_format_name: gbp
   }
 
@@ -189,8 +189,8 @@ view: stock_cover {
 
   measure: total_cover_value_over_52 {
     label: "Cover 52+ value"
-    #type: sum
-    sql: sum(${stock_cover_over_52})*${aac_averagePrice} ;;
+    type: sum
+    sql: ${stock_cover_over_52}*${aac_averagePrice} ;;
     value_format_name: gbp
   }
 
