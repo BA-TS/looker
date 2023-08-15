@@ -1,7 +1,10 @@
 view: stock_level_date_site_product {
   view_label: "Stock Measures"
 
-  sql_table_name: `toolstation-data-storage.stock.stock_level_date_site_product`;;
+  derived_table: {
+    sql: SELECT distinct * from `toolstation-data-storage.stock.stock_level_date_site_product`
+    where {% condition select_date_range %} date(openingStockDate) {% endcondition %};;
+    }
 
   dimension: date_site_product_pk {
     type: string
@@ -96,5 +99,14 @@ view: stock_level_date_site_product {
     type: number
     sql: SUM(${TABLE}.stockLevel * ${average_cost_price}) ;;
     value_format_name: decimal_2
+  }
+
+  filter: select_date_range {
+    label: "Opening Stock Date Range"
+    group_label: "Date Filter"
+    view_label: "Date"
+    type: date
+    datatype: date
+    convert_tz: yes
   }
 }
