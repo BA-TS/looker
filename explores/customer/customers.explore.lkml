@@ -38,7 +38,9 @@ explore: customers {
   ]
 
   sql_always_where:
-    ${period_over_period};;
+    ${period_over_period}
+    and
+    ${products.isActive} = "Yes";;
 
  join: customers {
     type :  full_outer

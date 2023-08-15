@@ -10,7 +10,9 @@ explore: stock_cover {
       stock_cover.date_filter: "Yesterday"
     ]
   }
-  sql_always_where:{% condition stock_cover.date_filter %} (${stock_cover.stock_date_date}) {% endcondition %} ;;
+  sql_always_where:{% condition stock_cover.date_filter %} (${stock_cover.stock_date_date}) {% endcondition %}
+  and
+  ${products.isActive} = "Yes";;
   join: products {
     type: inner
     relationship: many_to_one

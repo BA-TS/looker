@@ -4,7 +4,9 @@ explore: stock_intake {
   label: "Stock Intake"
   required_access_grants: [can_use_supplier_information]
   sql_always_where:
-  ${products.product_type} = "Real" AND ${scmatrix.is_active} = 1;;
+  ${products.product_type} = "Real" AND ${scmatrix.is_active} = 1
+  and
+  ${products.isActive} = "Yes";;
 
   join: products {
     type:  inner

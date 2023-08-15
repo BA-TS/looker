@@ -28,6 +28,7 @@ FROM `toolstation-data-storage.promotions.promoWorking`
     label: "Product Code"
     description: "Product Code"
     type: string
+    hidden: yes
     sql: ${TABLE}.productCode ;;
   }
 
@@ -35,6 +36,7 @@ FROM `toolstation-data-storage.promotions.promoWorking`
     label: "cycleID"
     description: "cycleID"
     type: string
+    hidden: yes
     sql: ${TABLE}.cycleID ;;
   }
 

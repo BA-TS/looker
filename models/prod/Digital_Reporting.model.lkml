@@ -64,7 +64,9 @@ explore: GA4 {
   ]
   #, -base.period_over_period, -base.flexible_pop,  -base.__comparator_order__
   sql_always_where:
-  ${period_over_period};;
+  ${period_over_period}
+  and
+    ${products.isActive} = "Yes";;
 
   join: calendar_completed_date{
     from:  calendar
@@ -207,6 +209,8 @@ explore: digital_reporting {
   sql_always_where:
 
   ${period_over_period}
+  and
+    ${productv2.isActive} = "Yes"
  ;;
 
   join: digital_budget {

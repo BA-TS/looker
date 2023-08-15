@@ -4,6 +4,8 @@ explore: stock_soq {
   required_access_grants: [is_developer]
   label: "Stock SOQ"
   hidden: yes
+  sql_always_where:
+  ${products.isActive} = "Yes" ;;
   join: products {
     type: left_outer
     relationship: many_to_one

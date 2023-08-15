@@ -1,7 +1,7 @@
 view: products {
   derived_table: {
   sql:
-  SELECT distinct * FROM `toolstation-data-storage.range.products_current`
+  SELECT distinct * FROM `toolstation-data-storage.range.products`
   union distinct
   select null, null, null, null, null, null, null, null, null, null,
   null, null, null, null, null, null, null, null, null, null,
@@ -245,4 +245,13 @@ view: products {
     sql: case when ${trade_products_10_subdepartments} = true THEN ${trade_products_10_subdepartments} ELSE NULL END ;;
     value_format: "#,##0;(#,##0)"
   }
+
+  dimension: isActive {
+    view_label: "isActive"
+    group_label: "Flags"
+    type: yesno
+    sql: ${TABLE}.isActive = 1 ;;
+  }
+
+
 }
