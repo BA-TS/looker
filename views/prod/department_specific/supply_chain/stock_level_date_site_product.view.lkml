@@ -98,7 +98,7 @@ view: stock_level_date_site_product {
     label: "Stock Value"
     type: number
     sql: SUM(${TABLE}.stockLevel * ${average_cost_price}) ;;
-    value_format_name: decimal_2
+    value_format_name: gbp
   }
 
   filter: select_date_range {

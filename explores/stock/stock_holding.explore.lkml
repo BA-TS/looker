@@ -49,12 +49,12 @@ explore: stock_level_date_site_product {
       sql_on: ${stock_level_date_site_product.site_uid} = ${sites.site_uid} ;;
     }
 
-    join: stock_cover {
-      type: left_outer
-      relationship: many_to_one
-      sql_on: ${stock_level_date_site_product.opening_stock_date} = ${stock_cover.stock_date_date}
-      and ${products.product_code} = ${stock_cover.product_code};;
-    }
+    #join: stock_cover {
+      #type: left_outer
+      #relationship: many_to_one
+      #sql_on: ${stock_level_date_site_product.opening_stock_date} = ${stock_cover.stock_date_date}
+      #and ${products.product_code} = ${stock_cover.product_code};;
+    #}
 
     # join: dc_to_shop_mapping {
     #   type: left_outer
