@@ -104,7 +104,7 @@ view: stock_level_date_site_product {
   filter: select_date_range {
     label: "Opening Stock Date Range"
     group_label: "Date Filter"
-    view_label: "Date"
+    view_label: "Dates"
     type: date
     datatype: date
     convert_tz: yes
