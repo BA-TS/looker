@@ -9,14 +9,14 @@ explore: stock_level_date_site_product {
 
   always_filter: {
     filters: [
-      select_date_range: "7 days"
+      stock_level_date_site_product.select_date_range: "7 days"
     ]}
   #select_date_reference: "app^_web^_data",
 
   conditionally_filter: {
     filters:
     [
-      select_date_range: "7 days"
+      stock_level_date_site_product.select_date_range: "7 days"
     ]
 
     #total_sessionsGA4.select_date_range: "7 days",
