@@ -23,4 +23,10 @@ explore: stock_cover {
     relationship: many_to_one
     sql_on: ${products.default_supplier}=${suppliers.supplier_uid} ;;
   }
+
+  join: aac {
+    type:  left_outer
+    relationship: many_to_one
+    sql_on: ${stock_cover.stock_date_date} = ${aac.date} and ${products.product_uid} = ${aac.product_uid} ;;
+  }
 }
