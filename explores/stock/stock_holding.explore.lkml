@@ -17,7 +17,7 @@ explore: stock_level_date_site_product {
   AND
   ${scmatrix.is_active} = 1
   and
-  ${products.isActive} = "Yes";;
+  ${products.isActive};;
   # AND UPPER(${sites.site_type}) NOT LIKE "%D%SHIP%";;
 
     join: aac {

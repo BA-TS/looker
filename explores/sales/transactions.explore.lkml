@@ -36,7 +36,7 @@ explore: base {
   ]
 
   sql_always_where:${period_over_period} and
-    ${products.isActive} = "Yes";;
+    ${products.isActive};;
 
   join: calendar_completed_date{
     from:  calendar

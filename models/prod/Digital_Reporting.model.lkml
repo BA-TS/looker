@@ -66,7 +66,7 @@ explore: GA4 {
   sql_always_where:
   ${period_over_period}
   and
-    ${products.isActive} = "Yes";;
+    ${products.isActive};;
 
   join: calendar_completed_date{
     from:  calendar
@@ -210,7 +210,7 @@ explore: digital_reporting {
 
   ${period_over_period}
   and
-    ${productv2.isActive} = "Yes"
+    ${productv2.isActive}
  ;;
 
   join: digital_budget {

@@ -3,7 +3,7 @@ include: "/views/**/*.view"
 explore: digital_product_conversion {
   label: "Product Conversion"
   sql_always_having:
-    ${products.isActive} = "Yes" ;;
+    ${products.isActive} ;;
   join: products {
     type: inner
     relationship: many_to_one

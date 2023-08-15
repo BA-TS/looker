@@ -6,7 +6,7 @@ explore: stock_intake {
   sql_always_where:
   ${products.product_type} = "Real" AND ${scmatrix.is_active} = 1
   and
-  ${products.isActive} = "Yes";;
+  ${products.isActive};;
 
   join: products {
     type:  inner
