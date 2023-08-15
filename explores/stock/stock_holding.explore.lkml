@@ -3,6 +3,11 @@ include: "/views/**/*.view"
 explore: stock_level_date_site_product {
   required_access_grants: [can_use_supplier_information]
 
+  always_filter: {
+    filters: [
+      select_date_range: "7 days"
+    ]}
+
   label: "Stock Holding"
   description: "By Date, Site, Product"
   sql_always_where:
