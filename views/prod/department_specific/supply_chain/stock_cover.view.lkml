@@ -124,6 +124,13 @@ view: stock_cover {
       value_format_name: decimal_0
     }
 
+  measure: total_cover_value_8 {
+    label: "Cover <8 value"
+    type: sum
+    sql: ${stock_cover_8}*${aac_averagePrice} ;;
+    value_format_name: gbp
+  }
+
     measure: total_cover_16 {
       label: "Cover 8-16"
       type: sum
