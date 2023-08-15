@@ -345,6 +345,13 @@ explore: base {
     sql_on: ${transactions.transaction_uid} = ${promo_orders.order_id} and ${base.date_date} = ${promo_orders.date_date} ;;
   }
 
+  join: promoworking {
+    view_label: ""
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${products.product_code} = ${promoworking.Product_Code} ;;
+  }
+
 }
 
 explore: +base {

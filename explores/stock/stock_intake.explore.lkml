@@ -30,6 +30,13 @@ explore: stock_intake {
     sql_on: ${stock_intake.supplier_uid}=${suppliers.supplier_uid} ;;
   }
 
+  join: promoworking {
+    view_label: ""
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${products.product_code} = ${promoworking.Product_Code} ;;
+  }
+
   # join: distribution_centre_names {
   #   type:  left_outer
   #   relationship: many_to_one

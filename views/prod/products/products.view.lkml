@@ -220,6 +220,12 @@ view: products {
     sql: ${subdepartment} IN ("John Guest Speedfit","MDPE Pipe & Fittings","110mm Underground","160mm Underground","Expanding Foam","LV transformers","Din Rail & Terminals","Conduit & Trunking","Shower Pumps") OR ${subdepartment} LIKE "%Consumer Units%" ;;
   }
 
+  dimension: product_promo {
+    label: "Promo working"
+    type: yesno
+    sql: ${promoworking.Product_Code} is not null ;;
+  }
+
   measure: number_of_subdepartments {
     label: "Number of SubDepartments"
     view_label: "Measures"

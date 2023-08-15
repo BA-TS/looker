@@ -144,6 +144,13 @@ explore: GA4 {
     sql_on: ${stock_cover.stock_date_date} = ${aac.date} and ${products.product_uid} = ${aac.product_uid} ;;
   }
 
+  join: promoworking {
+    view_label: ""
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${products.product_code} = ${promoworking.Product_Code} ;;
+  }
+
 }
 
 explore: digital_reporting {
@@ -485,6 +492,13 @@ explore: digital_reporting {
     type:  left_outer
     relationship: many_to_one
     sql_on: ${stock_cover.stock_date_date} = ${aac.date} and ${productv2.product_uid} = ${aac.product_uid} ;;
+  }
+
+  join: promoworking {
+    view_label: ""
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${productv2.product_code} = ${promoworking.Product_Code} ;;
   }
 
 

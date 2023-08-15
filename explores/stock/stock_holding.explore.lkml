@@ -49,6 +49,13 @@ explore: stock_level_date_site_product {
       sql_on: ${stock_level_date_site_product.site_uid} = ${sites.site_uid} ;;
     }
 
+  join: promoworking {
+    view_label: ""
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${products.product_code} = ${promoworking.Product_Code} ;;
+  }
+
     #join: stock_cover {
       #type: left_outer
       #relationship: many_to_one
