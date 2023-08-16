@@ -14,7 +14,7 @@ explore: stock_cover {
       stock_cover.date_filter: "Yesterday"
     ]
 
-    unless: [new_products.date_date]
+    #unless: [new_products.date_date]
   }
   sql_always_where:{% condition stock_cover.date_filter %} (${stock_cover.stock_date_date}) {% endcondition %}
       --and ${products.isActive}
@@ -52,16 +52,16 @@ explore: stock_cover {
     sql_on: ${products.product_code} = ${promoworking.Product_Code} ;;
   }
 
-  join: new_products {
-  view_label: "New Products"
-  from: products
-  type: left_outer
-  relationship: one_to_many
-  fields: [new_products.date_date,new_products.product_code,new_products.product_uid,new_products.product_status]
-  sql_on: ${new_products.date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date}
-  and ${stock_cover.product_code} = ${new_products.product_code};;
-  sql_where: ${new_products.product_status} = "New" ;;
+  #join: new_products {
+  #view_label: "New Products"
+  #from: products
+  #type: left_outer
+  #relationship: one_to_many
+  #fields: [new_products.date_date,new_products.product_code,new_products.product_uid,new_products.product_status]
+  #sql_on: ${new_products.date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date}
+  #and ${stock_cover.product_code} = ${new_products.product_code};;
+  #sql_where: ${new_products.product_status} = "New" ;;
 
-  }
+  #}
 
 }
