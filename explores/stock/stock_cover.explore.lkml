@@ -50,15 +50,16 @@ explore: stock_cover {
     sql_on: ${products.product_code} = ${promoworking.Product_Code} ;;
   }
 
-  #join: new_products {
-  #view_label: "New Products"
-  #from: products
-  #type: left_outer
-  #relationship: one_to_many
-  #fields: [new_products.date_date,new_products.product_code,new_products.product_uid,new_products.product_status]
-  #sql_on: ${catalogue.catalogue_live_date} >= ${products.date_date};;
-  #sql_where: ${products.product_status} = "New" ;;
+  join: new_products {
+  view_label: "New Products"
+  from: products
+  type: left_outer
+  relationship: one_to_many
+  fields: [new_products.date_date,new_products.product_code,new_products.product_uid,new_products.product_status]
+  sql_on: ${new_products.date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date}
+  and ${stock_cover.product_code} = ${new_products.product_code};;
+  sql_where: ${new_products.product_status} = "New" ;;
 
-  #}
+  }
 
 }
