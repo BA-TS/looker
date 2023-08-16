@@ -1,7 +1,6 @@
 include: "/views/**/*.view"
 
-explore: stock_cover_TBD {
-  view_name: base
+explore: stock_cover {
   required_access_grants: [is_super]
   label: "Stock Cover"
   description: "Still under development/QA, please contact Business Analytics."
@@ -14,30 +13,10 @@ explore: stock_cover_TBD {
     filters: [
       stock_cover.date_filter: "Yesterday"
     ]
-
-    unless: [
-      select_date_range
-      ]
-
   }
   sql_always_where:{% condition stock_cover.date_filter %} (${stock_cover.stock_date_date}) {% endcondition %}
-  --and ${products.isActive}
-  ;;
-
-  join: calendar_completed_date{
-    from:  calendar
-    view_label: "Date"
-    type:  inner
-    relationship: one_to_many
-    sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
-  }
-
-  join: stock_cover {
-    type: left_outer
-    relationship: many_to_many
-    sql_on: ${base.date_date}=${stock_cover.stock_date_date} ;;
-  }
-
+      --and ${products.isActive}
+      ;;
   join: products {
     type: inner
     relationship: many_to_one
@@ -54,14 +33,14 @@ explore: stock_cover_TBD {
   join: aac {
     type:  left_outer
     relationship: many_to_one
-    sql_on: ${base.date_date} = ${aac.date} and ${products.product_uid} = ${aac.product_uid} ;;
+    sql_on: ${stock_cover.stock_date_date} = ${aac.date} and ${products.product_uid} = ${aac.product_uid} ;;
   }
 
   join: catalogue {
     view_label: "Catalogue"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${base.date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
+    sql_on: ${stock_cover.stock_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
   }
 
   join: promoworking {
@@ -72,13 +51,13 @@ explore: stock_cover_TBD {
   }
 
   #join: new_products {
-    #view_label: "New Products"
-    #from: products
-    #type: left_outer
-    #relationship: one_to_many
-    #fields: [new_products.date_date,new_products.product_code,new_products.product_uid,new_products.product_status]
-    #sql_on: ${catalogue.catalogue_live_date} >= ${products.date_date};;
-    #sql_where: ${products.product_status} = "New" ;;
+  #view_label: "New Products"
+  #from: products
+  #type: left_outer
+  #relationship: one_to_many
+  #fields: [new_products.date_date,new_products.product_code,new_products.product_uid,new_products.product_status]
+  #sql_on: ${catalogue.catalogue_live_date} >= ${products.date_date};;
+  #sql_where: ${products.product_status} = "New" ;;
 
   #}
 
