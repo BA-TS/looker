@@ -96,6 +96,13 @@ explore: base {
     sql_on: ${single_line_transactions.parent_order_uid} = ${attached_products.parent_order_uid} ;;
   }
 
+  join: category_budget {
+    view_label: "Budget"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${base.date_date}=${category_budget.date} AND UPPER(${transactions.product_department}) = UPPER(${category_budget.department});;
+  }
+
   join: products {
     view_label: "Products"
     type:  left_outer
@@ -135,12 +142,6 @@ explore: base {
     sql_on:${base.date_date}=${channel_budget.date_date} AND ${transactions.sales_channel} = ${channel_budget.channel};;
   }
 
-  join: category_budget {
-    view_label: "Budget"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${base.date_date}=${category_budget.date} AND UPPER(${transactions.product_department}) = UPPER(${category_budget.department});;
-  }
 
   join: site_budget {
     view_label: "Budget"
