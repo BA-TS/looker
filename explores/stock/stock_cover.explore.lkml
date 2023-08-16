@@ -49,4 +49,16 @@ explore: stock_cover {
     relationship: one_to_one
     sql_on: ${products.product_code} = ${promoworking.Product_Code} ;;
   }
+
+  join: new_products {
+    view_label: "New Products"
+    from: products
+    type: left_outer
+    relationship: one_to_many
+    fields: [new_products.date_date,new_products.product_code,new_products.product_uid,new_products.product_status]
+    sql_on: ${catalogue.catalogue_live_date} = ${new_products.date_date};;
+    sql_where: ${new_products.product_status} = "New" ;;
+
+  }
+
 }
