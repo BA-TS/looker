@@ -13,6 +13,8 @@ explore: stock_cover {
     filters: [
       stock_cover.date_filter: "Yesterday"
     ]
+
+    unless: [new_products.date_date]
   }
   sql_always_where:{% condition stock_cover.date_filter %} (${stock_cover.stock_date_date}) {% endcondition %}
       --and ${products.isActive}

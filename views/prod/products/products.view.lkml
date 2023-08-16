@@ -10,7 +10,7 @@ view: products {
 
   dimension_group: date {
     type: time
-    hidden: yes
+    #hidden: yes
     timeframes: [raw,date]
     sql: ${TABLE}.productStartDate ;;
   }
