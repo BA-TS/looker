@@ -257,7 +257,7 @@ explore: base {
 
   join: promoHistory_Current {
     type: left_outer
-    view_label: "Promos"
+    view_label: ""
     relationship: many_to_one
     sql_on: ${products.product_code} = ${promoHistory_Current.product_code} and ${catalogue.catalogue_name}=${promoHistory_Current.catalogueName} ;;
   }
