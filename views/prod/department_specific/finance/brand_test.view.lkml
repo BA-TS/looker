@@ -28,7 +28,7 @@ view: brand_test {
       primary_key: yes
       hidden: yes
       type: string
-      sql: ${TABLE}.Trade_type ;;
+      sql: ${TABLE}.Brand ;;
     }
 
   dimension: net_sales {
@@ -54,7 +54,7 @@ view: brand_test {
       type: sum
       sql:
           CASE
-            WHEN ${Brand} = '{% parameter category_to_count %}'
+            WHEN ${Brand} = {% parameter category_to_count %}
             THEN sum(${net_sales})
           END
         ;;
