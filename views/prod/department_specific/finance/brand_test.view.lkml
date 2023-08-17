@@ -20,6 +20,7 @@ view: brand_test {
 
     dimension_group: date {
       type: time
+      hidden: yes
       timeframes: [date,raw]
       sql: ${TABLE}.date ;;
     }
@@ -32,7 +33,7 @@ view: brand_test {
     }
 
   dimension: net_sales {
-    #hidden: yes
+    hidden: yes
     type: number
     value_format_name: gbp
     sql: ${TABLE}.Net_sales ;;
@@ -51,6 +52,7 @@ view: brand_test {
     }
 
     measure: sum2 {
+      label: "Net Sales of Brand"
       type: sum
       sql:
           CASE
@@ -59,6 +61,17 @@ view: brand_test {
           END
         ;;
     }
+
+  measure: sum3 {
+    label: "Net Sales of Other Brand"
+    type: sum
+    sql:
+          CASE
+            WHEN ${Brand} != {% parameter category_to_count %}
+            THEN (${net_sales})
+          END
+        ;;
+  }
 
     parameter: category_to_count {
       type: string
