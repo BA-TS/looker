@@ -6,6 +6,7 @@ view: brand_test {
         bind_all_filters: yes
         column: date {field: base.base_date_date}
         column: Brand { field: products.brand}
+        column: product_code { field: products.product_code}
         column: net_sales { field: transactions.total_net_sales }
         column: number_customers { field: customers.number_of_customers }
         derived_column: ranking {
@@ -13,6 +14,9 @@ view: brand_test {
         }
         derived_column: ranking_2 {
           sql: rank() over (order by Number_customers desc) ;;
+        }
+        derived_column: P_K {
+          sql: row_number() over () ;;
         }
 
       }
@@ -25,12 +29,23 @@ view: brand_test {
       sql: ${TABLE}.date ;;
     }
 
-    dimension: Brand {
+    dimension: P_K {
+      hidden: yes
       primary_key: yes
+      sql: ${TABLE}.P_K ;;
+    }
+
+    dimension: Brand {
       hidden: yes
       type: string
       sql: ${TABLE}.Brand ;;
     }
+
+  dimension: productCode {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.product_code ;;
+  }
 
   dimension: net_sales {
     hidden: yes
@@ -54,6 +69,7 @@ view: brand_test {
     measure: sum2 {
       label: "Net Sales of Brand"
       type: sum
+      value_format_name: gbp
       sql:
           CASE
             WHEN ${Brand} = {% parameter category_to_count %}
@@ -65,6 +81,7 @@ view: brand_test {
   measure: sum3 {
     label: "Net Sales of Other Brand"
     type: sum
+    value_format_name: gbp
     sql:
           CASE
             WHEN ${Brand} != {% parameter category_to_count %}
