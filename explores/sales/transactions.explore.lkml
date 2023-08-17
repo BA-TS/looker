@@ -354,6 +354,13 @@ explore: base {
     sql_on: ${products.product_code} = ${promoworking.Product_Code} ;;
   }
 
+  join: brand_test {
+    view_label: "BrandTest"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${base.base_date_date} = ${brand_test.date_date} and ${products.brand} = ${brand_test.Brand} ;;
+  }
+
 }
 
 explore: +base {
