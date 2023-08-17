@@ -55,7 +55,7 @@ view: brand_test {
       sql:
           CASE
             WHEN ${Brand} = {% parameter category_to_count %}
-            THEN sum(${net_sales})
+            THEN (${net_sales})
           END
         ;;
     }
