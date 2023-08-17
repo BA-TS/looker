@@ -20,12 +20,14 @@ view: sku_cover_dc_wrong_stock {
 
    dimension: productCode {
      description: "productCode"
+    hidden: yes
      type: string
      sql: ${TABLE}.productCode ;;
    }
 #
    dimension_group: date {
      description: "Report Date"
+    hidden: yes
      type: time
      timeframes: [date, raw]
      sql: ${TABLE}.reportDate ;;
