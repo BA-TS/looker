@@ -64,9 +64,7 @@ explore: GA4 {
   ]
   #, -base.period_over_period, -base.flexible_pop,  -base.__comparator_order__
   sql_always_where:
-  ${period_over_period}
-  and
-    ${products.isActive};;
+  ${period_over_period};;
 
   join: calendar_completed_date{
     from:  calendar

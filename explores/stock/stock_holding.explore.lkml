@@ -58,6 +58,13 @@ explore: stock_level_date_site_product {
     sql_on: ${products.product_code} = ${promoworking.Product_Code} ;;
   }
 
+  join: sku_cover_dc_wrong_stock {
+    view_label: "Wrong Stock"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${products.product_code} = ${sku_cover_dc_wrong_stock.productCode} ;;
+  }
+
     #join: stock_cover {
       #type: left_outer
       #relationship: many_to_one
