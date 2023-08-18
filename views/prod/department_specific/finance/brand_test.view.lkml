@@ -8,6 +8,9 @@ view: brand_test {
         column: Brand2 { field: products.brand}
         column: product_code { field: products.product_code}
         column: net_sales { field: transactions.total_net_sales }
+        column: units { field: transactions.total_units }
+        column: margin_inc_funding { field: transactions.total_margin_incl_funding }
+        column: rate_margin_inc_funding { field: transactions.total_margin_rate_incl_funding }
         column: number_customers { field: customers.number_of_customers }
         column: customer_uid {field:customers.customer_uid}
         derived_column: ranking {
@@ -65,6 +68,27 @@ view: brand_test {
     sql: ${TABLE}.Net_sales ;;
   }
 
+  dimension: units {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.units ;;
+  }
+
+  dimension: margin_inc_funding {
+    hidden: yes
+    type: number
+    value_format_name: gbp
+    sql: ${TABLE}.margin_inc_funding ;;
+  }
+
+  dimension: rate_margin_inc_funding {
+    hidden: yes
+    type: number
+    value_format_name: percent_2
+    sql: ${TABLE}.rate_margin_inc_funding ;;
+  }
+
+
     dimension: sales_rank {
       hidden: yes
       type: string
@@ -97,6 +121,76 @@ view: brand_test {
           CASE
             WHEN ${Brand} != {% parameter category_to_count %}
             THEN (${net_sales})
+          END
+        ;;
+  }
+
+  measure: sum4 {
+    label: "Units of Brand"
+    type: sum
+    sql:
+          CASE
+            WHEN ${Brand} = {% parameter category_to_count %}
+            THEN (${units})
+          END
+        ;;
+  }
+
+  measure: sum5 {
+    label: "Units of Other Brand"
+    type: sum
+    sql:
+          CASE
+            WHEN ${Brand} != {% parameter category_to_count %}
+            THEN (${units})
+          END
+        ;;
+  }
+
+  measure: sum6 {
+    label: "Margin (inc fund) of Brand"
+    type: sum
+    value_format_name: gbp
+    sql:
+          CASE
+            WHEN ${Brand} = {% parameter category_to_count %}
+            THEN (${margin_inc_funding})
+          END
+        ;;
+  }
+
+  measure: sum7 {
+    label: "Margin (inc fund) of Other Brand"
+    type: sum
+    value_format_name: gbp
+    sql:
+          CASE
+            WHEN ${Brand} != {% parameter category_to_count %}
+            THEN (${margin_inc_funding})
+          END
+        ;;
+  }
+
+  measure: sum8 {
+    label: "Margin rate (inc fund) of Brand"
+    type: average
+    value_format_name: percent_2
+    sql:
+          CASE
+            WHEN ${Brand} = {% parameter category_to_count %}
+            THEN (${rate_margin_inc_funding})
+          END
+        ;;
+  }
+
+  measure: sum9 {
+    label: "Margin rate (inc fund) of Other Brand"
+    type: average
+    value_format_name: percent_2
+    sql:
+          CASE
+            WHEN ${Brand} != {% parameter category_to_count %}
+            THEN (${rate_margin_inc_funding})
           END
         ;;
   }
