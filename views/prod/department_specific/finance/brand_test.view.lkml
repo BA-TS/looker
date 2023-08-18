@@ -9,6 +9,7 @@ view: brand_test {
         column: product_code { field: products.product_code}
         column: net_sales { field: transactions.total_net_sales }
         column: number_customers { field: customers.number_of_customers }
+        column: customer_uid {field:customers.customer_uid}
         derived_column: ranking {
           sql: rank() over (order by Net_sales desc) ;;
         }
@@ -49,6 +50,12 @@ view: brand_test {
     hidden: yes
     type: string
     sql: ${TABLE}.product_code ;;
+  }
+
+  dimension: customer_uid {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.customer_uid ;;
   }
 
   dimension: net_sales {

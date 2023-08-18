@@ -358,7 +358,8 @@ explore: base {
     view_label: "Sales by Brand"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${base.base_date_date} = ${brand_test.date_date} and ${products.product_code} = ${brand_test.productCode} ;;
+    sql_on: ${base.base_date_date} = ${brand_test.date_date} and ${products.product_code} = ${brand_test.productCode}
+    and ${customers.customer_uid} = ${brand_test.customer_uid} ;;
   }
 
 }
