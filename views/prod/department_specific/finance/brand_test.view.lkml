@@ -103,6 +103,7 @@ view: brand_test {
 
     measure: sum2 {
       label: "Net Sales of Brand"
+      group_label: "Brand Selected"
       type: sum
       value_format_name: gbp
       sql:
@@ -115,6 +116,7 @@ view: brand_test {
 
   measure: sum3 {
     label: "Net Sales of Other Brand"
+    group_label: "Other Brands"
     type: sum
     value_format_name: gbp
     sql:
@@ -125,8 +127,18 @@ view: brand_test {
         ;;
   }
 
+  measure: all_net_sales {
+    label: "Overall Net Sales"
+    group_label: "Overall"
+    type: sum
+    value_format_name: gbp
+    sql:${net_sales}
+        ;;
+  }
+
   measure: sum4 {
     label: "Units of Brand"
+    group_label: "Brand Selected"
     type: sum
     sql:
           CASE
@@ -138,6 +150,7 @@ view: brand_test {
 
   measure: sum5 {
     label: "Units of Other Brand"
+    group_label: "Other Brands"
     type: sum
     sql:
           CASE
@@ -147,8 +160,16 @@ view: brand_test {
         ;;
   }
 
+  measure: all_units {
+    label: "Overall Units"
+    group_label: "Overall"
+    type: sum
+    sql: ${units} ;;
+  }
+
   measure: sum6 {
     label: "Margin (inc fund) of Brand"
+    group_label: "Brand Selected"
     type: sum
     value_format_name: gbp
     sql:
@@ -161,6 +182,7 @@ view: brand_test {
 
   measure: sum7 {
     label: "Margin (inc fund) of Other Brand"
+    group_label: "Other Brands"
     type: sum
     value_format_name: gbp
     sql:
@@ -171,8 +193,18 @@ view: brand_test {
         ;;
   }
 
+  measure: overall_margin_funding {
+    label: "Overall Margin (inc fund)"
+    group_label: "Overall"
+    type: sum
+    value_format_name: gbp
+    sql:${margin_inc_funding}
+        ;;
+  }
+
   measure: sum8 {
     label: "Margin rate (inc fund) of Brand"
+    group_label: "Brand Selected"
     type: average
     value_format_name: percent_2
     sql:
@@ -185,6 +217,7 @@ view: brand_test {
 
   measure: sum9 {
     label: "Margin rate (inc fund) of Other Brand"
+    group_label: "Other Brands"
     type: average
     value_format_name: percent_2
     sql:
@@ -193,6 +226,15 @@ view: brand_test {
             THEN (${rate_margin_inc_funding})
           END
         ;;
+  }
+
+  measure: sum10 {
+    label: "Overall Margin rate (inc fund)"
+    group_label: "Overall"
+    type: average
+    value_format_name: percent_2
+    sql:${rate_margin_inc_funding}
+    ;;
   }
 
     parameter: category_to_count {
