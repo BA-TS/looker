@@ -91,6 +91,7 @@ view: brand_test {
   }
 
     parameter: category_to_count {
+      label: "Brand"
       type: string
       suggest_dimension: Brand
     }
