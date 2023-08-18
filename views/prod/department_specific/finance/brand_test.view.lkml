@@ -5,7 +5,7 @@ view: brand_test {
       explore_source: base {
         bind_all_filters: yes
         column: date {field: base.base_date_date}
-        column: Brand { field: products.brand}
+        column: Brand2 { field: products.brand}
         column: product_code { field: products.product_code}
         column: net_sales { field: transactions.total_net_sales }
         column: number_customers { field: customers.number_of_customers }
@@ -17,6 +17,10 @@ view: brand_test {
         }
         derived_column: P_K {
           sql: row_number() over () ;;
+        }
+
+        derived_column: Brand {
+          sql: case when Brand2 is null then "Unknown" else Brand2 end ;;
         }
 
       }
