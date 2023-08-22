@@ -443,4 +443,10 @@ view: ga4 {
     datatype: date
     convert_tz: yes
   }
+
+  parameter: channel_group {
+    label: "Channel Grouping"
+    type: string
+    suggest_dimension: channelGrouping
+  }
 }
