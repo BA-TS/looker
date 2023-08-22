@@ -15,6 +15,13 @@ view: products {
     sql: ${TABLE}.productStartDate ;;
   }
 
+  dimension_group: activeTo {
+    type: time
+    hidden: yes
+    timeframes: [raw,date]
+    sql: ${TABLE}.activeTo ;;
+  }
+
   dimension: product_uid {
     group_label: "Product Details"
     label: "Product UID"

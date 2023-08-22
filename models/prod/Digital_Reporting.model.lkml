@@ -78,7 +78,7 @@ explore: GA4 {
     view_label: "Products"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${base.date_date} = ${products.date_date};;
+    sql_on: ${base.date_date} between ${products.date_date} and ${products.activeTo_date};;
   }
 
   join: ga4 {
