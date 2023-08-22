@@ -149,15 +149,17 @@ view: app_web_data {
       }
 
       measure: Totalrevenue {
+        label: "Net Sale Revenue"
         description: "Revenue of order"
         type: sum
         value_format_name: gbp
         sql: ${TABLE}.revenue ;;
       }
 
-      dimension: revenue2 {
+      measure: revenue2 {
+        label: "Gross Revenue"
         description: "Revenue of order"
-        type: number
+        type: sum
         value_format_name: gbp
         sql: ${TABLE}.revenue2 ;;
       }
