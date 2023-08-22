@@ -74,16 +74,17 @@ explore: GA4 {
   }
 
 
- # join: app_web_data {
-  #  type: left_outer
-   # relationship: many_to_one
-    #sql_on: ${base.base_date_date} = ${app_web_data.transaction_date_filter} ;;
-  #}
+  join: products {
+    view_label: "Products"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${base.date_date} = ${products.date_date};;
+  }
 
   join: ga4 {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${base.date_date} = ${ga4.date_date};;
+    sql_on: ${base.date_date} = ${ga4.date_date} and ${ga4.product_Sku} = ${products.product_code};;
   }
 
   join: catalogue {
@@ -122,12 +123,12 @@ explore: GA4 {
     sql_on: ${base.date_date} = ${search_plp_to_pdp_funnel.date_date} ;;
   }
 
-  join: products {
-    view_label: "Products"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${ga4.product_Sku} = ${products.product_code};;
-  }
+  #join: products {
+    #view_label: "Products"
+    #type: left_outer
+    #relationship: many_to_one
+    #sql_on: ${ga4.product_Sku} = ${products.product_code};;
+  #}
 
   join: app_web_data {
     type: full_outer
