@@ -1,7 +1,7 @@
 view: products {
   derived_table: {
   sql:
-  SELECT distinct * FROM `toolstation-data-storage.range.products`
+  SELECT distinct * FROM `toolstation-data-storage.range.products_current`
   union distinct
   select null, null, null, null, null, null, null, null, null, null,
   null, null, null, null, null, null, null, null, null, null,
