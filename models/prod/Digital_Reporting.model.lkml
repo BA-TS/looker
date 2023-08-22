@@ -88,11 +88,11 @@ explore: GA4 {
   }
 
   join: ga4 {
-    type: left_outer
+    type: full_outer
     relationship: many_to_one
     sql_on: ${app_web_data.OrderID} = regexp_extract(${ga4.transaction_id},"^.{0,11}")
     and ${base.date_date} = ${ga4.date_date}
-    and ${products.product_code} = ${ga4.product_Sku} ;;
+    and (${products.product_code} = ${ga4.product_Sku}) ;;
   }
 
   join: catalogue {
