@@ -81,10 +81,17 @@ explore: GA4 {
     sql_on: ${base.date_date} between ${products.date_date} and ${products.activeTo_date};;
   }
 
+  join: app_web_data {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${products.product_uid} = ${app_web_data.ProductUID} and ${base.date_date} = ${app_web_data.Placed_date};;
+  }
+
   join: ga4 {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${base.date_date} = ${ga4.date_date} and ${ga4.product_Sku} = ${products.product_code};;
+    sql_on: ${base.date_date} = ${ga4.date_date} and ${products.product_code} = ${ga4.product_Sku}
+    and ${app_web_data.OrderID} = regexp_extract(${ga4.transaction_id},"^.{0,11}");;
   }
 
   join: catalogue {
@@ -130,13 +137,7 @@ explore: GA4 {
     #sql_on: ${ga4.product_Sku} = ${products.product_code};;
   #}
 
-  join: app_web_data {
-    type: full_outer
-    relationship: many_to_one
-    sql_on: regexp_extract(${ga4.transaction_id},"^.{0,11}") = ${app_web_data.OrderID}
-    and ${products.product_uid} = ${app_web_data.ProductUID}
-    and ${base.date_date} = ${app_web_data.Placed_date};;
-  }
+
 
   join: aac {
     view_label: ""
