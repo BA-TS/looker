@@ -28,7 +28,6 @@ explore: GA4 {
   conditionally_filter: {
     filters:
     [
-      select_date_reference: "app^_web^_data",
       ga4.select_date_range: "7 days"
     ]
 
@@ -135,7 +134,7 @@ explore: GA4 {
     relationship: many_to_one
     sql_on: regexp_extract(${ga4.transaction_id},"^.{0,11}") = ${app_web_data.OrderID}
     and ${products.product_uid} = ${app_web_data.ProductUID}
-    and ${base.date_date} = ${app_web_data.transaction_date_filter};;
+    and ${base.date_date} = ${app_web_data.Placed_date};;
   }
 
   join: aac {
