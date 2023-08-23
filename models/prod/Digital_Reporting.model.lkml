@@ -74,13 +74,6 @@ explore: GA4 {
   }
 
 
-  join: products {
-    view_label: "Products"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${base.date_date} between ${products.date_date} and ${products.activeTo_date};;
-  }
-
   #join: app_web_data {
     #type: left_outer
     #relationship: many_to_one
@@ -91,8 +84,14 @@ explore: GA4 {
     type: left_outer
     relationship: many_to_one
     sql_on:
-     ${base.date_date} = ${ga4.date_date}
-    and (${products.product_code} = ${ga4.product_Sku}) ;;
+     ${base.date_date} = ${ga4.date_date} ;;
+  }
+
+    join: products {
+    view_label: "Products"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${ga4.product_Sku} = ${products.product_code};;
   }
 
   #${app_web_data.OrderID} = regexp_extract(${ga4.transaction_id},"^.{0,11}")
@@ -133,12 +132,7 @@ explore: GA4 {
     sql_on: ${base.date_date} = ${search_plp_to_pdp_funnel.date_date} ;;
   }
 
-  #join: products {
-    #view_label: "Products"
-    #type: left_outer
-    #relationship: many_to_one
-    #sql_on: ${ga4.product_Sku} = ${products.product_code};;
-  #}
+
 
 
 
