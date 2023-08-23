@@ -90,12 +90,14 @@ explore: GA4 {
     sql_on: ${ga4.product_Sku} = ${products.product_code};;
   }
 
-  #join: app_web_data {
-    #view_label: "App Web Data"
-    #type: full_outer
-    #relationship: many_to_one
-    #sql_on: ${app_web_data.OrderID} = regexp_extract(${ga4.transaction_id},"^.{0,11}" ;;
-  #}
+  join: app_web_data {
+    view_label: "App Web Data"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: regexp_extract(${ga4.transaction_id},"^.{0,11}" = ${app_web_data.OrderID}
+    and ${products.product_uid} = ${app_web_data.ProductUID}
+    and ${base.date_date} = ${app_web_data.Placed_date};;
+  }
 
   #${app_web_data.OrderID} = regexp_extract(${ga4.transaction_id},"^.{0,11}")
 
