@@ -447,6 +447,14 @@ view: ga4 {
   parameter: channel_group {
     label: "Channel Grouping"
     type: string
-    suggest_dimension: channelGrouping
+    allowed_value: {
+      label: "Direct"
+      value: "Direct"
+    }
+
+    allowed_value: {
+      label: "Paid Search"
+      value: "Paid Search"
+    }
   }
 }
