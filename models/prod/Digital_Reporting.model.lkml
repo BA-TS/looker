@@ -74,11 +74,7 @@ explore: GA4 {
   }
 
 
-  #join: app_web_data {
-    #type: left_outer
-    #relationship: many_to_one
-    #sql_on: ${products.product_uid} = ${app_web_data.ProductUID} and ${base.date_date} = ${app_web_data.Placed_date};;
-  #}
+
 
   join: ga4 {
     type: left_outer
@@ -93,6 +89,13 @@ explore: GA4 {
     relationship: many_to_one
     sql_on: ${ga4.product_Sku} = ${products.product_code};;
   }
+
+  #join: app_web_data {
+    #view_label: "App Web Data"
+    #type: full_outer
+    #relationship: many_to_one
+    #sql_on: ${app_web_data.OrderID} = regexp_extract(${ga4.transaction_id},"^.{0,11}" ;;
+  #}
 
   #${app_web_data.OrderID} = regexp_extract(${ga4.transaction_id},"^.{0,11}")
 
