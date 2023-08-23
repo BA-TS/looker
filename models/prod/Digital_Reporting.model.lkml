@@ -19,10 +19,10 @@ explore: GA4 {
   label: "GA4"
   description: "GA4 Web and App data"
 
-  always_filter: {
-    filters: [
-      select_date_range: "7 days"
-    ]}
+  #always_filter: {
+   # filters: [
+    #  select_date_range: "7 days"
+    #]}
   #select_date_reference: "app^_web^_data",
 
   conditionally_filter: {
@@ -51,7 +51,8 @@ explore: GA4 {
       combined_month,
       combined_quarter,
       combined_year,
-      separate_month
+      separate_month,
+      select_date_range
     ]
 
   }
