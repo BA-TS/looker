@@ -7,8 +7,9 @@ explore: stock_level_date_site_product {
   label: "Stock Holding"
   description: "By Date, Site, Product"
 
-  always_filter: {
+  conditionally_filter: {
     filters: [ stock_level_date_site_product.select_date_range: "7 days" ]
+    unless: [stocklocation.closingStockDate_date]
   }
 
   sql_always_where:
@@ -72,8 +73,10 @@ explore: stock_level_date_site_product {
     view_label: "Stock Location"
     relationship: one_to_many
     type: left_outer
-    sql_on: ${stock_level_date_site_product.opening_stock_date} = ${stocklocation.openingStockDate_date}
-    and ${products.product_uid} = ${stocklocation.productUID};;
+    sql_on:
+    --${stock_level_date_site_product.opening_stock_date} = ${stocklocation.openingStockDate_date}
+   -- and
+    ${products.product_uid} = ${stocklocation.productUID};;
   }
 
 
