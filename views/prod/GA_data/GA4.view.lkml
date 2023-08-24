@@ -272,6 +272,18 @@ view: ga4 {
     sql: ${TABLE}.item_revenue ;;
   }
 
+  measure: item_revenue_CG {
+    label: "Product revenue by Channel Group"
+    group_label: "Ecommerce"
+    description: "item_revenue"
+    type: sum
+    value_format_name: gbp
+    filters: [event_name: "purchase"]
+    sql: CASE
+            WHEN ${channelGrouping} != {% parameter channel_group %}
+            THEN ${TABLE}.item_revenue END;;
+  }
+
   measure: Item_Quantity {
     label: "Product Quantity"
     group_label: "Measures"
