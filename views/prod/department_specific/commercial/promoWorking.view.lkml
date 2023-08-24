@@ -20,6 +20,7 @@ FROM `toolstation-data-storage.promotions.promoWorking`
    dimension: publicationName {
     label: "Catalogue"
     description: "Catalogue"
+    hidden: yes
     type: string
     sql: ${TABLE}.publicationName ;;
    }
@@ -43,12 +44,14 @@ FROM `toolstation-data-storage.promotions.promoWorking`
   dimension: costPrice {
     label: "Cost Price"
     description: "costPrice"
+    hidden: yes
     type: number
     value_format_name: gbp
     sql: ${TABLE}.costPrice ;;
   }
 
   dimension: regularPrice {
+    group_label: "Current Retail Price"
     label: "Regular Price"
     description: "regularPrice"
     type: number
@@ -57,6 +60,7 @@ FROM `toolstation-data-storage.promotions.promoWorking`
   }
 
   dimension: PromoPrice {
+    group_label: "Current Retail Price"
     label: "Promo Price"
     description: "promoPrice"
     type: number
