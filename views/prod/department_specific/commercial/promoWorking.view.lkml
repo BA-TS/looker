@@ -4,7 +4,7 @@ view: promoworking {
      sql: SELECT distinct row_number() over () as P_K,publication.catalogue.publicationName,productCode,
 cycleID, financial.costPrice,financial.regularPrice,financial.promoPrice
 
-FROM `toolstation-data-storage.promotions.promoWorking`
+FROM `toolstation-data-storage.promotions.promoHistory` where cycleID = "10097"
        ;;
    }
 
