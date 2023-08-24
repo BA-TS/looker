@@ -239,7 +239,7 @@ view: brand_test {
 
     parameter: category_to_count {
       label: "Brand"
-      type: string
+      type: unquoted
       suggest_dimension: Brand
     }
 #### This parameter will allow a user to select a Top N ranking limit for bucketing the brands, almost like parameterizing the Row Limit in the UI
