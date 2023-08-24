@@ -292,6 +292,16 @@ view: ga4 {
     sql: ${TABLE}.item_quantity ;;
   }
 
+  measure: Item_Quantity_CG {
+    label: "Product Quantity by Channel Group"
+    group_label: "Measures"
+    description: "Item_Quantity"
+    type: sum
+    sql: CASE
+         WHEN ${channelGrouping} = {% parameter channel_group %}
+        THEN ${TABLE}.item_quantity END;;
+  }
+
   dimension: bounce_def {
     description: "if session is bounce 0 = no, 1 = yes"
     type: string
@@ -330,6 +340,17 @@ view: ga4 {
     type: count_distinct
     filters: [transaction_id: "-(not set)"]
     sql: ${TABLE}.transaction_id;;
+  }
+
+  measure: Count_transaction_id_by_CG {
+    label: "Transactions by Channel Group"
+    group_label: "Ecommerce"
+    description: "transaction_id"
+    type: count_distinct
+    filters: [transaction_id: "-(not set)"]
+    sql: CASE
+         WHEN ${channelGrouping} = {% parameter channel_group %}
+        THEN ${TABLE}.transaction_id END;;
   }
 
   measure: sumEvents {
@@ -392,12 +413,33 @@ view: ga4 {
     sql: safe_divide(${session_purchase},${session_start});;
   }
 
+  measure: conversion_rate_CG {
+    label: "Purchase Conversion rate by Channel Grouping"
+    group_label: "Ecommerce"
+    type: number
+    value_format_name: percent_2
+    #sql: ${Count_transaction_id}/${session_start} * 100
+    sql: CASE
+         WHEN ${channelGrouping} = {% parameter channel_group %}
+        THEN safe_divide(${session_purchase},${session_start}) END;;
+  }
+
   measure: Average_order_value{
     label: "AOV"
     group_label: "Ecommerce"
     type: number
     value_format_name: gbp
     sql: safe_divide(${item_revenue},${Count_transaction_id}) ;;
+  }
+
+  measure: Average_order_value_CG{
+    label: "AOV by Channel Grouping"
+    group_label: "Ecommerce"
+    type: number
+    value_format_name: gbp
+    sql: CASE
+         WHEN ${channelGrouping} = {% parameter channel_group %}
+        THEN safe_divide(${item_revenue},${Count_transaction_id}) END;;
   }
 
   measure: total_users {
