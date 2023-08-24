@@ -446,7 +446,7 @@ view: ga4 {
 
   parameter: channel_group {
     label: "Channel Grouping"
-    type: string
+    type: unquoted
     allowed_value: {
       label: "Direct"
       value: "Direct"
