@@ -332,7 +332,6 @@ view: ga4 {
     sql: ${TABLE}.events;;
   }
 
-
   measure: Count_transaction_id {
     label: "Transactions"
     group_label: "Ecommerce"
@@ -360,6 +359,14 @@ view: ga4 {
     sql: ${TABLE}.events;;
   }
 
+  measure: sumEvents_byCG {
+    label: "Events by Channel Grouping"
+    group_label: "Measures"
+    type: sum
+    sql: CASE
+         WHEN ${channelGrouping} = {% parameter channel_group %} then ${TABLE}.events END;;
+  }
+
   measure: bounces {
     label: "bounces"
     group_label: "Measures"
@@ -378,6 +385,16 @@ view: ga4 {
     sql: ${TABLE}.sessions;;
   }
 
+  measure: session_start_cg {
+    label: "Total Sessions by Channel Group"
+    group_label: "Measures"
+    #hidden: yes
+    type: count_distinct
+    filters: [event_name: "session_start"]
+    sql:CASE
+         WHEN ${channelGrouping} = {% parameter channel_group %} then ${TABLE}.sessions end;;
+  }
+
   measure: session_purchase {
     label: "Purchase sessions"
     group_label: "Measures"
@@ -387,11 +404,25 @@ view: ga4 {
     sql: ${TABLE}.sessions;;
   }
 
+  measure: session_purchase_byCG {
+    label: "Purchase sessions by Channel Group"
+    group_label: "Measures"
+    #hidden: yes
+    type: count_distinct
+    filters: [event_name: "Purchase, purchase"]
+    sql: CASE WHEN ${channelGrouping} = {% parameter channel_group %} then ${TABLE}.sessions end;;
+  }
+
   measure: bs {
     label: "Bounced sessions"
     group_label: "Measures"
     sql: ${Sessions}-${bounces} ;;
+  }
 
+  measure: bs_cg {
+    label: "Bounced sessions by Channel Group"
+    group_label: "Measures"
+    sql: CASE WHEN ${channelGrouping} = {% parameter channel_group %} then ${Sessions}-${bounces} end;;
   }
 
   measure: bounce_rate {
@@ -401,6 +432,15 @@ view: ga4 {
     value_format_name: percent_2
     #sql: (${bs}/${session_start}) * 100
     sql: safe_divide(${bs},${session_start});;
+  }
+
+  measure: bounce_rate_by_CG {
+    label: "Bounce rate by Channel Grouping"
+    group_label: "Measures"
+    type: number
+    value_format_name: percent_2
+    #sql: (${bs}/${session_start}) * 100
+    sql: CASE WHEN ${channelGrouping} = {% parameter channel_group %} then safe_divide(${bs},${session_start}) end;;
   }
 
 
