@@ -459,6 +459,65 @@ view: ga4 {
   parameter: channel_group {
     label: "Channel Grouping"
     type: string
-    suggest_dimension: channelGrouping
+    allowed_value: {
+      label: "Direct"
+      value: "Direct"
+    }
+
+    allowed_value: {
+      label: "Paid Search"
+      value: "Paid Search"
+    }
+
+    allowed_value: {
+      label: "Organic Search"
+      value: "Organic Search"
+    }
+
+    allowed_value: {
+      label: "Affiliates"
+      value: "Affiliates"
+    }
+
+    allowed_value: {
+      label: "Organic Social"
+      value: "Organic Social"
+    }
+
+    allowed_value: {
+      label: "Paid Shopping"
+      value: "Paid Shopping"
+    }
+
+    allowed_value: {
+      label: "Paid Social"
+      value: "Paid Social"
+    }
+
+    allowed_value: {
+      label: "Email"
+      value: "Email"
+    }
+
+    allowed_value: {
+      label: "Referral"
+      value: "Referral"
+    }
+
+    allowed_value: {
+      label: "Other"
+      value: "(other)"
+    }
+
+    allowed_value: {
+      label: "Paid Other"
+      value: "Paid Other"
+    }
+
+    allowed_value: {
+      label: "Organic Shopping"
+      value: "Organic Shopping"
+    }
+
   }
 }
