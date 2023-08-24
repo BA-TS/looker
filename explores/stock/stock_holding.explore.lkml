@@ -72,7 +72,7 @@ explore: stock_level_date_site_product {
     view_label: "Stock Location"
     relationship: one_to_many
     type: left_outer
-    sql_on: ${stock_level_date_site_product.closing_stock_date} = ${stocklocation.closingStockDate_date}
+    sql_on: ${stock_level_date_site_product.opening_stock_date} = ${stocklocation.openingStockDate_date}
     and ${products.product_uid} = ${stocklocation.productUID};;
   }
 
