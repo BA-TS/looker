@@ -280,7 +280,7 @@ view: ga4 {
     value_format_name: gbp
     filters: [event_name: "purchase"]
     sql: CASE
-            WHEN ${channelGrouping} != {% parameter channel_group %}
+            WHEN ${channelGrouping} = {% parameter channel_group %}
             THEN ${TABLE}.item_revenue END;;
   }
 
