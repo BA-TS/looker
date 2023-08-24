@@ -65,11 +65,11 @@ explore: stock_level_date_site_product {
     sql_on: ${products.product_code} = ${sku_cover_dc_wrong_stock.productCode} ;;
   }
 
-    #join: stock_cover {
-      #type: left_outer
-      #relationship: many_to_one
-      #sql_on: ${stock_level_date_site_product.opening_stock_date} = ${stock_cover.stock_date_date}
-      #and ${products.product_code} = ${stock_cover.product_code};;
+  #  join: stockLocation {
+   #   type: left_outer
+    #  relationship: many_to_one
+     # sql_on: ${stock_level_date_site_product.opening_stock_date} = ${stock_cover.stock_date_date}
+    #  and ${products.product_code} = ${stock_cover.product_code};;
     #}
 
     # join: dc_to_shop_mapping {
