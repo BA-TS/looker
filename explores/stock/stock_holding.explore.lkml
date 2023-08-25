@@ -7,11 +7,11 @@ explore: stock_level_date_site_product {
   label: "Stock Holding"
   description: "By Date, Site, Product"
 
-  conditionally_filter: {
+  always_filter: {
     filters: [ stock_level_date_site_product.select_date_range: "7 days" ]
-    unless: [
-      closing_stock_date
-      ]
+    #unless: [
+     # closing_stock_date
+      #]
   }
 
   sql_always_where:
