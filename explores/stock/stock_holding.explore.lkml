@@ -9,7 +9,9 @@ explore: stock_level_date_site_product {
 
   conditionally_filter: {
     filters: [ stock_level_date_site_product.select_date_range: "7 days" ]
-    unless: [stocklocation.closingStockDate_date]
+    unless: [
+      stocklocation.closingStockDate_date
+      ]
   }
 
   sql_always_where:
@@ -74,8 +76,8 @@ explore: stock_level_date_site_product {
     relationship: one_to_many
     type: left_outer
     sql_on:
-    --${stock_level_date_site_product.opening_stock_date} = ${stocklocation.openingStockDate_date}
-   -- and
+    ${stock_level_date_site_product.closing_stock_date} = ${stocklocation.closingStockDate_date}
+    and
     ${products.product_uid} = ${stocklocation.productUID};;
   }
 
