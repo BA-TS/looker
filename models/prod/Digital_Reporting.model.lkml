@@ -94,7 +94,7 @@ explore: GA4 {
     view_label: "App Web Data"
     type: left_outer
     relationship: many_to_one
-    sql_on: regexp_extract(${ga4.transaction_id},"^.{0,11}" = ${app_web_data.OrderID}
+    sql_on: regexp_extract(${ga4.transaction_id},"^.{0,11}") = ${app_web_data.OrderID}
     and ${products.product_uid} = ${app_web_data.ProductUID}
     and ${base.date_date} = ${app_web_data.Placed_date};;
   }
