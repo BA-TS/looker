@@ -10,7 +10,7 @@ explore: stock_level_date_site_product {
   conditionally_filter: {
     filters: [ stock_level_date_site_product.select_date_range: "7 days" ]
     unless: [
-      stocklocation.closingStockDate_date
+      closing_stock_date
       ]
   }
 
