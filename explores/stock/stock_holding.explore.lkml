@@ -8,7 +8,7 @@ explore: stock_level_date_site_product {
   description: "By Date, Site, Product"
 
   always_filter: {
-    filters: [ stock_level_date_site_product.select_date_range: "7 days" ]
+    filters: [ stock_level_date_site_product.select_date_range: "yesterday" ]
     #unless: [
      # closing_stock_date
       #]
