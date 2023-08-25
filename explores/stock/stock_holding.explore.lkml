@@ -79,7 +79,7 @@ explore: stock_level_date_site_product {
     relationship: one_to_many
     type: left_outer
     sql_on:
-    date(TIMESTAMP_SUB(${stock_level_date_site_product.opening_stock_date}, INTERVAL 1 SECOND)) = date(${stocklocation.closingStockDate_date})
+    date(TIMESTAMP_SUB(${stock_level_date_site_product.opening_stock_raw}, INTERVAL 1 SECOND)) = date(${stocklocation.closingStockDate_date})
     and
     ${products.product_uid} = ${stocklocation.productUID}
     and ${sites.site_uid} = ${stocklocation.siteUID};;
