@@ -25,7 +25,8 @@ view: stock_level_date_site_product {
       year,
       day_of_month,
       month_name,
-      month_num
+      month_num,
+      raw
     ]
     sql: ${TABLE}.openingStockDate ;;
   }
@@ -42,7 +43,8 @@ view: stock_level_date_site_product {
       year,
       day_of_month,
       month_name,
-      month_num
+      month_num,
+      raw
     ]
     sql: TIMESTAMP_SUB(${TABLE}.openingStockDate, INTERVAL 1 SECOND) ;;
   }
