@@ -14,7 +14,8 @@ view: ga4 {
        (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'content_type'),
        (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'method')) as event_action,
        coalesce((SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'event_label'),
-       (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'item_id')) as event_label,
+       (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'item_id'),
+      (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'Destination')) as event_label,
        cast(null as string) as error_message,
       ecommerce.transaction_id,
       case when user_id is null then user_pseudo_id else user_id end as user_id,
@@ -32,6 +33,7 @@ view: ga4 {
       items.quantity as item_quantity,
       concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) AS sessions,
       COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events,
+      countif(event_name = 'page_view') as page_views,
       case when (select value.string_value from unnest(event_params) where key = 'session_engaged') = '1' then "1" else "0" end as bounces,
       min(timestamp_micros(event_timestamp)) as MinTime,
       max(timestamp_micros(event_timestamp)) as MaxTime,
@@ -39,7 +41,7 @@ view: ga4 {
       WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
       and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
       AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
-      GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,24
+      GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,25
       union distinct
       SELECT distinct
       'App' as UserUID,
@@ -65,6 +67,7 @@ view: ga4 {
       items.quantity as itemQ,
       concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) AS sessions,
       COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events,
+      countif(event_name = 'screen_view') as page_views,
       case when (select distinct cast(value.int_value as string) from unnest(event_params) where key = 'engaged_session_event') = '1' then "1" else "0" end as bounces,
       min(timestamp_micros(event_timestamp)) as MinTime,
       max(timestamp_micros(event_timestamp)) as MaxTime,
@@ -72,7 +75,7 @@ view: ga4 {
       WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
       and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
       AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
-      GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,24)
+      GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,25)
             select distinct row_number() over () as P_K, * except (MinTime, MaxTime), timestamp_diff(max(MaxTime) over (partition by sessions),min(MinTime) over (partition by sessions), second) as session_duration from sub0;;
     datagroup_trigger: ts_googleanalytics_datagroup
   }
@@ -365,6 +368,21 @@ view: ga4 {
     type: sum
     sql: CASE
          WHEN ${channelGrouping} = {% parameter channel_group %} then ${TABLE}.events END;;
+  }
+
+  measure: sumPageViews {
+    label: "Page Views"
+    group_label: "Measures"
+    type: sum
+    sql: ${TABLE}.page_views;;
+  }
+
+  measure: sumViews_byCG {
+    label: "Page Views by Channel Grouping"
+    group_label: "Measures"
+    type: sum
+    sql: CASE
+      WHEN ${channelGrouping} = {% parameter channel_group %} then ${TABLE}.page_views END;;
   }
 
   measure: bounces {
