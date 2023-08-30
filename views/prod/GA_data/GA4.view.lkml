@@ -15,7 +15,8 @@ view: ga4 {
        (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'method')) as event_action,
        coalesce((SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'event_label'),
        (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'item_id'),
-      (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'Destination')) as event_label,
+      (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'Destination'),
+      (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key in ('shipping_tier', 'payment_type'))) as event_label,
        cast(null as string) as error_message,
       ecommerce.transaction_id,
       case when user_id is null then user_pseudo_id else user_id end as user_id,
@@ -157,6 +158,7 @@ view: ga4 {
   }
 
   dimension: action {
+    hidden: yes
     label: "Event Action"
     group_label: "Event"
     description: "action"
@@ -165,6 +167,7 @@ view: ga4 {
   }
 
   dimension: event_label {
+    hidden: yes
     label: "Event Label"
     group_label: "Event"
     description: "action"
@@ -180,6 +183,21 @@ view: ga4 {
     sql: ${TABLE}.error_message;;
   }
 
+  dimension: event_key {
+    label: "Event Key"
+    group_label: "Event"
+    type: string
+    sql: case when ${event_label} is null and ${action} is not null then "action"
+         when ${action} is null and ${event_label} is not null then "action"
+         else ${action} ;;
+  }
+
+  dimension: event_value {
+    label: "Event Value"
+    group_label: "Event"
+    type: string
+    sql: case when ${event_label} is null then ${action} else ${event_label} end ;;
+  }
 
   # dimension: event_attribute {
   #   label: "Event info"
