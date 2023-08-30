@@ -189,7 +189,7 @@ view: ga4 {
     type: string
     sql: case when ${event_label} is null and ${action} is not null then "action"
          when ${action} is null and ${event_label} is not null then "action"
-         else ${action} ;;
+         else ${action} end;;
   }
 
   dimension: event_value {
