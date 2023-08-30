@@ -173,12 +173,12 @@ explore: digital_reporting {
   conditionally_filter: {
     filters:
     [
-      total_sessions.select_date_range: "7 days",
-      select_date_reference: "app^_web^_data",
-      EcommerceEvents.session_date_filter: "7 days"
+      select_date_reference: "app^_web^_data"
       ]
 
     #total_sessionsGA4.select_date_range: "7 days",
+   # total_sessions.select_date_range: "7 days",
+    #EcommerceEvents.session_date_filter: "7 days"
 
       #stock_cover.date_filter: "Yesterday",
       #summarised_daily_Sales.date_date: "21 days",
@@ -242,13 +242,13 @@ explore: digital_reporting {
     ${base.base_date_date} = ${app_web_data.transaction_date_filter} ;;
   }
 
-  join: total_sessions {
-    type: left_outer
-    relationship: many_to_one
-    sql_on:
-    ${base.date_date}=${total_sessions.date_date}
-    and ${app_web_data.App_web} = ${total_sessions.app_web_sessions};;
-  }
+  #join: total_sessions {
+   # type: left_outer
+    #relationship: many_to_one
+    #sql_on:
+    #${base.date_date}=${total_sessions.date_date}
+    #and ${app_web_data.App_web} = ${total_sessions.app_web_sessions};;
+  #}
 
   #and ${app_web_data.transaction_date_filter} = ${total_sessions.session_date_filter}
   #      ${calendar_completed_date.date}=${total_sessions.session_date_filter}
@@ -334,31 +334,31 @@ explore: digital_reporting {
   #     ;;
   # }
 
-  join: EcommerceEvents {
-    view_label: "Eccomerce Events"
-    type: left_outer
-    relationship: many_to_one
-    sql_on:
-      ${base.date_date}=${EcommerceEvents.date_date}
-      and ${productv2.product_code}=${EcommerceEvents.product_code}
-      and ${app_web_data.App_web} = ${EcommerceEvents.app_web_sessions}
-      and ${total_sessions.Medium} = ${EcommerceEvents.Medium}
-      and ${total_sessions.app_web_sessions} = ${EcommerceEvents.app_web_sessions}
-      and ${total_sessions.deviceCategory} = ${EcommerceEvents.deviceCategory};;
-  }
+  #join: EcommerceEvents {
+   # view_label: "Eccomerce Events"
+    #type: left_outer
+    #relationship: many_to_one
+    #sql_on:
+     # ${base.date_date}=${EcommerceEvents.date_date}
+      #and ${productv2.product_code}=${EcommerceEvents.product_code}
+      #and ${app_web_data.App_web} = ${EcommerceEvents.app_web_sessions}
+      #and ${total_sessions.Medium} = ${EcommerceEvents.Medium}
+      #and ${total_sessions.app_web_sessions} = ${EcommerceEvents.app_web_sessions}
+      #and ${total_sessions.deviceCategory} = ${EcommerceEvents.deviceCategory};;
+  #}
 
-  join: NonEcommerceEvents {
-    view_label: " Non Eccomerce Events"
-    type: left_outer
-    relationship: many_to_one
-    sql_on:
-      ${base.date_date}=${NonEcommerceEvents.date_date}
-      and ${total_sessions.channel_grouping}=${NonEcommerceEvents.channel_grouping}
-      and ${app_web_data.App_web} = ${NonEcommerceEvents.app_web_sessions}
-      and ${total_sessions.Medium} = ${NonEcommerceEvents.Medium}
-      and ${total_sessions.app_web_sessions} = ${NonEcommerceEvents.app_web_sessions}
-      and ${total_sessions.deviceCategory} = ${NonEcommerceEvents.deviceCategory};;
-  }
+  #join: NonEcommerceEvents {
+   # view_label: " Non Eccomerce Events"
+    #type: left_outer
+    #relationship: many_to_one
+    #sql_on:
+    #  ${base.date_date}=${NonEcommerceEvents.date_date}
+     # and ${total_sessions.channel_grouping}=${NonEcommerceEvents.channel_grouping}
+      #and ${app_web_data.App_web} = ${NonEcommerceEvents.app_web_sessions}
+      #and ${total_sessions.Medium} = ${NonEcommerceEvents.Medium}
+      #and ${total_sessions.app_web_sessions} = ${NonEcommerceEvents.app_web_sessions}
+      #and ${total_sessions.deviceCategory} = ${NonEcommerceEvents.deviceCategory};;
+  #}
 
   join: productv2 {
     view_label: "Products"
@@ -428,9 +428,10 @@ explore: digital_reporting {
     type: left_outer
     relationship: many_to_one
     sql_on: ${base.date_date} = ${summarised_daily_Sales.date_date}
-      --and ${total_sessions.app_web_sessions} = ${summarised_daily_Sales.App_Web}
       ;;
   }
+
+  #--and ${total_sessions.app_web_sessions} = ${summarised_daily_Sales.App_Web}
 
 #  join: digital_transaction_mapping {
  #   type: left_outer
