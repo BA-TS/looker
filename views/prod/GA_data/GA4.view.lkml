@@ -2,7 +2,7 @@ view: ga4 {
 
   derived_table: {
     sql: with sub0 as (SELECT distinct
-      Web" as UserUID,
+      "Web" as UserUID,
       date(PARSE_DATE('%Y%m%d', event_date)) as date,
       geo.country as country,
       device.category as DeviceCategory,
