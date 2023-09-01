@@ -221,11 +221,20 @@ SELECT distinct key FROM UNNEST(event_params) WHERE key in ('search_term', 'quer
   }
 
   dimension: event_values {
+    hidden: yes
     label: "Value"
     group_label: "Event"
     type: number
     value_format_name: gbp
     sql: ${TABLE}.value;;
+  }
+
+  measure: event_valueSum {
+    label: "Value"
+    group_label: "Event"
+    type: sum
+    value_format_name: gbp
+    sql: ${event_values} ;;
   }
 
   # dimension: event_attribute {
