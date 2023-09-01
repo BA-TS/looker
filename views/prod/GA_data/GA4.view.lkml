@@ -201,7 +201,7 @@ SELECT distinct key FROM UNNEST(event_params) WHERE key in ('search_term', 'quer
 
   dimension: event_value {
     label: "Event Label"
-    group_label: "Event"
+    group_label: "Measures"
     type: string
     sql: case when ${event_label} is null then ${action} else ${event_label} end ;;
   }
