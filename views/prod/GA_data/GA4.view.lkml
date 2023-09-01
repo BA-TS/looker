@@ -2,7 +2,7 @@ view: ga4 {
 
   derived_table: {
     sql: with sub0 as (SELECT distinct
-      "Web" as UserUID,
+      Web" as UserUID,
       date(PARSE_DATE('%Y%m%d', event_date)) as date,
       geo.country as country,
       device.category as DeviceCategory,
@@ -12,11 +12,14 @@ view: ga4 {
        event_name as event_name,
        coalesce((SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'action'),
        (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'content_type'),
-       (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'method')) as event_action,
+       (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'method')) as key,
        coalesce((SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'event_label'),
        (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'item_id'),
       (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'Destination'),
-      (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key in ('shipping_tier', 'payment_type'))) as event_label,
+      (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key in ('shipping_tier', 'payment_type'))) as label,
+      cast(null as string) as key_2,
+      cast(null as string) as label_2,
+      cast(null as string) as value,
        cast(null as string) as error_message,
       ecommerce.transaction_id,
       case when user_id is null then user_pseudo_id else user_id end as user_id,
@@ -45,7 +48,7 @@ view: ga4 {
       GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,25
       union distinct
       SELECT distinct
-      'App' as UserUID,
+     'App' as UserUID,
       date(PARSE_DATE('%Y%m%d', event_date)) as date,
       geo.country as country,
       device.category as DeviceCategory,
@@ -53,9 +56,13 @@ view: ga4 {
       case when traffic_source.medium is null then "null" else traffic_source.medium end as Medium,
       case when traffic_source.name is null then "null" else traffic_source.name end as Campaign_name,
       event_name,
-      coalesce((SELECT distinct key FROM UNNEST(event_params) WHERE key in ('search_term', 'query', 'category_id', 'product_code','redirected_query','redirected_category')), (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'action')) as event_action,
-      coalesce((SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params)WHERE key in ('search_term', 'query', 'category_id', 'product_code','redirected_query','redirected_category')),(SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'title')) as event_label,
-      (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key in ('error_message')) as error_message,
+      coalesce((
+SELECT distinct key FROM UNNEST(event_params) WHERE key in ('search_term', 'query', 'category_id','redirected_query','redirected_category', 'branch_name', 'action', 'content','trolley_id','previous_app_version','previous_os_version', 'list_id','page', 'id', 'method','promo_code','site_id','category'))) as key,
+      coalesce((SELECT distinct coalesce((value.string_value), cast(value.int_value as string), cast(value.float_value as string), cast(value.double_value as string)) FROM UNNEST(event_params)WHERE key in ('search_term', 'query', 'category_id', 'redirected_query','redirected_category','branch_name', 'action', 'content','trolley_id','previous_app_version','previous_os_version', 'list_id','page','id','method','promo_code','site_id','category')),(SELECT distinct coalesce((value.string_value), cast(value.int_value as string), cast(value.float_value as string), cast(value.double_value as string)) FROM UNNEST(event_params) WHERE key = 'title')) as label,
+      coalesce((SELECT distinct key FROM UNNEST(event_params)WHERE key in ('title','key_word'))) as key_2,
+      coalesce((SELECT distinct coalesce((value.string_value), cast(value.int_value as string), cast(value.float_value as string), cast(value.double_value as string)) FROM UNNEST(event_params)WHERE key in ('title','key_word'))) as label_2,
+      coalesce((SELECT distinct coalesce((value.string_value), cast(value.int_value as string), cast(value.float_value as string), cast(value.double_value as string)) FROM UNNEST(event_params)WHERE key in ('value', 'trolley_value','order_request_total_amount','order_total'))) as value,
+      (SELECT distinct coalesce((value.string_value), cast(value.int_value as string), cast(value.float_value as string), cast(value.double_value as string)) FROM UNNEST(event_params) WHERE key in ('error_message','payment_gateway_error')) as error_message,
       ecommerce.transaction_id,
       case when user_id is null then user_pseudo_id else user_id end as user_id,
       (SELECT distinct (value.string_value) FROM UNNEST(event_params) WHERE key = 'firebase_screen') as screen,
@@ -159,20 +166,20 @@ view: ga4 {
 
   dimension: action {
     hidden: yes
-    label: "Event Action"
+    label: "Event Key"
     group_label: "Event"
-    description: "action"
+    description: "Key"
     type: string
-    sql: ${TABLE}.event_action;;
+    sql: ${TABLE}.key;;
   }
 
   dimension: event_label {
     hidden: yes
     label: "Event Label"
     group_label: "Event"
-    description: "action"
+    description: "label"
     type: string
-    sql: ${TABLE}.event_label;;
+    sql: ${TABLE}.label;;
   }
 
   dimension: error_message {
@@ -193,10 +200,32 @@ view: ga4 {
   }
 
   dimension: event_value {
-    label: "Event Value"
+    label: "Event Label"
     group_label: "Event"
     type: string
     sql: case when ${event_label} is null then ${action} else ${event_label} end ;;
+  }
+
+  dimension: event_key_2 {
+    label: "2.Event Key"
+    group_label: "Event"
+    type: string
+    sql: ${TABLE}.key_2;;
+  }
+
+  dimension: event_label_2 {
+    label: "2.Event Label"
+    group_label: "Event"
+    type: string
+    sql: ${TABLE}.label_2;;
+  }
+
+  dimension: event_values {
+    label: "Value"
+    group_label: "Event"
+    type: number
+    value_format_name: gbp
+    sql: ${TABLE}.value;;
   }
 
   # dimension: event_attribute {
