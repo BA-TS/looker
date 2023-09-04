@@ -51,7 +51,8 @@ explore: GA4 {
       combined_month,
       combined_quarter,
       combined_year,
-      separate_month
+      separate_month,
+      select_date_range
     ]
 
   }
