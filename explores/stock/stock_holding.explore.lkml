@@ -7,12 +7,12 @@ explore: stock_level_date_site_product {
   label: "Stock Holding"
   description: "By Date, Site, Product"
 
-  #always_filter: {
-   # filters: [ stock_level_date_site_product.select_date_range: "yesterday" ]
+  always_filter: {
+    filters: [ stock_level_date_site_product.select_date_range: "yesterday" ]
     #unless: [
      # closing_stock_date
       #]
-  #}
+  }
 
   sql_always_where:
   ${products.product_type} = "Real"
