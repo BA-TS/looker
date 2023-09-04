@@ -8,7 +8,7 @@ view: ga4 {
 countif(event_name = 'page_view') as page_views
 FROM `toolstation-data-storage.analytics_251803804.events_*`
 where event_name in ("page_view") and
-WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
+PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
 AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
 group by 1,2,3)
