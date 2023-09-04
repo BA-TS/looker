@@ -22,14 +22,15 @@ explore: stock_level_date_site_product {
   ${scmatrix.is_active} = 1
   and
   ${products.isActive}
+  and
+  ${stocklocation.isPickable}
 
   ;;
 
   #;;
   #AND UPPER(${sites.site_type}) NOT LIKE "%D%SHIP%"
 
-  #and
-  #${stocklocation.isPickable}
+
 
     join: aac {
       type:  left_outer
@@ -76,16 +77,16 @@ explore: stock_level_date_site_product {
     sql_on: ${products.product_code} = ${sku_cover_dc_wrong_stock.productCode} ;;
   }
 
-#  join: stocklocation {
- #   view_label: ""
-  #  relationship: one_to_many
-   # type: left_outer
-    #sql_on:
-    #date(TIMESTAMP_SUB(${stock_level_date_site_product.opening_stock_raw}, INTERVAL 1 SECOND)) = date(${stocklocation.closingStockDate_date})
-    #and
-    #${products.product_uid} = ${stocklocation.productUID}
-    #and ${sites.site_uid} = ${stocklocation.siteUID};;
-  #}
+  join: stocklocation {
+    view_label: ""
+    relationship: one_to_many
+    type: left_outer
+    sql_on:
+    date(TIMESTAMP_SUB(${stock_level_date_site_product.opening_stock_raw}, INTERVAL 1 SECOND)) = date(${stocklocation.closingStockDate_date})
+    and
+    ${products.product_uid} = ${stocklocation.productUID}
+    and ${sites.site_uid} = ${stocklocation.siteUID};;
+  }
 
 
     # join: dc_to_shop_mapping {
