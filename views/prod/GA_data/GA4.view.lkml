@@ -27,6 +27,7 @@ view: ga4 {
       when regexp_contains((SELECT distinct value.string_value FROM UNNEST(event_params) WHERE key = 'page_location'), ".*/p[0-9]*[^0-9a-zA-Z]") then "product-detail-page"
       --when regexp_contains((SELECT distinct value.string_value FROM UNNEST(event_params) WHERE key = 'page_location'),".*/c([0-9]*)$") then "product-listing-page"
       else  (SELECT distinct value.string_value FROM UNNEST(event_params) WHERE key = 'page_title') end as Screen_name,
+      (SELECT distinct value.string_value FROM UNNEST(event_params) WHERE key = 'page_location') as page_location,
       case when items.item_id is null then
       (SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'event_label') else items.item_id end as item_id,
       items.price,
@@ -45,7 +46,7 @@ view: ga4 {
       WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
       and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
       AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
-      GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,28
+      GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,29
       union distinct
       SELECT distinct
      'App' as UserUID,
@@ -66,6 +67,7 @@ SELECT distinct key FROM UNNEST(event_params) WHERE key in ('search_term', 'quer
       ecommerce.transaction_id,
       case when user_id is null then user_pseudo_id else user_id end as user_id,
       (SELECT distinct (value.string_value) FROM UNNEST(event_params) WHERE key = 'firebase_screen') as screen,
+      cast(null as string) as page_location,
       items.item_id as item_id,
       items.price as Item_Price,
       items.promotion_id as PromoID,
@@ -83,7 +85,7 @@ SELECT distinct key FROM UNNEST(event_params) WHERE key in ('search_term', 'quer
       WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
       and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
       AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
-      GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,28)
+      GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,29)
             select distinct row_number() over () as P_K, * except (MinTime, MaxTime), timestamp_diff(max(MaxTime) over (partition by sessions),min(MinTime) over (partition by sessions), second) as session_duration from sub0;;
     datagroup_trigger: ts_googleanalytics_datagroup
   }
@@ -277,6 +279,11 @@ SELECT distinct key FROM UNNEST(event_params) WHERE key in ('search_term', 'quer
     description: "screen"
     type: string
     sql: ${TABLE}.screen_name;;
+  }
+
+  dimension: page_location {
+    type: string
+    sql: ${TABLE}.page_location ;;
   }
 
   dimension: Promotion_ID{
