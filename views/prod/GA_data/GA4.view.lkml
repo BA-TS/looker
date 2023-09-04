@@ -230,8 +230,8 @@ SELECT distinct key FROM UNNEST(event_params) WHERE key in ('search_term', 'quer
   }
 
   measure: event_valueSum {
-    label: "Value"
-    group_label: "Event"
+    label: "Event Value"
+    group_label: "Measures"
     type: sum
     value_format_name: gbp
     sql: ${event_values} ;;
