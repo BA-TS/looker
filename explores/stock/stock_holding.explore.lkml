@@ -78,7 +78,7 @@ explore: stock_level_date_site_product {
   }
 
   join: stocklocation {
-    view_label: ""
+    view_label: "Sites"
     relationship: one_to_many
     type: left_outer
     sql_on:

@@ -15,29 +15,35 @@ view: stocklocation {
 
   dimension: LocationUID {
     description: "Location ID"
+    hidden: yes
     type: string
     sql: ${TABLE}.locationUID;;
   }
 
   dimension: productUID {
     description: "Product ID"
+    hidden: yes
     type: string
     sql: ${TABLE}.productUID;;
   }
 
   dimension: siteUID {
     description: "Site ID"
+    hidden: yes
     type: string
     sql: ${TABLE}.siteUID;;
   }
 
   dimension: Location_name {
     description: "Location Name"
+    hidden: yes
     type: string
     sql: ${TABLE}.LocationName;;
   }
 
   dimension: isPickable {
+    label: "Is Pickable"
+    group_label: "Flags"
     description: "isPickable"
     type: yesno
     sql: ${TABLE}.isPickable = 1;;
@@ -45,18 +51,21 @@ view: stocklocation {
 
   dimension: isClosed {
     description: "isClosed"
+    hidden: yes
     type: yesno
     sql: ${TABLE}.isClosed = 1;;
   }
 
   dimension: isMovable {
     description: "isMovable"
+    hidden: yes
     type: yesno
     sql: ${TABLE}.isMovable = 1;;
   }
 
   dimension: isVirtual {
     description: "isVirtual"
+    hidden: yes
     type: yesno
     sql: ${TABLE}.isVirtual = 1;;
   }
@@ -64,6 +73,7 @@ view: stocklocation {
   dimension_group: StockUpdated {
     label: "Updated Stock Date"
     description: "Date Stock Updated"
+    hidden: yes
     type: time
     timeframes: [date,raw]
     sql: ${TABLE}.stockUpdated ;;
@@ -72,6 +82,7 @@ view: stocklocation {
   dimension_group: openingStockDate {
     label: "Opening Stock Date"
     description: "Date Stock Opened"
+    hidden: yes
     type: time
     timeframes: [date,raw]
     sql: ${TABLE}.openingStockDate ;;
@@ -80,6 +91,7 @@ view: stocklocation {
   dimension_group: closingStockDate {
     label: "Closed Stock Date"
     description: "Date Stock Closed"
+    hidden: yes
     type: time
     timeframes: [date,raw]
     sql: ${TABLE}.closingStockDate ;;
@@ -88,6 +100,7 @@ view: stocklocation {
   measure: total_lifetime_orders {
     label: "Stock Level"
     description: "Use this for counting lifetime orders across many users"
+    hidden: yes
     type: sum
     sql: ${TABLE}.stockLevel ;;
   }
