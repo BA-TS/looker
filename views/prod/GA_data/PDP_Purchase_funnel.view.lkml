@@ -38,7 +38,7 @@ WHERE (PDP.timestamp < purchase.timestamp) or purchase.timestamp is null)
 
 SELECT distinct row_number() over () as row_num, * from sub0
        ;;
-    datagroup_trigger: ts_googleanalytics_datagroup
+    #datagroup_trigger: ts_googleanalytics_datagroup
    }
 
    dimension: P_K {

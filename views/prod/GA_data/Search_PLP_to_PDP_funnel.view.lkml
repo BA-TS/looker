@@ -72,7 +72,7 @@ left join PDP on all_1.session_id = PDP.session_id)
 
 SELECT distinct row_number() over () as P_K, pop.*
 from pop ;;
-    datagroup_trigger: ts_googleanalytics_datagroup
+    #datagroup_trigger: ts_googleanalytics_datagroup
   }
   # # You can specify the table name if it's different from the view name:
   # sql_table_name: my_schema_name.tester ;;
