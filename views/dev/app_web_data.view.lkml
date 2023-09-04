@@ -208,7 +208,7 @@ view: app_web_data {
       measure: marginfunding_by_order {
         description: "Margin by order"
         type: number
-        value_format_name: decimal_2
+        value_format_name: gbp
         sql: sum(${TABLE}.MarginIncFunding)/(count(distinct(${TABLE}.OrderID))) ;;
       }
 
@@ -222,14 +222,14 @@ view: app_web_data {
       measure: Total_MarginIncFunding {
         description: "sum of Margin"
         type: sum
-        value_format_name: decimal_2
+        value_format_name: gbp
         sql: ${TABLE}.MarginIncFunding ;;
       }
 
       measure: Total_marginExclFunding {
         description: "sum of Margin"
         type: sum
-        value_format_name: decimal_2
+        value_format_name: gbp
         sql: ${TABLE}.marginExclFunding ;;
       }
 
