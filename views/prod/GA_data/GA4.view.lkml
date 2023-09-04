@@ -282,6 +282,7 @@ SELECT distinct key FROM UNNEST(event_params) WHERE key in ('search_term', 'quer
   }
 
   dimension: page_location {
+    hidden: yes
     type: string
     sql: ${TABLE}.page_location ;;
   }
