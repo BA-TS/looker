@@ -22,14 +22,14 @@ explore: stock_level_date_site_product {
   ${scmatrix.is_active} = 1
   and
   ${products.isActive}
-  and
-  ${stocklocation.isPickable}
+
 
   ;;
 
   #;;
   #AND UPPER(${sites.site_type}) NOT LIKE "%D%SHIP%"
-
+  #  and
+  #${stocklocation.isPickable}
 
 
     join: aac {
