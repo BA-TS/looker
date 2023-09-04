@@ -1,93 +1,114 @@
 view: ga4 {
 
   derived_table: {
-    sql: with sub0 as (SELECT distinct
-      "Web" as UserUID,
-      date(PARSE_DATE('%Y%m%d', event_date)) as date,
-      geo.country as country,
-      device.category as DeviceCategory,
-      `toolstation-data-storage.analytics_251803804.channel_grouping`(traffic_source.source, traffic_source.medium, traffic_source.name) as channel_grouping,
-      case when traffic_source.medium is null then "null" else traffic_source.medium end as Medium,
-      case when traffic_source.name is null then "null" else traffic_source.name end as Campaign_name,
-       event_name as event_name,
-       coalesce((SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'action'),
-       (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'content_type'),
-       (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'method')) as key,
-       coalesce((SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'event_label'),
-       (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'item_id'),
-      (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'Destination'),
-      (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key in ('shipping_tier', 'payment_type'))) as label,
-      cast(null as string) as key_2,
-      cast(null as string) as label_2,
-      cast(null as float64) as value,
-       cast(null as string) as error_message,
-      ecommerce.transaction_id,
-      case when user_id is null then user_pseudo_id else user_id end as user_id,
-      CASE when regexp_contains((SELECT distinct value.string_value FROM UNNEST(event_params) WHERE key = 'page_location'),".*/p([0-9]*)$") then "product-detail-page"
-      when regexp_contains((SELECT distinct value.string_value FROM UNNEST(event_params) WHERE key = 'page_location'), ".*/p[0-9]*[^0-9a-zA-Z]") then "product-detail-page"
-      --when regexp_contains((SELECT distinct value.string_value FROM UNNEST(event_params) WHERE key = 'page_location'),".*/c([0-9]*)$") then "product-listing-page"
-      else  (SELECT distinct value.string_value FROM UNNEST(event_params) WHERE key = 'page_title') end as Screen_name,
-      (SELECT distinct value.string_value FROM UNNEST(event_params) WHERE key = 'page_location') as page_location,
-      case when items.item_id is null then
-      (SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'event_label') else items.item_id end as item_id,
-      items.price,
-      items.promotion_id as PromoID,
-      items.promotion_name as PromoName,
-      items.creative_name as creative_name,
-      items.item_revenue as item_revenue,
-      items.quantity as item_quantity,
-      concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) AS sessions,
-      COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events,
-      countif(event_name = 'page_view') as page_views,
-      case when (select value.string_value from unnest(event_params) where key = 'session_engaged') = '1' then "1" else "0" end as bounces,
-      min(timestamp_micros(event_timestamp)) as MinTime,
-      max(timestamp_micros(event_timestamp)) as MaxTime,
-      FROM `toolstation-data-storage.analytics_251803804.events_*` left join unnest (items) as items
-      WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
-      and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
-      AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
-      GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,29
-      union distinct
-      SELECT distinct
-     'App' as UserUID,
-      date(PARSE_DATE('%Y%m%d', event_date)) as date,
-      geo.country as country,
-      device.category as DeviceCategory,
-      `toolstation-data-storage.analytics_251803804.channel_grouping`(traffic_source.source, traffic_source.medium, traffic_source.name) as channel_grouping,
-      case when traffic_source.medium is null then "null" else traffic_source.medium end as Medium,
-      case when traffic_source.name is null then "null" else traffic_source.name end as Campaign_name,
-      event_name,
-      coalesce((
+    sql: with pages as (with sub0 as (SELECT distinct event_name,
+(SELECT distinct value.string_value from UNNEST(event_params) WHERE key = 'page_location'
+) as page_location,
+(SELECT distinct value.string_value from UNNEST(event_params) WHERE key = 'page_title') as page_title,
+countif(event_name = 'page_view') as page_views
+FROM `toolstation-data-storage.analytics_251803804.events_*`
+where event_name in ("page_view") and
+WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
+and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
+AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
+group by 1,2,3)
+
+select page_location,
+max_by(page_title, page_views) as page_title from sub0
+ where page_title not in ("Trolley", "Delivery", "Login", "My Account")
+group by 1
+),
+
+sub0 as (SELECT distinct
+"Web" as UserUID,
+date(PARSE_DATE('%Y%m%d', event_date)) as date,
+geo.country as country,
+device.category as DeviceCategory,
+`toolstation-data-storage.analytics_251803804.channel_grouping`(traffic_source.source, traffic_source.medium, traffic_source.name) as channel_grouping,
+case when traffic_source.medium is null then "null" else traffic_source.medium end as Medium,
+case when traffic_source.name is null then "null" else traffic_source.name end as Campaign_name,
+ event_name as event_name,
+ coalesce((SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'action'),
+ (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'content_type'),
+ (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'method')) as key,
+ coalesce((SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'event_label'),
+ (SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'item_id'),
+(SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'Destination'),
+(SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key in ('shipping_tier', 'payment_type'))) as label,
+cast(null as string) as key_2,
+cast(null as string) as label_2,
+cast(null as float64) as value,
+ cast(null as string) as error_message,
+ecommerce.transaction_id,
+case when user_id is null then user_pseudo_id else user_id end as user_id,
+CASE when regexp_contains((SELECT distinct value.string_value FROM UNNEST(event_params) WHERE key = 'page_location'),".*/p([0-9]*)$") then "product-detail-page"
+when regexp_contains((SELECT distinct value.string_value FROM UNNEST(event_params) WHERE key = 'page_location'), ".*/p[0-9]*[^0-9a-zA-Z]") then "product-detail-page"
+--when regexp_contains((SELECT distinct value.string_value FROM UNNEST(event_params) WHERE key = 'page_location'),".*/c([0-9]*)$") then "product-listing-page"
+else  (SELECT distinct value.string_value FROM UNNEST(event_params) WHERE key = 'page_title') end as Screen_name,
+(SELECT distinct value.string_value FROM UNNEST(event_params) WHERE key = 'page_location') as page_location,
+case when items.item_id is null then
+(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'event_label') else items.item_id end as item_id,
+items.price,
+items.promotion_id as PromoID,
+items.promotion_name as PromoName,
+items.creative_name as creative_name,
+items.item_revenue as item_revenue,
+items.quantity as item_quantity,
+concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) AS sessions,
+COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events,
+countif(event_name = 'page_view') as page_views,
+case when (select value.string_value from unnest(event_params) where key = 'session_engaged') = '1' then "1" else "0" end as bounces,
+min(timestamp_micros(event_timestamp)) as MinTime,
+max(timestamp_micros(event_timestamp)) as MaxTime,
+FROM `toolstation-data-storage.analytics_251803804.events_*` left join unnest (items) as items
+WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
+and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
+AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
+GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,29
+union distinct
+SELECT distinct
+'App' as UserUID,
+date(PARSE_DATE('%Y%m%d', event_date)) as date,
+geo.country as country,
+device.category as DeviceCategory,
+`toolstation-data-storage.analytics_251803804.channel_grouping`(traffic_source.source, traffic_source.medium, traffic_source.name) as channel_grouping,
+case when traffic_source.medium is null then "null" else traffic_source.medium end as Medium,
+case when traffic_source.name is null then "null" else traffic_source.name end as Campaign_name,
+event_name,
+coalesce((
 SELECT distinct key FROM UNNEST(event_params) WHERE key in ('search_term', 'query', 'category_id','redirected_query','redirected_category', 'branch_name', 'action', 'content','trolley_id','previous_app_version','previous_os_version', 'list_id','page', 'id', 'method','promo_code','site_id','category'))) as key,
-      coalesce((SELECT distinct coalesce((value.string_value), cast(value.int_value as string), cast(value.float_value as string), cast(value.double_value as string)) FROM UNNEST(event_params)WHERE key in ('search_term', 'query', 'category_id', 'redirected_query','redirected_category','branch_name', 'action', 'content','trolley_id','previous_app_version','previous_os_version', 'list_id','page','id','method','promo_code','site_id','category')),(SELECT distinct coalesce((value.string_value), cast(value.int_value as string), cast(value.float_value as string), cast(value.double_value as string)) FROM UNNEST(event_params) WHERE key = 'title')) as label,
-      coalesce((SELECT distinct key FROM UNNEST(event_params)WHERE key in ('title','key_word'))) as key_2,
-      coalesce((SELECT distinct coalesce((value.string_value), cast(value.int_value as string), cast(value.float_value as string), cast(value.double_value as string)) FROM UNNEST(event_params)WHERE key in ('title','key_word'))) as label_2,
-      coalesce((SELECT distinct coalesce(cast(value.string_value as float64), cast(value.int_value as float64), cast(value.float_value as float64), cast(value.double_value as float64)) FROM UNNEST(event_params)WHERE key in ('value', 'trolley_value','order_request_total_amount','order_total'))) as value,
-      (SELECT distinct coalesce((value.string_value), cast(value.int_value as string), cast(value.float_value as string), cast(value.double_value as string)) FROM UNNEST(event_params) WHERE key in ('error_message','payment_gateway_error')) as error_message,
-      ecommerce.transaction_id,
-      case when user_id is null then user_pseudo_id else user_id end as user_id,
-      (SELECT distinct (value.string_value) FROM UNNEST(event_params) WHERE key = 'firebase_screen') as screen,
-      cast(null as string) as page_location,
-      items.item_id as item_id,
-      items.price as Item_Price,
-      items.promotion_id as PromoID,
-      items.promotion_name as PromoName,
-      items.creative_name as creative_name,
-      items.item_revenue as item_revenue,
-      items.quantity as itemQ,
-      concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) AS sessions,
-      COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events,
-      countif(event_name = 'screen_view') as page_views,
-      case when (select distinct cast(value.int_value as string) from unnest(event_params) where key = 'engaged_session_event') = '1' then "1" else "0" end as bounces,
-      min(timestamp_micros(event_timestamp)) as MinTime,
-      max(timestamp_micros(event_timestamp)) as MaxTime,
-      FROM `toolstation-data-storage.analytics_265133009.events_*` left join unnest(items) as items
-      WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
-      and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
-      AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
-      GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,29)
-            select distinct row_number() over () as P_K, * except (MinTime, MaxTime), timestamp_diff(max(MaxTime) over (partition by sessions),min(MinTime) over (partition by sessions), second) as session_duration from sub0;;
-    datagroup_trigger: ts_googleanalytics_datagroup
+coalesce((SELECT distinct coalesce((value.string_value), cast(value.int_value as string), cast(value.float_value as string), cast(value.double_value as string)) FROM UNNEST(event_params)WHERE key in ('search_term', 'query', 'category_id', 'redirected_query','redirected_category','branch_name', 'action', 'content','trolley_id','previous_app_version','previous_os_version', 'list_id','page','id','method','promo_code','site_id','category')),(SELECT distinct coalesce((value.string_value), cast(value.int_value as string), cast(value.float_value as string), cast(value.double_value as string)) FROM UNNEST(event_params) WHERE key = 'title')) as label,
+coalesce((SELECT distinct key FROM UNNEST(event_params)WHERE key in ('title','key_word'))) as key_2,
+coalesce((SELECT distinct coalesce((value.string_value), cast(value.int_value as string), cast(value.float_value as string), cast(value.double_value as string)) FROM UNNEST(event_params)WHERE key in ('title','key_word'))) as label_2,
+coalesce((SELECT distinct coalesce(cast(value.string_value as float64), cast(value.int_value as float64), cast(value.float_value as float64), cast(value.double_value as float64)) FROM UNNEST(event_params)WHERE key in ('value', 'trolley_value','order_request_total_amount','order_total'))) as value,
+(SELECT distinct coalesce((value.string_value), cast(value.int_value as string), cast(value.float_value as string), cast(value.double_value as string)) FROM UNNEST(event_params) WHERE key in ('error_message','payment_gateway_error')) as error_message,
+ecommerce.transaction_id,
+case when user_id is null then user_pseudo_id else user_id end as user_id,
+(SELECT distinct (value.string_value) FROM UNNEST(event_params) WHERE key = 'firebase_screen') as screen,
+cast(null as string) as page_location,
+items.item_id as item_id,
+items.price as Item_Price,
+items.promotion_id as PromoID,
+items.promotion_name as PromoName,
+items.creative_name as creative_name,
+items.item_revenue as item_revenue,
+items.quantity as itemQ,
+concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) AS sessions,
+COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events,
+countif(event_name = 'screen_view') as page_views,
+case when (select distinct cast(value.int_value as string) from unnest(event_params) where key = 'engaged_session_event') = '1' then "1" else "0" end as bounces,
+min(timestamp_micros(event_timestamp)) as MinTime,
+max(timestamp_micros(event_timestamp)) as MaxTime,
+FROM `toolstation-data-storage.analytics_265133009.events_*` left join unnest(items) as items
+WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
+and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
+AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
+GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,29)
+select distinct row_number() over () as P_K, sub0.* except (MinTime, MaxTime,label),
+case when pages.page_title is null then label else pages.page_title end as label,
+timestamp_diff(max(MaxTime) over (partition by sessions),min(MinTime) over (partition by sessions), second) as session_duration,
+from sub0 left join pages on sub0.label = pages.page_location;;
+datagroup_trigger: ts_googleanalytics_datagroup
   }
   #Event names for Web
   #and event_name in ("view_item", "out_of_stock", "purchase", "add_to_cart", "videoly", "session_start", "search_actions")

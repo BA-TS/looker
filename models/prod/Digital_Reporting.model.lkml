@@ -156,13 +156,6 @@ explore: GA4 {
     sql_on: ${products.product_code} = ${promoworking.Product_Code} ;;
   }
 
-  join: page_location_page_title {
-    view_label: "Page Location/Title"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${ga4.event_label} = ${page_location_page_title.page_location} ;;
-  }
-
 }
 
 explore: digital_reporting {
