@@ -104,7 +104,7 @@ WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
 and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
 AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
 GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,29)
-select distinct row_number() over () as P_K, sub0.* except (MinTime, MaxTime,label),
+select distinct row_number() over () as P_K, sub0.* except (MaxTime,label),
 case when pages.page_title is null then label else pages.page_title end as label,
 timestamp_diff(max(MaxTime) over (partition by sessions),min(MinTime) over (partition by sessions), second) as session_duration,
 from sub0 left join pages on sub0.label = pages.page_location;;
