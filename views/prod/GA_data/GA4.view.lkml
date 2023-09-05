@@ -138,6 +138,14 @@ datagroup_trigger: ts_googleanalytics_datagroup
     sql: ${TABLE}.date ;;
   }
 
+  dimension_group: hour_of_day{
+    group_label: "Time"
+    label: "Hour"
+    type: time
+    timeframes: [hour_of_day]
+    sql: ${TABLE}.minTime ;;
+  }
+
   dimension: Medium {
     label: "Medium"
     group_label: "Traffic Source"
