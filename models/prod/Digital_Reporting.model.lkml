@@ -13,7 +13,7 @@ label: "Digital"
 explore: GA4 {
   #required_access_grants: []
   required_access_grants: [GA4_access]
-  view_name: base
+  view_name: ga4
 
   extends: []
   label: "GA4"
@@ -21,15 +21,15 @@ explore: GA4 {
 
   always_filter: {
     filters: [
-      select_date_range: "7 days"
+      ga4.select_date_range: "7 days"
     ]}
   #select_date_reference: "app^_web^_data",
 
-  conditionally_filter: {
-    filters:
-    [
-      ga4.select_date_range: "7 days"
-    ]
+  #conditionally_filter: {
+   # filters:
+    #[
+     # ga4.select_date_range: "7 days"
+    #]
 
     #total_sessionsGA4.select_date_range: "7 days",
     #,select_date_reference: "Placed"
@@ -40,49 +40,54 @@ explore: GA4 {
     #EcommerceEventsGA4.select_date_range: "7 days",
     #Purchase_events_GA4.select_date_range: "7 days"
 
-    unless: [
-      select_fixed_range,
-      dynamic_fiscal_year,
-      dynamic_fiscal_half,
-      dynamic_fiscal_quarter,
-      dynamic_fiscal_month,
-      dynamic_actual_year,
-      combined_week,
-      combined_month,
-      combined_quarter,
-      combined_year,
-      separate_month,
-      select_date_range
-    ]
+   # unless: [
+    #  select_fixed_range,
+     # dynamic_fiscal_year,
+      #dynamic_fiscal_half,
+      #dynamic_fiscal_quarter,
+      #dynamic_fiscal_month,
+      #dynamic_actual_year,
+      #combined_week,
+      #combined_month,
+      #combined_quarter,
+      #combined_year,
+      #separate_month,
+      #select_date_range
+    #]
 
-  }
+ # }
 
   #,select_date_reference: "ga4"
 
   fields: [
-    ALL_FIELDS*
+    ALL_FIELDS*, - app_web_data.transaction_date_filter
   ]
   #, -base.period_over_period, -base.flexible_pop,  -base.__comparator_order__
-  sql_always_where:
-  ${period_over_period};;
+  #sql_always_where:
+  #${period_over_period};;
 
   join: calendar_completed_date{
     from:  calendar
     view_label: "Date"
     type:  inner
     relationship: one_to_many
-    sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
+    sql_on: ${ga4.date_date}=${calendar_completed_date.date} ;;
   }
 
+join: base {
+  view_label: ""
+  type: inner
+  relationship: one_to_one
+  sql_on: ${base.date_date} = ${calendar_completed_date.date};;
+}
 
 
-
-  join: ga4 {
-    type: left_outer
-    relationship: many_to_one
-    sql_on:
-     ${base.date_date} = ${ga4.date_date} ;;
-  }
+  #join: ga4 {
+   # type: left_outer
+  #  relationship: many_to_one
+   # sql_on:
+  #   ${base.date_date} = ${ga4.date_date} ;;
+  #}
 
     join: products {
     view_label: "Products"
@@ -97,6 +102,7 @@ explore: GA4 {
     relationship: many_to_one
     sql_on: regexp_extract(${ga4.transaction_id},"^.{0,11}") = ${app_web_data.OrderID}
     and ${products.product_uid} = ${app_web_data.ProductUID}
+    and ${ga4.date_date} = ${app_web_data.Placed_date}
     and ${base.date_date} = ${app_web_data.Placed_date};;
   }
 
@@ -106,28 +112,28 @@ explore: GA4 {
     view_label: ""
     type: left_outer
     relationship: one_to_many
-    sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
+    sql_on: ${ga4.date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
   }
 
   join: videoly_funnel_ga4 {
     view_label: "Videoly_funnel - Last Complete Week"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${base.date_date} = ${videoly_funnel_ga4.date_date} ;;
+    sql_on: ${ga4.date_date} = ${videoly_funnel_ga4.date_date} ;;
   }
 
   join: stock_cover {
     type: left_outer
     relationship: many_to_one
     sql_on: ${products.product_code} = ${stock_cover.product_code}
-      and ${base.base_date_date} = ${stock_cover.stock_date_date};;
+      and ${ga4.date_date} = ${stock_cover.stock_date_date};;
   }
 
   join: pdp_purchase_funnel {
     view_label: "PDP to Purchase funnel WEB ONLY - Last Complete Week"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${base.date_date} = ${pdp_purchase_funnel.PDP_date_date}
+    sql_on: ${ga4.date_date} = ${pdp_purchase_funnel.PDP_date_date}
     and ${products.product_code} = ${pdp_purchase_funnel.ItemID};;
   }
 
@@ -135,7 +141,7 @@ explore: GA4 {
     view_label: "Search/PLP to PDP funnel - Last Complete Week"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${base.date_date} = ${search_plp_to_pdp_funnel.date_date} ;;
+    sql_on: ${ga4.date_date} = ${search_plp_to_pdp_funnel.date_date} ;;
   }
 
 
