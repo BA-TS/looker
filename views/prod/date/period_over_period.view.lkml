@@ -748,17 +748,44 @@ view: period_over_period {
 # ╚═╝░░░░░╚═╝╚══════╝░░░╚═╝░░░╚══════╝╚═╝░░╚═╝╚═════╝░
 
     filter: select_date_range {
-      label: "Date Range"
-      group_label: "Date Filter"
-      view_label: "Date"
+      label: "
+      {% if _explore._name == 'GA4' %}
+      {% else %}
+      Date Range
+      {% endif %}"
+      group_label: "
+      {% if _explore._name == 'GA4' %}
+      {% else %}
+      Date Filter
+      {% endif %}"
+      view_label: "
+      {% if _explore._name == 'GA4' %}
+      {% else %}
+      Date
+      {% endif %}"
       type: date
       convert_tz: yes
     }
 
     parameter: select_fixed_range {
-      label: "Fixed Range"
-      group_label: "Date Filter"
-      view_label: "Date"
+      label:
+      "
+      {% if _explore._name == 'GA4' %}
+      {% else %}
+      Fixed Range
+      {% endif %}"
+      group_label:
+      "
+      {% if _explore._name == 'GA4' %}
+      {% else %}
+      Date Filter
+      {% endif %}"
+      view_label:
+      "
+      {% if _explore._name == 'GA4' %}
+      {% else %}
+      Date
+      {% endif %}"
       type: unquoted
       allowed_value: {
         label: "Previous Day"
