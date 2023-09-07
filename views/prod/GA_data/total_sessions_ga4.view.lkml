@@ -40,6 +40,7 @@ view: total_sessions_ga4 {
   measure: Sessions {
     view_label: "Ga4"
     label: "Total Sessions"
+    group_label: "Measures"
     type: sum
     filters: [event: "session_start"]
     sql: ${total_sessions} ;;
