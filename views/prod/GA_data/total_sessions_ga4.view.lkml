@@ -32,6 +32,7 @@ view: total_sessions_ga4 {
 
   dimension: total_sessions {
     view_label: "Total Sessions"
+    hidden: yes
     type: number
     sql: ${TABLE}.total_session ;;
   }
