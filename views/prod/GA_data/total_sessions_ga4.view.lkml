@@ -3,6 +3,7 @@ view: total_sessions_ga4 {
     explore_source: GA4 {
       column: date {field: ga4.date_date}
       column: total_session {field:ga4.Sessions}
+      column: event {field:ga4.event_name}
       derived_column: rn {
         sql: row_number() over () ;;
       }
@@ -23,6 +24,12 @@ view: total_sessions_ga4 {
     sql: ${TABLE}.date ;;
   }
 
+  dimension: event {
+    hidden:yes
+    type: string
+    sql: ${TABLE}.event ;;
+  }
+
   dimension: total_sessions {
     view_label: "Total Sessions"
     type: number
@@ -32,6 +39,7 @@ view: total_sessions_ga4 {
   measure: Sessions {
     view_label: "Total Sessions"
     type: sum
+    filters: [event: "session_start"]
     sql: ${total_sessions} ;;
   }
 
