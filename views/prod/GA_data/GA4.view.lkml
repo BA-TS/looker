@@ -491,7 +491,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
   measure: session_start {
     label: "Total Sessions"
     group_label: "Measures"
-    #hidden: yes
+    hidden: yes
     type: count_distinct
     filters: [event_name: "session_start"]
     sql: ${TABLE}.sessions;;
