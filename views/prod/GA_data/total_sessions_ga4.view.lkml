@@ -38,7 +38,7 @@ view: total_sessions_ga4 {
   }
 
   measure: Sessions {
-    view_label: "GA4"
+    view_label: "Ga4"
     label: "Total Sessions"
     type: sum
     filters: [event: "session_start"]
