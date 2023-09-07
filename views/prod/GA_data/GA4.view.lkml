@@ -138,9 +138,9 @@ datagroup_trigger: ts_googleanalytics_datagroup
     sql: ${TABLE}.date ;;
   }
 
-  dimension_group: hour_of_day{
+  dimension_group: time{
     group_label: "Time"
-    view_label: "Timeframes"
+    view_label: "Date"
     type: time
     timeframes: [time_of_day,hour_of_day,minute, second]
     sql: ${TABLE}.minTime ;;
