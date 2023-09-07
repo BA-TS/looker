@@ -140,7 +140,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
 
   dimension_group: hour_of_day{
     group_label: "Time"
-    view_label: ""
+    view_label: "Timeframes"
     type: time
     timeframes: [time_of_day,hour_of_day,minute, second]
     sql: ${TABLE}.minTime ;;
