@@ -162,6 +162,13 @@ join: base {
     sql_on: ${products.product_code} = ${promoworking.Product_Code} ;;
   }
 
+  join: total_sessions_ga4 {
+    view_label: "total_sessions"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ga4.date_date} = ${total_sessions_ga4.date_date} ;;
+  }
+
 }
 
 explore: digital_reporting {
