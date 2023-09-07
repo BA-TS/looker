@@ -25,7 +25,14 @@ view: total_sessions_ga4 {
 
   dimension: total_sessions {
     type: number
+    hidden: yes
     sql: ${TABLE}.total_session ;;
+  }
+
+  measure: Sessions {
+    view_label: "Total Sessions"
+    type: sum
+    sql: ${total_sessions} ;;
   }
 
 }
