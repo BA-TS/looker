@@ -500,7 +500,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
   measure: session_start_cg {
     label: "Total Sessions by Channel Group"
     group_label: "Measures"
-    #hidden: yes
+    hidden: yes
     type: count_distinct
     filters: [event_name: "session_start"]
     sql:CASE
