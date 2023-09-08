@@ -166,7 +166,7 @@ join: base {
   join: total_sessions_ga4 {
     view_label: "GA4"
     type: left_outer
-    relationship: one_to_one
+    relationship: many_to_one
     sql_on: ${ga4.date_date} = ${total_sessions_ga4.date_date} ;;
   }
 
