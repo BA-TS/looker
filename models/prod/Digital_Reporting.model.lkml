@@ -8,6 +8,7 @@ include: "/views/prod/GA_data/GA4.view.lkml"
 include: "/views/prod/GA_data/Videoly_funnel_GA4.view.lkml"
 include: "/views/prod/GA_data/PDP_Purchase_funnel.view.lkml"
 include: "/views/prod/GA_data/Search_PLP_to_PDP_funnel.view.lkml"
+#include: "/views/prod/GA_data/ga4_totalSessions_channelGrouping.view.lkml"
 label: "Digital"
 
 explore: GA4 {
@@ -167,6 +168,15 @@ join: base {
     type: left_outer
     relationship: one_to_one
     sql_on: ${ga4.date_date} = ${total_sessions_ga4.date_date} ;;
+  }
+
+  join: ga4_totalsessions_channelgrouping {
+    view_label: "GA4"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ga4.date_date} = ${ga4_totalsessions_channelgrouping.date_date}
+    and
+    ${ga4.channel_group} = ${ga4_totalsessions_channelgrouping.channel_group};;
   }
 
 }
