@@ -31,11 +31,13 @@ view: ga4_totalsessions_channelgrouping {
   }
 
   dimension:  channel_grouping {
+    hidden: yes
     type: string
     sql: ${TABLE}.channel_grouping ;;
   }
 
   measure: session_start_cg {
+    view_label: "Ga4"
     label: "Total Sessions by Channel Group"
     group_label: "Measures"
     #hidden: yes
@@ -45,7 +47,8 @@ view: ga4_totalsessions_channelgrouping {
   }
 
   parameter: channel_group {
-    label: "Channel Grouping"
+    view_label: "Ga4"
+    label: "Channel Grouping for Total Sessions"
     type: string
     allowed_value: {
       label: "Direct"
