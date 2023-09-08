@@ -98,6 +98,7 @@ view: stocklocation {
   }
 
   measure: total_lifetime_orders {
+    view_label: "Stock Measures"
     label: "Stock Level"
     description: "Use this for counting lifetime orders across many users"
     #hidden: yes
