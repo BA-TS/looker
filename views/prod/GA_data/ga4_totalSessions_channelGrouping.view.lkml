@@ -1,35 +1,35 @@
 view: ga4_totalsessions_channelgrouping {
-    derived_table: {
-      explore_source: GA4 {
-        column: date {field: ga4.date_date}
-        column: total_session {field:ga4.Sessions}
-        column: event {field:ga4.event_name}
-        column: channel_grouping {field:ga4.channelGrouping}
-        derived_column: rn {
-          sql: row_number() over () ;;
-        }
+  derived_table: {
+    explore_source: GA4 {
+      column: date {field: ga4.date_date}
+      column: total_session {field:ga4.Sessions}
+      column: event {field:ga4.event_name}
+      column: channel_grouping {field:ga4.channelGrouping}
+      derived_column: rn {
+        sql: row_number() over () ;;
       }
     }
+  }
 
-    dimension: P_K {
-      primary_key: yes
-      hidden: yes
-      type: number
-      sql: ${TABLE}.rn ;;
-    }
+  dimension: P_K {
+    primary_key: yes
+    hidden: yes
+    type: number
+    sql: ${TABLE}.rn ;;
+  }
 
-    dimension_group: date {
-      hidden: yes
-      type: time
-      timeframes: [raw,date]
-      sql: ${TABLE}.date ;;
-    }
+  dimension_group: date {
+    hidden: yes
+    type: time
+    timeframes: [raw,date]
+    sql: ${TABLE}.date ;;
+  }
 
-    dimension: event {
-      hidden:yes
-      type: string
-      sql: ${TABLE}.event ;;
-    }
+  dimension: event {
+    hidden:yes
+    type: string
+    sql: ${TABLE}.event ;;
+  }
 
   dimension: channel_grouping {
     hidden:yes
@@ -38,12 +38,12 @@ view: ga4_totalsessions_channelgrouping {
   }
 
 
-    dimension: total_sessions {
-      view_label: "Total Sessions"
-      hidden: yes
-      type: number
-      sql: ${TABLE}.total_session ;;
-    }
+  dimension: total_sessions {
+    view_label: "Total Sessions"
+    hidden: yes
+    type: number
+    sql: ${TABLE}.total_session ;;
+  }
 
   measure: session_start_cg {
     label: "Total Sessions by Channel Group"
@@ -54,7 +54,7 @@ view: ga4_totalsessions_channelgrouping {
     sql:CASE
       WHEN ${channel_grouping} = {% parameter channel_group %} then ${total_sessions} end;;
 
-    }
+  }
 
   parameter: channel_group {
     label: "Channel Grouping"
