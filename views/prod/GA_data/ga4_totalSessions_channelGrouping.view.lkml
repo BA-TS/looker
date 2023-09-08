@@ -2,9 +2,8 @@ view: ga4_totalsessions_channelgrouping {
   derived_table: {
     explore_source: GA4 {
       column: date {field: ga4.date_date}
-      column: total_session {field:ga4.Sessions}
-      column: event {field:ga4.event_name}
-      column: channel_grouping {field:ga4.channelGrouping}
+      column: total_sessions {field:ga4.session_start}
+      column: channel_grouping {field: ga4.channelGrouping}
       derived_column: rn {
         sql: row_number() over () ;;
       }
@@ -25,24 +24,15 @@ view: ga4_totalsessions_channelgrouping {
     sql: ${TABLE}.date ;;
   }
 
-  dimension: event {
-    hidden:yes
-    type: string
-    sql: ${TABLE}.event ;;
-  }
-
-  dimension: channel_grouping {
-    hidden:yes
-    type: string
-    sql: ${TABLE}.channel_grouping ;;
-  }
-
-
-  dimension: total_sessions {
-    view_label: "Total Sessions"
+  dimension: sessions {
     hidden: yes
     type: number
-    sql: ${TABLE}.total_session ;;
+    sql: ${TABLE}.total_sessions ;;
+  }
+
+  dimension:  channel_grouping {
+    type: string
+    sql: ${TABLE}.channel_grouping ;;
   }
 
   measure: session_start_cg {
@@ -50,9 +40,7 @@ view: ga4_totalsessions_channelgrouping {
     group_label: "Measures"
     #hidden: yes
     type: sum
-    filters: [event: "session_start"]
-    sql:CASE
-      WHEN ${channel_grouping} = {% parameter channel_group %} then ${total_sessions} end;;
+    sql:CASE WHEN ${channel_grouping} = {% parameter channel_group %} then ${sessions} end;;
 
   }
 
