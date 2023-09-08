@@ -100,7 +100,7 @@ view: stocklocation {
   measure: total_lifetime_orders {
     label: "Stock Level"
     description: "Use this for counting lifetime orders across many users"
-    hidden: yes
+    #hidden: yes
     type: sum
     sql: ${TABLE}.stockLevel ;;
   }
