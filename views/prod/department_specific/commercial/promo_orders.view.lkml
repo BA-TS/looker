@@ -48,6 +48,8 @@ view: promo_orders {
   dimension: promo_name {
     description: "promo name"
     label: "Promo Name"
+    group_label: "Order Details"
+    view_label: "Transactions"
     type: string
     sql: ${TABLE}.EcreboCoupon_name ;;
   }
@@ -55,6 +57,8 @@ view: promo_orders {
   dimension: promo_type {
     description: "promo type"
     label: "Promo Type"
+    group_label: "Order Details"
+    view_label: "Transactions"
     type: string
     sql: ${TABLE}.CouponType ;;
   }
@@ -69,6 +73,7 @@ view: promo_orders {
   measure: Orders_using_promo {
     description: "Orders using Promo"
     label: "Transactions (using Promo)"
+    hidden: yes
     type: count_distinct
     sql: ${order_id} ;;
   }
