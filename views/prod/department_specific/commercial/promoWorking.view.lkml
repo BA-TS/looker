@@ -2,9 +2,9 @@ view: promoworking {
 
    derived_table: {
      sql: SELECT distinct row_number() over () as P_K,publication.catalogue.publicationName,productCode,
-cycleID, financial.costPrice,financial.regularPrice,financial.promoPrice
+cycleID, financial.costPrice,financial.regularPrice,financial.promoPrice, offer.type as offer_type
 
-FROM `toolstation-data-storage.promotions.promoHistory` where cycleID = "10097"
+FROM `toolstation-data-storage.promotions.promoHistory`
        ;;
    }
 
@@ -66,6 +66,12 @@ FROM `toolstation-data-storage.promotions.promoHistory` where cycleID = "10097"
     type: number
     value_format_name: gbp
     sql: ${TABLE}.promoPrice ;;
+  }
+
+  dimension: offer_type {
+    label: "Offer Type"
+    type: string
+    sql: ${TABLE}.offer_type ;;
   }
 
  }
