@@ -3,6 +3,7 @@ view: total_sessions_ga4 {
     explore_source: GA4 {
       column: date {field: ga4.date_date}
       column: total_sessions {field:ga4.session_start}
+      column: channel_grouping {field: ga4.channelGrouping}
       derived_column: rn {
         sql: row_number() over () ;;
       }
@@ -28,6 +29,13 @@ view: total_sessions_ga4 {
     type: number
     sql: ${TABLE}.total_sessions ;;
   }
+
+  dimension: channel_grouping {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.channel_grouping ;;
+  }
+
 
   measure: Sessions {
     view_label: "Ga4"

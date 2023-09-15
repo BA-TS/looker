@@ -167,7 +167,8 @@ join: base {
     view_label: "Ga4"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${ga4.date_date} = ${total_sessions_ga4.date_date} ;;
+    sql_on: ${ga4.date_date} = ${total_sessions_ga4.date_date}
+    and ${ga4.channelGrouping} = ${total_sessions_ga4.channel_grouping};;
   }
 
   join: ga4_totalsessions_channelgrouping {
