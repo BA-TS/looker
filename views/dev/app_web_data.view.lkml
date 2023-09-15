@@ -76,11 +76,13 @@ view: app_web_data {
 
       dimension: CustomerID {
         description: "customers for the last week"
+        hidden: yes
         type: string
         sql:  ${TABLE}.customerID ;;
       }
 
       dimension: OrderID {
+        hidden: yes
         description: "transaction ID"
         type:string
         sql: ${TABLE}.OrderID ;;
@@ -88,11 +90,13 @@ view: app_web_data {
 
   dimension: ProductUID {
     description: "ProductUID"
+    hidden: yes
     type:string
     sql: ${TABLE}.ProductUID ;;
   }
 
   dimension: salesChannel {
+    label: "Sales Channel"
     description: "salesChannel"
     type:string
     sql: ${TABLE}.salesChannel;;
@@ -143,12 +147,14 @@ view: app_web_data {
   # }
 
       dimension: App_web {
+        label: "App/Web"
         description: "If user used App or Web"
         type:  string
         sql:  ${TABLE}.App_web ;;
       }
 
       measure: Totalrevenue {
+        view_label: "Measures"
         label: "Net Sale Revenue"
         description: "Revenue of order"
         type: sum
@@ -157,6 +163,7 @@ view: app_web_data {
       }
 
       measure: revenue2 {
+        view_label: "Measures"
         label: "Gross Revenue"
         description: "Revenue of order"
         type: sum
@@ -165,6 +172,8 @@ view: app_web_data {
       }
 
       measure: AOV {
+        view_label: "Measures"
+        label: "AOV"
         description: "Average Order value"
         type: number
         value_format_name: gbp
@@ -180,12 +189,15 @@ view: app_web_data {
       # }
 
       measure: Quantity {
+        view_label: "Measures"
+        label: "Product Quantity"
         description: "Total products in order"
         type: sum
         sql:  ${TABLE}.Quantity ;;
       }
 
       measure: NetSaleValue {
+        hidden: yes
         description: "Total value of order"
         type: sum
         value_format_name: gbp
@@ -193,12 +205,16 @@ view: app_web_data {
       }
 
       measure: Total_orders {
+        view_label: "Measures"
+        label: "Total Orders"
         description: "total orders"
         type: count_distinct
         sql: ${TABLE}.OrderID;;
       }
 
       measure: marginFunding_perc {
+        view_label: "Measures"
+        label: "Margin Rate (inc funding)"
         description: "margin percentage per order"
         type: number
         value_format_name: percent_2
@@ -206,6 +222,8 @@ view: app_web_data {
       }
 
       measure: marginfunding_by_order {
+        view_label: "Measures"
+        label: "Margin per order (inc funding)"
         description: "Margin by order"
         type: number
         value_format_name: gbp
@@ -213,13 +231,23 @@ view: app_web_data {
       }
 
       measure: web_based_orders {
+        hidden: yes
         description: "web based orders"
         type: count_distinct
         sql: ${TABLE}.OrderID ;;
         filters: [App_web: "Web" ]
       }
 
+      measure: total_customers {
+        view_label: "Measures"
+        label: "Total Customers"
+        type: count_distinct
+        sql: ${CustomerID} ;;
+        }
+
       measure: Total_MarginIncFunding {
+        view_label: "Measures"
+        label: "Total Margin (inc funding)"
         description: "sum of Margin"
         type: sum
         value_format_name: gbp
@@ -227,6 +255,8 @@ view: app_web_data {
       }
 
       measure: Total_marginExclFunding {
+        view_label: "Measures"
+        label: "Total Margin (exc funding)"
         description: "sum of Margin"
         type: sum
         value_format_name: gbp
@@ -242,6 +272,7 @@ view: app_web_data {
       # }
 
   dimension: transaction_date_filter {
+    hidden: yes
     type: date
     datatype: date
     sql:
