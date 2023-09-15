@@ -160,11 +160,7 @@ view: app_web_data {
       {% else %}
       Measures
       {% endif %}"
-        group_label: "
-        {% if _explore._name == 'GA4' %}
-        Measures
-        {% else %}
-        {% endif %}"
+        group_label: "Measures"
         label: "Net Sale Revenue"
         description: "Revenue of order"
         type: sum
@@ -179,11 +175,7 @@ view: app_web_data {
         {% else %}
         Measures
         {% endif %}"
-        group_label: "
-        {% if _explore._name == 'GA4' %}
-        Measures
-        {% else %}
-        {% endif %}"
+        group_label: "Measures"
         label: "Gross Revenue"
         description: "Revenue of order"
         type: sum
@@ -198,11 +190,7 @@ view: app_web_data {
         {% else %}
         Measures
         {% endif %}"
-        group_label: "
-        {% if _explore._name == 'GA4' %}
-        Measures
-        {% else %}
-        {% endif %}"
+        group_label: "Measures"
         label: "AOV"
         description: "Average Order value"
         type: number
@@ -225,11 +213,7 @@ view: app_web_data {
         {% else %}
         Measures
         {% endif %}"
-        group_label: "
-        {% if _explore._name == 'GA4' %}
-        Measures
-        {% else %}
-        {% endif %}"
+        group_label: "Measures"
         label: "Product Quantity"
         description: "Total products in order"
         type: sum
@@ -251,11 +235,7 @@ view: app_web_data {
         {% else %}
         Measures
         {% endif %}"
-        group_label: "
-        {% if _explore._name == 'GA4' %}
-        Measures
-        {% else %}
-        {% endif %}"
+        group_label: "Measures"
         label: "Total Orders"
         description: "total orders"
         type: count_distinct
@@ -269,11 +249,7 @@ view: app_web_data {
         {% else %}
         Measures
         {% endif %}"
-        group_label: "
-        {% if _explore._name == 'GA4' %}
-        Measures
-        {% else %}
-        {% endif %}"
+        group_label: "Measures"
         label: "Margin Rate (inc funding)"
         description: "margin percentage per order"
         type: number
@@ -288,11 +264,7 @@ view: app_web_data {
         {% else %}
         Measures
         {% endif %}"
-        group_label: "
-        {% if _explore._name == 'GA4' %}
-        Measures
-        {% else %}
-        {% endif %}"
+        group_label: "Measures"
         label: "Margin per order (inc funding)"
         description: "Margin by order"
         type: number
@@ -315,11 +287,7 @@ view: app_web_data {
         {% else %}
         Measures
         {% endif %}"
-        group_label: "
-        {% if _explore._name == 'GA4' %}
-        Measures
-        {% else %}
-        {% endif %}"
+        group_label: "Measures"
         label: "Total Customers"
         type: count_distinct
         sql: ${CustomerID} ;;
@@ -332,11 +300,7 @@ view: app_web_data {
         {% else %}
         Measures
         {% endif %}"
-        group_label: "
-        {% if _explore._name == 'GA4' %}
-        Measures
-        {% else %}
-        {% endif %}"
+        group_label: "Measures"
         label: "Total Margin (inc funding)"
         description: "sum of Margin"
         type: sum
@@ -351,12 +315,7 @@ view: app_web_data {
         {% else %}
         Measures
         {% endif %}"
-        group_label: "
-        {% if _explore._name == 'GA4' %}
-        Measures
-        {% else %}
-        {% endif %}"
-        label: "Total Margin (exc funding)"
+        group_label: "Measures"
         description: "sum of Margin"
         type: sum
         value_format_name: gbp
