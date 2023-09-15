@@ -380,7 +380,11 @@ view: customers {
   }
 
   measure: number_of_customers {
-    label: "Number of Customers"
+    label: "
+    {% if _explore._name == 'GA4' %}
+    {% else %}
+    Number of Customers
+    {% endif %}"
     description: "A count of the number of unique customers."
     type: count_distinct
     sql: ${customer_uid} ;;
