@@ -156,10 +156,15 @@ view: app_web_data {
       measure: Totalrevenue {
         view_label: "
       {% if _explore._name == 'GA4' %}
-      Transaction Data
+      App Web Data
       {% else %}
       Measures
       {% endif %}"
+        group_label: "
+        {% if _explore._name == 'GA4' %}
+        Measures
+        {% else %}
+        {% endif %}"
         label: "Net Sale Revenue"
         description: "Revenue of order"
         type: sum
@@ -168,7 +173,17 @@ view: app_web_data {
       }
 
       measure: revenue2 {
-        view_label: "Measures"
+        view_label: "
+        {% if _explore._name == 'GA4' %}
+        App Web Data
+        {% else %}
+        Measures
+        {% endif %}"
+        group_label: "
+        {% if _explore._name == 'GA4' %}
+        Measures
+        {% else %}
+        {% endif %}"
         label: "Gross Revenue"
         description: "Revenue of order"
         type: sum
@@ -177,7 +192,17 @@ view: app_web_data {
       }
 
       measure: AOV {
-        view_label: "Measures"
+        view_label: "
+        {% if _explore._name == 'GA4' %}
+        App Web Data
+        {% else %}
+        Measures
+        {% endif %}"
+        group_label: "
+        {% if _explore._name == 'GA4' %}
+        Measures
+        {% else %}
+        {% endif %}"
         label: "AOV"
         description: "Average Order value"
         type: number
@@ -194,7 +219,17 @@ view: app_web_data {
       # }
 
       measure: Quantity {
-        view_label: "Measures"
+        view_label: "
+        {% if _explore._name == 'GA4' %}
+        App Web Data
+        {% else %}
+        Measures
+        {% endif %}"
+        group_label: "
+        {% if _explore._name == 'GA4' %}
+        Measures
+        {% else %}
+        {% endif %}"
         label: "Product Quantity"
         description: "Total products in order"
         type: sum
@@ -210,7 +245,17 @@ view: app_web_data {
       }
 
       measure: Total_orders {
-        view_label: "Measures"
+        view_label: "
+        {% if _explore._name == 'GA4' %}
+        App Web Data
+        {% else %}
+        Measures
+        {% endif %}"
+        group_label: "
+        {% if _explore._name == 'GA4' %}
+        Measures
+        {% else %}
+        {% endif %}"
         label: "Total Orders"
         description: "total orders"
         type: count_distinct
@@ -218,7 +263,17 @@ view: app_web_data {
       }
 
       measure: marginFunding_perc {
-        view_label: "Measures"
+        view_label: "
+        {% if _explore._name == 'GA4' %}
+        App Web Data
+        {% else %}
+        Measures
+        {% endif %}"
+        group_label: "
+        {% if _explore._name == 'GA4' %}
+        Measures
+        {% else %}
+        {% endif %}"
         label: "Margin Rate (inc funding)"
         description: "margin percentage per order"
         type: number
@@ -227,7 +282,17 @@ view: app_web_data {
       }
 
       measure: marginfunding_by_order {
-        view_label: "Measures"
+        view_label: "
+        {% if _explore._name == 'GA4' %}
+        App Web Data
+        {% else %}
+        Measures
+        {% endif %}"
+        group_label: "
+        {% if _explore._name == 'GA4' %}
+        Measures
+        {% else %}
+        {% endif %}"
         label: "Margin per order (inc funding)"
         description: "Margin by order"
         type: number
@@ -244,14 +309,34 @@ view: app_web_data {
       }
 
       measure: total_customers {
-        view_label: "Measures"
+        view_label: "
+        {% if _explore._name == 'GA4' %}
+        App Web Data
+        {% else %}
+        Measures
+        {% endif %}"
+        group_label: "
+        {% if _explore._name == 'GA4' %}
+        Measures
+        {% else %}
+        {% endif %}"
         label: "Total Customers"
         type: count_distinct
         sql: ${CustomerID} ;;
         }
 
       measure: Total_MarginIncFunding {
-        view_label: "Measures"
+        view_label: "
+        {% if _explore._name == 'GA4' %}
+        App Web Data
+        {% else %}
+        Measures
+        {% endif %}"
+        group_label: "
+        {% if _explore._name == 'GA4' %}
+        Measures
+        {% else %}
+        {% endif %}"
         label: "Total Margin (inc funding)"
         description: "sum of Margin"
         type: sum
@@ -260,7 +345,17 @@ view: app_web_data {
       }
 
       measure: Total_marginExclFunding {
-        view_label: "Measures"
+        view_label: "
+        {% if _explore._name == 'GA4' %}
+        App Web Data
+        {% else %}
+        Measures
+        {% endif %}"
+        group_label: "
+        {% if _explore._name == 'GA4' %}
+        Measures
+        {% else %}
+        {% endif %}"
         label: "Total Margin (exc funding)"
         description: "sum of Margin"
         type: sum
