@@ -156,7 +156,7 @@ view: app_web_data {
       measure: Totalrevenue {
         view_label: "
       {% if _explore._name == 'GA4' %}
-      App Web Data
+      Digital Transactions
       {% else %}
       Measures
       {% endif %}"
@@ -171,7 +171,7 @@ view: app_web_data {
       measure: revenue2 {
         view_label: "
         {% if _explore._name == 'GA4' %}
-        App Web Data
+        Digital Transactions
         {% else %}
         Measures
         {% endif %}"
@@ -186,7 +186,7 @@ view: app_web_data {
       measure: AOV {
         view_label: "
         {% if _explore._name == 'GA4' %}
-        App Web Data
+        Digital Transactions
         {% else %}
         Measures
         {% endif %}"
@@ -209,7 +209,7 @@ view: app_web_data {
       measure: Quantity {
         view_label: "
         {% if _explore._name == 'GA4' %}
-        App Web Data
+        Digital Transactions
         {% else %}
         Measures
         {% endif %}"
@@ -231,7 +231,7 @@ view: app_web_data {
       measure: Total_orders {
         view_label: "
         {% if _explore._name == 'GA4' %}
-        App Web Data
+        Digital Transactions
         {% else %}
         Measures
         {% endif %}"
@@ -245,7 +245,7 @@ view: app_web_data {
       measure: marginFunding_perc {
         view_label: "
         {% if _explore._name == 'GA4' %}
-        App Web Data
+        Digital Transactions
         {% else %}
         Measures
         {% endif %}"
@@ -260,7 +260,7 @@ view: app_web_data {
       measure: marginfunding_by_order {
         view_label: "
         {% if _explore._name == 'GA4' %}
-        App Web Data
+        Digital Transactions
         {% else %}
         Measures
         {% endif %}"
@@ -283,7 +283,7 @@ view: app_web_data {
       measure: total_customers {
         view_label: "
         {% if _explore._name == 'GA4' %}
-        App Web Data
+        Digital Transactions
         {% else %}
         Measures
         {% endif %}"
@@ -296,7 +296,7 @@ view: app_web_data {
       measure: Total_MarginIncFunding {
         view_label: "
         {% if _explore._name == 'GA4' %}
-        App Web Data
+        Digital Transactions
         {% else %}
         Measures
         {% endif %}"
@@ -311,7 +311,7 @@ view: app_web_data {
       measure: Total_marginExclFunding {
         view_label: "
         {% if _explore._name == 'GA4' %}
-        App Web Data
+        Digital Transactions
         {% else %}
         Measures
         {% endif %}"
