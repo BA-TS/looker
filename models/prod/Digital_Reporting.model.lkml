@@ -507,13 +507,14 @@ explore: digital_reporting {
   }
 
   join: customers {
-    view_label: ""
+    view_label: "Customers"
     type: left_outer
     relationship: many_to_one
     sql_on: ${app_web_data.CustomerID}=${customers.customer_uid} ;;
   }
 
   join: trade_customers {
+    view_label: "Customers"
     type: left_outer
     relationship: many_to_one
     sql_on: ${app_web_data.CustomerID}=${trade_customers.customer_uid}
