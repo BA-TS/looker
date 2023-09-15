@@ -154,7 +154,12 @@ view: app_web_data {
       }
 
       measure: Totalrevenue {
-        view_label: "Measures"
+        view_label: "
+      {% if _explore._name == 'GA4' %}
+      Transaction Data
+      {% else %}
+      Measures
+      {% endif %}"
         label: "Net Sale Revenue"
         description: "Revenue of order"
         type: sum
