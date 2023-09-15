@@ -434,6 +434,7 @@ explore: digital_reporting {
   # }
 
   join: catalogue {
+    view_label: ""
     type: left_outer
     relationship: many_to_one
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
@@ -480,6 +481,7 @@ explore: digital_reporting {
   }
 
   join: currentRetailPrice {
+    view_label: "Products"
     type: left_outer
     relationship: many_to_one
     sql_on: ${productv2.product_uid} = ${currentRetailPrice.Product_ID} ;;
@@ -505,6 +507,7 @@ explore: digital_reporting {
   }
 
   join: customers {
+    view_label: ""
     type: left_outer
     relationship: many_to_one
     sql_on: ${app_web_data.CustomerID}=${customers.customer_uid} ;;
