@@ -98,7 +98,7 @@ join: base {
   }
 
   join: app_web_data {
-    view_label: "App Web Data"
+    view_label: "Digital Transactions"
     type: left_outer
     relationship: many_to_one
     sql_on: regexp_extract(${ga4.transaction_id},"^.{0,11}") = ${app_web_data.OrderID}
@@ -258,6 +258,7 @@ explore: digital_reporting {
   # }
 
   join: app_web_data {
+    view_label: "Digital Transactions"
     type: left_outer
     relationship: many_to_one
     sql_on:
