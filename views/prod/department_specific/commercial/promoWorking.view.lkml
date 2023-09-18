@@ -56,8 +56,9 @@ FROM `toolstation-data-storage.promotions.promoHistory`
     view_label: "
         {% if _explore._name == 'GA4' %}
         {% else %}
-        Regular Price
+        Products
         {% endif %}"
+    label: "Regular Price"
     description: "Pricing when not on promo"
     type: number
     value_format_name: gbp
@@ -65,6 +66,7 @@ FROM `toolstation-data-storage.promotions.promoHistory`
   }
 
   dimension: PromoPrice {
+    view_label: "Products"
     group_label: "Pricing"
     label: "Promo Price"
     description: "promoPrice"
