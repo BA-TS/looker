@@ -50,6 +50,7 @@ view: ga4_totalsessions_channelgrouping {
     view_label: "Ga4"
     label: "Channel Grouping for Total Sessions"
     type: string
+    description: "Channel grouping filter for Total sessions"
     allowed_value: {
       label: "Direct"
       value: "Direct"

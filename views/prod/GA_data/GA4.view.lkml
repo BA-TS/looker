@@ -291,6 +291,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
     label: "Transaction ID"
     group_label: "Ecommerce"
     description: "transaction_id"
+    hidden: yes
     type: string
     sql: ${TABLE}.transaction_id;;
   }
@@ -653,6 +654,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
 
   parameter: channel_group {
     label: "Channel Grouping"
+    description: "Channel grouping filter for measures"
     type: string
     allowed_value: {
       label: "Direct"
