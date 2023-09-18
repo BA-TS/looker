@@ -161,7 +161,7 @@ join: base {
     type: left_outer
     relationship: one_to_one
     sql_on: ${products.product_code} = ${promoworking.Product_Code}
-    and ${catalogue.catalogue_id} = ${promoworking.cycleID};;
+    and cast(${catalogue.catalogue_id} as string) = cast(${promoworking.cycleID} as string);;
   }
 
   join: total_sessions_ga4 {
