@@ -228,6 +228,7 @@ view: products {
   }
 
   dimension: product_promo {
+    group_label: "Flags"
     label: "Promo working"
     type: yesno
     sql: ${promoworking.Product_Code} is not null ;;
