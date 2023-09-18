@@ -160,7 +160,8 @@ join: base {
     view_label: ""
     type: left_outer
     relationship: one_to_one
-    sql_on: ${products.product_code} = ${promoworking.Product_Code} ;;
+    sql_on: ${products.product_code} = ${promoworking.Product_Code}
+    and ${catalogue.catalogue_id} = ${promoworking.cycleID};;
   }
 
   join: total_sessions_ga4 {
