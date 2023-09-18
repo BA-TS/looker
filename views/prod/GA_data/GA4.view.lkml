@@ -48,7 +48,7 @@ else
 (SELECT distinct value.string_value FROM UNNEST(event_params) WHERE key = 'page_title') end as Screen_name,
 (SELECT distinct value.string_value FROM UNNEST(event_params) WHERE key = 'page_location') as page_location,
 case when items.item_id is null then
-(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'event_label') else items.item_id end as item_id,
+(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key in ('event_label','item_id')) else items.item_id end as item_id,
 items.price,
 items.promotion_id as PromoID,
 items.promotion_name as PromoName,
