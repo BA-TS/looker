@@ -151,7 +151,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
   dimension: Medium {
     label: "Medium"
     group_label: "Traffic Source"
-    description: "Medium"
+    description: "Medium of acquisition"
     type: string
     sql: ${TABLE}.Medium ;;
   }
@@ -159,7 +159,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
   dimension: Country {
     label: "Country"
     group_label: "User Attributes"
-    description: "country"
+    description: "country of session"
     type: string
     sql: ${TABLE}.country ;;
   }
@@ -167,13 +167,13 @@ datagroup_trigger: ts_googleanalytics_datagroup
   dimension: Campaign_name {
     label: "Campaign Name"
     group_label: "Traffic Source"
-    description: "Campaign_name"
+    description: "Campaign Name of acquisition"
     type: string
     sql: ${TABLE}.Campaign_name ;;
   }
 
   dimension: channelGrouping {
-    description: "channelGrouping"
+    description: "Channel Grouping of acquisition"
     label: "Channel Grouping"
     group_label: "Traffic Source"
     type: string
@@ -183,7 +183,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
   dimension: deviceCategory {
     label: "Device Category"
     group_label: "User Attributes"
-    description: "deviceCategory"
+    description: "Device Category of sessions"
     type: string
     sql: ${TABLE}.deviceCategory ;;
   }
@@ -270,6 +270,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
     label: "Event Value"
     group_label: "Measures"
     type: sum
+    description: "Monetary value of event"
     value_format_name: gbp
     sql: ${event_values} ;;
   }
@@ -312,7 +313,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
   dimension: screen {
     label: "Screen"
     group_label: "Page"
-    description: "screen"
+    description: "Page of site/platform"
     type: string
     sql: ${TABLE}.screen_name;;
   }
@@ -379,7 +380,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
   measure: item_revenue_CG {
     label: "Product revenue by Channel Group"
     group_label: "Ecommerce"
-    description: "item_revenue"
+    description: "item_revenue by channel group"
     type: sum
     value_format_name: gbp
     filters: [event_name: "purchase"]
@@ -399,7 +400,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
   measure: Item_Quantity_CG {
     label: "Product Quantity by Channel Group"
     group_label: "Measures"
-    description: "Item_Quantity"
+    description: "Item_Quantity by channel group"
     type: sum
     sql: CASE
          WHEN ${channelGrouping} = {% parameter channel_group %}
@@ -424,6 +425,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
     label: "Sessions (per event)"
     group_label: "Measures"
     type: count_distinct
+    description: "Sessions where event happened at least once"
     sql: ${TABLE}.sessions;;
   }
 
@@ -439,7 +441,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
   measure: Count_transaction_id {
     label: "Transactions"
     group_label: "Ecommerce"
-    description: "transaction_id"
+    description: "distinct transaction Ids"
     type: count_distinct
     filters: [transaction_id: "-(not set)"]
     sql: ${TABLE}.transaction_id;;
@@ -448,7 +450,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
   measure: Count_transaction_id_by_CG {
     label: "Transactions by Channel Group"
     group_label: "Ecommerce"
-    description: "transaction_id"
+    description: "distinct transaction_ids by channel group"
     type: count_distinct
     filters: [transaction_id: "-(not set)"]
     sql: CASE
@@ -460,6 +462,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
     label: "Events"
     group_label: "Measures"
     type: sum
+    description: "Events"
     sql: ${TABLE}.events;;
   }
 
@@ -467,6 +470,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
     label: "Events by Channel Grouping"
     group_label: "Measures"
     type: sum
+    description: "Total events by channel group"
     sql: CASE
          WHEN ${channelGrouping} = {% parameter channel_group %} then ${TABLE}.events END;;
   }
@@ -517,6 +521,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
   measure: session_purchase {
     label: "Purchase sessions"
     group_label: "Measures"
+    description: "Sessions where a purchase event happened"
     #hidden: yes
     type: count_distinct
     filters: [event_name: "Purchase, purchase"]
@@ -526,6 +531,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
   measure: session_purchase_byCG {
     label: "Purchase sessions by Channel Group"
     group_label: "Measures"
+    description: "Sessions where a purchase event happened by channel group"
     #hidden: yes
     type: count_distinct
     filters: [event_name: "Purchase, purchase"]
@@ -535,12 +541,14 @@ datagroup_trigger: ts_googleanalytics_datagroup
   measure: bs {
     label: "Bounced sessions"
     group_label: "Measures"
+    description: "Sessions where user left site after viewing 1 page"
     sql: ${Sessions}-${bounces} ;;
   }
 
   measure: bs_cg {
     label: "Bounced sessions by Channel Group"
     group_label: "Measures"
+    description: "Sessions where user left site after viewing 1 page by channel group"
     sql: CASE WHEN ${channelGrouping} = {% parameter channel_group %} then ${Sessions}-${bounces} end;;
   }
 
@@ -548,6 +556,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
     label: "Bounce rate"
     group_label: "Measures"
     type: number
+    description: "rate of total sessions where user left site after viewing 1 page"
     value_format_name: percent_2
     #sql: (${bs}/${session_start}) * 100
     sql: safe_divide(${bs},${session_start});;
@@ -557,6 +566,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
     label: "Bounce rate by Channel Grouping"
     group_label: "Measures"
     type: number
+    description: "rate of total sessions where user left site after viewing 1 page by channel group"
     value_format_name: percent_2
     #sql: (${bs}/${session_start}) * 100
     sql: CASE WHEN ${channelGrouping} = {% parameter channel_group %} then safe_divide(${bs},${session_start}) end;;
@@ -568,6 +578,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
     group_label: "Ecommerce"
     type: number
     value_format_name: percent_2
+    description: "rate of total sessions where a pucrhase event happened"
     #sql: ${Count_transaction_id}/${session_start} * 100
     sql: safe_divide(${session_purchase},${session_start});;
   }
@@ -577,6 +588,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
     group_label: "Ecommerce"
     type: number
     value_format_name: percent_2
+    description: "rate of total sessions where a pucrhase event happened by channel group"
     #sql: ${Count_transaction_id}/${session_start} * 100
     sql: CASE
          WHEN ${channelGrouping} = {% parameter channel_group %}
@@ -587,6 +599,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
     label: "AOV"
     group_label: "Ecommerce"
     type: number
+    description: "Average Order Value"
     value_format_name: gbp
     sql: safe_divide(${item_revenue},${Count_transaction_id}) ;;
   }
@@ -595,6 +608,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
     label: "AOV by Channel Grouping"
     group_label: "Ecommerce"
     type: number
+    description: "Average Order Value of Channel Group selected"
     value_format_name: gbp
     sql: CASE
          WHEN ${channelGrouping} = {% parameter channel_group %}
@@ -611,6 +625,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
   measure: New_users {
     label: "New Users"
     group_label: "Measures"
+    description: "users who visted the platform for the first time or accepted cookies"
     type: count_distinct
     filters: [event_name: "first_visit,first_open"]
     sql: ${user_id} ;;
@@ -620,6 +635,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
     label: "Returning Users"
     group_label: "Measures"
     type: number
+    description: "users who visted the platform prior"
     sql: ${total_users}-${New_users} ;;
   }
 
@@ -627,6 +643,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
     label: "Active Users"
     group_label: "Measures"
     type: count_distinct
+    description: "Users who had an active session"
     filters: [bounce_def: "1"]
     sql: ${user_id};;
   }
