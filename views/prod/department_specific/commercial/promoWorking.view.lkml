@@ -51,16 +51,16 @@ FROM `toolstation-data-storage.promotions.promoHistory`
   }
 
   dimension: regularPrice {
-    group_label: "Current Retail Price"
+    group_label: "Pricing"
     label: "Regular Price"
-    description: "regularPrice"
+    description: "Pricing when not on promo"
     type: number
     value_format_name: gbp
     sql: ${TABLE}.regularPrice ;;
   }
 
   dimension: PromoPrice {
-    group_label: "Current Retail Price"
+    group_label: "Pricing"
     label: "Promo Price"
     description: "promoPrice"
     type: number

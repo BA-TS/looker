@@ -218,7 +218,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
   dimension: error_message {
     label: "Error Message"
     group_label: "Event"
-    description: "error_message"
+    description: "Error Message"
     type: string
     sql: ${TABLE}.error_message;;
   }
@@ -226,6 +226,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
   dimension: event_key {
     label: "Event Key"
     group_label: "Event"
+    description: "Event Key"
     type: string
     sql: case when ${event_label} is null and ${action} is not null then "action"
          when ${action} is null and ${event_label} is not null then "action"
@@ -235,6 +236,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
   dimension: event_value {
     label: "Event Label"
     group_label: "Event"
+    description: "Event label"
     type: string
     sql: case when ${event_label} is null then ${action} else ${event_label} end ;;
   }
@@ -242,6 +244,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
   dimension: event_key_2 {
     label: "2.Event Key"
     group_label: "Event"
+    description: "2nd Event Key (if applicable)"
     type: string
     sql: ${TABLE}.key_2;;
   }
@@ -249,6 +252,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
   dimension: event_label_2 {
     label: "2.Event Label"
     group_label: "Event"
+    description: "2nd Event label (if applicable)"
     type: string
     sql: ${TABLE}.label_2;;
   }
@@ -354,8 +358,9 @@ datagroup_trigger: ts_googleanalytics_datagroup
 
   dimension: Item_price {
     label: "Product Price"
-    group_label: "Product Info"
-    description: "Item_price"
+    group_label: "Pricing"
+    view_label: "Products"
+    description: "Pricing when not on promo"
     type: number
     value_format_name: gbp
     sql: ${TABLE}.price ;;
