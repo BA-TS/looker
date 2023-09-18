@@ -55,7 +55,6 @@ FROM `toolstation-data-storage.promotions.promoHistory`
     group_label: "Pricing"
     label: "
         {% if _explore._name == 'GA4' %}
-
         {% else %}
         Regular Price
         {% endif %}"
