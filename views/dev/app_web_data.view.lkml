@@ -97,7 +97,7 @@ view: app_web_data {
 
   dimension: salesChannel {
     label: "Sales Channel"
-    description: "salesChannel"
+    description: "sales Channel used to fulfil order"
     type:string
     sql: ${TABLE}.salesChannel;;
   }
@@ -162,7 +162,7 @@ view: app_web_data {
       {% endif %}"
         group_label: "Measures"
         label: "Net Sale Revenue"
-        description: "Revenue of order"
+        description: "Net Revenue of order"
         type: sum
         value_format_name: gbp
         sql: ${TABLE}.revenue ;;
@@ -177,7 +177,7 @@ view: app_web_data {
         {% endif %}"
         group_label: "Measures"
         label: "Gross Revenue"
-        description: "Revenue of order"
+        description: "Gross Revenue of order"
         type: sum
         value_format_name: gbp
         sql: ${TABLE}.revenue2 ;;
@@ -266,7 +266,7 @@ view: app_web_data {
         {% endif %}"
         group_label: "Measures"
         label: "Margin per order (inc funding)"
-        description: "Margin by order"
+        description: "Margin inc funding by order"
         type: number
         value_format_name: gbp
         sql: sum(${TABLE}.MarginIncFunding)/(count(distinct(${TABLE}.OrderID))) ;;
@@ -289,6 +289,7 @@ view: app_web_data {
         {% endif %}"
         group_label: "Measures"
         label: "Total Customers"
+        description: "Total Customers who made Order"
         type: count_distinct
         sql: ${CustomerID} ;;
         }
@@ -302,7 +303,7 @@ view: app_web_data {
         {% endif %}"
         group_label: "Measures"
         label: "Total Margin (inc funding)"
-        description: "sum of Margin"
+        description: "sum of Margin inc funding"
         type: sum
         value_format_name: gbp
         sql: ${TABLE}.MarginIncFunding ;;
@@ -316,7 +317,8 @@ view: app_web_data {
         Measures
         {% endif %}"
         group_label: "Measures"
-        description: "sum of Margin"
+        label: "Total Margin (excl funding)"
+        description: "sum of Margin excluding funding"
         type: sum
         value_format_name: gbp
         sql: ${TABLE}.marginExclFunding ;;
