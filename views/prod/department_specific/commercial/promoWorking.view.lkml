@@ -69,6 +69,7 @@ FROM `toolstation-data-storage.promotions.promoHistory`
   }
 
   dimension: offer_type {
+    group_label: "Product Details"
     label: "Offer Type"
     type: string
     sql: ${TABLE}.offer_type ;;

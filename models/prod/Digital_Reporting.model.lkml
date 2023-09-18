@@ -157,7 +157,7 @@ join: base {
   }
 
   join: promoworking {
-    view_label: ""
+    view_label: "Products"
     type: left_outer
     relationship: one_to_one
     sql_on: ${products.product_code} = ${promoworking.Product_Code}
