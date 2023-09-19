@@ -180,6 +180,13 @@ join: base {
     and ${ga4.channelGrouping} = ${ga4_totalsessions_channelgrouping.channel_grouping};;
   }
 
+  join: currentRetailPrice {
+    type: left_outer
+    view_label: "Products"
+    relationship: many_to_one
+    sql_on: ${products.product_uid} = ${currentRetailPrice.Product_ID};;
+  }
+
 }
 
 explore: digital_reporting {
