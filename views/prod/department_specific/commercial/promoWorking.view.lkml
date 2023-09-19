@@ -59,6 +59,7 @@ FROM `toolstation-data-storage.promotions.promoHistory`
         Products
         {% endif %}"
     label: "Regular Price"
+    hidden: yes
     description: "Pricing when not on promo"
     type: number
     value_format_name: gbp
@@ -66,7 +67,7 @@ FROM `toolstation-data-storage.promotions.promoHistory`
   }
 
   dimension: PromoPrice {
-    view_label: "Products"
+    view_label: "Current Retail Price"
     group_label: "Pricing"
     label: "Promo Price"
     description: "promoPrice"

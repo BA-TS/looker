@@ -61,7 +61,7 @@ explore: GA4 {
   #,select_date_reference: "ga4"
 
   fields: [
-    ALL_FIELDS*, - app_web_data.transaction_date_filter, - base.select_date_reference
+    ALL_FIELDS*, - base.select_date_reference
   ]
   #, -base.period_over_period, -base.flexible_pop,  -base.__comparator_order__
   #sql_always_where:
