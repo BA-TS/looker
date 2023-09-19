@@ -67,8 +67,8 @@ FROM `toolstation-data-storage.promotions.promoHistory`
   }
 
   dimension: PromoPrice {
-    view_label: "Current Retail Price"
-    group_label: "Pricing"
+    view_label: "Products"
+    group_label: "Current Retail Price"
     label: "Promo Price"
     description: "promoPrice"
     type: number
