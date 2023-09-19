@@ -1,10 +1,19 @@
 view: aac {
-  sql_table_name: `toolstation-data-storage.stock.aacHistory`;;
+  derived_table: {
+    sql: select distinct *, row_number() over () as P_K from
+   `toolstation-data-storage.stock.aacHistory`;;
+  }
+
+  dimension: P_K {
+    type: number
+    sql: ${TABLE}.P_K ;;
+    hidden: yes
+    primary_key: yes
+  }
 
   dimension: product_uid {
     type: string
     sql: ${TABLE}.productUID ;;
-    primary_key: yes
     hidden: yes
   }
 
