@@ -370,6 +370,12 @@ explore: base {
     and ${customers.customer_uid} = ${brand_test.customer_uid} ;;
   }
 
+  join: bucketed_order_sales {
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${transactions.parent_order_uid} = ${bucketed_order_sales.parent_order_uid} ;;
+  }
+
 }
 
 explore: +base {

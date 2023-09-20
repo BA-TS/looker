@@ -27,7 +27,8 @@ view: app_web_data {
          transactionLineType = "Sale" and
         productCode not in ('85699','00053') and
         isCancelled = 0  and
-       (userUID  = 'APP')
+       (userUID  = 'APP') and
+      date(PlacedDate) BETWEEN date({%date_start select_date_range %}) and date({% date_end select_date_range %})
         group by 1,2,3,4,5,6,7
         union all
 
@@ -54,7 +55,8 @@ view: app_web_data {
         transactionLineType = "Sale" and
         productCode not in ('85699','00053') and
         isCancelled = 0 and
-        (userUID  = 'WWW')
+        (userUID  = 'WWW') and
+        date(PlacedDate) BETWEEN date({%date_start select_date_range %}) and date({% date_end select_date_range %})
         group by 1,2,3,4,5,6,7)
                 union distinct
         SELECT
@@ -324,13 +326,18 @@ view: app_web_data {
         sql: ${TABLE}.marginExclFunding ;;
       }
 
-      # filter: current_date_range {
-      # type: date
-      # view_label: "_PoP"
-      # label: "1. Current Date Range"
-      # description: "Select the current date range you are interested in. Make sure any other filter on Event Date covers this period, or is removed."
-      # sql: ${TABLE}.transactiondate IS NOT NULL ;;
-      # }
+  filter: select_date_range {
+    label: "Date Range"
+    group_label: "Date Filter"
+    view_label: "
+        {% if _explore._name == 'GA4' %}
+        {% else %}
+        Date
+        {% endif %}"
+    type: date
+    datatype: date
+    convert_tz: yes
+  }
 
   dimension: transaction_date_filter {
     hidden: yes

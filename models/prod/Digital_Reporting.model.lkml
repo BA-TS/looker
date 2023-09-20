@@ -198,7 +198,7 @@ explore: digital_reporting {
 
   always_filter: {
     filters: [
-      select_date_range: "7 days",
+      app_web_data.select_date_range: "7 days",
       select_date_reference: "app^_web^_data"
     ]
   }
@@ -241,12 +241,11 @@ explore: digital_reporting {
   ]
   #,-products.department
   sql_always_where:
-
-  ${period_over_period}
-  and
     ${productv2.isActive}
  ;;
 
+##  ${period_over_period}
+  ##and
   join: digital_budget {
     view_label: "Budget"
     type: inner
@@ -312,21 +311,6 @@ explore: digital_reporting {
       ;;
   }
 
-  # join: site_budget {
-  #   view_label: "Budget"
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on:
-  #       ${base.date_date} = ${site_budget.date_date} AND ${transactionsv2.site_uid} = ${site_budget.site_uid}
-  #     ;;
-  # }
-
-  # join: sites {
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${transactionsv2.site_uid}=${sites.site_uid} ;;
-  # }
-
   join: calendar_completed_date{
     from:  calendar
     view_label: "Date"
@@ -334,64 +318,6 @@ explore: digital_reporting {
     relationship: one_to_many
     sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
   }
-
-  # join: customers {
-  #   type :  inner
-  #   relationship: many_to_one
-  #   sql_on: ${transactionsv2.customer_uid}=${customers.customer_uid} ;;
-  # }
-
-  # join: suppliers {
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${products.default_supplier}=${suppliers.supplier_uid} ;;
-  #   fields: [suppliers.master_supplier_name, suppliers.supplier_name, suppliers.supplier_uid, suppliers.supplier_planner, suppliers.sage_supplier_code]
-  # }
-
-  # join: customer_segmentation {
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${transactionsv2.customer_uid} = ${customer_segmentation.ucu_uid} ;;
-  # }
-
-  # join: trade_customers {
-  #   type:  left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${customers.customer_uid} = ${trade_customers.customer_uid} ;;
-  # }
-
-  # join: products {
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${app_web_data.ProductUID}=${products.product_uid}
-  #     ;;
-  # }
-
-  #join: EcommerceEvents {
-   # view_label: "Eccomerce Events"
-    #type: left_outer
-    #relationship: many_to_one
-    #sql_on:
-     # ${base.date_date}=${EcommerceEvents.date_date}
-      #and ${productv2.product_code}=${EcommerceEvents.product_code}
-      #and ${app_web_data.App_web} = ${EcommerceEvents.app_web_sessions}
-      #and ${total_sessions.Medium} = ${EcommerceEvents.Medium}
-      #and ${total_sessions.app_web_sessions} = ${EcommerceEvents.app_web_sessions}
-      #and ${total_sessions.deviceCategory} = ${EcommerceEvents.deviceCategory};;
-  #}
-
-  #join: NonEcommerceEvents {
-   # view_label: " Non Eccomerce Events"
-    #type: left_outer
-    #relationship: many_to_one
-    #sql_on:
-    #  ${base.date_date}=${NonEcommerceEvents.date_date}
-     # and ${total_sessions.channel_grouping}=${NonEcommerceEvents.channel_grouping}
-      #and ${app_web_data.App_web} = ${NonEcommerceEvents.app_web_sessions}
-      #and ${total_sessions.Medium} = ${NonEcommerceEvents.Medium}
-      #and ${total_sessions.app_web_sessions} = ${NonEcommerceEvents.app_web_sessions}
-      #and ${total_sessions.deviceCategory} = ${NonEcommerceEvents.deviceCategory};;
-  #}
 
   join: productv2 {
     view_label: "Products"
