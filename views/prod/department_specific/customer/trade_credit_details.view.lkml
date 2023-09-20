@@ -45,7 +45,7 @@ view: trade_credit_details {
   }
 
   dimension: tc_account_name {
-    label: "Account Name"
+    label: "Trade Account Name"
     type: string
     sql: ${TABLE}.tcAccountName ;;
     hidden: no
