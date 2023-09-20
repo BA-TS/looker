@@ -8,7 +8,7 @@ view: trade_credit_details {
     type: string
     sql: ${TABLE}.mainTradeCreditAccountUID ;;
     primary_key: yes
-    hidden: yes
+    hidden: no
   }
 
   dimension: account_id {
