@@ -750,16 +750,19 @@ view: period_over_period {
     filter: select_date_range {
       label: "
       {% if _explore._name == 'GA4' %}
+      {% elsif _explore._name == 'digital_reporting' %}
       {% else %}
       Date Range
       {% endif %}"
       group_label: "
       {% if _explore._name == 'GA4' %}
+      {% elsif _explore._name == 'digital_reporting' %}
       {% else %}
       Date Filter
       {% endif %}"
       view_label: "
       {% if _explore._name == 'GA4' %}
+      {% elsif _explore._name == 'digital_reporting' %}
       {% else %}
       Date
       {% endif %}"
@@ -771,18 +774,21 @@ view: period_over_period {
       label:
       "
       {% if _explore._name == 'GA4' %}
+      {% elsif _explore._name == 'digital_reporting' %}
       {% else %}
       Fixed Range
       {% endif %}"
       group_label:
       "
       {% if _explore._name == 'GA4' %}
+      {% elsif _explore._name == 'digital_reporting' %}
       {% else %}
       Date Filter
       {% endif %}"
       view_label:
       "
       {% if _explore._name == 'GA4' %}
+      {% elsif _explore._name == 'digital_reporting' %}
       {% else %}
       Date
       {% endif %}"
@@ -813,16 +819,19 @@ view: period_over_period {
       #label: "Comparison Period"
       label: "
       {% if _explore._name == 'GA4' %}
+      {% elsif _explore._name == 'digital_reporting' %}
       {% else %}
       Comparison Period
       {% endif %}"
       group_label: "
       {% if _explore._name == 'GA4' %}
+      {% elsif _explore._name == 'digital_reporting' %}
       {% else %}
       Comparison
       {% endif %}"
       view_label: "
       {% if _explore._name == 'GA4' %}
+      {% elsif _explore._name == 'digital_reporting' %}
       {% else %}
       Date
       {% endif %}"
@@ -859,18 +868,21 @@ view: period_over_period {
       label:
       "
       {% if _explore._name == 'GA4' %}
+      {% elsif _explore._name == 'digital_reporting' %}
       {% else %}
       Number of Period(s)
       {% endif %}"
       group_label:
       "
       {% if _explore._name == 'GA4' %}
+      {% elsif _explore._name == 'digital_reporting' %}
       {% else %}
       Comparison
       {% endif %}"
       view_label:
       "
       {% if _explore._name == 'GA4' %}
+      {% elsif _explore._name == 'digital_reporting' %}
       {% else %}
       Date
       {% endif %}"
@@ -937,12 +949,14 @@ view: period_over_period {
       view_label:
       "
       {% if _explore._name == 'GA4' %}
+      {% elsif _explore._name == 'digital_reporting' %}
       {% else %}
       Date
       {% endif %}"
       label:
       "
       {% if _explore._name == 'GA4' %}
+      {% elsif _explore._name == 'digital_reporting' %}
       {% else %}
       Compare Period
       {% endif %}"
