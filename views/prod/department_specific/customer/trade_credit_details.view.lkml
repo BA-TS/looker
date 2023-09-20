@@ -5,6 +5,7 @@ view: trade_credit_details {
   required_access_grants: [can_use_customer_information_trade]
 
   dimension: main_trade_credit_account_uid {
+    label: "Main Trade Account UID"
     type: string
     sql: ${TABLE}.mainTradeCreditAccountUID ;;
     primary_key: yes
