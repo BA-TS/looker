@@ -6,6 +6,7 @@ view: trade_credit_details {
 
   dimension: main_trade_credit_account_uid {
     label: "Main Trade Account UID"
+    group_label: "Trade Accounts"
     type: string
     sql: ${TABLE}.mainTradeCreditAccountUID ;;
     primary_key: yes
@@ -14,6 +15,7 @@ view: trade_credit_details {
 
   dimension: account_id {
     label: "Trade Account ID"
+    group_label: "Trade Accounts"
     type: string
     sql: ${TABLE}.accountID ;;
     hidden: no
@@ -46,6 +48,7 @@ view: trade_credit_details {
 
   dimension: tc_account_name {
     label: "Trade Account Name"
+    group_label: "Trade Accounts"
     type: string
     sql: ${TABLE}.tcAccountName ;;
     hidden: no
