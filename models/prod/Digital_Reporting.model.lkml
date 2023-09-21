@@ -198,7 +198,7 @@ explore: digital_reporting {
 
   always_filter: {
     filters: [
-      base.select_date_range: "2 weeks",
+      base.select_date_range: "54 weeks",
       select_date_reference: "Placed"
 
     ]
