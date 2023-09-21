@@ -55,10 +55,7 @@ view: app_web_data {
         productCode not in ('85699','00053') and
         isCancelled = 0 and
         (userUID  = 'WWW')
-        group by 1,2,3,4,5,6,7)
-                union distinct
-        SELECT
-        "NONE","NONE","NONE", null, null, null, null, null, null, null, null, null, null, null )
+        group by 1,2,3,4,5,6,7) )
         select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
 
     partition_keys: ["Transaction"]
