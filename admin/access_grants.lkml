@@ -8,6 +8,11 @@ access_grant: can_use_customer_information2 {
   allowed_values: ["Y"]
 }
 
+access_grant: can_use_customer_information_trade {
+  user_attribute: ts_sensitive_customer_trade
+  allowed_values: ["Y"]
+}
+
 access_grant: can_use_supplier_information{
   user_attribute: ts_supplier
   allowed_values: ["Y"]

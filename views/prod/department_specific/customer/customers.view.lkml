@@ -2,6 +2,7 @@ include: "/views/prod/department_specific/finance/transactions.view"
 include: "/views/prod/department_specific/customer/trade_customers.view"
 include: "/views/prod/department_specific/customer/trade_credit_details.view"
 
+
 view: customers {
   sql_table_name: `toolstation-data-storage.customer.allCustomers`;;
 
@@ -356,6 +357,7 @@ view: customers {
     type:  yesno
     sql:${trade_customers.trade_flag} is not null;;
   }
+
 
   dimension_group: updated {
     type: time
