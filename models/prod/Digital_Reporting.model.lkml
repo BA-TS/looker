@@ -208,6 +208,8 @@ explore: digital_reporting {
   ]
   #,-products.department
   sql_always_where:
+    ${period_over_period}
+  and
     ${productv2.isActive}
  ;;
 
