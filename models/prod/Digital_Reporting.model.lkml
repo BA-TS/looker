@@ -198,10 +198,13 @@ explore: digital_reporting {
 
   always_filter: {
     filters: [
-      base.select_date_range: "7 days",
-      select_date_reference: "app^_web^_data"
+      base.select_date_range: "7 days"
+
     ]
   }
+
+ # ,
+  #    select_date_reference: "app^_web^_data"
 
   fields: [
     ALL_FIELDS*
