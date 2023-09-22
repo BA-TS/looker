@@ -237,7 +237,8 @@ explore: digital_reporting {
 
 
   fields: [
-    ALL_FIELDS*
+    ALL_FIELDS*,
+    -customers.customer_classification_type
   ]
   #,-products.department
   sql_always_where:

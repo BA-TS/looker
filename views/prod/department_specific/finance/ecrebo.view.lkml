@@ -4,36 +4,64 @@ view: ecrebo {
 
   derived_table: {
     sql:
-      (SELECT
-    DATE(et.datetime) as ecreboDate,
-     ec.campaign_id,
-     ec.campaign_name,
-     tr.parentOrderUID,
-     COUNT(DISTINCT tr.parentOrderUID) as orderRedemptions,
-     SUM(CASE WHEN tr.transactionLineType = 'Marketing' AND productCode IN ('00021','00027') THEN tr.netSalesValue ELSE 0 END) as code21_27Value,
-     SUM(CASE WHEN tr.transactionLineType = 'Sale' THEN tr.netSalesValue ELSE 0 END) as netSalesValue,
-     SUM(CASE WHEN tr.transactionLineType = 'Sale' THEN tr.quantity ELSE 0 END) as salesUnits
-      FROM
-      `toolstation-data-storage.data_engineering_team.ecreboTransactions` et
-      LEFT JOIN
-      `toolstation-data-storage.data_engineering_team.ecreboCoupons` ec ON et.transaction_uuid=ec.transaction_uuid
-      JOIN
-      `toolstation-data-storage.sales.TrolleySales` ts ON et.transaction_uuid=ts.trolleyUID
-      JOIN
-      `sales.transactions` tr ON ts.parentOrderUID=tr.parentOrderUID
-      JOIN
-      `ts_finance.dim_date` dd ON DATE(et.datetime)=dd.fullDate
-      WHERE
-      ec.campaign_id IS NOT NULL
-      GROUP BY
-      1,2,3,4);;
+      WITH ecrebo_cte as (
+
+                    SELECT DISTINCT
+                      DATE(et.datetime) as date,
+                      ec.campaign_id,
+                      ec.campaign_name,
+                      et.transaction_uuid,
+                      ts.parentOrderUID
+
+
+
+                    FROM
+                      `toolstation-data-storage.sales.ecreboTransactions` et
+                      LEFT JOIN
+                      `toolstation-data-storage.sales.ecreboCoupons` ec ON  et.transaction_uuid=ec.transaction_uuid
+                      JOIN
+                      `toolstation-data-storage.sales.TrolleySales` ts ON et.transaction_uuid=ts.trolleyUID
+
+                    WHERE
+                      ec.campaign_id IS NOT NULL
+
+
+                    )
+
+SELECT
+   ecrebo_cte.campaign_id,
+   ecrebo_cte.campaign_name,
+   CASE
+    WHEN STRPOS(campaign_id, ' ') > 0 THEN campaign_id
+    ELSE campaign_name
+  END AS new_campaign_name,
+    ecrebo_cte.date as date,
+    ecrebo_cte.parentOrderUID,
+   SUM(CASE WHEN tr.transactionLineType = 'Marketing' AND productCode IN ('00021','00027') THEN tr.netSalesValue ELSE 0 END) as code21_27Value,
+   SUM(CASE WHEN tr.transactionLineType = 'Sale' THEN tr.netSalesValue ELSE 0 END) as salesLineOnlyNetSalesValue,
+   SUM(tr.netSalesValue) as NetSalesValue,
+   SUM(tr.marginInclFunding) as orderMarginInclFunding
+
+FROM
+  `sales.transactions` tr
+  JOIN
+  ecrebo_cte ON tr.parentOrderUID=ecrebo_cte.parentOrderUID
+
+
+
+GROUP BY
+  1,2,3,4,5
+
+order by 1,2,3
+ ;;
     datagroup_trigger: ts_transactions_datagroup
   }
 
   dimension: ecrebo_date_filter {
     type: date
     datatype: date
-    sql: ${TABLE}.ecreboDate;;
+    sql: ${TABLE}.date;;
+    hidden:  yes
   }
 
   dimension: parent_order_uid {
@@ -41,6 +69,7 @@ view: ecrebo {
     label: "Parent Order UID"
     type: string
     sql: ${TABLE}.parentOrderUID ;;
+    hidden:  yes
   }
 
   dimension: campaign_id {
@@ -55,6 +84,13 @@ view: ecrebo {
     label: "Campaign Name"
     type: string
     sql: ${TABLE}.campaign_name ;;
+  }
+
+  dimension: campaign {
+    group_label: "Campaign"
+    label: "Campaign"
+    type: string
+    sql: ${TABLE}.new_campaign_name ;;
   }
 #         measure: ecrebo_marketing_vouchers {
 #           label: "Ecrebo Marketing Vouchers"

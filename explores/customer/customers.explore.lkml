@@ -54,11 +54,11 @@ explore: customers {
     sql_on: ${customers.customer_uid} = ${trade_credit_ids.customer_uid} ;;
   }
 
-  join: assumed_trade_customers {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${customers.customer_uid} = ${assumed_trade_customers.customer_uid} ;;
-  }
+  # join: assumed_trade_customers {
+  #   type: left_outer
+  #   relationship: many_to_one
+  #   sql_on: ${customers.customer_uid} = ${assumed_trade_customers.customer_uid} ;;
+  # }
 
   join: trade_credit_details {
     type: left_outer
@@ -168,6 +168,12 @@ explore: customers {
     type: left_outer
     relationship: one_to_one
     sql_on: ${products.product_code} = ${promoworking.Product_Code} ;;
+  }
+
+  join: customer_classification {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${customers.customer_uid} = ${customer_classification.customer_uid} ;;
   }
 }
 
