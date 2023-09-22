@@ -16,6 +16,7 @@ view: assumed_trade_customers {
     group_label: "Flags"
     label: "Is Assumed Trade"
     view_label: "Is Trade"
+    required_access_grants: [lz_testing]
     type:  yesno
     sql:${assumed_trade_customers.customer_uid} is not null;;
   }
