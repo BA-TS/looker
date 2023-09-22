@@ -88,8 +88,16 @@ WHERE PE.extraName IS NOT NULL
     -- FULL OUTER JOIN
     --   extra
     -- USING(catalogue_id)
-    -- WHERE extra.extra_name IS NOT NULL;;
+    -- WHERE extra.extra_name IS NOT NULL
+    ;;
     datagroup_trigger: ts_daily_datagroup
+  }
+
+  dimension: P_K {
+    type: number
+    hidden: yes
+    primary_key: yes
+    sql: ${TABLE}.P_K ;;
   }
 
   dimension: catalogue_id {

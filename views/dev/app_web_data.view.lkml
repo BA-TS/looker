@@ -27,8 +27,7 @@ view: app_web_data {
          transactionLineType = "Sale" and
         productCode not in ('85699','00053') and
         isCancelled = 0  and
-       (userUID  = 'APP') and
-      date(PlacedDate) BETWEEN date({%date_start select_date_range %}) and date({% date_end select_date_range %})
+       (userUID  = 'APP')
         group by 1,2,3,4,5,6,7
         union all
 
@@ -55,12 +54,8 @@ view: app_web_data {
         transactionLineType = "Sale" and
         productCode not in ('85699','00053') and
         isCancelled = 0 and
-        (userUID  = 'WWW') and
-        date(PlacedDate) BETWEEN date({%date_start select_date_range %}) and date({% date_end select_date_range %})
-        group by 1,2,3,4,5,6,7)
-                union distinct
-        SELECT
-        "NONE","NONE","NONE", null, null, null, null, null, null, null, null, null, null, null )
+        (userUID  = 'WWW')
+        group by 1,2,3,4,5,6,7) )
         select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
 
     partition_keys: ["Transaction"]
@@ -125,28 +120,6 @@ view: app_web_data {
     sql: ${TABLE}.Placed ;;
   }
 
-  # dimension_group: transactiondateTEST  {
-  #   description: "transactiondate"
-  #   type: time
-  #   view_label: "_PoP"
-  #   timeframes: [
-  #     raw,
-  #     date,
-  #     day_of_week,
-  #     day_of_week_index,
-  #     day_of_month,
-  #     day_of_year,
-  #     week,
-  #     week_of_year,
-  #     month,
-  #     month_name,
-  #     month_num,
-  #     quarter,
-  #     year
-  #   ]
-  #   sql: ${TABLE}.transactiondate ;;
-  #   convert_tz: no
-  # }
 
       dimension: App_web {
         label: "App/Web"
@@ -326,18 +299,6 @@ view: app_web_data {
         sql: ${TABLE}.marginExclFunding ;;
       }
 
-  filter: select_date_range {
-    label: "Date Range"
-    group_label: "Date Filter"
-    view_label: "
-        {% if _explore._name == 'GA4' %}
-        {% else %}
-        Date
-        {% endif %}"
-    type: date
-    datatype: date
-    convert_tz: yes
-  }
 
   dimension: transaction_date_filter {
     hidden: yes

@@ -198,43 +198,14 @@ explore: digital_reporting {
 
   always_filter: {
     filters: [
-      app_web_data.select_date_range: "7 days",
-      select_date_reference: "app^_web^_data"
+      base.select_date_range: "54 weeks",
+      select_date_reference: "Placed"
+
     ]
   }
 
-  #conditionally_filter: {
-   # filters:
-    #[
-     # select_date_reference: "app^_web^_data"
-      #]
-
-    #total_sessionsGA4.select_date_range: "7 days",
-   # total_sessions.select_date_range: "7 days",
-    #EcommerceEvents.session_date_filter: "7 days"
-
-      #stock_cover.date_filter: "Yesterday",
-      #summarised_daily_Sales.date_date: "21 days",
-      #,
-      #EcommerceEventsGA4.select_date_range: "7 days",
-      #Purchase_events_GA4.select_date_range: "7 days"
-
-  #  unless: [
-   #   select_fixed_range,
-   #   dynamic_fiscal_year,
-    #  dynamic_fiscal_half,
-     # dynamic_fiscal_quarter,
-      #dynamic_fiscal_month,
-      #dynamic_actual_year,
-      #catalogue.catalogue_name,
-      #catalogue.extra_name,
-      #combined_week,
-      #combined_month,
-      #combined_quarter,
-      #combined_year,
-      #separate_month
-    #]
-
+ # ,
+  #    select_date_reference: "app^_web^_data"
 
   fields: [
     ALL_FIELDS*,
@@ -242,6 +213,8 @@ explore: digital_reporting {
   ]
   #,-products.department
   sql_always_where:
+    ${period_over_period}
+  and
     ${productv2.isActive}
  ;;
 
@@ -254,18 +227,6 @@ explore: digital_reporting {
     sql_on: ${base.date_date} = ${digital_budget.Date_date};;
   }
 
-  # join: transactionsv2 {
-  #   type: left_outer
-  #   relationship: one_to_many
-
-  #   sql_on:
-
-  #       ${base.base_date_date} = ${transactionsv2.transaction_date_filter}
-
-  #     ;;
-
-  # }
-
   join: app_web_data {
     view_label: "Digital Transactions"
     type: left_outer
@@ -275,17 +236,6 @@ explore: digital_reporting {
     ${base.base_date_date} = ${app_web_data.transaction_date_filter} ;;
   }
 
-  #join: total_sessions {
-   # type: left_outer
-    #relationship: many_to_one
-    #sql_on:
-    #${base.date_date}=${total_sessions.date_date}
-    #and ${app_web_data.App_web} = ${total_sessions.app_web_sessions};;
-  #}
-
-  #and ${app_web_data.transaction_date_filter} = ${total_sessions.session_date_filter}
-  #      ${calendar_completed_date.date}=${total_sessions.session_date_filter}
-  #and ${app_web_data.App_web} = ${EcommerceEventsGA4.app_web_sessions}
 
   join: channel_budget {
     view_label: "Budget"
