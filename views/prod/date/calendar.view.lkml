@@ -93,10 +93,10 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
   }
 
   dimension: calendar_year_quarter {
-    group_label: "Dates Calendar"
+    group_label: "Dates"
+    label: "Year Quarter (yyyy-qq)"
     type: string
     sql: ${TABLE}.calendarYearQuarter ;;
-    hidden: yes
   }
 
   dimension: month_in_year {
