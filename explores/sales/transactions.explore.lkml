@@ -382,6 +382,13 @@ explore: base {
     sql_on: ${customers.customer_uid} = ${customer_classification.customer_uid} ;;
   }
 
+  join: customer_spending {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${customers.customer_uid} = ${customer_spending.customer_uid};;
+    sql_where: ${customer_spending.brand_rank_top_brands_bigquery_2} != "Other" ;;
+  }
+
 }
 
 explore: +base {
