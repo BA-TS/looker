@@ -66,7 +66,7 @@ view: customer_spending {
       type: string
       sql:
       CASE
-        WHEN ${customer_sales}={% parameter top_rank_limit_2 %}
+        WHEN ${customer_sales}="{% parameter top_rank_limit_2 %}"
           THEN ${customer_uid}
         ELSE "Other"
       END
