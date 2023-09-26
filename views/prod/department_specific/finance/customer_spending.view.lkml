@@ -6,6 +6,7 @@ view: customer_spending {
         bind_all_filters: yes
         column: net_sales { field: transactions.total_net_sales }
         column: customer_uid { field: customers.customer_uid }
+        column: year_month { field: calendar_completed_date.calendar_year_month}
       }
     }
 
@@ -19,13 +20,19 @@ view: customer_spending {
     dimension: net_sales {
       hidden: yes
       type: number
-      sql: sum(${TABLE}.net_sales) ;;
+      sql: ${TABLE}.net_sales ;;
     }
 
     dimension: customer_rank {
       hidden: yes
       type: string
       sql: ${TABLE}.ranking_2 ;;
+    }
+
+    dimension: year_month {
+      hidden: yes
+      type: string
+      sql: ${TABLE}.year_month ;;
     }
 
   dimension: customer_sales {
