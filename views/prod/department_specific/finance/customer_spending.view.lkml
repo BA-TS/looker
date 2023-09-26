@@ -53,7 +53,7 @@ view: customer_spending {
 
 
     parameter: top_rank_limit_2 {
-      label: "Top N Customer Segments by Customers Filter"
+      label: "Customer Spend (£) by month"
       type: unquoted
       default_value: "5"
       allowed_value: {
