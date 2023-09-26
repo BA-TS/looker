@@ -32,7 +32,7 @@ view: customer_spending {
     hidden: yes
     type: string
     sql: case when ${net_sales} < 49.99 then "Less_than_50"
-          when ${net_sales} >= 50 and ${net_sales} > 99.99 then "between_50_100"
+          when ${net_sales} >= 50 and ${net_sales} < 99.99 then "between_50_100"
         end ;;
   }
 #### This parameter will allow a user to select a Top N ranking limit for bucketing the brands, almost like parameterizing the Row Limit in the UI
