@@ -383,6 +383,7 @@ explore: base {
   }
 
   join: customer_spending {
+    view_label: "Transactions"
     type: left_outer
     relationship: many_to_one
     sql_on: ${customers.customer_uid} = ${customer_spending.customer_uid}

@@ -37,7 +37,7 @@ view: top_clusters_net_sales {
 #### This parameter will allow a user to select a Top N ranking limit for bucketing the brands, almost like parameterizing the Row Limit in the UI
 #### Customer Segments for top sales ###########
   parameter: top_rank_limit {
-    label: "Top Sales - Customer Segment N Filter"
+    label: "Customer Spend (£) by month"
     type: unquoted
     default_value: "5"
     allowed_value: {
