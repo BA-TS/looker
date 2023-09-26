@@ -31,7 +31,7 @@ view: customer_spending {
   dimension: customer_sales {
     hidden: yes
     type: string
-    sql: case when ${net_sales} < 50 then "Less than 50" end ;;
+    sql: case when ${net_sales} < 50 then "Less_than_50" end ;;
   }
 #### This parameter will allow a user to select a Top N ranking limit for bucketing the brands, almost like parameterizing the Row Limit in the UI
 
@@ -44,7 +44,7 @@ view: customer_spending {
       default_value: "5"
       allowed_value: {
         label: "Top 5"
-        value: "Less than 50"
+        value: "Less_than_50"
       }
       allowed_value: {
         label: "Top 10"
