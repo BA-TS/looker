@@ -81,6 +81,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension: platform {
+    view_label: "GA4"
     label: "Platform"
     group_label: "User Attributes"
     type: string
@@ -88,6 +89,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension: country {
+    view_label: "GA4"
     label: "country"
     group_label: "User Attributes"
     type: string
@@ -95,6 +97,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension: deviceCategory {
+    view_label: "GA4"
     label: "Device Category"
     group_label: "User Attributes"
     type: string
@@ -109,6 +112,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension: channel_Group {
+    view_label: "GA4"
     label: "Channel Group"
     group_label: "Traffic Source"
     type: string
@@ -116,6 +120,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension: Medium {
+    view_label: "GA4"
     label: "Medium"
     group_label: "Traffic Source"
     type: string
@@ -123,6 +128,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension: Campaign {
+    view_label: "GA4"
     label: "Campaign"
     group_label: "Traffic Source"
     type: string
@@ -130,6 +136,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension: event_name {
+    view_label: "GA4"
     label: "Event Name"
     group_label: "Event"
     type: string
@@ -137,6 +144,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension: key_1 {
+    view_label: "GA4"
     label: "1.Event Key"
     group_label: "Event"
     type: string
@@ -144,6 +152,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension: label_1 {
+    view_label: "GA4"
     label: "1.Event Label"
     group_label: "Event"
     type: string
@@ -151,6 +160,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension: key_2 {
+    view_label: "GA4"
     label: "2.Event Key"
     group_label: "Event"
     type: string
@@ -158,6 +168,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension: label_2 {
+    view_label: "GA4"
     label: "2.Event Label"
     group_label: "Event"
     type: string
@@ -165,6 +176,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension: value {
+    view_label: "GA4"
     label: "Event Value"
     group_label: "Event"
     value_format_name: gbp
@@ -172,6 +184,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension: error {
+    view_label: "GA4"
     label: "Error Message"
     group_label: "Event"
     type: string
@@ -179,6 +192,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension: promoID {
+    view_label: "GA4"
     label: "Promo ID"
     group_label: "Promo Info"
     type: string
@@ -186,6 +200,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension: promoNAme {
+    view_label: "GA4"
     label: "Promo Name"
     group_label: "Promo Info"
     type: string
@@ -193,6 +208,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension: creative_name {
+    view_label: "GA4"
     label: "Creative Name"
     group_label: "Promo Info"
     type: string
@@ -212,6 +228,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension: page_location {
+    view_label: "GA4"
     label: "Page"
     group_label: "Screen"
     type: string
@@ -219,6 +236,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension: Screen_name {
+    view_label: "GA4"
     label: "Screen name"
     group_label: "Screen"
     type: string
@@ -226,6 +244,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension: order_id {
+    view_label: "Digital Transactions"
     label: "Transaction ID"
     group_label: "Transaction"
     type: string
@@ -233,6 +252,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   measure: orders {
+    view_label: "Digital Transactions"
     label: "Orders"
     group_label: "Ecommerce"
     type: count_distinct
@@ -240,6 +260,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension: customer {
+    view_label: "Digital Transactions"
     label: "Customer ID"
     group_label: "Transaction"
     hidden: yes
@@ -248,6 +269,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   measure: customers {
+    view_label: "Digital Transactions"
     label: "customer"
     group_label: "Measures"
     type: count_distinct
@@ -255,6 +277,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension: salesChannel {
+    view_label: "Digital Transactions"
     label: "Sales Channel"
     group_label: "Transaction"
     type: string
@@ -351,7 +374,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
 
   measure: ga4_revenue {
     view_label: "GA4"
-    group_label: "Eccomerce"
+    group_label: "Ecommerce"
     label: "Revenue"
     type: sum
     value_format_name: gbp
@@ -365,6 +388,14 @@ AND {% condition select_date_range %} (date) {% endcondition %}
     type: sum
     sql: ${TABLE}.ga4_quantity;;
     filters: [event_name: "Purchase, purchase"]
+  }
+
+  measure: ga4_quantity_total {
+    view_label: "GA4"
+    group_label: "Measures"
+    label: "Product Quantity"
+    type: sum
+    sql: ${TABLE}.ga4_quantity;;
   }
 
   measure:  time_hours {
