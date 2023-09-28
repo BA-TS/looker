@@ -364,6 +364,22 @@ AND {% condition select_date_range %} (date) {% endcondition %}
     sql: ${TABLE}.MarginExclFunding ;;
   }
 
+  measure: margin_rate_exc_funding {
+    view_label: "Digital Transactions"
+    group_label: "Measures"
+    label: "Margin Rate (excl funding)"
+    value_format: "0.00%;(0.00%)"
+    sql: COALESCE(safe_divide(${MarginExclFunding},${net_value}),null) ;;
+  }
+
+  measure: margin_rate_inc_funding {
+    view_label: "Digital Transactions"
+    group_label: "Measures"
+    label: "Margin Rate (Inc funding)"
+    value_format: "0.00%;(0.00%)"
+    sql: COALESCE(safe_divide(${MarginIncFunding},${net_value}),null) ;;
+  }
+
   measure: netSalePrice {
     view_label: "Digital Transactions"
     group_label: "Measures"
