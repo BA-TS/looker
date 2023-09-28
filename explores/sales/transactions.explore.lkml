@@ -382,6 +382,7 @@ explore: base {
     sql_on: ${customers.customer_uid} = ${customer_classification.customer_uid} ;;
   }
 
+
   join: customer_spending {
     view_label: "Transactions"
     type: left_outer
