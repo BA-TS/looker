@@ -270,6 +270,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension: customerv2 {
+    hidden: yes
     type: string
     sql: coalesce(${customer},${user_id}) ;;
   }
