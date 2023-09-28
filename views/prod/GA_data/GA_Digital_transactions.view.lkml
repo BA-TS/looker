@@ -561,7 +561,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
     view_label: "Products"
     group_label: "Pricing"
     label: "Regular Price"
-    sql: ${TABLE}.RegularPrice, ;;
+    sql: ${TABLE}.RegularPrice ;;
   }
 
   dimension: promo_price {
