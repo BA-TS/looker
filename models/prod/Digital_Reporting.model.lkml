@@ -8,9 +8,17 @@ include: "/views/prod/GA_data/GA4.view.lkml"
 include: "/views/prod/GA_data/Videoly_funnel_GA4.view.lkml"
 include: "/views/prod/GA_data/PDP_Purchase_funnel.view.lkml"
 include: "/views/prod/GA_data/Search_PLP_to_PDP_funnel.view.lkml"
-#include: "/views/prod/GA_data/ga4_totalSessions_channelGrouping.view.lkml"
+include: "/views/prod/GA_data/GA_Digital_transactions.view.lkml"
 label: "Digital"
-
+explore: GA4_test {
+  required_access_grants: [GA4_access]
+  view_name: ga_digital_transactions
+  label: "GA4 Test"
+  always_filter: {
+    filters: [
+      select_date_range: "7 days"
+    ]}
+}
 explore: GA4 {
   #required_access_grants: []
   required_access_grants: [GA4_access]
