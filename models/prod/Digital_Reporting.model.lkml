@@ -18,6 +18,28 @@ explore: GA4_test {
     filters: [
       select_date_range: "7 days"
     ]}
+
+  join: customers {
+    view_label: "Customers"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${ga_digital_transactions.customerv2}=${customers.customer_uid} ;;
+  }
+
+  join: customer_classification {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${customers.customer_uid} = ${customer_classification.customer_uid} ;;
+  }
+
+  join: trade_customers {
+    view_label: "Customers"
+    type:  left_outer
+    relationship: many_to_one
+    sql_on: ${customers.customer_uid} = ${trade_customers.customer_uid} ;;
+  }
+
+
 }
 explore: GA4 {
   #required_access_grants: []
