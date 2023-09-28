@@ -269,6 +269,11 @@ AND {% condition select_date_range %} (date) {% endcondition %}
     sql: ${TABLE}.customer ;;
   }
 
+  dimension: customerv2 {
+    type: string
+    sql: coalesce(${customer},${user_id}) ;;
+  }
+
   measure: customers {
     view_label: "Digital Transactions"
     label: "customer"
