@@ -64,7 +64,7 @@ view: ga_digital_transactions {
     session_duration,
     events,
     page_views,
-    bounces
+    cast(bounces as string) as bounces
     FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` left join unnest(transactions) as transactions left join unnest (products) as products
     where (transactions.item_id = products.item_id or transactions.item_id is null or products.item_id is null)
     and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
