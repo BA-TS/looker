@@ -175,11 +175,12 @@ AND {% condition select_date_range %} (date) {% endcondition %}
     sql: ${TABLE}.label_2 ;;
   }
 
-  dimension: value {
+  measure: value {
     view_label: "GA4"
     label: "Event Value"
-    group_label: "Event"
+    group_label: "Measures"
     value_format_name: gbp
+    type: sum
     sql: ${TABLE}.value ;;
   }
 
