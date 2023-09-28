@@ -13,7 +13,7 @@ label: "Digital"
 explore: GA4_test {
   required_access_grants: [GA4_access]
   view_name: ga_digital_transactions
-  label: "GA4 Test"
+  label: "GA4 (data model in BQ)"
   always_filter: {
     filters: [
       select_date_range: "7 days"
