@@ -416,7 +416,7 @@ view: customers {
   }
 
   measure: trade_percent {
-    view_label: "Measures"
+    #view_label: "Measures"
     group_label: "Core Metrics"
     label: "Trade Customers %"
     type: number

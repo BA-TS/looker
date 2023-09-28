@@ -255,7 +255,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   measure: orders {
     view_label: "Digital Transactions"
     label: "Orders"
-    group_label: "Ecommerce"
+    group_label: "Measures"
     type: count_distinct
     sql: ${order_id} ;;
   }
