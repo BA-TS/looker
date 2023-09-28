@@ -232,11 +232,26 @@ AND {% condition select_date_range %} (date) {% endcondition %}
     sql: ${TABLE}.OrderID ;;
   }
 
+  measure: orders {
+    label: "Orders"
+    group_label: "Ecommerce"
+    type: count_distinct
+    sql: ${order_id} ;;
+  }
+
   dimension: customer {
     label: "Customer ID"
     group_label: "Transaction"
+    hidden: yes
     type: string
     sql: ${TABLE}.customer ;;
+  }
+
+  measure: customers {
+    label: "customer"
+    group_label: "Measures"
+    type: count_distinct
+    sql: ${customer} ;;
   }
 
   dimension: salesChannel {
@@ -256,7 +271,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension_group: time{
-    group_label: "Time"
+    group_label: "GA4 Time"
     view_label: "Date"
     type: time
     timeframes: [time_of_day,hour_of_day,minute, second]
@@ -265,8 +280,8 @@ AND {% condition select_date_range %} (date) {% endcondition %}
 
   dimension_group: placed_time{
     view_label: "Date"
-    group_label: "Time"
-    label: "Placed Date"
+    group_label: "Placed Time"
+    #label: "Placed Date"
     type: time
     timeframes: [time_of_day,date]
     sql: ${TABLE}.placed ;;
@@ -274,8 +289,8 @@ AND {% condition select_date_range %} (date) {% endcondition %}
 
   dimension_group: transaction_time{
     view_label: "Date"
-    group_label: "Time"
-    label: "Transaction Date"
+    group_label: "Transaction Time"
+    #label: "Transaction Date"
     type: time
     timeframes: [time_of_day,date]
     sql: ${TABLE}.transaction ;;
@@ -283,13 +298,15 @@ AND {% condition select_date_range %} (date) {% endcondition %}
 
   measure: transactions_quantity {
     view_label: "Digital Transactions"
-    label: "Quantity"
+    group_label: "Measures"
+    label: "Product Quantity"
     type: sum
     sql: ${TABLE}.Quantity ;;
   }
 
   measure: net_value {
     view_label: "Digital Transactions"
+    group_label: "Measures"
     label: "Net Revenue"
     type: sum
     value_format_name: gbp
@@ -298,6 +315,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
 
   measure: gross_value {
     view_label: "Digital Transactions"
+    group_label: "Measures"
     label: "Gross Revenue"
     type: sum
     value_format_name: gbp
@@ -306,6 +324,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
 
   measure: MarginIncFunding {
     view_label: "Digital Transactions"
+    group_label: "Measures"
     label: "Margin inc Funding"
     type: sum
     value_format_name: gbp
@@ -314,6 +333,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
 
   measure: MarginExclFunding {
     view_label: "Digital Transactions"
+    group_label: "Measures"
     label: "Margin excl Funding"
     type: sum
     value_format_name: gbp
@@ -322,6 +342,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
 
   measure: netSalePrice {
     view_label: "Digital Transactions"
+    group_label: "Measures"
     label: "Net Sale Price"
     type: average
     value_format_name: gbp
@@ -329,7 +350,8 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   measure: ga4_revenue {
-    group_label: "Transactions"
+    view_label: "GA4"
+    group_label: "Eccomerce"
     label: "Revenue"
     type: sum
     value_format_name: gbp
@@ -337,15 +359,18 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   measure: ga4_quantity {
-    group_label: "Transactions"
-    label: "Quantity"
+    view_label: "GA4"
+    group_label: "Ecommerce"
+    label: "Purchase Product Quantity"
     type: sum
-    sql: ${TABLE}.ga4_quantity ;;
+    sql: ${TABLE}.ga4_quantity;;
+    filters: [event_name: "Purchase, purchase"]
   }
 
   measure:  time_hours {
     type: average
     hidden: yes
+    view_label: "GA4"
     label: "Avg Session Duration"
     group_label: "Measures"
     value_format: "h:mm:ss"
@@ -353,12 +378,16 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   measure: Users {
+    view_label: "GA4"
+    group_label: "Measures"
     label: "Users"
     type: count_distinct
     sql: ${user_id} ;;
   }
 
   measure: sessions {
+    view_label: "GA4"
+    group_label: "Measures"
     label: "Sessions"
     type: count_distinct
     sql: ${session_id} ;;
@@ -372,6 +401,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   measure: session_purchase {
+    view_label: "GA4"
     label: "Purchase sessions"
     group_label: "Ecommerce"
     description: "Sessions where a purchase event happened"
@@ -382,6 +412,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   measure: conversion_rate {
+    view_label: "GA4"
     label: "Purchase Conversion rate"
     group_label: "Ecommerce"
     type: number
@@ -392,12 +423,16 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   measure: events {
+    view_label: "GA4"
+    group_label: "Measures"
     label: "Events"
     type: sum
     sql: ${TABLE}.events ;;
   }
 
   measure: page_views {
+    view_label: "GA4"
+    group_label: "Measures"
     label: "Page Views"
     type: sum
     sql: ${TABLE}.page_views ;;
@@ -420,6 +455,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   measure: bs {
+    view_label: "GA4"
     label: "Bounced sessions"
     group_label: "Measures"
     description: "Sessions where user left site after viewing 1 page"
@@ -427,6 +463,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   measure: bounce_rate {
+    view_label: "GA4"
     label: "Bounce rate"
     group_label: "Measures"
     type: number
