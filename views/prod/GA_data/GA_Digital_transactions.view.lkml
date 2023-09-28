@@ -521,6 +521,35 @@ AND {% condition select_date_range %} (date) {% endcondition %}
     sql: safe_divide(${bs},${sessions});;
   }
 
+  measure: New_users {
+    view_label: "GA4"
+    label: "New Users"
+    group_label: "Measures"
+    description: "users who visted the platform for the first time or accepted cookies"
+    type: count_distinct
+    filters: [event_name: "first_visit,first_open"]
+    sql: ${user_id} ;;
+  }
+
+  measure: returning_users {
+    view_label: "GA4"
+    label: "Returning Users"
+    group_label: "Measures"
+    type: number
+    description: "users who visted the platform prior"
+    sql: ${Users}-${New_users} ;;
+  }
+
+  measure: Active_Users {
+    view_label: "GA4"
+    label: "Active Users"
+    group_label: "Measures"
+    type: count_distinct
+    description: "Users who had an active session"
+    filters: [bounce_def: "1"]
+    sql: ${user_id};;
+  }
+
   dimension: item_id {
     type: string
     view_label: "Products"
