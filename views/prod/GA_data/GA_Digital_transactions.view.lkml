@@ -41,6 +41,7 @@ view: ga_digital_transactions {
     products.item_id,
     products.productUID,
     products.Price,
+    products.RegularPrice,
     products.buyerName,
     products.buyingmanager,
     products.productBuyingStatus,
@@ -553,6 +554,14 @@ AND {% condition select_date_range %} (date) {% endcondition %}
     group_label: "Pricing"
     label: "Current Price"
     sql: ${TABLE}.price ;;
+  }
+
+  dimension: regular_price {
+    value_format_name: gbp
+    view_label: "Products"
+    group_label: "Pricing"
+    label: "Regular Price"
+    sql: ${TABLE}.RegularPrice, ;;
   }
 
   dimension: promo_price {
