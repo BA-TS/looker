@@ -17,7 +17,7 @@ view: customer_classification {
   dimension: customer_type {
     type: string
     sql: ${TABLE}.customer_type ;;
-    ##required_access_grants: [lz_testing]
+    required_access_grants: [lz_testing]
   }
 
   dimension: customer_uid {
