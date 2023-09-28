@@ -27,6 +27,7 @@ explore: GA4_test {
   }
 
   join: customer_classification {
+    view_label: "Customers"
     type: left_outer
     relationship: many_to_one
     sql_on: ${customers.customer_uid} = ${customer_classification.customer_uid} ;;
