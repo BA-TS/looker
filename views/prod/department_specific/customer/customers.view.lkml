@@ -387,7 +387,6 @@ view: customers {
     group_label: "Flags"
     label: "Is Trade/Assumed/DIY"
     sql:${customer_classification.customer_type} ;;
-    required_access_grants: [lz_testing]
   }
 
   measure: number_of_customers {

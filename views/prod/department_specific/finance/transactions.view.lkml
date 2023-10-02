@@ -827,6 +827,13 @@ view: transactions {
     hidden: yes
   }
 
+  dimension: net_sales_tier {
+    type: tier
+    tiers: [0,20,40,60,1000]
+    style: integer
+    sql: ${net_sales_value} ;;
+  }
+
   # Core #
   measure: total_gross_sales {
     label: "Gross Sales"
