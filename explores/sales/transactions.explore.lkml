@@ -382,6 +382,17 @@ explore: base {
     sql_on: ${customers.customer_uid} = ${customer_classification.customer_uid} ;;
   }
 
+
+  join: customer_spending {
+    view_label: "Transactions"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${customers.customer_uid} = ${customer_spending.customer_uid}
+    and
+    ${calendar_completed_date.calendar_year_month} = ${customer_spending.year_month};;
+    sql_where: ${customer_spending.brand_rank_top_brands_bigquery_2} != "Other" ;;
+  }
+
 }
 
 explore: +base {
