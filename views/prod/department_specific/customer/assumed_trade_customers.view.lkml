@@ -12,11 +12,10 @@ view: assumed_trade_customers {
   }
 
   dimension: is_assumed_trade_customer {
-    description: "A customer who has been classified as a 'Assumed Trade' customer. Please note that this is a dynamic field which is updated constantly, so values may vary."
+    description: "A customer who has ever been classified as a 'Assumed Trade' customer since 2015."
     view_label: "Customer Classification"
     group_label: "Flags"
     label: "Is Assumed Trade"
-    required_access_grants: [lz_testing]
     type:  yesno
     sql:${assumed_trade_customers.customer_uid} is not null;;
   }
