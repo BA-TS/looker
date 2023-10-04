@@ -382,6 +382,15 @@ view: customers {
     sql:${creation_date} >= CURRENT_DATE() - 30;;
   }
 
+  dimension_group: customer_account_created{
+    description: "A new customer is classified as an account created in the last 30 days."
+    group_label: "Flags"
+    type: time
+    datatype: date
+    timeframes: [year]
+    sql:${creation_date};;
+  }
+
   dimension: customer_classification_type {
     type: string
     group_label: "Flags"
