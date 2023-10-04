@@ -383,8 +383,7 @@ view: customers {
   }
 
   dimension_group: customer_account_created{
-    description: "A new customer is classified as an account created in the last 30 days."
-    group_label: "Flags"
+    label: "Customer Account Creation Year"
     type: time
     datatype: date
     timeframes: [year]
