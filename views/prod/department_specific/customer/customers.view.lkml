@@ -383,7 +383,7 @@ view: customers {
   }
 
   dimension_group: customer_account_created{
-    label: "Customer Account Creation Year"
+    label: "Customer Account Creation"
     type: time
     datatype: date
     timeframes: [year]
