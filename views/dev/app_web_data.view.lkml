@@ -5,58 +5,111 @@ include: "/views/**/*base*.view"
 view: app_web_data {
   derived_table: {
     sql: with sub1 as ((SELECT distinct
-        customerUID as customerID,
-        parentOrderUID as OrderID,
-        case when productUID is null then "NONE" else productUID end as productUID,
-        upper(salesChannel) as salesChannel,
-        timestamp(transactionDate) as Transaction,
-        timestamp(PlacedDate) as Placed,
-        Case
-        when userUID like 'APP' then 'App'
-        end as App_Web,
-        sum(netsalePrice) as NetSalePrice,
-        sum(quantity) as Quantity,
-        sum(netSalesValue) as NetSaleValue,
-        SUM(netSalePrice * quantity) as revenue,
-        SUM(grossSalesValue) as revenue2,
-        sum(marginInclFunding) as MarginIncFunding,
-        sum(marginExclFunding) as marginExclFunding
-        from `toolstation-data-storage.sales.transactions`
-        where
-        --date_diff(current_date (),date(transactionDate), day) <= 500 and
-         transactionLineType = "Sale" and
-        productCode not in ('85699','00053') and
-        isCancelled = 0  and
-       (userUID  = 'APP')
-        group by 1,2,3,4,5,6,7
-        union all
+customerUID as customerID,
+parentOrderUID as OrderID,
+case when productUID is null then "NONE" else productUID end as productUID,
+upper(salesChannel) as salesChannel,
+timestamp(transactionDate) as Transaction,
+timestamp(PlacedDate) as Placed,
+Case
+when userUID like 'APP' then 'App'
+end as App_Web,
+cast(null as string) as status,
+sum(netsalePrice) as NetSalePrice,
+sum(quantity) as Quantity,
+sum(netSalesValue) as NetSaleValue,
+SUM(netSalePrice * quantity) as revenue,
+SUM(grossSalesValue) as revenue2,
+sum(marginInclFunding) as MarginIncFunding,
+sum(marginExclFunding) as marginExclFunding
+from `toolstation-data-storage.sales.transactions`
+where
+--date_diff(current_date (),date(transactionDate), day) <= 500 and
+transactionLineType = "Sale" and
+productCode not in ('85699','00053') and
+isCancelled = 0  and
+(userUID  = 'APP')
+group by 1,2,3,4,5,6,7,8
+union distinct
 
-        select distinct
-        customerUID as customerID,
-        parentOrderUID as OrderID,
-        case when productUID is null then "NONE" else productUID end as productUID,
-        upper(salesChannel) as salesChannel,
-        timestamp(transactionDate) as Transaction,
-        timestamp(PlacedDate) as Placed,
-        Case
-        when userUID like 'WWW' then 'Web'
-        end as App_Web,
-        sum(netsalePrice) as NetSalePrice,
-        sum(quantity) as Quantity,
-        sum(netSalesValue) as NetSaleValue,
-        SUM(netSalePrice * quantity) as revenue,
-        SUM(grossSalesValue) as revenue2,
-        sum(marginInclFunding) as MarginIncFunding,
-        sum(marginExclFunding) as marginExclFunding
-        from `toolstation-data-storage.sales.transactions`
-        where
-        --date_diff(current_date (),date(transactionDate), day) <= 500 and
-        transactionLineType = "Sale" and
-        productCode not in ('85699','00053') and
-        isCancelled = 0 and
-        (userUID  = 'WWW')
-        group by 1,2,3,4,5,6,7) )
-        select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
+select distinct
+customerUID as customerID,
+parentOrderUID as OrderID,
+case when productUID is null then "NONE" else productUID end as productUID,
+upper(salesChannel) as salesChannel,
+timestamp(transactionDate) as Transaction,
+timestamp(PlacedDate) as Placed,
+Case
+when userUID like 'WWW' then 'Web'
+end as App_Web,
+cast(null as string) as status,
+sum(netsalePrice) as NetSalePrice,
+sum(quantity) as Quantity,
+sum(netSalesValue) as NetSaleValue,
+SUM(netSalePrice * quantity) as revenue,
+SUM(grossSalesValue) as revenue2,
+sum(marginInclFunding) as MarginIncFunding,
+sum(marginExclFunding) as marginExclFunding
+from `toolstation-data-storage.sales.transactions`
+where
+--date_diff(current_date (),date(transactionDate), day) <= 500 and
+transactionLineType = "Sale" and
+productCode not in ('85699','00053') and
+isCancelled = 0 and
+(userUID  = 'WWW')
+group by 1,2,3,4,5,6,7,8
+union distinct
+SELECT distinct
+customerUID as customerID,
+parentOrderUID as OrderID,
+productUID,
+upper(salesChannel) as salesChannel,
+timestamp(transactionDate) as Transaction,
+timestamp(PlacedDate) as Placed,
+Case
+when userUID like 'APP' then 'App'
+end as App_Web,
+status,
+sum(netsalePrice) as NetSalePrice,
+sum(quantity) as Quantity,
+sum(netSalesValue) as NetSaleValue,
+SUM(netSalePrice * quantity) as revenue,
+SUM(grossSalesValue) as revenue2,
+sum(marginInclFunding) as MarginIncFunding,
+sum(marginExclFunding) as marginExclFunding
+from `toolstation-data-storage.sales.transactions_incomplete`
+where
+transactionLineType = "Sale" and
+productCode not in ('85699','00053') and
+(userUID  = 'APP')
+group by 1,2,3,4,5,6,7,8
+union distinct
+SELECT distinct
+customerUID as customerID,
+parentOrderUID as OrderID,
+productUID,
+upper(salesChannel) as salesChannel,
+timestamp(transactionDate) as Transaction,
+timestamp(PlacedDate) as Placed,
+Case
+when userUID like 'WWW' then 'Web'
+end as App_Web,
+status,
+sum(netsalePrice) as NetSalePrice,
+sum(quantity) as Quantity,
+sum(netSalesValue) as NetSaleValue,
+SUM(netSalePrice * quantity) as revenue,
+SUM(grossSalesValue) as revenue2,
+sum(marginInclFunding) as MarginIncFunding,
+sum(marginExclFunding) as marginExclFunding
+from `toolstation-data-storage.sales.transactions_incomplete`
+where
+transactionLineType = "Sale" and
+productCode not in ('85699','00053') and
+(userUID  = 'WWW')
+group by 1,2,3,4,5,6,7,8
+) )
+select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
 
     partition_keys: ["Transaction"]
     cluster_keys: ["salesChannel", "productUID"]
@@ -97,6 +150,13 @@ view: app_web_data {
     description: "sales Channel used to fulfil order"
     type:string
     sql: ${TABLE}.salesChannel;;
+  }
+
+  dimension: status {
+    label: "Status"
+    description: "status of order"
+    type:string
+    sql: ${TABLE}.status;;
   }
 
       dimension_group: transaction  {
