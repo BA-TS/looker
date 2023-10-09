@@ -3,9 +3,29 @@ include: "/views/**/*.view"
 
 label: "Development"
 
-# explore: attached_products_derived {
-#   hidden: yes
-# }
+explore: temp_nigel_trade_customers {
+  required_access_grants: [is_nigel_burch]
+
+  fields: [
+    ALL_FIELDS*,
+    -customers.customer_classification_type
+  ]
+
+  join: customers {
+    view_label: "Customers"
+    type :  inner
+    relationship: many_to_one
+    sql_on: ${temp_nigel_trade_customers.customer_uid}=${customers.customer_uid} ;;
+  }
+
+  join: trade_customers {
+    type:  left_outer
+    relationship: many_to_one
+    sql_on: ${customers.customer_uid} = ${trade_customers.customer_uid} ;;
+  }
+
+}
+
 
 # explore: competitor_matrix_history {
 #   label: "DEV - Competitor Matrix"

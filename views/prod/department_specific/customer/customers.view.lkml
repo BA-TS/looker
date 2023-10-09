@@ -382,12 +382,19 @@ view: customers {
     sql:${creation_date} >= CURRENT_DATE() - 30;;
   }
 
+  dimension_group: customer_account_created{
+    label: "Customer Account Creation"
+    type: time
+    datatype: date
+    timeframes: [year]
+    sql:${creation_date};;
+  }
+
   dimension: customer_classification_type {
     type: string
     group_label: "Flags"
     label: "Is Trade/Assumed/DIY"
     sql:${customer_classification.customer_type} ;;
-    required_access_grants: [lz_testing]
   }
 
   measure: number_of_customers {
