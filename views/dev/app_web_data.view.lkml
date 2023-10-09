@@ -14,7 +14,7 @@ timestamp(PlacedDate) as Placed,
 Case
 when userUID like 'APP' then 'App'
 end as App_Web,
-cast(null as string) as status,
+"Completed" as status,
 sum(netsalePrice) as NetSalePrice,
 sum(quantity) as Quantity,
 sum(netSalesValue) as NetSaleValue,
@@ -42,7 +42,7 @@ timestamp(PlacedDate) as Placed,
 Case
 when userUID like 'WWW' then 'Web'
 end as App_Web,
-cast(null as string) as status,
+"Completed" as status,
 sum(netsalePrice) as NetSalePrice,
 sum(quantity) as Quantity,
 sum(netSalesValue) as NetSaleValue,
