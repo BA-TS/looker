@@ -213,9 +213,9 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
         group_label: "Measures"
         label: "Gross Revenue"
         description: "Gross Revenue of order"
-        type: sum
+        type: number
         value_format_name: gbp
-        sql: ${TABLE}.revenue2 ;;
+        sql: sum(${TABLE}.revenue2) * 0.9973 ;;
       }
 
       measure: AOV {
@@ -230,7 +230,7 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
         description: "Average Order value"
         type: number
         value_format_name: gbp
-        sql: SUM(${TABLE}.NetSaleValue)/(count(distinct(${TABLE}.OrderID))) ;;
+        sql: (SUM(${TABLE}.NetSaleValue) * 0.9973)/((count(distinct(${TABLE}.OrderID))) * 0.9973) ;;
       }
 
       # measure: NetSalePrice {
@@ -251,16 +251,17 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
         group_label: "Measures"
         label: "Product Quantity"
         description: "Total products in order"
-        type: sum
-        sql:  ${TABLE}.Quantity ;;
+        type: number
+        value_format_name: decimal_0
+        sql:  sum(${TABLE}.Quantity) * 0.9973 ;;
       }
 
       measure: NetSaleValue {
         hidden: yes
         description: "Total value of order"
-        type: sum
+        type: number
         value_format_name: gbp
-        sql: ${TABLE}.NetSaleValue ;;
+        sql: sum(${TABLE}.NetSaleValue) * 0.9973 ;;
       }
 
       measure: Total_orders {
@@ -273,8 +274,9 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
         group_label: "Measures"
         label: "Total Orders"
         description: "total orders"
-        type: count_distinct
-        sql: ${TABLE}.OrderID;;
+        type: number
+        value_format_name: decimal_0
+        sql: count(distinct ${TABLE}.OrderID) * 0.9973;;
       }
 
       measure: marginFunding_perc {
@@ -289,7 +291,7 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
         description: "margin percentage per order"
         type: number
         value_format_name: percent_2
-        sql: sum(${TABLE}.MarginIncFunding)/SUM(${TABLE}.NetSaleValue) ;;
+        sql: (sum(${TABLE}.MarginIncFunding) * 0.9973)/(SUM(${TABLE}.NetSaleValue) * 0.9973);;
       }
 
       measure: marginfunding_by_order {
@@ -304,7 +306,7 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
         description: "Margin inc funding by order"
         type: number
         value_format_name: gbp
-        sql: sum(${TABLE}.MarginIncFunding)/(count(distinct(${TABLE}.OrderID))) ;;
+        sql: (sum(${TABLE}.MarginIncFunding) * 0.9973)/((count(distinct(${TABLE}.OrderID))) * 0.9973);;
       }
 
       measure: web_based_orders {
@@ -326,6 +328,7 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
         label: "Total Customers"
         description: "Total Customers who made Order"
         type: count_distinct
+        value_format_name: decimal_0
         sql: ${CustomerID} ;;
         }
 
@@ -339,9 +342,9 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
         group_label: "Measures"
         label: "Total Margin (inc funding)"
         description: "sum of Margin inc funding"
-        type: sum
+        type: number
         value_format_name: gbp
-        sql: ${TABLE}.MarginIncFunding ;;
+        sql: sum(${TABLE}.MarginIncFunding) * 0.9973 ;;
       }
 
       measure: Total_marginExclFunding {
@@ -354,9 +357,9 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
         group_label: "Measures"
         label: "Total Margin (excl funding)"
         description: "sum of Margin excluding funding"
-        type: sum
+        type: number
         value_format_name: gbp
-        sql: ${TABLE}.marginExclFunding ;;
+        sql: sum(${TABLE}.marginExclFunding) * 0.9973;;
       }
 
 
