@@ -303,14 +303,14 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   filter: select_date_range {
     label: "GA4 Date Range"
     group_label: "Date Filter"
-    view_label: "Date"
+    view_label: "Datetime"
     type: date
     datatype: date
     convert_tz: yes
   }
 
   dimension_group: time{
-    group_label: "Datetime of event"
+    group_label: "Time"
     view_label: "Datetime"
     description: "Min datetime of event"
     label: "Time"
@@ -320,7 +320,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension_group: hour{
-    group_label: "Datetime of event"
+    group_label: "Time"
     view_label: "Datetime"
     description: "Min datetime of event"
     label: "Hour"
@@ -330,7 +330,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension_group: minute{
-    group_label: "Datetime of event"
+    group_label: "Time"
     view_label: "Datetime"
     description: "Min datetime of event"
     label: "Minute"
@@ -340,7 +340,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension_group: second{
-    group_label: "Datetime of event"
+    group_label: "Time"
     view_label: "Datetime"
     description: "Min datetime of event"
     label: "Second"
@@ -350,7 +350,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension_group: placed_date{
-    view_label: "Datetime"
+    view_label: "Digital Transactions"
     group_label: "Order Placed"
     label: "Date"
     type: time
@@ -360,7 +360,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension_group: placed_time{
-    view_label: "Datetime"
+    view_label: "Digital Transactions"
     group_label: "Order Placed"
     label: "Time"
     type: time
@@ -369,7 +369,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension_group: transaction_date{
-    view_label: "Datetime"
+    view_label: "Digital Transactions"
     group_label: "Order Completed"
     label: "Date"
     type: time
@@ -379,7 +379,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension_group: transaction_time{
-    view_label: "Datetime"
+    view_label: "Digital Transactions"
     group_label: "Order Completed"
     label: "Time"
     type: time
