@@ -48,7 +48,14 @@ explore: GA4_test {
     sql_on: ${customers.customer_uid} = ${trade_customers.customer_uid} ;;
   }
 
-
+  join: total_sessions_ga4_dt {
+    view_label: "GA4"
+    type: left_outer
+    relationship: many_to_one
+    sql: ${ga_digital_transactions.date_date} = ${total_sessions_ga4_dt.date_date}
+    and
+    ${ga_digital_transactions.channel_Group} = ${total_sessions_ga4_dt.channel_grouping};;
+  }
 
 }
 explore: GA4 {
