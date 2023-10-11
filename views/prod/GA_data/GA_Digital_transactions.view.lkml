@@ -310,8 +310,9 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension_group: time{
-    group_label: "GA4 Time"
-    view_label: "Date"
+    group_label: "Datetime of event"
+    view_label: "Datetime"
+    description: "Min datetime of event"
     type: time
     timeframes: [time_of_day,hour_of_day,minute, second]
     sql: ${TABLE}.minTime ;;
@@ -319,7 +320,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
 
   dimension_group: placed_time{
     view_label: "Date"
-    group_label: "Placed Time"
+    group_label: "Placed date"
     #label: "Placed Date"
     type: time
     timeframes: [time_of_day,date]
