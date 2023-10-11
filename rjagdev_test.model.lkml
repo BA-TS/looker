@@ -19,26 +19,6 @@ explore: GA4_test {
     sql_on: ${ga_digital_transactions.date_date}=${calendar_completed_date.date} ;;
   }
 
-  join: customers {
-    view_label: "Customers"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${ga_digital_transactions.customerv2}=${customers.customer_uid} ;;
-  }
-
-  join: customer_classification {
-    view_label: "Customers"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${customers.customer_uid} = ${customer_classification.customer_uid} ;;
-  }
-
-  join: trade_customers {
-    view_label: "Customers"
-    type:  left_outer
-    relationship: many_to_one
-    sql_on: ${customers.customer_uid} = ${trade_customers.customer_uid} ;;
-  }
 
   join: total_sessions_ga4_dt {
     view_label: "GA4"
