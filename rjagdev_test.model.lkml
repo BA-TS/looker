@@ -2,7 +2,9 @@
 
 include: "/views/**/*.view"              # include all views in the views/ folder in this project
 label: "ragdev_testy_test"
+
 explore: GA4_test {
+  hidden: yes
   required_access_grants: [GA4_access]
   view_name: ga_digital_transactions
   label: "GA4 (data model in BQ)"
