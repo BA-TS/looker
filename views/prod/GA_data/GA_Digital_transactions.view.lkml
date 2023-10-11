@@ -303,7 +303,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   filter: select_date_range {
     label: "GA4 Date Range"
     group_label: "Date Filter"
-    view_label: "Datetime"
+    view_label: "Datetime (of event)"
     type: date
     datatype: date
     convert_tz: yes
@@ -311,7 +311,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
 
   dimension_group: time{
     group_label: "Time"
-    view_label: "Datetime"
+    view_label: "Datetime (of event)"
     description: "Min datetime of event"
     label: "Time"
     type: time
@@ -321,7 +321,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
 
   dimension_group: hour{
     group_label: "Time"
-    view_label: "Datetime"
+    view_label: "Datetime (of event)"
     description: "Min datetime of event"
     label: "Hour"
     type: time
@@ -331,7 +331,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
 
   dimension_group: minute{
     group_label: "Time"
-    view_label: "Datetime"
+    view_label: "Datetime (of event)"
     description: "Min datetime of event"
     label: "Minute"
     type: time
@@ -341,7 +341,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
 
   dimension_group: second{
     group_label: "Time"
-    view_label: "Datetime"
+    view_label: "Datetime (of event)"
     description: "Min datetime of event"
     label: "Second"
     type: time
