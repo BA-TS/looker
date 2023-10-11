@@ -38,6 +38,7 @@ view: ga_digital_transactions {
     transactions.MarginExclFunding,
     transactions.NetSalePrice,
     transactions.transaction,
+    transactions.status,
     products.item_id,
     products.productUID,
     products.Price,
@@ -289,6 +290,14 @@ AND {% condition select_date_range %} (date) {% endcondition %}
     group_label: "Transaction"
     type: string
     sql: ${TABLE}.salesChannel ;;
+  }
+
+  dimension: status_order {
+    view_label: "Digital Transactions"
+    label: "Status"
+    group_label: "Transaction"
+    type: string
+    sql: ${TABLE}.status ;;
   }
 
   filter: select_date_range {
