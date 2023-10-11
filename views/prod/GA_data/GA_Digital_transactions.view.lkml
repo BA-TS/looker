@@ -313,26 +313,77 @@ AND {% condition select_date_range %} (date) {% endcondition %}
     group_label: "Datetime of event"
     view_label: "Datetime"
     description: "Min datetime of event"
+    label: "Time"
     type: time
-    timeframes: [time_of_day,hour_of_day,minute, second]
+    timeframes: [time_of_day]
     sql: ${TABLE}.minTime ;;
   }
 
-  dimension_group: placed_time{
-    view_label: "Date"
-    group_label: "Placed date"
-    #label: "Placed Date"
+  dimension_group: hour{
+    group_label: "Datetime of event"
+    view_label: "Datetime"
+    description: "Min datetime of event"
+    label: "Hour"
     type: time
-    timeframes: [time_of_day,date]
+    timeframes: [hour_of_day]
+    sql: ${TABLE}.minTime ;;
+  }
+
+  dimension_group: minute{
+    group_label: "Datetime of event"
+    view_label: "Datetime"
+    description: "Min datetime of event"
+    label: "Minute"
+    type: time
+    timeframes: [minute]
+    sql: ${TABLE}.minTime ;;
+  }
+
+  dimension_group: second{
+    group_label: "Datetime of event"
+    view_label: "Datetime"
+    description: "Min datetime of event"
+    label: "Second"
+    type: time
+    timeframes: [second]
+    sql: ${TABLE}.minTime ;;
+  }
+
+  dimension_group: placed_date{
+    view_label: "Datetime"
+    group_label: "Order Placed"
+    label: "Date"
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.placed ;;
+    html: {{ rendered_value | date: "%d/%m/%Y" }};;
+  }
+
+  dimension_group: placed_time{
+    view_label: "Datetime"
+    group_label: "Order Placed"
+    label: "Time"
+    type: time
+    timeframes: [time_of_day]
     sql: ${TABLE}.placed ;;
   }
 
-  dimension_group: transaction_time{
-    view_label: "Date"
-    group_label: "Transaction Time"
-    #label: "Transaction Date"
+  dimension_group: transaction_date{
+    view_label: "Datetime"
+    group_label: "Order Completed"
+    label: "Date"
     type: time
-    timeframes: [time_of_day,date]
+    timeframes: [date]
+    sql: ${TABLE}.transaction ;;
+    html: {{ rendered_value | date: "%d/%m/%Y" }};;
+  }
+
+  dimension_group: transaction_time{
+    view_label: "Datetime"
+    group_label: "Order Completed"
+    label: "Time"
+    type: time
+    timeframes: [time_of_day]
     sql: ${TABLE}.transaction ;;
   }
 
