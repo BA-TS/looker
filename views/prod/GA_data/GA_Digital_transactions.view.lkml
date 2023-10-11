@@ -313,7 +313,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
     group_label: "Time"
     view_label: "Datetime (of event)"
     description: "Min datetime of event"
-    #label: "Time"
+    label: ""
     type: time
     timeframes: [time_of_day]
     sql: ${TABLE}.minTime ;;
@@ -323,7 +323,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
     group_label: "Time"
     view_label: "Datetime (of event)"
     description: "Min datetime of event"
-    #label: "Hour"
+    label: ""
     type: time
     timeframes: [hour_of_day]
     sql: ${TABLE}.minTime ;;
@@ -354,9 +354,9 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   dimension_group: placed_date{
     view_label: "Digital Transactions"
     group_label: "Order Placed"
-    #label: "Date"
+    label: ""
     type: time
-    timeframes: [date,time]
+    timeframes: [date]
     sql: ${TABLE}.placed ;;
     html: {{ rendered_value | date: "%d/%m/%Y" }};;
   }
@@ -364,8 +364,8 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   dimension_group: placed_time{
     view_label: "Digital Transactions"
     group_label: "Order Placed"
-    hidden: yes
-    #label: "Time"
+    #hidden: yes
+    label: ""
     type: time
     timeframes: [time_of_day]
     sql: ${TABLE}.placed ;;
@@ -374,7 +374,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   dimension_group: transaction_date{
     view_label: "Digital Transactions"
     group_label: "Order Completed"
-    #label: "Date"
+    label: ""
     type: time
     timeframes: [date]
     sql: ${TABLE}.transaction ;;
@@ -384,7 +384,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   dimension_group: transaction_time{
     view_label: "Digital Transactions"
     group_label: "Order Completed"
-    #label: "Time"
+    label: ""
     type: time
     timeframes: [time_of_day]
     sql: ${TABLE}.transaction ;;
