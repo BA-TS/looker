@@ -148,6 +148,12 @@ view: products {
     sql: ${buying_manager} <> "Matt Rockliff" ;;
   }
 
+  dimension: discontinued{
+    group_label: "Flags"
+    type: yesno
+    sql: ${product_channel} = "Discontinued" ;;
+  }
+
   dimension: department {
     group_label: "Product Details"
     label: "Department"
