@@ -8,7 +8,7 @@ include: "/views/prod/GA_data/GA4.view.lkml"
 include: "/views/prod/GA_data/Videoly_funnel_GA4.view.lkml"
 include: "/views/prod/GA_data/PDP_Purchase_funnel.view.lkml"
 include: "/views/prod/GA_data/Search_PLP_to_PDP_funnel.view.lkml"
-include: "/views/prod/GA_data/GA_Digital_transactions.view.lkml"
+#include: "/views/prod/GA_data/GA_Digital_transactions.view.lkml"
 label: "Digital"
 explore: GA4_test {
   required_access_grants: [GA4_access]
@@ -47,6 +47,7 @@ explore: GA4_test {
     relationship: many_to_one
     sql_on: ${customers.customer_uid} = ${trade_customers.customer_uid} ;;
   }
+
 
 
 }
