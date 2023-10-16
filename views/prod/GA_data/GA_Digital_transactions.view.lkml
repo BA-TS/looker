@@ -355,6 +355,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
     view_label: "Digital Transactions"
     group_label: "Order Placed"
     label: ""
+    hidden: yes
     type: time
     timeframes: [date]
     sql: ${TABLE}.placed ;;
@@ -362,8 +363,8 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension_group: placed_time{
-    view_label: "Digital Transactions"
-    group_label: "Order Placed"
+    view_label: "Order Placed"
+    #group_label: "Order Placed"
     #hidden: yes
     label: ""
     type: time
@@ -374,7 +375,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   dimension_group: placed_week{
     view_label: "Digital Transactions"
     group_label: "Order Placed"
-    #hidden: yes
+    hidden: yes
     label: ""
     type: time
     timeframes: [week_of_year]
@@ -384,6 +385,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   dimension_group: transaction_date{
     view_label: "Digital Transactions"
     group_label: "Order Completed"
+    hidden: yes
     label: ""
     type: time
     timeframes: [date]
@@ -392,8 +394,8 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
   dimension_group: transaction_time{
-    view_label: "Digital Transactions"
-    group_label: "Order Completed"
+    view_label: "Order Completed"
+    #group_label: "Order Completed"
     label: ""
     type: time
     timeframes: [time_of_day]

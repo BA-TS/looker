@@ -31,8 +31,40 @@ explore: GA4_test {
     from:  calendar
     view_label: "Order Placed"
     type:  inner
+    #fields: [-calendar_completed_date.today_day_in_year,
+     # -calendar_completed_date.today_date,
+    #  -calendar_completed_date.today_calendar_year,
+     # -calendar_completed_date.today_calendar_quarter,
+      #-calendar_completed_date.today_calendar_year_month,
+      #-calendar_completed_date.today_month_in_year,
+      #-calendar_completed_date.today_day_in_month,
+      #-calendar_completed_date.today_day_in_week,
+      #-calendar_completed_date.today_day_in_year,
+      #-calendar_completed_date.today_fiscal_week_of_year,
+      #-calendar_completed_date.today_fiscal_year_week,
+      #]
     relationship: one_to_many
     sql_on: ${ga_digital_transactions.placed_date_date}=${calendar_completed_date.date} ;;
+  }
+
+  join: calendar_completed_datev3{
+    from:  calendar
+    view_label: "Order Completed"
+    type:  inner
+    #fields: [-calendar_completed_date.today_day_in_year,
+    # -calendar_completed_date.today_date,
+    #  -calendar_completed_date.today_calendar_year,
+    # -calendar_completed_date.today_calendar_quarter,
+    #-calendar_completed_date.today_calendar_year_month,
+    #-calendar_completed_date.today_month_in_year,
+    #-calendar_completed_date.today_day_in_month,
+    #-calendar_completed_date.today_day_in_week,
+    #-calendar_completed_date.today_day_in_year,
+    #-calendar_completed_date.today_fiscal_week_of_year,
+    #-calendar_completed_date.today_fiscal_year_week,
+    #]
+    relationship: one_to_many
+    sql_on: ${ga_digital_transactions.transaction_date_date}=${calendar_completed_date.date} ;;
   }
 
   join: customers {
