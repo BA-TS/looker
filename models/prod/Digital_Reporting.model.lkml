@@ -97,6 +97,21 @@ explore: GA4_test {
     ${ga_digital_transactions.channel_Group} = ${total_sessions_ga4_dt.channel_grouping};;
   }
 
+  join: stock_cover {
+    view_label: "Stock Cover"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${ga_digital_transactions.item_id} = ${stock_cover.product_code}
+    and ${ga_digital_transactions.date_date} = ${stock_cover.stock_date_date};;
+  }
+
+  join: aac {
+    view_label: ""
+    type:  left_outer
+    relationship: many_to_one
+    sql_on: ${stock_cover.stock_date_date} = ${aac.date} and ${ga_digital_transactions.productUID} = ${aac.product_uid} ;;
+  }
+
 }
 explore: GA4 {
   #required_access_grants: []
