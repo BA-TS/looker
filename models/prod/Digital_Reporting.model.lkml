@@ -44,7 +44,7 @@ explore: GA4_test {
       #-calendar_completed_date.today_fiscal_year_week,
       #]
     relationship: one_to_many
-    sql_on: ${ga_digital_transactions.placed_date_date}=${calendar_completed_date.date} ;;
+    sql_on: ${ga_digital_transactions.placed_date_date}=${calendar_completed_datev2.date} ;;
   }
 
   join: calendar_completed_datev3{
@@ -64,7 +64,7 @@ explore: GA4_test {
     #-calendar_completed_date.today_fiscal_year_week,
     #]
     relationship: one_to_many
-    sql_on: ${ga_digital_transactions.transaction_date_date}=${calendar_completed_date.date} ;;
+    sql_on: ${ga_digital_transactions.transaction_date_date}=${calendar_completed_datev3.date} ;;
   }
 
   join: customers {
