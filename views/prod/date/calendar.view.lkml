@@ -34,7 +34,7 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
     label: "Date (dd/mm/yyyy)"
     type: date
     primary_key: yes
-    sql: ${TABLE}.fullDate ;;
+    sql: timestamp(${TABLE}.fullDate) ;;
     html: {{ rendered_value | date: "%d/%m/%Y" }};;
   }
 
@@ -42,7 +42,7 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
     group_label: "Current Date"
     label: "Today (dd/mm/yyyy)"
     type: date
-    sql: ${TABLE}.todayFullDate ;;
+    sql: timestamp(${TABLE}.todayFullDate) ;;
     html: {{ rendered_value | date: "%d/%m/%Y" }};;
   }
 
