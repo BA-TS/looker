@@ -31,7 +31,7 @@ explore: GA4_test {
     from:  calendar
     view_label: "Order Placed"
     type:  inner
-    fields: [-calendar_completed_date.today_day_in_year]
+    #fields: [-calendar_completed_date.today_day_in_year]
      # -calendar_completed_date.today_date,
     #  -calendar_completed_date.today_calendar_year,
      # -calendar_completed_date.today_calendar_quarter,
