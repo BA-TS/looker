@@ -364,6 +364,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
 
   dimension_group: placed_time{
     view_label: "Order Placed"
+    group_label: "Time"
     #group_label: "Order Placed"
     #hidden: yes
     label: ""
@@ -395,6 +396,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
 
   dimension_group: transaction_time{
     view_label: "Order Completed"
+    group_label: "Time"
     #group_label: "Order Completed"
     label: ""
     type: time
