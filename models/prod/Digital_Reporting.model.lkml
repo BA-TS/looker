@@ -27,6 +27,14 @@ explore: GA4_test {
     sql_on: ${ga_digital_transactions.date_date}=${calendar_completed_date.date} ;;
   }
 
+  join: calendar_completed_datev2{
+    from:  calendar
+    view_label: "Order Placed"
+    type:  inner
+    relationship: one_to_many
+    sql_on: ${ga_digital_transactions.placed_date_date}=${calendar_completed_date.date} ;;
+  }
+
   join: customers {
     view_label: "Customers"
     type: left_outer
