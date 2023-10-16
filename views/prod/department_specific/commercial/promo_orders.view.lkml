@@ -14,8 +14,6 @@ view: promo_orders {
        ;;
    }
 
-#
-#   # Define your dimensions and measures here, like this:
    dimension: P_K {
     description: "Primary Key"
     type: number
@@ -78,7 +76,6 @@ view: promo_orders {
     sql: ${order_id} ;;
   }
 
-#
 #   dimension: lifetime_orders {
 #     description: "The total number of orders for each user"
 #     type: number

@@ -1,38 +1,34 @@
 view: promoHistory_Current{
   derived_table: {
   sql:with sub1 as (SELECT distinct date(inputtedBy.
-completedAt) as endDate, publication.catalogue.
-publicationName, productCode, cycleID,financial.costPrice,financial.vatRate, financial.regularPrice, financial.promoPrice,retail.descriptionFOH,retail.isAisleEnd,retail.isTrough,retail.isGrabBin,retail.isCounterTop, retail.isPoster, retail.isStand,retail.isDumpStack,retail.isFSDU
-FROM `toolstation-data-storage.promotions.promoHistory`
-union distinct
-SELECT distinct date(inputtedBy.
-completedAt) as endDate, publication.catalogue.
-publicationName, productCode, cycleID,financial.costPrice,financial.vatRate, financial.regularPrice, financial.promoPrice,retail.descriptionFOH,retail.isAisleEnd,retail.isTrough,retail.isGrabBin,retail.isCounterTop, retail.isPoster, retail.isStand,retail.isDumpStack,retail.isFSDU
-FROM `toolstation-data-storage.promotions.promoWorking` )
+  completedAt) as endDate, publication.catalogue.
+  publicationName, productCode, cycleID,financial.costPrice,financial.vatRate, financial.regularPrice, financial.promoPrice,retail.descriptionFOH,retail.isAisleEnd,retail.isTrough,retail.isGrabBin,retail.isCounterTop, retail.isPoster, retail.isStand,retail.isDumpStack,retail.isFSDU
+  FROM `toolstation-data-storage.promotions.promoHistory`
+  union distinct
+  SELECT distinct date(inputtedBy.
+  completedAt) as endDate, publication.catalogue.
+  publicationName, productCode, cycleID,financial.costPrice,financial.vatRate, financial.regularPrice, financial.promoPrice,retail.descriptionFOH,retail.isAisleEnd,retail.isTrough,retail.isGrabBin,retail.isCounterTop, retail.isPoster, retail.isStand,retail.isDumpStack,retail.isFSDU
+  FROM `toolstation-data-storage.promotions.promoWorking` )
+select distinct row_number() over () as P_K, sub1.* from sub1;;
+}
 
-select distinct row_number() over () as P_K, sub1.* from sub1
-  ;;}
-
-
-    dimension: P_K {
-      description: "Primary Key"
-      type: string
-      sql: ${TABLE}.P_K ;;
-      primary_key: yes
-      hidden: yes
-    }
+  dimension: P_K {
+    description: "Primary Key"
+    type: string
+    sql: ${TABLE}.P_K ;;
+    primary_key: yes
+    hidden: yes
+  }
 
   dimension: product_code {
     label: "1. Product Code"
     description: "SKU of the product"
     type: string
     sql: ${TABLE}.productCode ;;
-    #primary_key: yes
   }
 
   dimension: cycleID {
     label: "2. Cycle ID"
-    description: ""
     type: string
     sql: ${TABLE}.cycleID ;;
   }
@@ -187,6 +183,4 @@ select distinct row_number() over () as P_K, sub1.* from sub1
     value_format_name: gbp
     sql: ${TABLE}.promoPrice ;;
   }
-
-
 }

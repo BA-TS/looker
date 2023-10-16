@@ -1,14 +1,10 @@
 view: promoworking {
-
    derived_table: {
      sql: SELECT distinct row_number() over () as P_K,publication.catalogue.publicationName,productCode,
-cycleID, financial.costPrice,financial.regularPrice,financial.promoPrice, offer.type as offer_type
-
-FROM `toolstation-data-storage.promotions.promoHistory`
-       ;;
+     cycleID, financial.costPrice,financial.regularPrice,financial.promoPrice, offer.type as offer_type
+     FROM `toolstation-data-storage.promotions.promoHistory` ;;
    }
 
-#   # Define your dimensions and measures here, like this:
    dimension: P_K {
     description: "Primary Key"
     type: number
@@ -51,7 +47,6 @@ FROM `toolstation-data-storage.promotions.promoHistory`
   }
 
   dimension: regularPrice {
-
     group_label: "Pricing"
     view_label: "
         {% if _explore._name == 'GA4' %}
@@ -82,5 +77,4 @@ FROM `toolstation-data-storage.promotions.promoHistory`
     type: string
     sql: ${TABLE}.offer_type ;;
   }
-
  }
