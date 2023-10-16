@@ -371,6 +371,16 @@ AND {% condition select_date_range %} (date) {% endcondition %}
     sql: ${TABLE}.placed ;;
   }
 
+  dimension_group: placed_week{
+    view_label: "Digital Transactions"
+    group_label: "Order Placed"
+    #hidden: yes
+    label: ""
+    type: time
+    timeframes: [week_of_year]
+    sql: ${TABLE}.placed ;;
+  }
+
   dimension_group: transaction_date{
     view_label: "Digital Transactions"
     group_label: "Order Completed"
