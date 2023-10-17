@@ -792,12 +792,11 @@ AND {% condition select_date_range %} (date) {% endcondition %}
     type: string
     sql: ${TABLE}.supplierPartNumber ;;
   }
+
+set: testSet {
+  fields: [date_date,channel_Group,session_start]
+}
 }
 
-view: transactionIds {
-  set: transactionIDs {
-    fields: [ga_digital_transactions.date, ga_digital_transactions.order_id]
-  }
-}
 
 #products.,
