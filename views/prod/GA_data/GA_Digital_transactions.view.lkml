@@ -418,7 +418,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
     label: "Net Revenue"
     type: sum
     value_format_name: gbp
-    sql: ${TABLE}.net_value ;;
+    sql: ${TABLE}.net_value * 0.993 ;;
   }
 
   measure: gross_value {
