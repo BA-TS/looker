@@ -794,7 +794,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 
 set: testSet {
-  fields: [date_date,channel_Group,session_start]
+  fields: [date_date,channel_Group,session_start, event_name]
 }
 }
 

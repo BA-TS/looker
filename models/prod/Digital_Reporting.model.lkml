@@ -112,6 +112,17 @@ explore: GA4_test {
     sql_on: ${stock_cover.stock_date_date} = ${aac.date} and ${ga_digital_transactions.productUID} = ${aac.product_uid} ;;
   }
 
+  join: testSet {
+    from: ga_digital_transactions
+    view_label: "TestSet"
+    type: left_outer
+    relationship: many_to_one
+    fields: [testSet*]
+    sql_on: ${ga_digital_transactions.date_date} = ${testSet.date_date}
+    and
+    ${ga_digital_transactions.channel_Group} = ${testSet.channel_Group};;
+  }
+
 }
 explore: GA4 {
   #required_access_grants: []
