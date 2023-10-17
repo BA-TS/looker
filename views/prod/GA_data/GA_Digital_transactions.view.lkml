@@ -794,4 +794,10 @@ AND {% condition select_date_range %} (date) {% endcondition %}
   }
 }
 
+view: transactionIds {
+  set: transactionIDs {
+    fields: [GA_Digital_transactions.date_date, GA_Digital_transactions.order_id]
+  }
+}
+
 #products.,
