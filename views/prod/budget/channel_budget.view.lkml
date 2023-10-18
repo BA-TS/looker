@@ -125,4 +125,28 @@ view: channel_budget {
     sql:  SAFE_DIVIDE(${channel_gross_margin_inc_unit_funding_budget}, ${channel_net_sales_budget}) ;;
     value_format: "##0.0%;(##0.0%)"
   }
+
+  dimension: rf2_fixed_funding {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.rf2.fixedFunding ;;
+  }
+
+  dimension: rf2_gross_profit {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.rf2.grossProfit ;;
+  }
+
+  dimension: rf2_net_sales {
+    type: number
+    sql: ${TABLE}.rf2.netSales ;;
+    hidden: yes
+  }
+
+  dimension: rf2_retro_funding {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.rf2.retroFunding ;;
+  }
 }
