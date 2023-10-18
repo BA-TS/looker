@@ -9,7 +9,7 @@ view: total_sessions_ga4_dt {
 
       }
     }
-    datagroup_trigger: ts_googleanalytics_datagroup
+    #datagroup_trigger: ts_googleanalytics_datagroup
   }
 
   dimension: P_K {
