@@ -152,10 +152,63 @@ view: channel_budget {
 
   measure: rf2_channel_net_sales_budget {
     label: "Net Sales RF2"
-    description: "Budget - Net Sales at Channel level only"
+    description: "RF2 - Net Sales at Channel level only"
     group_label: "Sales Channel"
     type: sum
     sql: ${rf2_net_sales} ;;
     value_format_name: gbp
+  }
+
+  measure: rf2_channel_gross_profit_Excl_funding_budget {
+    label: "Gross Profit RF2"
+    description: "RF2 - Gross Profit at Channel level only"
+    group_label: "Sales Channel"
+    type: sum
+    sql: ${rf2_gross_profit} ;;
+    value_format_name: gbp
+  }
+
+  measure: channel_retro_funding_rf2 {
+    label: "Retro Funding RF2"
+    description: "RF2 - Retro Funding at Channel level only"
+    group_label: "Sales Channel"
+    type: sum
+    sql: ${rf2_retro_funding} ;;
+    value_format_name: gbp
+  }
+
+  measure: channel_fixed_funding_rf2 {
+    label: "Fixed Funding RF2"
+    description: "RF2 - fixed Funding at Channel level only"
+    group_label: "Sales Channel"
+    type: sum
+    sql: ${rf2_fixed_funding} ;;
+    value_format_name: gbp
+  }
+
+  measure: channel_gross_margin_inc_unit_funding_RF2 {
+    label: "Gross Margin Inc Unit Funding RF2"
+    description: "RF2 - Retro Funding at Channel level only"
+    group_label: "Sales Channel"
+    type: number
+    sql: ${rf2_channel_gross_profit_Excl_funding_budget} + ${channel_retro_funding_rf2}  ;;
+    value_format_name: gbp
+  }
+
+  measure: channel_gross_margin_inc_all_funding_rf2 {
+    label: "Gross Margin Inc All Funding RF2"
+    description: "RF2 - Gross Margin Inc All Funding at Channel level only"
+    group_label: "Sales Channel"
+    type: number
+    sql: ${rf2_channel_gross_profit_Excl_funding_budget} + ${channel_retro_funding_rf2} + ${channel_fixed_funding_rf2} ;;
+    value_format_name: gbp
+  }
+
+  measure: channel_margin_rate_inc_retro_funding_rf2 {
+    label: "Margin Rate Inc Retro Funding RF2"
+    type: number
+    group_label: "Sales Channel"
+    sql:  SAFE_DIVIDE(${channel_gross_margin_inc_unit_funding_RF2}, ${rf2_channel_net_sales_budget}) ;;
+    value_format: "##0.0%;(##0.0%)"
   }
 }
