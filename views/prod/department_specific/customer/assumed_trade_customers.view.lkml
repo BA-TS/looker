@@ -12,7 +12,7 @@ view: assumed_trade_customers {
   }
 
   dimension: is_assumed_trade_customer {
-    description: "A customer who has ever been classified as a 'Assumed Trade' customer since 2015."
+    description: "If a customer who has ever been classified as an 'Assumed Trade' customer since 2015."
     view_label: "Customer Classification"
     group_label: "Flags"
     label: "Is Assumed Trade"
