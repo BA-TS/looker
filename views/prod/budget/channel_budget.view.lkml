@@ -211,4 +211,90 @@ view: channel_budget {
     sql:  SAFE_DIVIDE(${channel_gross_margin_inc_unit_funding_RF2}, ${rf2_channel_net_sales_budget}) ;;
     value_format: "##0.0%;(##0.0%)"
   }
+
+  dimension: rf3_fixed_funding {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.rf3.fixedFunding ;;
+  }
+
+  dimension: rf3_gross_profit {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.rf3.grossProfit ;;
+  }
+
+  dimension: rf3_net_sales {
+    type: number
+    sql: ${TABLE}.rf3.netSales ;;
+    hidden: yes
+  }
+
+  dimension: rf3_retro_funding {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.rf3.retroFunding ;;
+  }
+
+  measure: channel_net_sales_rf3 {
+    label: "Net Sales RF3"
+    description: "RF3 - Net Sales at Channel level only"
+    group_label: "Sales Channel"
+    type: sum
+    sql: ${rf3_net_sales} ;;
+    value_format_name: gbp
+  }
+
+  measure: channel_gross_profit_Excl_funding_rf3 {
+    label: "Gross Profit RF3"
+    description: "RF3 - Gross Profit at Channel level only"
+    group_label: "Sales Channel"
+    type: sum
+    sql: ${rf3_gross_profit} ;;
+    value_format_name: gbp
+  }
+
+  measure: channel_retro_funding_rf3 {
+    label: "Retro Funding RF3"
+    description: "RF3 - Retro Funding at Channel level only"
+    group_label: "Sales Channel"
+    type: sum
+    sql: ${rf3_retro_funding} ;;
+    value_format_name: gbp
+  }
+
+  measure: channel_fixed_funding_rf3 {
+    label: "Fixed Funding RF3"
+    description: "RF3 - fixed Funding at Channel level only"
+    group_label: "Sales Channel"
+    type: sum
+    sql: ${rf3_fixed_funding} ;;
+    value_format_name: gbp
+  }
+
+  measure: channel_gross_margin_inc_unit_funding_RF3 {
+    label: "Gross Margin Inc Unit Funding RF3"
+    description: "RF3 - Retro Funding at Channel level only"
+    group_label: "Sales Channel"
+    type: number
+    sql: ${channel_gross_profit_Excl_funding_rf3} + ${channel_retro_funding_rf3}  ;;
+    value_format_name: gbp
+  }
+
+  measure: channel_gross_margin_inc_all_funding_rf3 {
+    label: "Gross Margin Inc All Funding RF3"
+    description: "RF3 - Gross Margin Inc All Funding at Channel level only"
+    group_label: "Sales Channel"
+    type: number
+    sql: ${channel_gross_profit_Excl_funding_rf3} + ${channel_retro_funding_rf3} + ${channel_fixed_funding_rf3} ;;
+    value_format_name: gbp
+  }
+
+  measure: channel_margin_rate_inc_retro_funding_rf3 {
+    label: "Margin Rate Inc Retro Funding RF3"
+    type: number
+    group_label: "Sales Channel"
+    sql:  SAFE_DIVIDE(${channel_gross_margin_inc_unit_funding_RF3}, ${channel_net_sales_rf3}) ;;
+    value_format: "##0.0%;(##0.0%)"
+  }
 }
