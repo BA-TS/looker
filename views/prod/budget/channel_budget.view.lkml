@@ -149,4 +149,13 @@ view: channel_budget {
     type: number
     sql: ${TABLE}.rf2.retroFunding ;;
   }
+
+  measure: rf2_channel_net_sales_budget {
+    label: "Net Sales RF2"
+    description: "Budget - Net Sales at Channel level only"
+    group_label: "Sales Channel"
+    type: sum
+    sql: ${rf2_net_sales} ;;
+    value_format_name: gbp
+  }
 }
