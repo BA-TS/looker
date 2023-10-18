@@ -334,7 +334,7 @@ explore: digital_reporting {
 ##  ${period_over_period}
   ##and
   join: digital_budget {
-    view_label: ""
+    view_label: "digital budget"
     type: inner
     relationship: many_to_one
     sql_on: ${base.date_date} = ${digital_budget.Date_date};;
