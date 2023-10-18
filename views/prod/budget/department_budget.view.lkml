@@ -189,4 +189,158 @@ view: category_budget {
     sql: ${fixed_funding_rf1} ;;
     value_format_name: gbp
   }
+
+  dimension: fixed_funding_rf2 {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.rf2.fixedFunding ;;
+  }
+
+  dimension: gross_margin_inc_retro_rf2 {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.rf2.grossMarginIncRetro ;;
+  }
+
+  dimension: net_sales_rf2 {
+    type: number
+    sql: ${TABLE}.rf2.netSales ;;
+    hidden:  yes
+  }
+
+  measure: department_net_sales_rf2 {
+    label: "Net Sales RF2"
+    description: "RF2 Net Sales at Department level only"
+    group_label: "Department"
+    type:  sum
+    sql: ${net_sales_rf2} ;;
+    value_format_name: gbp
+  }
+
+  measure: department_margin_inc_Retro_funding_rf2 {
+    label: "Margin Inc Retro Funding RF2"
+    description: "RF2 Margin Inc Retro Funding at Department level only"
+    group_label: "Department"
+    type:  sum
+    sql: ${gross_margin_inc_retro_rf2} ;;
+    value_format_name: gbp
+  }
+
+  measure: department_margin_inc_all_funding_rf2 {
+    label: "Margin Inc All Funding RF2"
+    description: "RF2 Margin Inc Retro & Fixed Funding at Department level only"
+    group_label: "Department"
+    type:  sum
+    sql: ${gross_margin_inc_retro_rf2} + ${fixed_funding_rf2} ;;
+    value_format_name: gbp
+  }
+
+  measure: department_margin_rate_inc_retro_funding_rf2 {
+    label: "Margin Rate Inc Retro Funding rf2"
+    type: number
+    group_label: "Department"
+    sql:  sum(${gross_margin_inc_retro_rf2}) / sum(${net_sales_rf2}) ;;
+    value_format: "##0.0%;(##0.0%)"
+  }
+
+  measure: department_cogs_inc_retro_funding_rf2 {
+    label: "COGS Inc Retro Funding RF2"
+    type: number
+    group_label: "Department"
+    sql: ${department_net_sales_rf2} - ${department_margin_inc_Retro_funding_rf2} ;;
+    value_format_name: gbp
+  }
+
+  measure: department_cogs_inc_all_funding_rf2 {
+    label: "COGS Inc All Funding rf2"
+    type: number
+    group_label: "Department"
+    sql: ${department_net_sales_rf2} - ${department_margin_inc_all_funding_rf2} ;;
+    value_format_name: gbp
+  }
+
+  measure: department_fixed_funding_rf2 {
+    label: "Fixed Funding RF2"
+    type: sum
+    group_label: "Department"
+    sql: ${fixed_funding_rf2} ;;
+    value_format_name: gbp
+  }
+
+  dimension: fixed_funding_rf3 {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.rf3.fixedFunding ;;
+  }
+
+  dimension: gross_margin_inc_retro_rf3 {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.rf3.grossMarginIncRetro ;;
+  }
+
+  dimension: net_sales_rf3 {
+    type: number
+    sql: ${TABLE}.rf3.netSales ;;
+    hidden:  yes
+  }
+
+  measure: department_net_sales_rf3 {
+    label: "Net Sales RF3"
+    description: "RF3 Net Sales at Department level only"
+    group_label: "Department"
+    type:  sum
+    sql: ${net_sales_rf3} ;;
+    value_format_name: gbp
+  }
+
+  measure: department_margin_inc_Retro_funding_rf3 {
+    label: "Margin Inc Retro Funding RF3"
+    description: "RF3 Margin Inc Retro Funding at Department level only"
+    group_label: "Department"
+    type:  sum
+    sql: ${gross_margin_inc_retro_rf3} ;;
+    value_format_name: gbp
+  }
+
+  measure: department_margin_inc_all_funding_rf3 {
+    label: "Margin Inc All Funding RF3"
+    description: "RF3 Margin Inc Retro & Fixed Funding at Department level only"
+    group_label: "Department"
+    type:  sum
+    sql: ${gross_margin_inc_retro_rf3} + ${fixed_funding_rf3} ;;
+    value_format_name: gbp
+  }
+
+  measure: department_margin_rate_inc_retro_funding_rf3 {
+    label: "Margin Rate Inc Retro Funding rf3"
+    type: number
+    group_label: "Department"
+    sql:  sum(${gross_margin_inc_retro_rf3}) / sum(${net_sales_rf3}) ;;
+    value_format: "##0.0%;(##0.0%)"
+  }
+
+  measure: department_cogs_inc_retro_funding_rf3 {
+    label: "COGS Inc Retro Funding RF3"
+    type: number
+    group_label: "Department"
+    sql: ${department_net_sales_rf3} - ${department_margin_inc_Retro_funding_rf3} ;;
+    value_format_name: gbp
+  }
+
+  measure: department_cogs_inc_all_funding_rf3 {
+    label: "COGS Inc All Funding rf3"
+    type: number
+    group_label: "Department"
+    sql: ${department_net_sales_rf3} - ${department_margin_inc_all_funding_rf3} ;;
+    value_format_name: gbp
+  }
+
+  measure: department_fixed_funding_rf3 {
+    label: "Fixed Funding RF3"
+    type: sum
+    group_label: "Department"
+    sql: ${fixed_funding_rf3} ;;
+    value_format_name: gbp
+  }
 }
