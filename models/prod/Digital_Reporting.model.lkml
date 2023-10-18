@@ -8,7 +8,6 @@ include: "/views/prod/GA_data/GA4.view.lkml"
 include: "/views/prod/GA_data/Videoly_funnel_GA4.view.lkml"
 include: "/views/prod/GA_data/PDP_Purchase_funnel.view.lkml"
 include: "/views/prod/GA_data/Search_PLP_to_PDP_funnel.view.lkml"
-#include: "/views/prod/GA_data/GA_Digital_transactions.view.lkml"
 label: "Digital"
 explore: GA4_test {
   required_access_grants: [GA4_access]
@@ -31,18 +30,6 @@ explore: GA4_test {
     from:  calendar
     view_label: "Order Placed"
     type:  inner
-    #fields: [-calendar_completed_date.today_day_in_year]
-     # -calendar_completed_date.today_date,
-    #  -calendar_completed_date.today_calendar_year,
-     # -calendar_completed_date.today_calendar_quarter,
-      #-calendar_completed_date.today_calendar_year_month,
-      #-calendar_completed_date.today_month_in_year,
-      #-calendar_completed_date.today_day_in_month,
-      #-calendar_completed_date.today_day_in_week,
-      #-calendar_completed_date.today_day_in_year,
-      #-calendar_completed_date.today_fiscal_week_of_year,
-      #-calendar_completed_date.today_fiscal_year_week,
-      #]
     relationship: one_to_many
     sql_on: ${ga_digital_transactions.placed_date_date}=${calendar_completed_datev2.date} ;;
   }
@@ -51,18 +38,6 @@ explore: GA4_test {
     from:  calendar
     view_label: "Order Completed"
     type:  inner
-    #fields: [-calendar_completed_date.today_day_in_year,
-    # -calendar_completed_date.today_date,
-    #  -calendar_completed_date.today_calendar_year,
-    # -calendar_completed_date.today_calendar_quarter,
-    #-calendar_completed_date.today_calendar_year_month,
-    #-calendar_completed_date.today_month_in_year,
-    #-calendar_completed_date.today_day_in_month,
-    #-calendar_completed_date.today_day_in_week,
-    #-calendar_completed_date.today_day_in_year,
-    #-calendar_completed_date.today_fiscal_week_of_year,
-    #-calendar_completed_date.today_fiscal_year_week,
-    #]
     relationship: one_to_many
     sql_on: ${ga_digital_transactions.transaction_date_date}=${calendar_completed_datev3.date} ;;
   }
@@ -110,17 +85,6 @@ explore: GA4_test {
     type:  left_outer
     relationship: many_to_one
     sql_on: ${stock_cover.stock_date_date} = ${aac.date} and ${ga_digital_transactions.productUID} = ${aac.product_uid} ;;
-  }
-
-  join: testSet {
-    from: ga_digital_transactions
-    view_label: "TestSet"
-    type: left_outer
-    relationship: many_to_one
-    fields: [testSet*]
-    sql_on: ${ga_digital_transactions.date_date} = ${testSet.date_date}
-    and
-    ${ga_digital_transactions.channel_Group} = ${testSet.channel_Group};;
   }
 
 }
