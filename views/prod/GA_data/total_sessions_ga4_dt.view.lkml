@@ -1,16 +1,10 @@
 view: total_sessions_ga4_dt {
   derived_table: {
-    explore_source: GA4_test {
-      column: date {field: ga_digital_transactions.date_date}
-      #column: date2 {field: calendar.date}
-      column: total_sessions {field:ga_digital_transactions.session_start}
-      column: channel_grouping {field: ga_digital_transactions.channel_Group}
-      derived_column: rn {
-        sql: row_number() over () ;;
+  sql:
+    SELECT row_number() over () as rn,*
+    FROM `toolstation-data-storage.Digital_reporting.TotalSessionsAcquisition`
+  ;;
 
-      }
-    }
-    #datagroup_trigger: ts_googleanalytics_datagroup
   }
 
   dimension: P_K {
@@ -27,18 +21,29 @@ view: total_sessions_ga4_dt {
     sql: ${TABLE}.date ;;
   }
 
-  dimension: sessions {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.total_sessions ;;
-  }
-
   dimension: channel_grouping {
     hidden: yes
     type: string
-    sql: ${TABLE}.channel_grouping ;;
+    sql: ${TABLE}.Channel_group ;;
   }
 
+  dimension: Medium {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.Medium ;;
+  }
+
+  dimension: Campaign {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.Campaign ;;
+  }
+
+  dimension: sessions {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.Total_sessions ;;
+  }
 
   measure: Sessions {
     view_label: "GA4"

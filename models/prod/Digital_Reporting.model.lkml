@@ -67,9 +67,11 @@ explore: GA4_test {
     view_label: "GA4"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${calendar_completed_date.date} = ${total_sessions_ga4_dt.date_date}
+    sql_on: ${ga_digital_transactions.date_date} = ${total_sessions_ga4_dt.date_date}
     and
     ${ga_digital_transactions.channel_Group} = ${total_sessions_ga4_dt.channel_grouping}
+    and ${ga_digital_transactions.Medium} = ${total_sessions_ga4_dt.Medium}
+    and ${ga_digital_transactions.Campaign} = ${total_sessions_ga4_dt.Campaign}
    ;;
   }
 
