@@ -2,6 +2,7 @@ view: total_sessions_ga4_dt {
   derived_table: {
     explore_source: GA4_test {
       column: date {field: ga_digital_transactions.date_date}
+      #column: date2 {field: calendar.date}
       column: total_sessions {field:ga_digital_transactions.session_start}
       column: channel_grouping {field: ga_digital_transactions.channel_Group}
       derived_column: rn {
