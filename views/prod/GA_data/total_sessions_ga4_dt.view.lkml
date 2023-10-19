@@ -1,8 +1,10 @@
 view: total_sessions_ga4_dt {
   derived_table: {
   sql:
-    SELECT distinct row_number() over () as rn,*
-    FROM `toolstation-data-storage.Digital_reporting.TotalSessionsAcquisition`
+    with sub1 as (SELECT distinct *
+    FROM `toolstation-data-storage.Digital_reporting.TotalSessionsAcquisition`)
+
+    SELECT distinct *,row_number() over () as rn from sub1
   ;;
 
   }
