@@ -1,7 +1,7 @@
 view: total_sessions_ga4_dt {
   derived_table: {
   sql:
-    with sub1 as (SELECT distinct Platform, date,Channel_group,Medium,Campaign,max(Total_sessions)
+    with sub1 as (SELECT distinct Platform, date,Channel_group,Medium,Campaign,max(Total_sessions) as Total_sessions
     FROM `toolstation-data-storage.Digital_reporting.TotalSessionsAcquisition`
     group by 1,2,3,4,5)
 
