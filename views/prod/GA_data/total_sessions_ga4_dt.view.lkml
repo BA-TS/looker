@@ -1,8 +1,9 @@
 view: total_sessions_ga4_dt {
   derived_table: {
   sql:
-    with sub1 as (SELECT distinct *
-    FROM `toolstation-data-storage.Digital_reporting.TotalSessionsAcquisition`)
+    with sub1 as (SELECT distinct Platform, date,Channel_group,Medium,Campaign,max(Total_sessions)
+    FROM `toolstation-data-storage.Digital_reporting.TotalSessionsAcquisition`
+    group by 1,2,3,4,5)
 
     SELECT distinct *,row_number() over () as rn from sub1
   ;;
