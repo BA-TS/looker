@@ -189,6 +189,8 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
       }
 
       dimension: seen_in_Ga {
+        label: "Seen in GA"
+        description: "If order ID was seen in GA "
         type: yesno
         sql: ${ga4_all_transaction_ids.OrderID} is not null ;;
       }
