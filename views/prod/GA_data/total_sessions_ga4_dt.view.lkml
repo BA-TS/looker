@@ -23,6 +23,12 @@ view: total_sessions_ga4_dt {
     sql: ${TABLE}.date ;;
   }
 
+  dimension: Platform {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.Platform ;;
+  }
+
   dimension: channel_grouping {
     hidden: yes
     type: string

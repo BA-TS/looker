@@ -72,6 +72,7 @@ explore: GA4_test {
     ${ga_digital_transactions.channel_Group} = ${total_sessions_ga4_dt.channel_grouping}
     and ${ga_digital_transactions.Medium} = ${total_sessions_ga4_dt.Medium}
     and ${ga_digital_transactions.Campaign} = ${total_sessions_ga4_dt.Campaign}
+    and ${ga_digital_transactions.platform} = ${total_sessions_ga4_dt.Platform}
    ;;
   }
 
