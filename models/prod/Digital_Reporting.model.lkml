@@ -91,6 +91,7 @@ explore: GA4_test {
     sql_on: ${stock_cover.stock_date_date} = ${aac.date} and ${ga_digital_transactions.productUID} = ${aac.product_uid} ;;
   }
 
+
 }
 explore: GA4 {
   #required_access_grants: []
@@ -186,6 +187,13 @@ join: base {
     and ${products.product_uid} = ${app_web_data.ProductUID}
     and ${ga4.date_date} = ${app_web_data.Placed_date}
     and ${base.date_date} = ${app_web_data.Placed_date};;
+  }
+
+  join: ga4_all_transaction_ids {
+    view_label: ""
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${ga4_all_transaction_ids.OrderID} = ${app_web_data.OrderID} ;;
   }
 
   #${app_web_data.OrderID} = regexp_extract(${ga4.transaction_id},"^.{0,11}")
@@ -501,6 +509,13 @@ explore: digital_reporting {
     type: left_outer
     relationship: one_to_one
     sql_on: ${productv2.product_code} = ${promoworking.Product_Code} ;;
+  }
+
+  join: ga4_all_transaction_ids {
+    view_label: ""
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${ga4_all_transaction_ids.OrderID} = ${app_web_data.OrderID} ;;
   }
 
 

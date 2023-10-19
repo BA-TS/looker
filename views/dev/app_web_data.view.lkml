@@ -188,6 +188,11 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
         sql:  ${TABLE}.App_web ;;
       }
 
+      dimension: seen_in_Ga {
+        type: yesno
+        sql: ${ga4_all_transaction_ids.OrderID} is not null ;;
+      }
+
       measure: Totalrevenue {
         view_label: "
       {% if _explore._name == 'GA4' %}
