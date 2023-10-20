@@ -22,6 +22,7 @@ view: channel_budget {
     #hidden: yes
     label: "Channel"
     group_label: "Sales Channel"
+    description: "Sales Channel Budget has been detirmined"
     type: string
     sql: upper(${TABLE}.channel) ;;
   }
