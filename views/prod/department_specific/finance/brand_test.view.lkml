@@ -104,6 +104,7 @@ view: brand_test {
     measure: sum2 {
       label: "Net Sales of Brand"
       group_label: "Brand Selected"
+      description: "Net sales of the brand selected by Brand Filter"
       type: sum
       value_format_name: gbp
       sql:
@@ -117,6 +118,7 @@ view: brand_test {
   measure: sum3 {
     label: "Net Sales of Other Brand"
     group_label: "Other Brands"
+    description: "Net sales of the brands not included in Brand Filter"
     type: sum
     value_format_name: gbp
     sql:
@@ -130,6 +132,8 @@ view: brand_test {
   measure: all_net_sales {
     label: "Overall Net Sales"
     group_label: "Overall"
+    description: "total Net sales"
+    hidden: yes
     type: sum
     value_format_name: gbp
     sql:${net_sales}
@@ -139,6 +143,7 @@ view: brand_test {
   measure: sum4 {
     label: "Units of Brand"
     group_label: "Brand Selected"
+    description: "Total Units sold of the brand selected by Brand Filter"
     type: sum
     sql:
           CASE
@@ -151,6 +156,7 @@ view: brand_test {
   measure: sum5 {
     label: "Units of Other Brand"
     group_label: "Other Brands"
+    description: "Total Units sold of brands not included in Brand Filter"
     type: sum
     sql:
           CASE
@@ -163,6 +169,7 @@ view: brand_test {
   measure: all_units {
     label: "Overall Units"
     group_label: "Overall"
+    hidden: yes
     type: sum
     sql: ${units} ;;
   }
@@ -170,6 +177,7 @@ view: brand_test {
   measure: sum6 {
     label: "Margin (inc fund) of Brand"
     group_label: "Brand Selected"
+    description: "Margin(inc fund) of the brand selected by Brand Filter"
     type: sum
     value_format_name: gbp
     sql:
@@ -183,6 +191,7 @@ view: brand_test {
   measure: sum7 {
     label: "Margin (inc fund) of Other Brand"
     group_label: "Other Brands"
+    description: "Margin(inc fund) of other brands not included in Brand Filter"
     type: sum
     value_format_name: gbp
     sql:
@@ -196,6 +205,7 @@ view: brand_test {
   measure: overall_margin_funding {
     label: "Overall Margin (inc fund)"
     group_label: "Overall"
+    hidden: yes
     type: sum
     value_format_name: gbp
     sql:${margin_inc_funding}
@@ -205,6 +215,7 @@ view: brand_test {
   measure: sum8 {
     label: "Margin rate (inc fund) of Brand"
     group_label: "Brand Selected"
+    description: "Margin Rate(inc fund) of the brand selected by Brand Filter"
     type: average
     value_format_name: percent_2
     sql:
@@ -218,6 +229,7 @@ view: brand_test {
   measure: sum9 {
     label: "Margin rate (inc fund) of Other Brand"
     group_label: "Other Brands"
+    description: "Margin rate (inc fund) of other brands not included in Brand Filter"
     type: average
     value_format_name: percent_2
     sql:
@@ -231,6 +243,7 @@ view: brand_test {
   measure: sum10 {
     label: "Overall Margin rate (inc fund)"
     group_label: "Overall"
+    hidden: yes
     type: average
     value_format_name: percent_2
     sql:${rate_margin_inc_funding}
