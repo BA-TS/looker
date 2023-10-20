@@ -1,189 +1,75 @@
 view: videoly_funnel_ga4 {
 
   derived_table: {
-    sql: with sub1 as (with Videoly_shown as (SELECT distinct
-"App" as USERUID,
-PARSE_DATE('%Y%m%d', event_date) as date,
-TIMESTAMP_MICROS(event_timestamp) AS timestamp,
-concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id'))  as session_id,
-case when regexp_contains(ep.value.string_value, "videoly_box_shown") then "videoly_box_shown"
-end as event_info,
-COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events
-FROM `toolstation-data-storage.analytics_265133009.events_*`, unnest(event_params) as ep
-WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
-and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK)) and FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK))
-AND ((( date(PARSE_DATE('%Y%m%d', event_date)) ) >= ((DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK))) AND ( date(PARSE_DATE('%Y%m%d', event_date)) ) < ((DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK)))))
-and event_name in ("videoly") and ep.key in ("action") and (regexp_contains(ep.value.string_value, "videoly_box_shown")
-)
-GROUP BY 1,2,3,4,5
-UNION DISTINCT
-SELECT distinct
-"Web" as USERUID,
-date(PARSE_DATE('%Y%m%d', event_date)) as date,
-TIMESTAMP_MICROS(event_timestamp) AS timestamp,
-concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id'))  as session_id,
-event_name,
-COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events
-FROM `toolstation-data-storage.analytics_251803804.events_*`
-WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500 and PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
-and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK)) and FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK))
-AND ((( date(PARSE_DATE('%Y%m%d', event_date)) ) >= ((DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK))) AND ( date(PARSE_DATE('%Y%m%d', event_date)) ) < ((DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK)))))
-and event_name in ("Videoly_initialize")
-group by 1,2,3,4,5),
+    sql: with cte as (SELECT distinct
+DeviceCategory,
+Channel_group,
+Medium,
+Campaign,
+case when regexp_contains(event_name, "Videoly_progress") then "videoly_progress"
+when regexp_contains(event_name, "Videoly_videoStart") then "videoly_start"
+when regexp_contains(event_name, "Videoly_initialize") then "videoly_box_shown"
+when regexp_contains(event_name, "Videoly_videoClosed") then "videoly_closed"
+when regexp_contains(event_name, "add_to_cart") then "add_to_cart"
+when regexp_contains(event_name, "purchase") then "purchase"
+when regexp_contains(event_name, "Purchase") then "Purchase"
+else label_1 end as eventName,
+platform,
+session_id,
+MinTime,
+events,
+(transactions.ga4_revenue) as revenue
+ FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` left join unnest (transactions) as transactions
+where regexp_contains(event_name, ".*videoly.*") or regexp_contains(event_name, ".*Videoly.*") or event_name in ("add_to_cart", "Purchase", "purchase")
+ and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK)) and FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK))
+AND ((( (date) ) >= ((DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK))) AND ( (date) ) < ((DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK)))))
+group by 1,2,3,4,5,6,7,8,9,10
+order by 1 desc),
 
-Videoly_started as (SELECT distinct
-"App" as USERUID,
-PARSE_DATE('%Y%m%d', event_date) as date,
-TIMESTAMP_MICROS(event_timestamp) AS timestamp,
-concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id'))  as session_id,
-case when regexp_contains(ep.value.string_value, "videoly_start") then "videoly started" end as event_info,
-COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events
-FROM `toolstation-data-storage.analytics_265133009.events_*`, unnest(event_params) as ep
-WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
-and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK)) and FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK))
-AND ((( date(PARSE_DATE('%Y%m%d', event_date)) ) >= ((DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK))) AND ( date(PARSE_DATE('%Y%m%d', event_date)) ) < ((DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK)))))
-and event_name in ("videoly") and ep.key in ("action") and (regexp_contains(ep.value.string_value, "videoly_start")
-)
-GROUP BY 1,2,3,4,5
-UNION DISTINCT
-SELECT distinct
-"Web" as USERUID,
-date(PARSE_DATE('%Y%m%d', event_date)) as date,
-TIMESTAMP_MICROS(event_timestamp) AS timestamp,
-concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id'))  as session_id,
-event_name,
-COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events
-FROM `toolstation-data-storage.analytics_251803804.events_*`
-WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500 and PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
-and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK)) and FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK))
-AND ((( date(PARSE_DATE('%Y%m%d', event_date)) ) >= ((DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK))) AND ( date(PARSE_DATE('%Y%m%d', event_date)) ) < ((DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK)))))
-and event_name in ("Videoly_videoStart")
-group by 1,2,3,4,5),
+Videoly_shown as (
+  SELECT distinct * from cte where eventNAme in ("videoly_box_shown")
+),
 
-add_to_cart as (SELECT distinct
-"App" as USERUID,
-PARSE_DATE('%Y%m%d', event_date) as date,
-TIMESTAMP_MICROS(event_timestamp) AS timestamp,
-concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id'))  as session_id,
-event_name as event_info,
-COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events
-FROM `toolstation-data-storage.analytics_265133009.events_*`
-WHERE event_name in ("add_to_cart") and PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
-and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK)) and FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK))
-AND ((( date(PARSE_DATE('%Y%m%d', event_date)) ) >= ((DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK))) AND ( date(PARSE_DATE('%Y%m%d', event_date)) ) < ((DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK)))))
-GROUP BY 1,2,3,4,5
+videoly_start as (
+  SELECT distinct * from cte where eventNAme in ("videoly_start")
+),
 
-union distinct
+add_to_cart as (
+  SELECT distinct * from cte where eventNAme in ("add_to_cart")
+),
 
-SELECT distinct
-"Web" as USERUID,
-date(PARSE_DATE('%Y%m%d', event_date)) as date,
-TIMESTAMP_MICROS(event_timestamp) AS timestamp,
-concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id'))  as session_id,
-event_name,
-COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events
-FROM `toolstation-data-storage.analytics_251803804.events_*`
-WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500 and PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
-and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK)) and FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK))
-AND ((( date(PARSE_DATE('%Y%m%d', event_date)) ) >= ((DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK))) AND ( date(PARSE_DATE('%Y%m%d', event_date)) ) < ((DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK)))))
-and event_name in ("add_to_cart")
-group by 1,2,3,4,5),
-
-
-purchase as (SELECT distinct
-"App" as USERUID,
-PARSE_DATE('%Y%m%d', event_date) as date,
-TIMESTAMP_MICROS(event_timestamp) AS timestamp,
-concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id'))  as session_id,
-event_name as event_info,
-sum(ecommerce.purchase_revenue) as revenue,
-COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events
-FROM `toolstation-data-storage.analytics_265133009.events_*`
-WHERE event_name in ("purchase") and PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
-and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK)) and FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK))
-AND ((( date(PARSE_DATE('%Y%m%d', event_date)) ) >= ((DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK))) AND ( date(PARSE_DATE('%Y%m%d', event_date)) ) < ((DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK)))))
-GROUP BY 1,2,3,4,5
-
-union distinct
-
-SELECT distinct
-"Web" as USERUID,
-date(PARSE_DATE('%Y%m%d', event_date)) as date,
-TIMESTAMP_MICROS(event_timestamp) AS timestamp,
-concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id'))  as session_id,
-event_name,
-sum(items.item_revenue) as item_revenue,
-COUNT(DISTINCT CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING))) AS events
-FROM `toolstation-data-storage.analytics_251803804.events_*`, unnest (items) as items
-WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500 and PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
-and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK)) and FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK))
-AND ((( date(PARSE_DATE('%Y%m%d', event_date)) ) >= ((DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK))) AND ( date(PARSE_DATE('%Y%m%d', event_date)) ) < ((DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK)))))
-and event_name in ("purchase")
-group by 1,2,3,4,5),
-
-total_sessions_PDP_Views as (SELECT distinct
-"App" as UserUID,
-PARSE_DATE('%Y%m%d', event_date) as date,
-TIMESTAMP_MICROS(event_timestamp) AS timestamp,
-event_name,
-concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id'))  as session_id
-FROM `toolstation-data-storage.analytics_265133009.events_*`, unnest (event_params) as ep
-WHERE event_name in ("screen_view") and ep.key in ("firebase_screen") and ep.value.string_value in ("product-detail-page") and PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
-and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK)) and FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK))
-AND ((( date(PARSE_DATE('%Y%m%d', event_date)) ) >= ((DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK))) AND ( date(PARSE_DATE('%Y%m%d', event_date)) ) < ((DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK)))))
-union distinct
-SELECT distinct
-"Web" as USERUID,
-date(PARSE_DATE('%Y%m%d', event_date)) as date,
-TIMESTAMP_MICROS(event_timestamp) AS timestamp,
-event_name,
-concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id'))  as session_id
-FROM `toolstation-data-storage.analytics_251803804.events_*`
-WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500 and PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
-and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK)) and FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK))
-AND ((( date(PARSE_DATE('%Y%m%d', event_date)) ) >= ((DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK))) AND ( date(PARSE_DATE('%Y%m%d', event_date)) ) < ((DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK)))))
-and event_name in ("view_item")),
-
-bounces as (SELECT distinct
-"App" as USERUID,
-PARSE_DATE('%Y%m%d', event_date) as date,
-concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id'))  as session_id,
-case when (select distinct cast(value.int_value as string) from unnest(event_params) where key = 'engaged_session_event') = '1' then "1" else "0" end as bounces
-FROM `toolstation-data-storage.analytics_265133009.events_*`
-WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
-and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK)) and FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK))
-AND ((( date(PARSE_DATE('%Y%m%d', event_date)) ) >= ((DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK))) AND ( date(PARSE_DATE('%Y%m%d', event_date)) ) < ((DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK)))))
-union distinct
-SELECT distinct
-"Web" as USERUID,
-PARSE_DATE('%Y%m%d', event_date) as date,
-concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id'))  as session_id,
-case when (select distinct cast(value.int_value as string) from unnest(event_params) where key = 'engaged_session_event') = '1' then "1" else "0" end as bounces
-FROM `toolstation-data-storage.analytics_251803804.events_*`
-WHERE PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500 and PARSE_DATE('%Y%m%d', event_date)  >= current_date() -500
-and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK)) and FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK))
-AND ((( date(PARSE_DATE('%Y%m%d', event_date)) ) >= ((DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK))) AND ( date(PARSE_DATE('%Y%m%d', event_date)) ) < ((DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK)))))),
-
-sub1 as (SELECT distinct coalesce(total_sessions_PDP_Views.UserUID,Videoly_shown.UserUID,Videoly_started.UserUID,add_to_cart.UserUID,purchase.USERUID) as USERUID,
-coalesce(total_sessions_PDP_Views.date,Videoly_shown.date,Videoly_started.date,add_to_cart.date,purchase.date) as date,
-Videoly_shown.event_info as Videoly_shown_info,
-Videoly_started.event_info as Videoly_started_info,
-total_sessions_PDP_Views.session_id as PDP_View_session_id,
-Videoly_shown.session_id as Videoly_shown_session_id,
-Videoly_started.session_id as Videoly_started_session_id,
-add_to_cart.session_id as add_to_cart_session_id,
-purchase.session_id as purchase_session_id,
-purchase.revenue as revenue
-from total_sessions_PDP_Views
-full outer join Videoly_shown on total_sessions_PDP_Views.session_id = Videoly_shown.session_id
-full outer join Videoly_started on total_sessions_PDP_Views.session_id = Videoly_started.session_id
-full outer join add_to_cart on total_sessions_PDP_Views.session_id = add_to_cart.session_id
-full outer join purchase on purchase.session_id = add_to_cart.session_id)
-
-SELECT coalesce(sub1.USERUID,bounces.USERUID) as userUID,timestamp(coalesce(sub1.date,bounces.date)) as date,sub1.* except (UserUID,date), bounces.session_id, bounces.bounces from sub1 full outer join bounces on coalesce(PDP_View_session_id,Videoly_shown_session_id,Videoly_started_session_id,add_to_cart_session_id,purchase_session_id) = bounces.session_id
+purchase as (
+  SELECT distinct * from cte where eventNAme in ("purchase")
 )
 
-SELECT distinct row_number () over () as ROW_NUM, sub1.* from sub1;;
+SELECT distinct
+row_number() over () as P_K,
+a.session_id,
+a.platform,
+a.DeviceCategory,
+a.Channel_group,
+a.Medium,
+a.Campaign,
+a.MinTime as videoly_shownTime,
+b.MinTime as videoly_startedTime,
+c.MinTime as Add_to_cartTime,
+d.MinTime as purchaseTime,
+sum(a.events) as Videoly_shown_events,
+sum(b.events) as Videoly_started_events,
+sum(c.events) as ATC_events,
+sum(d.events) as purchase_events,
+sum(d.revenue) as revenue,
+from videoly_shown as a
+left outer join videoly_start as b
+on a.session_id = b.session_id
+left outer join add_to_cart as c
+on a.session_id = c.session_id
+left outer join purchase as d
+on a.session_id = d.session_id
+where ((b.minTime is null or a.minTime<b.minTime))
+and ((c.minTime is null or a.minTime<c.minTime))
+and ((d.minTime is null or a.minTime<d.minTime))
+group by 2,3,4,5,6,7,8,9,10,11;;
 #datagroup_trigger: ts_googleanalytics_datagroup
   }
   # # You can specify the table name if it's different from the view name:
