@@ -189,6 +189,11 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
       }
 
       dimension: seen_in_Ga {
+        view_label: "
+        {% if _explore._name == 'GA4' %}
+        {% else %}
+        Digital Transactions
+        {% endif %}"
         label: "
       {% if _explore._name == 'GA4' %}
       {% else %}
