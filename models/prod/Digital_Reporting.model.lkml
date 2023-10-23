@@ -95,7 +95,7 @@ explore: GA4_test {
     view_label: "Videoly Funnel"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${calendar_completed_date.date} = ${videoly_funnel_ga4.date_date} ;;
+    sql_on: ${ga_digital_transactions.date_date} = ${videoly_funnel_ga4.date_date} ;;
   }
 
 
