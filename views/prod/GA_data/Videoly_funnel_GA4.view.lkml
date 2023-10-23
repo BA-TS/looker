@@ -277,7 +277,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
     description: "Sessions where item was added to cart where video was shown and started"
     type: count_distinct
     sql: ${session_id} ;;
-    filters: [videoly_startedEvents: ">=1", videoly_startedEvents: ">=1"]
+    filters: [videoly_startedEvents: ">=1", videoly_startedEvents: ">=1", ATC_events: ">=1"]
   }
 
   dimension_group: purchase_Time {
@@ -310,7 +310,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
     description: "Sessions where purchase occured after a video was shown and started"
     type: count_distinct
     sql: ${session_id} ;;
-    filters: [videoly_startedEvents: ">=1", videoly_startedEvents: ">=1"]
+    filters: [videoly_startedEvents: ">=1", videoly_startedEvents: ">=1", ATC_events: ">=1", purchase_events: ">=1" ]
   }
 
 }
