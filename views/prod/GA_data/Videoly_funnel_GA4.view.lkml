@@ -152,6 +152,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
 
   dimension: DeviceCategory {
     type: string
+    hidden: yes
     group_label: "User attributes"
     label: "Device Category"
     description: "Device type used"
@@ -160,6 +161,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
 
   dimension: Channel_group {
     type: string
+    hidden: yes
     group_label: "Traffic Acquisition"
     label: "Channel Grouping"
     description: "Channel grouping from source"
@@ -168,6 +170,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
 
   dimension: Medium {
     type: string
+    hidden: yes
     group_label: "Traffic Acquisition"
     label: "Medium"
     description: "Medium from source"
@@ -176,6 +179,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
 
   dimension: Campaign {
     type: string
+    hidden: yes
     group_label: "Traffic Acquisition"
     label: "Campaign"
     description: "Campaign from source"
@@ -185,6 +189,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
   dimension_group: videoly_shownTime {
     type: time
     timeframes: [time]
+    hidden: yes
     group_label: "Stage 1: Videoly Shown"
     description: "datetime session was first shown videoly"
     label: "Videoly Shown Time"
@@ -198,6 +203,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
   }
 
   measure: videoly_shown_events {
+    view_label: "GA4"
     group_label: "Stage 1: Videoly Shown"
     label: "Videoly Shown Events"
     description: "Total Videoly shown events"
@@ -206,6 +212,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
   }
 
   measure: videoly_shownSessions {
+    view_label: "GA4"
     group_label: "Stage 1: Videoly Shown"
     label: "Videoly Shown sessions"
     description: "Sessions where Videoly was shown"
@@ -215,6 +222,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
   }
 
   dimension_group: videoly_startedTime {
+    hidden: yes
     type: time
     timeframes: [time]
     group_label: "Stage 2: Videoly Started"
@@ -231,6 +239,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
   }
 
   measure: videoly_started_events {
+    view_label: "GA4"
     group_label: "Stage 2: Videoly Started"
     label: "Videoly Started Events"
     description: "Total Videoly started events"
@@ -239,6 +248,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
   }
 
   measure: videoly_startedSessions {
+    view_label: "GA4"
     group_label: "Stage 2: Videoly Started"
     label: "Videoly started sessions"
     description: "Sessions where Videoly was started"
@@ -248,6 +258,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
   }
 
   dimension_group: Add_to_cartTime {
+    hidden: yes
     type: time
     timeframes: [time]
     description: "datetime item was was first added to cart where video was shown and started"
@@ -264,6 +275,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
   }
 
   measure: add_to_cart_events {
+    view_label: "GA4"
     group_label: "Stage 3: Add to Cart"
     label: "Add to Cart Events"
     description: "Total Add to Cart events where video was shown and started"
@@ -272,6 +284,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
   }
 
   measure: ATC_Sessions {
+    view_label: "GA4"
     group_label: "Stage 3: Add to Cart"
     label: "Add to cart sessions"
     description: "Sessions where item was added to cart where video was shown and started"
@@ -281,6 +294,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
   }
 
   dimension_group: purchase_Time {
+    hidden: yes
     type: time
     timeframes: [time]
     description: "datetime purchase first occured in session where video was shown and started"
@@ -297,6 +311,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
   }
 
   measure: PurchaseEvents {
+    view_label: "GA4"
     group_label: "Stage 4: Purchase"
     label: "Purchase Events"
     description: "Total Purchase events where earlier in the session a video was shown and started"
@@ -305,11 +320,23 @@ datagroup_trigger: ts_googleanalytics_datagroup
   }
 
   measure: purchase_Sessions {
+    view_label: "GA4"
     group_label: "Stage 4: Purchase"
     label: "Purchase sessions"
     description: "Sessions where purchase occured after a video was shown and started"
     type: count_distinct
     sql: ${session_id} ;;
+    filters: [videoly_startedEvents: ">=1", videoly_startedEvents: ">=1", ATC_events: ">=1", purchase_events: ">=1" ]
+  }
+
+  measure: purchase_revenue {
+    view_label: "GA4"
+    group_label: "Stage 4: Purchase"
+    label: "Revenue"
+    description: "revenue where purchase occured after a video was shown and started"
+    type: sum
+    value_format_name: gbp
+    sql: ${TABLE}.revenue ;;
     filters: [videoly_startedEvents: ">=1", videoly_startedEvents: ">=1", ATC_events: ">=1", purchase_events: ">=1" ]
   }
 
