@@ -152,7 +152,8 @@ AND {% condition select_date_range %} (date) {% endcondition %}
     when ${event_namev2} = "Videoly_initialize" then "videoly_box_shown"
     when ${event_namev2} = "Videoly_videoClosed" then "videoly_closed"
     when regexp_contains(${event_namev2},"Videoly_progress") then "videoly_progress"
-    else ${event_namev2};;
+    else ${event_namev2}
+    end;;
   }
 
   dimension: key_1 {
