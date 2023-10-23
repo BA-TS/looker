@@ -16,7 +16,7 @@ when regexp_contains(event_name, "Purchase") then "Purchase"
 else label_1 end as eventName,
 platform,
 session_id,
-MinTime,
+(MinTime) as MinTime,
 events,
 (transactions.ga4_revenue) as revenue
  FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` left join unnest (transactions) as transactions
@@ -27,19 +27,71 @@ group by 1,2,3,4,5,6,7,8,9,10
 order by 1 desc),
 
 Videoly_shown as (
-  SELECT distinct * from cte where eventNAme in ("videoly_box_shown")
+SELECT distinct
+DeviceCategory,
+Channel_group,
+Medium,
+Campaign,
+eventName,
+platform,
+session_id,
+min(MinTime) as MinTime,
+sum(events) as events,
+sum(revenue) as revenue
+from cte
+where eventNAme in ("videoly_box_shown")
+group by 1,2,3,4,5,6,7
 ),
 
 videoly_start as (
-  SELECT distinct * from cte where eventNAme in ("videoly_start")
+SELECT distinct
+DeviceCategory,
+Channel_group,
+Medium,
+Campaign,
+eventName,
+platform,
+session_id,
+min(MinTime) as MinTime,
+sum(events) as events,
+sum(revenue) as revenue
+from cte
+where eventNAme in ("videoly_start")
+group by 1,2,3,4,5,6,7
 ),
 
 add_to_cart as (
-  SELECT distinct * from cte where eventNAme in ("add_to_cart")
+SELECT distinct
+DeviceCategory,
+Channel_group,
+Medium,
+Campaign,
+eventName,
+platform,
+session_id,
+min(MinTime) as MinTime,
+sum(events) as events,
+sum(revenue) as revenue
+from cte
+where eventNAme in ("add_to_cart")
+group by 1,2,3,4,5,6,7
 ),
 
 purchase as (
-  SELECT distinct * from cte where eventNAme in ("purchase")
+SELECT distinct
+DeviceCategory,
+Channel_group,
+Medium,
+Campaign,
+eventName,
+platform,
+session_id,
+min(MinTime) as MinTime,
+sum(events) as events,
+sum(revenue) as revenue
+from cte
+where eventNAme in ("purchase")
+group by 1,2,3,4,5,6,7
 )
 
 SELECT distinct
@@ -50,10 +102,10 @@ a.DeviceCategory,
 a.Channel_group,
 a.Medium,
 a.Campaign,
-a.MinTime as videoly_shownTime,
-b.MinTime as videoly_startedTime,
-c.MinTime as Add_to_cartTime,
-d.MinTime as purchaseTime,
+min(a.MinTime) as videoly_shownTime,
+min(b.MinTime) as videoly_startedTime,
+min(c.MinTime) as Add_to_cartTime,
+min(d.MinTime) as purchaseTime,
 sum(a.events) as Videoly_shown_events,
 sum(b.events) as Videoly_started_events,
 sum(c.events) as ATC_events,
@@ -66,10 +118,10 @@ left outer join add_to_cart as c
 on a.session_id = c.session_id
 left outer join purchase as d
 on a.session_id = d.session_id
-where ((b.minTime is null or a.minTime<b.minTime))
+where (((b.minTime) is null or a.minTime<b.minTime))
 and ((c.minTime is null or a.minTime<c.minTime))
 and ((d.minTime is null or a.minTime<d.minTime))
-group by 2,3,4,5,6,7,8,9,10,11;;
+group by 2,3,4,5,6,7;;
 #datagroup_trigger: ts_googleanalytics_datagroup
   }
   # # You can specify the table name if it's different from the view name:
@@ -84,240 +136,109 @@ group by 2,3,4,5,6,7,8,9,10,11;;
     sql: ${TABLE}.ROW_NUM ;;
    }
   #
-   dimension: userUID {
-    description: "userUID"
-    label: "Web/App"
+   dimension: session_id {
+    description: "unique identifier for session"
+    hidden: yes
     type: string
-    sql: ${TABLE}.userUID ;;
+    sql: ${TABLE}.session_id ;;
    }
   #
    dimension_group: date {
      type: time
     hidden: yes
      timeframes: [raw,date]
-     sql: ${TABLE}.date ;;
+     sql: ${TABLE}.videoly_shownTime ;;
    }
 
-  dimension: Videoly_shown_info {
-    description: "Videoly_shown_info"
-    label: "Videoly_shown"
+  dimension: DeviceCategory {
     type: string
-    sql: ${TABLE}.Videoly_shown_info ;;
+    group_label: "User attributes"
+    label: "Device Category"
+    description: "Device type used"
+    sql: ${TABLE}.DeviceCategory ;;
   }
 
-  dimension: Videoly_started {
-    description: "Videoly_started_info"
-    label: "Videoly_started"
+  dimension: Channel_group {
     type: string
-    sql: ${TABLE}.Videoly_started_info ;;
+    group_label: "Traffic Acquisition"
+    label: "Channel Grouping"
+    description: "Channel grouping from source"
+    sql: ${TABLE}.Channel_group ;;
   }
 
-  dimension: PDP_View_session_id{
+  dimension: Medium {
     type: string
+    group_label: "Traffic Acquisition"
+    label: "Medium"
+    description: "Medium from source"
+    sql: ${TABLE}.Medium ;;
+  }
+
+  dimension: Campaign {
+    type: string
+    group_label: "Traffic Acquisition"
+    label: "Campaign"
+    description: "Campaign from source"
+    sql: ${TABLE}.Campaign ;;
+  }
+
+  dimension_group: videoly_shownTime {
+    type: time
+    timeframes: [time]
+    description: "datetime session was first shown videoly"
+    label: "Videoly Shown Time"
+    sql: ${TABLE}.videoly_shownTime ;;
+  }
+
+  dimension: videoly_shownEvents {
+    type: number
     hidden: yes
-    sql: ${TABLE}.PDP_View_session_id ;;
+    sql: ${TABLE}.Videoly_shown_events ;;
   }
 
-  dimension: Videoly_shown_session_id{
-    type: string
-    hidden: yes
-    sql: ${TABLE}.Videoly_shown_session_id ;;
+  measure: videoly_shown_events {
+    label: "Videoly Shown Events"
+    description: "Total Videoly shown events"
+    type: sum
+    sql: ${videoly_shownEvents} ;;
   }
 
-  dimension: Videoly_started_session_id{
-    type: string
-    hidden: yes
-    sql: ${TABLE}.Videoly_started_session_id ;;
-  }
-
-  dimension: add_to_cart_session_id{
-    type: string
-    hidden: yes
-    sql: ${TABLE}.add_to_cart_session_id ;;
-  }
-
-  dimension: purchase_session_id{
-    type: string
-    hidden: yes
-    sql: ${TABLE}.purchase_session_id ;;
-  }
-
-  dimension: session_id{
-    type: string
-    hidden: yes
-    sql: ${TABLE}.session_id ;;
-  }
-  measure: sessions_with_PDP_views {
-    description: "sessions with PDP views"
-    label: "sessions with PDP"
-    group_label: "Sessions"
-    type: count_distinct
-    sql: ${TABLE}.PDP_View_session_id ;;
-  }
-
-  measure: sessions_with_videoly_shown {
-    description: "Videoly Shown sessions"
+  measure: videoly_shownSessions {
     label: "Videoly Shown sessions"
-    group_label: "Sessions"
+    description: "Sessions where Videoly was shown"
     type: count_distinct
-    sql: ${TABLE}.Videoly_shown_session_id ;;
+    sql: ${session_id} ;;
+    filters: [videoly_shownEvents: ">=1"]
   }
 
-  measure: sessions_with_videoly_shown_not_started {
-    description: "Videoly Shown sessions not started"
-    label: "Videoly Shown not started sessions"
-    group_label: "Sessions"
-    type: count_distinct
-    filters: [Videoly_started_session_id: "NULL"]
-    sql: ${TABLE}.Videoly_shown_session_id ;;
+  dimension_group: videoly_startedTime {
+    type: time
+    timeframes: [time]
+    description: "datetime session was first started videoly"
+    label: "Videoly Started Time"
+    sql: ${TABLE}.videoly_startedTime ;;
   }
 
-  measure: transactional_sessions_with_videoly_shown_not_started {
-    description: "Transactional Videoly Shown sessions not started"
-    label: "Transactional Videoly Shown not started sessions"
-    group_label: "Sessions"
-    type: count_distinct
-    filters: [Videoly_started_session_id: "NULL", purchase_session_id: "-NULL"]
-    sql: ${TABLE}.Videoly_shown_session_id ;;
-  }
-
-  measure: Videoly_started_sesions {
-    description: "Videoly started sessions"
-    label: "Videoly started sessions"
-    group_label: "Sessions"
-    type: count_distinct
-    sql: ${TABLE}.Videoly_started_session_id ;;
-  }
-
-  measure: Videoly_started_and_purchase_sesions {
-    description: "Videoly started then Purchase sessions"
-    label: "Transactional Videoly started sessions"
-    group_label: "Sessions"
-    type: count_distinct
-    filters: [purchase_session_id: "-NULL"]
-    sql: ${TABLE}.Videoly_started_session_id ;;
-  }
-
-  measure: add_to_cart_sesions {
-    description: "Add to Cart sessions"
-    label: "Add to Cart sessions"
-    group_label: "Sessions"
-    type: count_distinct
-    sql: ${TABLE}.add_to_cart_session_id ;;
-  }
-
-  measure: purchase_sessions {
-    description: "Purchase sessions"
-    label: "Purchase sessions"
-    group_label: "Sessions"
-    type: count_distinct
-    sql: ${TABLE}.purchase_session_id ;;
-  }
-
-  measure: all_sessions {
-    description: "All sessions"
-    label: "All sessions"
-    group_label: "Sessions"
-    type: count_distinct
-    sql: ${TABLE}.session_id ;;
-  }
-
-  measure: revenue {
-    description: "revenue from purchase events"
-    label: "Total Revenue"
-    group_label: "Revenue"
-    type: sum
-    value_format_name: gbp
-    sql: ${TABLE}.revenue ;;
-  }
-
-  measure: Videoly_transactional {
-    description: "revenue from purchase events"
-    label: "Revenue from Videoly viewed"
-    group_label: "Revenue"
-    type: sum
-    value_format_name: gbp
-    filters: [purchase_session_id: "-NULL", Videoly_started_session_id: "-NULL"]
-    sql: ${TABLE}.revenue ;;
-  }
-
-  measure: revenue_videoly_shown_not_started {
-    description: "revenue Videoly Shown sessions not started"
-    label: "Revenue Videoly Shown not started"
-    group_label: "Revenue"
-    value_format_name: gbp
-    type: sum
-    filters: [Videoly_shown_session_id: "-NULL", Videoly_started_session_id: "NULL", purchase_session_id: "-NULL"]
-    sql: ${TABLE}.revenue ;;
-  }
-
-  dimension: bounce_def {
-    description: "if session is bounce 0 = no, 1 = yes"
-    type: string
+  dimension: videoly_startedEvents {
+    type: number
     hidden: yes
-    sql: ${TABLE}.bounces ;;
+    sql: ${TABLE}.Videoly_started_events ;;
+
   }
 
-  measure: bounces {
-    label: "bounces"
-    group_label: "Measures"
-    hidden: yes
+  measure: videoly_started_events {
+    label: "Videoly Started Events"
+    description: "Total Videoly started events"
+    type: sum
+    sql: ${videoly_startedEvents} ;;
+  }
+
+  measure: videoly_startedSessions {
+    label: "Videoly Shown sessions"
+    description: "Sessions where Videoly was shown"
     type: count_distinct
-    filters: [bounce_def: "0"]
-    sql: ${TABLE}.session_id;;
+    sql: ${session_id} ;;
+    filters: [videoly_startedEvents: ">=1"]
   }
 
-  measure: bs {
-    label: "Bounced sessions"
-    hidden: yes
-    group_label: "Measures"
-    sql: ${all_sessions}-${bounces} ;;
-
-  }
-
-  #
-  # measure: total_lifetime_orders {
-  #   description: "Use this for counting lifetime orders across many users"
-  #   type: sum
-  #   sql: ${lifetime_orders} ;;
-  # }
 }
-
-# view: videoly_funnel_ga4 {
-#   # Or, you could make this view a derived table, like this:
-#   derived_table: {
-#     sql: SELECT
-#         user_id as user_id
-#         , COUNT(*) as lifetime_orders
-#         , MAX(orders.created_at) as most_recent_purchase_at
-#       FROM orders
-#       GROUP BY user_id
-#       ;;
-#   }
-#
-#   # Define your dimensions and measures here, like this:
-#   dimension: user_id {
-#     description: "Unique ID for each user that has ordered"
-#     type: number
-#     sql: ${TABLE}.user_id ;;
-#   }
-#
-#   dimension: lifetime_orders {
-#     description: "The total number of orders for each user"
-#     type: number
-#     sql: ${TABLE}.lifetime_orders ;;
-#   }
-#
-#   dimension_group: most_recent_purchase {
-#     description: "The date when each user last ordered"
-#     type: time
-#     timeframes: [date, week, month, year]
-#     sql: ${TABLE}.most_recent_purchase_at ;;
-#   }
-#
-#   measure: total_lifetime_orders {
-#     description: "Use this for counting lifetime orders across many users"
-#     type: sum
-#     sql: ${lifetime_orders} ;;
-#   }
-# }

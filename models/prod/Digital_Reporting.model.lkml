@@ -91,6 +91,13 @@ explore: GA4_test {
     sql_on: ${stock_cover.stock_date_date} = ${aac.date} and ${ga_digital_transactions.productUID} = ${aac.product_uid} ;;
   }
 
+  join: videoly_funnel_ga4 {
+    view_label: "Videoly Funnel"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${calendar_completed_date.date} = ${videoly_funnel_ga4.date_date} ;;
+  }
+
 
 }
 explore: GA4 {
