@@ -21,7 +21,7 @@ explore: GA4_test {
   join: calendar_completed_date{
     from:  calendar
     view_label: "Datetime (of event)"
-    type:  inner
+    type:  left_outer
     relationship: one_to_many
     sql_on: ${ga_digital_transactions.date_date}=${calendar_completed_date.date} ;;
   }

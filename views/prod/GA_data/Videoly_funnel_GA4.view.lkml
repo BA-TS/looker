@@ -234,7 +234,7 @@ group by 2,3,4,5,6,7;;
   }
 
   measure: videoly_startedSessions {
-    label: "Videoly Shown sessions"
+    label: "Videoly started sessions"
     description: "Sessions where Videoly was shown"
     type: count_distinct
     sql: ${session_id} ;;
