@@ -254,7 +254,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
     description: "Sessions where Videoly was started"
     type: count_distinct
     sql: ${session_id} ;;
-    filters: [videoly_startedEvents: ">=1"]
+    filters: [videoly_shownEvents: ">=1"]
   }
 
   dimension_group: Add_to_cartTime {
@@ -281,6 +281,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
     description: "Total Add to Cart events where video was shown and started"
     type: sum
     sql: ${ATC_events} ;;
+    filters: [videoly_shownEvents: ">=1", videoly_startedEvents: ">=1"]
   }
 
   measure: ATC_Sessions {
@@ -290,7 +291,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
     description: "Sessions where item was added to cart where video was shown and started"
     type: count_distinct
     sql: ${session_id} ;;
-    filters: [videoly_startedEvents: ">=1", videoly_startedEvents: ">=1", ATC_events: ">=1"]
+    filters: [videoly_shownEvents: ">=1", videoly_startedEvents: ">=1"]
   }
 
   dimension_group: purchase_Time {
@@ -326,7 +327,7 @@ datagroup_trigger: ts_googleanalytics_datagroup
     description: "Sessions where purchase occured after a video was shown and started"
     type: count_distinct
     sql: ${session_id} ;;
-    filters: [videoly_startedEvents: ">=1", videoly_startedEvents: ">=1", ATC_events: ">=1", purchase_events: ">=1" ]
+    filters: [videoly_shownEvents: ">=1", videoly_startedEvents: ">=1", ATC_events: ">=1", purchase_events: ">=1" ]
   }
 
   measure: purchase_revenue {
@@ -337,7 +338,28 @@ datagroup_trigger: ts_googleanalytics_datagroup
     type: sum
     value_format_name: gbp
     sql: ${TABLE}.revenue ;;
-    filters: [videoly_startedEvents: ">=1", videoly_startedEvents: ">=1", ATC_events: ">=1", purchase_events: ">=1" ]
+    filters: [videoly_shownEvents: ">=1", videoly_startedEvents: ">=1", ATC_events: ">=1", purchase_events: ">=1" ]
+  }
+
+  measure: purchaseNotStarted_Sessions {
+    view_label: "GA4"
+    group_label: "Stage 4: Purchase"
+    label: "Purchase sessions (Videoly shown not started)"
+    description: "Sessions where purchase occured after a video was shown and not started"
+    type: count_distinct
+    sql: ${session_id} ;;
+    filters: [videoly_shownEvents: ">=1", videoly_startedEvents: "0 or NULL" ]
+  }
+
+  measure: purchaseNotStarted_revenue {
+    view_label: "GA4"
+    group_label: "Stage 4: Purchase"
+    label: "Revenue (videoly shown not started)"
+    description: "revenue where purchase occured after a video was shown and not started"
+    type: sum
+    value_format_name: gbp
+    sql: ${TABLE}.revenue ;;
+    filters: [videoly_startedEvents: ">=1", videoly_startedEvents: "0 or NULL" ]
   }
 
 }
