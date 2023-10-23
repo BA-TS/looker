@@ -333,7 +333,6 @@ view: sites {
     label: "Opening Times Mon - Fri"
     type: string
     sql: ${TABLE}.Opening_times_Mon_Fri ;;
-    hidden: yes
   }
 
   dimension: Opening_times_Sat {
@@ -341,7 +340,6 @@ view: sites {
     label: "Opening Times Sat"
     type: string
     sql: ${TABLE}.Opening_times_Sat ;;
-    hidden: yes
   }
 
   dimension: Opening_times_Sun {
@@ -349,6 +347,5 @@ view: sites {
     label: "Opening Times Sun"
     type: string
     sql: ${TABLE}.Opening_times_Sun ;;
-    hidden: yes
   }
 }
