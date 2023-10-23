@@ -136,12 +136,23 @@ AND {% condition select_date_range %} (date) {% endcondition %}
     sql: ${TABLE}.Campaign ;;
   }
 
+  dimension: event_namev2 {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.event_name ;;
+  }
+
   dimension: event_name {
     view_label: "GA4"
     label: "Event Name"
     group_label: "Event"
     type: string
-    sql: ${TABLE}.event_name ;;
+    sql: case when ${event_namev2} = "videoly" then ${label_1}
+    when ${event_namev2} = "Videoly_videoStart" then "videoly_start"
+    when ${event_namev2} = "Videoly_initialize" then "videoly_box_shown"
+    when ${event_namev2} = "Videoly_videoClosed" then "videoly_closed"
+    when regexp_contains(${event_namev2},"Videoly_progress") then "videoly_progress"
+    else ${event_namev2};;
   }
 
   dimension: key_1 {
