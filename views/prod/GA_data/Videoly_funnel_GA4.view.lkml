@@ -13,7 +13,7 @@ view: videoly_funnel_ga4 {
     hidden: yes
     primary_key: yes
     type: number
-    sql: ${TABLE}.ROW_NUM ;;
+    sql: ${TABLE}.P_K ;;
    }
   #
    dimension: session_id {
