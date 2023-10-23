@@ -122,7 +122,7 @@ where (((b.minTime) is null or a.minTime<b.minTime))
 and ((c.minTime is null or a.minTime<c.minTime))
 and ((d.minTime is null or a.minTime<d.minTime))
 group by 2,3,4,5,6,7;;
-#datagroup_trigger: ts_googleanalytics_datagroup
+datagroup_trigger: ts_googleanalytics_datagroup
   }
   # # You can specify the table name if it's different from the view name:
   # sql_table_name: my_schema_name.tester ;;
@@ -185,6 +185,7 @@ group by 2,3,4,5,6,7;;
   dimension_group: videoly_shownTime {
     type: time
     timeframes: [time]
+    group_label: "Stage 1: Videoly Shown"
     description: "datetime session was first shown videoly"
     label: "Videoly Shown Time"
     sql: ${TABLE}.videoly_shownTime ;;
@@ -197,6 +198,7 @@ group by 2,3,4,5,6,7;;
   }
 
   measure: videoly_shown_events {
+    group_label: "Stage 1: Videoly Shown"
     label: "Videoly Shown Events"
     description: "Total Videoly shown events"
     type: sum
@@ -204,6 +206,7 @@ group by 2,3,4,5,6,7;;
   }
 
   measure: videoly_shownSessions {
+    group_label: "Stage 1: Videoly Shown"
     label: "Videoly Shown sessions"
     description: "Sessions where Videoly was shown"
     type: count_distinct
@@ -214,6 +217,7 @@ group by 2,3,4,5,6,7;;
   dimension_group: videoly_startedTime {
     type: time
     timeframes: [time]
+    group_label: "Stage 2: Videoly Started"
     description: "datetime session was first started videoly"
     label: "Videoly Started Time"
     sql: ${TABLE}.videoly_startedTime ;;
@@ -227,6 +231,7 @@ group by 2,3,4,5,6,7;;
   }
 
   measure: videoly_started_events {
+    group_label: "Stage 2: Videoly Started"
     label: "Videoly Started Events"
     description: "Total Videoly started events"
     type: sum
@@ -234,11 +239,78 @@ group by 2,3,4,5,6,7;;
   }
 
   measure: videoly_startedSessions {
+    group_label: "Stage 2: Videoly Started"
     label: "Videoly started sessions"
-    description: "Sessions where Videoly was shown"
+    description: "Sessions where Videoly was started"
     type: count_distinct
     sql: ${session_id} ;;
     filters: [videoly_startedEvents: ">=1"]
+  }
+
+  dimension_group: Add_to_cartTime {
+    type: time
+    timeframes: [time]
+    description: "datetime item was was first added to cart where video was shown and started"
+    group_label: "Stage 3: Add to Cart"
+    label: "Add to Cart Time"
+    sql: ${TABLE}.Add_to_cartTime ;;
+  }
+
+  dimension: ATC_events {
+    type: number
+    hidden: yes
+    sql: ${TABLE}.ATC_events ;;
+
+  }
+
+  measure: add_to_cart_events {
+    group_label: "Stage 3: Add to Cart"
+    label: "Add to Cart Events"
+    description: "Total Add to Cart events where video was shown and started"
+    type: sum
+    sql: ${ATC_events} ;;
+  }
+
+  measure: ATC_Sessions {
+    group_label: "Stage 3: Add to Cart"
+    label: "Add to cart sessions"
+    description: "Sessions where item was added to cart where video was shown and started"
+    type: count_distinct
+    sql: ${session_id} ;;
+    filters: [videoly_startedEvents: ">=1", videoly_startedEvents: ">=1"]
+  }
+
+  dimension_group: purchase_Time {
+    type: time
+    timeframes: [time]
+    description: "datetime purchase first occured in session where video was shown and started"
+    group_label: "Stage 4: Purchase"
+    label: "Purchase Time"
+    sql: ${TABLE}.purchaseTime ;;
+  }
+
+  dimension: purchase_events {
+    type: number
+    hidden: yes
+    sql: ${TABLE}.purchase_events ;;
+
+  }
+
+  measure: PurchaseEvents {
+    group_label: "Stage 4: Purchase"
+    label: "Purchase Events"
+    description: "Total Purchase events where earlier in the session a video was shown and started"
+    type: sum
+    sql: ${purchase_events} ;;
+  }
+
+  measure: purchase_Sessions {
+    group_label: "Stage 4: Purchase"
+    label: "Purchase sessions"
+    description: "Sessions where purchase occured after a video was shown and started"
+    type: count_distinct
+    sql: ${session_id} ;;
+    filters: [videoly_startedEvents: ">=1", videoly_startedEvents: ">=1"]
   }
 
 }
