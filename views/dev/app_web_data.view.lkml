@@ -214,9 +214,9 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
         group_label: "Measures"
         label: "Net Sale Revenue"
         description: "Net Revenue of order"
-        type: number
+        type: sum
         value_format_name: gbp
-        sql: sum(${TABLE}.revenue) * 0.9973 ;;
+        sql: (${TABLE}.revenue * 0.9973) ;;
       }
 
       measure: revenue2 {
