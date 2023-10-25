@@ -9,6 +9,7 @@ customerUID as customerID,
 parentOrderUID as OrderID,
 case when productUID is null then "NONE" else productUID end as productUID,
 upper(salesChannel) as salesChannel,
+paymentType,
 timestamp(transactionDate) as Transaction,
 timestamp(PlacedDate) as Placed,
 Case
@@ -29,7 +30,7 @@ transactionLineType = "Sale" and
 productCode not in ('85699','00053') and
 isCancelled = 0  and
 (userUID  = 'APP')
-group by 1,2,3,4,5,6,7,8
+group by 1,2,3,4,5,6,7,8,9
 union distinct
 
 select distinct
@@ -37,6 +38,7 @@ customerUID as customerID,
 parentOrderUID as OrderID,
 case when productUID is null then "NONE" else productUID end as productUID,
 upper(salesChannel) as salesChannel,
+paymentType,
 timestamp(transactionDate) as Transaction,
 timestamp(PlacedDate) as Placed,
 Case
@@ -57,13 +59,14 @@ transactionLineType = "Sale" and
 productCode not in ('85699','00053') and
 isCancelled = 0 and
 (userUID  = 'WWW')
-group by 1,2,3,4,5,6,7,8
+group by 1,2,3,4,5,6,7,8,9
  union distinct
 SELECT distinct
 customerUID as customerID,
 parentOrderUID as OrderID,
 productUID,
 upper(salesChannel) as salesChannel,
+paymentType,
 timestamp(transactionDate) as Transaction,
 timestamp(PlacedDate) as Placed,
 Case
@@ -82,13 +85,14 @@ where
 transactionLineType = "Sale" and
 productCode not in ('85699','00053') and
 (userUID  = 'APP')
-group by 1,2,3,4,5,6,7,8
+group by 1,2,3,4,5,6,7,8,9
 union distinct
 SELECT distinct
 customerUID as customerID,
 parentOrderUID as OrderID,
 productUID,
 upper(salesChannel) as salesChannel,
+paymentType,
 timestamp(transactionDate) as Transaction,
 timestamp(PlacedDate) as Placed,
 Case
@@ -107,7 +111,7 @@ where
 transactionLineType = "Sale" and
 productCode not in ('85699','00053') and
 (userUID  = 'WWW')
-group by 1,2,3,4,5,6,7,8
+group by 1,2,3,4,5,6,7,8,9
 ) )
 select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
 
@@ -150,6 +154,13 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
     description: "sales Channel used to fulfil order"
     type:string
     sql: ${TABLE}.salesChannel;;
+  }
+
+  dimension: paymentType {
+    label: "Payment Type"
+    description: "Payment used to purchase"
+    type:string
+    sql: ${TABLE}.paymentType;;
   }
 
   dimension: status {
