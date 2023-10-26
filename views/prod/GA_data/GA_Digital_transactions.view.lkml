@@ -27,6 +27,7 @@ view: ga_digital_transactions {
     transactions.OrderID,
     transactions.customer,
     transactions.salesChannel,
+    transactions.paymentType,
     transactions.placed,
     MinTime,
     transactions.Quantity,
@@ -303,6 +304,15 @@ AND {% condition select_date_range %} (date) {% endcondition %}
     type: string
     sql: ${TABLE}.salesChannel ;;
   }
+
+  dimension: paymentType {
+    view_label: "Digital Transactions"
+    label: "Payment Type"
+    group_label: "Transaction"
+    type: string
+    sql: ${TABLE}.paymentType ;;
+  }
+
 
   dimension: status_order {
     view_label: "Digital Transactions"
