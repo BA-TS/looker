@@ -1,4 +1,5 @@
 view: spc_buckets {
+  view_label:"Order Sales Buckets"
   derived_table: {
     explore_source: base {
       bind_all_filters: yes
@@ -18,7 +19,7 @@ view: spc_buckets {
     sql: ${TABLE}.spc_net_sales ;;
   }
 
-  dimension: spc_tier {
+  dimension: spend_per_customer_buckets {
     type: tier
     tiers: [0,100]
     style: integer
