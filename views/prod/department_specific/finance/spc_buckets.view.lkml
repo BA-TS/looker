@@ -20,6 +20,7 @@ view: spc_buckets {
   }
 
   dimension: spend_per_customer_buckets {
+    label: "Spend Per Customer Buckets (Over or Under £100)"
     type: tier
     tiers: [0,100]
     style: integer
