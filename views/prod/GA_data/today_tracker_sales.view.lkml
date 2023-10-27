@@ -159,7 +159,7 @@ order by 3 desc
     label: "Purchase Rate"
     type: number
     value_format_name: percent_2
-    sql: ${purchase}/${session_start} ;;
+    sql: safe_divide(${purchase},${session_start}) ;;
   }
 
   measure: ATC_CR {
@@ -168,7 +168,7 @@ order by 3 desc
     label: "Add to Cart Rate"
     type: number
     value_format_name: percent_2
-    sql: ${add_to_cart}/${session_start} ;;
+    sql: safe_divide(${add_to_cart},${session_start}) ;;
   }
 
   measure: AOV {
@@ -177,6 +177,6 @@ order by 3 desc
     label: "AOV"
     type: number
     value_format_name: gbp
-    sql: ${Transactions}/${revenue} ;;
+    sql: safe_divide(${Transactions},${revenue}) ;;
   }
 }
