@@ -90,7 +90,7 @@ order by 3 desc
     label: "Revenue"
     type: sum
     value_format_name: gbp
-    sql: ${TABLE}.revenue ;;
+    sql: ${TABLE}.item_revenue ;;
   }
 
   dimension: itemQ {
