@@ -109,6 +109,14 @@ order by 3 desc
     filters: [event_name: "session_start"]
   }
 
+  measure: Transactions {
+    description: "Total transactions today"
+    view_label: "Today Tracker"
+    label: "Transactions"
+    type: count_distinct
+    sql: ${transaction_id} ;;
+  }
+
   measure: add_to_cart {
     description: "Total sessions with event add_to_cart"
     view_label: "Today Tracker"
@@ -143,5 +151,32 @@ order by 3 desc
     type: sum
     sql: ${itemQ} ;;
     filters: [event_name: "purchase"]
+  }
+
+  measure: purchase_CR {
+    description: "Purchase conversion Rate"
+    view_label: "Today Tracker"
+    label: "Purchase Rate"
+    type: number
+    value_format_name: percent_2
+    sql: ${purchase}/${session_start} ;;
+  }
+
+  measure: ATC_CR {
+    description: "ATC conversion Rate"
+    view_label: "Today Tracker"
+    label: "Add to Cart Rate"
+    type: number
+    value_format_name: percent_2
+    sql: ${add_to_cart}/${session_start} ;;
+  }
+
+  measure: AOV {
+    description: "Average Order Value"
+    view_label: "Today Tracker"
+    label: "AOV"
+    type: number
+    value_format_name: gbp
+    sql: ${Transactions}/${revenue} ;;
   }
 }
