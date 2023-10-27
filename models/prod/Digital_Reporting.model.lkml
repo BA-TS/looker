@@ -103,7 +103,7 @@ explore: GA4_test {
   join: today_tracker_sales {
     view_label: "Today Tracker"
     type: left_outer
-    relationship: one_to_many
+    relationship: one_to_one
     sql_on: ${ga_digital_transactions.item_id} = ${today_tracker_sales.item_id};;
   }
 
