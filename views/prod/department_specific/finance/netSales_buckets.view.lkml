@@ -1,5 +1,5 @@
 view: bucketed_order_sales {
-  view_label: "Order Sales Buckets"
+  view_label: "Buckets"
   derived_table: {
     sql:
 WITH parent_order_sums AS (
@@ -80,19 +80,18 @@ WITH parent_order_sums AS (
     group_label: "Sales Increments"
   }
 
-
   dimension: over_under_25 {
     type: string
     sql: ${TABLE}.over_under_25 ;;
     label: "Over or Under £25"
-    group_label: "Over/Under"
+    group_label: "Sales Over/Under"
   }
 
   dimension: over_under_60 {
     type: string
     sql: ${TABLE}.over_under_60 ;;
     label: "Over or Under £60"
-    group_label: "Over/Under"
+    group_label: "Sales Over/Under"
   }
 
   measure: num_transactions {
