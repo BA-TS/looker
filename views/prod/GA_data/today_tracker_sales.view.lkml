@@ -9,8 +9,8 @@ items.item_id,
 items.item_revenue as item_revenue,
 items.quantity as itemQ,
 concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) AS sessions_Today
-FROM `toolstation-data-storage.analytics_265133009.events_*` left join unnest (items) as items
-where _TABLE_SUFFIX = format_date("%Y%m%d", date_sub(current_date(), INTERVAL 1 day))
+FROM `toolstation-data-storage.analytics_265133009.events_intraday_*` left join unnest (items) as items
+where _TABLE_SUFFIX = format_date("%Y%m%d", current_date())
 and event_name in ("purchase", "Purchase", "session_start","add_to_cart")
 group by 1,2,4,5,6,7,8
 union distinct
@@ -23,8 +23,8 @@ items.item_id,
 items.item_revenue as item_revenue,
 items.quantity as itemQ,
 concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) AS sessions_Today
-FROM `toolstation-data-storage.analytics_251803804.events_*` left join unnest (items) as items
-where _TABLE_SUFFIX = format_date("%Y%m%d", date_sub(current_date(), INTERVAL 1 day))
+FROM `toolstation-data-storage.analytics_251803804.events_intraday_*` left join unnest (items) as items
+where _TABLE_SUFFIX = format_date("%Y%m%d", current_date())
 and event_name in ("purchase", "Purchase", "session_start","add_to_cart")
 group by 1,2,4,5,6,7,8)
 select distinct row_number() over () as P_K, *

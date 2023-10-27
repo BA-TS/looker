@@ -100,6 +100,13 @@ explore: GA4_test {
     ${ga_digital_transactions.session_id} = ${videoly_funnel_ga4.session_id};;
   }
 
+  join: today_tracker_sales {
+    view_label: "Today Tracker"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${ga_digital_transactions.item_id} = ${today_tracker_sales.item_id};;
+  }
+
 
 }
 explore: GA4 {
