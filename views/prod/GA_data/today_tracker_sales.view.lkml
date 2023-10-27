@@ -54,7 +54,7 @@ order by 3 desc
     description: "Min datetime of event"
     label: ""
     type: time
-    timeframes: [time_of_day]
+    timeframes: [time_of_day, hour]
     sql: ${TABLE}.Time ;;
   }
 
@@ -81,6 +81,7 @@ order by 3 desc
 
   dimension: item_id {
     description: "Item ID"
+    hidden: yes
     type: string
     sql: ${TABLE}.item_id ;;
   }
@@ -95,6 +96,7 @@ order by 3 desc
 
   dimension: itemQ {
     type: number
+    hidden: yes
     sql: ${TABLE}.itemQ ;;
   }
 
