@@ -54,7 +54,7 @@ order by 3 desc
     description: "Min datetime of event"
     label: ""
     type: time
-    timeframes: [date,time_of_day, hour]
+    timeframes: [date,time_of_day, hour_of_day]
     sql: ${TABLE}.Time ;;
   }
 
