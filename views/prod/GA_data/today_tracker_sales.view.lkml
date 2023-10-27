@@ -49,12 +49,12 @@ order by 3 desc
   }
 
   dimension_group: time{
-    group_label: "Time"
+    group_label: "Datetime"
     view_label: "Today Tracker"
     description: "Min datetime of event"
     label: ""
     type: time
-    timeframes: [time_of_day, hour]
+    timeframes: [date,time_of_day, hour]
     sql: ${TABLE}.Time ;;
   }
 
