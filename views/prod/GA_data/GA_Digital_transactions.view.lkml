@@ -815,4 +815,8 @@ AND {% condition select_date_range %} (date) {% endcondition %}
     sql: ${TABLE}.supplierPartNumber ;;
   }
 
+  set: product {
+    fields: [item_id,productUID,productName,productDepartment,productSubDepartment,productBrand]
+  }
+
 }
