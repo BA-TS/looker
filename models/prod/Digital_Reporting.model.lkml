@@ -105,7 +105,7 @@ explore: GA4_test {
     type: left_outer
     relationship: one_to_one
     sql_on: ${ga_digital_transactions.item_id} = ${today_tracker_sales.item_id};;
-    fields: [item_id]
+    fields: [item_id, today_tracker_sales.revenue]
   }
 
 
