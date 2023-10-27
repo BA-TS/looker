@@ -1,5 +1,5 @@
 view: spc_buckets {
-  view_label:"Order Sales Buckets"
+  view_label:"Buckets"
   derived_table: {
     explore_source: base {
       bind_all_filters: yes
@@ -20,7 +20,7 @@ view: spc_buckets {
   }
 
   dimension: spend_per_customer_buckets {
-    label: "Spend Per Customer Buckets (Over or Under £100)"
+    label: "Spend Per Customer(Over or Under £100)"
     type: tier
     tiers: [0,100]
     style: integer
