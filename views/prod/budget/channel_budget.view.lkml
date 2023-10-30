@@ -24,7 +24,7 @@ view: channel_budget {
     group_label: "Sales Channel"
     description: "Sales Channel where budget has been detirmined"
     type: string
-    sql: upper(${TABLE}.channel) ;;
+    sql: upper(case when ${TABLE}.channel = "NEXT DAY C&C" then "CLICK & COLLECT" else ${TABLE}.channel end) ;;
   }
 
   dimension_group: date {

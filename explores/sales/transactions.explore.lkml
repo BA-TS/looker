@@ -139,8 +139,7 @@ explore: base {
     view_label: "Budget"
     type:  left_outer
     relationship: many_to_one
-    sql_on:${base.date_date}=${channel_budget.date_date} AND ${transactions.sales_channel} = (case when ${channel_budget.channel} = "NEXT DAY C&C" then "CLICK & COLLECT" else ${channel_budget.channel} end)
-;;
+    sql_on:${base.date_date}=${channel_budget.date_date} AND ${transactions.sales_channel} = ${channel_budget.channel} ;;
   }
 
 
