@@ -43,7 +43,7 @@ view: trade_credit_details {
       time
     ]
     sql: ${TABLE}.tcAccountCreatedDate ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: tc_account_name {
