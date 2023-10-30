@@ -36,6 +36,7 @@ view: trade_credit_details {
 
   dimension_group: tc_account_created {
     label: "Trade Account Created"
+    group_label: "Trade Accounts"
     type: time
     timeframes: [
       raw,
