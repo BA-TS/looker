@@ -350,7 +350,7 @@ explore: digital_reporting {
     sql_on:
         ${base.date_date}=${channel_budget.date_date}
         AND
-        ${app_web_data.salesChannel} = (case when ${channel_budget.channel} = "NEXT DAY C&C" then "CLICK & COLLECT" else ${channel_budget.channel} end)
+        ${app_web_data.salesChannel} = ${channel_budget.channel}
       ;;
   }
 
