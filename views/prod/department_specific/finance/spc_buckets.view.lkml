@@ -27,7 +27,8 @@ view: spc_buckets {
   }
 
   dimension: spend_per_customer_buckets {
-    label: "Spend Per Customer(Net Sales, Over/Under £100)"
+    label: "Over/Under £100 (Net Sales)"
+    group_label: "Spend Per Customer"
     type: tier
     tiers: [0,100]
     style: integer
@@ -35,7 +36,8 @@ view: spc_buckets {
   }
 
   dimension: spend_per_customer_buckets_gross {
-    label: "Spend Per Customer(Gross Sales, Over/Under £100)"
+    label: "Over/Under £100 (Gross Sales)"
+    group_label: "Spend Per Customer"
     type: tier
     tiers: [0,100]
     style: integer
