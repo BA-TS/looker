@@ -35,7 +35,8 @@ view: trade_credit_details {
   }
 
   dimension_group: tc_account_created {
-    label: "Account Created"
+    label: "Trade Account Created"
+    group_label: "Trade Accounts"
     type: time
     timeframes: [
       raw,
@@ -43,7 +44,7 @@ view: trade_credit_details {
       time
     ]
     sql: ${TABLE}.tcAccountCreatedDate ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: tc_account_name {
