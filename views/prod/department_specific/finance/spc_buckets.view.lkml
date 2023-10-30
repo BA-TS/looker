@@ -20,6 +20,12 @@ view: spc_buckets {
     sql: ${TABLE}.spc_net_sales ;;
   }
 
+  dimension: spc_gross_sales {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.spc_gross_sales ;;
+  }
+
   dimension: spend_per_customer_buckets {
     label: "Spend Per Customer(Net Sales, Over/Under £100)"
     type: tier
@@ -28,11 +34,11 @@ view: spc_buckets {
     sql: ${spc_net_sales} ;;
   }
 
-  # dimension: spend_per_customer_buckets_gross {
-  #   label: "Spend Per Customer(Gross Sales, Over/Under £100)"
-  #   type: tier
-  #   tiers: [0,100]
-  #   style: integer
-  #   sql: ${spc_gross_sales} ;;
-  # }
+  dimension: spend_per_customer_buckets_gross {
+    label: "Spend Per Customer(Gross Sales, Over/Under £100)"
+    type: tier
+    tiers: [0,100]
+    style: integer
+    sql: ${spc_gross_sales} ;;
+  }
 }
