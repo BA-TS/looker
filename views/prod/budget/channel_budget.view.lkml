@@ -37,6 +37,13 @@ from`toolstation-data-storage.ts_finance.channelBudget`;;
       {% endif %};;
   }
 
+  dimension: P_K {
+    hidden: yes
+    primary_key: yes
+    type: number
+    sql: ${TABLE}.PK ;;
+  }
+
   dimension: channel {
     #hidden: yes
     label: "Channel"
@@ -55,7 +62,6 @@ from`toolstation-data-storage.ts_finance.channelBudget`;;
 
   dimension: date_channel {
     type: string
-    primary_key: yes
     hidden: yes
     sql: ${TABLE}.date||${channel} ;;
   }
