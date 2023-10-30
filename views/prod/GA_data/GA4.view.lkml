@@ -13,7 +13,10 @@ and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %
 AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %}
 group by 1,2,3
 union distinct
-SELECT distinct value.string_value from UNNEST(event_params) WHERE key = 'page_title') as page_title,
+SELECT distinct event_name,
+(SELECT distinct value.string_value from UNNEST(event_params) WHERE key = 'page_location'
+) as page_location,
+(SELECT distinct value.string_value from UNNEST(event_params) WHERE key = 'page_title') as page_title,
 countif(event_name = 'page_view') as page_views
 FROM `toolstation-data-storage.analytics_251803804.events_intraday_*`
 where event_name in ("page_view") and
