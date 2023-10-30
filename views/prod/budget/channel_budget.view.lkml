@@ -1,6 +1,25 @@
 view: channel_budget {
-  sql_table_name:`toolstation-data-storage.ts_finance.channelBudget`;;
-
+  derived_table: {
+    sql: SELECT distinct row_number() over () as PK, date,
+case when channel in ("NEXT DAY C&C") then "CLICK & COLLECT" else channel end as channel,
+netSales,
+grossProfit,
+retroFunding,
+fixedFunding,
+rf1.netSales as rf1_netSales,
+rf1.grossProfit as rf1_grossProfit,
+rf1.retroFunding as rf1_retroFunding,
+rf1.fixedFunding as rf1_fixedFunding,
+rf2.netSales as rf2_netSales,
+rf2.grossProfit as rf2_grossProfit,
+rf2.retroFunding as rf2_retroFunding,
+rf2.fixedFunding as rf2_fixedFunding,
+rf3.netSales as rf3_netSales,
+rf3.grossProfit as rf3_grossProfit,
+rf3.retroFunding as rf3_retroFunding,
+rf3.fixedFunding as rf3_fixedFunding
+from`toolstation-data-storage.ts_finance.channelBudget`;;
+}
   dimension: channel_budget_in_query {
     hidden: yes
     sql:
@@ -130,25 +149,25 @@ view: channel_budget {
   dimension: rf2_fixed_funding {
     hidden: yes
     type: number
-    sql: ${TABLE}.rf2.fixedFunding ;;
+    sql: ${TABLE}.rf2_fixedFunding ;;
   }
 
   dimension: rf2_gross_profit {
     hidden: yes
     type: number
-    sql: ${TABLE}.rf2.grossProfit ;;
+    sql: ${TABLE}.rf2_grossProfit ;;
   }
 
   dimension: rf2_net_sales {
     type: number
-    sql: ${TABLE}.rf2.netSales ;;
+    sql: ${TABLE}.rf2_netSales ;;
     hidden: yes
   }
 
   dimension: rf2_retro_funding {
     hidden: yes
     type: number
-    sql: ${TABLE}.rf2.retroFunding ;;
+    sql: ${TABLE}.rf2_retroFunding ;;
   }
 
   measure: rf2_channel_net_sales_budget {
@@ -216,25 +235,25 @@ view: channel_budget {
   dimension: rf3_fixed_funding {
     hidden: yes
     type: number
-    sql: ${TABLE}.rf3.fixedFunding ;;
+    sql: ${TABLE}.rf3_fixedFunding ;;
   }
 
   dimension: rf3_gross_profit {
     hidden: yes
     type: number
-    sql: ${TABLE}.rf3.grossProfit ;;
+    sql: ${TABLE}.rf3_grossProfit ;;
   }
 
   dimension: rf3_net_sales {
     type: number
-    sql: ${TABLE}.rf3.netSales ;;
+    sql: ${TABLE}.rf3_netSales ;;
     hidden: yes
   }
 
   dimension: rf3_retro_funding {
     hidden: yes
     type: number
-    sql: ${TABLE}.rf3.retroFunding ;;
+    sql: ${TABLE}.rf3_retroFunding ;;
   }
 
   measure: channel_net_sales_rf3 {
