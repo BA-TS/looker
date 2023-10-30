@@ -1,11 +1,12 @@
 view: products {
   derived_table: {
   sql:
-  SELECT distinct * FROM `toolstation-data-storage.range.products_current`
-  union distinct
-  select null, null, null, null, null, null, null, null, null, null,
-  null, null, null, null, null, null, null, null, null, null,
-  null, null, null, null, null, null, null, null, null, null;;
+  SELECT distinct product.*, crp.retailBasePrice, crp.baseVAT
+  FROM `toolstation-data-storage.range.products_current` as product left join `toolstation-data-storage.range.currentRetailPrice` as crp
+on product.productUID = crp.productUID
+  ;;
+
+    datagroup_trigger: ts_transactions_datagroup
   }
 
   dimension_group: date {
@@ -265,6 +266,24 @@ view: products {
     group_label: "Flags"
     type: yesno
     sql: ${TABLE}.isActive = 1 ;;
+  }
+
+  dimension: retail_base_price {
+    description: "Retail Base Price"
+    label: "Retail Base Price"
+    group_label: "Current Retail Price"
+    type: number
+    value_format_name: gbp
+    sql: ${TABLE}.retailBasePrice ;;
+  }
+
+  dimension: baseVAT {
+    description: "baseVAT"
+    label: "Base VAT"
+    group_label: "Current Retail Price"
+    type: number
+    value_format_name: decimal_1
+    sql: ${TABLE}.baseVAT ;;
   }
 
 

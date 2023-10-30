@@ -570,6 +570,7 @@ order by date desc; ;;
       label: "Retail Base Price"
       group_label: "Current Retail Price"
       type: number
+      hidden: yes
       value_format_name: gbp
       sql: ${TABLE}.retailBasePrice ;;
     }
@@ -579,6 +580,7 @@ order by date desc; ;;
       label: "Base VAT"
       group_label: "Current Retail Price"
       type: number
+      hidden: yes
       value_format_name: decimal_1
       sql: ${TABLE}.baseVAT ;;
     }
