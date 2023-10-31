@@ -179,6 +179,6 @@ order by 3 desc
     label: "AOV"
     type: number
     value_format_name: gbp
-    sql: safe_divide(${Transactions},${revenue}) ;;
+    sql: safe_divide(${revenue},${Transactions}) ;;
   }
 }
