@@ -3,7 +3,7 @@
      sql: with sub1 as (SELECT distinct
 "App" as platform,
 event_name,
-min(timestamp_add(timestamp_micros(event_timestamp), interval 1 HOUR)) as time,
+min(timestamp_micros(event_timestamp), interval 1 HOUR) as time,
 ecommerce.transaction_id,
 items.item_id,
 items.item_revenue as item_revenue,
@@ -17,7 +17,7 @@ union distinct
 SELECT distinct
 "Web" as Platform,
 event_name,
-min(timestamp_add(timestamp_micros(event_timestamp), interval 1 HOUR)) as time,
+min(timestamp_micros(event_timestamp), interval 1 HOUR) as time,
 ecommerce.transaction_id,
 items.item_id,
 items.item_revenue as item_revenue,
