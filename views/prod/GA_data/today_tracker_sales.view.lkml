@@ -157,7 +157,6 @@ order by 3 desc
     description: "Purchase conversion Rate"
     view_label: "Today Tracker"
     label: "Purchase Rate"
-    hidden: yes
     type: number
     value_format_name: percent_2
     sql: safe_divide(${purchase},${session_start}) ;;
@@ -167,7 +166,6 @@ order by 3 desc
     description: "ATC conversion Rate"
     view_label: "Today Tracker"
     label: "Add to Cart Rate"
-    hidden: yes
     type: number
     value_format_name: percent_2
     sql: safe_divide(${add_to_cart},${session_start}) ;;
