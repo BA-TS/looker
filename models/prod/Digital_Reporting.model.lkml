@@ -130,15 +130,6 @@ explore: GA4_test {
     sql_on: ${products.product_code} = ${today_tracker_sales.item_id};;
   }
 
-  join: total_sessions_today {
-    view_label: "Today Tracker"
-    type: left_outer
-    relationship: one_to_many
-    sql_on: ${today_tracker_sales.time_hour_of_day} = ${total_sessions_today.time_hour_of_day}
-    and ${today_tracker_sales.Platform} = ${total_sessions_today.Platform};;
-    }
-
-
 }
 explore: GA4 {
   #required_access_grants: []

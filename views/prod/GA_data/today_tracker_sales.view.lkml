@@ -157,6 +157,7 @@ order by 3 desc
     description: "Purchase conversion Rate"
     view_label: "Today Tracker"
     label: "Purchase Rate"
+    hidden: yes
     type: number
     value_format_name: percent_2
     sql: safe_divide(${purchase},${session_start}) ;;
@@ -166,6 +167,7 @@ order by 3 desc
     description: "ATC conversion Rate"
     view_label: "Today Tracker"
     label: "Add to Cart Rate"
+    hidden: yes
     type: number
     value_format_name: percent_2
     sql: safe_divide(${add_to_cart},${session_start}) ;;
@@ -179,66 +181,4 @@ order by 3 desc
     value_format_name: gbp
     sql: safe_divide(${Transactions},${revenue}) ;;
   }
-}
-
-view: total_sessions_today {
-  derived_table: {
-    sql: with sub1 as (SELECT distinct
-"App" as platform,
-min(timestamp_add(timestamp_micros(event_timestamp), interval 1 HOUR)) as time,
-concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) AS sessions_Today
-FROM `toolstation-data-storage.analytics_265133009.events_intraday_*` left join unnest (items) as items
-where _TABLE_SUFFIX = format_date("%Y%m%d", current_date())
-and event_name in ("session_start")
-group by 1,3
-union distinct
-SELECT distinct
-"Web" as Platform,
-min(timestamp_add(timestamp_micros(event_timestamp), interval 1 HOUR)) as time,
-concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) AS sessions_Today
-FROM `toolstation-data-storage.analytics_251803804.events_intraday_*` left join unnest (items) as items
-where _TABLE_SUFFIX = format_date("%Y%m%d", current_date())
-and event_name in ("session_start")
-group by 1,3)
-select distinct row_number() over () as P_K, *
-from sub1
-order by 3 desc ;;
-  }
-
-  dimension: P_K {
-    type: number
-    primary_key: yes
-    hidden: yes
-    sql: ${TABLE}.P_K ;;
-  }
-
-  dimension: Platform {
-    view_label: "Today Tracker"
-    label: "Platform"
-    description: "Was App or Web used to access toolstation"
-    hidden: yes
-    type: string
-    sql: ${TABLE}.Platform ;;
-  }
-
-  dimension_group: time{
-    group_label: "Datetime"
-    view_label: "Today Tracker"
-    description: "Min datetime of event"
-    hidden: yes
-    label: ""
-    type: time
-    timeframes: [date,time_of_day, hour_of_day]
-    sql: ${TABLE}.Time ;;
-  }
-
-  measure: session_start {
-    description: "Total sessions with event session Start"
-    view_label: "Today Tracker"
-    label: "Total Sessions"
-    type: count_distinct
-    sql: ${TABLE}.sessions_Today ;;
-  }
-
-
 }
