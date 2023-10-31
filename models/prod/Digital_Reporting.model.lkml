@@ -134,7 +134,8 @@ explore: GA4_test {
     view_label: "Today Tracker"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${today_tracker_sales.time_hour_of_day} = ${total_sessions_today.time_hour_of_day};;
+    sql_on: ${today_tracker_sales.time_hour_of_day} = ${total_sessions_today.time_hour_of_day}
+    and ${today_tracker_sales.Platform} = ${total_sessions_today.Platform};;
     }
 
 
