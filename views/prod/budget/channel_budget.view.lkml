@@ -51,7 +51,7 @@ group by 2,3;;
     group_label: "Sales Channel"
     description: "Sales Channel where budget has been detirmined"
     type: string
-    sql: upper(case when ${TABLE}.channel = "NEXT DAY C&C" then "CLICK & COLLECT" else ${TABLE}.channel end) ;;
+    sql: upper(${TABLE}.channel) ;;
   }
 
   dimension_group: date {
