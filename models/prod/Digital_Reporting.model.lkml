@@ -125,8 +125,8 @@ explore: GA4_test {
 
   join: today_tracker_sales {
     view_label: "Today Tracker"
-    type: left_outer
-    relationship: one_to_one
+    type: full_outer
+    relationship: one_to_many
     sql_on: ${products.product_code} = ${today_tracker_sales.item_id};;
   }
 
