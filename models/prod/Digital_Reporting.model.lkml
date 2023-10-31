@@ -11,16 +11,17 @@ include: "/views/prod/GA_data/Search_PLP_to_PDP_funnel.view.lkml"
 label: "Digital"
 explore: GA4_test {
   required_access_grants: [GA4_access]
-  view_name: ga_digital_transactions
+  view_name: calendar_completed_date
+  from:  calendar
   label: "GA4 (data model in BQ)"
+  view_label: "Datetime (of event)"
   always_filter: {
     filters: [
-      select_date_range: "7 days"
+      ga_digital_transactions.select_date_range: "7 days"
     ]}
 
-  join: calendar_completed_date{
-    from:  calendar
-    view_label: "Datetime (of event)"
+  join: ga_digital_transactions {
+    view_label: "GA44"
     type:  left_outer
     relationship: one_to_many
     sql_on: ${ga_digital_transactions.date_date}=${calendar_completed_date.date} ;;
