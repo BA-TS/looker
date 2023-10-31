@@ -127,8 +127,7 @@ explore: GA4_test {
     view_label: "Today Tracker"
     type: left_outer
     relationship: one_to_one
-    sql_on: ${ga_digital_transactions.item_id} = ${today_tracker_sales.item_id};;
-    fields: [item_id, today_tracker_sales.revenue]
+    sql_on: ${products.product_code} = ${today_tracker_sales.item_id};;
   }
 
 
