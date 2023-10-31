@@ -64,6 +64,7 @@ order by 3 desc
     group_label: "Datetime"
     view_label: "Today Tracker"
     description: "Min datetime of event"
+    hidden: yes
     label: "Current Time"
     type: time
     timeframes: [date,time_of_day, hour_of_day]
