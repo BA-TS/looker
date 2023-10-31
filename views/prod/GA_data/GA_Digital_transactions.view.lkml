@@ -25,6 +25,8 @@ view: ga_digital_transactions {
     page_location,
     Screen_name,
     transactions.OrderID,
+    --transactions.item_id,
+    transactions.productUID,
     transactions.customer,
     transactions.salesChannel,
     transactions.paymentType,
@@ -39,37 +41,13 @@ view: ga_digital_transactions {
     transactions.MarginExclFunding,
     transactions.NetSalePrice,
     transactions.status,
-    products.item_id,
-    products.productUID,
-    products.Price,
-    products.RegularPrice,
-    products.buyerName,
-    products.buyingmanager,
-    products.productBuyingStatus,
-    products.endOfLife,
-    products.productChannel,
-    products.isactive,
-    products.productBrand,
-    products.productDepartment,
-    products.productDescription,
-    products.productName,
-    products.productNameType,
-    products.productStatus,
-    products.productType,
-    products.productSubdepartment,
-    products.warrantyYears,
-    products.manufacturerID,
-    products.supplierPartNumber,
-    products.Promo.promoPrice,
-    products.Promo.type,
+    aw.item_id,
     session_duration,
     events,
     page_views,
     cast(bounces as string) as bounces,
     transactions.transaction
-    FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` left join unnest(transactions) as transactions left join unnest (products) as products
-    where (transactions.item_id = products.item_id or transactions.item_id is null or products.item_id is null)
-    and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
+    FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as transactions  _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
 AND {% condition select_date_range %} (date) {% endcondition %}
        ;;
     datagroup_trigger: ts_googleanalytics_datagroup
@@ -672,151 +650,151 @@ AND {% condition select_date_range %} (date) {% endcondition %}
     sql: ${TABLE}.productUID ;;
   }
 
-  dimension: productName {
-    type: string
-    view_label: "Products"
-    group_label: "Product Details"
-    label: "Product Name"
-    sql: ${TABLE}.productName ;;
-  }
+  # dimension: productName {
+  #   type: string
+  #   view_label: "Products"
+  #   group_label: "Product Details"
+  #   label: "Product Name"
+  #   sql: ${TABLE}.productName ;;
+  # }
 
-  dimension: productNameType {
-    type: string
-    view_label: "Products"
-    group_label: "Product Details"
-    label: "Product Name Type"
-    sql: ${TABLE}.productNameType ;;
-  }
+  # dimension: productNameType {
+  #   type: string
+  #   view_label: "Products"
+  #   group_label: "Product Details"
+  #   label: "Product Name Type"
+  #   sql: ${TABLE}.productNameType ;;
+  # }
 
-  dimension: productBrand {
-    type: string
-    view_label: "Products"
-    group_label: "Product Details"
-    label: "Product Brand"
-    sql: ${TABLE}.productBrand ;;
-  }
+  # dimension: productBrand {
+  #   type: string
+  #   view_label: "Products"
+  #   group_label: "Product Details"
+  #   label: "Product Brand"
+  #   sql: ${TABLE}.productBrand ;;
+  # }
 
-  dimension: productDepartment {
-    type: string
-    view_label: "Products"
-    group_label: "Product Details"
-    label: "Product Department"
-    sql: ${TABLE}.productDepartment ;;
-  }
+  # dimension: productDepartment {
+  #   type: string
+  #   view_label: "Products"
+  #   group_label: "Product Details"
+  #   label: "Product Department"
+  #   sql: ${TABLE}.productDepartment ;;
+  # }
 
-  dimension: productSubDepartment {
-    type: string
-    view_label: "Products"
-    group_label: "Product Details"
-    label: "Product SubDepartment"
-    sql: ${TABLE}.productSubdepartment ;;
-  }
+  # dimension: productSubDepartment {
+  #   type: string
+  #   view_label: "Products"
+  #   group_label: "Product Details"
+  #   label: "Product SubDepartment"
+  #   sql: ${TABLE}.productSubdepartment ;;
+  # }
 
-  dimension: warrantyYears {
-    type: string
-    view_label: "Products"
-    group_label: "Product Details"
-    label: "Warranty Years"
-    sql: ${TABLE}.warrantyYears ;;
-  }
+  # dimension: warrantyYears {
+  #   type: string
+  #   view_label: "Products"
+  #   group_label: "Product Details"
+  #   label: "Warranty Years"
+  #   sql: ${TABLE}.warrantyYears ;;
+  # }
 
-  dimension: buyerName {
-    type: string
-    view_label: "Products"
-    group_label: "Commercial Details"
-    label: "Buyer Name"
-    sql: ${TABLE}.buyerName ;;
-  }
+  # dimension: buyerName {
+  #   type: string
+  #   view_label: "Products"
+  #   group_label: "Commercial Details"
+  #   label: "Buyer Name"
+  #   sql: ${TABLE}.buyerName ;;
+  # }
 
-  dimension: buyingmanager {
-    type: string
-    view_label: "Products"
-    group_label: "Commercial Details"
-    label: "Buying Manager"
-    sql: ${TABLE}.buyingmanager ;;
-  }
+  # dimension: buyingmanager {
+  #   type: string
+  #   view_label: "Products"
+  #   group_label: "Commercial Details"
+  #   label: "Buying Manager"
+  #   sql: ${TABLE}.buyingmanager ;;
+  # }
 
-  dimension: productBuyingStatus {
-    type: string
-    view_label: "Products"
-    group_label: "Commercial Details"
-    label: "Buying Status"
-    sql: ${TABLE}.productBuyingStatus ;;
-  }
+  # dimension: productBuyingStatus {
+  #   type: string
+  #   view_label: "Products"
+  #   group_label: "Commercial Details"
+  #   label: "Buying Status"
+  #   sql: ${TABLE}.productBuyingStatus ;;
+  # }
 
-  dimension: endOfLife {
-    type: string
-    view_label: "Products"
-    group_label: "Commercial Details"
-    label: "End of Life"
-    sql: ${TABLE}.endOfLife ;;
-  }
+  # dimension: endOfLife {
+  #   type: string
+  #   view_label: "Products"
+  #   group_label: "Commercial Details"
+  #   label: "End of Life"
+  #   sql: ${TABLE}.endOfLife ;;
+  # }
 
-  dimension: productChannel {
-    type: string
-    view_label: "Products"
-    group_label: "Commercial Details"
-    label: "Product Channel"
-    sql: ${TABLE}.productChannel ;;
-  }
+  # dimension: productChannel {
+  #   type: string
+  #   view_label: "Products"
+  #   group_label: "Commercial Details"
+  #   label: "Product Channel"
+  #   sql: ${TABLE}.productChannel ;;
+  # }
 
-  dimension: isActive {
-    view_label: "Products"
-    label: "isActive"
-    group_label: "Flags"
-    type: yesno
-    sql: ${TABLE}.isActive = 1 ;;
-  }
+  # dimension: isActive {
+  #   view_label: "Products"
+  #   label: "isActive"
+  #   group_label: "Flags"
+  #   type: yesno
+  #   sql: ${TABLE}.isActive = 1 ;;
+  # }
 
-  dimension: price {
-    value_format_name: gbp
-    view_label: "Products"
-    group_label: "Pricing"
-    label: "Current Price"
-    sql: ${TABLE}.price ;;
-  }
+  # dimension: price {
+  #   value_format_name: gbp
+  #   view_label: "Products"
+  #   group_label: "Pricing"
+  #   label: "Current Price"
+  #   sql: ${TABLE}.price ;;
+  # }
 
-  dimension: regular_price {
-    value_format_name: gbp
-    view_label: "Products"
-    group_label: "Pricing"
-    label: "Regular Price"
-    sql: ${TABLE}.RegularPrice ;;
-  }
+  # dimension: regular_price {
+  #   value_format_name: gbp
+  #   view_label: "Products"
+  #   group_label: "Pricing"
+  #   label: "Regular Price"
+  #   sql: ${TABLE}.RegularPrice ;;
+  # }
 
-  dimension: promo_price {
-    value_format_name: gbp
-    view_label: "Products"
-    group_label: "Pricing"
-    label: "Promo Price"
-    sql: ${TABLE}.PromoPrice ;;
-  }
+  # dimension: promo_price {
+  #   value_format_name: gbp
+  #   view_label: "Products"
+  #   group_label: "Pricing"
+  #   label: "Promo Price"
+  #   sql: ${TABLE}.PromoPrice ;;
+  # }
 
-  dimension: promo_type {
-    type: string
-    view_label: "Products"
-    group_label: "Pricing"
-    label: "Promo Type"
-    sql: ${TABLE}.type ;;
-  }
+  # dimension: promo_type {
+  #   type: string
+  #   view_label: "Products"
+  #   group_label: "Pricing"
+  #   label: "Promo Type"
+  #   sql: ${TABLE}.type ;;
+  # }
 
-  dimension: manufacturer {
-    group_label: "Supply Chain"
-    type: string
-    sql: ${TABLE}.manufacturer ;;
-    hidden: yes
-  }
+  # dimension: manufacturer {
+  #   group_label: "Supply Chain"
+  #   type: string
+  #   sql: ${TABLE}.manufacturer ;;
+  #   hidden: yes
+  # }
 
-  dimension: supplier_part_number {
-    view_label: "Products"
-    group_label: "Supply Chain"
-    label: "Supplier Part Number"
-    type: string
-    sql: ${TABLE}.supplierPartNumber ;;
-  }
+  # dimension: supplier_part_number {
+  #   view_label: "Products"
+  #   group_label: "Supply Chain"
+  #   label: "Supplier Part Number"
+  #   type: string
+  #   sql: ${TABLE}.supplierPartNumber ;;
+  # }
 
-  set: product {
-    fields: [item_id,productUID,productName,productDepartment,productSubDepartment,productBrand]
-  }
+  # set: product {
+  #   fields: [item_id,productUID,productName,productDepartment,productSubDepartment,productBrand]
+  # }
 
 }

@@ -27,6 +27,28 @@ explore: GA4_test {
     sql_on: ${ga_digital_transactions.date_date}=${calendar_completed_date.date} ;;
   }
 
+  join: products {
+    view_label: "Products"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${ga_digital_transactions.item_id} = ${products.product_code};;
+  }
+
+  join: catalogue {
+    view_label: ""
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${ga_digital_transactions.date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
+  }
+
+  join: promoworking {
+    view_label: ""
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${products.product_code} = ${promoworking.Product_Code}
+    and ${catalogue.catalogue_id} = ${promoworking.cycleID};;
+  }
+
   join: calendar_completed_datev2{
     from:  calendar
     view_label: "Order Placed"
@@ -124,41 +146,7 @@ explore: GA4 {
     filters: [
       ga4.select_date_range: "7 days"
     ]}
-  #select_date_reference: "app^_web^_data",
 
-  #conditionally_filter: {
-   # filters:
-    #[
-     # ga4.select_date_range: "7 days"
-    #]
-
-    #total_sessionsGA4.select_date_range: "7 days",
-    #,select_date_reference: "Placed"
-
-    #stock_cover.date_filter: "Yesterday",
-    #summarised_daily_Sales.date_date: "21 days",
-    #,
-    #EcommerceEventsGA4.select_date_range: "7 days",
-    #Purchase_events_GA4.select_date_range: "7 days"
-
-   # unless: [
-    #  select_fixed_range,
-     # dynamic_fiscal_year,
-      #dynamic_fiscal_half,
-      #dynamic_fiscal_quarter,
-      #dynamic_fiscal_month,
-      #dynamic_actual_year,
-      #combined_week,
-      #combined_month,
-      #combined_quarter,
-      #combined_year,
-      #separate_month,
-      #select_date_range
-    #]
-
- # }
-
-  #,select_date_reference: "ga4"
 
   fields: [
     ALL_FIELDS*, - base.select_date_reference
