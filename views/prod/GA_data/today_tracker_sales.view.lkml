@@ -4,6 +4,7 @@
 "App" as platform,
 event_name,
 min(timestamp_micros(event_timestamp)) as time,
+current_timestamp() as now,
 ecommerce.transaction_id,
 items.item_id,
 items.item_revenue as item_revenue,
@@ -12,12 +13,13 @@ concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNE
 FROM `toolstation-data-storage.analytics_265133009.events_intraday_*` left join unnest (items) as items
 where _TABLE_SUFFIX = format_date("%Y%m%d", current_date())
 and event_name in ("purchase", "Purchase", "session_start","add_to_cart")
-group by 1,2,4,5,6,7,8
+group by 1,2,4,5,6,7,8,9
 union distinct
 SELECT distinct
 "Web" as Platform,
 event_name,
 min(timestamp_micros(event_timestamp)) as time,
+current_timestamp() as now,
 ecommerce.transaction_id,
 items.item_id,
 items.item_revenue as item_revenue,
@@ -26,7 +28,7 @@ concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNE
 FROM `toolstation-data-storage.analytics_251803804.events_intraday_*` left join unnest (items) as items
 where _TABLE_SUFFIX = format_date("%Y%m%d", current_date())
 and event_name in ("purchase", "Purchase", "session_start","add_to_cart")
-group by 1,2,4,5,6,7,8)
+group by 1,2,4,5,6,7,8,9)
 select distinct row_number() over () as P_K, *
 from sub1
 order by 3 desc
@@ -52,10 +54,20 @@ order by 3 desc
     group_label: "Datetime"
     view_label: "Today Tracker"
     description: "Min datetime of event"
-    label: ""
+    label: "Time"
     type: time
     timeframes: [date,time_of_day, hour_of_day]
     sql: ${TABLE}.Time ;;
+  }
+
+  dimension_group: now {
+    group_label: "Datetime"
+    view_label: "Today Tracker"
+    description: "Min datetime of event"
+    label: "Current Time"
+    type: time
+    timeframes: [date,time_of_day, hour_of_day]
+    sql: ${TABLE}.now ;;
   }
 
   dimension: event_name {
