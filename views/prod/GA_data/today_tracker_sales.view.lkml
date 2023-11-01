@@ -122,6 +122,15 @@ order by 3 desc
     filters: [event_name: "session_start"]
   }
 
+  measure: view_item_session {
+    description: "Total sessions with event session Start"
+    view_label: "Today Tracker"
+    label: "View Item Sessions"
+    type: count_distinct
+    sql: ${session} ;;
+    filters: [event_name: "view_item"]
+  }
+
   measure: pdp_sessions {
     description: "Total sessions with event view_item"
     view_label: "Today Tracker"
