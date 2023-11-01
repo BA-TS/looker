@@ -639,6 +639,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
     type: string
     view_label: "Products"
     group_label: "Product Details"
+    hidden: yes
     label: "Product Code"
     sql: ${TABLE}.item_id ;;
   }
@@ -647,6 +648,7 @@ AND {% condition select_date_range %} (date) {% endcondition %}
     type: string
     view_label: "Products"
     group_label: "Product Details"
+    hidden: yes
     label: "Product UID"
     sql: ${TABLE}.productUID ;;
   }
