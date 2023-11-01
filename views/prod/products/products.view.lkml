@@ -1,9 +1,9 @@
 view: products {
   derived_table: {
   sql:
-  SELECT distinct product.*, crp.retailBasePrice, crp.baseVAT
-  FROM `toolstation-data-storage.range.products_current` as product left join `toolstation-data-storage.range.currentRetailPrice` as crp
-on product.productUID = crp.productUID
+  SELECT distinct product.*
+  FROM `toolstation-data-storage.range.products_current` as product
+on product.productUID
   ;;
 
     datagroup_trigger: ts_transactions_datagroup
