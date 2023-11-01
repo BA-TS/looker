@@ -127,8 +127,10 @@ order by 3 desc
     view_label: "Today Tracker"
     label: "Total PDP Sessions"
     type: count_distinct
-    sql: ${session} ;;
-    filters: [event_name: "view_item"]
+    sql: case when ${Platform} = "Web" and ${event_name} = "page_view" then ${session}
+              when ${Platform} = "App" and ${event_name} = "view_item" then ${session}
+              else null
+        end;;
   }
 
   measure: Transactions {
