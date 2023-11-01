@@ -48,6 +48,11 @@ access_grant: GA4_access {
   allowed_values: ["Y"]
 }
 
+access_grant: sales_by_brand {
+  user_attribute: sales_by_brand
+  allowed_values: ["Y"]
+}
+
 # explore access #
 
 # access_grant: access_transaction {

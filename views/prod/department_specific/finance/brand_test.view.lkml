@@ -1,5 +1,7 @@
 view: brand_test {
 
+  required_access_grants: [sales_by_brand]
+
     derived_table: {
       #parameter value specifies which of the rankings from the inner table to use
       explore_source: base {
