@@ -80,6 +80,7 @@ view: retail_price_history {
   measure: last_retail_price {
     type: number
     label: "Last Price"
+    hidden: yes
     group_label: "Retail Price History"
     value_format_name: gbp
     sql: max_by(${TABLE}.retailPrice,${price_start_date}) ;;
