@@ -568,7 +568,7 @@ order by date desc; ;;
     dimension: retailBasePrice {
       description: "Retail Base Price"
       label: "Retail Base Price"
-      group_label: "Current Retail Price"
+      group_label: "Current Price"
       type: number
       #hidden: yes
       value_format_name: gbp
@@ -578,7 +578,7 @@ order by date desc; ;;
     dimension: baseVAT {
       description: "baseVAT"
       label: "Base VAT"
-      group_label: "Current Retail Price"
+      group_label: "Current Price"
       type: number
       #hidden: yes
       value_format_name: decimal_1

@@ -38,9 +38,10 @@ view: promoworking {
   }
 
   dimension: costPrice {
-    label: "Cost Price"
+    view_label: "Products"
+    group_label: "Current Price"
+    label: "Current Cost Price"
     description: "costPrice"
-    hidden: yes
     type: number
     value_format_name: gbp
     sql: ${TABLE}.costPrice ;;
@@ -63,7 +64,7 @@ view: promoworking {
 
   dimension: PromoPrice {
     view_label: "Products"
-    group_label: "Current Retail Price"
+    group_label: "Current Price"
     label: "Promo Price"
     description: "promoPrice"
     type: number
