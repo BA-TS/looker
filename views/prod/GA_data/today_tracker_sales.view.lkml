@@ -135,6 +135,7 @@ order by 3 desc
     description: "Total sessions with event view_item"
     view_label: "Today Tracker"
     label: "Total PDP Sessions"
+    hidden: yes
     type: count_distinct
     sql: case when ${Platform} = "Web" and ${event_name} = "page_view" then ${session}
               when ${Platform} = "App" and ${event_name} = "view_item" then ${session}
@@ -192,7 +193,7 @@ order by 3 desc
     label: "Purchase Rate"
     type: number
     value_format_name: percent_2
-    sql: safe_divide(${purchase},${session_start}) ;;
+    sql: safe_divide(${purchase},${view_item_session}) ;;
   }
 
   measure: ATC_CR {
@@ -201,7 +202,7 @@ order by 3 desc
     label: "Add to Cart Rate"
     type: number
     value_format_name: percent_2
-    sql: safe_divide(${add_to_cart},${session_start}) ;;
+    sql: safe_divide(${add_to_cart},${view_item_session}) ;;
   }
 
   measure: AOV {
