@@ -12,7 +12,7 @@ items.quantity as itemQ,
 concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) AS sessions_Today
 FROM `toolstation-data-storage.analytics_265133009.events_intraday_*` left join unnest (items) as items
 where _TABLE_SUFFIX = format_date("%Y%m%d", current_date())
-and event_name in ("purchase", "Purchase", "session_start","add_to_cart")
+and event_name in ("purchase", "Purchase", "session_start","add_to_cart", "view_item")
 group by 1,2,4,5,6,7,8,9
 union distinct
 SELECT distinct
@@ -27,7 +27,7 @@ items.quantity as itemQ,
 concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) AS sessions_Today
 FROM `toolstation-data-storage.analytics_251803804.events_intraday_*` left join unnest (items) as items
 where _TABLE_SUFFIX = format_date("%Y%m%d", current_date())
-and event_name in ("purchase", "Purchase", "session_start","add_to_cart")
+and event_name in ("purchase", "Purchase", "session_start","add_to_cart", "view_item")
 group by 1,2,4,5,6,7,8,9)
 select distinct row_number() over () as P_K, *
 from sub1
@@ -120,6 +120,15 @@ order by 3 desc
     type: count_distinct
     sql: ${session} ;;
     filters: [event_name: "session_start"]
+  }
+
+  measure: pdp_sessions {
+    description: "Total sessions with event view_item"
+    view_label: "Today Tracker"
+    label: "Total PDP Sessions"
+    type: count_distinct
+    sql: ${session} ;;
+    filters: [event_name: "view_item"]
   }
 
   measure: Transactions {
