@@ -3,7 +3,6 @@ view: products {
   sql:
   SELECT distinct product.*
   FROM `toolstation-data-storage.range.products_current` as product
-on product.productUID
   ;;
 
     datagroup_trigger: ts_transactions_datagroup
@@ -268,23 +267,23 @@ on product.productUID
     sql: ${TABLE}.isActive = 1 ;;
   }
 
-  dimension: retail_base_price {
-    description: "Retail Base Price"
-    label: "Retail Base Price"
-    group_label: "Current Retail Price"
-    type: number
-    value_format_name: gbp
-    sql: ${TABLE}.retailBasePrice ;;
-  }
+  # dimension: retail_base_price {
+  #   description: "Retail Base Price"
+  #   label: "Retail Base Price"
+  #   group_label: "Current Retail Price"
+  #   type: number
+  #   value_format_name: gbp
+  #   sql: ${TABLE}.retailBasePrice ;;
+  # }
 
-  dimension: baseVAT {
-    description: "baseVAT"
-    label: "Base VAT"
-    group_label: "Current Retail Price"
-    type: number
-    value_format_name: decimal_1
-    sql: ${TABLE}.baseVAT ;;
-  }
+  # dimension: baseVAT {
+  #   description: "baseVAT"
+  #   label: "Base VAT"
+  #   group_label: "Current Retail Price"
+  #   type: number
+  #   value_format_name: decimal_1
+  #   sql: ${TABLE}.baseVAT ;;
+  # }
 
 
 }
