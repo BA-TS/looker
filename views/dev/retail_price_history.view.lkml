@@ -77,7 +77,7 @@ view: retail_price_history {
     sql: ${TABLE}.retailPrice ;;
   }
 
-  dimension: last_retail_price {
+  measure: last_retail_price {
     type: number
     label: "Last Price"
     group_label: "Retail Price History"

@@ -570,7 +570,7 @@ order by date desc; ;;
       label: "Retail Base Price"
       group_label: "Current Retail Price"
       type: number
-      hidden: yes
+      #hidden: yes
       value_format_name: gbp
       sql: ${TABLE}.retailBasePrice ;;
     }
