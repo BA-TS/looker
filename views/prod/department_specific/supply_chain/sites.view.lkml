@@ -307,6 +307,15 @@ view: sites {
     hidden: yes
   }
 
+  measure: number_of_DCs {
+    view_label: "Measures"
+    group_label: "Other Metrics"
+    label: "Number of DCs"
+    description: "Number of DCs"
+    type: count_distinct
+    sql: ${servicing_dc_name} ;;
+  }
+
   dimension: servicing_dc_name {
     group_label: "Site Information"
     label: "DC Name"
