@@ -26,7 +26,7 @@ sum(marginExclFunding) as marginExclFunding
 from `toolstation-data-storage.sales.transactions`
 where
 --date_diff(current_date (),date(transactionDate), day) <= 500 and
-transactionLineType = "Sale" and
+--transactionLineType = "Sale" and
 productCode not in ('85699','00053') and
 isCancelled = 0  and
 (userUID  = 'APP')
@@ -55,7 +55,7 @@ sum(marginExclFunding) as marginExclFunding
 from `toolstation-data-storage.sales.transactions`
 where
 --date_diff(current_date (),date(transactionDate), day) <= 500 and
-transactionLineType = "Sale" and
+--transactionLineType = "Sale" and
 productCode not in ('85699','00053') and
 isCancelled = 0 and
 (userUID  = 'WWW')
@@ -82,7 +82,7 @@ sum(marginInclFunding) as MarginIncFunding,
 sum(marginExclFunding) as marginExclFunding
 from `toolstation-data-storage.sales.transactions_incomplete`
 where
-transactionLineType = "Sale" and
+--transactionLineType = "Sale" and
 productCode not in ('85699','00053') and
 (userUID  = 'APP')
 group by 1,2,3,4,5,6,7,8,9
@@ -108,7 +108,7 @@ sum(marginInclFunding) as MarginIncFunding,
 sum(marginExclFunding) as marginExclFunding
 from `toolstation-data-storage.sales.transactions_incomplete`
 where
-transactionLineType = "Sale" and
+--transactionLineType = "Sale" and
 productCode not in ('85699','00053') and
 (userUID  = 'WWW')
 group by 1,2,3,4,5,6,7,8,9
@@ -227,7 +227,8 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
         description: "Net Revenue of order"
         type: sum
         value_format_name: gbp
-        sql: (${TABLE}.revenue * 0.9973) ;;
+        sql: case when ${base.select_date_reference} = "Placed" then (${TABLE}.revenue * 0.9973)
+        else ${TABLE}.revenue end;;
       }
 
       measure: revenue2 {
