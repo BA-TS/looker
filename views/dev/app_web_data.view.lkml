@@ -227,8 +227,7 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
         description: "Net Revenue of order"
         type: sum
         value_format_name: gbp
-        sql: case when ${base.select_date_reference} = "Placed" then (${TABLE}.revenue * 0.9973)
-        else ${TABLE}.revenue end;;
+        sql: {% if base.select_date_reference._parameter_value == "Placed" %} (${TABLE}.NetSaleValue) * 0.9973 {% else %} (${TABLE}.NetSaleValue) {% endif %};;
       }
 
       measure: revenue2 {
