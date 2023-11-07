@@ -626,6 +626,15 @@ view: transactions {
     sql:${product_first_sale_date.first_sale_date_group_year}=EXTRACT(Year from CURRENT_DATE);;
   }
 
+  dimension: is_new_product_previous_year {
+    view_label: "Products"
+    group_label: "Flags"
+    label: "New Product (Previous Year)"
+    description: "Flags if a product is new to the business in the previous calendar year"
+    type:  yesno
+    sql:${product_first_sale_date.first_sale_date_group_year}=EXTRACT(Year from CURRENT_DATE)-1;;
+  }
+
   # UID #
   dimension: parent_order_uid {
     group_label: "Order Details"
