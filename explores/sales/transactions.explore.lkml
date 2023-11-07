@@ -159,7 +159,7 @@ explore: base {
 
   join: customers {
     view_label: "Customers"
-    type :  inner
+    type :  left_outer
     relationship: many_to_one
     sql_on: ${transactions.customer_uid}=${customers.customer_uid} ;;
   }
