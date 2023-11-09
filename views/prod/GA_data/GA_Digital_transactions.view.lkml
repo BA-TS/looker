@@ -7,6 +7,7 @@ view: ga_digital_transactions {
     date,
     country,
     deviceCategory,
+    source,
     channel_Group,
     Medium,
     Campaign,
@@ -108,7 +109,13 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     type: string
     sql: ${TABLE}.Medium ;;
   }
-
+  dimension: source {
+    view_label: "GA4"
+    label: "Source"
+    group_label: "Traffic Source"
+    type: string
+    sql: ${TABLE}.source ;;
+  }
   dimension: Campaign {
     view_label: "GA4"
     label: "Campaign"
