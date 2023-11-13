@@ -4,7 +4,7 @@ view: ga_digital_transactions {
      sql: SELECT distinct
     row_number() over () as P_K,
     platform,
-    date,
+    date(timestamp_sub(MinTime, interval 1 HOUR)) as date,
     country,
     deviceCategory,
     source,
@@ -32,7 +32,7 @@ view: ga_digital_transactions {
     transactions.salesChannel,
     transactions.paymentType,
     transactions.placed,
-    MinTime,
+    timestamp_sub(MinTime, interval 1 HOUR) as MinTime,
     transactions.Quantity,
     transactions.net_value,
     transactions.gross_value,
