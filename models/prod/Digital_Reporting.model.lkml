@@ -124,6 +124,15 @@ explore: GA4_test {
     ${ga_digital_transactions.session_id} = ${videoly_funnel_ga4.session_id};;
   }
 
+  join: page_type_to_purchase_funnel {
+    view_label: "Page to purchase funnel"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${ga_digital_transactions.date_date} = ${page_type_to_purchase_funnel.date_date}
+    and
+    ${ga_digital_transactions.session_id} = ${page_type_to_purchase_funnel.all_sessionID} ;;
+  }
+
   #join: today_tracker_sales {
    # view_label: "Today Tracker"
     #type: full_outer
