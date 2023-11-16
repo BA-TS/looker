@@ -124,34 +124,95 @@ sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01
   }
 
   measure: home_sessions {
+    group_label: "Page Type to Purchase"
     label: "Homepage sessions"
     type: count_distinct
     sql: ${homepage_sessionID};;
   }
 
   measure: search_sessions {
+    group_label: "Page Type to Purchase"
     label: "Search sessions"
     type: count_distinct
     sql: ${search_sessionID};;
   }
 
   measure: pdp_sessions {
+    group_label: "Page Type to Purchase"
     label: "PDP sessions"
     type: count_distinct
     sql: ${pdp_sessionID};;
   }
 
   measure: category_sessions {
+    group_label: "Page Type to Purchase"
     label: "Category sessions"
     type: count_distinct
     sql: ${Category_sessionID};;
   }
 
   measure: home_to_purchase_sessions {
+    group_label: "Page Type to Purchase"
     label: "Home to Purchase sessions"
     type: count_distinct
     sql: ${purchase_sessionID};;
     filters: [homepage_sessionID: "-NULL", home_purchase_seconds: ">0"]
+  }
+
+  measure: only_home_to_purchase_sessions {
+    group_label: "Page Type to Purchase"
+    label: "Only Home to Purchase sessions"
+    type: count_distinct
+    sql: ${purchase_sessionID};;
+    filters: [homepage_sessionID: "-NULL", search_sessionID: "NULL", pdp_sessionID: "NULL",Category_sessionID: "NULL",home_purchase_seconds: ">0"]
+  }
+
+  measure: search_to_purchase_sessions {
+    group_label: "Page Type to Purchase"
+    label: "search to Purchase sessions"
+    type: count_distinct
+    sql: ${purchase_sessionID};;
+    filters: [search_sessionID: "-NULL", search_purchase_seconds: ">0"]
+  }
+
+  measure: only_search_to_purchase_sessions {
+    group_label: "Page Type to Purchase"
+    label: "Only Search to Purchase sessions"
+    type: count_distinct
+    sql: ${purchase_sessionID};;
+    filters: [search_sessionID: "-NULL", homepage_sessionID: "NULL", pdp_sessionID: "NULL",Category_sessionID: "NULL",search_purchase_seconds: ">0"]
+  }
+
+  measure: PDP_to_purchase_sessions {
+    group_label: "Page Type to Purchase"
+    label: "PDP to Purchase sessions"
+    type: count_distinct
+    sql: ${purchase_sessionID};;
+    filters: [pdp_sessionID: "-NULL", pdp_purchase_seconds: ">0"]
+  }
+
+  measure: only_pdp_to_purchase_sessions {
+    group_label: "Page Type to Purchase"
+    label: "Only PDP to Purchase sessions"
+    type: count_distinct
+    sql: ${purchase_sessionID};;
+    filters: [pdp_sessionID: "-NULL", search_sessionID: "NULL", homepage_sessionID: "NULL",Category_sessionID: "NULL",pdp_purchase_seconds: ">0"]
+  }
+
+  measure: Category_to_purchase_sessions {
+    group_label: "Page Type to Purchase"
+    label: "Category to Purchase sessions"
+    type: count_distinct
+    sql: ${purchase_sessionID};;
+    filters: [Category_sessionID: "-NULL", category_purchase_seconds: ">0"]
+  }
+
+  measure: only_category_to_purchase_sessions {
+    group_label: "Page Type to Purchase"
+    label: "Only category to Purchase sessions"
+    type: count_distinct
+    sql: ${purchase_sessionID};;
+    filters: [Category_sessionID: "-NULL", search_sessionID: "NULL", homepage_sessionID: "NULL",pdp_sessionID: "NULL",category_purchase_seconds: ">0"]
   }
 
 }
