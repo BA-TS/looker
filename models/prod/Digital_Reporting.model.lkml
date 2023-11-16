@@ -87,18 +87,18 @@ explore: GA4_test {
     sql_on: ${customers.customer_uid} = ${trade_customers.customer_uid} ;;
   }
 
-  join: total_sessions_ga4_dt {
-    view_label: "GA4"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${ga_digital_transactions.date_date} = ${total_sessions_ga4_dt.date_date}
-    and
-    ${ga_digital_transactions.channel_Group} = ${total_sessions_ga4_dt.channel_grouping}
-    and ${ga_digital_transactions.Medium} = ${total_sessions_ga4_dt.Medium}
-    and ${ga_digital_transactions.Campaign} = ${total_sessions_ga4_dt.Campaign}
-    and ${ga_digital_transactions.platform} = ${total_sessions_ga4_dt.Platform}
-   ;;
-  }
+  #join: total_sessions_ga4_dt {
+   # view_label: "GA4"
+    #type: left_outer
+    #relationship: many_to_one
+    #sql_on: ${ga_digital_transactions.date_date} = ${total_sessions_ga4_dt.date_date}
+    #and
+    #${ga_digital_transactions.channel_Group} = ${total_sessions_ga4_dt.channel_grouping}
+    #and ${ga_digital_transactions.Medium} = ${total_sessions_ga4_dt.Medium}
+    #and ${ga_digital_transactions.Campaign} = ${total_sessions_ga4_dt.Campaign}
+    #and ${ga_digital_transactions.platform} = ${total_sessions_ga4_dt.Platform}
+   #;;
+  #}
 
   join: stock_cover {
     view_label: "Stock Cover"
@@ -124,12 +124,12 @@ explore: GA4_test {
     ${ga_digital_transactions.session_id} = ${videoly_funnel_ga4.session_id};;
   }
 
-  join: today_tracker_sales {
-    view_label: "Today Tracker"
-    type: full_outer
-    relationship: one_to_many
-    sql_on: ${products.product_code} = ${today_tracker_sales.item_id};;
-  }
+  #join: today_tracker_sales {
+   # view_label: "Today Tracker"
+    #type: full_outer
+    #relationship: one_to_many
+    #sql_on: ${products.product_code} = ${today_tracker_sales.item_id};;
+  #}
 
 }
 explore: GA4 {
