@@ -22,7 +22,7 @@ explore: GA4_test {
     ]}
 
   join: ga_digital_transactions {
-    view_label: "GA44"
+    view_label: "GA4"
     type:  inner
     relationship: one_to_many
     sql_on: ${ga_digital_transactions.date_date}=${calendar_completed_date.date} ;;
@@ -125,7 +125,7 @@ explore: GA4_test {
   }
 
   join: page_type_to_purchase_funnel {
-    view_label: "Page to purchase funnel"
+    view_label: "GA4"
     type: left_outer
     relationship: many_to_one
     sql_on: ${ga_digital_transactions.date_date} = ${page_type_to_purchase_funnel.date_date}
