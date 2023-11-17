@@ -53,8 +53,7 @@ view: ga_digital_transactions {
 AND {% condition select_date_range %} (date) {% endcondition %}
 and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transactions.item_id is null) or (aw.item_id is null and transactions.item_id is null))
        ;;
-      sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01 00:00:00',SECOND)) - 60*60*10)/(60*60*24))
-;;
+      persist_for: "24 hours"
    }
 
   dimension: P_K {
