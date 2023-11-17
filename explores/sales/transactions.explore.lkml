@@ -388,7 +388,6 @@ explore: base {
     sql_on: ${customers.customer_uid} = ${customer_classification.customer_uid} ;;
   }
 
-
   join: customer_spending {
     view_label: "Transactions"
     type: left_outer
@@ -399,6 +398,11 @@ explore: base {
     sql_where: ${customer_spending.brand_rank_top_brands_bigquery_2} != "Other" ;;
   }
 
+  join: transactions_incomplete {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.parent_order_uid} = ${transactions_incomplete.parent_order_uid} ;;
+  }
 }
 
 explore: +base {
