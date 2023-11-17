@@ -167,6 +167,14 @@ sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01
     filters: [homepage_sessionID: "-NULL", search_sessionID: "NULL", pdp_sessionID: "NULL",Category_sessionID: "NULL",home_purchase_seconds: ">0"]
   }
 
+  measure: only_home_sessions {
+    group_label: "Page Type to Purchase"
+    label: "Only Home sessions"
+    type: count_distinct
+    sql: ${homepage_sessionID};;
+    filters: [search_sessionID: "NULL", pdp_sessionID: "NULL",Category_sessionID: "NULL"]
+  }
+
   measure: search_to_purchase_sessions {
     group_label: "Page Type to Purchase"
     label: "search to Purchase sessions"
@@ -181,6 +189,14 @@ sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01
     type: count_distinct
     sql: ${purchase_sessionID};;
     filters: [search_sessionID: "-NULL", homepage_sessionID: "NULL", pdp_sessionID: "NULL",Category_sessionID: "NULL",search_purchase_seconds: ">0"]
+  }
+
+  measure: only_search_sessions {
+    group_label: "Page Type to Purchase"
+    label: "Only Search sessions"
+    type: count_distinct
+    sql: ${search_sessionID};;
+    filters: [homepage_sessionID: "NULL", pdp_sessionID: "NULL",Category_sessionID: "NULL"]
   }
 
   measure: PDP_to_purchase_sessions {
@@ -199,6 +215,14 @@ sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01
     filters: [pdp_sessionID: "-NULL", search_sessionID: "NULL", homepage_sessionID: "NULL",Category_sessionID: "NULL",pdp_purchase_seconds: ">0"]
   }
 
+  measure: only_pdp_sessions {
+    group_label: "Page Type to Purchase"
+    label: "Only PDP sessions"
+    type: count_distinct
+    sql: ${pdp_sessionID};;
+    filters: [homepage_sessionID: "NULL", search_sessionID: "NULL",Category_sessionID: "NULL"]
+  }
+
   measure: Category_to_purchase_sessions {
     group_label: "Page Type to Purchase"
     label: "Category to Purchase sessions"
@@ -213,6 +237,14 @@ sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01
     type: count_distinct
     sql: ${purchase_sessionID};;
     filters: [Category_sessionID: "-NULL", search_sessionID: "NULL", homepage_sessionID: "NULL",pdp_sessionID: "NULL",category_purchase_seconds: ">0"]
+  }
+
+  measure: only_category_sessions {
+    group_label: "Page Type to Purchase"
+    label: "Only Category sessions"
+    type: count_distinct
+    sql: ${Category_sessionID};;
+    filters: [homepage_sessionID: "NULL", search_sessionID: "NULL",pdp_sessionID: "NULL"]
   }
 
 }
