@@ -53,7 +53,7 @@ view: ga_digital_transactions {
 AND {% condition select_date_range %} (date) {% endcondition %}
 and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transactions.item_id is null) or (aw.item_id is null and transactions.item_id is null))
        ;;
-      persist_for: "24 hours"
+    datagroup_trigger: ts_googleanalytics_datagroup
    }
 
   dimension: P_K {
