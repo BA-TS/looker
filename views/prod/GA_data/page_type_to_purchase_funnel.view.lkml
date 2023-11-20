@@ -3,24 +3,30 @@ view: page_type_to_purchase_funnel {
     sql:
     with sub1 as (SELECT distinct min(MinTime) as minTime, session_id, event_name,
 #page_location,
-case when page_location in ("https://www.toolstation.com/") then "homepage"
-when regexp_contains(page_location, r"toolstation\.com\/\?") then "homepage"
-when regexp_contains(page_location, ".*search?.*=.*") then "Search"
-when regexp_contains(page_location, ".*/p([0-9]*)$") then "PDP"
+case
+when page_location in ("https://www.toolstation.com/") and event_name in ("page_view") then "homepage"
+when regexp_contains(page_location, r"toolstation\.com\/\?") and event_name in ("page_view") then "homepage"
+when screen_name in ("home-page") and event_name in ("screen_view") then "homepage"
+when regexp_contains(page_location, ".*search?.*=.*") and event_name in ("page_view") then "Search"
+when screen_name in ("search-page") and event_name in ("screen_view") then "Search"
+when Screen_name in ("product-detail-page") and event_name in ("page_view", "view_item") then "PDP"
 when REGEXP_CONTAINS(page_location, r'^.*\/([a-z,\-\d]+\/){1}(c(\d){1,4}).*') THEN "Category"
-end as screen
+when regexp_contains(screen_name,r"department-page-[0-9]*") and event_name in ("screen_view") then "Category"
+when screen_name in ("product-listing-page") and event_name in ("screen_view") then "Category"
+end as screen,
+platform
 FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*`
-where event_name in ("page_view", "purchase", "Purchase")
+where event_name in ("page_view","view_item", "screen_view","purchase", "Purchase")
 and _table_suffix between format_date("%Y%m%d", date_sub(current_date(), INTERVAL 20 day)) and format_date("%Y%m%d", date_sub(current_date(), INTERVAL 1 day))
-group by 2,3,4),
+group by 2,3,4,5),
 
-homepage as (select distinct session_id as homepage_session_id, MinTime as homepage_time from sub1 where screen in ("homepage") and event_name in ("page_view")),
+homepage as (select distinct session_id as homepage_session_id, MinTime as homepage_time from sub1 where screen in ("homepage") and event_name in ("page_view","screen_view")),
 
-Search as (select distinct session_id as search_session_id, MinTime as search_time from sub1 where screen in ("Search") and event_name in ("page_view")),
+Search as (select distinct session_id as search_session_id, MinTime as search_time from sub1 where screen in ("Search") and event_name in ("page_view","screen_view")),
 
-PDP as (select distinct session_id as PDP_session_id, MinTime as PDP_time from sub1 where screen in ("PDP") and event_name in ("page_view")),
+PDP as (select distinct session_id as PDP_session_id, MinTime as PDP_time from sub1 where screen in ("PDP") and event_name in ("page_view","view_item")),
 
-Category as (select distinct session_id as Category_session_id, MinTime as category_time from sub1 where screen in ("Category") and event_name in ("page_view")),
+Category as (select distinct session_id as Category_session_id, MinTime as category_time from sub1 where screen in ("Category") and event_name in ("page_view", "screen_view")),
 
 purchase as (select distinct session_id as purchase_session_id, MinTime as purchase_time from sub1 where event_name in ("purchase", "Purchase"))
 
@@ -29,6 +35,7 @@ SELECT distinct
 row_number() over () as P_K,
 extract(date from coalesce(homepage.homepage_time,search.search_time,pdp.pdp_time,Category.Category_time,purchase.purchase_time)) as date,
 session_id as all_session_id,
+platform,
 homepage.homepage_session_id, homepage.homepage_time,
 search.search_session_id, search.search_time,
 PDP.pdp_session_id, pdp.pdp_time,
