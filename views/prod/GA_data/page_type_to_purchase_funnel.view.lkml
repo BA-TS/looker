@@ -9,7 +9,7 @@ when regexp_contains(page_location, r"toolstation\.com\/\?") and event_name in (
 when screen_name in ("home-page") and event_name in ("screen_view") then "homepage"
 when regexp_contains(page_location, ".*search?.*=.*") and event_name in ("page_view") then "Search"
 when screen_name in ("search-page") and event_name in ("screen_view") then "Search"
-when Screen_name in ("product-detail-page") and event_name in ("page_view") and platform in ("Web") then "PDP"
+when Screen_name in ("product-detail-page") and event_name in ("view_item") and platform in ("Web") then "PDP"
 when Screen_name in ("product-detail-page") and event_name in ("view_item") and platform in ("App") then "PDP"
 when REGEXP_CONTAINS(page_location, r'^.*\/([a-z,\-\d]+\/){1}(c(\d){1,4}).*') THEN "Category"
 when regexp_contains(screen_name,r"department-page-[0-9]*") and event_name in ("screen_view") then "Category"
