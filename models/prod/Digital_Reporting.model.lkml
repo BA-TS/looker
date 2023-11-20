@@ -128,9 +128,7 @@ explore: GA4_test {
     view_label: "GA4"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${ga_digital_transactions.date_date} = ${page_type_to_purchase_funnel.date_date}
-    and
-    ${ga_digital_transactions.session_id} = ${page_type_to_purchase_funnel.all_sessionID} ;;
+    sql_on: ${ga_digital_transactions.session_id} = ${page_type_to_purchase_funnel.all_sessionID} ;;
   }
 
   #join: today_tracker_sales {
