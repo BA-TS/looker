@@ -11,11 +11,11 @@ view: ga_digital_transactions {
     channel_Group,
     Medium,
     Campaign,
-    event_name,
-    initcap(key_1) as key_1,
-    initcap(label_1) as label_1,
-    initcap(key_2) as key_2,
-    initcap(label_2) as label_2,
+    lower(event_name) as event_name,
+    lower(key_1) as key_1,
+    lower(label_1) as label_1,
+    lower(key_2) as key_2,
+    lower(label_2) as label_2,
     value,
     error,
     PromoID,
@@ -136,11 +136,11 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     group_label: "Event"
     type: string
     sql: case
-    when ${event_namev2} = "videoly" and ${key_1} = "Action" and ${label_1} not in ("Videoly_Progress") then ${label_1}
-    when ${event_namev2} = "videoly" and ${label_1} = "Videoly_Progress" then concat(${label_1},"-",${label_2},"%")
-    when ${event_namev2} = "Videoly_videoStart" then "Videoly_Start"
-    when ${event_namev2} = "Videoly_initialize" then "Videoly_Box_Shown"
-    when ${event_namev2} = "Videoly_videoClosed" then "Videoly_Closed"
+    when ${event_namev2} = "videoly" and ${key_1} = "action" and ${label_1} not in ("videoly_progress") then ${label_1}
+    when ${event_namev2} = "videoly" and ${label_1} = "videoly_progress" then concat(${label_1},"-",${label_2},"%")
+    when ${event_namev2} = "videoly_videostart" then "videoly_start"
+    when ${event_namev2} = "videoly_initialize" then "videoly_box_shown"
+    when ${event_namev2} = "videoly_videoclosed" then "videoly_closed"
     --when regexp_contains(${event_namev2},"Videoly_progress") then "videoly_progress"
     else ${event_namev2}
     end;;
@@ -151,7 +151,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     label: "1.Event Key"
     group_label: "Event"
     type: string
-    sql: case when ${TABLE}.key_1 is null and ${label_1} is not null then "Action" else ${TABLE}.key_1 end;;
+    sql: case when ${TABLE}.key_1 is null and ${label_1} is not null then "action" else ${TABLE}.key_1 end;;
   }
 
   dimension: label_1 {
@@ -167,7 +167,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     label: "2.Event Key"
     group_label: "Event"
     type: string
-    sql: case when ${TABLE}.key_2 is null and ${label_2} is not null then "Action" else ${TABLE}.key_2 end ;;
+    sql: case when ${TABLE}.key_2 is null and ${label_2} is not null then "action" else ${TABLE}.key_2 end ;;
   }
 
   dimension: label_2 {
