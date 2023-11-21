@@ -135,7 +135,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     label: "Event Name"
     group_label: "Event"
     type: string
-    sql: case when ${event_namev2} = "videoly" then ${label_1}
+    sql: case
+    --when ${event_namev2} = "videoly" then ${label_1}
     when ${event_namev2} = "Videoly_videoStart" then "videoly_start"
     when ${event_namev2} = "Videoly_initialize" then "videoly_box_shown"
     when ${event_namev2} = "Videoly_videoClosed" then "videoly_closed"
