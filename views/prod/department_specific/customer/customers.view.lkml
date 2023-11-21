@@ -18,7 +18,7 @@ view: customers {
 
   dimension: customer_uid2 {
     group_label: "Customer"
-    label: "Customer UID(TEMP)"
+    label: "Customer UID (Temp)"
     type: string
     sql: concat("T",abs(FARM_FINGERPRINT(${customer_uid})));;
   }
