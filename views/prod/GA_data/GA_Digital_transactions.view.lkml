@@ -137,9 +137,10 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     type: string
     sql: case
     when ${event_namev2} = "videoly" and ${key_1} = "action" then ${label_1}
-    when ${event_namev2} = "Videoly_videoStart" then "videoly_start"
-    when ${event_namev2} = "Videoly_initialize" then "videoly_box_shown"
-    when ${event_namev2} = "Videoly_videoClosed" then "videoly_closed"
+    when ${event_namev2} = "videoly" and ${label_1} = "Videoly_Progress" then concatenate(${label_1},"-",${label_2},"%")
+    when ${event_namev2} = "Videoly_videoStart" then "Videoly_start"
+    when ${event_namev2} = "Videoly_initialize" then "Videoly_box_shown"
+    when ${event_namev2} = "Videoly_videoClosed" then "Videoly_closed"
     --when regexp_contains(${event_namev2},"Videoly_progress") then "videoly_progress"
     else ${event_namev2}
     end;;
@@ -150,7 +151,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     label: "1.Event Key"
     group_label: "Event"
     type: string
-    sql: case when ${TABLE}.key_1 is null and ${label_1} is not null then "action" else ${TABLE}.key_1 end;;
+    sql: case when ${TABLE}.key_1 is null and ${label_1} is not null then "Action" else ${TABLE}.key_1 end;;
   }
 
   dimension: label_1 {
@@ -166,7 +167,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     label: "2.Event Key"
     group_label: "Event"
     type: string
-    sql: case when ${TABLE}.key_2 is null and ${label_2} is not null then "action" else ${TABLE}.key_2 end ;;
+    sql: case when ${TABLE}.key_2 is null and ${label_2} is not null then "Action" else ${TABLE}.key_2 end ;;
   }
 
   dimension: label_2 {
