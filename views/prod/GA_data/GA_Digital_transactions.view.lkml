@@ -136,11 +136,11 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     group_label: "Event"
     type: string
     sql: case
-    when ${event_namev2} = "videoly" and ${key_1} = "action" then ${label_1}
+    when ${event_namev2} = "videoly" and ${key_1} = "Action" then ${label_1}
     when ${event_namev2} = "videoly" and ${label_1} = "Videoly_Progress" then concatenate(${label_1},"-",${label_2},"%")
-    when ${event_namev2} = "Videoly_videoStart" then "Videoly_start"
-    when ${event_namev2} = "Videoly_initialize" then "Videoly_box_shown"
-    when ${event_namev2} = "Videoly_videoClosed" then "Videoly_closed"
+    when ${event_namev2} = "Videoly_videoStart" then "Videoly_Start"
+    when ${event_namev2} = "Videoly_initialize" then "Videoly_Box_Shown"
+    when ${event_namev2} = "Videoly_videoClosed" then "Videoly_Closed"
     --when regexp_contains(${event_namev2},"Videoly_progress") then "videoly_progress"
     else ${event_namev2}
     end;;
