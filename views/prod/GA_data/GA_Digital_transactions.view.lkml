@@ -139,7 +139,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     when ${event_namev2} = "Videoly_videoStart" then "videoly_start"
     when ${event_namev2} = "Videoly_initialize" then "videoly_box_shown"
     when ${event_namev2} = "Videoly_videoClosed" then "videoly_closed"
-    when regexp_contains(${event_namev2},"Videoly_progress") then "videoly_progress"
+    --when regexp_contains(${event_namev2},"Videoly_progress") then "videoly_progress"
     else ${event_namev2}
     end;;
   }
