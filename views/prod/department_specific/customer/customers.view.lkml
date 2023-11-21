@@ -16,6 +16,13 @@ view: customers {
     sql: ${TABLE}.customerUID ;;
   }
 
+  dimension: customer_uid2 {
+    group_label: "Customer"
+    label: "Customer UID(TEMP)"
+    type: string
+    sql: concat("T",abs(FARM_FINGERPRINT(${customer_uid})));;
+  }
+
   dimension: address__address_line1 {
     group_label: "Customer Address"
     group_item_label: "Address Line 1"
