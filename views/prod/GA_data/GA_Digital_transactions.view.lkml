@@ -136,7 +136,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     group_label: "Event"
     type: string
     sql: case
-    when ${event_namev2} = "videoly" and ${key_1} = "Action" then ${label_1}
+    when ${event_namev2} = "videoly" and ${key_1} = "Action" and ${label_1} not in ("Videoly_Progress") then ${label_1}
     when ${event_namev2} = "videoly" and ${label_1} = "Videoly_Progress" then concat(${label_1},"-",${label_2},"%")
     when ${event_namev2} = "Videoly_videoStart" then "Videoly_Start"
     when ${event_namev2} = "Videoly_initialize" then "Videoly_Box_Shown"
