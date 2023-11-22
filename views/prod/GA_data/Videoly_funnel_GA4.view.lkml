@@ -348,10 +348,20 @@ group by 2,3,4,5,6,7,8;;
     filters: [videoly_shownEvents: ">=1", videoly_startedEvents: ">=1", ATC_events: ">=1", purchase_events: ">=1" ]
   }
 
+  measure: purchase_productQuant {
+    view_label: "GA4"
+    group_label: "Stage 4: Purchase"
+    label: "Quantity"
+    description: "product quantity purchased after a video was shown and started"
+    type: sum
+    sql: ${TABLE}.Quantity ;;
+    filters: [videoly_shownEvents: ">=1", videoly_startedEvents: ">=1", ATC_events: ">=1", purchase_events: ">=1" ]
+  }
+
   measure: purchase_revenue {
     view_label: "GA4"
     group_label: "Stage 4: Purchase"
-    label: "Revenue"
+    label: "Net Revenue"
     description: "revenue where purchase occured after a video was shown and started"
     type: sum
     value_format_name: gbp
