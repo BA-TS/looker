@@ -19,12 +19,14 @@ platform,
 session_id,
 (MinTime) as MinTime,
 events,
-(transactions.ga4_revenue) as revenue
+(transactions.net_value) * 0.9973 as revenue,
+(transactions.OrderID) as orderID,
+(transactions.Quantity) as Quantity,
  FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` left join unnest (transactions) as transactions
-where regexp_contains(event_name, ".*videoly.*") or regexp_contains(event_name, ".*Videoly.*") or event_name in ("add_to_cart", "Purchase", "purchase")
- and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', date_sub(current_date(), interval 20 day)) and FORMAT_DATE('%Y%m%d', current_date())
-group by 1,2,3,4,5,6,7,8,9,10
-order by 1 desc),
+where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', date_sub(current_date(), interval 20 day)) and FORMAT_DATE('%Y%m%d', current_date())
+and (regexp_contains(event_name, ".*videoly.*") or regexp_contains(event_name, ".*Videoly.*") or event_name in ("add_to_cart", "Purchase", "purchase"))
+
+group by 1,2,3,4,5,6,7,8,9,10,11,12),
 
 Videoly_shown as (
 SELECT distinct
@@ -54,7 +56,8 @@ platform,
 session_id,
 min(MinTime) as MinTime,
 sum(events) as events,
-sum(revenue) as revenue
+sum(revenue) as revenue,
+
 from cte
 where eventNAme in ("videoly_start")
 group by 1,2,3,4,5,6,7
@@ -86,12 +89,14 @@ Campaign,
 eventName,
 platform,
 session_id,
+orderID,
 min(MinTime) as MinTime,
 sum(events) as events,
-sum(revenue) as revenue
+sum(revenue) as revenue,
+sum(Quantity) as Quantity
 from cte
 where eventNAme in ("purchase")
-group by 1,2,3,4,5,6,7
+group by 1,2,3,4,5,6,7,8
 )
 
 SELECT distinct
@@ -102,6 +107,7 @@ a.DeviceCategory,
 a.Channel_group,
 a.Medium,
 a.Campaign,
+d.orderID,
 min(a.MinTime) as videoly_shownTime,
 min(b.MinTime) as videoly_startedTime,
 min(c.MinTime) as Add_to_cartTime,
@@ -111,6 +117,7 @@ sum(b.events) as Videoly_started_events,
 sum(c.events) as ATC_events,
 sum(d.events) as purchase_events,
 sum(d.revenue) as revenue,
+sum(d.Quantity) as Quantity,
 from videoly_shown as a
 left outer join videoly_start as b
 on a.session_id = b.session_id
@@ -121,7 +128,7 @@ on a.session_id = d.session_id
 where (((b.minTime) is null or a.minTime<b.minTime))
 and ((c.minTime is null or a.minTime<c.minTime))
 and ((d.minTime is null or a.minTime<d.minTime))
-group by 2,3,4,5,6,7;;
+group by 2,3,4,5,6,7,8;;
     sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01 00:00:00',SECOND)) - 60*60*10)/(60*60*24))
     ;;
   }
@@ -328,6 +335,16 @@ group by 2,3,4,5,6,7;;
     description: "Sessions where purchase occured after a video was shown and started"
     type: count_distinct
     sql: ${session_id} ;;
+    filters: [videoly_shownEvents: ">=1", videoly_startedEvents: ">=1", ATC_events: ">=1", purchase_events: ">=1" ]
+  }
+
+  measure: purchase_transactions {
+    view_label: "GA4"
+    group_label: "Stage 4: Purchase"
+    label: "Transactions"
+    description: "Transactions after a video was shown and started"
+    type: count_distinct
+    sql: ${TABLE}.orderID ;;
     filters: [videoly_shownEvents: ">=1", videoly_startedEvents: ">=1", ATC_events: ">=1", purchase_events: ">=1" ]
   }
 
