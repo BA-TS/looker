@@ -41,7 +41,7 @@ min(MinTime) as MinTime,
 sum(events) as events,
 sum(revenue) as revenue
 from cte
-where eventNAme in ("videoly_box_shown")
+where event_name in ("videoly_box_shown")
 group by 1,2,3,4,5,6,7
 ),
 
@@ -59,7 +59,7 @@ sum(events) as events,
 sum(revenue) as revenue,
 
 from cte
-where eventNAme in ("videoly_start")
+where event_name in ("videoly_start")
 group by 1,2,3,4,5,6,7
 ),
 
@@ -76,7 +76,7 @@ min(MinTime) as MinTime,
 sum(events) as events,
 sum(revenue) as revenue
 from cte
-where eventNAme in ("add_to_cart")
+where event_name in ("add_to_cart")
 group by 1,2,3,4,5,6,7
 ),
 
@@ -95,7 +95,7 @@ sum(events) as events,
 sum(revenue) as revenue,
 sum(Quantity) as Quantity
 from cte
-where eventNAme in ("purchase")
+where event_name in ("purchase")
 group by 1,2,3,4,5,6,7,8
 )
 
