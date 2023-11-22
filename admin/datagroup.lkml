@@ -18,6 +18,7 @@ datagroup: ts_monthly_datagroup {
 
 datagroup: ts_googleanalytics_datagroup {
   sql_trigger: SELECT    EXTRACT(YEAR FROM CURRENT_DATE()) ;;
+  max_cache_age: "24 hours"
 }
 
 # V2 #
