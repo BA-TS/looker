@@ -18,7 +18,8 @@ view: customers {
 
   dimension: customer_uid2 {
     group_label: "Customer"
-    label: "Customer UID (Temp)"
+    label: "Customer UID"
+    required_access_grants: [lz_testing]
     type: string
     sql: concat("T",abs(FARM_FINGERPRINT(${customer_uid})));;
   }
