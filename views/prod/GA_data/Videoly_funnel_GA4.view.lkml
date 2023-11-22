@@ -6,14 +6,15 @@ DeviceCategory,
 Channel_group,
 Medium,
 Campaign,
-case when regexp_contains(event_name, "Videoly_progress") then "videoly_progress"
-when regexp_contains(event_name, "Videoly_videoStart") then "videoly_start"
-when regexp_contains(event_name, "Videoly_initialize") then "videoly_box_shown"
-when regexp_contains(event_name, "Videoly_videoClosed") then "videoly_closed"
-when regexp_contains(event_name, "add_to_cart") then "add_to_cart"
-when regexp_contains(event_name, "purchase") then "purchase"
-when regexp_contains(event_name, "Purchase") then "Purchase"
-else label_1 end as eventName,
+lower(case
+    when lower(event_name) = "videoly" and lower(key_1) = "action" and lower(label_1) not in ("videoly_progress") then lower(label_1)
+    when lower(event_name) = "videoly" and lower(label_1) = "videoly_progress" then concat(lower(label_1),"-",lower(label_2),"%")
+    when lower(event_name) = "videoly_videostart" then "videoly_start"
+    when lower(event_name) = "videoly_initialize" then "videoly_box_shown"
+    when lower(event_name) = "videoly_videoclosed" then "videoly_closed"
+    --when regexp_contains(lower(event_name),"Videoly_progress") then "videoly_progress"
+    else lower(event_name)
+    end) as event_name,
 platform,
 session_id,
 (MinTime) as MinTime,
@@ -21,8 +22,7 @@ events,
 (transactions.ga4_revenue) as revenue
  FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` left join unnest (transactions) as transactions
 where regexp_contains(event_name, ".*videoly.*") or regexp_contains(event_name, ".*Videoly.*") or event_name in ("add_to_cart", "Purchase", "purchase")
- and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK)) and FORMAT_DATE('%Y%m%d', DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK))
-AND ((( (date) ) >= ((DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK))) AND ( (date) ) < ((DATE_ADD(DATE_ADD(DATE_TRUNC(CURRENT_DATE(), WEEK(SUNDAY)), INTERVAL -1 WEEK), INTERVAL 1 WEEK)))))
+ and _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', date_sub(current_date(), interval 20 day)) and FORMAT_DATE('%Y%m%d', current_date())
 group by 1,2,3,4,5,6,7,8,9,10
 order by 1 desc),
 
@@ -122,7 +122,8 @@ where (((b.minTime) is null or a.minTime<b.minTime))
 and ((c.minTime is null or a.minTime<c.minTime))
 and ((d.minTime is null or a.minTime<d.minTime))
 group by 2,3,4,5,6,7;;
-#datagroup_trigger: ts_googleanalytics_datagroup
+    sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01 00:00:00',SECOND)) - 60*60*10)/(60*60*24))
+    ;;
   }
   # # You can specify the table name if it's different from the view name:
   # sql_table_name: my_schema_name.tester ;;
