@@ -53,6 +53,11 @@ access_grant: sales_by_brand {
   allowed_values: ["Y"]
 }
 
+access_grant: user_lauren_england {
+  user_attribute: user_lauren_england
+  allowed_values: ["Y"]
+}
+
 # explore access #
 
 # access_grant: access_transaction {
