@@ -379,7 +379,7 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
     group_label: "Measures"
     label: "Products"
     description: "Total products purchased"
-    #type: count
+    type: number
     value_format_name: decimal_0
     sql: count(${ProductUID}) ;;
   }
