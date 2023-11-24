@@ -369,6 +369,21 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
         sql: ${CustomerID} ;;
         }
 
+  measure: total_products {
+    view_label: "
+    {% if _explore._name == 'GA4' %}
+    Digital Transactions
+    {% else %}
+    Measures
+    {% endif %}"
+    group_label: "Measures"
+    label: "Products"
+    description: "Total products purchased"
+    #type: count
+    value_format_name: decimal_0
+    sql: count(${ProductUID}) ;;
+  }
+
       measure: Total_MarginIncFunding {
         view_label: "
         {% if _explore._name == 'GA4' %}
