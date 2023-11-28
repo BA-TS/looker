@@ -14,7 +14,7 @@ explore: GA4_test {
   required_access_grants: [GA4_access]
   view_name: calendar_completed_date
   from:  calendar
-  label: "GA4 (data model in BQ)"
+  label: "GA4"
   view_label: "Datetime (of event)"
   always_filter: {
     filters: [
@@ -142,6 +142,7 @@ explore: GA4_test {
 explore: GA4 {
   #required_access_grants: []
   required_access_grants: [GA4_access]
+  hidden: yes
   view_name: ga4
 
   extends: []
