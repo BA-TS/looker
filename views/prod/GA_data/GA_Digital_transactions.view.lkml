@@ -24,7 +24,7 @@ view: ga_digital_transactions {
     User,
     session_id,
     page_location,
-    CASE  regexp_contains(page_location, ".*/c[0-9]*[^0-9a-zA-Z]") then "product-listing-page"
+    CASE when regexp_contains(page_location, ".*/c[0-9]*[^0-9a-zA-Z]") then "product-listing-page"
     else Screen_name end as Screen_name,
     --Screen_name,
     transactions.OrderID,
