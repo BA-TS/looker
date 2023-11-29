@@ -534,13 +534,15 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: sessions {
     view_label: "GA4"
     group_label: "Measures"
-    label: "Sessions"
+    label: "Total Sessions"
     type: count_distinct
     sql: ${session_id} ;;
   }
 
   measure: session_start {
-    hidden: yes
+    view_label: "GA4"
+    group_label: "Measures"
+    label: "Engaged Sessions"
     type: count_distinct
     filters: [event_name: "session_start"]
     sql: ${session_id};;
@@ -665,152 +667,5 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     label: "Product UID"
     sql: ${TABLE}.productUID ;;
   }
-
-  # dimension: productName {
-  #   type: string
-  #   view_label: "Products"
-  #   group_label: "Product Details"
-  #   label: "Product Name"
-  #   sql: ${TABLE}.productName ;;
-  # }
-
-  # dimension: productNameType {
-  #   type: string
-  #   view_label: "Products"
-  #   group_label: "Product Details"
-  #   label: "Product Name Type"
-  #   sql: ${TABLE}.productNameType ;;
-  # }
-
-  # dimension: productBrand {
-  #   type: string
-  #   view_label: "Products"
-  #   group_label: "Product Details"
-  #   label: "Product Brand"
-  #   sql: ${TABLE}.productBrand ;;
-  # }
-
-  # dimension: productDepartment {
-  #   type: string
-  #   view_label: "Products"
-  #   group_label: "Product Details"
-  #   label: "Product Department"
-  #   sql: ${TABLE}.productDepartment ;;
-  # }
-
-  # dimension: productSubDepartment {
-  #   type: string
-  #   view_label: "Products"
-  #   group_label: "Product Details"
-  #   label: "Product SubDepartment"
-  #   sql: ${TABLE}.productSubdepartment ;;
-  # }
-
-  # dimension: warrantyYears {
-  #   type: string
-  #   view_label: "Products"
-  #   group_label: "Product Details"
-  #   label: "Warranty Years"
-  #   sql: ${TABLE}.warrantyYears ;;
-  # }
-
-  # dimension: buyerName {
-  #   type: string
-  #   view_label: "Products"
-  #   group_label: "Commercial Details"
-  #   label: "Buyer Name"
-  #   sql: ${TABLE}.buyerName ;;
-  # }
-
-  # dimension: buyingmanager {
-  #   type: string
-  #   view_label: "Products"
-  #   group_label: "Commercial Details"
-  #   label: "Buying Manager"
-  #   sql: ${TABLE}.buyingmanager ;;
-  # }
-
-  # dimension: productBuyingStatus {
-  #   type: string
-  #   view_label: "Products"
-  #   group_label: "Commercial Details"
-  #   label: "Buying Status"
-  #   sql: ${TABLE}.productBuyingStatus ;;
-  # }
-
-  # dimension: endOfLife {
-  #   type: string
-  #   view_label: "Products"
-  #   group_label: "Commercial Details"
-  #   label: "End of Life"
-  #   sql: ${TABLE}.endOfLife ;;
-  # }
-
-  # dimension: productChannel {
-  #   type: string
-  #   view_label: "Products"
-  #   group_label: "Commercial Details"
-  #   label: "Product Channel"
-  #   sql: ${TABLE}.productChannel ;;
-  # }
-
-  # dimension: isActive {
-  #   view_label: "Products"
-  #   label: "isActive"
-  #   group_label: "Flags"
-  #   type: yesno
-  #   sql: ${TABLE}.isActive = 1 ;;
-  # }
-
-  # dimension: price {
-  #   value_format_name: gbp
-  #   view_label: "Products"
-  #   group_label: "Pricing"
-  #   label: "Current Price"
-  #   sql: ${TABLE}.price ;;
-  # }
-
-  # dimension: regular_price {
-  #   value_format_name: gbp
-  #   view_label: "Products"
-  #   group_label: "Pricing"
-  #   label: "Regular Price"
-  #   sql: ${TABLE}.RegularPrice ;;
-  # }
-
-  # dimension: promo_price {
-  #   value_format_name: gbp
-  #   view_label: "Products"
-  #   group_label: "Pricing"
-  #   label: "Promo Price"
-  #   sql: ${TABLE}.PromoPrice ;;
-  # }
-
-  # dimension: promo_type {
-  #   type: string
-  #   view_label: "Products"
-  #   group_label: "Pricing"
-  #   label: "Promo Type"
-  #   sql: ${TABLE}.type ;;
-  # }
-
-  # dimension: manufacturer {
-  #   group_label: "Supply Chain"
-  #   type: string
-  #   sql: ${TABLE}.manufacturer ;;
-  #   hidden: yes
-  # }
-
-  # dimension: supplier_part_number {
-  #   view_label: "Products"
-  #   group_label: "Supply Chain"
-  #   label: "Supplier Part Number"
-  #   type: string
-  #   sql: ${TABLE}.supplierPartNumber ;;
-  # }
-
-  # set: product {
-  #   fields: [item_id,productUID,productName,productDepartment,productSubDepartment,productBrand]
-  # }
 
 }
