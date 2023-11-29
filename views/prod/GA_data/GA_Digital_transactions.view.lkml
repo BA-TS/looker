@@ -531,7 +531,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     sql: ${user_id} ;;
   }
 
-  measure: sessions {
+  measure: sessions_total {
+    hidden: yes
     view_label: "GA4"
     group_label: "Measures"
     label: "Total Sessions"
@@ -542,7 +543,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: session_start {
     view_label: "GA4"
     group_label: "Measures"
-    label: "Engaged Sessions"
+    label: "Total Sessions"
     type: count_distinct
     filters: [event_name: "session_start"]
     sql: ${session_id};;
@@ -607,7 +608,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     label: "Bounced sessions"
     group_label: "Measures"
     description: "Sessions where user left site after viewing 1 page"
-    sql: ${sessions}-${bounces} ;;
+    type: number
+    sql: ${session_start}-${bounces} ;;
   }
 
   measure: bounce_rate {
@@ -618,7 +620,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     description: "rate of total sessions where user left site after viewing 1 page"
     value_format_name: percent_2
     #sql: (${bs}/${session_start}) * 100
-    sql: safe_divide(${bs},${sessions});;
+    sql: safe_divide(${bs},${session_start});;
   }
 
   measure: New_users {
