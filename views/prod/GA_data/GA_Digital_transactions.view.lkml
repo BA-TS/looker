@@ -666,7 +666,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: PDP_sessions {
     view_label: "GA4"
     group_label: "PDP"
-    label: "Sessions"
+    label: "Sessions (PDP)"
     description: "Sessions where product-detail-page was viewed"
     type: count_distinct
     filters: [event_name: "view_item", Screen_name: "product-detail-page",bounce_def: "1"]
@@ -676,7 +676,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: PDP_Users {
     view_label: "GA4"
     group_label: "PDP"
-    label: "Users"
+    label: "Users (PDP)"
     description: "Users who viewed a product-detail-page"
     type: count_distinct
     filters: [event_name: "view_item", Screen_name: "product-detail-page"]
@@ -686,7 +686,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: PDP_events {
     view_label: "GA4"
     group_label: "PDP"
-    label: "Events"
+    label: "Events (PDP)"
     description: "Views to a product-detail-page"
     type: sum
     filters: [event_name: "view_item", Screen_name: "product-detail-page"]
@@ -698,7 +698,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: viewItemList_sessions {
     view_label: "GA4"
     group_label: "View Item List"
-    label: "Sessions"
+    label: "Sessions (View Item List)"
     description: "Sessions where an item was viewed in a list page"
     type: count_distinct
     filters: [event_name: "view_item_list",bounce_def: "1"]
@@ -708,7 +708,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: viewItemList_Users {
     view_label: "GA4"
     group_label: "View Item List"
-    label: "Users"
+    label: "Users (View Item List)"
     description: "Users who viewed a item in a list page"
     type: count_distinct
     filters: [event_name: "view_item_list"]
@@ -718,7 +718,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: ViewItemList_events {
     view_label: "GA4"
     group_label: "View Item List"
-    label: "Events"
+    label: "Events (View Item List)"
     description: "total times a item was viewed in a list page"
     type: sum
     filters: [event_name: "view_item_list"]
@@ -730,7 +730,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: viewCart_sessions {
     view_label: "GA4"
     group_label: "View Cart"
-    label: "Sessions"
+    label: "Sessions (View Cart)"
     description: "Sessions where cart was viewed"
     type: count_distinct
     filters: [event_name: "view_cart",bounce_def: "1"]
@@ -740,7 +740,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: viewCart_Users {
     view_label: "GA4"
     group_label: "View Cart"
-    label: "Users"
+    label: "Users (View Cart)"
     description: "Users who viewed their cart"
     type: count_distinct
     filters: [event_name: "view_cart"]
@@ -750,7 +750,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: ViewCart_events {
     view_label: "GA4"
     group_label: "View Cart"
-    label: "Events"
+    label: "Events (View Cart)"
     description: "total times the cart was viewed"
     type: sum
     filters: [event_name: "view_cart"]
@@ -760,7 +760,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: ViewCart_Quantity {
     view_label: "GA4"
     group_label: "View Cart"
-    label: "Product Quantity"
+    label: "Product Quantity (View Cart)"
     description: "Product quantity of cart"
     type: sum
     filters: [event_name: "view_cart"]
@@ -769,7 +769,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: ViewCart_Value {
     view_label: "GA4"
     group_label: "View Cart"
-    label: "Value"
+    label: "Value (View Cart)"
     description: "Monetary value of cart"
     type: sum
     value_format_name: gbp
@@ -782,7 +782,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: OOS_sessions {
     view_label: "GA4"
     group_label: "Out of Stock"
-    label: "Sessions"
+    label: "Sessions (OOS)"
     description: "Sessions where an item was shown to be oos"
     type: count_distinct
     filters: [event_name: "out_of_stock",bounce_def: "1"]
@@ -792,7 +792,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: OOS_Users {
     view_label: "GA4"
     group_label: "Out of Stock"
-    label: "Users"
+    label: "Users (OOS)"
     description: "Users who viewed a item oos"
     type: count_distinct
     filters: [event_name: "out_of_stock"]
@@ -802,7 +802,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: OOS_events {
     view_label: "GA4"
     group_label: "Out of Stock"
-    label: "Events"
+    label: "Events (OOS)"
     description: "total times a item was shown to be OOS"
     type: sum
     filters: [event_name: "out_of_stock"]
@@ -814,7 +814,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: add_to_cart_sessions {
     view_label: "GA4"
     group_label: "Add to Cart"
-    label: "Sessions"
+    label: "Sessions (ATC)"
     description: "Sessions where an item was added to cart"
     type: count_distinct
     filters: [event_name: "add_to_cart",bounce_def: "1"]
@@ -824,7 +824,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: add_to_cart_Users {
     view_label: "GA4"
     group_label: "Add to Cart"
-    label: "Users"
+    label: "Users (ATC)"
     description: "Users who added an item to cart"
     type: count_distinct
     filters: [event_name: "add_to_cart"]
@@ -834,7 +834,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: add_to_cart_events {
     view_label: "GA4"
     group_label: "Add to Cart"
-    label: "Events"
+    label: "Events (ATC)"
     description: "total times an item was added to cart"
     type: sum
     filters: [event_name: "add_to_cart"]
@@ -844,7 +844,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: add_to_cart_Quantity {
     view_label: "GA4"
     group_label: "Add to Cart"
-    label: "Product Quantity"
+    label: "Product Quantity (ATC)"
     description: "Product quantity of items added cart"
     type: sum
     filters: [event_name: "add_to_cart"]
@@ -853,7 +853,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: add_to_cart_Value {
     view_label: "GA4"
     group_label: "Add to Cart"
-    label: "Value"
+    label: "Value (ATC)"
     description: "Monetary value of items added cart"
     type: sum
     value_format_name: gbp
@@ -865,7 +865,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
 
   measure: session_purchase {
     view_label: "GA4"
-    label: "Sessions"
+    label: "Sessions (Purchase)"
     group_label: "Purchase"
     description: "Sessions where a purchase event happened"
     #hidden: yes
@@ -876,7 +876,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
 
   measure: conversion_rate {
     view_label: "GA4"
-    label: "Conversion rate"
+    label: "Purchase Conversion rate"
     group_label: "Purchase"
     type: number
     value_format_name: percent_2
@@ -888,7 +888,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: purchase_Users {
     view_label: "GA4"
     group_label: "Purchase"
-    label: "Users"
+    label: "Users (Purchase)"
     description: "Users who Purchased"
     type: count_distinct
     filters: [event_name: "purchase"]
@@ -898,7 +898,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: purchase_events {
     view_label: "GA4"
     group_label: "Purchase"
-    label: "Events"
+    label: "Events (Purchase)"
     description: "total times an item was added to cart"
     type: sum
     filters: [event_name: "purchase"]
