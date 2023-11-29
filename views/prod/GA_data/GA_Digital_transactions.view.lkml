@@ -144,7 +144,10 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     when ${event_namev2} = "videoly_videostart" then "videoly_start"
     when ${event_namev2} = "videoly_initialize" then "videoly_box_shown"
     when ${event_namev2} = "videoly_videoclosed" then "videoly_closed"
-    --when regexp_contains(${event_namev2},"Videoly_progress") then "videoly_progress"
+    when ${event_namev2} = "collection_oos" and ${platform} = "Web" then "out_of_stock"
+    when ${event_namev2} = "dual_oos" and ${platform} = "Web" then "out_of_stock"
+    when ${event_namev2} = "delivery_oos" and ${platform} = "Web" then "out_of_stock"
+    when ${event_namev2} = "out_of_stock" and ${platform} = "Web" then null
     else ${event_namev2}
     end;;
   }
@@ -154,7 +157,12 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     label: "1.Event Key"
     group_label: "Event"
     type: string
-    sql: case when ${TABLE}.key_1 is null and ${label_1} is not null then "action" else ${TABLE}.key_1 end;;
+    sql: case when ${TABLE}.key_1 is null and ${label_1} is not null then "action"
+    when ${event_namev2} = "collection_oos" and ${platform} = "Web" then "Collection"
+    when ${event_namev2} = "dual_oos" and ${platform} = "Web" then "Dual"
+    when ${event_namev2} = "delivery_oos" and ${platform} = "Web" then "Delivery"
+    when ${event_namev2} = "out_of_stock" and ${platform} = "Web" then null
+    else ${TABLE}.key_1 end;;
   }
 
   dimension: label_1 {
@@ -679,7 +687,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     label: "Sessions"
     description: "Sessions where product-detail-page was viewed"
     type: count_distinct
-    filters: [event_name: "view_item", Screen_name: "product-detail-page"]
+    filters: [event_name: "view_item", Screen_name: "product-detail-page",bounce_def: "1"]
     sql: ${session_id} ;;
   }
 
@@ -711,7 +719,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     label: "Sessions"
     description: "Sessions where an item was viewed in a list page"
     type: count_distinct
-    filters: [event_name: "view_item_list"]
+    filters: [event_name: "view_item_list",bounce_def: "1"]
     sql: ${session_id} ;;
   }
 
@@ -743,7 +751,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     label: "Sessions"
     description: "Sessions where cart was viewed"
     type: count_distinct
-    filters: [event_name: "view_cart"]
+    filters: [event_name: "view_cart",bounce_def: "1"]
     sql: ${session_id} ;;
   }
 
