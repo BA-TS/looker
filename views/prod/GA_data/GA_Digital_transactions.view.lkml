@@ -542,7 +542,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
 
   measure: session_start {
     view_label: "GA4"
-    group_label: "Measures"
+    group_label: "Overall sessions"
     label: "Total Sessions"
     type: count_distinct
     filters: [event_name: "session_start"]
@@ -597,7 +597,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: engaged_sessions {
     view_label: "GA4"
     label: "Engaged Sessions"
-    group_label: "Measures"
+    group_label: "Overall sessions"
     description: "Sessions which were detirmined as engaged"
     type: count_distinct
     filters: [bounce_def: "1"]
@@ -607,7 +607,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: bs {
     view_label: "GA4"
     label: "Bounced sessions"
-    group_label: "Measures"
+    group_label: "Overall sessions"
     description: "Sessions where user left site after viewing 1 page"
     type: number
     sql: ${session_start}-${engaged_sessions} ;;
@@ -616,7 +616,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: bounce_rate {
     view_label: "GA4"
     label: "Bounce rate"
-    group_label: "Measures"
+    group_label: "Overall sessions"
     type: number
     description: "rate of total sessions where user left site after viewing 1 page"
     value_format_name: percent_2
@@ -627,7 +627,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: New_users {
     view_label: "GA4"
     label: "New Users"
-    group_label: "Measures"
+    group_label: "Overall Users"
     description: "users who visted the platform for the first time or accepted cookies"
     type: count_distinct
     filters: [event_name: "first_visit,first_open"]
@@ -637,7 +637,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: returning_users {
     view_label: "GA4"
     label: "Returning Users"
-    group_label: "Measures"
+    group_label: "Overall Users"
     type: number
     description: "users who visted the platform prior"
     sql: ${Users}-${New_users} ;;
@@ -646,7 +646,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: Active_Users {
     view_label: "GA4"
     label: "Active Users"
-    group_label: "Measures"
+    group_label: "Overall Users"
     type: count_distinct
     description: "Users who had an active session"
     filters: [bounce_def: "1"]
