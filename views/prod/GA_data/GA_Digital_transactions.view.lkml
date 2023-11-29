@@ -542,7 +542,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: session_start {
     view_label: "GA4"
     group_label: "Overall sessions"
-    label: "Total Sessions"
+    label: "Total Sessions Started"
     type: count_distinct
     filters: [event_name: "session_start"]
     sql: ${session_id};;
@@ -703,7 +703,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     sql: ${TABLE}.events ;;
   }
 
-  ############### PDP #######################
+  ############### View Item List #######################
 
   measure: viewItemList_sessions {
     view_label: "GA4"
@@ -733,6 +733,58 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     type: sum
     filters: [event_name: "view_item_list"]
     sql: ${TABLE}.events ;;
+  }
+
+  ############### View Cart #######################
+
+  measure: viewCart_sessions {
+    view_label: "GA4"
+    group_label: "View Cart"
+    label: "Sessions"
+    description: "Sessions where cart was viewed"
+    type: count_distinct
+    filters: [event_name: "view_cart"]
+    sql: ${session_id} ;;
+  }
+
+  measure: viewCart_Users {
+    view_label: "GA4"
+    group_label: "View Cart"
+    label: "Users"
+    description: "Users who viewed their cart"
+    type: count_distinct
+    filters: [event_name: "view_cart"]
+    sql: ${user_id} ;;
+  }
+
+  measure: ViewCart_events {
+    view_label: "GA4"
+    group_label: "View Cart"
+    label: "Events"
+    description: "total times the cart was viewed"
+    type: sum
+    filters: [event_name: "view_cart"]
+    sql: ${TABLE}.events ;;
+  }
+
+  measure: ViewCart_Quantity {
+    view_label: "GA4"
+    group_label: "View Cart"
+    label: "Product Quantity"
+    description: "Product quantity of cart"
+    type: sum
+    filters: [event_name: "view_cart"]
+    sql: ${TABLE}.ga4_quantity ;;
+  }
+  measure: ViewCart_Value {
+    view_label: "GA4"
+    group_label: "View Cart"
+    label: "Value"
+    description: "Monetary value of cart"
+    type: sum
+    value_format_name: gbp
+    filters: [event_name: "view_cart"]
+    sql: ${TABLE}.value ;;
   }
 
 
