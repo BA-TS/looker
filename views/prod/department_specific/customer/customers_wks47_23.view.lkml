@@ -1,8 +1,10 @@
+include: "/views/prod/department_specific/customer/customers_wks47_22.view"
+
 view: customers_wks47_23 {
-  required_access_grants: [lz_testing]
+
   derived_table: {
     explore_source: base {
-      column: customer_uid { field: customers.customer_uid }
+      column: customer_uid {field: customers.customer_uid }
       filters: {
         field: base.select_date_reference
         value: "Transaction"
@@ -20,9 +22,11 @@ view: customers_wks47_23 {
   dimension: customer_uid {
     label: "Customers Customer UID wk47 23"
     description: ""
+    hidden: yes
   }
 
-  dimension: flag_wk47_23 {
+  dimension: customer_wk47_2023{
+    view_label: "Customers"
     type: yesno
     sql: case when ${customer_uid} is not null then true else false end;;
   }
