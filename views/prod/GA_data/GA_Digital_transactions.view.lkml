@@ -515,18 +515,17 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
 
   measure:  time_hours {
     type: average
-    hidden: yes
     view_label: "GA4"
     label: "Avg Session Duration"
-    group_label: "Measures"
+    group_label: "Overall sessions"
     value_format: "h:mm:ss"
     sql: ${TABLE}.session_duration / 86400.0;;
   }
 
   measure: Users {
     view_label: "GA4"
-    group_label: "Measures"
-    label: "Users"
+    group_label: "Overall Users"
+    label: "Total Users"
     type: count_distinct
     sql: ${user_id} ;;
   }
