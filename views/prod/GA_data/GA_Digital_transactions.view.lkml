@@ -183,8 +183,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
 
   measure: value {
     view_label: "GA4"
-    label: "Event Value"
-    group_label: "Measures"
+    group_label: "Total Measures"
+    label: "Total Event Value"
     value_format_name: gbp
     type: sum
     sql: ${TABLE}.value ;;
@@ -507,8 +507,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
 
   measure: ga4_quantity_total {
     view_label: "GA4"
-    group_label: "Measures"
-    label: "Product Quantity"
+    group_label: "Total Measures"
+    label: "Total Product Quantity"
     type: sum
     sql: ${TABLE}.ga4_quantity;;
   }
@@ -572,16 +572,16 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
 
   measure: events {
     view_label: "GA4"
-    group_label: "Measures"
-    label: "Events"
+    group_label: "Total Measures"
+    label: "Total Events"
     type: sum
     sql: ${TABLE}.events ;;
   }
 
   measure: page_views {
     view_label: "GA4"
-    group_label: "Measures"
-    label: "Page Views"
+    group_label: "Total Measures"
+    label: "Total Page Views"
     type: sum
     sql: ${TABLE}.page_views ;;
   }
@@ -669,5 +669,36 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     label: "Product UID"
     sql: ${TABLE}.productUID ;;
   }
+
+  ############# Measures by events#################
+  ############### PDP #######################
+
+  measure: PDP_sessions {
+    view_label: "GA4"
+    group_label: "PDP"
+    label: "Sessions"
+    type: count_distinct
+    filters: [event_name: "view_item", Screen_name: "product-detail-page"]
+    sql: ${session_id} ;;
+  }
+
+  measure: PDP_Users {
+    view_label: "GA4"
+    group_label: "PDP"
+    label: "Users"
+    type: count_distinct
+    filters: [event_name: "view_item", Screen_name: "product-detail-page"]
+    sql: ${user_id} ;;
+  }
+
+  measure: PDP_events {
+    view_label: "GA4"
+    group_label: "PDP"
+    label: "Events"
+    type: sum
+    filters: [event_name: "view_item", Screen_name: "product-detail-page"]
+    sql: ${TABLE}.events ;;
+  }
+
 
 }
