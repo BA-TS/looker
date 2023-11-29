@@ -1,4 +1,5 @@
-view: customers_wks47_22 {
+view: customers_wks47_23 {
+  required_access_grants: [lz_testing]
   derived_table: {
     explore_source: base {
       column: customer_uid { field: customers.customer_uid }
@@ -12,16 +13,16 @@ view: customers_wks47_22 {
       }
       filters: {
         field: calendar_completed_date.fiscal_year_week
-        value: "202247"
+        value: "202347"
       }
     }
   }
   dimension: customer_uid {
-    label: "Customers Customer UID wk47 22"
+    label: "Customers Customer UID wk47 23"
     description: ""
   }
 
-  dimension: flag_wk47_23{
+  dimension: flag_wk47_23 {
     type: yesno
     sql: case when ${customer_uid} is not null then true else false end;;
   }

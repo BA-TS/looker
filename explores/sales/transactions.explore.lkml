@@ -405,10 +405,18 @@ explore: base {
   }
 
   join: customers_wks47_22 {
+    required_access_grants: [lz_testing]
     type: left_outer
     relationship: many_to_one
     sql_on: ${customers.customer_uid} = ${customers_wks47_22.customer_uid} ;;
   }
+
+  # join: customers_wks47_23 {
+  #   required_access_grants: [lz_testing]
+  #   type: left_outer
+  #   relationship: many_to_one
+  #   sql_on: ${customers.customer_uid} = ${customers_wks47_23.customer_uid} ;;
+  # }
 }
 
 explore: +base {
