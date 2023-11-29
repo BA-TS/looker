@@ -600,7 +600,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     group_label: "Measures"
     description: "Sessions which were detirmined as engaged"
     type: count_distinct
-    filters: [bounce_def: "1", event_name: "session_start"]
+    filters: [bounce_def: "1"]
     sql: ${session_id};;
   }
 
