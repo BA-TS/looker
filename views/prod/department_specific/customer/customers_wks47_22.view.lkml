@@ -21,7 +21,7 @@ view: customers_wks47_22 {
     description: ""
   }
 
-  dimension: flag_wk47_23{
+  dimension: flag_wk47_22{
     type: yesno
     sql: case when ${customer_uid} is not null then true else false end;;
   }
