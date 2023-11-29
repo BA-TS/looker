@@ -827,5 +827,56 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     sql: ${TABLE}.events ;;
   }
 
+    ############### add to Cart #######################
+
+  measure: add_to_cart_sessions {
+    view_label: "GA4"
+    group_label: "Add to Cart"
+    label: "Sessions"
+    description: "Sessions where an item was added to cart"
+    type: count_distinct
+    filters: [event_name: "add_to_cart",bounce_def: "1"]
+    sql: ${session_id} ;;
+  }
+
+  measure: add_to_cart_Users {
+    view_label: "GA4"
+    group_label: "Add to Cart"
+    label: "Users"
+    description: "Users who added an item to cart"
+    type: count_distinct
+    filters: [event_name: "add_to_cart"]
+    sql: ${user_id} ;;
+  }
+
+  measure: add_to_cart_events {
+    view_label: "GA4"
+    group_label: "Add to Cart"
+    label: "Events"
+    description: "total times an item was added to cart"
+    type: sum
+    filters: [event_name: "add_to_cart"]
+    sql: ${TABLE}.events ;;
+  }
+
+  measure: add_to_cart_Quantity {
+    view_label: "GA4"
+    group_label: "Add to Cart"
+    label: "Product Quantity"
+    description: "Product quantity of items added cart"
+    type: sum
+    filters: [event_name: "add_to_cart"]
+    sql: ${TABLE}.ga4_quantity ;;
+  }
+  measure: add_to_cart_Value {
+    view_label: "GA4"
+    group_label: "Add to Cart"
+    label: "Value"
+    description: "Monetary value of items added cart"
+    type: sum
+    value_format_name: gbp
+    filters: [event_name: "add_to_cart"]
+    sql: ${TABLE}.value ;;
+  }
 
 }
