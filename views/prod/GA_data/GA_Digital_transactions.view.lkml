@@ -677,6 +677,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     view_label: "GA4"
     group_label: "PDP"
     label: "Sessions"
+    description: "Sessions where product-detail-page was viewed"
     type: count_distinct
     filters: [event_name: "view_item", Screen_name: "product-detail-page"]
     sql: ${session_id} ;;
@@ -686,6 +687,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     view_label: "GA4"
     group_label: "PDP"
     label: "Users"
+    description: "Users who viewed a product-detail-page"
     type: count_distinct
     filters: [event_name: "view_item", Screen_name: "product-detail-page"]
     sql: ${user_id} ;;
@@ -695,8 +697,41 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     view_label: "GA4"
     group_label: "PDP"
     label: "Events"
+    description: "Views to a product-detail-page"
     type: sum
     filters: [event_name: "view_item", Screen_name: "product-detail-page"]
+    sql: ${TABLE}.events ;;
+  }
+
+  ############### PDP #######################
+
+  measure: viewItemList_sessions {
+    view_label: "GA4"
+    group_label: "View Item List"
+    label: "Sessions"
+    description: "Sessions where an item was viewed in a list page"
+    type: count_distinct
+    filters: [event_name: "view_item_list"]
+    sql: ${session_id} ;;
+  }
+
+  measure: viewItemList_Users {
+    view_label: "GA4"
+    group_label: "View Item List"
+    label: "Users"
+    description: "Users who viewed a item in a list page"
+    type: count_distinct
+    filters: [event_name: "view_item_list"]
+    sql: ${user_id} ;;
+  }
+
+  measure: ViewItemList_events {
+    view_label: "GA4"
+    group_label: "View Item List"
+    label: "Events"
+    description: "total times a item was viewed in a list page"
+    type: sum
+    filters: [event_name: "view_item_list"]
     sql: ${TABLE}.events ;;
   }
 
