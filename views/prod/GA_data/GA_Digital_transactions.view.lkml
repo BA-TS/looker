@@ -583,7 +583,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     sql: ${TABLE}.bounces ;;
   }
 
-  measure: engaged_sessions {
+  measure: sessions {
     view_label: "GA4"
     label: "Engaged Sessions"
     group_label: "Overall sessions"
@@ -599,7 +599,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     group_label: "Overall sessions"
     description: "Sessions where user left site after viewing 1 page"
     type: number
-    sql: ${session_start}-${engaged_sessions} ;;
+    sql: ${session_start}-${sessions} ;;
   }
 
   measure: bounce_rate {
@@ -882,7 +882,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     value_format_name: percent_2
     description: "rate of total sessions where a pucrhase event happened"
     #sql: ${Count_transaction_id}/${session_start} * 100
-    sql: safe_divide(${session_purchase},${engaged_sessions});;
+    sql: safe_divide(${session_purchase},${sessions});;
   }
 
   measure: purchase_Users {
