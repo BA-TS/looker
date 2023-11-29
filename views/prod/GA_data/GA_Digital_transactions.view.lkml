@@ -795,5 +795,37 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     sql: ${TABLE}.value ;;
   }
 
+############### Out of Stock #######################
+
+  measure: OOS_sessions {
+    view_label: "GA4"
+    group_label: "Out of Stock"
+    label: "Sessions"
+    description: "Sessions where an item was shown to be oos"
+    type: count_distinct
+    filters: [event_name: "out_of_stock",bounce_def: "1"]
+    sql: ${session_id} ;;
+  }
+
+  measure: OOS_Users {
+    view_label: "GA4"
+    group_label: "Out of Stock"
+    label: "Users"
+    description: "Users who viewed a item oos"
+    type: count_distinct
+    filters: [event_name: "out_of_stock"]
+    sql: ${user_id} ;;
+  }
+
+  measure: OOS_events {
+    view_label: "GA4"
+    group_label: "Out of Stock"
+    label: "Events"
+    description: "total times a item was shown to be OOS"
+    type: sum
+    filters: [event_name: "out_of_stock"]
+    sql: ${TABLE}.events ;;
+  }
+
 
 }
