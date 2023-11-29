@@ -1,4 +1,5 @@
 view: customers_wks47_22 {
+
   derived_table: {
     explore_source: base {
       column: customer_uid { field: customers.customer_uid }
@@ -19,9 +20,11 @@ view: customers_wks47_22 {
   dimension: customer_uid {
     label: "Customers Customer UID wk47 22"
     description: ""
+    hidden: yes
   }
 
-  dimension: flag_wk47_22{
+  dimension: customer_wk47_2022{
+    view_label: "Customers"
     type: yesno
     sql: case when ${customer_uid} is not null then true else false end;;
   }
