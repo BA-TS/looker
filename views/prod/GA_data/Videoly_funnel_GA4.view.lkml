@@ -211,7 +211,7 @@ group by 2,3,4,5,6,7,8;;
   }
 
   measure: videoly_shown_events {
-    view_label: "GA4"
+    view_label: "Videoly Funnel"
     group_label: "Stage 1: Videoly Shown"
     label: "Videoly Shown Events"
     description: "Total Videoly shown events"
@@ -220,7 +220,7 @@ group by 2,3,4,5,6,7,8;;
   }
 
   measure: videoly_shownSessions {
-    view_label: "GA4"
+    view_label: "Videoly Funnel"
     group_label: "Stage 1: Videoly Shown"
     label: "Videoly Shown sessions"
     description: "Sessions where Videoly was shown"
@@ -247,7 +247,7 @@ group by 2,3,4,5,6,7,8;;
   }
 
   measure: videoly_started_events {
-    view_label: "GA4"
+    view_label: "Videoly Funnel"
     group_label: "Stage 2: Videoly Started"
     label: "Videoly Started Events"
     description: "Total Videoly started events"
@@ -256,7 +256,7 @@ group by 2,3,4,5,6,7,8;;
   }
 
   measure: videoly_startedSessions {
-    view_label: "GA4"
+    view_label: "Videoly Funnel"
     group_label: "Stage 2: Videoly Started"
     label: "Videoly started sessions"
     description: "Sessions where Videoly was started"
@@ -283,7 +283,7 @@ group by 2,3,4,5,6,7,8;;
   }
 
   measure: add_to_cart_events {
-    view_label: "GA4"
+    view_label: "Videoly Funnel"
     group_label: "Stage 3: Add to Cart"
     label: "Add to Cart Events"
     description: "Total Add to Cart events where video was shown and started"
@@ -293,7 +293,7 @@ group by 2,3,4,5,6,7,8;;
   }
 
   measure: ATC_Sessions {
-    view_label: "GA4"
+    view_label: "Videoly Funnel"
     group_label: "Stage 3: Add to Cart"
     label: "Add to cart sessions"
     description: "Sessions where item was added to cart where video was shown and started"
@@ -320,7 +320,7 @@ group by 2,3,4,5,6,7,8;;
   }
 
   measure: PurchaseEvents {
-    view_label: "GA4"
+    view_label: "Videoly Funnel"
     group_label: "Stage 4: Purchase"
     label: "Purchase Events"
     description: "Total Purchase events where earlier in the session a video was shown and started"
@@ -329,7 +329,7 @@ group by 2,3,4,5,6,7,8;;
   }
 
   measure: purchase_Sessions {
-    view_label: "GA4"
+    view_label: "Videoly Funnel"
     group_label: "Stage 4: Purchase"
     label: "Purchase sessions"
     description: "Sessions where purchase occured after a video was shown and started"
@@ -339,7 +339,7 @@ group by 2,3,4,5,6,7,8;;
   }
 
   measure: purchase_transactions {
-    view_label: "GA4"
+    view_label: "Videoly Funnel"
     group_label: "Stage 4: Purchase"
     label: "Transactions"
     description: "Transactions after a video was shown and started"
@@ -349,7 +349,7 @@ group by 2,3,4,5,6,7,8;;
   }
 
   measure: purchase_productQuant {
-    view_label: "GA4"
+    view_label: "Videoly Funnel"
     group_label: "Stage 4: Purchase"
     label: "Quantity"
     description: "product quantity purchased after a video was shown and started"
@@ -359,7 +359,7 @@ group by 2,3,4,5,6,7,8;;
   }
 
   measure: purchase_revenue {
-    view_label: "GA4"
+    view_label: "Videoly Funnel"
     group_label: "Stage 4: Purchase"
     label: "Net Revenue"
     description: "revenue where purchase occured after a video was shown and started"
@@ -370,7 +370,7 @@ group by 2,3,4,5,6,7,8;;
   }
 
   measure: purchaseNotStarted_Sessions {
-    view_label: "GA4"
+    view_label: "Videoly Funnel"
     group_label: "Stage 4: Purchase"
     label: "Purchase sessions (Videoly shown not started)"
     description: "Sessions where purchase occured after a video was shown and not started"
@@ -380,7 +380,7 @@ group by 2,3,4,5,6,7,8;;
   }
 
   measure: purchaseNotStarted_revenue {
-    view_label: "GA4"
+    view_label: "Videoly Funnel"
     group_label: "Stage 4: Purchase"
     label: "Revenue (videoly shown not started)"
     description: "revenue where purchase occured after a video was shown and not started"
