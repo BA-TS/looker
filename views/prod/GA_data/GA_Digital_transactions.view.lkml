@@ -594,12 +594,13 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     sql: ${TABLE}.bounces ;;
   }
 
-  measure: bounces {
-    label: "bounces"
+  measure: engaged_sessions {
+    view_label: "GA4"
+    label: "Engaged Sessions"
     group_label: "Measures"
-    hidden: yes
+    description: "Sessions which were detirmined as engaged"
     type: count_distinct
-    filters: [bounce_def: "1"]
+    filters: [bounce_def: "1", event_name: "session_start"]
     sql: ${session_id};;
   }
 
@@ -609,7 +610,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     group_label: "Measures"
     description: "Sessions where user left site after viewing 1 page"
     type: number
-    sql: ${session_start}-${bounces} ;;
+    sql: ${session_start}-${engaged_sessions} ;;
   }
 
   measure: bounce_rate {
