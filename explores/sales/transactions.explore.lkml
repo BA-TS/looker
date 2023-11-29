@@ -403,6 +403,12 @@ explore: base {
     relationship: many_to_one
     sql_on: ${transactions.parent_order_uid} = ${transactions_incomplete.parent_order_uid} ;;
   }
+
+  # join: customers_wks47_22 {
+  #   type: left_outer
+  #   relationship: many_to_one
+  #   sql_on: ${customers.customer_uid} = ${customers_wks47_22.customer_uid} ;;
+  # }
 }
 
 explore: +base {
