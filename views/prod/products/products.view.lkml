@@ -22,6 +22,13 @@ view: products {
     sql: ${TABLE}.activeTo ;;
   }
 
+  dimension_group: activeFrom {
+    type: time
+    hidden: yes
+    timeframes: [raw,date]
+    sql: ${TABLE}.activeFrom ;;
+  }
+
   dimension: product_uid {
     group_label: "Product Details"
     label: "Product UID"

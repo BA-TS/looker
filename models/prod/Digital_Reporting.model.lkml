@@ -25,7 +25,8 @@ explore: GA4_test {
     view_label: "GA4"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${ga_digital_transactions.date_date}=${calendar_completed_date.date} ;;
+    sql_on: ${ga_digital_transactions.date_date}=${calendar_completed_date.date}
+    and ${ga_digital_transactions.item_id} = ${products.product_code};;
     sql_where: ${ga_digital_transactions.date_date}=${calendar_completed_date.date} ;;
   }
 
@@ -33,14 +34,14 @@ explore: GA4_test {
     view_label: "Products"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${ga_digital_transactions.item_id} = ${products.product_code};;
+    sql_on: ${calendar_completed_date.date} BETWEEN ${products.activeFrom_date} AND ${products.activeTo_date} ;;
   }
 
   join: catalogue {
     view_label: ""
     type: left_outer
     relationship: one_to_many
-    sql_on: ${ga_digital_transactions.date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
+    sql_on: ${calendar_completed_date.date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
   }
 
   join: promoworking {
@@ -105,15 +106,15 @@ explore: GA4_test {
     view_label: "Stock Cover"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${ga_digital_transactions.item_id} = ${stock_cover.product_code}
-    and ${ga_digital_transactions.date_date} = ${stock_cover.stock_date_date};;
+    sql_on: ${products.product_code} = ${stock_cover.product_code}
+    and ${calendar_completed_date.date} = ${stock_cover.stock_date_date};;
   }
 
   join: aac {
     view_label: ""
     type:  left_outer
     relationship: many_to_one
-    sql_on: ${stock_cover.stock_date_date} = ${aac.date} and ${ga_digital_transactions.productUID} = ${aac.product_uid} ;;
+    sql_on: ${stock_cover.stock_date_date} = ${aac.date} and ${products.product_uid} = ${aac.product_uid} ;;
   }
 
   join: videoly_funnel_ga4 {
