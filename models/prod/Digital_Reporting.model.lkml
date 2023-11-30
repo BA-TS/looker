@@ -23,9 +23,10 @@ explore: GA4_test {
 
   join: ga_digital_transactions {
     view_label: "GA4"
-    type:  inner
+    type: left_outer
     relationship: one_to_many
     sql_on: ${ga_digital_transactions.date_date}=${calendar_completed_date.date} ;;
+    sql_where: ${ga_digital_transactions.date_date}=${calendar_completed_date.date} ;;
   }
 
   join: products {
