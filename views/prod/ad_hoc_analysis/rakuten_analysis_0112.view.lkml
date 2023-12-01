@@ -14,7 +14,14 @@ view: rakuten_analysis_0112 {
   dimension: parent_order_UID {
     type: string
     sql: ${TABLE}.parentOrderUID ;;
-    label: "transactionUID Rakuten"
+    required_access_grants: [can_use_customer_information]
+    hidden: yes
+  }
+
+  dimension: day_difference_rakuten{
+    view_label: "Ad-hoc"
+    type: yesno
+    sql: ${TABLE}.day_diff ;;
     required_access_grants: [can_use_customer_information]
   }
 
@@ -31,8 +38,4 @@ view: rakuten_analysis_0112 {
     sql: case when ${parent_order_UID} is not null then true else false end;;
     required_access_grants: [can_use_customer_information]
   }
-
-
-
-
 }
