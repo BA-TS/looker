@@ -20,7 +20,7 @@ view: rakuten_analysis_0112 {
 
   dimension: day_difference_rakuten{
     view_label: "Ad-hoc"
-    type: yesno
+    type: number
     sql: ${TABLE}.day_diff ;;
     required_access_grants: [can_use_customer_information]
   }
