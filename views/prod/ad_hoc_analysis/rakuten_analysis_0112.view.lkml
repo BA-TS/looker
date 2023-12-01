@@ -11,9 +11,9 @@ view: rakuten_analysis_0112 {
     hidden: yes
   }
 
-  dimension: transactionUID {
+  dimension: parent_order_UID {
     type: string
-    sql: ${TABLE}.transactionUID ;;
+    sql: ${TABLE}.parentOrderUID ;;
     label: "transactionUID Rakuten"
     required_access_grants: [can_use_customer_information]
   }

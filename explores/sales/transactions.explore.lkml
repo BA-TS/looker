@@ -419,7 +419,8 @@ explore: base {
   join: rakuten_analysis_0112 {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${customers.customer_uid} = ${rakuten_analysis_0112.customerUID} ;;
+    sql_on: ${customers.customer_uid} = ${rakuten_analysis_0112.customerUID};;
+    # and ${customers.customer_uid} = ${rakuten_analysis_0112.customerUID}
   }
 }
 
