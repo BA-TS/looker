@@ -12,6 +12,7 @@ view: rakuten_analysis_0112 {
   }
 
   dimension: parent_order_UID {
+    group_label: "Rakuten_0112"
     type: string
     sql: ${TABLE}.parentOrderUID ;;
     required_access_grants: [can_use_customer_information]
@@ -19,19 +20,20 @@ view: rakuten_analysis_0112 {
   }
 
   dimension: rakuten_transactionID {
+    group_label: "Rakuten_0112"
     type: string
     sql: ${TABLE}.rakuten_transactionID ;;
     required_access_grants: [can_use_customer_information]
   }
 
   dimension: rakuten_transaction_date {
+    group_label: "Rakuten_0112"
     type: date
     sql: ${TABLE}.rakuten_transaction_date ;;
     required_access_grants: [can_use_customer_information]
   }
 
   dimension: day_difference_rakuten{
-    view_label: "Ad hoc"
     group_label: "Rakuten_0112"
     label: "Number of days between actual vs rakuten transactions"
     type: number
@@ -40,7 +42,6 @@ view: rakuten_analysis_0112 {
   }
 
   dimension: customer_rakuten{
-    view_label: "Ad hoc"
     group_label: "Rakuten_0112"
     type: yesno
     sql: case when ${customerUID} is not null then true else false end;;
@@ -48,7 +49,6 @@ view: rakuten_analysis_0112 {
   }
 
   dimension: transaction_rakuten{
-    view_label: "Ad hoc"
     group_label: "Rakuten_0112"
     type: yesno
     sql: case when ${parent_order_UID} is not null then true else false end;;
