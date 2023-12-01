@@ -418,6 +418,7 @@ explore: base {
 
   join: rakuten_analysis_0112 {
     view_label: "Other - Ad-hoc Analysis"
+    required_access_grants: [adhoc_rakuten]
     type: left_outer
     relationship: many_to_one
     sql_on: ${customers.customer_uid} = ${rakuten_analysis_0112.customerUID} and ${transactions.parent_order_uid} = ${rakuten_analysis_0112.parent_order_UID};;

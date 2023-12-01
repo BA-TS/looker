@@ -58,6 +58,15 @@ access_grant: user_lauren_england {
   allowed_values: ["Y"]
 }
 
+
+access_grant: adhoc_rakuten {
+  user_attribute: adhoc_rakuten
+  allowed_values: ["Y"]
+}
+
+
+
+
 # explore access #
 
 # access_grant: access_transaction {
