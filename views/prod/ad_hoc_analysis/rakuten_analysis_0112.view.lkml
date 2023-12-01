@@ -22,7 +22,12 @@ view: rakuten_analysis_0112 {
     type: string
     sql: ${TABLE}.rakuten_transactionID ;;
     required_access_grants: [can_use_customer_information]
-    hidden: yes
+  }
+
+  dimension: rakuten_transaction_date {
+    type: date
+    sql: ${TABLE}.rakuten_transaction_date ;;
+    required_access_grants: [can_use_customer_information]
   }
 
   dimension: day_difference_rakuten{
