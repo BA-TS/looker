@@ -18,13 +18,19 @@ view: rakuten_analysis_0112 {
     required_access_grants: [can_use_customer_information]
   }
 
-  dimension: customer_rakuten_analysis{
-    view_label: "Customers"
+  dimension: customer_rakuten{
+    view_label: "Ad-hoc"
     type: yesno
     sql: case when ${customerUID} is not null then true else false end;;
     required_access_grants: [can_use_customer_information]
   }
 
+  dimension: transaction_rakuten{
+    view_label: "Ad-hoc"
+    type: yesno
+    sql: case when ${parent_order_UID} is not null then true else false end;;
+    required_access_grants: [can_use_customer_information]
+  }
 
 
 
