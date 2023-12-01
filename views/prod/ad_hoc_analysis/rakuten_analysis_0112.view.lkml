@@ -18,6 +18,13 @@ view: rakuten_analysis_0112 {
     hidden: yes
   }
 
+  dimension: rakuten_transactionID {
+    type: string
+    sql: ${TABLE}.rakuten_transactionID ;;
+    required_access_grants: [can_use_customer_information]
+    hidden: yes
+  }
+
   dimension: day_difference_rakuten{
     view_label: "Ad hoc"
     group_label: "Rakuten_0112"
