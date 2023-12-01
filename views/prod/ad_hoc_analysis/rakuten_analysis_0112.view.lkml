@@ -8,6 +8,14 @@ view: rakuten_analysis_0112 {
     sql: ${TABLE}.customerUID ;;
     label: "Customer UID"
     required_access_grants: [can_use_customer_information]
+    hidden: yes
+  }
+
+  dimension: transactionUID {
+    type: string
+    sql: ${TABLE}.transactionUID ;;
+    label: "transactionUID Rakuten"
+    required_access_grants: [can_use_customer_information]
   }
 
   dimension: customer_rakuten_analysis{
@@ -16,5 +24,9 @@ view: rakuten_analysis_0112 {
     sql: case when ${customerUID} is not null then true else false end;;
     required_access_grants: [can_use_customer_information]
   }
+
+
+
+
 
 }

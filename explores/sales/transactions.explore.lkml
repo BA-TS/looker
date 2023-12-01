@@ -415,6 +415,12 @@ explore: base {
     relationship: many_to_one
     sql_on: ${customers.customer_uid} = ${customers_wks47_23.customer_uid} ;;
   }
+
+  join: rakuten_analysis_0112 {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${customers.customer_uid} = ${rakuten_analysis_0112.customerUID} ;;
+  }
 }
 
 explore: +base {
