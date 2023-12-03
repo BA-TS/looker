@@ -25,8 +25,7 @@ explore: GA4_test {
     view_label: "GA4"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${ga_digital_transactions.date_date}=${calendar_completed_date.date}
-    and ${ga_digital_transactions.item_id} = ${products.product_code};;
+    sql_on: ${ga_digital_transactions.date_date}=${calendar_completed_date.date};;
     sql_where: ${ga_digital_transactions.date_date}=${calendar_completed_date.date} ;;
   }
 
@@ -35,6 +34,7 @@ explore: GA4_test {
     type: left_outer
     relationship: many_to_one
     sql_on: ${calendar_completed_date.date} BETWEEN ${products.activeFrom_date} AND ${products.activeTo_date} ;;
+    sql_where: ${ga_digital_transactions.item_id} = ${products.product_code} or ${ga_digital_transactions.item_id} is null;;
   }
 
   join: catalogue {
