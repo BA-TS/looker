@@ -557,7 +557,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     group_label: "Overall sessions"
     label: "Total Sessions Started"
     type: count_distinct
-    filters: [event_name: "session_start"]
+    filters: [event_namev2: "session_start"]
     sql: ${session_id};;
   }
 
