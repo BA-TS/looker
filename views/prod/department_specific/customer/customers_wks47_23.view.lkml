@@ -27,6 +27,7 @@ view: customers_wks47_23 {
 
   dimension: customer_wk47_2023{
     view_label: "Customers"
+    label: "Is customer 2023"
     type: yesno
     sql: case when ${customer_uid} is not null then true else false end;;
   }
