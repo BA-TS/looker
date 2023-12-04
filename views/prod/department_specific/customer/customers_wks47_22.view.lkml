@@ -30,13 +30,13 @@ view: customers_wks47_22 {
   }
 
   dimension: fiscal_year_week {
-    label: "Fiscal week 2022"
+    label: "Is Customer Fiscal week 2022"
     description: ""
   }
 
-  dimension: customer_wk47_2022{
-    label: "Is Customer Fiscal Week 2022"
-    type: yesno
-    sql: case when ${customer_uid} is not null then true else false end;;
-  }
+  # dimension: customer_wk47_2022{
+  #   label: "Is Customer Fiscal Week 2022"
+  #   type: yesno
+  #   sql: case when ${customer_uid} is not null then true else false end;;
+  # }
 }
