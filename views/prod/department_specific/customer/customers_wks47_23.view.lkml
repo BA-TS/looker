@@ -15,7 +15,7 @@ view: customers_wks47_23 {
       }
       filters: {
         field: calendar_completed_date.fiscal_year_week
-        value: "202347,202348"
+        value: "202348"
       }
     }
   }
