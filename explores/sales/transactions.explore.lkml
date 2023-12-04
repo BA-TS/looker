@@ -405,12 +405,14 @@ explore: base {
   }
 
   join: customers_wks47_22 {
+    view_label: "Other - Ad-hoc Analysis"
     type: left_outer
     relationship: many_to_one
     sql_on: ${customers.customer_uid} = ${customers_wks47_22.customer_uid} ;;
   }
 
   join: customers_wks47_23 {
+    view_label: "Other - Ad-hoc Analysis"
     type: left_outer
     relationship: many_to_one
     sql_on: ${customers.customer_uid} = ${customers_wks47_23.customer_uid} ;;

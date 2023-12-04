@@ -35,7 +35,7 @@ view: customers_wks47_22 {
   }
 
   dimension: customer_wk47_2022{
-    view_label: "Is Customer Fiscal Week 2022"
+    label: "Is Customer Fiscal Week 2022"
     type: yesno
     sql: case when ${customer_uid} is not null then true else false end;;
   }
