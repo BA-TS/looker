@@ -1,7 +1,7 @@
 view: page_type_to_purchase_funnel {
   derived_table: {
     sql:
-    with sub1 as (SELECT distinct min(MinTime) as minTime, session_id, event_name,
+    with sub1 as (SELECT distinct min(timestamp_sub(MinTime, interval 1 HOUR)) as minTime, session_id, event_name,
 #page_location,
 case
 when page_location in ("https://www.toolstation.com/") and event_name in ("page_view") then "homepage"
@@ -15,21 +15,22 @@ when REGEXP_CONTAINS(page_location, r'^.*\/([a-z,\-\d]+\/){1}(c(\d){1,4}).*') TH
 when regexp_contains(screen_name,r"department-page-[0-9]*") and event_name in ("screen_view") then "Category"
 when screen_name in ("product-listing-page") and event_name in ("screen_view") then "Category"
 end as screen,
+item_id,
 platform
 FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*`
 where event_name in ("page_view","view_item", "screen_view","purchase", "Purchase")
 and _table_suffix between format_date("%Y%m%d", date_sub(current_date(), INTERVAL 20 day)) and format_date("%Y%m%d", date_sub(current_date(), INTERVAL 1 day))
-group by 2,3,4,5),
+group by 2,3,4,5,6),
 
 homepage as (select distinct session_id as homepage_session_id, MinTime as homepage_time from sub1 where screen in ("homepage") and event_name in ("page_view","screen_view")),
 
 Search as (select distinct session_id as search_session_id, MinTime as search_time from sub1 where screen in ("Search") and event_name in ("page_view","screen_view")),
 
-PDP as (select distinct session_id as PDP_session_id, MinTime as PDP_time from sub1 where screen in ("PDP") and event_name in ("page_view","view_item")),
+PDP as (select distinct session_id as PDP_session_id, MinTime as PDP_time from sub1 where screen in ("PDP") and event_name in ("view_item") and item_id is not null and item_id not in ("(not set)")),
 
 Category as (select distinct session_id as Category_session_id, MinTime as category_time from sub1 where screen in ("Category") and event_name in ("page_view", "screen_view")),
 
-purchase as (select distinct session_id as purchase_session_id, MinTime as purchase_time from sub1 where event_name in ("purchase", "Purchase"))
+purchase as (select distinct session_id as purchase_session_id, MinTime as purchase_time from sub1 where event_name in ("purchase", "Purchase") and item_id is not null and item_id not in ("(not set)"))
 
 
 SELECT distinct
