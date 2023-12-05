@@ -23,7 +23,7 @@ and bounces = 1
 and _table_suffix between format_date("%Y%m%d", date_sub(current_date(), INTERVAL 20 day)) and format_date("%Y%m%d", date_sub(current_date(), INTERVAL 1 day))
 group by 2,3,4,5,6),
 
-products as (select distinct * from `toolstation-data-storage.range.products_current`),
+products as (select distinct activeFrom,activeTo,productCode from `toolstation-data-storage.range.products_current`),
 
 homepage as (select distinct session_id as homepage_session_id, min(MinTime) as homepage_time from sub1 where screen in ("homepage") and event_name in ("page_view","screen_view") group by 1),
 
