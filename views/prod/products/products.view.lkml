@@ -19,14 +19,14 @@ view: products {
     type: time
     hidden: yes
     timeframes: [raw,date]
-    sql: ${TABLE}.productStartDate ;;
+    sql: ${TABLE}.activeTo ;;
   }
 
   dimension_group: activeFrom {
     type: time
     hidden: yes
     timeframes: [raw,date]
-    sql: ${TABLE}.activeFrom ;;
+    sql: ${TABLE}.productStartDate ;;
   }
 
   dimension: product_uid {
