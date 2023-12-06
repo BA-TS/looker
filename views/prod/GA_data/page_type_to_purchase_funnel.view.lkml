@@ -30,9 +30,7 @@ homepage as (select distinct session_id as homepage_session_id, min(MinTime) as 
 Search as (select distinct session_id as search_session_id, min(MinTime) as search_time from sub1 where screen in ("Search") and event_name in ("page_view","screen_view") group by 1),
 
 PDP as (select distinct session_id as PDP_session_id, min(MinTime) as PDP_time
-from sub1 left join products on date(minTime) BETWEEN (DATE(products.activeFrom )) AND (DATE(products.activeTo ))
-      and sub1.item_id = products.productCode
-where screen in ("PDP") and event_name in ("view_item") and LENGTH(products.productCode ) <> 0 and item_id not in ("(not set)") group by 1),
+from sub1 where screen in ("PDP") and event_name in ("view_item") group by 1),
 
 Category as (select distinct session_id as Category_session_id, min(MinTime) as category_time from sub1 where screen in ("Category") and event_name in ("page_view", "screen_view") group by 1),
 
