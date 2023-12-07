@@ -8,6 +8,7 @@ when page_location in ("https://www.toolstation.com/") and event_name in ("page_
 when regexp_contains(page_location, r"toolstation\.com\/\?") and event_name in ("page_view") then "homepage"
 when screen_name in ("home-page") and event_name in ("screen_view") then "homepage"
 when regexp_contains(page_location, ".*search?.*=.*") and event_name in ("page_view") then "Search"
+when page_location like "%| Search |%" and event_name in ("page_view") then "Search"
 when screen_name in ("search-page") and event_name in ("screen_view") then "Search"
 when Screen_name in ("product-detail-page") and event_name in ("view_item") and platform in ("Web") then "PDP"
 when Screen_name in ("product-detail-page") and event_name in ("view_item") and platform in ("App") then "PDP"
