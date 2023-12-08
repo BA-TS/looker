@@ -134,12 +134,12 @@ explore: GA4_test {
     sql_on: ${ga_digital_transactions.session_id} = ${page_type_to_purchase_funnel.all_sessionID} ;;
   }
 
-  #join: today_tracker_sales {
-   # view_label: "Today Tracker"
-    #type: full_outer
-    #relationship: one_to_many
-    #sql_on: ${products.product_code} = ${today_tracker_sales.item_id};;
-  #}
+  join: basket_buy_to_detail_trends {
+    view_label: "Trends"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${products.product_code} = ${basket_buy_to_detail_trends.item_id};;
+  }
 
 }
 explore: GA4 {
