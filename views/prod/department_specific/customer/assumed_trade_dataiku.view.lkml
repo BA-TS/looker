@@ -5,7 +5,7 @@ view: assumed_trade_dataiku {
 
   dimension: customer_uid {
     type: string
-    sql: ${TABLE}.CustomerUID ;;
+    sql: ${TABLE}.customer_uid ;;
     label: "CUSTOMER_UID"
     hidden: yes
   }
