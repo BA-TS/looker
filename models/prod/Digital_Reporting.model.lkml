@@ -16,11 +16,19 @@ explore: GA4_test {
   from:  calendar
   label: "GA4"
   view_label: "Datetime (of event)"
-  always_filter: {
+  conditionally_filter: {
     filters: [
       ga_digital_transactions.select_date_range: "7 days"
-    ]}
+    ]
+    unless:[base.select_date_range]}
 
+
+  join: base {
+    view_label: "Trends"
+    type:  inner
+    relationship: one_to_many
+    sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
+  }
 
   join: products {
     view_label: "Products"
@@ -139,16 +147,11 @@ explore: GA4_test {
     view_label: "Trends"
     type: left_outer
     relationship: one_to_many
-    sql_on: ((case when ${basket_buy_to_detail_trends.item_id} is null or length(${basket_buy_to_detail_trends.item_id}) != 5 then "null" else ${basket_buy_to_detail_trends.item_id} end) = ${products.product_code});;
+    sql_on: ${basket_buy_to_detail_trends.date_date}=${calendar_completed_date.date}
+    and
+    ((case when ${basket_buy_to_detail_trends.item_id} is null or length(${basket_buy_to_detail_trends.item_id}) != 5 then "null" else ${basket_buy_to_detail_trends.item_id} end) = ${products.product_code});;
   }
 
-  join: calendar_completed_datev4{
-    from:  calendar
-    view_label: "Trends"
-    type:  inner
-    relationship: one_to_many
-    sql_on: ${basket_buy_to_detail_trends.date_date}=${calendar_completed_datev4.date} ;;
-  }
 
 }
 explore: GA4 {
