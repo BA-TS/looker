@@ -749,17 +749,18 @@ view: period_over_period {
 
     filter: select_date_range {
       label: "
-      {% if _explore._name == 'GA4' %}
+      {% if _explore._name == 'GA4_test' %}
       {% else %}
       Date Range
       {% endif %}"
       group_label: "
-      {% if _explore._name == 'GA4' %}
+      {% if _explore._name == 'GA4_test' %}
       {% else %}
       Date Filter
       {% endif %}"
       view_label: "
-      {% if _explore._name == 'GA4' %}
+      {% if _explore._name == 'GA4_test' %}
+      Trends
       {% else %}
       Date
       {% endif %}"
@@ -770,19 +771,19 @@ view: period_over_period {
     parameter: select_fixed_range {
       label:
       "
-      {% if _explore._name == 'GA4' %}
+      {% if _explore._name == 'GA4_test' %}
       {% else %}
       Fixed Range
       {% endif %}"
       group_label:
       "
-      {% if _explore._name == 'GA4' %}
+      {% if _explore._name == 'GA4_test' %}
       {% else %}
       Date Filter
       {% endif %}"
       view_label:
       "
-      {% if _explore._name == 'GA4' %}
+      {% if _explore._name == 'GA4_test' %}
       {% else %}
       Date
       {% endif %}"
@@ -812,17 +813,17 @@ view: period_over_period {
     parameter: select_comparison_period {
       #label: "Comparison Period"
       label: "
-      {% if _explore._name == 'GA4' %}
+      {% if _explore._name == 'GA4_test' %}
       {% else %}
       Comparison Period
       {% endif %}"
       group_label: "
-      {% if _explore._name == 'GA4' %}
+      {% if _explore._name == 'GA4_test' %}
       {% else %}
       Comparison
       {% endif %}"
       view_label: "
-      {% if _explore._name == 'GA4' %}
+      {% if _explore._name == 'GA4_test' %}
       {% else %}
       Date
       {% endif %}"
@@ -858,19 +859,19 @@ view: period_over_period {
     parameter: select_number_of_periods {
       label:
       "
-      {% if _explore._name == 'GA4' %}
+      {% if _explore._name == 'GA4_test' %}
       {% else %}
       Number of Period(s)
       {% endif %}"
       group_label:
       "
-      {% if _explore._name == 'GA4' %}
+      {% if _explore._name == 'GA4_test' %}
       {% else %}
       Comparison
       {% endif %}"
       view_label:
       "
-      {% if _explore._name == 'GA4' %}
+      {% if _explore._name == 'GA4_test' %}
       {% else %}
       Date
       {% endif %}"
@@ -936,13 +937,13 @@ view: period_over_period {
   dimension: pivot_dimension {
       view_label:
       "
-      {% if _explore._name == 'GA4' %}
+      {% if _explore._name == 'GA4_test' %}
       {% else %}
       Date
       {% endif %}"
       label:
       "
-      {% if _explore._name == 'GA4' %}
+      {% if _explore._name == 'GA4_test' %}
       {% else %}
       Compare Period
       {% endif %}"
