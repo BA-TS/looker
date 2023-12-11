@@ -2,6 +2,7 @@ include: "/views/prod/department_specific/finance/transactions.view"
 include: "/views/prod/department_specific/customer/trade_customers.view"
 include: "/views/prod/department_specific/customer/trade_credit_details.view"
 include: "/views/prod/department_specific/customer/customer_classification.view"
+include: "/views/prod/department_specific/customer/assumed_trade_dataiku.view"
 
 
 view: customers {
@@ -404,6 +405,12 @@ view: customers {
     group_label: "Flags"
     label: "Is Trade/Assumed/DIY"
     sql:${customer_classification.customer_type} ;;
+  }
+
+  dimension: assumed_trade_2023_prediction {
+    label: "Assumed Trade Prediction (2023)"
+    type:  yesno
+    sql: coalesce(${assumed_trade_dataiku.final_prediction},false);;
   }
 
   measure: number_of_customers {

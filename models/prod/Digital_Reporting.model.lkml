@@ -22,6 +22,10 @@ explore: GA4_test {
     ]
     unless:[base.select_date_range]}
 
+  fields: [
+    ALL_FIELDS*,
+    -customers.assumed_trade_2023_prediction
+  ]
 
   join: base {
     view_label: "Trends"
@@ -327,7 +331,8 @@ explore: digital_reporting {
 
   fields: [
     ALL_FIELDS*,
-    -customers.customer_classification_type
+    -customers.customer_classification_type,
+    -customers.assumed_trade_2023_prediction
   ]
   #,-products.department
   sql_always_where:

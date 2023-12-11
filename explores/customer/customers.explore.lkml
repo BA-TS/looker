@@ -34,7 +34,8 @@ explore: customers {
 
   fields: [
     ALL_FIELDS*,
-    -products.department
+    -products.department,
+    -customers.assumed_trade_2023_prediction
   ]
 
   sql_always_where:
