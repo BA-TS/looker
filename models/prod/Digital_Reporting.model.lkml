@@ -142,6 +142,14 @@ explore: GA4_test {
     sql_on: ((case when ${basket_buy_to_detail_trends.item_id} is null or length(${basket_buy_to_detail_trends.item_id}) != 5 then "null" else ${basket_buy_to_detail_trends.item_id} end) = ${products.product_code});;
   }
 
+  join: calendar_completed_datev4{
+    from:  calendar
+    view_label: "Trends"
+    type:  inner
+    relationship: one_to_many
+    sql_on: ${basket_buy_to_detail_trends.date_date}=${calendar_completed_datev4.date} ;;
+  }
+
 }
 explore: GA4 {
   #required_access_grants: []
