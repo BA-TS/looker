@@ -18,8 +18,17 @@ view: period_over_period {
   }
 
   parameter: select_date_reference {
-    label: "Date Reference"
-    view_label: "Date"
+    label:
+    "
+      {% if _explore._name == 'GA4_test' %}
+      {% else %}
+      Date Reference
+      {% endif %}"
+    view_label: "
+      {% if _explore._name == 'GA4_test' %}
+      {% else %}
+      Date
+      {% endif %}"
     type: unquoted
     allowed_value: {
       label: "Placed Date"
@@ -756,6 +765,7 @@ view: period_over_period {
       {% endif %}"
       group_label: "
       {% if _explore._name == 'GA4_test' %}
+      Date
       {% else %}
       Date Filter
       {% endif %}"
