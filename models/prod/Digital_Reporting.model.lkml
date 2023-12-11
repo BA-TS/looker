@@ -150,6 +150,7 @@ explore: GA4_test {
     sql_on: ${basket_buy_to_detail_trends.date_date}=${calendar_completed_date.date}
     and
     ((case when ${basket_buy_to_detail_trends.item_id} is null or length(${basket_buy_to_detail_trends.item_id}) != 5 then "null" else ${basket_buy_to_detail_trends.item_id} end) = ${products.product_code});;
+    sql_where: ${basket_buy_to_detail_trends.date_date}=${calendar_completed_date.date} ;;
   }
 
 
