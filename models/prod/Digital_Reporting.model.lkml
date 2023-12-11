@@ -33,8 +33,9 @@ explore: GA4_test {
     view_label: "GA4"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${ga_digital_transactions.date_date}=${calendar_completed_date.date} and (${ga_digital_transactions.item_id} = ${products.product_code}
-    or ${ga_digital_transactions.item_id} is null);;
+    sql_on: ${ga_digital_transactions.date_date}=${calendar_completed_date.date}
+    and
+    ((case when ${ga_digital_transactions.item_id} is null or length(${ga_digital_transactions.item_id}) != 5 then "null" else ${ga_digital_transactions.item_id} end) = ${products.product_code});;
     sql_where: ${ga_digital_transactions.date_date}=${calendar_completed_date.date} ;;
   }
 
