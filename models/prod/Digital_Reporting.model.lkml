@@ -21,21 +21,21 @@ explore: GA4_test {
       ga_digital_transactions.select_date_range: "7 days"
     ]}
 
-  join: ga_digital_transactions {
-    view_label: "GA4"
-    type: left_outer
-    relationship: one_to_many
-    sql_on: ${ga_digital_transactions.date_date}=${calendar_completed_date.date};;
-    sql_where: ${ga_digital_transactions.date_date}=${calendar_completed_date.date} ;;
-  }
 
   join: products {
     view_label: "Products"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${calendar_completed_date.date} BETWEEN ${products.activeFrom_date} AND ${products.activeTo_date}
-      and ${ga_digital_transactions.item_id} = ${products.product_code};;
+    sql_on: ${calendar_completed_date.date} BETWEEN ${products.activeFrom_date} AND ${products.activeTo_date};;
+  }
 
+  join: ga_digital_transactions {
+    view_label: "GA4"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${ga_digital_transactions.date_date}=${calendar_completed_date.date} and (${ga_digital_transactions.item_id} = ${products.product_code}
+    or ${ga_digital_transactions.item_id} is null);;
+    sql_where: ${ga_digital_transactions.date_date}=${calendar_completed_date.date} ;;
   }
 
   join: catalogue {
