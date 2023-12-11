@@ -12,10 +12,16 @@ view: assumed_trade_dataiku {
     label: "Probability"
     type:  number
     sql:${TABLE}.mean_proba_Yes;;
+    hidden: yes
+  }
+
+  dimension: mean_proba_Yes_final {
+    label: "Probability"
+    type:  number
+    sql: coalesce(mean_proba_Yes,0);;
   }
 
   dimension: final_prediction {
-
     type:  string
     sql:${TABLE}.final_prediction;;
   }
@@ -23,7 +29,7 @@ view: assumed_trade_dataiku {
   dimension: mean_proba_tier {
     label: "Assumed Trade Probability Tier"
     type: tier
-    tiers: [0,0.4,0.5,0.6,0.7]
-    sql: ${mean_proba_Yes} ;;
+    tiers: [0,0.51,0.6,0.7,0.8,0.9]
+    sql: ${mean_proba_Yes_final} ;;
   }
 }
