@@ -2,7 +2,9 @@ view: products {
   derived_table: {
   sql:
   SELECT distinct product.*
-  FROM `toolstation-data-storage.range.products_current` as product
+  FROM `toolstation-data-storage.range.products_current`as product
+  union all
+  SELECT "null", "null", "null", "null","null", "null",timestamp("2000-05-23 00:00:00"), "null", "null", "null","null", "null",cast(null as int),"null",cast(null as int),"null",cast(null as int),"null", "null", "null", "null",cast(null as int),cast(null as int),"null", "null", "null", "null",timestamp("2021-04-15 00:00:00 UTC"), timestamp("3000-01-01 00:00:00"), cast(null as int)
   ;;
 
     datagroup_trigger: ts_transactions_datagroup
