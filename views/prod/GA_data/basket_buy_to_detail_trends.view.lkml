@@ -19,6 +19,7 @@ view: basket_buy_to_detail_trends {
           item_id is null))
       group by 2,3,4,5,6
              ;;
+    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 10 ;;
   }
 
 #
