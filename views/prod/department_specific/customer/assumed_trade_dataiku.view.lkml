@@ -24,6 +24,7 @@ view: assumed_trade_dataiku {
   dimension: final_prediction {
     type:  string
     sql:${TABLE}.final_prediction;;
+    hidden: yes
   }
 
   dimension: mean_proba_tier {
