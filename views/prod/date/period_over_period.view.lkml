@@ -750,6 +750,7 @@ view: period_over_period {
     filter: select_date_range {
       label: "
       {% if _explore._name == 'GA4_test' %}
+      Date Filter
       {% else %}
       Date Range
       {% endif %}"
