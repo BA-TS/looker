@@ -15,6 +15,12 @@ view: assumed_trade_measures {
     }
   }
 
+  dimension: date {
+    label: "Date Date (dd/mm/yyyy)"
+    description: ""
+    type: date
+  }
+
   dimension: number_of_unique_products {
     label: "Measures Number of Products"
     description: "Number of unique product codes sold"
