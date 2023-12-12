@@ -7,6 +7,7 @@ view: assumed_trade_measures {
       column: distinct_month_count { field: calendar_completed_date.distinct_month_count }
       column: distinct_week_count { field: calendar_completed_date.distinct_week_count }
       column: working_day_hour_percent { field: transactions.working_day_hour_percent }
+      column: date { field: calendar_completed_date.date }
       filters: {
         field: base.select_date_reference
         value: "Transaction"
