@@ -407,10 +407,22 @@ view: customers {
     sql:${customer_classification.customer_type} ;;
   }
 
-  dimension: assumed_trade_2023_prediction {
+  # dimension: assumed_trade_2023_prediction {
+  #   label: "Assumed Trade Prediction (2023)"
+  #   type:  yesno
+  #   sql: coalesce(${assumed_trade_dataiku.final_prediction},false);;
+  # }
+
+    dimension: assumed_trade_2023_prediction {
+    view_label: "Customer Classification"
     label: "Assumed Trade Prediction (2023)"
-    type:  yesno
-    sql: coalesce(${assumed_trade_dataiku.final_prediction},false);;
+    type:  string
+    sql:
+          CASE
+          WHEN ${is_trade} = false AND ${assumed_trade_dataiku.final_prediction} = true THEN 'Assumed Trade'
+          WHEN ${is_trade} = false THEN 'DIY'
+          ELSE 'Trade'
+        END ;;
   }
 
   measure: number_of_customers {
