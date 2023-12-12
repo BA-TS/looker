@@ -407,12 +407,6 @@ view: customers {
     sql:${customer_classification.customer_type} ;;
   }
 
-  # dimension: assumed_trade_2023_prediction {
-  #   label: "Assumed Trade Prediction (2023)"
-  #   type:  yesno
-  #   sql: coalesce(${assumed_trade_dataiku.final_prediction},false);;
-  # }
-
   dimension: assumed_trade_2023_prediction {
     view_label: "Customer Classification"
     group_label: "Flags"
@@ -422,7 +416,7 @@ view: customers {
           CASE
           WHEN ${is_trade} = false AND ${assumed_trade_dataiku.final_prediction} = true THEN 'Assumed Trade'
           WHEN ${is_trade} = false THEN 'DIY'
-          ELSE 'Trade'
+          ELSE 'Existing Trade'
         END ;;
   }
 
