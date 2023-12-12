@@ -1,24 +1,14 @@
 view: assumed_trade_measures {
   derived_table: {
     explore_source: base {
+      bind_all_filters: yes
       column: number_of_unique_products { field: transactions.number_of_unique_products }
       column: customer_uid { field: customers.customer_uid }
       column: number_of_branches { field: transactions.number_of_branches }
       column: distinct_month_count { field: calendar_completed_date.distinct_month_count }
       column: distinct_week_count { field: calendar_completed_date.distinct_week_count }
       column: working_day_hour_percent { field: transactions.working_day_hour_percent }
-      column: date { field: calendar_completed_date.date }
-      filters: {
-        field: base.select_date_reference
-        value: "Transaction"
-      }
     }
-  }
-
-  dimension: date {
-    label: "Date Date (dd/mm/yyyy)"
-    description: ""
-    type: date
   }
 
   dimension: number_of_unique_products {
@@ -27,12 +17,14 @@ view: assumed_trade_measures {
     value_format: "#,##0;(#,##0)"
     type: number
     hidden: yes
+    sql: ${TABLE}.number_of_unique_products ;;
   }
 
   dimension: customer_uid {
     label: "Customers Customer UID"
     description: ""
     hidden: yes
+    sql: ${TABLE}.customer_uid ;;
   }
 
   dimension: number_of_branches {
@@ -41,6 +33,7 @@ view: assumed_trade_measures {
     value_format: "#,##0;(#,##0)"
     type: number
     hidden: yes
+    sql: ${TABLE}.number_of_branches ;;
   }
 
   dimension: distinct_month_count {
@@ -48,6 +41,7 @@ view: assumed_trade_measures {
     description: ""
     type: number
     hidden: yes
+    sql: ${TABLE}.distinct_month_count ;;
   }
 
   dimension: distinct_week_count {
@@ -55,6 +49,7 @@ view: assumed_trade_measures {
     description: ""
     type: number
     hidden: yes
+    sql: ${TABLE}.distinct_week_count ;;
   }
 
   dimension: working_day_hour_percent {
@@ -63,10 +58,18 @@ view: assumed_trade_measures {
     value_format: "0.0%"
     type: number
     hidden: yes
+    sql: ${TABLE}. working_day_hour_percent ;;
+  }
+
+  measure: distinct_month_count_per_customer {
+    label: "Measures Number of Distinct Months"
+    description: ""
+    type: average
+    sql: 1 ;;
   }
 
   measure: number_of_branches_per_customer {
-    value_format: "#,##0;(#,##0)"
+    label: "Number of branches per customer"
     type: average
     sql: ${number_of_branches} ;;
   }

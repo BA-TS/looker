@@ -434,16 +434,13 @@ explore: base {
     sql_on: ${customers.customer_uid} = ${assumed_trade_dataiku.customer_uid} ;;
   }
 
-  # join: assumed_trade_measures {
-  #   required_access_grants:[lz_testing]
-  #   view_label: "Customer Classification"
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${customers.customer_uid} = ${assumed_trade_measures.customer_uid} and ${base.base_date_date} = ${assumed_trade_measures};;
-  # }
-
-
-
+  join: assumed_trade_measures {
+    required_access_grants:[lz_testing]
+    view_label: "Customer Classification"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${customers.customer_uid} = ${assumed_trade_measures.customer_uid};;
+  }
 }
 
 explore: +base {
