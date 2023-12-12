@@ -24,6 +24,7 @@ view: assumed_trade_measures {
     label: "Customers Customer UID"
     description: ""
     hidden: yes
+    primary_key: yes
     sql: ${TABLE}.customer_uid ;;
   }
 
@@ -52,25 +53,30 @@ view: assumed_trade_measures {
     sql: ${TABLE}.distinct_week_count ;;
   }
 
-  dimension: working_day_hour_percent {
-    label: "Measures Transactions within working day/hours %"
-    description: ""
-    value_format: "0.0%"
-    type: number
-    hidden: yes
-    sql: ${TABLE}. working_day_hour_percent ;;
+  measure: number_of_branches_per_customer {
+    view_label: "Measures"
+    group_label: "Other Metrics"
+    label: "Number of branches (per Customer)"
+    type: average_distinct
+    sql: ${number_of_branches} ;;
+    value_format: "##0.0;(##0.0)"
   }
 
   measure: distinct_month_count_per_customer {
-    label: "Measures Number of Distinct Months"
-    description: ""
-    type: average
-    sql: 1 ;;
+    view_label: "Measures"
+    group_label: "Other Metrics"
+    label: "Number of Distinct Months (per Customer)"
+    type: average_distinct
+    sql: ${distinct_month_count};;
+    value_format: "##0.0;(##0.0)"
   }
 
-  measure: number_of_branches_per_customer {
-    label: "Number of branches per customer"
-    type: average
-    sql: ${number_of_branches} ;;
+  measure: distinct_week_count_per_customer {
+    view_label: "Measures"
+    group_label: "Other Metrics"
+    label: "Number of Distinct Weeks (per Customer)"
+    type: average_distinct
+    sql: ${distinct_week_count};;
+    value_format: "##0.0;(##0.0)"
   }
 }

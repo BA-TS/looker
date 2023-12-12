@@ -43,11 +43,4 @@ view: spc_buckets {
     style: integer
     sql: ${spc_gross_sales} ;;
   }
-
-  measure: SPC_measure {
-    label: "SPC_test"
-    group_label: "Spend Per Customer"
-    type: number
-    sql: 1;;
-  }
 }
