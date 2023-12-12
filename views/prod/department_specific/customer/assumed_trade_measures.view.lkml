@@ -62,6 +62,15 @@ view: assumed_trade_measures {
     value_format: "##0.0;(##0.0)"
   }
 
+  measure: number_of_unique_products_per_customer {
+    view_label: "Measures"
+    group_label: "Other Metrics"
+    label: "Number of Products (per Customer)"
+    type: average_distinct
+    sql: ${number_of_unique_products};;
+    value_format: "##0.0;(##0.0)"
+  }
+
   measure: distinct_month_count_per_customer {
     view_label: "Measures"
     group_label: "Other Metrics"
