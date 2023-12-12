@@ -28,7 +28,7 @@ view: assumed_trade_dataiku {
   }
 
   dimension: mean_proba_tier {
-    label: "Assumed Trade Probability Tier"
+    label: "Probability Tier"
     type: tier
     style: interval
     tiers: [0,0.51,0.6,0.7,0.8,0.9]
