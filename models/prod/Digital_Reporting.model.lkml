@@ -24,7 +24,8 @@ explore: GA4_test {
 
   fields: [
     ALL_FIELDS*,
-    -customers.assumed_trade_2023_prediction
+    -customers.assumed_trade_2023_prediction,
+    -customers.assumed_trade_2023_prediction2,
   ]
 
   join: base {
@@ -332,7 +333,8 @@ explore: digital_reporting {
   fields: [
     ALL_FIELDS*,
     -customers.customer_classification_type,
-    -customers.assumed_trade_2023_prediction
+    -customers.assumed_trade_2023_prediction,
+    -customers.assumed_trade_2023_prediction2,
   ]
   #,-products.department
   sql_always_where:
