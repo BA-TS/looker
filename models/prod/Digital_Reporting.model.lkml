@@ -20,20 +20,13 @@ explore: GA4_test {
     filters: [
       ga_digital_transactions.select_date_range: "7 days"
     ]
-    unless:[base.select_date_range]}
+    unless:[calendar_completed_date.date]}
 
   fields: [
     ALL_FIELDS*,
     -customers.assumed_trade_2023_prediction,
     -customers.assumed_trade_2023_prediction2,
   ]
-
-  join: base {
-    view_label: "Trends"
-    type:  inner
-    relationship: one_to_many
-    sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
-  }
 
   join: products {
     view_label: "Products"
