@@ -2,22 +2,32 @@ view: basket_buy_to_detail_trends {
 
   derived_table: {
     sql: SELECT distinct
-          row_number() over () as P_K,
-          platform,
-          date(timestamp_sub(MinTime, interval 1 HOUR)) as date,
-          CASE WHEN (Screen_name LIKE '%| Search |%') THEN 'search-page' ELSE Screen_name END AS screen_name,
-          aw.item_id,
-          event_name,
-          #############Sessions#####################
-          count(distinct session_id) as sessions,
-          #############Events#####################
-          sum(events) as events
-          FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as transactions
-          where _TABLE_SUFFIX >= FORMAT_DATE('%Y%m%d', '2023-11-02')
-          and event_name in ("screen_view", "page_view","view_item","add_to_cart","purchase","session_start") and
-          ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transactions.item_id is null) or (aw.item_id is null and transactions.
-          item_id is null))
-      group by 2,3,4,5,6
+row_number() over () as P_K,
+aw.platform,
+event_name,
+date(timestamp_sub(MinTime, interval 1 HOUR)) as date,
+#############Sessions#####################
+count(distinct session_id) as sessions,
+max(Tsessions) as TotalSessions,
+#############Events#####################
+FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as transactions
+inner join (
+   SELECT distinct
+platform as Tplatform,
+date(timestamp_sub(MinTime, interval 1 HOUR)) as Tdate,
+#############Sessions#####################
+count(distinct session_id) as Tsessions,
+#############Events#####################
+FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*`
+where _TABLE_SUFFIX >= FORMAT_DATE('%Y%m%d', '2023-12-02') and bounces = 1
+group by 1,2
+) on aw.date = Tdate and aw.platform = TPlatform
+where _TABLE_SUFFIX >= FORMAT_DATE('%Y%m%d', '2023-12-02')
+and event_name in ("screen_view", "page_view","view_item","add_to_cart","purchase","session_start") and
+((aw.item_id = transactions.item_id) or (aw.item_id is not null and transactions.item_id is null) or (aw.item_id is null and transactions.
+item_id is null))
+group by 2,3,4
+order by 4 desc, 3
              ;;
     sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 10 ;;
   }
@@ -76,8 +86,7 @@ view: basket_buy_to_detail_trends {
     description: "Sessions with Session Start"
     type: sum
     hidden: yes
-    sql: ${sessions} ;;
-    filters: [event_name: "session_start"]
+    sql: ${TABLE}.TotalSessions ;;
   }
 
   measure: screen_views {
