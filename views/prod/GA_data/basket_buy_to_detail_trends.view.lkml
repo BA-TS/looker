@@ -42,7 +42,6 @@ view: basket_buy_to_detail_trends {
   dimension: Screen_name {
     view_label: "Trends"
     label: "Screen name"
-    group_label: "Basket to Detail"
     type: string
     sql: ${TABLE}.Screen_name ;;
   }
@@ -76,6 +75,7 @@ view: basket_buy_to_detail_trends {
   measure: total_Sessions {
     description: "Sessions with Session Start"
     type: sum
+    hidden: yes
     sql: ${sessions} ;;
     filters: [event_name: "session_start"]
   }
@@ -83,12 +83,14 @@ view: basket_buy_to_detail_trends {
   measure: screen_views {
     description: "Page views"
     type: sum
+    label: "Views"
     sql: ${sessions} ;;
     filters: [event_name: "screen_view, page_view"]
   }
 
   measure: add_to_cart_sessions {
     description: "Add to Cart Sessions"
+    label: "Add to Cart Sessions"
     type: sum
     sql: ${sessions} ;;
     filters: [event_name: "add_to_cart"]
@@ -96,11 +98,33 @@ view: basket_buy_to_detail_trends {
 
   measure: add_to_cart_rate {
     description: "Add to Cart Rate"
+    label: "Add to Cart Rate (From Total sessions)"
     type: number
     value_format_name: percent_2
     sql: safe_divide(${add_to_cart_sessions},${total_Sessions}) ;;
   }
 
+  measure: add_to_cart_rate_views {
+    description: "Add to Cart Rate"
+    label: "Add to Cart Rate (From Page Views)"
+    type: number
+    value_format_name: percent_2
+    sql: safe_divide(${add_to_cart_sessions},${screen_views}) ;;
+  }
 
+  measure: purchase_sessions {
+    description: "Purchase Sessions"
+    label: "Purchase Sessions"
+    type: sum
+    sql: ${sessions} ;;
+    filters: [event_name: "purchase"]
+  }
 
+  measure: purchase_rate {
+    description: "Purchase Rate"
+    label: "Purchase Rate"
+    type: number
+    value_format_name: percent_2
+    sql: safe_divide(${purchase_sessions},${total_Sessions}) ;;
+  }
 }
