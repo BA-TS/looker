@@ -6,6 +6,7 @@ row_number() over () as P_K,
 aw.platform,
 event_name,
 date(timestamp_sub(MinTime, interval 1 HOUR)) as date,
+aw.item_id,
 #############Sessions#####################
 count(distinct session_id) as sessions,
 max(Tsessions) as TotalSessions,
@@ -26,8 +27,7 @@ where _TABLE_SUFFIX >= FORMAT_DATE('%Y%m%d', '2023-12-02')
 and event_name in ("screen_view", "page_view","view_item","add_to_cart","purchase","session_start") and
 ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transactions.item_id is null) or (aw.item_id is null and transactions.
 item_id is null))
-group by 2,3,4
-order by 4 desc, 3
+group by 2,3,4,5
              ;;
     sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 10 ;;
   }
