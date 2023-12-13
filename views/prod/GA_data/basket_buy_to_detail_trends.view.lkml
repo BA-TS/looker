@@ -80,11 +80,25 @@ view: basket_buy_to_detail_trends {
     filters: [event_name: "session_start"]
   }
 
+  measure: screen_views {
+    description: "Page views"
+    type: sum
+    sql: ${sessions} ;;
+    filters: [event_name: "screen_view, page_view"]
+  }
+
   measure: add_to_cart_sessions {
     description: "Add to Cart Sessions"
     type: sum
     sql: ${sessions} ;;
     filters: [event_name: "add_to_cart"]
+  }
+
+  measure: add_to_cart_rate {
+    description: "Add to Cart Rate"
+    type: number
+    value_format_name: percent_2
+    sql: safe_divide(${add_to_cart_sessions},${total_Sessions}) ;;
   }
 
 
