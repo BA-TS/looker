@@ -7,7 +7,7 @@ aw.platform,
 event_name,
 date(timestamp_sub(MinTime, interval 1 HOUR)) as date,
 aw.item_id,
-Screen_name,
+case when screen_name like "%| Search |%" then "search-page" else Screen_name end as Screen_name,
 #############Sessions#####################
 count(distinct session_id) as sessions,
 max(Tsessions) as TotalSessions,
