@@ -7,12 +7,7 @@ aw.platform,
 event_name,
 date(timestamp_sub(MinTime, interval 1 HOUR)) as date,
 aw.item_id,
-case
-when regexp_contains(page_location, ".*search?.*=.*") and event_name in ("page_view") then "Search"
-when page_location like "%| Search |%" and event_name in ("page_view") then "Search"
-when Screen_name in ("search-page") and event_name in ("screen_view") then "Search"
-else Screen_name
-end as Screen_name,
+Screen_name,
 #############Sessions#####################
 count(distinct session_id) as sessions,
 max(Tsessions) as TotalSessions,
