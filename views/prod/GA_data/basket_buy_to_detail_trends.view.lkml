@@ -108,7 +108,7 @@ group by 2,3,4,5,6,7,8
   measure: purchase_sessions {
     description: "Purchase Sessions"
     label: "Purchase Sessions"
-    type: sum
+    type: count_distinct
     sql: ${TABLE}.session_id ;;
     filters: [event_name: "purchase"]
   }
