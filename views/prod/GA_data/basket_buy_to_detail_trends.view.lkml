@@ -11,7 +11,7 @@ session_id,
 bounces,
 events
 FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as transactions
-where _TABLE_SUFFIX >= FORMAT_DATE('%Y%m%d', '2023-12-02')
+where _TABLE_SUFFIX >= FORMAT_DATE('%Y%m%d', '2023-11-02')
 and bounces <= 1
 and event_name in ("screen_view", "page_view","view_item","add_to_cart","purchase","session_start")
 and
