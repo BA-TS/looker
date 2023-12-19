@@ -3,34 +3,24 @@ view: basket_buy_to_detail_trends {
   derived_table: {
     sql: SELECT distinct
 row_number() over () as P_K,
-aw.platform,
 event_name,
 date(timestamp_sub(MinTime, interval 1 HOUR)) as date,
 aw.item_id,
 case when screen_name like "%| Search |%" then "search-page" else Screen_name end as Screen_name,
-#############Sessions#####################
-count(distinct session_id) as sessions,
-max(Tsessions) as TotalSessions,
-#############Events#####################
+session_id,
+bounces,
+events
 FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as transactions
-inner join (
-   SELECT distinct
-platform as Tplatform,
-date(timestamp_sub(MinTime, interval 1 HOUR)) as Tdate,
-#############Sessions#####################
-count(distinct session_id) as Tsessions,
-#############Events#####################
-FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*`
-where _TABLE_SUFFIX >= FORMAT_DATE('%Y%m%d', '2023-12-02') and bounces = 1
-group by 1,2
-) on aw.date = Tdate and aw.platform = TPlatform
 where _TABLE_SUFFIX >= FORMAT_DATE('%Y%m%d', '2023-12-02')
-and event_name in ("screen_view", "page_view","view_item","add_to_cart","purchase","session_start") and
+and bounces <= 1
+and event_name in ("screen_view", "page_view","view_item","add_to_cart","purchase","session_start")
+and
 ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transactions.item_id is null) or (aw.item_id is null and transactions.
 item_id is null))
-group by 2,3,4,5,6
+group by 2,3,4,5,6,7,8
              ;;
     sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 10 ;;
+    partition_keys: ["date"]
   }
 
 #
@@ -70,39 +60,32 @@ group by 2,3,4,5,6
   }
 
   measure: events {
-    hidden: yes
     description: "events"
     type: sum
     sql: ${TABLE}.events ;;
   }
 
-  dimension: sessions {
-    hidden: yes
-    description: "sessions"
-    type: number
-    sql: ${TABLE}.sessions ;;
-  }
 
   measure: total_Sessions {
     description: "Sessions with Session Start"
-    type: sum
+    type: count_distinct
     hidden: yes
-    sql: ${TABLE}.TotalSessions ;;
+    sql: ${TABLE}.session_id ;;
   }
 
   measure: screen_views {
     description: "Page views"
     type: sum
     label: "Views"
-    sql: ${sessions} ;;
+    sql: ${TABLE}.events ;;
     filters: [event_name: "screen_view, page_view"]
   }
 
   measure: add_to_cart_sessions {
     description: "Add to Cart Sessions"
     label: "Add to Cart Sessions"
-    type: sum
-    sql: ${sessions} ;;
+    type: count_distinct
+    sql: ${TABLE}.session_id ;;
     filters: [event_name: "add_to_cart"]
   }
 
@@ -126,7 +109,7 @@ group by 2,3,4,5,6
     description: "Purchase Sessions"
     label: "Purchase Sessions"
     type: sum
-    sql: ${sessions} ;;
+    sql: ${TABLE}.session_id ;;
     filters: [event_name: "purchase"]
   }
 
