@@ -42,6 +42,7 @@ group by 2,3,4,5,6,7,8
 
   dimension: Screen_name {
     view_label: "Trends"
+    group_label: "Page"
     label: "Screen name"
     type: string
     sql: ${TABLE}.Screen_name ;;
@@ -59,10 +60,22 @@ group by 2,3,4,5,6,7,8
     sql: ${TABLE}.item_id ;;
   }
 
-  measure: events {
-    description: "events"
+  measure: purchase_events {
+    description: "Purchase events"
+    group_label: "Purchase"
+    label: "Events"
     type: sum
     sql: ${TABLE}.events ;;
+    filters: [event_name: "purchase"]
+  }
+
+  measure: atc_events {
+    description: "Add to cart events"
+    group_label: "Add to Cart"
+    label: "Events"
+    type: sum
+    sql: ${TABLE}.events ;;
+    filters: [event_name: "add_to_cart"]
   }
 
 
@@ -76,14 +89,16 @@ group by 2,3,4,5,6,7,8
   measure: screen_views {
     description: "Page views"
     type: sum
-    label: "Views"
+    group_label: "Page"
+    label: "Page Views"
     sql: ${TABLE}.events ;;
     filters: [event_name: "screen_view, page_view"]
   }
 
   measure: add_to_cart_sessions {
     description: "Add to Cart Sessions"
-    label: "Add to Cart Sessions"
+    group_label: "Add to Cart"
+    label: "Sessions"
     type: count_distinct
     sql: ${TABLE}.session_id ;;
     filters: [event_name: "add_to_cart"]
@@ -91,23 +106,26 @@ group by 2,3,4,5,6,7,8
 
   measure: add_to_cart_rate {
     description: "Add to Cart Rate"
-    label: "Add to Cart Rate (From Total sessions)"
+    group_label: "Add to Cart"
+    label: "C.R (From Total sessions)"
     type: number
     value_format_name: percent_2
     sql: safe_divide(${add_to_cart_sessions},${total_Sessions}) ;;
   }
 
   measure: add_to_cart_rate_views {
-    description: "Add to Cart Rate"
-    label: "Add to Cart Rate (From Page Views)"
+    description: "Add to Cart Rate from page views"
+    group_label: "Add to Cart"
+    label: "C.R (From Page Views)"
     type: number
     value_format_name: percent_2
-    sql: safe_divide(${add_to_cart_sessions},${screen_views}) ;;
+    sql: safe_divide(${atc_events},${screen_views}) ;;
   }
 
   measure: purchase_sessions {
     description: "Purchase Sessions"
-    label: "Purchase Sessions"
+    group_label: "Purchase"
+    label: "Sessions"
     type: count_distinct
     sql: ${TABLE}.session_id ;;
     filters: [event_name: "purchase"]
@@ -115,7 +133,8 @@ group by 2,3,4,5,6,7,8
 
   measure: purchase_rate {
     description: "Purchase Rate"
-    label: "Purchase Rate"
+    group_label: "Purchase"
+    label: "C.R"
     type: number
     value_format_name: percent_2
     sql: safe_divide(${purchase_sessions},${total_Sessions}) ;;
