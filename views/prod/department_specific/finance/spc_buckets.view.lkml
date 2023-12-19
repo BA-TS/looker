@@ -43,4 +43,22 @@ view: spc_buckets {
     style: integer
     sql: ${spc_gross_sales} ;;
   }
+
+  dimension: spend_per_customer_buckets75 {
+    label: "Over/Under £75 (Net Sales)"
+    group_label: "Spend Per Customer"
+    type: tier
+    tiers: [0,75]
+    style: integer
+    sql: ${spc_net_sales} ;;
+  }
+
+  dimension: spend_per_customer_buckets_gross75 {
+    label: "Over/Under £75 (Gross Sales)"
+    group_label: "Spend Per Customer"
+    type: tier
+    tiers: [0,75]
+    style: integer
+    sql: ${spc_gross_sales} ;;
+  }
 }
