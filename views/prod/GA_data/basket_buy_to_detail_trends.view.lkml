@@ -4,6 +4,7 @@ view: basket_buy_to_detail_trends {
     sql: SELECT distinct
       row_number() over () as P_K,
       event_name,
+      platform,
       date(timestamp_sub(MinTime, interval 1 HOUR)) as date,
       aw.item_id,
       case when screen_name like "%| Search |%" then "search-page" else Screen_name end as Screen_name,
@@ -17,7 +18,7 @@ view: basket_buy_to_detail_trends {
       and
       ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transactions.item_id is null) or (aw.item_id is null and transactions.
       item_id is null))
-      group by 2,3,4,5,6,7,8
+      group by 2,3,4,5,6,7,8,9
                    ;;
     sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 10 ;;
     partition_keys: ["date"]
@@ -46,6 +47,13 @@ view: basket_buy_to_detail_trends {
     label: "Screen name"
     type: string
     sql: ${TABLE}.Screen_name ;;
+  }
+
+  dimension: Platform {
+    view_label: "Trends"
+    label: "Web/App"
+    type: string
+    sql: ${TABLE}.platform ;;
   }
 
   dimension: event_name {
