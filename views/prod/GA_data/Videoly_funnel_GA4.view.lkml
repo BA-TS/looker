@@ -129,7 +129,7 @@ where (((b.minTime) is null or a.minTime<b.minTime))
 and ((c.minTime is null or a.minTime<c.minTime))
 and ((d.minTime is null or a.minTime<d.minTime))
 group by 2,3,4,5,6,7,8;;
-    sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01 00:00:00',SECOND)) - 60*60*10)/(60*60*24))
+    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 13
     ;;
   }
   # # You can specify the table name if it's different from the view name:
