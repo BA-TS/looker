@@ -20,7 +20,7 @@ explore: GA4_test {
     filters: [
       ga_digital_transactions.select_date_range: "7 days"
     ]
-    unless:[calendar_completed_date.date]}
+    unless:[calendar_completed_date.dated]}
 
   fields: [
     ALL_FIELDS*,
