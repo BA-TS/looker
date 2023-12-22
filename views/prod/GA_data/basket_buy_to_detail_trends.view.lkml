@@ -14,7 +14,7 @@ view: basket_buy_to_detail_trends {
       FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as transactions
       where _TABLE_SUFFIX >= FORMAT_DATE('%Y%m%d', '2023-11-02')
       and bounces <= 1
-      and event_name in ("screen_view", "page_view","view_item","add_to_cart","purchase","session_start")
+      and event_name in ("screen_view", "page_view","view_item","add_to_cart","purchase","session_start","view_item_list")
       and
       ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transactions.item_id is null) or (aw.item_id is null and transactions.
       item_id is null))
@@ -100,7 +100,7 @@ view: basket_buy_to_detail_trends {
     group_label: "Page"
     label: "Page Views"
     sql: ${TABLE}.events ;;
-    filters: [event_name: "screen_view, page_view"]
+    filters: [event_name: "screen_view OR page_view"]
   }
 
   measure: add_to_cart_sessions {
