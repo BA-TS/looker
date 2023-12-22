@@ -161,9 +161,4 @@ view: basket_buy_to_detail_trends {
     sql: safe_divide(${purchase_sessions},${total_Sessions}) ;;
   }
 
-  filter: date_test {
-    type: date
-    sql: ${TABLE}.date ;;
-    convert_tz: yes
-  }
 }
