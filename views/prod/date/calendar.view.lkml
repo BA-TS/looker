@@ -332,8 +332,4 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
     sql: ${week_in_year} ;;
   }
 
-  filter: dated {
-    type: date
-    convert_tz: yes
-  }
 }
