@@ -155,7 +155,7 @@ explore: GA4_test {
     view_label: ""
     type: inner
     relationship: one_to_one
-    sql_on: ${base.date_date} = ${basket_buy_to_detail_trends.date_date};;
+    sql_on: ${base.date_date} = ${basket_buy_to_detail_trends.date_date} and ${base.date_date} = ${calendar_completed_date.date};;
   }
 
 
