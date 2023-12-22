@@ -163,7 +163,7 @@ view: basket_buy_to_detail_trends {
 
   filter: filter_on_field_to_hide {
     type: date
-    sql: {% condition filter_on_field_to_hide %} ${date_date} {% endcondition %} ;;
+    sql: {% condition filter_on_field_to_hide %} timestamp(${date_date}) {% endcondition %} ;;
   }
 
 }
