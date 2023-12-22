@@ -99,8 +99,10 @@ view: basket_buy_to_detail_trends {
     type: sum
     group_label: "Page"
     label: "Page Views"
-    sql: ${TABLE}.events ;;
-    filters: [event_name: "screen_view OR page_view"]
+    sql:
+    case when ${event_name} in ("screen_view OR page_view") or (${event_name} in ("view_item_list") and ${Screen_name} in ("search-page")) then
+    ${TABLE}.events else null end;;
+    #filters: [event_name: "screen_view OR page_view"]
   }
 
   measure: add_to_cart_sessions {
