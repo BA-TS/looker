@@ -160,4 +160,9 @@ view: basket_buy_to_detail_trends {
     value_format_name: percent_2
     sql: safe_divide(${purchase_sessions},${total_Sessions}) ;;
   }
+
+  filter: date_test {
+    type: date
+    sql: ${date_date} ;;
+  }
 }
