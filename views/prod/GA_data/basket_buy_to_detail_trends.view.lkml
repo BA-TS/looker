@@ -163,7 +163,7 @@ view: basket_buy_to_detail_trends {
 
   filter: date_test {
     type: date
-    sql: ${date_date} ;;
+   # sql: ${date_date} ;;
     convert_tz: yes
   }
 }
