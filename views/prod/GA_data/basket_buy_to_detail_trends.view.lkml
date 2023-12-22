@@ -105,6 +105,17 @@ view: basket_buy_to_detail_trends {
     #filters: [event_name: "screen_view OR page_view"]
   }
 
+  measure: unique_screen_views {
+    description: "Page views"
+    type: count_distinct
+    group_label: "Page"
+    label: "Unique Page Views"
+    sql:
+    case when ${event_name} in ("screen_view","page_view") or (${event_name} in ("view_item_list") and ${Screen_name} in ("search-page")) then
+    ${TABLE}.session_id else null end;;
+    #filters: [event_name: "screen_view OR page_view"]
+    }
+
   measure: add_to_cart_sessions {
     description: "Add to Cart Sessions"
     group_label: "Add to Cart"
