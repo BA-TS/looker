@@ -20,7 +20,7 @@ explore: GA4_test {
     filters: [
       ga_digital_transactions.select_date_range: "7 days"
     ]
-    unless:[calendar_completed_date.date]}
+    unless:[base.select_date_range]}
 
   fields: [
     ALL_FIELDS*,
@@ -149,6 +149,13 @@ explore: GA4_test {
     and
     ((case when ${basket_buy_to_detail_trends.item_id} is null or length(${basket_buy_to_detail_trends.item_id}) != 5 then "null" else ${basket_buy_to_detail_trends.item_id} end) = ${products.product_code});;
     sql_where: ${basket_buy_to_detail_trends.date_date}=${calendar_completed_date.date} ;;
+  }
+
+  join: base {
+    view_label: ""
+    type: inner
+    relationship: one_to_one
+    sql_on: ${base.date_date} = ${basket_buy_to_detail_trends.date_date};;
   }
 
 
