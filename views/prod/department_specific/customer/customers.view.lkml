@@ -83,6 +83,15 @@ view: customers {
     sql: ${TABLE}.address.country ;;
   }
 
+  dimension: address__country_is_uk {
+    group_label: "Customer Address"
+    required_access_grants: [can_use_customer_information]
+    group_item_label: "Country - Is UK"
+    type: yesno
+    sql: ${address__country}="United Kingdom" ;;
+  }
+
+
   dimension: address__country_code {
     group_label: "Customer Address"
     group_item_label: "Country Code"
