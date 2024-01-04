@@ -88,7 +88,7 @@ view: customers {
     required_access_grants: [can_use_customer_information]
     group_item_label: "Country - Is UK"
     type: yesno
-    sql: ${address__country}="United Kingdom" ;;
+    sql: ${address__country}="United Kingdom" OR ${address__country} is null;;
   }
 
 
