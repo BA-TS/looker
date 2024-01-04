@@ -84,9 +84,9 @@ view: customers {
   }
 
   dimension: address__country_is_uk {
-    group_label: "Customer Address"
+    group_label: "Flags"
     required_access_grants: [can_use_customer_information]
-    group_item_label: "Country - Is UK"
+    group_item_label: "Address Country - Is UK"
     type: yesno
     sql: ${address__country}="United Kingdom" OR ${address__country} is null;;
   }
