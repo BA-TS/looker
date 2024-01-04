@@ -206,7 +206,7 @@ explore: base {
     type: left_outer
     relationship: many_to_one
     sql_on: ${products.default_supplier}=${suppliers.supplier_uid} ;;
-    fields: [suppliers.master_supplier_name, suppliers.supplier_name, suppliers.supplier_uid, suppliers.supplier_planner, suppliers.sage_supplier_code]
+    fields: [suppliers.master_supplier_name, suppliers.supplier_name, suppliers.supplier_uid, suppliers.supplier_planner, suppliers.supplier_contact,suppliers.sage_supplier_code]
   }
 
   join: promo_main_catalogue {
