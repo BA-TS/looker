@@ -43,7 +43,6 @@ view: basket_buy_to_detail_trends {
 
   dimension: Screen_name {
     view_label: "Trends"
-    group_label: "Page"
     label: "Screen name"
     type: string
     sql: ${TABLE}.Screen_name ;;
