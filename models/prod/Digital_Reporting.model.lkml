@@ -61,21 +61,21 @@ explore: GA4_test {
     and cast(${catalogue.catalogue_id} as string) = ${promoworking.cycleID};;
   }
 
-  join: calendar_completed_datev2{
-    from:  calendar
-    view_label: "Order Placed"
-    type:  inner
-    relationship: one_to_many
-    sql_on: ${ga_digital_transactions.placed_date_date}=${calendar_completed_datev2.date} ;;
-  }
+  #join: calendar_completed_datev2{
+  #  from:  calendar
+   # view_label: "Order Placed"
+    #type:  inner
+    #relationship: one_to_many
+    #sql_on: ${ga_digital_transactions.placed_date_date}=${calendar_completed_datev2.date} ;;
+  #}
 
-  join: calendar_completed_datev3{
-    from:  calendar
-    view_label: "Order Completed"
-    type:  inner
-    relationship: one_to_many
-    sql_on: ${ga_digital_transactions.transaction_date_date}=${calendar_completed_datev3.date} ;;
-  }
+  #join: calendar_completed_datev3{
+    #from:  calendar
+    #view_label: "Order Completed"
+    #type:  inner
+    #relationship: one_to_many
+    #sql_on: ${ga_digital_transactions.transaction_date_date}=${calendar_completed_datev3.date} ;;
+  #}
 
   join: customers {
     view_label: "Customers"
