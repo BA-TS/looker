@@ -4,7 +4,9 @@ view: site_budget {
       (SELECT
       date,
       CASE WHEN siteUID = 'RDS' THEN 'ZZ' ELSE siteUID END as siteUID,
-      sum(AOP) AOP
+      sum(AOP) AOP,
+      sum(margin) margin,
+      sum(COGs) COGs
       FROM `toolstation-data-storage.ts_finance.AOPBySiteAndDate`
       GROUP BY 1, 2);;
     datagroup_trigger: ts_transactions_datagroup
@@ -39,6 +41,18 @@ view: site_budget {
     hidden: yes
   }
 
+  dimension: margin {
+    type: number
+    sql: ${TABLE}.margin ;;
+    hidden: yes
+  }
+
+  dimension: COGs {
+    type: number
+    sql: ${TABLE}.COGs ;;
+    hidden: yes
+  }
+
   dimension: raw_date {
     hidden: yes
     type: date
@@ -67,6 +81,24 @@ view: site_budget {
     group_label: "Sites"
     type: sum
     sql: ${aop} ;;
+    value_format_name: gbp
+  }
+
+  measure: site_margin_budget {
+    label: "Margin Budget"
+    description: "Budget Margin at Site level only"
+    group_label: "Sites"
+    type: sum
+    sql: ${margin} ;;
+    value_format_name: gbp
+  }
+
+  measure: site_COGs_budget {
+    label: "COGs Budget"
+    description: "Budget COGs at Site level only"
+    group_label: "Sites"
+    type: sum
+    sql: ${COGs} ;;
     value_format_name: gbp
   }
 }
