@@ -408,26 +408,26 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     sql: ${TABLE}.placed ;;
   }
 
-  dimension_group: transaction_date{
-    view_label: "Digital Transactions"
-    group_label: "Order Completed"
-    hidden: yes
-    label: ""
-    type: time
-    timeframes: [date]
-    sql: ${TABLE}.transaction ;;
-    html: {{ rendered_value | date: "%d/%m/%Y" }};;
-  }
-
-  dimension_group: transaction_time{
-    view_label: "Order Completed"
-    group_label: "Time"
+  #dimension_group: transaction_date{
+    #view_label: "Digital Transactions"
     #group_label: "Order Completed"
-    label: ""
-    type: time
-    timeframes: [time_of_day]
-    sql: ${TABLE}.transaction ;;
-  }
+    #hidden: yes
+    #label: ""
+    #type: time
+    #timeframes: [date]
+    #sql: ${TABLE}.transaction ;;
+    #html: {{ rendered_value | date: "%d/%m/%Y" }};;
+  #}
+
+  #dimension_group: transaction_time{
+    #view_label: "Order Completed"
+    #group_label: "Time"
+    #group_label: "Order Completed"
+    #label: ""
+    #type: time
+    #timeframes: [time_of_day]
+    #sql: ${TABLE}.transaction ;;
+  #}
 
   measure: transactions_quantity {
     view_label: "Transactional"
