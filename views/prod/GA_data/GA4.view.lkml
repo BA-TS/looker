@@ -210,7 +210,7 @@ select distinct row_number() over () as P_K, sub0.* except (MaxTime,label),
 case when pages.page_title is null then label else pages.page_title end as label,
 timestamp_diff(max(MaxTime) over (partition by sessions),min(MinTime) over (partition by sessions), second) as session_duration,
 from sub0 left join pages on sub0.label = pages.page_location;;
-datagroup_trigger: ts_googleanalytics_datagroup
+#datagroup_trigger: ts_googleanalytics_datagroup
   }
   #Event names for Web
   #and event_name in ("view_item", "out_of_stock", "purchase", "add_to_cart", "videoly", "session_start", "search_actions")
