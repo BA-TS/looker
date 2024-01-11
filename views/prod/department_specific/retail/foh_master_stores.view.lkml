@@ -1,6 +1,6 @@
 view: foh_master_stores {
 
-  sql_table_name:`toolstation-data-storage.locations.FOH_MASTER_STORES`;;
+  sql_table_name:`toolstation-data-storage.tmp.FOH_MASTER_STORES`;;
 
   dimension: siteUID {
     type: string
