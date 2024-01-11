@@ -20,6 +20,5 @@ view: foh_master_products_2024 {
     label: "FOH year"
     type: number
     sql: ${TABLE}.Year ;;
-    # sql: Coalesce(${TABLE}.Year,0) ;;
   }
 }
