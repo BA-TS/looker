@@ -11,7 +11,8 @@ view: foh_master_products_2024 {
 
   dimension:Location  {
     view_label: "Site Information"
-    type: number
+    type: string
+    label: "FOH location"
     sql: ${TABLE}.Location ;;
   }
 
