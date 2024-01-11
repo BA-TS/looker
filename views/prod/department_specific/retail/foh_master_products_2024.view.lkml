@@ -1,11 +1,11 @@
 view: foh_master_products_2024 {
 
-  sql_table_name:`toolstation-data-storage.tmp.FOH_MASTER_PRODUCTS_2024`;;
+  sql_table_name:`toolstation-data-storage.tmp.FOHNetSales`;;
 
   dimension: SKU {
     type: string
     view_label: "Site Information"
-    sql: ${TABLE}.SKU ;;
+    sql: ${TABLE}.productCode ;;
     hidden: yes
   }
 
@@ -16,8 +16,15 @@ view: foh_master_products_2024 {
     sql: ${TABLE}.Location ;;
   }
 
+  dimension:Week  {
+    view_label: "Site Information"
+    type: string
+    label: "FOH Week"
+    sql: ${TABLE}.Week ;;
+  }
+
   dimension: Year {
-    label: "FOH year"
+    label: "FOH Year"
     type: number
     sql: ${TABLE}.Year ;;
   }
