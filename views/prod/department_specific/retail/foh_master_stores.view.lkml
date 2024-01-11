@@ -6,7 +6,7 @@ view: foh_master_stores {
     type: string
     view_label: "Site Information"
     label: "Site UID"
-    sql: ${TABLE}.siteUID ;;
+    sql: ${TABLE}.Store_ID ;;
     hidden: yes
   }
 
