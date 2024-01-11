@@ -2,10 +2,9 @@ view: videoly_funnel_ga4 {
 
   derived_table: {
     sql: with cte as (SELECT distinct
-DeviceCategory,
-Channel_group,
-Medium,
-Campaign,
+session_id,
+(MinTime) as MinTime,
+aw.item_id,
 lower(case
     when lower(event_name) = "videoly" and lower(key_1) = "action" and lower(label_1) not in ("videoly_progress") then lower(label_1)
     when lower(event_name) = "videoly" and lower(label_1) = "videoly_progress" then concat(lower(label_1),"-",lower(label_2),"%")
@@ -15,80 +14,61 @@ lower(case
     --when regexp_contains(lower(event_name),"Videoly_progress") then "videoly_progress"
     else lower(event_name)
     end) as event_name,
-platform,
-session_id,
-(MinTime) as MinTime,
 events,
 (transactions.net_value) * 0.9973 as revenue,
 (transactions.OrderID) as orderID,
 (transactions.Quantity) as Quantity,
- FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` left join unnest (transactions) as transactions
-where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', date_sub(current_date(), interval 20 day)) and FORMAT_DATE('%Y%m%d', current_date())
+ FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest (transactions) as transactions
+where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', date_sub(current_date(), interval 10 day)) and FORMAT_DATE('%Y%m%d', current_date())
 and (regexp_contains(event_name, ".*videoly.*") or regexp_contains(event_name, ".*Videoly.*") or event_name in ("add_to_cart", "Purchase", "purchase"))
 
-group by 1,2,3,4,5,6,7,8,9,10,11,12),
+group by 1,2,3,4,5,6,7,8),
 
 Videoly_shown as (
 SELECT distinct
-DeviceCategory,
-Channel_group,
-Medium,
-Campaign,
 event_name,
-platform,
 session_id,
+item_id,
 min(MinTime) as MinTime,
 sum(events) as events,
 sum(revenue) as revenue
 from cte
 where event_name in ("videoly_box_shown")
-group by 1,2,3,4,5,6,7
+group by 1,2,3
 ),
 
 videoly_start as (
 SELECT distinct
-DeviceCategory,
-Channel_group,
-Medium,
-Campaign,
 event_name,
-platform,
 session_id,
+item_id,
 min(MinTime) as MinTime,
 sum(events) as events,
 sum(revenue) as revenue,
 
 from cte
 where event_name in ("videoly_start")
-group by 1,2,3,4,5,6,7
+group by 1,2,3
 ),
 
 add_to_cart as (
 SELECT distinct
-DeviceCategory,
-Channel_group,
-Medium,
-Campaign,
 event_name,
-platform,
 session_id,
+item_id,
 min(MinTime) as MinTime,
 sum(events) as events,
 sum(revenue) as revenue
 from cte
 where event_name in ("add_to_cart")
-group by 1,2,3,4,5,6,7
+group by 1,2,3
 ),
 
 purchase as (
 SELECT distinct
-DeviceCategory,
-Channel_group,
-Medium,
-Campaign,
 event_name,
-platform,
 session_id,
+item_id,
 orderID,
 min(MinTime) as MinTime,
 sum(events) as events,
@@ -96,17 +76,17 @@ sum(revenue) as revenue,
 sum(Quantity) as Quantity
 from cte
 where event_name in ("purchase")
-group by 1,2,3,4,5,6,7,8
+group by 1,2,3,4
 )
 
 SELECT distinct
 row_number() over () as P_K,
 a.session_id,
-a.platform,
-a.DeviceCategory,
-a.Channel_group,
-a.Medium,
-a.Campaign,
+a.item_id,
+#a.DeviceCategory,
+#a.Channel_group,
+#a.Medium,
+#a.Campaign,
 d.orderID,
 min(a.MinTime) as videoly_shownTime,
 min(b.MinTime) as videoly_startedTime,
@@ -120,15 +100,15 @@ sum(d.revenue) as revenue,
 sum(d.Quantity) as Quantity,
 from videoly_shown as a
 left outer join videoly_start as b
-on a.session_id = b.session_id
+on a.session_id = b.session_id and a.item_id = b.item_id
 left outer join add_to_cart as c
-on a.session_id = c.session_id
+on a.session_id = c.session_id and a.item_id = c.item_id
 left outer join purchase as d
-on a.session_id = d.session_id
+on a.session_id = d.session_id and a.item_id = d.item_id
 where (((b.minTime) is null or a.minTime<b.minTime))
 and ((c.minTime is null or a.minTime<c.minTime))
 and ((d.minTime is null or a.minTime<d.minTime))
-group by 2,3,4,5,6,7,8;;
+group by 2,3,4;;
     sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 13
     ;;
   }
@@ -150,6 +130,13 @@ group by 2,3,4,5,6,7,8;;
     type: string
     sql: ${TABLE}.session_id ;;
    }
+
+  dimension: item_id {
+    description: "item_id join to product code"
+    hidden: yes
+    type: string
+    sql: ${TABLE}.item_id ;;
+  }
   #
    dimension_group: date {
      type: time
@@ -157,42 +144,6 @@ group by 2,3,4,5,6,7,8;;
      timeframes: [raw,date]
      sql: ${TABLE}.videoly_shownTime ;;
    }
-
-  dimension: DeviceCategory {
-    type: string
-    hidden: yes
-    group_label: "User attributes"
-    label: "Device Category"
-    description: "Device type used"
-    sql: ${TABLE}.DeviceCategory ;;
-  }
-
-  dimension: Channel_group {
-    type: string
-    hidden: yes
-    group_label: "Traffic Acquisition"
-    label: "Channel Grouping"
-    description: "Channel grouping from source"
-    sql: ${TABLE}.Channel_group ;;
-  }
-
-  dimension: Medium {
-    type: string
-    hidden: yes
-    group_label: "Traffic Acquisition"
-    label: "Medium"
-    description: "Medium from source"
-    sql: ${TABLE}.Medium ;;
-  }
-
-  dimension: Campaign {
-    type: string
-    hidden: yes
-    group_label: "Traffic Acquisition"
-    label: "Campaign"
-    description: "Campaign from source"
-    sql: ${TABLE}.Campaign ;;
-  }
 
   dimension_group: videoly_shownTime {
     type: time
@@ -279,7 +230,6 @@ group by 2,3,4,5,6,7,8;;
     type: number
     hidden: yes
     sql: ${TABLE}.ATC_events ;;
-
   }
 
   measure: add_to_cart_events {
