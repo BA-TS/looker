@@ -158,6 +158,7 @@ explore: base {
   }
 
   join: foh_master_stores {
+    required_access_grants: [lz_testing]
     view_label: "Location"
     type: left_outer
     relationship: many_to_one
