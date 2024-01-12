@@ -660,7 +660,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     type: string
     view_label: "Products"
     group_label: "Product Selling Category"
-    label: "Category"
+    label: "1.Category"
     sql: ${TABLE}.item_Category ;;
   }
 
@@ -668,7 +668,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     type: string
     view_label: "Products"
     group_label: "Product Selling Category"
-    label: "SubCategory"
+    label: "2.Sub Category"
     sql: ${TABLE}.item_Category2 ;;
   }
 
@@ -676,7 +676,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     type: string
     view_label: "Products"
     group_label: "Product Selling Category"
-    label: "Sub SubCategory"
+    label: "3.Sub Sub Category"
     sql: ${TABLE}.item_Category3 ;;
   }
 
