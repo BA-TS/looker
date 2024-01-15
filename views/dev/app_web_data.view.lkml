@@ -115,9 +115,11 @@ group by 1,2,3,4,5,6,7,8,9
 ) )
 select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
 
+    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 10
+    ;;
+
     partition_keys: ["Transaction"]
     cluster_keys: ["salesChannel", "productUID"]
-    datagroup_trigger: ts_transactions_datagroup
         }
 
       dimension: P_K {
