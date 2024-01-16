@@ -5,6 +5,15 @@ explore: retail {
   required_access_grants: [lz_testing]
   label: "Retail"
 
+  join: calendar_completed_date{
+    required_access_grants: [lz_testing]
+    from:  calendar
+    view_label: "Date"
+    type:  inner
+    relationship:  many_to_one
+    sql_on: ${google_reviews.month}=${calendar_completed_date.calendar_year_month} ;;
+  }
+
   join: sites {
     view_label: "Site Information"
     type: left_outer
