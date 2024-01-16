@@ -5,27 +5,36 @@ view: foh_master_products_2024 {
 
   dimension: SKU {
     type: string
-    view_label: "Site Information"
     sql: ${TABLE}.productCode ;;
     hidden: yes
   }
 
   dimension: siteUID  {
-    view_label: "Site Information"
     type: string
     label: "FOH location"
     sql: ${TABLE}.siteUID ;;
+    hidden: yes
+  }
+
+  dimension: foh_Area  {
+    view_label: "Location"
+    group_label: "Site Information"
+    type: string
+    label: "FOH Area"
+    sql: ${TABLE}.fohArea ;;
   }
 
   dimension: Location  {
-    view_label: "Site Information"
+    view_label: "Location"
+    group_label: "Site Information"
     type: string
     label: "FOH location"
     sql: ${TABLE}.location ;;
   }
 
   dimension: Week  {
-    view_label: "Site Information"
+    view_label: "Location"
+    group_label: "Site Information"
     type: string
     label: "FOH Week"
     sql: CAST(${TABLE}.fiscalYearWeek AS String);;
