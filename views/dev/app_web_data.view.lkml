@@ -113,10 +113,27 @@ productCode not in ('85699','00053') and
 (userUID  = 'WWW')
 group by 1,2,3,4,5,6,7,8,9
 ) )
-select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
+select distinct row_number() over (order by (Placed)) as P_K, customerID,
+OrderID,
+productUID,
+salesChannel,
+paymentType,
+max(Transaction) as Transaction,
+Placed,
+App_Web,
+status,
+NetSalePrice,
+Quantity,
+NetSaleValue,
+revenue,
+revenue2,
+MarginIncFunding,
+marginExclFunding from sub1
+group by 2,3,4,5,6,8,9,10,11,12,13,14,15,16,17;;
 
-    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 10
-    ;;
+
+    #sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 10;;
+    datagroup_trigger:ts_transactions_datagroup
 
     partition_keys: ["Transaction"]
     cluster_keys: ["salesChannel", "productUID"]
