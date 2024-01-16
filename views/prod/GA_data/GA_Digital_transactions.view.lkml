@@ -899,7 +899,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     description: "Sessions where a purchase event happened"
     #hidden: yes
     type: count_distinct
-    filters: [event_name: "Purchase, purchase",bounce_def: "1"]
+    filters: [event_name: "Purchase, purchase"]
     sql: ${session_id};;
   }
 
@@ -911,7 +911,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     value_format_name: percent_2
     description: "rate of total sessions where a pucrhase event happened"
     #sql: ${Count_transaction_id}/${session_start} * 100
-    sql: safe_divide(${session_purchase},${sessions});;
+    sql: safe_divide(${session_purchase},${session_start});;
   }
 
   measure: purchase_Users {

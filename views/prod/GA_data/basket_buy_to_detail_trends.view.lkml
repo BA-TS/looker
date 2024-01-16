@@ -91,6 +91,7 @@ view: basket_buy_to_detail_trends {
     type: count_distinct
     hidden: yes
     sql: ${TABLE}.session_id ;;
+    filters: [event_name: "session_start"]
   }
 
   measure: screen_views {
