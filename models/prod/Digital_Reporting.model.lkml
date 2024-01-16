@@ -154,43 +154,43 @@ explore: GA4_test {
 
 
 }
-explore: GA4 {
+#explore: GA4 {
   #required_access_grants: []
-  required_access_grants: [GA4_access]
-  hidden: yes
-  view_name: ga4
+#   required_access_grants: [GA4_access]
+#   hidden: yes
+#   view_name: ga4
 
-  extends: []
-  label: "GA4"
-  description: "GA4 Web and App data"
+#   extends: []
+#   label: "GA4"
+#   description: "GA4 Web and App data"
 
-  always_filter: {
-    filters: [
-      ga4.select_date_range: "7 days"
-    ]}
+#   always_filter: {
+#     filters: [
+#       ga4.select_date_range: "7 days"
+#     ]}
 
 
-  fields: [
-    ALL_FIELDS*, - base.select_date_reference
-  ]
-  #, -base.period_over_period, -base.flexible_pop,  -base.__comparator_order__
-  #sql_always_where:
-  #${period_over_period};;
+#   fields: [
+#     ALL_FIELDS*, - base.select_date_reference
+#   ]
+#   #, -base.period_over_period, -base.flexible_pop,  -base.__comparator_order__
+#   #sql_always_where:
+#   #${period_over_period};;
 
-  join: calendar_completed_date{
-    from:  calendar
-    view_label: "Date"
-    type:  inner
-    relationship: one_to_many
-    sql_on: ${ga4.date_date}=${calendar_completed_date.date} ;;
-  }
+#   join: calendar_completed_date{
+#     from:  calendar
+#     view_label: "Date"
+#     type:  inner
+#     relationship: one_to_many
+#     sql_on: ${ga4.date_date}=${calendar_completed_date.date} ;;
+#   }
 
-join: base {
-  view_label: ""
-  type: inner
-  relationship: one_to_one
-  sql_on: ${base.date_date} = ${calendar_completed_date.date};;
-}
+# join: base {
+#   view_label: ""
+#   type: inner
+#   relationship: one_to_one
+#   sql_on: ${base.date_date} = ${calendar_completed_date.date};;
+# }
 
 
   #join: ga4 {
@@ -200,111 +200,111 @@ join: base {
   #   ${base.date_date} = ${ga4.date_date} ;;
   #}
 
-    join: products {
-    view_label: "Products"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${ga4.product_Sku} = ${products.product_code};;
-  }
+ #   join: products {
+#     view_label: "Products"
+#     type: left_outer
+#     relationship: many_to_one
+#     sql_on: ${ga4.product_Sku} = ${products.product_code};;
+#   }
 
-  join: app_web_data {
-    view_label: "Digital Transactions"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: regexp_extract(${ga4.transaction_id},"^.{0,11}") = ${app_web_data.OrderID}
-    and ${products.product_uid} = ${app_web_data.ProductUID}
-    and ${ga4.date_date} = ${app_web_data.Placed_date}
-    and ${base.date_date} = ${app_web_data.Placed_date};;
-  }
+#   join: app_web_data {
+#     view_label: "Digital Transactions"
+#     type: left_outer
+#     relationship: many_to_one
+#     sql_on: regexp_extract(${ga4.transaction_id},"^.{0,11}") = ${app_web_data.OrderID}
+#     and ${products.product_uid} = ${app_web_data.ProductUID}
+#     and ${ga4.date_date} = ${app_web_data.Placed_date}
+#     and ${base.date_date} = ${app_web_data.Placed_date};;
+#   }
 
-  join: ga4_all_transaction_ids {
-    view_label: ""
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${ga4_all_transaction_ids.OrderID} = ${app_web_data.OrderID} ;;
-  }
+#   join: ga4_all_transaction_ids {
+#     view_label: ""
+#     type: left_outer
+#     relationship: many_to_one
+#     sql_on: ${ga4_all_transaction_ids.OrderID} = ${app_web_data.OrderID} ;;
+#   }
 
-  #${app_web_data.OrderID} = regexp_extract(${ga4.transaction_id},"^.{0,11}")
+#   #${app_web_data.OrderID} = regexp_extract(${ga4.transaction_id},"^.{0,11}")
 
-  join: catalogue {
-    view_label: ""
-    type: left_outer
-    relationship: one_to_many
-    sql_on: ${ga4.date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
-  }
+#   join: catalogue {
+#     view_label: ""
+#     type: left_outer
+#     relationship: one_to_many
+#     sql_on: ${ga4.date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
+#   }
 
-  join: videoly_funnel_ga4 {
-    view_label: "Videoly_funnel - Last Complete Week"
-    type: left_outer
-    relationship: one_to_many
-    sql_on: ${ga4.date_date} = ${videoly_funnel_ga4.date_date} ;;
-  }
+#   join: videoly_funnel_ga4 {
+#     view_label: "Videoly_funnel - Last Complete Week"
+#     type: left_outer
+#     relationship: one_to_many
+#     sql_on: ${ga4.date_date} = ${videoly_funnel_ga4.date_date} ;;
+#   }
 
-  join: stock_cover {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${products.product_code} = ${stock_cover.product_code}
-      and ${ga4.date_date} = ${stock_cover.stock_date_date};;
-  }
+#   join: stock_cover {
+#     type: left_outer
+#     relationship: many_to_one
+#     sql_on: ${products.product_code} = ${stock_cover.product_code}
+#       and ${ga4.date_date} = ${stock_cover.stock_date_date};;
+#   }
 
-  join: pdp_purchase_funnel {
-    view_label: "PDP to Purchase funnel WEB ONLY - Last Complete Week"
-    type: left_outer
-    relationship: one_to_many
-    sql_on: ${ga4.date_date} = ${pdp_purchase_funnel.PDP_date_date}
-    and ${products.product_code} = ${pdp_purchase_funnel.ItemID};;
-  }
+#   join: pdp_purchase_funnel {
+#     view_label: "PDP to Purchase funnel WEB ONLY - Last Complete Week"
+#     type: left_outer
+#     relationship: one_to_many
+#     sql_on: ${ga4.date_date} = ${pdp_purchase_funnel.PDP_date_date}
+#     and ${products.product_code} = ${pdp_purchase_funnel.ItemID};;
+#   }
 
-  join: search_plp_to_pdp_funnel {
-    view_label: "Search/PLP to PDP funnel - Last Complete Week"
-    type: left_outer
-    relationship: one_to_many
-    sql_on: ${ga4.date_date} = ${search_plp_to_pdp_funnel.date_date} ;;
-  }
-
-
+#   join: search_plp_to_pdp_funnel {
+#     view_label: "Search/PLP to PDP funnel - Last Complete Week"
+#     type: left_outer
+#     relationship: one_to_many
+#     sql_on: ${ga4.date_date} = ${search_plp_to_pdp_funnel.date_date} ;;
+#   }
 
 
 
-  join: aac {
-    view_label: ""
-    type:  left_outer
-    relationship: many_to_one
-    sql_on: ${stock_cover.stock_date_date} = ${aac.date} and ${products.product_uid} = ${aac.product_uid} ;;
-  }
 
-  join: promoworking {
-    view_label: "Products"
-    type: left_outer
-    relationship: one_to_one
-    sql_on: ${products.product_code} = ${promoworking.Product_Code}
-    and cast(${catalogue.catalogue_id} as string) = cast(${promoworking.cycleID} as string);;
-  }
 
-  join: total_sessions_ga4 {
-    view_label: "Ga4"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${ga4.date_date} = ${total_sessions_ga4.date_date}
-    and ${ga4.channelGrouping} = ${total_sessions_ga4.channel_grouping};;
-  }
+#   join: aac {
+#     view_label: ""
+#     type:  left_outer
+#     relationship: many_to_one
+#     sql_on: ${stock_cover.stock_date_date} = ${aac.date} and ${products.product_uid} = ${aac.product_uid} ;;
+#   }
 
-  join: ga4_totalsessions_channelgrouping {
-    view_label: "Ga4"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${ga4.date_date} = ${ga4_totalsessions_channelgrouping.date_date}
-    and ${ga4.channelGrouping} = ${ga4_totalsessions_channelgrouping.channel_grouping};;
-  }
+#   join: promoworking {
+#     view_label: "Products"
+#     type: left_outer
+#     relationship: one_to_one
+#     sql_on: ${products.product_code} = ${promoworking.Product_Code}
+#     and cast(${catalogue.catalogue_id} as string) = cast(${promoworking.cycleID} as string);;
+#   }
 
-  join: currentRetailPrice {
-    type: left_outer
-    view_label: "Products"
-    relationship: many_to_one
-    sql_on: ${products.product_uid} = ${currentRetailPrice.Product_ID};;
-  }
+#   join: total_sessions_ga4 {
+#     view_label: "Ga4"
+#     type: left_outer
+#     relationship: many_to_one
+#     sql_on: ${ga4.date_date} = ${total_sessions_ga4.date_date}
+#     and ${ga4.channelGrouping} = ${total_sessions_ga4.channel_grouping};;
+#   }
 
-}
+#   join: ga4_totalsessions_channelgrouping {
+#     view_label: "Ga4"
+#     type: left_outer
+#     relationship: many_to_one
+#     sql_on: ${ga4.date_date} = ${ga4_totalsessions_channelgrouping.date_date}
+#     and ${ga4.channelGrouping} = ${ga4_totalsessions_channelgrouping.channel_grouping};;
+#   }
+
+#   join: currentRetailPrice {
+#     type: left_outer
+#     view_label: "Products"
+#     relationship: many_to_one
+#     sql_on: ${products.product_uid} = ${currentRetailPrice.Product_ID};;
+#   }
+
+# }
 
 explore: digital_reporting {
   view_name: base

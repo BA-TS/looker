@@ -45,6 +45,9 @@ view: ga_digital_transactions {
     transactions.NetSalePrice,
     transactions.status,
     aw.item_id,
+    item_Category,
+    item_Category2,
+    item_Category3,
     session_duration,
     events,
     page_views,
@@ -651,6 +654,30 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     hidden: yes
     label: "Product Code"
     sql: ${TABLE}.item_id ;;
+  }
+
+  dimension: item_Category {
+    type: string
+    view_label: "Products"
+    group_label: "Product Selling Category"
+    label: "1.Category"
+    sql: ${TABLE}.item_Category ;;
+  }
+
+  dimension: item_Category2 {
+    type: string
+    view_label: "Products"
+    group_label: "Product Selling Category"
+    label: "2.Sub Category"
+    sql: ${TABLE}.item_Category2 ;;
+  }
+
+  dimension: item_Category3 {
+    type: string
+    view_label: "Products"
+    group_label: "Product Selling Category"
+    label: "3.Sub Sub Category"
+    sql: ${TABLE}.item_Category3 ;;
   }
 
   dimension: productUID {
