@@ -118,6 +118,30 @@ view: customers {
     sql: ${TABLE}.address.postcode ;;
   }
 
+  dimension: loyalty_club_member {
+    group_label: "Loyalty Club"
+    group_item_label: "Loyalty Club Member"
+    required_access_grants: [can_use_customer_information]
+    type: string
+    sql:CASE WHEN ${TABLE}.loyalty.loyalty_club_member  THEN "Yes" ELSE "No" END;;
+  }
+
+  dimension: loyalty_club_start {
+    group_label: "Loyalty Club"
+    group_item_label: "Sign Up Date"
+    required_access_grants: [can_use_customer_information]
+    type: date
+    sql: ${TABLE}.loyalty.sign_up_date ;;
+  }
+
+  dimension: loyalty_club_end {
+    group_label: "Loyalty Club"
+    group_item_label: "Leave Date"
+    required_access_grants: [can_use_customer_information]
+    type: date
+    sql: ${TABLE}.loyalty.leave_date ;;
+  }
+
   dimension_group: creation {
     type: time
     timeframes: [
