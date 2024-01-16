@@ -8,19 +8,19 @@ view: foh_master_stores {
     hidden: yes
   }
 
-  dimension: Location  {
-    view_label: "Location"
-    group_label: "Site Information"
-    type: string
-    label: "FOH location"
-    sql: ${TABLE}.location ;;
-  }
-
   dimension: Week  {
     view_label: "Location"
     group_label: "Site Information"
     type: string
-    label: "FOH Week"
+    label: "FOH Week 2"
     sql: ${TABLE}.fiscalYearWeek;;
+    hidden: yes
+  }
+
+  dimension: is_FOH_product  {
+    view_label: "Location"
+    group_label: "Site Information"
+    type: yesno
+    sql: ${Week} is not null;;
   }
 }

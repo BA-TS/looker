@@ -29,7 +29,7 @@ view: foh_master_products_2024 {
     group_label: "Site Information"
     type: string
     label: "FOH location"
-    sql: ${TABLE}.location ;;
+    sql: ${TABLE}.Location ;;
   }
 
   dimension: Week  {
