@@ -16,7 +16,7 @@ view: foh_master_products_2024 {
     sql: ${TABLE}.Location ;;
   }
 
-  dimension:Week  {
+  dimension: Week  {
     view_label: "Site Information"
     type: string
     label: "FOH Week"

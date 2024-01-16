@@ -21,10 +21,4 @@ view: foh_master_stores {
     type: yesno
     sql:${Maximum_Number_of_Dump_Stacks}>0 ;;
   }
-
-  dimension: Maximum_Number_of_FSDUs {
-    view_label: "Site Information"
-    type: number
-    sql: ${TABLE}.Maximum_Number_of_FSDUs ;;
-  }
 }
