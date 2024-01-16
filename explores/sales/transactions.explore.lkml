@@ -156,13 +156,13 @@ explore: base {
     sql_on: ${transactions.site_uid}=${sites.site_uid} ;;
   }
 
-  join: foh_master_stores {
-    required_access_grants: [lz_testing]
-    view_label: "Location"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${foh_master_stores.siteUID}=${sites.site_uid} ;;
-  }
+  # join: foh_master_stores {
+  #   required_access_grants: [lz_testing]
+  #   view_label: "Location"
+  #   type: left_outer
+  #   relationship: many_to_one
+  #   sql_on: ${foh_master_stores.siteUID}=${sites.site_uid} ;;
+  # }
 
   join: foh_master_products_2024 {
     required_access_grants: [lz_testing]
