@@ -142,7 +142,6 @@ explore: base {
     sql_on:${base.date_date}=${channel_budget.date_date} AND ${transactions.sales_channel} = ${channel_budget.channel} ;;
   }
 
-
   join: site_budget {
     view_label: "Budget"
     type: left_outer
