@@ -58,7 +58,7 @@ view: ga_digital_transactions {
 AND {% condition select_date_range %} (date) {% endcondition %}
 and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transactions.item_id is null) or (aw.item_id is null and transactions.item_id is null))
        ;;
-    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 13
+    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11
     ;;
 
     partition_keys: ["date"]
