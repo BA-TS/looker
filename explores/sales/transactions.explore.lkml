@@ -170,7 +170,7 @@ explore: base {
     view_label: "Location"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${transactions.product_code}=${foh_master_products_2024.SKU} and ${calendar_completed_date.calendar_year}=${foh_master_products_2024.Year}  ;;
+    sql_on: ${transactions.product_code}=${foh_master_products_2024.SKU} and ${calendar_completed_date.fiscal_year_week}=${foh_master_products_2024.Week}  ;;
   }
 
   join: customers {
