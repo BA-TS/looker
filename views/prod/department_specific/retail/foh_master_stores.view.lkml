@@ -1,24 +1,26 @@
 view: foh_master_stores {
 
-  sql_table_name:`toolstation-data-storage.tmp.FOH_MASTER_STORES`;;
+  sql_table_name:`toolstation-data-storage.range.foh_products_weekly`;;
 
-  dimension: siteUID {
+  dimension: SKU {
     type: string
-    view_label: "Site Information"
-    label: "Site UID"
-    sql: ${TABLE}.Store_ID ;;
+    sql: ${TABLE}.productCode ;;
     hidden: yes
   }
 
-  dimension:Maximum_Number_of_Dump_Stacks  {
-    view_label: "Site Information"
-    type: number
-    sql:CAST(${TABLE}.Maximum_Number_of_Dump_Stacks as INTEGER) ;;
+  dimension: Week  {
+    view_label: "Location"
+    group_label: "Site Information"
+    type: string
+    label: "FOH Week 2"
+    sql: ${TABLE}.fiscalYearWeek;;
+    hidden: yes
   }
 
-  dimension:is_Dump_Stacks  {
-    view_label: "Site Information"
+  dimension: is_FOH_product  {
+    view_label: "Location"
+    group_label: "Site Information"
     type: yesno
-    sql:${Maximum_Number_of_Dump_Stacks}>0 ;;
+    sql: ${Week} is not null;;
   }
 }
