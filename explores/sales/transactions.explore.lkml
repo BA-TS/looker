@@ -456,6 +456,13 @@ explore: base {
     relationship: many_to_one
     sql_on: ${customers.customer_uid} = ${assumed_trade_measures.customer_uid};;
   }
+
+  join: costPrice {
+    view_label: "Products"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${products.product_uid} = ${costPrice.product_uid} ;;
+  }
 }
 
 explore: +base {

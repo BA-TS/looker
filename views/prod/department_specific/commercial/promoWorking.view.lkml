@@ -42,6 +42,7 @@ view: promoworking {
     group_label: "Current Price"
     label: "Current Cost Price"
     description: "costPrice"
+    hidden: yes
     type: number
     value_format_name: gbp
     sql: ${TABLE}.costPrice ;;
