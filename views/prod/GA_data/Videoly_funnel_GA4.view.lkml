@@ -109,7 +109,7 @@ where (((b.minTime) is null or a.minTime<b.minTime))
 and ((c.minTime is null or a.minTime<c.minTime))
 and ((d.minTime is null or a.minTime<d.minTime))
 group by 2,3,4;;
-    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 13
+    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 9
     ;;
   }
   # # You can specify the table name if it's different from the view name:
