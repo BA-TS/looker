@@ -8,6 +8,7 @@ view: google_reviews {
     # label: "Year Month (yyyymm)"
     label: "Google_month"
     sql: CAST(${TABLE}.month AS string);;
+    hidden: yes
   }
 
   dimension: siteUID {

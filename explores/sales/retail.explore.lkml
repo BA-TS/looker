@@ -5,6 +5,26 @@ explore: retail {
   required_access_grants: [lz_testing]
   label: "Retail"
 
+  fields: [
+    ALL_FIELDS*,
+    -calendar_completed_date.date,
+    -calendar_completed_date.today_date,
+    -calendar_completed_date.today_calendar_quarter,
+    -calendar_completed_date.today_calendar_year_month,
+    -calendar_completed_date.day_in_month,
+    -calendar_completed_date.today_day_in_month,
+    -calendar_completed_date.day_in_week,
+    -calendar_completed_date.today_day_in_week,
+    -calendar_completed_date.day_in_year,
+    -calendar_completed_date.today_day_in_year,
+    -calendar_completed_date.today_fiscal_week_of_year,
+    -calendar_completed_date.is_holiday,
+    -calendar_completed_date.holiday_name,
+    -calendar_completed_date.is_weekend,
+    -calendar_completed_date.calendar_quarter,
+    -calendar_completed_date.calendar_year_quarter
+  ]
+
   join: calendar_completed_date{
     required_access_grants: [lz_testing]
     from:  calendar
