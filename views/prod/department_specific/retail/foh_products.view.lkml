@@ -15,7 +15,6 @@ view: foh_master_products_2024 {
   }
 
   dimension: foh_Area  {
-    view_label: "Location"
     group_label: "Site Information"
     type: string
     label: "FOH Area"
@@ -23,7 +22,6 @@ view: foh_master_products_2024 {
   }
 
   dimension: Location  {
-    view_label: "Location"
     group_label: "Site Information"
     type: string
     label: "FOH Location"
@@ -31,7 +29,6 @@ view: foh_master_products_2024 {
   }
 
   dimension: Week  {
-    view_label: "Location"
     group_label: "Site Information"
     type: string
     label: "FOH Week"
