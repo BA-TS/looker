@@ -9,9 +9,9 @@ explore: retail {
     required_access_grants: [lz_testing]
     from:  calendar
     view_label: "Date"
-    type:  inner
+    type:  left_outer
     relationship:  many_to_one
-    sql_on: ${google_reviews.month}=${calendar_completed_date.calendar_year_month} ;;
+    sql_on: ${google_reviews.month}=${calendar_completed_date.calendar_year_month2} ;;
   }
 
   join: sites {

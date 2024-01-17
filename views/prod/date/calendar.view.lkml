@@ -84,6 +84,16 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
     sql: ${TABLE}.calendarYearMonth ;;
   }
 
+  dimension: calendar_year_month2 {
+    group_label: "Dates"
+    label: "Year Month (yyyy-mm)"
+    description: "used in the retail explore"
+    type: string
+    sql: replace(${calendar_year_month},'-','') ;;
+    hidden: yes
+  }
+
+
   dimension: today_calendar_year_month {
     group_label: "Today Dates"
     label: "Year Month (yyyy-mm)"
