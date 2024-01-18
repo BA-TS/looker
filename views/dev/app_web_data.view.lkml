@@ -246,7 +246,7 @@ group by 2,3,4,5,6,8,9,10,11,12,13,14,15,16,17;;
         description: "Net Revenue of order"
         type: sum
         value_format_name: gbp
-        sql: {% if base.select_date_reference._parameter_value == "Placed" %} (${TABLE}.NetSaleValue) * 0.9907 {% else %} (${TABLE}.NetSaleValue) {% endif %};;
+        sql: {% if base.select_date_reference._parameter_value == "Placed" %} (${TABLE}.NetSaleValue) {% else %} (${TABLE}.NetSaleValue) {% endif %};;
       }
 
       measure: revenue2 {
@@ -261,7 +261,7 @@ group by 2,3,4,5,6,8,9,10,11,12,13,14,15,16,17;;
         description: "Gross Revenue of order"
         type: sum
         value_format_name: gbp
-        sql: {% if base.select_date_reference._parameter_value == "Placed" %} (${TABLE}.revenue2) * 0.9907 {% else %} (${TABLE}.revenue2) {% endif %};;
+        sql: {% if base.select_date_reference._parameter_value == "Placed" %} (${TABLE}.revenue2) {% else %} (${TABLE}.revenue2) {% endif %};;
       }
 
       measure: AOV {
@@ -276,7 +276,7 @@ group by 2,3,4,5,6,8,9,10,11,12,13,14,15,16,17;;
         description: "Average Order value"
         type: number
         value_format_name: gbp
-        sql: {% if base.select_date_reference._parameter_value == "Placed" %} ((SUM(${TABLE}.NetSaleValue) * 0.9907)/((count(distinct(${TABLE}.OrderID))) * 0.9907)) {% else %} (SUM(${TABLE}.NetSaleValue)/(count(distinct(${TABLE}.OrderID)))) {% endif %};;
+        sql: {% if base.select_date_reference._parameter_value == "Placed" %} ((SUM(${TABLE}.NetSaleValue))/((count(distinct(${TABLE}.OrderID))) * 0.9907)) {% else %} (SUM(${TABLE}.NetSaleValue)/(count(distinct(${TABLE}.OrderID)))) {% endif %};;
 
         #sql: (SUM(${TABLE}.NetSaleValue) * 0.9973)/((count(distinct(${TABLE}.OrderID))) * 0.9973) ;;
       }
@@ -301,7 +301,7 @@ group by 2,3,4,5,6,8,9,10,11,12,13,14,15,16,17;;
         description: "Total products in order"
         type: sum
         value_format_name: decimal_0
-        sql: {% if base.select_date_reference._parameter_value == "Placed" %} (${TABLE}.Quantity * 0.9907) {% else %} (${TABLE}.Quantity) {% endif %};;
+        sql: {% if base.select_date_reference._parameter_value == "Placed" %} (${TABLE}.Quantity) {% else %} (${TABLE}.Quantity) {% endif %};;
 
         #sql:  (${TABLE}.Quantity * 0.9973) ;;
       }
@@ -311,7 +311,7 @@ group by 2,3,4,5,6,8,9,10,11,12,13,14,15,16,17;;
         description: "Total value of order"
         type: sum
         value_format_name: gbp
-        sql: (${TABLE}.NetSaleValue * 0.9907) ;;
+        sql: (${TABLE}.NetSaleValue) ;;
       }
 
       measure: Total_orders {
@@ -326,7 +326,7 @@ group by 2,3,4,5,6,8,9,10,11,12,13,14,15,16,17;;
         description: "total orders"
         type: number
         value_format_name: decimal_0
-        sql: {% if base.select_date_reference._parameter_value == "Placed" %} (count(distinct ${TABLE}.OrderID) * 0.9907) {% else %} (count(distinct ${TABLE}.OrderID)) {% endif %};;
+        sql: {% if base.select_date_reference._parameter_value == "Placed" %} (count(distinct ${TABLE}.OrderID)) {% else %} (count(distinct ${TABLE}.OrderID)) {% endif %};;
 
        # sql: count(distinct ${TABLE}.OrderID) * 0.9973;;
       }
@@ -343,7 +343,7 @@ group by 2,3,4,5,6,8,9,10,11,12,13,14,15,16,17;;
         description: "margin percentage per order"
         type: number
         value_format_name: percent_2
-        sql: {% if base.select_date_reference._parameter_value == "Placed" %} ((sum(${TABLE}.MarginIncFunding) * 0.9907)/(SUM(${TABLE}.NetSaleValue) * 0.9907)) {% else %} (sum(${TABLE}.MarginIncFunding)/SUM(${TABLE}.NetSaleValue)) {% endif %};;
+        sql: {% if base.select_date_reference._parameter_value == "Placed" %} ((sum(${TABLE}.MarginIncFunding))/(SUM(${TABLE}.NetSaleValue))) {% else %} (sum(${TABLE}.MarginIncFunding)/SUM(${TABLE}.NetSaleValue)) {% endif %};;
 
         #sql: (sum(${TABLE}.MarginIncFunding) * 0.9973)/(SUM(${TABLE}.NetSaleValue) * 0.9973);;
       }
@@ -360,7 +360,7 @@ group by 2,3,4,5,6,8,9,10,11,12,13,14,15,16,17;;
         description: "Margin inc funding by order"
         type: number
         value_format_name: gbp
-        sql: {% if base.select_date_reference._parameter_value == "Placed" %} ((sum(${TABLE}.MarginIncFunding) * 0.9907)/((count(distinct(${TABLE}.OrderID))) * 0.9907)) {% else %} (sum(${TABLE}.MarginIncFunding)/(count(distinct(${TABLE}.OrderID)))) {% endif %};;
+        sql: {% if base.select_date_reference._parameter_value == "Placed" %} ((sum(${TABLE}.MarginIncFunding))/((count(distinct(${TABLE}.OrderID))))) {% else %} (sum(${TABLE}.MarginIncFunding)/(count(distinct(${TABLE}.OrderID)))) {% endif %};;
 
         #sql: (sum(${TABLE}.MarginIncFunding) * 0.9973)/((count(distinct(${TABLE}.OrderID))) * 0.9973);;
       }
@@ -415,7 +415,7 @@ group by 2,3,4,5,6,8,9,10,11,12,13,14,15,16,17;;
         description: "sum of Margin inc funding"
         type: sum
         value_format_name: gbp
-        sql: {% if base.select_date_reference._parameter_value == "Placed" %} (${TABLE}.MarginIncFunding * 0.9907) {% else %} (${TABLE}.MarginIncFunding) {% endif %};;
+        sql: {% if base.select_date_reference._parameter_value == "Placed" %} (${TABLE}.MarginIncFunding) {% else %} (${TABLE}.MarginIncFunding) {% endif %};;
 
         #sql: (${TABLE}.MarginIncFunding * 0.9973) ;;
       }
@@ -432,7 +432,7 @@ group by 2,3,4,5,6,8,9,10,11,12,13,14,15,16,17;;
         description: "sum of Margin excluding funding"
         type: sum
         value_format_name: gbp
-        sql: {% if base.select_date_reference._parameter_value == "Placed" %} (${TABLE}.MarginExclFunding * 0.9907) {% else %} (${TABLE}.MarginExclFunding) {% endif %};;
+        sql: {% if base.select_date_reference._parameter_value == "Placed" %} (${TABLE}.MarginExclFunding) {% else %} (${TABLE}.MarginExclFunding) {% endif %};;
 
         #sql: (${TABLE}.marginExclFunding * 0.9973);;
       }

@@ -446,7 +446,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     label: "Net Revenue"
     type: sum
     value_format_name: gbp
-    sql: ${TABLE}.net_value * 0.993 ;;
+    sql: ${TABLE}.net_value ;;
   }
 
   measure: gross_value {
