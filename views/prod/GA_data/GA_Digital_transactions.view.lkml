@@ -549,7 +549,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: sessions_total {
     #hidden: yes
     view_label: "GA4"
-    group_label: "Measures"
+    group_label: "Overall sessions"
     label: "Total Sessions"
     type: count_distinct
     sql: ${session_id} ;;
@@ -604,7 +604,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     group_label: "Overall sessions"
     description: "Sessions where user left site after viewing 1 page"
     type: number
-    sql: ${session_start}-${sessions} ;;
+    sql: ${sessions_total}-${sessions} ;;
   }
 
   measure: bounce_rate {
