@@ -893,7 +893,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   measure: atc_conversion_rate {
     view_label: "GA4"
     label: "ATC Conversion rate"
-    group_label: "Purchase"
+    group_label: "Add to Cart"
     type: number
     value_format_name: percent_2
     description: "rate of total sessions where add to cart event happened"
