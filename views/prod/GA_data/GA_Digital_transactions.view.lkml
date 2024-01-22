@@ -890,6 +890,17 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     sql: ${TABLE}.value ;;
   }
 
+  measure: atc_conversion_rate {
+    view_label: "GA4"
+    label: "ATC Conversion rate"
+    group_label: "Purchase"
+    type: number
+    value_format_name: percent_2
+    description: "rate of total sessions where add to cart event happened"
+    #sql: ${Count_transaction_id}/${session_start} * 100
+    sql: safe_divide(${add_to_cart_sessions},${sessions_total});;
+  }
+
   #############Purchase###############
 
   measure: session_purchase {
