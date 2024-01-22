@@ -547,7 +547,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   }
 
   measure: sessions_total {
-    hidden: yes
+    #hidden: yes
     view_label: "GA4"
     group_label: "Measures"
     label: "Total Sessions"
@@ -615,7 +615,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     description: "rate of total sessions where user left site after viewing 1 page"
     value_format_name: percent_2
     #sql: (${bs}/${session_start}) * 100
-    sql: safe_divide(${bs},${session_start});;
+    sql: safe_divide(${bs},${sessions_total});;
   }
 
   measure: New_users {
@@ -911,7 +911,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     value_format_name: percent_2
     description: "rate of total sessions where a pucrhase event happened"
     #sql: ${Count_transaction_id}/${session_start} * 100
-    sql: safe_divide(${session_purchase},${session_start});;
+    sql: safe_divide(${session_purchase},${sessions_total});;
   }
 
   measure: purchase_Users {
