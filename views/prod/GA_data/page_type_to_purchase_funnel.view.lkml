@@ -1,62 +1,43 @@
 view: page_type_to_purchase_funnel {
   derived_table: {
     sql:
-    with sub1 as (SELECT distinct min(timestamp_sub(MinTime, interval 1 HOUR)) as minTime, session_id, event_name,
+        with sub1 as (SELECT distinct min(timestamp_sub(MinTime, interval 1 HOUR)) as minTime, session_id, event_name,
 #page_location,
 case
-when page_location in ("https://www.toolstation.com/") and event_name in ("page_view") then "homepage"
-when regexp_contains(page_location, r"toolstation\.com\/\?") and event_name in ("page_view") then "homepage"
-when screen_name in ("home-page") and event_name in ("screen_view") then "homepage"
-when regexp_contains(page_location, ".*search?.*=.*") and event_name in ("page_view") then "Search"
-when page_location like "%| Search |%" and event_name in ("page_view") then "Search"
-when screen_name in ("search-page") and event_name in ("screen_view") then "Search"
 when Screen_name in ("product-detail-page") and event_name in ("view_item") and platform in ("Web") then "PDP"
 when Screen_name in ("product-detail-page") and event_name in ("view_item") and platform in ("App") then "PDP"
-when REGEXP_CONTAINS(page_location, r'^.*\/([a-z,\-\d]+\/){1}(c(\d){1,4}).*') THEN "Category"
-when regexp_contains(screen_name,r"department-page-[0-9]*") and event_name in ("screen_view") then "Category"
-when screen_name in ("product-listing-page") and event_name in ("screen_view") then "Category"
 end as screen,
 platform,
 item_id,
 FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*`
-where event_name in ("page_view","view_item", "screen_view","purchase", "Purchase")
+where event_name in ("page_view","view_item", "screen_view","purchase", "Purchase", "add_to_cart")
 and bounces = 1
 and _table_suffix between format_date("%Y%m%d", date_sub(current_date(), INTERVAL 20 day)) and format_date("%Y%m%d", date_sub(current_date(), INTERVAL 1 day))
 group by 2,3,4,5,6),
 
 products as (select distinct productStartDate,activeTo,productCode from `toolstation-data-storage.range.products_current`),
 
-homepage as (select distinct session_id as homepage_session_id, min(MinTime) as homepage_time from sub1 where screen in ("homepage") and event_name in ("page_view","screen_view") group by 1),
 
-Search as (select distinct session_id as search_session_id, min(MinTime) as search_time from sub1 where screen in ("Search") and event_name in ("page_view","screen_view") group by 1),
+PDP as (select distinct platform, session_id as PDP_session_id, item_id,min(MinTime) as PDP_time
+from sub1 where screen in ("PDP") and event_name in ("view_item") group by 1,2,3),
 
-PDP as (select distinct session_id as PDP_session_id, min(MinTime) as PDP_time
-from sub1 where screen in ("PDP") and event_name in ("view_item") group by 1),
+ATC as (select distinct session_id as atc_session_id, item_id,min(MinTime) as atc_time from sub1 where event_name in ("add_to_cart") group by 1,2),
 
-Category as (select distinct session_id as Category_session_id, min(MinTime) as category_time from sub1 where screen in ("Category") and event_name in ("page_view", "screen_view") group by 1),
-
-purchase as (select distinct session_id as purchase_session_id, min(MinTime) as purchase_time from sub1 where event_name in ("purchase", "Purchase") group by 1)
+purchase as (select distinct session_id as purchase_session_id,item_id, min(MinTime) as purchase_time from sub1 where event_name in ("purchase", "Purchase") group by 1,2)
 
 
 SELECT distinct
 row_number() over () as P_K,
-extract(date from coalesce(homepage.homepage_time,search.search_time,pdp.pdp_time,Category.Category_time,purchase.purchase_time)) as date,
-session_id as all_session_id,
+extract(date from coalesce(pdp.pdp_time,ATC.atc_time,purchase.purchase_time)) as date,
 platform,
-homepage.homepage_session_id, homepage.homepage_time,
-search.search_session_id, search.search_time,
 PDP.pdp_session_id, pdp.pdp_time,
-Category.Category_session_id, Category.Category_time,
+ATC.atc_session_id, atc.atc_time,
 purchase.purchase_session_id, purchase.purchase_time,
-timestamp_diff(purchase.purchase_time,homepage.homepage_time,second) as home_purchase,
-timestamp_diff(purchase.purchase_time,search.search_time,second) as search_purchase,
-timestamp_diff(purchase.purchase_time,pdp.pdp_time,second) as pdp_purchase,
-timestamp_diff(purchase.purchase_time,Category.Category_time,second) as category_purchase,
-from sub1 left join homepage on sub1.session_id = homepage.homepage_session_id
-left join Search on sub1.session_id = Search.search_session_id
-left join PDP on sub1.session_id = PDP.PDP_session_id
-left join Category on sub1.session_id = Category.Category_session_id
-left join purchase on sub1.session_id = purchase.purchase_session_id;;
+timestamp_diff(ATC.atc_time,pdp.pdp_time,second) as pdp_ATC,
+timestamp_diff(purchase.purchase_time,ATC.atc_time,second) as ATC_purchase,
+from PDP
+left join ATC on PDP.PDP_session_id = ATC.atc_session_id and PDP.item_id = ATC.item_id
+left join purchase on PDP.PDP_session_id = purchase.purchase_session_id and PDP.item_id = purchase.item_id
 
 sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01 00:00:00',SECOND)) - 60*60*10)/(60*60*24))
     ;;
