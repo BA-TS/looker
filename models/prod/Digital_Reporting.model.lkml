@@ -139,7 +139,8 @@ explore: GA4_test {
     view_label: "GA4"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${ga_digital_transactions.session_id} = ${page_type_to_purchase_funnel.all_sessionID} ;;
+    sql_on: ${calendar_completed_date.date} = ${page_type_to_purchase_funnel.date_date}
+    and ((case when ${page_type_to_purchase_funnel.item_id} is null or length(${page_type_to_purchase_funnel.item_id}) != 5 then "null" else ${page_type_to_purchase_funnel.item_id} end) = ${products.product_code});;
   }
 
   join: basket_buy_to_detail_trends {
