@@ -166,7 +166,7 @@ view: basket_buy_to_detail_trends {
     description: "Revenue"
     group_label: "Purchase"
     label: "Net Revenue"
-    type: number
+    type: sum
     value_format_name: gbp
     sql: ${revenue} ;;
   }
