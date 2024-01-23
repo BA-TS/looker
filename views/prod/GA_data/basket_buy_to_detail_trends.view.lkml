@@ -9,7 +9,7 @@ view: basket_buy_to_detail_trends {
       aw.item_id,
       case when screen_name like "%| Search |%" then "search-page" else Screen_name end as Screen_name,
       session_id,
-      bounces,
+      cast(bounces as string) as bounces,
       events,
       sum(transactions.net_value) as revenue
       FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as transactions
