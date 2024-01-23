@@ -9,6 +9,7 @@ view: ga_digital_transactions {
     deviceCategory,
     source,
     channel_Group,
+    `toolstation-data-storage.Digital_reporting.channel_grouping`(source, medium, Campaign) as channel_groupingv2,
     Medium,
     Campaign,
     lower(event_name) as event_name,
@@ -108,6 +109,14 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     group_label: "Traffic Source"
     type: string
     sql: ${TABLE}.channel_Group ;;
+  }
+
+  dimension: channel_Groupv2 {
+    view_label: "GA4"
+    label: "Channel Groupv2"
+    group_label: "Traffic Source"
+    type: string
+    sql: ${TABLE}.channel_groupingv2 ;;
   }
 
   dimension: Medium {
