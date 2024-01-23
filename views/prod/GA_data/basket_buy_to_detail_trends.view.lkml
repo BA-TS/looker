@@ -121,10 +121,8 @@ view: basket_buy_to_detail_trends {
     type: count_distinct
     group_label: "Page"
     label: "PDP sessions"
-    sql:
-    case when (${event_name} in ("screen_view","page_view") and ${Screen_name} in ("product-detail-page")) or (${event_name} in ("view_item")) then
-    ${TABLE}.session_id else null end;;
-    #filters: [event_name: "screen_view OR page_view"]
+    sql:${TABLE}.session_id;;
+    filters: [event_name: "view_item", Screen_name: "product-detail-page"]
     }
 
   measure: PDP_events {
@@ -132,10 +130,8 @@ view: basket_buy_to_detail_trends {
     type: sum
     group_label: "Page"
     label: "PDP events"
-    sql:
-    case when (${event_name} in ("screen_view","page_view") and ${Screen_name} in ("product-detail-page")) or (${event_name} in ("view_item")) then
-    ${TABLE}.events else null end;;
-    #filters: [event_name: "screen_view OR page_view"]
+    sql:${TABLE}.events;;
+    filters: [event_name: "view_item", Screen_name: "product-detail-page"]
     }
 
   measure: add_to_cart_sessions {
