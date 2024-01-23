@@ -10,11 +10,12 @@ view: basket_buy_to_detail_trends {
       case when screen_name like "%| Search |%" then "search-page" else Screen_name end as Screen_name,
       session_id,
       bounces,
-      events
+      events,
+      sum(transactions.net_value) as revenue
       FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as transactions
       where _TABLE_SUFFIX >= FORMAT_DATE('%Y%m%d', '2023-11-02')
       --and bounces <= 1
-      and event_name in ("screen_view", "page_view","view_item","add_to_cart","purchase","session_start","view_item_list")
+      and event_name in ("screen_view", "page_view","view_item","add_to_cart","purchase","session_start","view_item_list", "app_open")
       and
       ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transactions.item_id is null) or (aw.item_id is null and transactions.
       item_id is null))
@@ -91,7 +92,6 @@ view: basket_buy_to_detail_trends {
     type: count_distinct
     hidden: yes
     sql: ${TABLE}.session_id ;;
-    filters: [event_name: "session_start"]
   }
 
   measure: screen_views {
@@ -112,6 +112,28 @@ view: basket_buy_to_detail_trends {
     label: "Unique Page Views"
     sql:
     case when (${event_name} in ("screen_view","page_view") and ${Screen_name} not in ("search-page", "product-detail-page")) or (${event_name} in ("view_item_list") and ${Screen_name} in ("search-page")) or (${event_name} in ("view_item") and ${Screen_name} in ("product-detail-page")) then
+    ${TABLE}.session_id else null end;;
+    #filters: [event_name: "screen_view OR page_view"]
+    }
+
+  measure: PDP_sessions {
+    description: "Sessions with PDP event"
+    type: count_distinct
+    group_label: "Page"
+    label: "PDP sessions"
+    sql:
+    case when (${event_name} in ("screen_view","page_view") and ${Screen_name} in ("product-detail-page")) or (${event_name} in ("view_item")) then
+    ${TABLE}.session_id else null end;;
+    #filters: [event_name: "screen_view OR page_view"]
+    }
+
+  measure: PDP_events {
+    description: "Page views"
+    type: sum
+    group_label: "Page"
+    label: "PDP events"
+    sql:
+    case when (${event_name} in ("screen_view","page_view") and ${Screen_name} in ("product-detail-page")) or (${event_name} in ("view_item")) then
     ${TABLE}.events else null end;;
     #filters: [event_name: "screen_view OR page_view"]
     }
