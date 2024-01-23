@@ -172,7 +172,7 @@ sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01
     label: "ATC to Purchase Drop Off"
     type: number
     value_format_name: percent_2
-    sql: ${PDP_to_atc_sessions} - ${PDP_to_purchase_sessions} ;;
+    sql: ${PDP_ATC_perc} - ${PDP_purchase_perc} ;;
   }
 
   measure: Revenue_funnel {
