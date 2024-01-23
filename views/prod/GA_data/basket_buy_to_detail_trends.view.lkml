@@ -147,7 +147,7 @@ view: basket_buy_to_detail_trends {
     label: "ATC Sessions"
     type: count_distinct
     sql: ${TABLE}.session_id ;;
-    filters: [event_name: "add_to_cart"]
+    filters: [event_name: "add_to_cart",bounce_def: "1"]
   }
 
   measure: add_to_cart_rate {
