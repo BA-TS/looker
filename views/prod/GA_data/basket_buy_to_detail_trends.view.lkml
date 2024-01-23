@@ -72,6 +72,14 @@ view: basket_buy_to_detail_trends {
     sql: ${TABLE}.bounces ;;
   }
 
+  dimension: revenue {
+    description: "revenue"
+    type: number
+    value_format_name: gbp
+    hidden: yes
+    sql: ${TABLE}.revenue ;;
+  }
+
   measure: purchase_events {
     description: "Purchase events"
     group_label: "Purchase"
@@ -114,7 +122,7 @@ view: basket_buy_to_detail_trends {
     group_label: "Page"
     label: "PDP events"
     sql:${TABLE}.events;;
-    filters: [event_name: "view_item", screen_name: "product-detail-page"]
+    filters: [event_name: "view_item", screen_name: "product-detail-page",bounce_def: "1"]
     }
 
   measure: add_to_cart_sessions {
@@ -152,6 +160,15 @@ view: basket_buy_to_detail_trends {
     type: number
     value_format_name: percent_2
     sql: safe_divide(${purchase_sessions},${total_Sessions}) ;;
+  }
+
+  measure: revenu {
+    description: "Revenue"
+    group_label: "Purchase"
+    label: "Net Revenue"
+    type: number
+    value_format_name: gbp
+    sql: ${revenue} ;;
   }
 
   filter: filter_on_field_to_hide {
