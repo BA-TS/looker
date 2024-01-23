@@ -151,6 +151,30 @@ sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01
     filters: [pdp_sessionID: "-NULL", atc_session_id: "-NULL",pdp_ATC_seconds: ">0", ATC_purchase_seconds: ">0"]
   }
 
+  measure: PDP_ATC_perc {
+    view_label: "PDP to Purchase Funnel"
+    label: "Add to Cart Rate"
+    type: number
+    value_format_name: percent_2
+    sql: ${PDP_to_atc_sessions}/${pdp_sessions} ;;
+  }
+
+  measure: PDP_purchase_perc {
+    view_label: "PDP to Purchase Funnel"
+    label: "Purchase Conv Rate"
+    type: number
+    value_format_name: percent_2
+    sql: ${PDP_to_purchase_sessions}/${pdp_sessions} ;;
+  }
+
+  measure: funnel_drop_off {
+    view_label: "PDP to Purchase Funnel"
+    label: "ATC to Purchase Drop Off"
+    type: number
+    value_format_name: percent_2
+    sql: ${PDP_to_atc_sessions} - ${PDP_to_purchase_sessions} ;;
+  }
+
   measure: Revenue_funnel {
     view_label: "PDP to Purchase Funnel"
     label: "PDP-ATC-Purchase Revenue"
