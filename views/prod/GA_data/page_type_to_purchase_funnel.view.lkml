@@ -74,6 +74,7 @@ sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01
 
   dimension: platform {
     type: string
+    view_label: "PDP to Purchase Funnel"
     label: "Web/App"
     sql: ${TABLE}.platform ;;
   }
@@ -127,7 +128,7 @@ sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01
   }
 
   measure: pdp_sessions {
-    group_label: "PDP to Purchase Funnel"
+    view_label: "PDP to Purchase Funnel"
     label: "PDP sessions"
     type: count_distinct
     sql: ${pdp_sessionID};;
@@ -135,7 +136,7 @@ sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01
 
 
   measure: PDP_to_atc_sessions {
-    group_label: "PDP to Purchase Funnel"
+    view_label: "PDP to Purchase Funnel"
     label: "PDP to ATC sessions"
     type: count_distinct
     sql: ${atc_session_id};;
@@ -143,7 +144,7 @@ sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01
   }
 
   measure: PDP_to_purchase_sessions {
-    group_label: "PDP to Purchase Funnel"
+    view_label: "PDP to Purchase Funnel"
     label: "ATC to Purchase sessions"
     type: count_distinct
     sql: ${purchase_sessionID};;
@@ -151,7 +152,7 @@ sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01
   }
 
   measure: Revenue_funnel {
-    group_label: "PDP to Purchase Funnel"
+    view_label: "PDP to Purchase Funnel"
     label: "PDP-ATC-Purchase Revenue"
     type: sum
     sql: ${Revenue};;
@@ -160,7 +161,7 @@ sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01
   }
 
   measure: quantity_funnel {
-    group_label: "PDP to Purchase Funnel"
+    view_label: "PDP to Purchase Funnel"
     label: "PDP-ATC-Purchase Quantity"
     type: sum
     sql: ${Quantity};;
