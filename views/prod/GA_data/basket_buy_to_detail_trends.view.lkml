@@ -68,6 +68,13 @@ view: basket_buy_to_detail_trends {
     sql: ${TABLE}.item_id ;;
   }
 
+  dimension: bounce_def {
+    description: "if session is bounce 0 = no, 1 = yes"
+    type: string
+    hidden: yes
+    sql: ${TABLE}.bounces ;;
+  }
+
   measure: purchase_events {
     description: "Purchase events"
     group_label: "Purchase"
@@ -122,7 +129,7 @@ view: basket_buy_to_detail_trends {
     group_label: "Page"
     label: "PDP sessions"
     sql:${TABLE}.session_id;;
-    filters: [event_name: "view_item", Screen_name: "product-detail-page"]
+    filters: [event_name: "view_item", Screen_name: "product-detail-page",bounce_def: "1"]
     }
 
   measure: PDP_events {
