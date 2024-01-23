@@ -9,7 +9,7 @@ view: basket_buy_to_detail_trends {
       screen_name,
       aw.item_id,
       cast(bounces as string) as bounces,
-      session_id as total_sessions,
+      session_id as session_id,
       sum(transactions.net_value) as revenue
       FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as transactions
       where _TABLE_SUFFIX >= FORMAT_DATE('%Y%m%d', '2023-11-02')
