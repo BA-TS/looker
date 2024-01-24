@@ -87,6 +87,7 @@ view: spi_cpi{
 
   measure: cy_unitsSOLD_total {
     type: sum
+    group_label: "CY"
     label: "CY Units Sold"
     sql: ${cy_unitsSOLD};;
     value_format: "#,##0.00;"
@@ -94,6 +95,7 @@ view: spi_cpi{
 
   measure: ly_unitsSOLD_total {
     type: sum
+    group_label: "LY"
     label: "LY Units Sold"
     sql: ${ly_unitsSOLD};;
     value_format: "#,##0.00;"
@@ -115,6 +117,7 @@ view: spi_cpi{
 
   measure: cy_netSales_total {
     type: sum
+    group_label: "CY"
     sql: ${cy_netSales};;
     label: "CY Net Sales"
     value_format: "#,##0.00;"
@@ -122,6 +125,7 @@ view: spi_cpi{
 
   measure: ly_netSales_total {
     type: sum
+    group_label: "LY"
     sql: ${ly_netSales};;
     label: "LY Net Sales"
     value_format: "#,##0.00;"
@@ -129,6 +133,7 @@ view: spi_cpi{
 
   measure: cy_unitPrice {
     type: number
+    group_label: "CY"
     sql:  COALESCE(SAFE_DIVIDE(${cy_netSales_total}, ${cy_unitsSOLD_total}),0) ;;
     label: "CY Unit Price"
     value_format: "#,##0.00;"
@@ -136,6 +141,7 @@ view: spi_cpi{
 
   measure: ly_unitPrice {
     type: number
+    group_label: "LY"
     sql:  COALESCE(SAFE_DIVIDE(${ly_netSales_total}, ${ly_unitsSOLD_total}),0) ;;
     label: "LY Unit Price"
     value_format: "#,##0.00;"
