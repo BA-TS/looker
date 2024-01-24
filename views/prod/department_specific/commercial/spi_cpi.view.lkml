@@ -117,11 +117,13 @@ view: spi_cpi{
     type: sum
     sql: ${cy_netSales};;
     label: "CY Net Sales"
+    value_format: "#,##0.00;(#,##0.00)"
   }
 
   measure: ly_netSales_total {
     type: sum
     sql: ${ly_netSales};;
     label: "LY Net Sales"
+    value_format: "#,##0.00;(#,##0.00)"
   }
 }
