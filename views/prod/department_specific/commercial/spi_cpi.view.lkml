@@ -8,6 +8,7 @@ view: spi_cpi{
     metrics.SPI_abs as SPI_abs,
     metrics.cy_unitsSOLD as cy_unitsSOLD,
     metrics.ly_unitsSOLD as ly_unitsSOLD,
+    metrics.SPI_comparator as SPI_comparator,
     row_number() OVER(ORDER BY dims.productCode) AS prim_key
     FROM `toolstation-data-storage.financeReporting.DS_DAILY_SPI_CPI`;;
   }
@@ -50,6 +51,24 @@ view: spi_cpi{
     hidden: yes
   }
 
+  dimension: cy_unitPRICE {
+    type: number
+    sql: ${TABLE}.cy_unitPRICE;;
+    hidden: yes
+  }
+
+  dimension: ly_unitPRICE {
+    type: number
+    sql: ${TABLE}.ly_unitPRICE;;
+    hidden: yes
+  }
+
+  dimension: SPI_comparator {
+    type: number
+    sql: ${TABLE}.SPI_comparator;;
+    hidden: yes
+  }
+
   measure: cy_unitsSOLD_total {
     type: sum
     label: "CY Units Sold"
@@ -61,6 +80,13 @@ view: spi_cpi{
     type: sum
     label: "LY Units Sold"
     sql: ${ly_unitsSOLD};;
+    value_format: "#,##0.00;(#,##0.00)"
+  }
+
+  measure: SPI_comparator_total {
+    type: sum
+    label: "SPI Comparator"
+    sql: ${SPI_comparator};;
     value_format: "#,##0.00;(#,##0.00)"
   }
 
