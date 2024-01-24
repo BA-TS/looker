@@ -245,11 +245,11 @@ explore: base {
 
   join: spi_cpi {
     required_access_grants: [lz_testing]
-    view_label: "Catalogue"
+    # view_label: "Catalogue"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${transactions.product_code} = ${spi_cpi.productCode} ;;
-    # and ${base.date_date} and ${spi_cpi.date} ;;
+    sql_on: ${transactions.product_code} = ${spi_cpi.productCode} and ${calendar_completed_date.fiscal_year_week}=${spi_cpi.fiscalYearWeek};;
+    # and ${calendar_completed_date.fulldate2} and ${spi_cpi.date} ;;
   }
 
   join: digital_transaction_mapping {

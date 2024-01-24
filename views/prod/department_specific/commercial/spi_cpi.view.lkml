@@ -1,22 +1,40 @@
 view: spi_cpi{
-  sql_table_name: `toolstation-data-storage.financeReporting.DS_DAILY_SPI_CPI`;;
 
-  # dimension: date {
-  #   # type: time
-  #   # timeframes: [date,raw]
+  derived_table: {
+    sql:
+    SELECT *
+    FROM sql_table_name: `toolstation-data-storage.financeReporting.DS_DAILY_SPI_CPI`;;
+  }
+
+
+  dimension: date {
+    type: date
+    sql: date(${TABLE}.dims.fullDate) ;;
+    label: "SPI date"
+  }
+
+  dimension: fiscalYearWeek {
+    type: string
+    sql: cast(${TABLE}.dims.fiscalYearWeek as string) ;;
+  }
+
+  # dimension: date{
+  #   group_label: "Dates"
+  #   label: "Date (dd/mm/yyyy)"
   #   type: date
-  #   sql: date(${TABLE}.dims.fullDate) ;;
-  #   label: "SPI date"
+  #   primary_key: yes
+  #   sql: timestamp(${TABLE}.dims.fullDate) ;;
+  #   html: {{ rendered_value | date: "%d/%m/%Y" }};;
   # }
 
-  dimension: date{
-    group_label: "Dates"
-    label: "SPI Date (dd/mm/yyyy)"
-    type: date
-    primary_key: yes
-    sql: timestamp(${TABLE}.fullDate) ;;
-    html: {{ rendered_value | date: "%d/%m/%Y" }};;
-  }
+  # dimension: date{
+  #   group_label: "Dates"
+  #   label: "SPI Date (dd/mm/yyyy)"
+  #   type: string
+  #   primary_key: yes
+  #   sql: replace(cast(${TABLE}.dims.fullDate as string),"-","") ;;
+  #   # html: {{ rendered_value | date: "%d/%m/%Y" }};;
+  # }
 
   dimension: productCode {
     type: string
