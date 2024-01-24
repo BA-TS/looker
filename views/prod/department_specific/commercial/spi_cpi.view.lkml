@@ -5,8 +5,16 @@ view: spi_cpi{
     SELECT
     date(dims.fullDate) as date,
     dims.productCode as productCode,
-    metrics.SPI_abs as SPI_abs
+    metrics.SPI_abs as SPI_abs,
+    row_number() OVER(ORDER BY dims.productCode) AS prim_key
     FROM `toolstation-data-storage.financeReporting.DS_DAILY_SPI_CPI`;;
+  }
+
+  dimension: prim_key {
+    type: number
+    primary_key: yes
+    sql: ${TABLE}.prim_key ;;
+    hidden: yes
   }
 
   dimension_group: date {
@@ -25,14 +33,13 @@ view: spi_cpi{
   dimension: SPI_abs {
     type: number
     sql: ${TABLE}.SPI_abs;;
-    # hidden: yes
+    hidden: yes
   }
 
   measure: SPI_total {
     type: sum
     label: "SPI"
     sql: ${SPI_abs};;
-    value_format: "#,##0;(#,##0)"
+    value_format: "#,##0.00;(#,##0.00)"
   }
-
 }
