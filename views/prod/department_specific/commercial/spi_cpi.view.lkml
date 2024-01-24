@@ -10,6 +10,8 @@ view: spi_cpi{
     metrics.ly_netSales as ly_netSales,
     metrics.cy_unitsSOLD as cy_unitsSOLD,
     metrics.ly_unitsSOLD as ly_unitsSOLD,
+    metrics.cy_unitPRICE as cy_unitPRICE,
+    metrics.ly_unitPRICE as ly_unitPRICE,
     metrics.SPI_comparator as SPI_comparator,
     row_number() OVER(ORDER BY dims.productCode) AS prim_key
     FROM `toolstation-data-storage.financeReporting.DS_DAILY_SPI_CPI`;;
