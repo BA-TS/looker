@@ -93,6 +93,14 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
     hidden: yes
   }
 
+  dimension: fulldate2 {
+    group_label: "Dates"
+    label: "full date2"
+    type: string
+    sql: replace(cast(${date} as string),'-','') ;;
+    hidden: yes
+  }
+
 
   dimension: today_calendar_year_month {
     group_label: "Today Dates"

@@ -1,31 +1,45 @@
 view: spi_cpi{
-  sql_table_name: `toolstation-data-storage.financeReporting.DS_DAILY_SPI_CPI`;;
 
-  # dimension: date {
-  #   # type: time
-  #   # timeframes: [date,raw]
-  #   type: date
-  #   sql: date(${TABLE}.dims.fullDate) ;;
-  #   label: "SPI date"
-  # }
+  derived_table: {
+    sql:
+    SELECT
+    date(dims.fullDate) as date,
+    dims.productCode as productCode,
+    metrics.SPI_abs as SPI_abs,
+    row_number() OVER(ORDER BY dims.productCode) AS prim_key
+    FROM `toolstation-data-storage.financeReporting.DS_DAILY_SPI_CPI`;;
+  }
 
-  dimension: date{
-    group_label: "Dates"
-    label: "SPI Date (dd/mm/yyyy)"
-    type: date
+  dimension: prim_key {
+    type: number
     primary_key: yes
-    sql: timestamp(${TABLE}.fullDate) ;;
-    html: {{ rendered_value | date: "%d/%m/%Y" }};;
+    sql: ${TABLE}.prim_key ;;
+    hidden: yes
+  }
+
+  dimension_group: date {
+    type: time
+    timeframes: [date,raw]
+    hidden: yes
+    sql: ${TABLE}.date ;;
   }
 
   dimension: productCode {
     type: string
-    sql: ${TABLE}.dims.productCode;;
+    sql: ${TABLE}.productCode;;
     hidden: yes
   }
 
   dimension: SPI_abs {
     type: number
-    sql: ${TABLE}.metrics.SPI_abs;;
+    sql: ${TABLE}.SPI_abs;;
+    hidden: yes
+  }
+
+  measure: SPI_total {
+    type: sum
+    label: "SPI"
+    sql: ${SPI_abs};;
+    value_format: "#,##0.00;(#,##0.00)"
   }
 }
