@@ -954,4 +954,13 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     sql: ${TABLE}.events ;;
   }
 
+  measure: aov {
+    view_label: "Transactional"
+    label: "AOV"
+    type: number
+    description: "average order value"
+    value_format_name: gbp
+    sql: safe_divide(${net_value},${orders}) ;;
+  }
+
 }
