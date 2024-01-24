@@ -960,7 +960,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     type: number
     description: "average order value"
     value_format_name: gbp
-    sql: safe_divide(${orders},${net_value}) ;;
+    sql: safe_divide(${net_value},${orders}) ;;
   }
 
 }
