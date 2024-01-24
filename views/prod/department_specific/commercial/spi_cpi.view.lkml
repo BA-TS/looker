@@ -126,4 +126,18 @@ view: spi_cpi{
     label: "LY Net Sales"
     value_format: "#,##0.00;"
   }
+
+  measure: cy_unitPrice {
+    type: number
+    sql:  COALESCE(SAFE_DIVIDE(${cy_netSales_total}, ${cy_unitsSOLD_total}),0) ;;
+    label: "CY Unit Price"
+    value_format: "#,##0.00;"
+  }
+
+  measure: ly_unitPrice {
+    type: number
+    sql:  COALESCE(SAFE_DIVIDE(${ly_netSales_total}, ${ly_unitsSOLD_total}),0) ;;
+    label: "LY Unit Price"
+    value_format: "#,##0.00;"
+  }
 }
