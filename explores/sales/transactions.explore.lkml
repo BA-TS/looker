@@ -248,7 +248,9 @@ explore: base {
     # view_label: "Catalogue"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${transactions.product_code} = ${spi_cpi.productCode} and ${calendar_completed_date.fiscal_year_week}=${spi_cpi.fiscalYearWeek};;
+    sql_on: ${transactions.product_code} = ${spi_cpi.productCode}
+     ${base.date_date} = ${spi_cpi.date_date};;
+    # and ${calendar_completed_date.fiscal_year_week}=${spi_cpi.fiscalYearWeek};;
     # and ${calendar_completed_date.fulldate2} and ${spi_cpi.date} ;;
   }
 

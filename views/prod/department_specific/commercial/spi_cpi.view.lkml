@@ -2,21 +2,31 @@ view: spi_cpi{
 
   derived_table: {
     sql:
-    SELECT *
-    FROM sql_table_name: `toolstation-data-storage.financeReporting.DS_DAILY_SPI_CPI`;;
+    SELECT
+    date(dims.fullDate) as date,
+    productCode,
+    SPI_abs
+    FROM `toolstation-data-storage.financeReporting.DS_DAILY_SPI_CPI`;;
   }
 
+  # dimension: date {
+  #   type: date
+  #   sql: ${TABLE}.date ;;
+  #   label: "SPI date"
+  # }
 
-  dimension: date {
-    type: date
-    sql: date(${TABLE}.dims.fullDate) ;;
-    label: "SPI date"
+
+  dimension_group: date {
+    type: time
+    timeframes: [date,raw]
+    hidden: yes
+    sql: ${TABLE}.date ;;
   }
 
-  dimension: fiscalYearWeek {
-    type: string
-    sql: cast(${TABLE}.dims.fiscalYearWeek as string) ;;
-  }
+  # dimension: fiscalYearWeek {
+  #   type: string
+  #   sql: cast(${TABLE}.dims.fiscalYearWeek as string) ;;
+  # }
 
   # dimension: date{
   #   group_label: "Dates"
