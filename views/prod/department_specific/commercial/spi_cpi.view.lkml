@@ -89,41 +89,41 @@ view: spi_cpi{
     type: sum
     label: "CY Units Sold"
     sql: ${cy_unitsSOLD};;
-    value_format: "#,##0.00;(#,##0.00)"
+    value_format: "#,##0.00;"
   }
 
   measure: ly_unitsSOLD_total {
     type: sum
     label: "LY Units Sold"
     sql: ${ly_unitsSOLD};;
-    value_format: "#,##0.00;(#,##0.00)"
+    value_format: "#,##0.00;"
   }
 
   measure: SPI_comparator_total {
     type: sum
     label: "SPI Comparator"
     sql: ${SPI_comparator};;
-    value_format: "#,##0.00;(#,##0.00)"
+    value_format: "#,##0.00;"
   }
 
   measure: SPI_total {
     type: sum
     label: "SPI"
     sql: ${SPI_abs};;
-    value_format: "#,##0.00;(#,##0.00)"
+    value_format: "#,##0.00;"
   }
 
   measure: cy_netSales_total {
     type: sum
     sql: ${cy_netSales};;
     label: "CY Net Sales"
-    value_format: "#,##0.00;(#,##0.00)"
+    value_format: "#,##0.00;"
   }
 
   measure: ly_netSales_total {
     type: sum
     sql: ${ly_netSales};;
     label: "LY Net Sales"
-    value_format: "#,##0.00;(#,##0.00)"
+    value_format: "#,##0.00;"
   }
 }
