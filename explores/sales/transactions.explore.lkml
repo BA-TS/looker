@@ -243,6 +243,15 @@ explore: base {
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
   }
 
+  join: spi_cpi {
+    required_access_grants: [lz_testing]
+    view_label: "Catalogue"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.product_code} = ${spi_cpi.productCode} ;;
+    # and ${base.date_date} and ${spi_cpi.date} ;;
+  }
+
   join: digital_transaction_mapping {
     view_label: "Digital"
     type: left_outer
