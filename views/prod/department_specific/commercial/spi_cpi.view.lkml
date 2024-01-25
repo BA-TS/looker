@@ -13,7 +13,7 @@ view: spi_cpi{
     metrics.cy_unitPRICE as cy_unitPRICE,
     metrics.ly_unitPRICE as ly_unitPRICE,
     metrics.cy_aac_cogs as cy_aac_cogs,
-    metrics.cy_ccp_cogs as cy_ccp_cog,
+    metrics.cy_ccp_cogs as cy_ccp_cogs,
     metrics.SPI_comparator as SPI_comparator,
     row_number() OVER(ORDER BY dims.productCode) AS prim_key
     FROM `toolstation-data-storage.financeReporting.DS_DAILY_SPI_CPI`;;
