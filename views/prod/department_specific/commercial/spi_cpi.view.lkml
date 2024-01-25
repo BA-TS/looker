@@ -166,6 +166,7 @@ view: spi_cpi{
     label: "CY AAC COGS"
     group_label: "CY"
     sql: ${TABLE}.cy_aac_cogs;;
+    value_format: "0.00"
   }
 
   measure: cy_ccp_cogs_total {
@@ -173,6 +174,6 @@ view: spi_cpi{
     label: "CY CCP COGS"
     group_label: "CY"
     sql: ${TABLE}.cy_ccp_cogs;;
+    value_format: "0.00"
   }
-
 }
