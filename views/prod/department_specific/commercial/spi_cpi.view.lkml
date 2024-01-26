@@ -160,7 +160,7 @@ view: spi_cpi{
   measure: SPI_total2 {
     type: sum
     label: "SPI_New"
-    sql: ${SPI_abs};;
+    sql: ${SPI_abs2};;
     value_format: "0.00"
   }
 
