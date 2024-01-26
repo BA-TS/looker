@@ -9,6 +9,7 @@ view: spi_cpi{
     dims.promo_cy as promo_cy,
     dims.promo_ly as promo_ly,
     metrics.SPI_abs as SPI_abs,
+    metrics.SPI_abs as SPI_abs2,
     metrics.cy_netSales as cy_netSales,
     metrics.ly_netSales as ly_netSales,
     metrics.cy_unitsSOLD as cy_unitsSOLD,
@@ -60,10 +61,15 @@ view: spi_cpi{
     sql: ${TABLE}.promo_ly=1 ;;
   }
 
-
   dimension: SPI_abs {
     type: number
     sql: ${TABLE}.SPI_abs;;
+    hidden: yes
+  }
+
+  dimension: SPI_abs2 {
+    type: number
+    sql: ${TABLE}.SPI_abs2;;
     hidden: yes
   }
 
@@ -147,6 +153,13 @@ view: spi_cpi{
   measure: SPI_total {
     type: sum
     label: "SPI"
+    sql: ${SPI_abs};;
+    value_format: "0.00"
+  }
+
+  measure: SPI_total2 {
+    type: sum
+    label: "SPI_New"
     sql: ${SPI_abs};;
     value_format: "0.00"
   }
