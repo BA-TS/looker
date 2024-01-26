@@ -67,9 +67,18 @@ view: spi_cpi{
     hidden: yes
   }
 
-  dimension: SPI_abs2 {
+  dimension: SPI_abs2_raw {
     type: number
     sql: ${TABLE}.SPI_abs2;;
+    hidden: yes
+  }
+
+  dimension: SPI_abs2 {
+    type: number
+    sql:
+    CASE WHEN ${is_promo_ly} is true and ${is_promo_cy} is false THEN ${SPI_abs2_raw}
+    ELSE ${SPI_abs}
+    END ;;
     hidden: yes
   }
 
