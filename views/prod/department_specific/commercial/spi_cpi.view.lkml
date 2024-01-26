@@ -5,6 +5,7 @@ view: spi_cpi{
     SELECT
     date(dims.fullDate) as date,
     dims.productCode as productCode,
+    dims.promo as promo,
     metrics.SPI_abs as SPI_abs,
     metrics.cy_netSales as cy_netSales,
     metrics.ly_netSales as ly_netSales,
@@ -37,6 +38,12 @@ view: spi_cpi{
     type: string
     sql: ${TABLE}.productCode;;
     hidden: yes
+  }
+
+  dimension: is_promo_cy_ly {
+    type: yesno
+    label: "Promo CY/LY"
+    sql: ${TABLE}.promo=1 ;;
   }
 
   dimension: SPI_abs {
