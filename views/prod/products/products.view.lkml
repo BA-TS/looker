@@ -282,7 +282,7 @@ view: products {
     type: string
     sql:case
     when ${department} in ('Painting & Decorating', 'Workwear & Safety', 'Ventilation & Heating', 'Smart Technology & Consumer Electrical', 'Plumbing', 'Lighting', 'Kitchens', 'Electrical', 'Central Heating', 'Bathrooms') THEN 'Trade'
-    WHEN ${department}  IN ('Hand Tools', 'Power Tools', 'Power Tool Accessories', 'Screws & Fixings', 'Ladders & Storage', 'Landscaping', 'Ironmongery & Security', 'Cleaning & Pest Control', 'Building & Joinery', 'Automotive', 'Adhesives & Sealants')) THEN 'Hardware'
+    WHEN ${department}  IN ('Hand Tools', 'Power Tools', 'Power Tool Accessories', 'Screws & Fixings', 'Ladders & Storage', 'Landscaping', 'Ironmongery & Security', 'Cleaning & Pest Control', 'Building & Joinery', 'Automotive', 'Adhesives & Sealants') THEN 'Hardware'
   ELSE 'Other (Uncatalogued, Deleted, Vouchers)'
 END
 
