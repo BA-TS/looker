@@ -53,9 +53,8 @@ left join ATC on PDP.PDP_session_id = ATC.atc_session_id and PDP.item_id = ATC.i
 left join purchase on PDP.PDP_session_id = purchase.purchase_session_id and PDP.item_id = purchase.item_id
 ;;
 
-sql_trigger_value: -SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01 00:00:00',SECOND)) - 60*60*9)/(60*60*24))
-    ;;
-
+sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01 00:00:00',SECOND)) - 60*60*9)/(60*60*24))
+;;
 }
 
   dimension: P_K {
