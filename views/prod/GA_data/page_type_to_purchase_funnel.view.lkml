@@ -231,6 +231,7 @@ sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01
     view_label: "PDP to Purchase Funnel"
     label: "Total Revenue"
     type: sum
+    value_format_name: gbp
     sql: ${total_Revenue} ;;
   }
 
