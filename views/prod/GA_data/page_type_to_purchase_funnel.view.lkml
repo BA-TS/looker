@@ -29,14 +29,16 @@ from sub1 where screen in ("PDP") and event_name in ("view_item") group by 1,2,3
 
 ATC as (select distinct session_id as atc_session_id, item_id,min(MinTime) as atc_time from sub1 where event_name in ("add_to_cart") group by 1,2),
 
-purchase as (select distinct session_id as purchase_session_id,item_id, min(MinTime) as purchase_time, rev, Qu, OrderID from sub1 where event_name in ("purchase", "Purchase") group by 1,2,4,5,6)
+purchase as (select distinct session_id as purchase_session_id,item_id, min(MinTime) as purchase_time, rev, Qu, OrderID from sub1 where event_name in ("purchase", "Purchase") group by 1,2,4,5,6),
 
-
-SELECT distinct
-row_number() over () as P_K,
-extract(date from coalesce(pdp.pdp_time,ATC.atc_time,purchase.purchase_time)) as date,
-platform,
-PDP.item_id,
+#3276858
+sub2 as (SELECT distinct
+#row_number() over () as P_K,
+extract(date from coalesce(pdp.pdp_time,ATC.atc_time,purchase.purchase_time, all_purchase.purchase_time)) as date,
+sub1.platform,
+sub1.session_id as total_sessionID,
+sub1.item_id as total_item_id,
+#PDP.item_id,
 PDP.pdp_session_id,
 pdp.pdp_time,
 ATC.atc_session_id,
@@ -47,10 +49,19 @@ timestamp_diff(ATC.atc_time,pdp.pdp_time,second) as pdp_ATC,
 timestamp_diff(purchase.purchase_time,ATC.atc_time,second) as ATC_purchase,
 purchase.rev as Revenue,
 purchase.Qu as Quantity,
-purchase.ORderID as OrderID
-from PDP
+purchase.ORderID as OrderID,
+all_purchase.purchase_session_id as all_purchase_session_id,
+all_purchase.rev as total_Revenue,
+all_purchase.Qu as total_Quantity,
+all_purchase.ORderID as total_OrderID
+from Sub1
+left join PDP on sub1.session_id = PDP.PDP_session_id and sub1.item_id = PDP.item_id
 left join ATC on PDP.PDP_session_id = ATC.atc_session_id and PDP.item_id = ATC.item_id
 left join purchase on PDP.PDP_session_id = purchase.purchase_session_id and PDP.item_id = purchase.item_id
+left join purchase as all_purchase on sub1.session_id = all_purchase.purchase_session_id and sub1.item_id = all_purchase.item_id
+where extract(date from coalesce(pdp.pdp_time,ATC.atc_time,purchase.purchase_time, all_purchase.purchase_time)) is not null)
+
+select distinct row_number() over () as P_K, * from sub2
 ;;
 
 sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01 00:00:00',SECOND)) - 60*60*9)/(60*60*24))
@@ -81,7 +92,7 @@ sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01
   dimension: item_id {
     hidden: yes
     type: string
-    sql: ${TABLE}.item_id ;;
+    sql: ${TABLE}.total_item_id ;;
   }
 
   dimension: pdp_sessionID {
@@ -102,6 +113,12 @@ sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01
     sql: ${TABLE}.purchase_session_id ;;
   }
 
+  dimension: all_purchase_sessionID {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.all_purchase_session_id ;;
+  }
+
   dimension: pdp_ATC_seconds {
     hidden: yes
     type: number
@@ -120,10 +137,22 @@ sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01
     sql: ${TABLE}.Revenue;;
   }
 
+  dimension: total_Revenue {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.total_Revenue;;
+  }
+
   dimension: Quantity {
     hidden: yes
     type: number
     sql: ${TABLE}.Quantity;;
+  }
+
+  dimension: total_Quantity {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.total_Quantity;;
   }
 
   measure: pdp_sessions {
@@ -189,6 +218,27 @@ sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01
     type: sum
     sql: ${Quantity};;
     filters: [pdp_sessionID: "-NULL", atc_session_id: "-NULL",pdp_ATC_seconds: ">0", ATC_purchase_seconds: ">0"]
+  }
+
+  measure: total_purchase_sessions {
+    view_label: "PDP to Purchase Funnel"
+    label: "Total Purchase Sessions"
+    type: count_distinct
+    sql: ${all_purchase_sessionID} ;;
+  }
+
+  measure: total_revenue {
+    view_label: "PDP to Purchase Funnel"
+    label: "Total Revenue"
+    type: sum
+    sql: ${total_Revenue} ;;
+  }
+
+  measure: total_quantity {
+    view_label: "PDP to Purchase Funnel"
+    label: "Total Purchase Quantity"
+    type: sum
+    sql: ${total_Quantity} ;;
   }
 
 
