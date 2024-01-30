@@ -55,8 +55,7 @@ view: ga_digital_transactions {
     cast(bounces as string) as bounces,
     transactions.transaction
     FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as transactions
-    where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
-AND {% condition select_date_range %} (date) {% endcondition %}
+        where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 60 day)) and FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 1 day))
 and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transactions.item_id is null) or (aw.item_id is null and transactions.item_id is null))
        ;;
     sql_trigger_value: SELECT format_time("%H:%M",(EXTRACT(time FROM CURRENT_DATEtime()))) = "08:22"
@@ -337,14 +336,14 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     sql: ${TABLE}.status ;;
   }
 
-  filter: select_date_range {
-    label: "GA4 Date Range"
-    group_label: "Date Filter"
-    view_label: "Datetime (of event)"
-    type: date
-    datatype: date
-    convert_tz: yes
-  }
+  #filter: select_date_range {
+   # label: "GA4 Date Range"
+    #group_label: "Date Filter"
+    #view_label: "Datetime (of event)"
+    #type: date
+    #datatype: date
+    #convert_tz: yes
+  #}
 
   dimension_group: time{
     group_label: "Time"

@@ -10,7 +10,7 @@ explore: GA4_test {
   label: "GA4 (data model in BQ)"
   always_filter: {
     filters: [
-      select_date_range: "7 days"
+      ga_digital_transactions.date_date: "7 days"
     ]}
 
   join: total_sessions_ga4_dt {
