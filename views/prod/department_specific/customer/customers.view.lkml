@@ -429,7 +429,7 @@ view: customers {
     group_label: "Customer"
     type: time
     datatype: date
-    timeframes: [year]
+    timeframes: [year, month]
     sql:${creation_date};;
   }
 
