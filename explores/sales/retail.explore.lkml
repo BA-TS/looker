@@ -79,7 +79,7 @@ explore: retail {
   # }
 
   join: scorecard_branch_dev {
-    view_label: "Scorecard Dev"
+    view_label: "Scorecard Development (2024)"
     type: left_outer
     relationship: many_to_one
     sql_on:${scorecard_branch_dev.siteUID} =${sites.site_uid} and ${google_reviews.month}=${scorecard_branch_dev.month}  ;;
