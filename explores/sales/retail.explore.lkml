@@ -71,11 +71,18 @@ explore: retail {
     sql_on: ${profit_protection.siteUID}=${holiday_management.siteUID} and ${profit_protection.month}=${holiday_management.month} ;;
   }
 
-  join: foh_master_products_2024 {
-    view_label: "FOH Location"
-    type: left_outer
-    relationship: many_to_one
-    sql_on:${foh_master_products_2024.siteUID} =${sites.site_uid} and ${calendar_completed_date.fiscal_year_week}=${foh_master_products_2024.Week}  ;;
-  }
+  # join: foh_master_products_2024 {
+  #   view_label: "FOH Location"
+  #   type: left_outer
+  #   relationship: many_to_one
+  #   sql_on:${foh_master_products_2024.siteUID} =${sites.site_uid} and ${calendar_completed_date.fiscal_year_week}=${foh_master_products_2024.Week}  ;;
+  # }
+
+  # join: scorecard_branch_dev {
+  #   view_label: "FOH Location"
+  #   type: left_outer
+  #   relationship: many_to_one
+  #   sql_on:${scorecard_branch_dev.siteUID} =${sites.site_uid} and ${calendar_completed_date.fiscal_year_week}=${foh_master_products_2024.Week}  ;;
+  # }
 
 }
