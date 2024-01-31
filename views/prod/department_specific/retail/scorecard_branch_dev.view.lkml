@@ -258,4 +258,108 @@ view: scorecard_branch_dev {
     value_format: "0.00"
   }
 
+  dimension: actual_hours  {
+    type: number
+    sql: ${TABLE}.vsTargetAOV  ;;
+    value_format: "0.00"
+  }
+
+  dimension: aop_hours  {
+    type: number
+    sql: ${TABLE}.vsTargetAOV  ;;
+    value_format: "0.00"
+  }
+
+  dimension: hoursVsAOP  {
+    type: number
+    sql: ${TABLE}.vsTargetAOV  ;;
+    value_format: "0.00"
+  }
+
+  dimension: lyActualHours  {
+    type: number
+    sql: ${TABLE}.vsTargetAOV  ;;
+    value_format: "0.00"
+  }
+
+  dimension: labourT1T2Percent  {
+    type: number
+    sql: ${TABLE}.vsTargetAOV  ;;
+    value_format: "0.00"
+  }
+
+  dimension: labourT3Percent  {
+    type: number
+    sql: ${TABLE}.vsTargetAOV  ;;
+    value_format: "0.00"
+  }
+
+  dimension: tyEBIT  {
+    type: number
+    sql: ${TABLE}.vsTargetAOV  ;;
+    value_format: "0.00"
+  }
+
+  dimension: pyEBIT  {
+    type: number
+    sql: ${TABLE}.vsTargetAOV  ;;
+    value_format: "0.00"
+  }
+
+  dimension: vsPYEBIT  {
+    type: number
+    sql: ${TABLE}.vsPYEBIT  ;;
+    value_format: "0.00"
+  }
+
+  dimension: prophixSales  {
+    type: number
+    sql: ${TABLE}.prophixSales  ;;
+    value_format: "0.00"
+  }
+
+  dimension: budget  {
+    type: number
+    sql: ${TABLE}.budget  ;;
+    value_format: "0.00"
+  }
+
+  dimension: varBudget  {
+    type: number
+    sql: ${TABLE}.varBudget  ;;
+    value_format: "0.00"
+  }
+
+  dimension: pyProphixSales  {
+    type: number
+    sql: ${TABLE}.pyProphixSales  ;;
+    value_format: "0.00"
+  }
+
+  dimension: varPYNetSales  {
+    type: number
+    sql: ${TABLE}.varPYNetSales  ;;
+    value_format: "0.00"
+  }
+
+  dimension: varPYSalesPercent  {
+    type: number
+    sql: ${TABLE}.varPYSalesPercent  ;;
+    value_format: "0.00"
+  }
+
+  dimension: AvgSellingPriceImprov  {
+    type: number
+    sql: ${TABLE}.AvgSellingPriceImprov  ;;
+    value_format: "0.00"
+  }
+
+  dimension: Loyalty_spend_increase  {
+    type: number
+    sql: ${TABLE}.Loyalty_spend_increase  ;;
+    value_format: "0.00"
+  }
+
+
+
 }
