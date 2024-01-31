@@ -260,19 +260,19 @@ view: scorecard_branch_dev {
 
   dimension: actual_hours  {
     type: number
-    sql: ${TABLE}.vsTargetAOV  ;;
+    sql: ${TABLE}.actual_hours  ;;
     value_format: "0.00"
   }
 
   dimension: aop_hours  {
     type: number
-    sql: ${TABLE}.vsTargetAOV  ;;
+    sql: ${TABLE}.aop_hours  ;;
     value_format: "0.00"
   }
 
   dimension: hours_Vs_AOP  {
     type: number
-    sql: ${TABLE}.vsTargetAOV  ;;
+    sql: ${TABLE}.hoursVsAOP  ;;
     value_format: "0.00"
   }
 
@@ -284,13 +284,13 @@ view: scorecard_branch_dev {
 
   dimension: labour_T1T2_Percent  {
     type: number
-    sql: ${TABLE}.vsTargetAOV  ;;
+    sql: ${TABLE}.labourT1T2Percent  ;;
     value_format: "0.00"
   }
 
   dimension: labour_T3_Percent  {
     type: number
-    sql: ${TABLE}.labour_T3Percent  ;;
+    sql: ${TABLE}.labourT3Percent  ;;
     value_format: "0.00"
   }
 
