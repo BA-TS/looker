@@ -336,14 +336,14 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     sql: ${TABLE}.status ;;
   }
 
-  #filter: select_date_range {
-   # label: "GA4 Date Range"
-    #group_label: "Date Filter"
-    #view_label: "Datetime (of event)"
-    #type: date
-    #datatype: date
-    #convert_tz: yes
-  #}
+  filter: select_date_range {
+    label: "GA4/Transactional Date Range"
+    group_label: "Date Filter"
+    view_label: "Datetime (of event)"
+    type: date
+    datatype: date
+    convert_tz: yes
+  }
 
   dimension_group: time{
     group_label: "Time"
