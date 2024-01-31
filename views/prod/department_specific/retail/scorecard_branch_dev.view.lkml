@@ -21,116 +21,241 @@ view: scorecard_branch_dev {
   dimension: headcount_sum_12m   {
     type: number
     sql: ${TABLE}.headcount_sum_12m  ;;
+    value_format: "0.00"
   }
 
-  dimension: ltoPercent   {
+  dimension: lto_Percent   {
     type: number
     sql: ${TABLE}.ltoPercent  ;;
+    value_format: "0.00"
   }
 
-  dimension: trainingAvailable   {
+  dimension: training_Available   {
     type: number
     sql: ${TABLE}.trainingAvailable  ;;
+    value_format: "0.00"
   }
 
-  dimension: trainingCompleted   {
+  dimension: training_Completed   {
     type: number
     sql: ${TABLE}.trainingCompleted ;;
+    value_format: "0.00"
   }
 
-  dimension: trainingPercentCompleted  {
+  dimension: training_Percent_Completed  {
     type: number
     sql: ${TABLE}.trainingPercentCompleted  ;;
+    value_format: "0.00"
   }
 
   dimension: appraisals   {
     type: number
     sql: ${TABLE}.appraisals  ;;
+    value_format: "0.00"
   }
 
   dimension: colleagues   {
     type: number
     sql: ${TABLE}.colleagues  ;;
+    value_format: "0.00"
   }
 
-  dimension: appraisalPercent  {
+  dimension: appraisal_Percent  {
     type: number
     sql: ${TABLE}.appraisalPercent  ;;
+    value_format: "0.00"
   }
 
   dimension: apprenticeship  {
     type: number
     sql: ${TABLE}.apprenticeship   ;;
+    value_format: "0.00"
   }
 
-  dimension: operationalCompliance  {
+  dimension: operational_Compliance  {
     type: number
     sql: ${TABLE}.operationalCompliance ;;
+    value_format: "0.00"
   }
 
-  dimension: hsVisit  {
+  dimension: hs_Visit  {
     type: number
     sql: ${TABLE}.hsVisit  ;;
+    value_format: "0.00"
   }
 
-  dimension: rmVisit  {
+  dimension: rm_Visit  {
     type: number
     sql: ${TABLE}. rmVisit  ;;
+    value_format: "0.00"
   }
 
   dimension: Comp_Actual  {
     type: number
     sql: ${TABLE}.Comp_Actual  ;;
+    value_format: "0.00"
   }
 
   dimension: moves  {
     type: number
     sql: ${TABLE}.moves  ;;
+    value_format: "0.00"
   }
 
   dimension: units  {
     type: number
     sql: ${TABLE}.units  ;;
+    value_format: "0.00"
   }
 
   dimension: orders  {
     type: number
     sql: ${TABLE}.orders  ;;
+    value_format: "0.00"
   }
 
-  dimension: stockAccuracy  {
+  dimension: stock_Accuracy  {
     type: number
     sql: ${TABLE}.stockAccuracy  ;;
+    value_format: "0.00"
   }
 
-  dimension: branchNPS  {
+  dimension: branch_NPS  {
     type: number
     sql: ${TABLE}.branchNPS  ;;
+    value_format: "0.00"
   }
 
-  dimension: branchValued  {
+  dimension: branch_Valued  {
     type: number
     sql: ${TABLE}.branchValued  ;;
+    value_format: "0.00"
   }
 
-  dimension: totalValued  {
+  dimension: total_Valued  {
     type: number
     sql: ${TABLE}.totalValued  ;;
+    value_format: "0.00"
   }
 
   dimension: rating  {
     type: number
     sql: ${TABLE}.rating  ;;
+    value_format: "0.00"
   }
 
-  dimension: anonOrders  {
+  dimension: anon_Orders  {
     type: number
     sql: ${TABLE}.anonOrders  ;;
+    value_format: "0.00"
   }
 
-  dimension: totalOrders  {
+  dimension: total_Orders  {
     type: number
     sql: ${TABLE}.totalOrders  ;;
+    value_format: "0.00"
+  }
+
+  dimension: EbitL_TY  {
+    type: number
+    sql: ${TABLE}.EbitLTY  ;;
+    value_format: "0.00"
+  }
+
+  dimension: EbitL_LY  {
+    type: number
+    sql: ${TABLE}.EbitLLY  ;;
+    value_format: "0.00"
+  }
+
+  dimension: anon_Percent  {
+    type: number
+    sql: ${TABLE}.anonPercent  ;;
+    value_format: "0.00"
+  }
+
+  dimension: yoy_Frequency {
+    type: number
+    sql: ${TABLE}.yoyFrequency  ;;
+    value_format: "0.00"
+  }
+
+  dimension: customer_Retention  {
+    type: number
+    sql: ${TABLE}.customerRetention  ;;
+    value_format: "0.00"
+  }
+
+  dimension: trade_Account_Sales  {
+    type: number
+    sql: ${TABLE}.tradeAccountSales  ;;
+    value_format: "0.00"
+  }
+
+  dimension: net_Sales  {
+    type: number
+    sql: ${TABLE}.netSales  ;;
+    value_format: "0.00"
+  }
+
+  dimension: py_Units  {
+    type: number
+    sql: ${TABLE}.pyUnits  ;;
+    value_format: "0.00"
+  }
+
+  dimension: trade_Account_Participation  {
+    type: number
+    sql: ${TABLE}.tradeAccountParticipation  ;;
+    value_format: "0.00"
+  }
+
+  dimension: ty_Trade_Sales  {
+    type: number
+    sql: ${TABLE}.tyTradeSales  ;;
+    value_format: "0.00"
+  }
+
+  dimension: TY_Orders  {
+    type: number
+    sql: ${TABLE}.tyOrders  ;;
+    value_format: "0.00"
+  }
+
+  dimension: TY_AOV  {
+    type: number
+    sql: ${TABLE}.tyAOV  ;;
+    value_format: "0.00"
+  }
+
+  dimension: py_Sales  {
+    type: number
+    sql: ${TABLE}.pySales  ;;
+    value_format: "0.00"
+  }
+
+  dimension: py_Orders  {
+    type: number
+    sql: ${TABLE}.pyOrders  ;;
+    value_format: "0.00"
+  }
+
+  dimension: py_AOV  {
+    type: number
+    sql: ${TABLE}.pyAOV  ;;
+    value_format: "0.00"
+  }
+
+  dimension: target_AOV  {
+    type: number
+    sql: ${TABLE}.targetAOV  ;;
+    value_format: "0.00"
+  }
+
+  dimension: vs_Target_AOV  {
+    type: number
+    sql: ${TABLE}.vsTargetAOV  ;;
+    value_format: "0.00"
   }
 
 }
