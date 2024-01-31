@@ -270,49 +270,49 @@ view: scorecard_branch_dev {
     value_format: "0.00"
   }
 
-  dimension: hoursVsAOP  {
+  dimension: hours_Vs_AOP  {
     type: number
     sql: ${TABLE}.vsTargetAOV  ;;
     value_format: "0.00"
   }
 
-  dimension: lyActualHours  {
+  dimension: ly_Actual_Hours  {
     type: number
     sql: ${TABLE}.vsTargetAOV  ;;
     value_format: "0.00"
   }
 
-  dimension: labourT1T2Percent  {
+  dimension: labour_T1T2_Percent  {
     type: number
     sql: ${TABLE}.vsTargetAOV  ;;
     value_format: "0.00"
   }
 
-  dimension: labourT3Percent  {
+  dimension: labour_T3_Percent  {
     type: number
-    sql: ${TABLE}.vsTargetAOV  ;;
+    sql: ${TABLE}.labour_T3Percent  ;;
     value_format: "0.00"
   }
 
-  dimension: tyEBIT  {
+  dimension: ty_EBIT  {
     type: number
-    sql: ${TABLE}.vsTargetAOV  ;;
+    sql: ${TABLE}.tyEBIT  ;;
     value_format: "0.00"
   }
 
-  dimension: pyEBIT  {
+  dimension: py_EBIT  {
     type: number
-    sql: ${TABLE}.vsTargetAOV  ;;
+    sql: ${TABLE}.tyEBIT  ;;
     value_format: "0.00"
   }
 
-  dimension: vsPYEBIT  {
+  dimension: vs_PY_EBIT  {
     type: number
     sql: ${TABLE}.vsPYEBIT  ;;
     value_format: "0.00"
   }
 
-  dimension: prophixSales  {
+  dimension: prophix_Sales  {
     type: number
     sql: ${TABLE}.prophixSales  ;;
     value_format: "0.00"
@@ -324,31 +324,31 @@ view: scorecard_branch_dev {
     value_format: "0.00"
   }
 
-  dimension: varBudget  {
+  dimension: var_Budget  {
     type: number
     sql: ${TABLE}.varBudget  ;;
     value_format: "0.00"
   }
 
-  dimension: pyProphixSales  {
+  dimension: py_Prophix_Sales  {
     type: number
     sql: ${TABLE}.pyProphixSales  ;;
     value_format: "0.00"
   }
 
-  dimension: varPYNetSales  {
+  dimension: var_PY_Net_Sales  {
     type: number
     sql: ${TABLE}.varPYNetSales  ;;
     value_format: "0.00"
   }
 
-  dimension: varPYSalesPercent  {
+  dimension: var_PY_Sales_Percent  {
     type: number
     sql: ${TABLE}.varPYSalesPercent  ;;
     value_format: "0.00"
   }
 
-  dimension: AvgSellingPriceImprov  {
+  dimension: Avg_Selling_Price_Improv  {
     type: number
     sql: ${TABLE}.AvgSellingPriceImprov  ;;
     value_format: "0.00"
