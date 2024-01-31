@@ -27,7 +27,7 @@ group by 2,3,4,5,6,7,8,9),
 PDP as (select distinct platform, session_id as PDP_session_id, item_id,min(MinTime) as PDP_time
 from sub1 where screen in ("PDP") and event_name in ("view_item") group by 1,2,3),
 
-ATC as (select distinct session_id as atc_session_id, item_id,min(MinTime) as atc_time from sub1 where event_name in ("add_to_cart") and screen in ("PDP") group by 1,2),
+ATC as (select distinct session_id as atc_session_id, item_id,min(MinTime) as atc_time from sub1 where event_name in ("add_to_cart") group by 1,2),
 
 purchase as (select distinct session_id as purchase_session_id,item_id, min(MinTime) as purchase_time, rev, Qu, OrderID from sub1 where event_name in ("purchase", "Purchase") group by 1,2,4,5,6),
 
