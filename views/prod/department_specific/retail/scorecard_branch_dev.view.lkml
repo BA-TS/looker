@@ -6,7 +6,7 @@ view: scorecard_branch_dev {
     type: string
     view_label: "Date"
     label: "Year Month (yyyymm)"
-    sql: ${TABLE}.month ;;
+    sql: CAST(${TABLE}.month AS string);;
     hidden: yes
   }
 
@@ -14,7 +14,7 @@ view: scorecard_branch_dev {
     type: string
     view_label: "Site Information"
     label: "Site UID"
-    sql: ${TABLE}.Shop_code ;;
+    sql: ${TABLE}.siteUID ;;
     hidden: yes
   }
 

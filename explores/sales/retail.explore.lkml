@@ -3,7 +3,7 @@ include: "/views/**/*.view"
 explore: retail {
   view_name: google_reviews
   required_access_grants: [lz_testing]
-  label: "Retail"
+  label: "Retail Scorecard"
 
   fields: [
     ALL_FIELDS*,
@@ -78,11 +78,11 @@ explore: retail {
   #   sql_on:${foh_master_products_2024.siteUID} =${sites.site_uid} and ${calendar_completed_date.fiscal_year_week}=${foh_master_products_2024.Week}  ;;
   # }
 
-  # join: scorecard_branch_dev {
-  #   view_label: "FOH Location"
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on:${scorecard_branch_dev.siteUID} =${sites.site_uid} and ${calendar_completed_date.fiscal_year_week}=${foh_master_products_2024.Week}  ;;
-  # }
+  join: scorecard_branch_dev {
+    view_label: "Scorecard Dev"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:${scorecard_branch_dev.siteUID} =${sites.site_uid} and ${google_reviews.month}=${scorecard_branch_dev.month}  ;;
+  }
 
 }
