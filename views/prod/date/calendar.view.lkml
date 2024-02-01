@@ -353,7 +353,7 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
   dimension: field_to_hide {
     type: date
     hidden: yes
-    sql: timestamp(${TABLE}.fullDate) ;;
+    sql: ${date} ;;
   }
 
   filter: filter_on_field_to_hide {
