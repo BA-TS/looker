@@ -351,9 +351,11 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
   }
 
   dimension: field_to_hide {
+    group_label: "Dates"
+    label: "Date (dd/mm/yyyy)"
     type: date
-    hidden: yes
-    sql: ${date} ;;
+    sql: timestamp(${TABLE}.fullDate) ;;
+    html: {{ rendered_value | date: "%d/%m/%Y" }};;
   }
 
   filter: filter_on_field_to_hide {
