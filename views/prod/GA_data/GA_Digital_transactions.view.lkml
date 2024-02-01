@@ -114,6 +114,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     view_label: "GA4"
     label: "Channel Groupv2"
     group_label: "Traffic Source"
+    hidden: yes
     type: string
     sql: ${TABLE}.channel_groupingv2 ;;
   }
@@ -345,14 +346,14 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     #convert_tz: yes
   #}
 
-  filter: select_date_range {
+ # filter: select_date_range {
     #view_label: "Datetime (of event)"
-    label: "GA4/Transactional Date Range"
-    group_label: "Date Filter"
-    view_label: "Datetime (of event)"
-    type: date
-    sql: ${calendar_completed_date.date} timestamp(${date_date}) ;;
-  }
+  #  label: "GA4/Transactional Date Range"
+   # group_label: "Date Filter"
+    #view_label: "Datetime (of event)"
+    #type: date
+    #sql: ${calendar_completed_date.filter_on_field_to_hide} timestamp(${date_date}) {{ endcondition }};;
+  #}
 
   dimension_group: daert {
     label: "TEST"

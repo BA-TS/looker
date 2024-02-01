@@ -350,12 +350,18 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
     sql: ${week_in_year} ;;
   }
 
+  dimension: field_to_hide {
+    type: date
+    hidden: yes
+    sql: timestamp(${TABLE}.fullDate) ;;
+  }
+
   filter: filter_on_field_to_hide {
     #view_label: "Datetime (of event)"
     label: "Date"
     group_label: "Date Filter"
     type: date
-    sql: {% condition filter_on_field_to_hide %} timestamp(${date}) {% endcondition %} ;;
+    sql: {% condition filter_on_field_to_hide %} field_to_hide {% endcondition %} ;;
   }
 
 }
