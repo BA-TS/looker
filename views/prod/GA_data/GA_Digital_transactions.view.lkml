@@ -357,6 +357,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
 
   dimension_group: daert {
     label: "TEST"
+    hidden: yes
     type: time
     timeframes: [date,raw]
     sql: ${calendar_completed_date.date} ;;
