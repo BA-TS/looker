@@ -364,7 +364,7 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
     label: "Date"
     group_label: "Date Filter"
     type: date
-    sql: {% condition filter_on_field_to_hide %} field_to_hide {% endcondition %} ;;
+    sql: {% condition filter_on_field_to_hide %} timestamp(field_to_hide) {% endcondition %} ;;
   }
 
 }
