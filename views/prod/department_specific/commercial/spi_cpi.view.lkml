@@ -61,6 +61,13 @@ view: spi_cpi{
     sql: ${TABLE}.promo_ly=1 ;;
   }
 
+  dimension: promo_nonpromo_cyly {
+    type: yesno
+    label: "Both Promos or Non Promos CY and LY"
+    sql:
+    (${TABLE}.promo_cy=1 and ${TABLE}.promo_ly=1) OR (${TABLE}.promo_cy=0 and ${TABLE}.promo_ly=0);;
+  }
+
   dimension: SPI_abs {
     type: number
     sql: ${TABLE}.SPI_abs;;
