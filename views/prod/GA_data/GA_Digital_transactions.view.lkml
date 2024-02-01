@@ -351,7 +351,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     group_label: "Date Filter"
     view_label: "Datetime (of event)"
     type: date
-    sql: {% condition select_date_range %} timestamp(${date_date}) {% endcondition %} ;;
+    sql: ${calendar_completed_date.date} timestamp(${date_date}) ;;
   }
 
   dimension_group: daert {
