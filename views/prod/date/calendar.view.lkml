@@ -2,6 +2,7 @@ view: calendar {
   derived_table: {
     sql:
     select distinct * except(fiscalYearWeek), cast(fiscalYearWeek as string) as fiscalYearWeek,
+fullDate as field_to_hide,
 current_date() as todayFullDate,
 (select dateName from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayDateName,
 (select dateNameUSA from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaydateNameUSA,
@@ -354,8 +355,8 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
     group_label: "Dates"
     label: "HIDE"
     type: date
-    sql: timestamp(${TABLE}.fullDate) ;;
-    html: {{ rendered_value | date: "%d/%m/%Y" }};;
+    sql: timestamp(${TABLE}.field_to_hide) ;;
+    #html: {{ rendered_value | date: "%d/%m/%Y" }};;
   }
 
   filter: filter_on_field_to_hide {
