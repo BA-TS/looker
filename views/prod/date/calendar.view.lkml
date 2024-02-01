@@ -354,6 +354,7 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
   dimension: field_to_hide {
     group_label: "Dates"
     label: "HIDE"
+    hidden: yes
     type: date
     sql: timestamp(${TABLE}.field_to_hide) ;;
     #html: {{ rendered_value | date: "%d/%m/%Y" }};;
