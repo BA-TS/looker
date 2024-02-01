@@ -333,6 +333,24 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
     hidden: yes
   }
 
+  measure: distinct_year_count {
+    view_label: "Measures"
+    group_label: "Other Metrics"
+    label: "Number of Distinct Years"
+    required_access_grants: [lz_testing]
+    type: count_distinct
+    sql: ${calendar_year} ;;
+  }
+
+  measure: distinct_year_month_count {
+    view_label: "Measures"
+    group_label: "Other Metrics"
+    label: "Number of Distinct Year Months"
+    required_access_grants: [lz_testing]
+    type: count_distinct
+    sql: ${calendar_year_month} ;;
+  }
+
   measure: distinct_month_count {
     view_label: "Measures"
     group_label: "Other Metrics"
