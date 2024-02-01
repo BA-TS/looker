@@ -22,4 +22,11 @@ explore: GA4_test {
           ${ga_digital_transactions.channel_Group} = ${total_sessions_ga4_dt.channel_grouping};;
   }
 
+  join: calendar_completed_date {
+    from: calendar
+    relationship: one_to_many
+    type: inner
+    sql_on: ${ga_digital_transactions.date_date} = ${calendar_completed_date.date} ;;
+  }
+
 }

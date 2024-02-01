@@ -354,6 +354,13 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     sql: {% condition select_date_range %} timestamp(${date_date}) {% endcondition %} ;;
   }
 
+  dimension_group: daert {
+    label: "TEST"
+    type: time
+    timeframes: [date,raw]
+    sql: ${calendar_completed_date.date} ;;
+  }
+
 
   dimension_group: time{
     group_label: "Time"
