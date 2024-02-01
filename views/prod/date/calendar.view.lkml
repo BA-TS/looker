@@ -346,7 +346,7 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
     view_label: "Measures"
     group_label: "Other Metrics"
     label: "Number of Distinct Year Months"
-    required_access_grants: [lz_testing]
+    required_access_grants: [retail_testing]
     type: count_distinct
     sql: ${calendar_year_month} ;;
   }
