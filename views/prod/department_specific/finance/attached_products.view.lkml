@@ -12,7 +12,7 @@ view: attached_products {
      from `toolstation-data-storage.sales.transactions` t
         inner join `toolstation-data-storage.range.products_current` p
           using(productUID)
-    where  p.productCode not in ("85699","44842") ;;
+    where  p.productCode not in ("85699","44842","00053") ;;
     datagroup_trigger: ts_transactions_datagroup
   }
 

@@ -27,7 +27,7 @@ from `toolstation-data-storage.sales.transactions`
 where
 --date_diff(current_date (),date(transactionDate), day) <= 500 and
 --transactionLineType = "Sale" and
-productCode not in ('85699','00053') and
+productCode not in ('85699','00053','44842') and
 isCancelled = 0  and
 (userUID  = 'APP')
 group by 1,2,3,4,5,6,7,8,9
@@ -56,7 +56,7 @@ from `toolstation-data-storage.sales.transactions`
 where
 --date_diff(current_date (),date(transactionDate), day) <= 500 and
 --transactionLineType = "Sale" and
-productCode not in ('85699','00053') and
+productCode not in ('85699','00053','44842') and
 isCancelled = 0 and
 (userUID  = 'WWW')
 group by 1,2,3,4,5,6,7,8,9
@@ -83,7 +83,7 @@ sum(marginExclFunding) as marginExclFunding
 from `toolstation-data-storage.sales.transactions_incomplete`
 where
 --transactionLineType = "Sale" and
-productCode not in ('85699','00053') and
+productCode not in ('85699','00053','44842') and
 (userUID  = 'APP')
 group by 1,2,3,4,5,6,7,8,9
 union distinct
@@ -109,7 +109,7 @@ sum(marginExclFunding) as marginExclFunding
 from `toolstation-data-storage.sales.transactions_incomplete`
 where
 --transactionLineType = "Sale" and
-productCode not in ('85699','00053') and
+productCode not in ('85699','00053','44842') and
 (userUID  = 'WWW')
 group by 1,2,3,4,5,6,7,8,9
 ) )
