@@ -10,6 +10,7 @@ view: spi_cpi{
     dims.promo_ly as promo_ly,
     metrics.SPI_abs as SPI_abs,
     metrics.SPI_abs2 as SPI_abs2,
+    metrics.SPI_abs3 as SPI_abs3,
     metrics.cy_netSales as cy_netSales,
     metrics.ly_netSales as ly_netSales,
     metrics.cy_unitsSOLD as cy_unitsSOLD,
