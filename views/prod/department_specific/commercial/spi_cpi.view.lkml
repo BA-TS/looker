@@ -237,7 +237,7 @@ view: spi_cpi{
   measure: AAC_CPI_abs2_total {
     type: sum
     group_label: "CPI"
-    label: "AAC CPI New"
+    label: "AAC CPI LY Vol"
     sql: ${AAC_CPI_abs2};;
     value_format: "0.00"
   }
