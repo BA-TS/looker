@@ -8,9 +8,6 @@ view: spi_cpi{
     dims.promo as promo,
     dims.promo_cy as promo_cy,
     dims.promo_ly as promo_ly,
-    metrics.SPI_abs as SPI_abs,
-    metrics.SPI_abs2 as SPI_abs2,
-    metrics.SPI_abs3 as SPI_abs3,
     metrics.cy_netSales as cy_netSales,
     metrics.ly_netSales as ly_netSales,
     metrics.cy_unitsSOLD as cy_unitsSOLD,
@@ -21,6 +18,11 @@ view: spi_cpi{
     metrics.cy_ccp_cogs as cy_ccp_cogs,
     metrics.aac_comparator as aac_comparator,
     metrics.SPI_comparator as SPI_comparator,
+    metrics.SPI_abs as SPI_abs,
+    metrics.SPI_abs2 as SPI_abs2,
+    metrics.SPI_abs3 as SPI_abs3,
+    metrics.AAC_CPI_abs as AAC_CPI_abs,
+    metrics.AAC_CPI_abs2 as AAC_CPI_abs2,
     row_number() OVER(ORDER BY dims.productCode) AS prim_key
     FROM `toolstation-data-storage.financeReporting.DS_DAILY_SPI_CPI`;;
   }
@@ -94,6 +96,18 @@ view: spi_cpi{
   dimension: SPI_abs3 {
     type: number
     sql: ${TABLE}.SPI_abs3;;
+    hidden: yes
+  }
+
+  dimension: AAC_CPI_abs {
+    type: number
+    sql: ${TABLE}.AAC_CPI_abs;;
+    hidden: yes
+  }
+
+  dimension: AAC_CPI_abs2 {
+    type: number
+    sql: ${TABLE}.AAC_CPI_abs2;;
     hidden: yes
   }
 
@@ -183,6 +197,7 @@ view: spi_cpi{
 
   measure: SPI_comparator_total {
     type: sum
+    group_label: "SPI"
     label: "SPI Comparator"
     sql: ${SPI_comparator};;
     value_format: "0.00;"
@@ -190,6 +205,7 @@ view: spi_cpi{
 
   measure: SPI_total {
     type: sum
+    group_label: "SPI"
     label: "SPI"
     sql: ${SPI_abs};;
     value_format: "0.00"
@@ -197,14 +213,32 @@ view: spi_cpi{
 
   measure: SPI_total2 {
     type: sum
-    label: "SPI_New"
+    group_label: "SPI"
+    label: "SPI New"
     sql: ${SPI_abs2};;
     value_format: "0.00"
   }
 
   measure: SPI_LY_VOL {
     type: sum
+    group_label: "SPI"
     sql: ${SPI_abs3};;
+    value_format: "0.00"
+  }
+
+  measure: AAC_CPI_abs_total {
+    type: sum
+    group_label: "CPI"
+    label: "AAC CPI"
+    sql: ${AAC_CPI_abs};;
+    value_format: "0.00"
+  }
+
+  measure: AAC_CPI_abs2_total {
+    type: sum
+    group_label: "CPI"
+    label: "AAC CPI New"
+    sql: ${AAC_CPI_abs2};;
     value_format: "0.00"
   }
 
