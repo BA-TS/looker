@@ -680,7 +680,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     group_label: "Product Details"
     hidden: yes
     label: "Product Code"
-    sql: ${TABLE}.item_id ;;
+    sql: case when ${TABLE}.item_id in ('44842') then 'null' else ${TABLE}.item_id end;;
   }
 
   dimension: item_Category {
