@@ -16,6 +16,8 @@ view: spi_cpi{
     metrics.ly_unitPRICE as ly_unitPRICE,
     metrics.cy_aac_cogs as cy_aac_cogs,
     metrics.ly_aac_cogs as ly_aac_cogs,
+    metrics.cy_aac_unit_cogs as cy_aac_unit_cogs,
+    metrics.ly_aac_unit_cogs as ly_aac_unit_cogs,
     metrics.cy_ccp_cogs as cy_ccp_cogs,
     metrics.ly_ccp_cogs as ly_ccp_cogs,
     metrics.aac_comparator as aac_comparator,
@@ -161,6 +163,18 @@ view: spi_cpi{
     hidden: yes
   }
 
+  dimension: cy_aac_unit_cogs {
+    type: number
+    sql: ${TABLE}.cy_aac_unit_cogs;;
+    hidden: yes
+  }
+
+  dimension: ly_aac_unit_cogs {
+    type: number
+    sql: ${TABLE}.ly_aac_unit_cogs;;
+    hidden: yes
+  }
+
   dimension: cy_ccp_cogs {
     type: number
     sql: ${TABLE}.cy_ccp_cogs;;
@@ -285,6 +299,22 @@ view: spi_cpi{
     group_label: "LY"
     sql:  COALESCE(SAFE_DIVIDE(${ly_netSales_total}, ${ly_unitsSOLD_total}),0) ;;
     label: "LY Unit Price"
+    value_format: "0.00"
+  }
+
+  measure: cy_aac_unit_cogs_ {
+    type: number
+    group_label: "CY"
+    sql:  COALESCE(SAFE_DIVIDE(${cy_aac_cogs_total}, ${cy_unitsSOLD_total}),0) ;;
+    label: "CY Unit COGs (AAC)"
+    value_format: "0.00"
+  }
+
+  measure: ly_aac_unit_cogs_ {
+    type: number
+    group_label: "LY"
+    label: "LY Unit COGs (AAC)"
+    sql:  COALESCE(SAFE_DIVIDE(${ly_aac_cogs_total}, ${ly_unitsSOLD_total}),0) ;;
     value_format: "0.00"
   }
 
