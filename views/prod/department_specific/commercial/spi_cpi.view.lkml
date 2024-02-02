@@ -257,7 +257,7 @@ view: spi_cpi{
   measure: AAC_CPI_abs_total {
     type: sum
     group_label: "CPI"
-    label: "AAC CPI(TY Vol)"
+    label: "AAC CPI (TY Vol)"
     sql: ${AAC_CPI_abs};;
     value_format: "0.00"
   }
@@ -265,7 +265,7 @@ view: spi_cpi{
   measure: AAC_CPI_abs2_total {
     type: sum
     group_label: "CPI"
-    label: "AAC CPI(LY Vol)"
+    label: "AAC CPI (LY Vol)"
     sql: ${AAC_CPI_abs2};;
     value_format: "0.00"
   }
