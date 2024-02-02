@@ -89,6 +89,12 @@ view: spi_cpi{
     hidden: yes
   }
 
+  dimension: SPI_abs3 {
+    type: number
+    sql: ${TABLE}.SPI_abs3;;
+    hidden: yes
+  }
+
   dimension: cy_netSales {
     type: number
     sql: ${TABLE}.cy_netSales;;
@@ -177,6 +183,12 @@ view: spi_cpi{
     type: sum
     label: "SPI_New"
     sql: ${SPI_abs2};;
+    value_format: "0.00"
+  }
+
+  measure: SPI_LY_VOL {
+    type: sum
+    sql: ${SPI_abs3};;
     value_format: "0.00"
   }
 
