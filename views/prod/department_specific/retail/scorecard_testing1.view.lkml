@@ -4,24 +4,23 @@ view: scorecard_testing1 {
 
   dimension: siteUID {
     type: string
-    view_label: "Site Information"
-    label: "Site UID"
+    view_label: "Scorecard testing"
     sql: ${TABLE}.siteUID ;;
     hidden: yes
   }
 
   dimension: customerUID {
     type: string
-    view_label: "Site Information"
-    label: "Site UID"
-    sql: ${TABLE}.siteUID ;;
+    view_label: "Scorecard testing"
+    sql: ${TABLE}.customerUID ;;
+    label: "customer UID retention"
     hidden: yes
   }
 
-  dimension: customer_ty_ly_flag {
+  dimension: customer_tyly_flag {
     required_access_grants: [retail_testing]
     type: yesno
-    view_label: "Site Information"
+    view_label: "Scorecard testing"
     sql: ${customerUID} is not null ;;
   }
 
