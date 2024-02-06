@@ -1,6 +1,6 @@
 view: calendar_ga {
   extension: required
-  view_label: "Session1"
+  view_label: "Session"
 
   dimension_group: current {
     description: "Current Timestamp reference field"

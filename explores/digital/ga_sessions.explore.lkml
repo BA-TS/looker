@@ -15,7 +15,8 @@ explore: ga_sessions {
       ga_pop.select_date_range: "Yesterday"
     ]
     unless: [
-      ga_pop.select_fixed_range
+      ga_pop.select_fixed_range,
+      filter_on_field_to_hide
     ]
   }
 
