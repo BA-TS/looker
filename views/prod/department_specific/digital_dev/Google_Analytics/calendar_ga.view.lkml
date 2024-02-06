@@ -149,4 +149,21 @@ view: calendar_ga {
           ELSE False
         END;;
   }
+
+  dimension: field_to_hide {
+    group_label: "Dates"
+    label: "HIDE"
+    hidden: yes
+    type: date
+    sql: ${visit_start_date} ;;
+    #html: {{ rendered_value | date: "%d/%m/%Y" }};;
+  }
+
+  filter: filter_on_field_to_hide {
+    #view_label: "Datetime (of event)"
+    label: "Date"
+    group_label: "Date Filter"
+    type: date
+    sql: {% condition filter_on_field_to_hide %} timestamp(field_to_hide) {% endcondition %} ;;
+  }
 }
