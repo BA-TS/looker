@@ -155,7 +155,7 @@ group by 2,3,4,5,6,8,9,10,11,12,13,14,15,16,17;;
       }
 
       dimension: OrderID {
-        hidden: yes
+        label: "Transaction ID"
         description: "transaction ID"
         type:string
         sql: ${TABLE}.OrderID ;;
