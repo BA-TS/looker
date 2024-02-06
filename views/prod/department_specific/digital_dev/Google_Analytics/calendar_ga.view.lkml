@@ -153,7 +153,6 @@ view: calendar_ga {
   dimension: field_to_hide {
     group_label: "Dates"
     label: "HIDE"
-    hidden: yes
     type: date
     sql: ${visit_start_date} ;;
     #html: {{ rendered_value | date: "%d/%m/%Y" }};;
