@@ -9,7 +9,6 @@ view: ds_assumed_trade{
   }
 
   dimension: year {
-    label: "Probability"
     type:  number
     sql:${TABLE}.year_2023;;
     hidden: yes
@@ -24,6 +23,5 @@ view: ds_assumed_trade{
   dimension: final_prediction {
     type:  string
     sql:${TABLE}.prediction_2023;;
-    hidden: yes
   }
 }

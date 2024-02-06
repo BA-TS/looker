@@ -455,6 +455,16 @@ explore: base {
   #   sql_on: ${customers.customer_uid} = ${assumed_trade_dataiku.customer_uid} ;;
   # }
 
+  join: ds_assumed_trade {
+    required_access_grants:[lz_testing]
+    view_label: "Customer Classification"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${customers.customer_uid} = ${ds_assumed_trade.customer_uid}
+    and ${calendar_completed_date.calendar_year} = ${ds_assumed_trade.year}
+    ;;
+  }
+
   join: assumed_trade_measures {
     required_access_grants:[lz_testing]
     view_label: "Customer Classification"
