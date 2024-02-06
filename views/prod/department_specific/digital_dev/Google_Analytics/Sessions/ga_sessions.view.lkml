@@ -411,4 +411,10 @@ view: ga_sessions {
     value_format_name: decimal_0
     drill_fields: [client_id, account.id, visit_number, hits_total, page_views_total, time_on_site_total]
   }
+
+  dimension: feild_to_hide {
+    type: date
+    label: "Hide"
+    sql: ${TABLE}.feild_to_hide ;;
+  }
 }
