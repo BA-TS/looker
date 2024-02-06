@@ -380,17 +380,11 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
 
   filter: filter_on_field_to_hide {
     #view_label: "Datetime (of event)"
-    label: "{% if _explore._name == 'ga_sessions' %}
-      {% else %}
-      Date
-      {% endif %}"
-    group_label: "{% if _explore._name == 'ga_sessions' %}
-      {% else %}
-      Date Filter
-      {% endif %}"
+    label: "Date"
+    group_label: "Date Filter"
 
     type: date
-    sql: {% condition filter_on_field_to_hide %} timestamp(${date}) {% endcondition %} ;;
+    sql: {% condition filter_on_field_to_hide %} timestamp(field_to_hide) {% endcondition %} ;;
   }
 
 }

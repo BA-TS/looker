@@ -90,6 +90,7 @@ explore: ga_sessions {
     relationship: one_to_one
     sql:LEFT JOIN UNNEST(${ga_sessions.custom_variables}) AS custom_variables ;;
   }
+
 }
 
 
