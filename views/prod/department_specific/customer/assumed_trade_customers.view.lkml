@@ -18,6 +18,7 @@ view: assumed_trade_customers {
     label: "Is Assumed Trade"
     type:  yesno
     sql:${assumed_trade_customers.customer_uid} is not null;;
+    hidden: yes
   }
 
 }

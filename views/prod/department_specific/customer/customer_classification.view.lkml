@@ -21,6 +21,7 @@ view: customer_classification {
   dimension: customer_type {
     type: string
     sql: ${TABLE}.customer_type ;;
+    hidden: yes
   }
 
   # dimension: customer_type2 {

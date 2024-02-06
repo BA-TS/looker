@@ -10,18 +10,26 @@ view: ds_assumed_trade{
 
   dimension: year {
     type:  number
-    sql:${TABLE}.year_2023;;
+    sql: 2023;;
     hidden: yes
   }
 
-  dimension: mean_proba_Yes_final {
-    label: "Assumed Trade Probability"
+  dimension: proba_Yes_final {
+    label: "Probability"
     type:  number
     sql: coalesce(proba_Yes_2023,0);;
   }
 
   dimension: final_prediction {
-    type:  string
-    sql:${TABLE}.prediction_2023;;
+    type:  yesno
+    label: "Is Assumed Trade"
+    sql:${TABLE}.prediction_2023 = true;;
   }
+
+  measure: mean_proba_Yes_final {
+    label: "Probability - Mean "
+    type:  average
+    sql:${proba_Yes_final} ;;
+  }
+
 }
