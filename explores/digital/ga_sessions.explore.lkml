@@ -21,13 +21,6 @@ explore: ga_sessions {
 
   join: ga_pop {}
 
-  join: calendar {
-    view_label: ""
-    type: inner
-    sql_on: ${ga_sessions.visit_start_date} = ${calendar.date} ;;
-    relationship: many_to_one
-  }
-
   join: audience_cohorts {
     type: left_outer
     sql_on:
