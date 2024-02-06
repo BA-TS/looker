@@ -461,8 +461,10 @@ explore: base {
     type: left_outer
     relationship: many_to_one
     sql_on: ${customers.customer_uid} = ${ds_assumed_trade.customer_uid}
-    and ${calendar_completed_date.calendar_year} = ${ds_assumed_trade.year}
+
     ;;
+        # and ${base.date_date} > ${ds_assumed_trade.}
+        # and ${calendar_completed_date.calendar_year} = ${ds_assumed_trade.year}
   }
 
   join: assumed_trade_measures {

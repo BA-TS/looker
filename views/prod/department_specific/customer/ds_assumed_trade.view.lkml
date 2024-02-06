@@ -14,6 +14,12 @@ view: ds_assumed_trade{
     hidden: yes
   }
 
+  dimension: today_last_year {
+    required_access_grants: [lz_testing]
+    type:  date
+    sql: current_Date()-365;;
+  }
+
   dimension: proba_Yes_final {
     label: "Probability"
     type:  number

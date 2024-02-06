@@ -8,7 +8,6 @@ view: assumed_trade_customers {
     sql: ${TABLE}.CustomerUID ;;
     label: "customerUid_test"
     hidden: yes
-
   }
 
   dimension: is_assumed_trade_customer {
