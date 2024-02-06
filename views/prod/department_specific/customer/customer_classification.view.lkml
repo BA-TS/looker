@@ -23,11 +23,11 @@ view: customer_classification {
     sql: ${TABLE}.customer_type ;;
   }
 
-  dimension: customer_type2 {
-    type: string
-    required_access_grants: [lz_testing]
-    sql: ${TABLE}.customer_type2;;
-  }
+  # dimension: customer_type2 {
+  #   type: string
+  #   required_access_grants: [lz_testing]
+  #   sql: ${TABLE}.customer_type2;;
+  # }
 
   dimension: customer_uid {
     type: string

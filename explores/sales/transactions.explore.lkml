@@ -447,13 +447,13 @@ explore: base {
     sql_on: ${customers.customer_uid} = ${rakuten_analysis_0112.customerUID} and ${transactions.parent_order_uid} = ${rakuten_analysis_0112.parent_order_UID};;
   }
 
-  join: assumed_trade_dataiku {
-    required_access_grants:[lz_testing]
-    view_label: "Customer Classification"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${customers.customer_uid} = ${assumed_trade_dataiku.customer_uid} ;;
-  }
+  # join: assumed_trade_dataiku {
+  #   required_access_grants:[lz_testing]
+  #   view_label: "Customer Classification"
+  #   type: left_outer
+  #   relationship: many_to_one
+  #   sql_on: ${customers.customer_uid} = ${assumed_trade_dataiku.customer_uid} ;;
+  # }
 
   join: assumed_trade_measures {
     required_access_grants:[lz_testing]
