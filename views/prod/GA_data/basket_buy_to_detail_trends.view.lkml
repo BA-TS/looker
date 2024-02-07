@@ -131,7 +131,7 @@ view: basket_buy_to_detail_trends {
     label: "Unique page views"
     type: count_distinct
     sql: ${TABLE}.session_id ;;
-    filters: [event_name: "page_view OR screen_view"]
+    filters: [event_name: "page_view, screen_view"]
   }
 
   measure: total_page_views {
@@ -140,7 +140,7 @@ view: basket_buy_to_detail_trends {
     label: "Total page views"
     type: sum
     sql: ${TABLE}.events;;
-    filters: [event_name: "page_view OR screen_view"]
+    filters: [event_name: "page_view, screen_view"]
   }
 
   measure: add_to_cart_sessions {
