@@ -125,6 +125,24 @@ view: basket_buy_to_detail_trends {
     filters: [event_name: "view_item", screen_name: "product-detail-page",bounce_def: "1"]
     }
 
+  measure: unique_page_views {
+    description: "Sessions with page view"
+    group_label: "Page"
+    label: "Unique page views"
+    type: count_distinct
+    sql: ${TABLE}.session_id ;;
+    filters: [event_name: "page_view OR screen_view"]
+  }
+
+  measure: total_page_views {
+    description: "page view events"
+    group_label: "Page"
+    label: "Total page views"
+    type: sum
+    sql: ${TABLE}.events;;
+    filters: [event_name: "page_view OR screen_view"]
+  }
+
   measure: add_to_cart_sessions {
     description: "Add to Cart Sessions"
     group_label: "Add to Cart"
