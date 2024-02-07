@@ -165,7 +165,7 @@ select distinct row_number() over () as P_K, * from sub2
 
   measure: Page_to_purchase_sessions {
     view_label: "Page to Purchase Funnel"
-    label: "ATC to Purchase sessions"
+    label: "Page to Purchase sessions"
     type: count_distinct
     sql: ${purchase_session_id};;
     filters: [page_session_id: "-NULL", atc_session_id: "-NULL",page_ATC_seconds: ">0", ATC_purchase_seconds: ">0"]
