@@ -11,6 +11,7 @@
 
 include: "ga_sessions.view.lkml"
 include: "/views/prod/department_specific/digital_dev/Google_Analytics/hits.view.lkml"
+include: "/views/prod/department_specific/digital_dev/Google_Analytics/Custom_Views/goals.view.lkml"
 view: ga_sessions_partition_date {
   extension: required
 
