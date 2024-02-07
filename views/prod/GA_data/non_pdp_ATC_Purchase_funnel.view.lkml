@@ -88,6 +88,8 @@ select distinct row_number() over () as P_K, * from sub2
   }
 
   dimension: screen {
+    view_label: "Page to Purchase Funnel"
+    label: "Screen type"
     type: string
     sql: ${TABLE}.Screen ;;
   }
