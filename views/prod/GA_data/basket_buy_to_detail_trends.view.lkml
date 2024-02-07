@@ -54,9 +54,9 @@ view: basket_buy_to_detail_trends {
   }
 
   dimension: screen_name {
-    hidden: yes
+    label: "page"
     type: string
-    sql: ${TABLE}.screen_name ;;
+    sql: case when ${TABLE}.screen_name LIKE '%| Search |%' then 'search-page' else ${TABLE}.screen_name end;;
   }
 
   dimension: item_id {
