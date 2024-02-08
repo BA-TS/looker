@@ -156,7 +156,7 @@ explore: GA4_test {
     type: left_outer
     relationship: many_to_one
     sql_on: ${calendar_completed_date.date} = ${non_pdp_atc_purchase_funnel.date_date}
-      and ((case when ${non_pdp_atc_purchase_funnel.item_id} is null or length(${non_pdp_atc_purchase_funnel.item_id}) != 5 then "null" else ${non_pdp_atc_purchase_funnel.item_id} end) = ${products.product_code});;
+      ;;
   }
 
 
