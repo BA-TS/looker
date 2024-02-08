@@ -1,7 +1,6 @@
 view: non_pdp_atc_purchase_funnel {
   derived_table: {
     sql:with sub1 as (SELECT distinct min(timestamp_sub(MinTime, interval 1 HOUR)) as minTime, session_id, event_name,
-#page_location,
 case
 when Screen_name in ("product-detail-page") and event_name in ("view_item") and platform in ("Web") then "PDP"
 when Screen_name in ("product-detail-page") and event_name in ("view_item") and platform in ("App") then "PDP"
@@ -22,29 +21,30 @@ and
       item_id is null))
 group by 2,3,4,5,6,7,8,9),
 
-#products as (select distinct productStartDate,activeTo,productCode from `toolstation-data-storage.range.products_current`),
-
-
-PDP as (select distinct platform, session_id as PDP_session_id, item_id,min(MinTime) as PDP_time
-from sub1 where screen in ("PDP") and event_name in ("view_item") group by 1,2,3),
+#PDP as (select distinct platform, session_id as PDP_session_id, item_id,min(MinTime) as PDP_time
+#from sub1 where screen in ("PDP") and event_name in ("view_item") group by 1,2,3),
 
 non_pdp as (
 select distinct platform, session_id as page_session_id, screen,min(MinTime) as Page_time
 from sub1
-where screen not in ("product-detail-page") and event_name in ("page_view", "screen_view") group by 1,2,3)
+where
+#screen not in ("product-detail-page") and
+event_name in ("page_view", "screen_view") group by 1,2,3)
 ,
 
 ATC as (
-select distinct session_id as atc_session_id, PDP_session_id,item_id,screen,min(MinTime) as atc_time
+select distinct session_id as atc_session_id,
+#PDP_session_id,
+item_id,screen,min(MinTime) as atc_time
 from sub1
-left join (SELECT distinct PDP_session_id, item_id as pdp_item_id from PDP) on session_id = PDP_session_id and item_id = pdp_item_id
-where event_name in ("add_to_cart") and PDP_session_id is null
-group by 1,2,3,4),
+#left join (SELECT distinct PDP_session_id, item_id as pdp_item_id from PDP) on session_id = PDP_session_id and item_id = pdp_item_id
+where event_name in ("add_to_cart")
+#and PDP_session_id is null
+group by 1,2,3),
 
 purchase as (select distinct session_id as purchase_session_id,item_id, min(MinTime) as purchase_time, rev, Qu, OrderID from sub1 where event_name in ("purchase", "Purchase") group by 1,2,4,5,6),
 
 sub2 as (SELECT distinct
-#row_number() over () as P_K,
 extract(date from coalesce(non_pdp.page_time,ATC.atc_time,purchase.purchase_time)) as date,
 non_pdp.screen,
 non_pdp.page_session_id,
