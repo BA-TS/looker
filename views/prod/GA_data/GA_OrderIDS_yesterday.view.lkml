@@ -5,7 +5,7 @@ view: ga_orderids_yesterday {
       transactions.OrderID as OrderIDs,
       transactions.item_id,
       sum(transactions.net_value) as netValue,
-      row_number() over () PK
+      row_number() over () P_K
       FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` as aw left join unnest(transactions) as transactions
       where
       _TABLE_SUFFIX = format_date("%Y%m%d", date_sub(current_date(), INTERVAL 1 day)) and
