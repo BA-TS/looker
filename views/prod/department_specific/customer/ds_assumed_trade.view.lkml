@@ -22,7 +22,7 @@ view: ds_assumed_trade{
   }
 
   dimension: proba_Yes_final {
-    label: "Probability"
+    label: "Probability (Assumed Trade)"
     type:  number
     sql: coalesce(mean_proba_Yes,0);;
     value_format:"0.0%"
