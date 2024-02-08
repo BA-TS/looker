@@ -24,6 +24,7 @@ view: ds_assumed_trade{
     label: "Probability"
     type:  number
     sql: coalesce(mean_proba_Yes,0);;
+    value_format:"0.0%"
   }
 
   dimension: final_prediction {
