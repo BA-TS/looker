@@ -29,7 +29,7 @@ select distinct platform, session_id as page_session_id, screen,min(MinTime) as 
 from sub1
 where
 #screen not in ("product-detail-page") and
-event_name in ("page_view", "screen_view") group by 1,2,3)
+event_name in ("page_view", "screen_view", "view_item") group by 1,2,3)
 ,
 
 ATC as (
