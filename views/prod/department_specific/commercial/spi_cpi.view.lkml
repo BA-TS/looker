@@ -275,7 +275,7 @@ view: spi_cpi{
     group_label: "CY"
     sql: ${cy_netSales};;
     label: "CY Net Sales"
-    value_format: "0.00"
+    value_format_name: gbp
   }
 
   measure: ly_netSales_total {
@@ -283,7 +283,7 @@ view: spi_cpi{
     group_label: "LY"
     sql: ${ly_netSales};;
     label: "LY Net Sales"
-    value_format: "0.00"
+    value_format_name: gbp
   }
 
   measure: cy_unitPrice {
@@ -291,7 +291,7 @@ view: spi_cpi{
     group_label: "CY"
     sql:  COALESCE(SAFE_DIVIDE(${cy_netSales_total}, ${cy_unitsSOLD_total}),0) ;;
     label: "CY Unit Price"
-    value_format: "0.00"
+    value_format_name: gbp
   }
 
   measure: ly_unitPrice {
@@ -299,7 +299,7 @@ view: spi_cpi{
     group_label: "LY"
     sql:  COALESCE(SAFE_DIVIDE(${ly_netSales_total}, ${ly_unitsSOLD_total}),0) ;;
     label: "LY Unit Price"
-    value_format: "0.00"
+    value_format_name: gbp
   }
 
   measure: cy_aac_unit_cogs_ {
