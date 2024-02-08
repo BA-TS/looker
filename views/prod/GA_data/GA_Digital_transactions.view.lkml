@@ -273,7 +273,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   }
 
   dimension: order_id {
-    view_label: "Transactional"
+    view_label: "GA4"
+    group_label: "Transactional"
     label: "Transaction ID"
     description: "Order ID of order where order was seen in GA4"
     type: string
@@ -281,7 +282,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   }
 
   measure: orders {
-    view_label: "Transactional"
+    view_label: "GA4"
+    group_label: "Transactional"
     label: "Orders"
     description: "Total orders seen in GA4"
     #group_label: "Measures"
@@ -290,9 +292,9 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   }
 
   dimension: customer {
-    view_label: "Transactional"
+    view_label: "GA4"
+    group_label: "Transactional"
     label: "Customer ID"
-    group_label: "Transaction"
     hidden: yes
     type: string
     sql: ${TABLE}.customer ;;
@@ -305,7 +307,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   }
 
   measure: customers {
-    view_label: "Transactional"
+    view_label: "GA4"
+    group_label: "Transactional"
     label: "Total customers"
     #group_label: "Measures"
     type: count_distinct
@@ -313,26 +316,26 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   }
 
   dimension: salesChannel {
-    view_label: "Transactional"
+    view_label: "GA4"
+    group_label: "Transactional"
     label: "Sales Channel"
-    group_label: "Transaction"
     type: string
     sql: ${TABLE}.salesChannel ;;
   }
 
   dimension: paymentType {
-    view_label: "Transactional"
+    view_label: "GA4"
+    group_label: "Transactional"
     label: "Payment Type"
-    group_label: "Transaction"
     type: string
     sql: ${TABLE}.paymentType ;;
   }
 
 
   dimension: status_order {
-    view_label: "Transactional"
+    view_label: "GA4"
+    group_label: "Transactional"
     label: "Status"
-    group_label: "Transaction"
     type: string
     sql: ${TABLE}.status ;;
   }
@@ -406,10 +409,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   }
 
   dimension_group: placed_date{
-    view_label: "Digital Transactions"
+    view_label: "GA4"
     group_label: "Order Placed"
-    label: ""
-    hidden: yes
     type: time
     timeframes: [date]
     sql: ${TABLE}.placed ;;
@@ -417,10 +418,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   }
 
   dimension_group: placed_time{
-    view_label: "Order Placed"
-    group_label: "Time"
-    #group_label: "Order Placed"
-    #hidden: yes
+    view_label: "GA4"
+    group_label: "Order Placed"
     label: ""
     type: time
     timeframes: [time_of_day]
@@ -428,7 +427,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   }
 
   dimension_group: placed_week{
-    view_label: "Digital Transactions"
+    view_label: "GA4"
     group_label: "Order Placed"
     hidden: yes
     label: ""
@@ -459,7 +458,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   #}
 
   measure: transactions_quantity {
-    view_label: "Transactional"
+    view_label: "GA4"
+    group_label: "Transactional"
     #group_label: "Measures"
     label: "Product Quantity"
     type: sum
@@ -467,7 +467,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   }
 
   measure: net_value {
-    view_label: "Transactional"
+    view_label: "GA4"
+    group_label: "Transactional"
     #group_label: "Measures"
     label: "Net Revenue"
     type: sum
@@ -476,7 +477,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   }
 
   measure: gross_value {
-    view_label: "Transactional"
+    view_label: "GA4"
+    group_label: "Transactional"
     #group_label: "Measures"
     label: "Gross Revenue"
     type: sum
@@ -485,7 +487,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   }
 
   measure: MarginIncFunding {
-    view_label: "Transactional"
+    view_label: "GA4"
+    group_label: "Transactional"
     #group_label: "Measures"
     label: "Margin inc Funding"
     type: sum
@@ -494,7 +497,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   }
 
   measure: MarginExclFunding {
-    view_label: "Transactional"
+    view_label: "GA4"
+    group_label: "Transactional"
     #group_label: "Measures"
     label: "Margin excl Funding"
     type: sum
@@ -503,7 +507,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   }
 
   measure: margin_rate_exc_funding {
-    view_label: "Transactional"
+    view_label: "GA4"
+    group_label: "Transactional"
     #group_label: "Measures"
     label: "Margin Rate (excl funding)"
     value_format: "0.00%;(0.00%)"
@@ -511,7 +516,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   }
 
   measure: margin_rate_inc_funding {
-    view_label: "Transactional"
+    view_label: "GA4"
+    group_label: "Transactional"
     #group_label: "Measures"
     label: "Margin Rate (Inc funding)"
     value_format: "0.00%;(0.00%)"
@@ -519,7 +525,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   }
 
   measure: netSalePrice {
-    view_label: "Transactional"
+    view_label: "GA4"
+    group_label: "Transactional"
     #group_label: "Measures"
     label: "Net Sale Price"
     type: average
@@ -529,8 +536,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
 
   measure: ga4_revenue {
     view_label: "GA4"
-    group_label: "Ecommerce"
-    label: "Revenue"
+    group_label: "Transactional"
+    label: "GA4 Revenue"
     hidden: yes
     type: sum
     value_format_name: gbp
@@ -539,8 +546,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
 
   measure: ga4_quantity {
     view_label: "GA4"
-    group_label: "Ecommerce"
-    label: "Purchase Product Quantity"
+    group_label: "Transactional"
+    label: "GA4 Purchase Product Quantity"
     hidden: yes
     type: sum
     sql: ${TABLE}.ga4_quantity;;
