@@ -486,6 +486,20 @@ explore: base {
     relationship: many_to_one
     sql_on: ${sites.site_uid} = ${scorecard_testing1.siteUID} and ${customers.customer_uid} = ${scorecard_testing1.customerUID};;
   }
+
+  join: scorecard_testing2 {
+    required_access_grants:[retail_testing]
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${sites.region_name} = ${scorecard_testing1.siteUID} and ${customers.customer_uid} = ${scorecard_testing1.customerUID};;
+  }
+
+  join: scorecard_testing3 {
+    required_access_grants:[retail_testing]
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${sites.division} = ${scorecard_testing1.siteUID} and ${customers.customer_uid} = ${scorecard_testing1.customerUID};;
+  }
 }
 
 explore: +base {
