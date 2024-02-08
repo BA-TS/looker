@@ -218,21 +218,13 @@ group by 2,3,4,5,6,8,9,10,11,12,13,14,15,16,17;;
         sql:  ${TABLE}.App_web ;;
       }
 
-     # dimension: seen_in_Ga {
-        #view_label: "
-        #{% if _explore._name == 'GA4' %}
-        #{% else %}
-        #Digital Transactions
-        #{% endif %}"
-        #label: "
-      #{% if _explore._name == 'GA4' %}
-      #{% else %}
-      #Seen in GA
-      #{% endif %}"
-        #description: "If order ID was seen in GA "
-        #type: yesno
-        #sql: ${ga4_all_transaction_ids.OrderID} is not null ;;
-      #}
+      dimension: seen_in_Ga {
+        view_label: "GA4 Transactions"
+        label: "Seen in GA"
+        description: "If order ID was seen in GA "
+        type: yesno
+        sql: ${ga_orderids_yesterday.order_id} is not null ;;
+      }
 
       measure: Totalrevenue {
         view_label: "
