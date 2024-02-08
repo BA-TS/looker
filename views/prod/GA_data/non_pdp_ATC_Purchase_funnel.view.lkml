@@ -25,7 +25,7 @@ group by 2,3,4,5,6,7,8,9),
 #from sub1 where screen in ("PDP") and event_name in ("view_item") group by 1,2,3),
 
 non_pdp as (
-select distinct platform, session_id as page_session_id, screen,item_id,min(MinTime) as Page_time
+select distinct platform, session_id as page_session_id, screen,case when item_id is null then "null" else item_id end as item_id,min(MinTime) as Page_time
 from sub1
 where
 (screen not in ("product-detail-page") and
