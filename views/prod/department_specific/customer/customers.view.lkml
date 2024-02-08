@@ -434,6 +434,7 @@ view: customers {
     type: string
     group_label: "Flags"
     label: "Is Trade/Assumed/DIY"
+    hidden: yes
     sql:${customer_classification.customer_type} ;;
   }
 
