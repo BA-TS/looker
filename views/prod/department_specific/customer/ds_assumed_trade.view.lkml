@@ -17,7 +17,8 @@ view: ds_assumed_trade{
   dimension: today_last_year {
     required_access_grants: [lz_testing]
     type:  date
-    sql: current_Date()-365;;
+    sql: date(2023,01,01);;
+    hidden: yes
   }
 
   dimension: proba_Yes_final {
