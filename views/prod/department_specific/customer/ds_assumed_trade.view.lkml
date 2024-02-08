@@ -4,7 +4,7 @@ view: ds_assumed_trade{
 
   dimension: customer_uid {
     type: string
-    sql: ${TABLE}.customer_uid_2023 ;;
+    sql: ${TABLE}.customer_uid;;
     hidden: yes
   }
 
@@ -17,19 +17,21 @@ view: ds_assumed_trade{
   dimension: today_last_year {
     required_access_grants: [lz_testing]
     type:  date
-    sql: current_Date()-365;;
+    sql: date(2023,01,01);;
+    hidden: yes
   }
 
   dimension: proba_Yes_final {
-    label: "Probability"
+    label: "Probability (Assumed Trade)"
     type:  number
-    sql: coalesce(proba_Yes_2023,0);;
+    sql: coalesce(mean_proba_Yes,0);;
+    value_format:"0.0%"
   }
 
   dimension: final_prediction {
     type:  yesno
     label: "Is Assumed Trade"
-    sql:${TABLE}.prediction_2023 = true;;
+    sql:${TABLE}.final_prediction = "true";;
   }
 
   measure: mean_proba_Yes_final {
