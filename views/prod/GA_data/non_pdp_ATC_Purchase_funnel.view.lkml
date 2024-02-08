@@ -188,4 +188,11 @@ select distinct row_number() over () as P_K, * from sub2
     filters: [page_session_id: "-NULL", atc_session_id: "-NULL",page_ATC_seconds: ">0", ATC_purchase_seconds: ">0"]
   }
 
+  measure: Page_purchase_orders {
+    view_label: "Page to Purchase Funnel"
+    label: "Orders Funnel"
+    type: count_distinct
+    sql: ${OrderID} ;;
+  }
+
 }

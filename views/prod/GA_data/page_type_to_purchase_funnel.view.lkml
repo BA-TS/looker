@@ -242,5 +242,12 @@ sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01
     sql: ${total_Quantity} ;;
   }
 
+  measure: PDP_purchase_orders {
+    view_label: "PDP to Purchase Funnel"
+    label: "Orders Funnel"
+    type: count_distinct
+    sql: ${TABLE}.OrderID ;;
+  }
+
 
 }
