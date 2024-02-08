@@ -15,7 +15,7 @@ transactions.OrderID
 FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` as aw left join unnest (transactions) as transactions
 where event_name in ("page_view","view_item", "screen_view","purchase", "Purchase", "add_to_cart")
 and bounces = 1
-and _table_suffix between format_date("%Y%m%d", date_sub(current_date(), INTERVAL 30 day)) and format_date("%Y%m%d", date_sub(current_date(), INTERVAL 1 day))
+and _table_suffix between format_date("%Y%m%d", date_sub(current_date(), INTERVAL 10 day)) and format_date("%Y%m%d", date_sub(current_date(), INTERVAL 1 day))
 and
       ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transactions.item_id is null) or (aw.item_id is null and transactions.
       item_id is null))
@@ -28,8 +28,11 @@ non_pdp as (
 select distinct platform, session_id as page_session_id, screen,min(MinTime) as Page_time
 from sub1
 where
-#screen not in ("product-detail-page") and
-event_name in ("page_view", "screen_view", "view_item") group by 1,2,3)
+(screen not in ("product-detail-page") and
+event_name in ("page_view", "screen_view"))
+or
+(screen in ("PDP") and event_name in ("view_item"))
+group by 1,2,3)
 ,
 
 ATC as (
@@ -60,7 +63,7 @@ purchase.rev as Revenue,
 purchase.Qu as Quantity,
 purchase.ORderID as OrderID,
 from non_pdp
-left join ATC on non_pdp.page_session_id = ATC.atc_session_id and non_pdp.screen = ATC.screen
+left join ATC on non_pdp.page_session_id = ATC.atc_session_id and non_pdp.screen = (case when ATC.screen in ("product-detail-page") then "PDP" else ATC.screen end)
 left join purchase on ATC.atc_session_id = purchase.purchase_session_id and ATC.item_id = purchase.item_id
 where extract(date from coalesce(non_pdp.page_time,ATC.atc_time,purchase.purchase_time)) is not null)
 
