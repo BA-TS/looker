@@ -548,11 +548,12 @@ explore: digital_reporting {
     sql_on: ${productv2.product_code} = ${promoworking.Product_Code} ;;
   }
 
-  join: ga4_all_transaction_ids {
-    view_label: ""
+  join: ga_orderids_yesterday {
+    view_label: "GA Order IDs Yesterday"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${ga4_all_transaction_ids.OrderID} = ${app_web_data.OrderID} ;;
+    sql_on: ${ga_orderids_yesterday.order_id} = ${app_web_data.OrderID}
+    and ${ga_orderids_yesterday.item_id} = ${productv2.product_code};;
   }
 
 
