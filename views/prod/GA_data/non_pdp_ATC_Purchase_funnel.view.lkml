@@ -25,14 +25,14 @@ group by 2,3,4,5,6,7,8,9),
 #from sub1 where screen in ("PDP") and event_name in ("view_item") group by 1,2,3),
 
 non_pdp as (
-select distinct platform, session_id as page_session_id, screen,min(MinTime) as Page_time
+select distinct platform, session_id as page_session_id, screen,item_id,min(MinTime) as Page_time
 from sub1
 where
 (screen not in ("product-detail-page") and
 event_name in ("page_view", "screen_view"))
 or
 (screen in ("PDP") and event_name in ("view_item"))
-group by 1,2,3)
+group by 1,2,3,4)
 ,
 
 ATC as (
@@ -64,6 +64,7 @@ purchase.Qu as Quantity,
 purchase.ORderID as OrderID,
 from non_pdp
 left join ATC on non_pdp.page_session_id = ATC.atc_session_id and non_pdp.screen = (case when ATC.screen in ("product-detail-page") then "PDP" else ATC.screen end)
+and non_pdp.item_id=ATC.item_id
 left join purchase on ATC.atc_session_id = purchase.purchase_session_id and ATC.item_id = purchase.item_id
 where extract(date from coalesce(non_pdp.page_time,ATC.atc_time,purchase.purchase_time)) is not null)
 
