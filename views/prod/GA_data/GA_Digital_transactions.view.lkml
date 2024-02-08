@@ -979,7 +979,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   }
 
   measure: aov {
-    view_label: "Transactional"
+    view_label: "GA4"
+    group_label: "Transactional"
     label: "AOV"
     type: number
     description: "average order value"
