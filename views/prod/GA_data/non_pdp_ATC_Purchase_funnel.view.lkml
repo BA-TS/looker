@@ -46,8 +46,8 @@ purchase as (select distinct session_id as purchase_session_id, min(MinTime) as 
 sub2 as (SELECT distinct
 extract(date from coalesce(page.page_time,ATC.atc_time,purchase.purchase_time)) as date,
 page.screen,
-case when ATC.screen in ("product-detail-page") then "PDP" else ATC.screen end as ATC_screen,
-coalesce(page.screen,case when ATC.screen in ("product-detail-page") then "PDP" else ATC.screen end) as All_screen,
+ATC.screen as ATC_screen,
+coalesce(page.screen,ATC.screen) as All_screen,
 ATC.item_id as item_id,
 page.page_session_id,
 page.page_time,
