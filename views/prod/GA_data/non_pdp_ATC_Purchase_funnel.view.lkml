@@ -3,67 +3,66 @@ view: non_pdp_atc_purchase_funnel {
     sql:with sub1 as (SELECT distinct min(timestamp_sub(MinTime, interval 1 HOUR)) as minTime, session_id, event_name,
 #page_location,
 case
+when Screen_name in ("product-detail-page") and event_name in ("view_item") and platform in ("Web") then "PDP"
+when Screen_name in ("product-detail-page") and event_name in ("view_item") and platform in ("App") then "PDP"
 when Screen_name like "%| Search |%" then "search-page"
 else screen_name
 end as screen,
 platform,
+aw.item_id as item_id,
 transactions.net_value as rev,
 transactions.Quantity as Qu,
-transactions.OrderID,
-aw.item_id
+transactions.OrderID
 FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` as aw left join unnest (transactions) as transactions
-where
-#event_name in ("page_view","view_item", "screen_view","purchase", "Purchase", "add_to_cart") and
-bounces = 1
-and _table_suffix between format_date("%Y%m%d", date_sub(current_date(), INTERVAL 30 day)) and format_date("%Y%m%d", date_sub(current_date(), INTERVAL 1 day))
+where event_name in ("page_view","view_item", "screen_view","purchase", "Purchase", "add_to_cart")
+and bounces = 1
+and _table_suffix between format_date("%Y%m%d", "2024-01-28") and format_date("%Y%m%d", "2024-02-03")
 and
       ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transactions.item_id is null) or (aw.item_id is null and transactions.
       item_id is null))
 group by 2,3,4,5,6,7,8,9),
 
-Page as (select distinct session_id as page_session_id,screen, case when item_id is null then "null" else item_id end as item_id,min(MinTime) as page_time
-from sub1 inner join
-(
-    with suba as (SELECT distinct
-event_name,
-screen,
-count(distinct  session_id) as sessions
-FROM sub1
-group by 1,2),
+#products as (select distinct productStartDate,activeTo,productCode from `toolstation-data-storage.range.products_current`),
 
-subb as (select distinct *, row_number() over (partition by screen order by sessions desc) as rw
-from suba)
 
-SELECT distinct Screen as top_screem, event_name as top_event, sum(sessions) as sessions from subb where rw = 1
-group by 1,2
-) on screen = top_screem and event_name=top_event group by 1,2,3),
+PDP as (select distinct session_id as PDP_session_id, item_id,min(MinTime) as PDP_time
+from sub1 where screen in ("PDP") and event_name in ("view_item") group by 1,2),
 
-ATC as (select distinct session_id as atc_session_id, screen,item_id,min(MinTime) as atc_time from sub1 where event_name in ("add_to_cart") group by 1,2,3),
+non_pdp as (
+select distinct session_id as page_session_id, PDP_session_id,screen,min(MinTime) as Page_time
+from sub1 left join PDP on sub1.session_id = PDP_session_id
+where PDP_session_id is null group by 1,2,3)
+,
 
-purchase as (select distinct session_id as purchase_session_id, min(MinTime) as purchase_time, sum(rev) as net_rev, sum(Qu) as purchase_quantity, item_id, OrderID from sub1 where event_name in ("purchase", "Purchase") group by 1,5,6),
+ATC as (
+select distinct session_id as atc_session_id, PDP_session_id,item_id,screen,min(MinTime) as atc_time
+from sub1
+left join (SELECT distinct PDP_session_id, item_id as pdp_item_id from PDP) on session_id = PDP_session_id and item_id = pdp_item_id
+where event_name in ("add_to_cart") and PDP_session_id is null
+group by 1,2,3,4),
 
-#3276858
+purchase as (select distinct session_id as purchase_session_id,item_id, min(MinTime) as purchase_time, rev, Qu, OrderID from sub1 where event_name in ("purchase", "Purchase") group by 1,2,4,5,6),
+
 sub2 as (SELECT distinct
-extract(date from coalesce(page.page_time,ATC.atc_time,purchase.purchase_time)) as date,
-page.screen,
-ATC.screen as ATC_screen,
-coalesce(page.screen,ATC.screen) as All_screen,
-ATC.item_id as item_id,
-page.page_session_id,
-page.page_time,
+#row_number() over () as P_K,
+extract(date from coalesce(non_pdp.page_time,ATC.atc_time,purchase.purchase_time)) as date,
+non_pdp.screen,
+non_pdp.page_session_id,
+non_pdp.page_time,
 ATC.atc_session_id,
 atc.atc_time,
+atc.item_id,
 purchase.purchase_session_id,
 purchase.purchase_time,
-timestamp_diff(ATC.atc_time,page.page_time,second) as page_ATC,
+timestamp_diff(ATC.atc_time,non_pdp.page_time,second) as page_ATC,
 timestamp_diff(purchase.purchase_time,ATC.atc_time,second) as ATC_purchase,
-purchase.net_rev as Revenue,
-purchase.purchase_quantity as Quantity,
+purchase.rev as Revenue,
+purchase.Qu as Quantity,
 purchase.ORderID as OrderID,
-from Page
-full outer join ATC on page.page_session_id = ATC.atc_session_id and page.screen = (case when ATC.screen in ("product-detail-page") then "PDP" else ATC.screen end) and page.item_id =ATC.item_id
-left join purchase on ATC.ATC_session_id = purchase.purchase_session_id and page.page_session_id = purchase.purchase_session_id and ATC.item_id = purchase.item_id
-where extract(date from coalesce(page.page_time,ATC.atc_time,purchase.purchase_time)) is not null)
+from non_pdp
+left join ATC on non_pdp.page_session_id = ATC.atc_session_id and non_pdp.screen = ATC.screen
+left join purchase on ATC.atc_session_id = purchase.purchase_session_id and ATC.item_id = purchase.item_id
+where extract(date from coalesce(non_pdp.page_time,ATC.atc_time,purchase.purchase_time)) is not null)
 
 select distinct row_number() over () as P_K, * from sub2
   ;;
@@ -93,20 +92,6 @@ select distinct row_number() over () as P_K, * from sub2
     label: "Screen type"
     type: string
     sql: ${TABLE}.Screen ;;
-  }
-
-  dimension: atc_screen {
-    view_label: "Page to Purchase Funnel"
-    label: "ATC Screen type"
-    type: string
-    sql: ${TABLE}.ATC_Screen ;;
-  }
-
-  dimension: total_screen {
-    view_label: "Page to Purchase Funnel"
-    label: "Total Screen type"
-    type: string
-    sql: ${TABLE}.All_Screen ;;
   }
 
   dimension: page_session_id {
