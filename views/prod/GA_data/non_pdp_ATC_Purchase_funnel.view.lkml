@@ -26,7 +26,7 @@ group by 2,3,4,5,6,7,8,9),
 
 
 PDP as (select distinct session_id as PDP_session_id, item_id,min(MinTime) as PDP_time
-from sub1 where screen in ("PDP") and event_name in ("view_item") group by 1,2),
+from sub1 where (screen in ("PDP") and event_name in ("view_item")) or screen in ("product-detail-page") group by 1,2),
 
 non_pdp as (
 select distinct session_id as page_session_id, PDP_session_id,screen,min(MinTime) as Page_time
