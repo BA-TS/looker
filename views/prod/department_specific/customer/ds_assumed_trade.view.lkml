@@ -28,6 +28,14 @@ view: ds_assumed_trade{
     value_format:"0.0%"
   }
 
+  dimension: bucket_probability {
+    type: tier
+    style: interval
+    label: "Probability Bucket (Assumed Trade)"
+    tiers: [0,0.5,0.6,0.7,0.8,0.9,1]
+    sql: ${proba_Yes_final} ;;
+  }
+
   dimension: final_prediction {
     type:  yesno
     label: "Is Assumed Trade"
