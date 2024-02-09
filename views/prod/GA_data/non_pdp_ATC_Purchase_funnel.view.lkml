@@ -37,6 +37,7 @@ sub2 as (SELECT distinct
 #row_number() over () as P_K,
 extract(date from coalesce(page.page_time,ATC.atc_time,purchase.purchase_time)) as date,
 page.screen,
+ATC.item_id as item_id,
 page.page_session_id,
 page.page_time,
 ATC.atc_session_id,
@@ -129,6 +130,12 @@ select distinct row_number() over () as P_K, * from sub2
     hidden: yes
     type: string
     sql: ${TABLE}.OrderID ;;
+  }
+
+  dimension: item_id {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.item_id ;;
   }
 
   measure: page_sessions {
