@@ -171,9 +171,25 @@ view: scorecard_branch_dev {
 
   dimension: rating  {
     type: number
+    label: "Google Rating"
     sql: ${TABLE}.rating  ;;
     value_format: "0.00"
   }
+
+  measure: rating_sum  {
+    type: sum
+    label: "Google Rating Sum"
+    sql:${rating}  ;;
+    value_format: "0.00"
+  }
+
+  measure: rating_avg  {
+    type: number
+    label: "Google Rating Average"
+    sql:safe_divide(${rating_sum},${siteUID_count});;
+    value_format: "0.00"
+  }
+
 
   dimension: anon_Orders  {
     type: number

@@ -6,7 +6,7 @@ view: compliance_support {
     type: string
     view_label: "Date"
     label: "Year Month (yyyymm)"
-    sql: ${TABLE}.month ;;
+    sql: CAST(${TABLE}.month AS string);;
     hidden: yes
   }
 
@@ -16,6 +16,21 @@ view: compliance_support {
     label: "Site UID"
     sql: ${TABLE}.Shop_code ;;
     hidden: yes
+  }
+
+  dimension: siteUID_month {
+    type: string
+    view_label: "Site Information"
+    sql: concat(${month},${siteUID}) ;;
+    hidden: yes
+    primary_key: yes
+  }
+
+  measure: siteUID_count {
+    type: count_distinct
+    view_label: "Site Information"
+    label: "Number of sites (Compliance)"
+    sql: ${siteUID} ;;
   }
 
   dimension: Compliance_Actual {
