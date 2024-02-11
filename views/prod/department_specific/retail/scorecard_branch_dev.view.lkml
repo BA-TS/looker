@@ -18,6 +18,15 @@ view: scorecard_branch_dev {
     hidden: yes
   }
 
+  dimension: siteUID_month {
+    type: string
+    view_label: "Site Information"
+    label: "Site UID"
+    sql: concat(${month},${siteUID});;
+    hidden: yes
+    primary_key: yes
+  }
+
   dimension: headcount_sum_12m   {
     type: number
     sql: ${TABLE}.headcount_sum_12m  ;;
@@ -92,8 +101,15 @@ view: scorecard_branch_dev {
 
   dimension: Comp_Actual  {
     type: number
+    label: "Compliance"
     sql: ${TABLE}.Comp_Actual  ;;
     value_format: "0.00"
+  }
+
+  measure: Comp_Actual_sum  {
+    type: sum
+    label: "Compliance2"
+    sql:${Comp_Actual}  ;;
   }
 
   dimension: moves  {
