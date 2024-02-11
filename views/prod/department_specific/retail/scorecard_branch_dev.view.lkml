@@ -18,6 +18,13 @@ view: scorecard_branch_dev {
     hidden: yes
   }
 
+  measure: siteUID_count {
+    type: count_distinct
+    view_label: "Site Information"
+    label: "Number of Sites"
+    sql: ${siteUID} ;;
+  }
+
   dimension: siteUID_month {
     type: string
     view_label: "Site Information"
@@ -108,8 +115,16 @@ view: scorecard_branch_dev {
 
   measure: Comp_Actual_sum  {
     type: sum
-    label: "Compliance2"
+    label: "Compliance Sum"
     sql:${Comp_Actual}  ;;
+    value_format: "0.00"
+  }
+
+  measure: Comp_Actual_avg  {
+    type: number
+    label: "Compliance Average"
+    sql:safe_divide(${Comp_Actual_sum},${siteUID_count});;
+    value_format: "0.00"
   }
 
   dimension: moves  {
