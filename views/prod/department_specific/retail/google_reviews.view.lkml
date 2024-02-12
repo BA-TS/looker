@@ -16,6 +16,15 @@ view: google_reviews {
     view_label: "Site Information"
     label: "Site UID"
     sql: ${TABLE}.siteUID ;;
+    hidden: yes
+  }
+
+  dimension: siteUID_month {
+    type: string
+    view_label: "Site Information"
+    sql: concat(${month},${siteUID}) ;;
+    hidden: yes
+    primary_key: yes
   }
 
   dimension: newReviews {
@@ -40,5 +49,12 @@ view: google_reviews {
     type: average
     label: "Average Rating"
     sql: ${rating} ;;
+  }
+
+  measure: siteUID_count {
+    type: count_distinct
+    view_label: "Site Information"
+    label: "Number of sites (Google Reviews)"
+    sql: ${siteUID} ;;
   }
 }

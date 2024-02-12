@@ -18,6 +18,22 @@ view: scorecard_branch_dev {
     hidden: yes
   }
 
+  measure: siteUID_count {
+    type: count_distinct
+    view_label: "Site Information"
+    label: "Number of Sites"
+    sql: ${siteUID} ;;
+  }
+
+  dimension: siteUID_month {
+    type: string
+    view_label: "Site Information"
+    label: "Site UID"
+    sql: concat(${month},${siteUID});;
+    hidden: yes
+    primary_key: yes
+  }
+
   dimension: headcount_sum_12m   {
     type: number
     sql: ${TABLE}.headcount_sum_12m  ;;
@@ -92,7 +108,22 @@ view: scorecard_branch_dev {
 
   dimension: Comp_Actual  {
     type: number
+    label: "Compliance"
     sql: ${TABLE}.Comp_Actual  ;;
+    value_format: "0.00"
+  }
+
+  measure: Comp_Actual_sum  {
+    type: sum
+    label: "Compliance Sum"
+    sql:${Comp_Actual}  ;;
+    value_format: "0.00"
+  }
+
+  measure: Comp_Actual_avg  {
+    type: number
+    label: "Compliance Average"
+    sql:safe_divide(${Comp_Actual_sum},${siteUID_count});;
     value_format: "0.00"
   }
 
@@ -140,9 +171,25 @@ view: scorecard_branch_dev {
 
   dimension: rating  {
     type: number
+    label: "Google Rating"
     sql: ${TABLE}.rating  ;;
     value_format: "0.00"
   }
+
+  measure: rating_sum  {
+    type: sum
+    label: "Google Rating Sum"
+    sql:${rating}  ;;
+    value_format: "0.00"
+  }
+
+  measure: rating_avg  {
+    type: number
+    label: "Google Rating Average"
+    sql:safe_divide(${rating_sum},${siteUID_count});;
+    value_format: "0.00"
+  }
+
 
   dimension: anon_Orders  {
     type: number
