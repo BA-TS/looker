@@ -1,6 +1,8 @@
 view: non_pdp_atc_purchase_funnel {
   derived_table: {
-    sql:with sub1 as (SELECT distinct min(timestamp_sub(MinTime, interval 1 HOUR)) as minTime, session_id, event_name,
+    sql:
+
+    with sub1 as (SELECT distinct min(timestamp_sub(MinTime, interval 1 HOUR)) as minTime, session_id, event_name,
 case when page_location is null then #concat
 #(case
 #when Screen_name like "%| Search |%" then "search-page"
@@ -36,7 +38,7 @@ and
       item_id is null))
 group by 2,3,4,5,6,7,8,9,10),
 
-Page as (select distinct session_id as page_session_id,screen,page_location as Page_page, case when item_id is null then "null" else item_id end as item_id,min(MinTime) as page_time
+Page as (select distinct session_id as page_session_id,screen,page_location as Page_page, case when item_id is null then null else item_id end as item_id,min(MinTime) as page_time
 from sub1 inner join
 (
     with suba as (SELECT distinct
@@ -56,12 +58,12 @@ group by 1,2
 ATC as (select distinct session_id as atc_session_id, screen,item_id,page_location as ATC_page, min(MinTime) as atc_time from sub1 where event_name in ("add_to_cart") group by 1,2,3,4),
 
 purchase as (select distinct session_id as purchase_session_id, min(MinTime) as purchase_time, sum(rev) as net_rev, sum(Qu) as purchase_quantity, item_id, OrderID from sub1 where event_name in ("purchase", "Purchase") group by 1,5,6),
-
-#3276858
-sub2 as (SELECT distinct
-extract(date from coalesce(page.page_time,ATC.atc_time,purchase.purchase_time)) as date,
+sub2 as
+(SELECT distinct
+extract(date from coalesce(page.page_time,ATC.atc_time)) as date,
 page.screen,
 page.page_page,
+page.item_id as page_ItemID,
 ATC.item_id as item_id,
 page.page_session_id,
 page.page_time,
@@ -77,11 +79,13 @@ purchase.ORderID as OrderID,
 from Page
 left join ATC on page.page_session_id = ATC.atc_session_id
 and page.page_page=ATC.ATC_page
+#and page.item_id=ATC.item_id
 #page.screen = ATC.screen and
-left join purchase on ATC.ATC_session_id = purchase.purchase_session_id and page.page_session_id = purchase.purchase_session_id and ATC.item_id = purchase.item_id
-where extract(date from coalesce(page.page_time,ATC.atc_time,purchase.purchase_time)) is not null)
+left join purchase on ATC.ATC_session_id = purchase.purchase_session_id and page.page_session_id = purchase.purchase_session_id and ATC.item_id = purchase.item_id)
+#and ((page.item_id is null) or (page.item_id=ATC.item_id))
 
-select distinct row_number() over () as P_K, * from sub2
+SELECT distinct row_number() over () as P_K, * from sub2
+where ((page_ItemID=item_id) or (page_ItemID is null) or (item_id is null))
   ;;
 
 
@@ -169,7 +173,7 @@ select distinct row_number() over () as P_K, * from sub2
   dimension: item_id {
     hidden: yes
     type: string
-    sql: ${TABLE}.item_id ;;
+    sql: coalesce(${TABLE}.item_id,${TABLE}.page_ItemID) ;;
   }
 
   measure: page_sessions {
