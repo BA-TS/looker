@@ -16,6 +16,7 @@ view: google_reviews {
     view_label: "Site Information"
     label: "Site UID"
     sql: ${TABLE}.siteUID ;;
+    hidden: yes
   }
 
   dimension: siteUID_month {
