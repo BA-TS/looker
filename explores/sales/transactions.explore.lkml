@@ -483,24 +483,34 @@ explore: base {
   join: scorecard_testing1 {
     required_access_grants:[retail_testing]
     type: left_outer
-    relationship: many_to_one
-    sql_on: ${sites.site_uid} = ${scorecard_testing1.siteUID} and ${customers.customer_uid} = ${scorecard_testing1.customerUID};;
+    relationship: one_to_one
+    sql_on:
+    ${sites.site_uid} = ${scorecard_testing1.siteUID} and
+    ${customers.customer_uid} = ${scorecard_testing1.customerUID};;
   }
+
 
   join: scorecard_testing2 {
     required_access_grants:[retail_testing]
     type: left_outer
-    relationship: many_to_one
-    sql_on: ${sites.region_name} = ${scorecard_testing1.siteUID} and ${customers.customer_uid} = ${scorecard_testing1.customerUID};;
+    relationship: one_to_one
+    sql_on:
+   ${customers.customer_uid} = ${scorecard_testing2.customerUID}
+   and ${sites.region_name} = ${scorecard_testing2.siteUID}
+  ;;
   }
+
 
   join: scorecard_testing3 {
     required_access_grants:[retail_testing]
     type: left_outer
-    relationship: many_to_one
-    sql_on: ${sites.division} = ${scorecard_testing1.siteUID} and ${customers.customer_uid} = ${scorecard_testing1.customerUID};;
+    relationship: one_to_one
+    sql_on: ${customers.customer_uid} = ${scorecard_testing3.customerUID}
+       and ${sites.division} = ${scorecard_testing3.siteUID}
+    ;;
   }
 }
+
 
 explore: +base {
   query: department_weekly_sales {
