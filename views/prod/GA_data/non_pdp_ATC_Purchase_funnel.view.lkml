@@ -88,7 +88,7 @@ purchase.purchase_time,purchase.net_rev,
 purchase.purchase_quantity,
 purchase.ORderID)
 
-select distinct * from sub2
+select distinct row_number() over () as P_K, * from sub2
   ;;
 
 
