@@ -24,7 +24,7 @@ view: scorecard_testing4 {
     type: yesno
     view_label: "Scorecard testing"
     label: "customer_tyly_flag_region2"
-    sql: ${customerUID} is not null ;;
+    sql: ${TABLE}.flag = 1 ;;
   }
 
 }
