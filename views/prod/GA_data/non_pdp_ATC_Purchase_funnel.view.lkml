@@ -207,8 +207,8 @@ SELECT distinct row_number() over () as P_K, * from sub2
     view_label: "Page to Purchase Funnel"
     label: "Page to Purchase sessions"
     type: count_distinct
-    sql: ${purchase_session_id};;
-    filters: [page_session_id: "-NULL", atc_session_id: "-NULL",page_ATC_seconds: ">0", ATC_purchase_seconds: ">0"]
+    sql: case when ${page_session_id} is not null and ${atc_session_id} is not null and ${page_ATC_seconds}>0 and ${ATC_purchase_seconds}>0 and ((${Page_item_id}=${ATC_item_id}) or (${Page_item_id} is null) or (${ATC_item_id} is null)) then ${purchase_session_id} else null end;;
+    #filters: [page_session_id: "-NULL", atc_session_id: "-NULL",page_ATC_seconds: ">0", ATC_purchase_seconds: ">0"]
   }
 
   measure: Page_ATC_perc {
@@ -239,24 +239,24 @@ SELECT distinct row_number() over () as P_K, * from sub2
     view_label: "Page to Purchase Funnel"
     label: "Funnel Revenue"
     type: sum
-    sql: ${Revenue};;
+    sql: case when ${page_session_id} is not null and ${atc_session_id} is not null and ${page_ATC_seconds}>0 and ${ATC_purchase_seconds}>0 and ((${Page_item_id}=${ATC_item_id}) or (${Page_item_id} is null) or (${ATC_item_id} is null)) then ${Revenue} else null end;;
     value_format_name: gbp
-    filters: [page_session_id: "-NULL", atc_session_id: "-NULL",page_ATC_seconds: ">0", ATC_purchase_seconds: ">0"]
+    #filters: [page_session_id: "-NULL", atc_session_id: "-NULL",page_ATC_seconds: ">0", ATC_purchase_seconds: ">0"]
   }
 
   measure: quantity_funnel {
     view_label: "Page to Purchase Funnel"
     label: "Funnel Purchase Quantity"
     type: sum
-    sql: ${Quantity};;
-    filters: [page_session_id: "-NULL", atc_session_id: "-NULL",page_ATC_seconds: ">0", ATC_purchase_seconds: ">0"]
+    sql: case when ${page_session_id} is not null and ${atc_session_id} is not null and ${page_ATC_seconds}>0 and ${ATC_purchase_seconds}>0 and ((${Page_item_id}=${ATC_item_id}) or (${Page_item_id} is null) or (${ATC_item_id} is null)) then ${Quantity} else null end;;
+    #filters: [page_session_id: "-NULL", atc_session_id: "-NULL",page_ATC_seconds: ">0", ATC_purchase_seconds: ">0"]
   }
 
   measure: Page_purchase_orders {
     view_label: "Page to Purchase Funnel"
     label: "Orders Funnel"
     type: count_distinct
-    sql: ${OrderID} ;;
+    sql: case when ${page_session_id} is not null and ${atc_session_id} is not null and ${page_ATC_seconds}>0 and ${ATC_purchase_seconds}>0 and ((${Page_item_id}=${ATC_item_id}) or (${Page_item_id} is null) or (${ATC_item_id} is null)) then ${OrderID} else null end ;;
   }
 
 }
