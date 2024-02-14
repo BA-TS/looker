@@ -58,34 +58,37 @@ group by 1,2
 ATC as (select distinct session_id as atc_session_id, screen,item_id,page_location as ATC_page, min(MinTime) as atc_time from sub1 where event_name in ("add_to_cart") group by 1,2,3,4),
 
 purchase as (select distinct session_id as purchase_session_id, min(MinTime) as purchase_time, sum(rev) as net_rev, sum(Qu) as purchase_quantity, item_id, OrderID from sub1 where event_name in ("purchase", "Purchase") group by 1,5,6),
-sub2 as
-(SELECT distinct
-extract(date from coalesce(page.page_time,ATC.atc_time)) as date,
+
+
+sub2 as (SELECT distinct
+extract(date from coalesce(min(page.page_time),ATC.atc_time)) as date,
 page.screen,
 page.page_page,
-#page.item_id as page_ItemID,
 ATC.item_id as item_id,
+ATC.ATC_page as ATC_page,
 page.page_session_id,
-page.page_time,
+min(page.page_time) as page_time,
 ATC.atc_session_id,
 atc.atc_time,
 purchase.purchase_session_id,
 purchase.purchase_time,
-timestamp_diff(ATC.atc_time,page.page_time,second) as page_ATC,
+timestamp_diff(ATC.atc_time,min(page.page_time),second) as page_ATC,
 timestamp_diff(purchase.purchase_time,ATC.atc_time,second) as ATC_purchase,
+timestamp_diff(purchase.purchase_time,min(page.page_time),millisecond) as page_purchase,
 purchase.net_rev as Revenue,
 purchase.purchase_quantity as Quantity,
 purchase.ORderID as OrderID,
 from Page
-left join ATC on page.page_session_id = ATC.atc_session_id
-and page.page_page=ATC.ATC_page
-#and page.item_id=ATC.item_id
-#page.screen = ATC.screen and
-left join purchase on ATC.ATC_session_id = purchase.purchase_session_id and page.page_session_id = purchase.purchase_session_id and ATC.item_id = purchase.item_id)
-#and ((page.item_id is null) or (page.item_id=ATC.item_id))
+left join ATC on page.page_session_id = ATC.atc_session_id and page.page_page=ATC.ATC_page
+left join purchase on ATC.ATC_session_id = purchase.purchase_session_id and page.page_session_id = purchase.purchase_session_id and ATC.item_id = purchase.item_id
+group by page.screen,
+page.page_page,ATC.item_id,ATC.ATC_page,page.page_session_id,ATC.atc_session_id,atc.atc_time,
+purchase.purchase_session_id,
+purchase.purchase_time,purchase.net_rev,
+purchase.purchase_quantity,
+purchase.ORderID)
 
-SELECT distinct row_number() over () as P_K, * from sub2
-#where ((page_ItemID=item_id) or (page_ItemID is null) or (item_id is null))
+select distinct * from sub2
   ;;
 
 
