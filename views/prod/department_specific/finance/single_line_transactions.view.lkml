@@ -4,6 +4,7 @@ view: single_line_transactions {
       select distinct
       parentOrderUID,
       case when  count(distinct case when p.productCode > '10000' and lower(p.productDepartment) not in ('uncatalogued') then p.productCode else null end) over (partition by t.parentOrderUID) = 1 then true else false end single_line_transaction_flag,
+      count(distinct case when p.productCode > '10000' and lower(p.productDepartment) not in ('uncatalogued') then p.productCode else null end) over (partition by t.parentOrderUID) as attached_product_count,
       row_number() OVER(ORDER BY parentOrderUID) AS prim_key,
       from `toolstation-data-storage.sales.transactions` t
         inner join `toolstation-data-storage.range.products_current` p
@@ -31,6 +32,22 @@ view: single_line_transactions {
     description: "Yes/No whether the transaction contained only one product line."
     type: yesno
     sql: ${TABLE}.single_line_transaction_flag ;;
+  }
+
+  dimension: attached_product_count {
+    required_access_grants: [lz_testing]
+    view_label: "Transactions"
+    label: "Attached products count"
+    type: number
+    sql: ${TABLE}.attached_product_count ;;
+  }
+
+  dimension: attached_product_count_tier {
+    required_access_grants: [lz_testing]
+    view_label: "Transactions"
+    type: tier
+    tiers: [0,1,2,3,4]
+    sql: ${attached_product_count} ;;
   }
 
   measure: single_line_transactions_total {
