@@ -2,7 +2,7 @@ view: non_pdp_atc_purchase_funnel {
   derived_table: {
     sql:
 
-    with sub1 as (SELECT distinct min(timestamp_sub(MinTime, interval 1 HOUR)) as minTime, session_id, event_name,
+    with sub1 as (SELECT distinct min(timestamp_sub(MinTime, interval 1 HOUR)) as minTime, session_id, case when event_name in ("screen_view") then "page_view" else event_name end as event_name,
 case when page_location is null then #concat
 #(case
 #when Screen_name like "%| Search |%" then "search-page"
@@ -85,7 +85,7 @@ left join purchase on ATC.ATC_session_id = purchase.purchase_session_id and page
 #and ((page.item_id is null) or (page.item_id=ATC.item_id))
 
 SELECT distinct row_number() over () as P_K, * from sub2
-where ((page_ItemID=item_id) or (page_ItemID is null) or (item_id is null))
+#where ((page_ItemID=item_id) or (page_ItemID is null) or (item_id is null))
   ;;
 
 
