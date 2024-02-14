@@ -456,7 +456,6 @@ explore: base {
   # }
 
   join: ds_assumed_trade {
-    required_access_grants:[lz_testing]
     view_label: "Customer Classification"
     type: left_outer
     relationship: many_to_one
