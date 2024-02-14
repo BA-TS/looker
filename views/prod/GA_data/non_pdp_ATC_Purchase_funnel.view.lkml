@@ -85,7 +85,7 @@ left join purchase on ATC.ATC_session_id = purchase.purchase_session_id and page
 #and ((page.item_id is null) or (page.item_id=ATC.item_id))
 
 SELECT distinct row_number() over () as P_K, * from sub2
-where ((page_ItemID=item_id) or (page_ItemID is null) or (item_id is null))
+#where ((page_ItemID=item_id) or (page_ItemID is null) or (item_id is null))
   ;;
 
 
@@ -170,6 +170,18 @@ where ((page_ItemID=item_id) or (page_ItemID is null) or (item_id is null))
     sql: ${TABLE}.OrderID ;;
   }
 
+  dimension: Page_item_id {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.page_ItemID ;;
+  }
+
+  dimension: ATC_item_id {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.item_id ;;
+  }
+
   dimension: item_id {
     hidden: yes
     type: string
@@ -187,8 +199,8 @@ where ((page_ItemID=item_id) or (page_ItemID is null) or (item_id is null))
     view_label: "Page to Purchase Funnel"
     label: "Page to ATC sessions"
     type: count_distinct
-    sql: ${atc_session_id};;
-    filters: [page_session_id: "-NULL", page_ATC_seconds: ">0"]
+    sql: case when ${page_session_id} is not null and ${page_ATC_seconds}>0 and ((${Page_item_id}=${ATC_item_id}) or (${Page_item_id} is null) or (${ATC_item_id} is null)) then ${atc_session_id} else null end;;
+    #filters: [page_session_id: "-NULL", page_ATC_seconds: ">0"]
   }
 
   measure: Page_to_purchase_sessions {
