@@ -1,9 +1,11 @@
 view: scorecard_testing2 {
-  sql_table_name:`toolstation-data-storage.tmp.typyCustomerRetention_region`;;
+  sql_table_name:`toolstation-data-storage.tmp.typyCustomerRetention_region2`
+  ;;
 
 
   dimension: siteUID {
     type: string
+    label: "siteUID"
     view_label: "Scorecard testing"
     sql: ${TABLE}.siteUID ;;
     hidden: yes
