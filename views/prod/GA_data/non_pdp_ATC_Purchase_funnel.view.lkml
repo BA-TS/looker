@@ -61,34 +61,30 @@ purchase as (select distinct session_id as purchase_session_id, min(MinTime) as 
 
 
 sub2 as (SELECT distinct
-extract(date from coalesce(min(page.page_time),ATC.atc_time)) as date,
+extract(date from coalesce(page.page_time,ATC.atc_time)) as date,
 page.screen,
 page.page_page,
+page.item_id as pageItem_id,
 ATC.item_id as item_id,
 ATC.ATC_page as ATC_page,
 page.page_session_id,
-min(page.page_time) as page_time,
+page.page_time as page_time,
 ATC.atc_session_id,
 atc.atc_time,
 purchase.purchase_session_id,
 purchase.purchase_time,
-timestamp_diff(ATC.atc_time,min(page.page_time),second) as page_ATC,
+timestamp_diff(ATC.atc_time,page.page_time,second) as page_ATC,
 timestamp_diff(purchase.purchase_time,ATC.atc_time,second) as ATC_purchase,
-timestamp_diff(purchase.purchase_time,min(page.page_time),millisecond) as page_purchase,
+timestamp_diff(purchase.purchase_time,page.page_time,millisecond) as page_purchase,
 purchase.net_rev as Revenue,
 purchase.purchase_quantity as Quantity,
 purchase.ORderID as OrderID,
 from Page
 left join ATC on page.page_session_id = ATC.atc_session_id and page.page_page=ATC.ATC_page
 left join purchase on ATC.ATC_session_id = purchase.purchase_session_id and page.page_session_id = purchase.purchase_session_id and ATC.item_id = purchase.item_id
-group by page.screen,
-page.page_page,ATC.item_id,ATC.ATC_page,page.page_session_id,ATC.atc_session_id,atc.atc_time,
-purchase.purchase_session_id,
-purchase.purchase_time,purchase.net_rev,
-purchase.purchase_quantity,
-purchase.ORderID)
-
+)
 select distinct row_number() over () as P_K, * from sub2
+where ((pageItem_ID=item_id) or (pageItem_ID is null) or (item_id is null))
   ;;
 
 
@@ -173,22 +169,22 @@ select distinct row_number() over () as P_K, * from sub2
     sql: ${TABLE}.OrderID ;;
   }
 
-  #dimension: Page_item_id {
-    #hidden: yes
-    #type: string
-    #sql: ${TABLE}.page_ItemID ;;
-  #}
+  dimension: Page_item_id {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.pageItem_id ;;
+  }
 
-  #dimension: ATC_item_id {
-    #hidden: yes
-    #type: string
-    #sql: ${TABLE}.item_id ;;
-  #}
+  dimension: ATC_item_id {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.item_id ;;
+  }
 
   dimension: item_id {
     hidden: yes
     type: string
-    sql: ${TABLE}.item_id ;;
+    sql: coalesce(${Page_item_id},${ATC_item_id}) ;;
   }
 
   measure: page_sessions {
