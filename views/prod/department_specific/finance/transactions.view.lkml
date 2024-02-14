@@ -636,7 +636,8 @@ view: transactions {
   }
 
   dimension: customer_transaction_year_2023 {
-    required_access_grants: [retail_testing]
+    required_access_grants: [lz_testing]
+    hidden: yes
     view_label: "Customer"
     group_label: "Flags"
     type:  yesno
