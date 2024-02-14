@@ -70,6 +70,13 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
     sql: ${TABLE}.calendarYear ;;
   }
 
+  measure: number_of_year {
+    group_label: "Dates"
+    type: count_distinct
+    value_format: "0"
+    sql: ${TABLE}.calendarYear ;;
+  }
+
   dimension: today_calendar_year {
     group_label: "Today Dates"
     label: "Year (yyyy)"
