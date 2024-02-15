@@ -42,8 +42,8 @@ view: single_line_transactions {
   }
 
   dimension: attached_product_count_tier {
-    required_access_grants: [lz_testing]
-    view_label: "Transactions"
+    label: "Number of Attached Products Tier"
+    view_label: "Products"
     type: tier
     tiers: [0,1,2,3,4]
     sql: ${attached_product_count} ;;
