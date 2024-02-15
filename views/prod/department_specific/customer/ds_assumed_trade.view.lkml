@@ -52,8 +52,20 @@ view: ds_assumed_trade{
     sql:
     CASE
     WHEN ${customers.is_trade} = true then "Trade"
-    When ${customers.flags__customer_anonymous} = true then "Trade"
+    When ${customers.flags__customer_anonymous} = true then "DIY"
     When ${final_prediction} = true then "Assumed Trade"
+    Else "DIY"
+    END
+    ;;
+  }
+
+  dimension: customer_type_pb {
+    type:  string
+    sql:
+    CASE
+    WHEN ${customers.is_trade} = true then "Trade"
+    When ${customers.flags__customer_anonymous} = true then "DIY"
+    When ${final_prediction} = true then "Trade"
     Else "DIY"
     END
     ;;
