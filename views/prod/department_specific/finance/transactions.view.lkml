@@ -1104,7 +1104,7 @@ view: transactions {
     group_label: "AOV"
     description: "Average margin (including unit funding) per order"
     type:  number
-    sql: COALESCE(AFE_DIVIDE(${total_margin_incl_funding}, ${number_of_transactions}),0) ;;
+    sql: COALESCE(SAFE_DIVIDE(${total_margin_incl_funding}, ${number_of_transactions}),0) ;;
     value_format_name: gbp
   }
 
