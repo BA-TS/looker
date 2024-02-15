@@ -69,25 +69,25 @@ view: attached_products {
     sql:${TABLE}.productDescription;;
   }
 
-  dimension: marginInclFunding_attached2 {
+  dimension: marginInclFunding_attached1 {
     group_label: "Single Line Transactions"
-    label: "Margin (Incl Funding) Attached Product2"
+    label: "Margin (Incl Funding) Attached Product1"
     type: number
     sql:${TABLE}.marginInclFunding;;
   }
 
   dimension: netSalesValue {
     group_label: "Single Line Transactions"
-    label: "Net Sales Attached Product2"
+    label: "Net Sales Attached Product1"
     type: number
     sql:${TABLE}.netSalesValue;;
   }
 
   dimension: total_margin_rate_incl_funding {
     group_label: "Single Line Transactions"
-    label: "Margin Rate (Incl Funding) Attached Product2"
+    label: "Margin Rate (Incl Funding) Attached Product1"
     type: number
-    sql: safe_divide(${marginInclFunding_attached2},${netSalesValue});;
+    sql: safe_divide(${marginInclFunding_attached1},${netSalesValue});;
     value_format: "0.00%;(0.00%)"
   }
 
