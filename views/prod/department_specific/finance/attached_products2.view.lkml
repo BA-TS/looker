@@ -91,17 +91,7 @@ view: attached_products2 {
     label: "Margin (Incl Funding) Attached Product2"
     type: sum
     sql:${marginInclFunding_attached2};;
-  }
-
-  measure: number_of_transactions {
-    label: "Number of Transactions Attached Product2"
-    view_label: "Measures"
-    group_label: "Core Metrics"
-    description: "Number of orders"
-    type: count_distinct
-    sql: ${parent_order_uid} ;;
-    value_format: "#,##0;(#,##0)"
-    hidden: yes
+    value_format_name: gbp
   }
 
   measure: total_netSalesValue {
@@ -109,13 +99,15 @@ view: attached_products2 {
     label: "Net Sales Attached Product2"
     type: sum
     sql:${netSalesValue};;
+    value_format_name: gbp
   }
 
   measure: total_margin_rate_incl_funding {
     group_label: "Single Line Transactions"
     label: "Margin Rate (Incl Funding) Attached Product2"
     type: number
-    sql: safe_divide(safe_divide(${marginInclFunding_attached2},${total_netSalesValue}));;
+    sql: COALESCE(safe_divide(cast(${total_marginInclFunding_attached2} as numeric),cast(${total_netSalesValue} as numeric)),null);;
+        # COALESCE(SAFE_DIVIDE(${total_margin_incl_funding}, ${total_net_sales}),null) ;;
     value_format: "0.00%;(0.00%)"
   }
 

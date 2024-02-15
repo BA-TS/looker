@@ -69,7 +69,7 @@ view: attached_products {
     sql:${TABLE}.productDescription;;
   }
 
-  dimension: marginInclFunding_attached1 {
+  dimension: marginInclFunding_attached {
     group_label: "Single Line Transactions"
     label: "Margin (Incl Funding) Attached Product"
     type: number
@@ -81,14 +81,6 @@ view: attached_products {
     label: "Net Sales Attached Product"
     type: number
     sql:${TABLE}.netSalesValue;;
-  }
-
-  dimension: total_margin_rate_incl_funding {
-    group_label: "Single Line Transactions"
-    label: "Margin Rate (Incl Funding) Attached Product"
-    type: number
-    sql: safe_divide(${marginInclFunding_attached1},${netSalesValue});;
-    value_format: "0.00%;(0.00%)"
   }
 
   dimension: product_department_attached {
@@ -134,17 +126,6 @@ view: attached_products {
     hidden: yes
   }
 
-  measure: number_of_transactions {
-    label: "Number of Transactions Attached Product 1"
-    view_label: "Measures"
-    group_label: "Core Metrics"
-    description: "Number of orders"
-    type: count_distinct
-    sql: ${parent_order_uid} ;;
-    value_format: "#,##0;(#,##0)"
-    hidden: yes
-  }
-
   measure: attached_count {
     view_label: "Measures"
     group_label: "Single Line Transactions"
@@ -159,6 +140,32 @@ view: attached_products {
     sql: ${filter_match2};;
     hidden: yes
   }
+
+  measure: total_marginInclFunding_attached {
+    group_label: "Single Line Transactions"
+    label: "Margin (Incl Funding) Attached Product"
+    type: sum
+    sql:${marginInclFunding_attached};;
+    value_format_name: gbp
+  }
+
+  measure: total_netSalesValue {
+    group_label: "Single Line Transactions"
+    label: "Net Sales Attached Product"
+    type: sum
+    sql:${netSalesValue};;
+    value_format_name: gbp
+  }
+
+  measure: total_margin_rate_incl_funding {
+    group_label: "Single Line Transactions"
+    label: "Margin Rate (Incl Funding) Attached Product2"
+    type: number
+    sql: COALESCE(safe_divide(cast(${total_marginInclFunding_attached} as numeric),cast(${total_netSalesValue} as numeric)),null);;
+    # COALESCE(SAFE_DIVIDE(${total_margin_incl_funding}, ${total_net_sales}),null) ;;
+    value_format: "0.00%;(0.00%)"
+  }
+
 
 
   # measure: product_count {
