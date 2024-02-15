@@ -8,11 +8,15 @@ view: attached_products2 {
       p.productDescription,
       productDepartment,
       productSubdepartment,
+      sum(marginInclFunding) as marginInclFunding,
+      sum(netSalesValue) as netSalesValue,
       row_number() OVER(ORDER BY parentOrderUID) AS prim_key,
      from `toolstation-data-storage.sales.transactions` t
         inner join `toolstation-data-storage.range.products_current` p
           using(productUID)
-    where  p.productCode not in ("85699","44842","00053") ;;
+    where  p.productCode not in ("85699","44842","00053")
+    group by 1, 2, 3, 4, 5, 6
+    ;;
     datagroup_trigger: ts_transactions_datagroup
   }
 
@@ -63,11 +67,32 @@ view: attached_products2 {
 
   dimension: product_description_attached {
     group_label: "Single Line Transactions"
-    label: "Product Description Attached 2"
+    label: "Product Description Attached Product 2"
     type: string
     sql:${TABLE}.productDescription;;
   }
 
+  dimension: marginInclFunding_attached2 {
+    group_label: "Single Line Transactions"
+    label: "Margin (Incl Funding) Attached Product2"
+    type: number
+    sql:${TABLE}.marginInclFunding;;
+  }
+
+  dimension: netSalesValue {
+    group_label: "Single Line Transactions"
+    label: "Net Sales Attached Product2"
+    type: number
+    sql:${TABLE}.netSalesValue;;
+  }
+
+  dimension: total_margin_rate_incl_funding {
+    group_label: "Single Line Transactions"
+    label: "Margin Rate (Incl Funding) Attached Product2"
+    type: number
+    sql: safe_divide(${marginInclFunding_attached2},${netSalesValue});;
+    value_format: "0.00%;(0.00%)"
+  }
 
   # dimension: product_department_attached {
   #   group_label: "Single Line Transactions"
