@@ -35,7 +35,7 @@ view: single_line_transactions {
   }
 
   dimension: attached_product_count {
-    required_access_grants: [lz_testing]
+    label: "Number of Attached Products"
     view_label: "Products"
     type: number
     sql: ${TABLE}.attached_product_count ;;
