@@ -61,6 +61,7 @@ view: ds_assumed_trade{
 
   dimension: customer_type_pb {
     type:  string
+    label: "Customer Type (PB)"
     sql:
     CASE
     WHEN ${customers.is_trade} = true then "Trade"
