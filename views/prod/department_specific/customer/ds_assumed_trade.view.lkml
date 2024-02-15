@@ -1,3 +1,6 @@
+include: "/views/prod/department_specific/customer/customers.view"
+include: "/views/prod/department_specific/customer/customers.view"
+
 view: ds_assumed_trade{
 
   sql_table_name: `toolstation-data-storage.customer.ds_assumed_trade` ;;
@@ -40,7 +43,22 @@ view: ds_assumed_trade{
     type:  yesno
     label: "Is Assumed Trade"
     sql:${TABLE}.final_prediction = "true";;
+    hidden: yes
   }
+
+  dimension: final_prediction2 {
+    type:  string
+    label: "Customer Type"
+    sql:
+    CASE
+    WHEN ${customers.is_trade} = true then "Trade"
+    When ${customers.flags__customer_anonymous} = true then "Trade"
+    When ${final_prediction} = true then "Assumed Trade"
+    Else "DIY"
+    END
+    ;;
+  }
+
 
   measure: mean_proba_Yes_final {
     label: "Probability - Mean "

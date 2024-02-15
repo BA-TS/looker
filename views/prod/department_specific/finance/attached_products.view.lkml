@@ -134,6 +134,17 @@ view: attached_products {
     hidden: yes
   }
 
+  measure: number_of_transactions {
+    label: "Number of Transactions Attached Product 1"
+    view_label: "Measures"
+    group_label: "Core Metrics"
+    description: "Number of orders"
+    type: count_distinct
+    sql: ${parent_order_uid} ;;
+    value_format: "#,##0;(#,##0)"
+    hidden: yes
+  }
+
   measure: attached_count {
     view_label: "Measures"
     group_label: "Single Line Transactions"

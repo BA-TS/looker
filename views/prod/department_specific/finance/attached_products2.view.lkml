@@ -86,13 +86,40 @@ view: attached_products2 {
     sql:${TABLE}.netSalesValue;;
   }
 
-  dimension: total_margin_rate_incl_funding {
+  measure: total_marginInclFunding_attached2 {
+    group_label: "Single Line Transactions"
+    label: "Margin (Incl Funding) Attached Product2"
+    type: sum
+    sql:${marginInclFunding_attached2};;
+  }
+
+  measure: number_of_transactions {
+    label: "Number of Transactions Attached Product2"
+    view_label: "Measures"
+    group_label: "Core Metrics"
+    description: "Number of orders"
+    type: count_distinct
+    sql: ${parent_order_uid} ;;
+    value_format: "#,##0;(#,##0)"
+    hidden: yes
+  }
+
+  measure: total_netSalesValue {
+    group_label: "Single Line Transactions"
+    label: "Net Sales Attached Product2"
+    type: sum
+    sql:${netSalesValue};;
+  }
+
+  measure: total_margin_rate_incl_funding {
     group_label: "Single Line Transactions"
     label: "Margin Rate (Incl Funding) Attached Product2"
     type: number
-    sql: safe_divide(${marginInclFunding_attached2},${netSalesValue});;
+    sql: safe_divide(safe_divide(${marginInclFunding_attached2},${total_netSalesValue}));;
     value_format: "0.00%;(0.00%)"
   }
+
+
 
   # dimension: product_department_attached {
   #   group_label: "Single Line Transactions"
