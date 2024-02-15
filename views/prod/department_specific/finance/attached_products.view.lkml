@@ -159,7 +159,7 @@ view: attached_products {
 
   measure: total_margin_rate_incl_funding {
     group_label: "Single Line Transactions"
-    label: "Margin Rate (Incl Funding) Attached Product2"
+    label: "Margin Rate (Incl Funding) Attached Product"
     type: number
     sql: COALESCE(safe_divide(cast(${total_marginInclFunding_attached} as numeric),cast(${total_netSalesValue} as numeric)),null);;
     # COALESCE(SAFE_DIVIDE(${total_margin_incl_funding}, ${total_net_sales}),null) ;;
