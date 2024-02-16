@@ -2,12 +2,11 @@ view: product_quantity {
   derived_table: {
     sql:
     parentOrderUID,
-    transactionDate,
     sum(quantity) as quantity,
     row_number() OVER(ORDER BY parentOrderUID) AS prim_key
     from toolstation-data-storage.sales.transactions
     where productCode NOT IN ('85699', '00053','44842') and productCode not like "0%"
-    group by 1,2 ;;
+    group by 1;;
     datagroup_trigger: ts_transactions_datagroup
   }
 
