@@ -1,6 +1,7 @@
 view: product_quantity {
   derived_table: {
     sql:
+    select
     parentOrderUID,
     sum(quantity) as quantity,
     row_number() OVER(ORDER BY parentOrderUID) AS prim_key
@@ -19,22 +20,15 @@ view: product_quantity {
 
   dimension: quantity {
     type: number
-    label: "Quantity Test"
+    label: "Units (PB)"
     sql: ${TABLE}.quantity ;;
   }
 
-  dimension_group: transaction {
-    label: "Transaction"
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      month_num,
-      day_of_week_index
-    ]
-    sql: ${TABLE}.transactionDate ;;
-    hidden: yes
+  dimension: quantity_tier {
+    type: tier
+    label: "Units Tier (PB)"
+    sql: ${quantity} ;;
+    tiers: [0,1,2,3,4]
   }
 
   dimension: parent_order_uid {
@@ -44,9 +38,5 @@ view: product_quantity {
     type: string
     sql: ${TABLE}.parentOrderUID ;;
   }
-
-
-
-
 
 }
