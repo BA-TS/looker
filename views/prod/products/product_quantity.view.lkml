@@ -37,6 +37,7 @@ view: product_quantity {
     description: "Main order ID"
     type: string
     sql: ${TABLE}.parentOrderUID ;;
+    hidden: yes
   }
 
 }
