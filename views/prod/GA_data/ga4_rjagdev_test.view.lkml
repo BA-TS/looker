@@ -13,7 +13,7 @@ view: ga4_rjagdev_test {
      description: "Date of event"
      type: time
     timeframes: [date,raw]
-     sql: ${TABLE}.date ;;
+     sql: timestamp(${TABLE}.date) ;;
    }
 
   dimension: Platform {
