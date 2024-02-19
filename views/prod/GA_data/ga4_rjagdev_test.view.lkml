@@ -6,9 +6,16 @@ view: ga4_rjagdev_test {
    dimension: P_K {
     description: "sessionID with min Time for P_K"
     type: string
-    primary_key: yes
+    hidden: yes
     sql: row_number() over ();;
    }
+
+  dimension: PK {
+    type: string
+    primary_key: yes
+    hidden: yes
+    sql: ${P_K} ;;
+  }
 
    dimension_group: date {
      description: "Date of event"
