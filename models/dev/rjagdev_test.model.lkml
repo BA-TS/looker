@@ -4,13 +4,12 @@ include: "/views/**/*.view"              # include all views in the views/ folde
 label: "ragdev_testy_test"
 
 explore: GA4_test {
-  hidden: yes
-  required_access_grants: [GA4_access]
-  view_name: ga_digital_transactions
-  label: "GA4 (data model in BQ)"
+  required_access_grants: [ranjit_test]
+  view_name: calendar
+  label: "ranjit Test"
   always_filter: {
     filters: [
-      ga_digital_transactions.date_date: "7 days"
+      calendar.date: "7 days"
     ]}
 
   #join: total_sessions_ga4_dt {
@@ -22,11 +21,5 @@ explore: GA4_test {
           #${ga_digital_transactions.channel_Group} = ${total_sessions_ga4_dt.channel_grouping};;
   #}
 
-  join: calendar_completed_date {
-    from: calendar
-    relationship: one_to_many
-    type: inner
-    sql_on: ${ga_digital_transactions.date_date} = ${calendar_completed_date.date} ;;
-  }
 
 }
