@@ -22,7 +22,7 @@ explore: GA4_testy {
 
   join: ga4_transactions {
     view_label: "GA4: Transactions"
-    sql: LEFT JOIN UNNEST ([${ga4_rjagdev_test.transactions}]) as ga4_transactions ;;
+    sql: LEFT JOIN UNNEST (${ga4_rjagdev_test.transactions}) as ga4_transactions ;;
     relationship: one_to_many
   }
 
