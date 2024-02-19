@@ -8,7 +8,7 @@ view: ga4_rjagdev_test {
     type: string
     primary_key: yes
     hidden: yes
-    sql: concat(${session_id},${TABLE}.minTime) ;;
+    sql: GENERATE_UUID() ;;
   }
 
    dimension_group: date {
