@@ -176,19 +176,31 @@ view: ga4_rjagdev_test {
     sql: ${TABLE}.minTime ;;
   }
 
-  measure:  time_hours {
+  dimension:  session_duration {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.session_duration ;;
+  }
+
+  measure: time_hours {
     type: average
     group_label: "Overall sessions"
     value_format: "h:mm:ss"
-    sql: ${TABLE}.session_duration / 86400.0;;
+    sql: ${session_duration}/86400.0;;
   }
 
-  measure: events {
+  dimension: events {
+    type: number
+    hidden: yes
+    sql: ${TABLE}.events  ;;
+  }
+
+  measure: total_events {
     view_label: "GA4"
     group_label: "Total Measures"
     label: "Total Events"
     type: sum
-    sql: ${TABLE}.events ;;
+    sql: ${events} ;;
   }
 
   measure: page_views {
