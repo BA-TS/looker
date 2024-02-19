@@ -9,10 +9,14 @@ view: attached_products {
       productDepartment,
       productSubdepartment,
       row_number() OVER(ORDER BY parentOrderUID) AS prim_key,
+      sum(marginInclFunding) as marginInclFunding,
+      sum(netSalesValue) as netSalesValue,
      from `toolstation-data-storage.sales.transactions` t
         inner join `toolstation-data-storage.range.products_current` p
           using(productUID)
-    where  p.productCode not in ("85699","44842","00053") ;;
+    where  p.productCode not in ("85699","44842","00053")
+    group by 1, 2, 3, 4, 5, 6
+    ;;
     datagroup_trigger: ts_transactions_datagroup
   }
 
@@ -63,6 +67,20 @@ view: attached_products {
     group_label: "Single Line Transactions"
     type: string
     sql:${TABLE}.productDescription;;
+  }
+
+  dimension: marginInclFunding_attached {
+    group_label: "Single Line Transactions"
+    label: "Margin (Incl Funding) Attached Product"
+    type: number
+    sql:${TABLE}.marginInclFunding;;
+  }
+
+  dimension: netSalesValue {
+    group_label: "Single Line Transactions"
+    label: "Net Sales Attached Product"
+    type: number
+    sql:${TABLE}.netSalesValue;;
   }
 
   dimension: product_department_attached {
@@ -122,6 +140,32 @@ view: attached_products {
     sql: ${filter_match2};;
     hidden: yes
   }
+
+  measure: total_marginInclFunding_attached {
+    group_label: "Single Line Transactions"
+    label: "Margin (Incl Funding) Attached Product"
+    type: sum
+    sql:${marginInclFunding_attached};;
+    value_format_name: gbp
+  }
+
+  measure: total_netSalesValue {
+    group_label: "Single Line Transactions"
+    label: "Net Sales Attached Product"
+    type: sum
+    sql:${netSalesValue};;
+    value_format_name: gbp
+  }
+
+  measure: total_margin_rate_incl_funding {
+    group_label: "Single Line Transactions"
+    label: "Margin Rate (Incl Funding) Attached Product"
+    type: number
+    sql: COALESCE(safe_divide(cast(${total_marginInclFunding_attached} as numeric),cast(${total_netSalesValue} as numeric)),null);;
+    # COALESCE(SAFE_DIVIDE(${total_margin_incl_funding}, ${total_net_sales}),null) ;;
+    value_format: "0.00%;(0.00%)"
+  }
+
 
 
   # measure: product_count {

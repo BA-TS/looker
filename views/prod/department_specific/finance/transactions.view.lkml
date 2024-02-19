@@ -214,9 +214,18 @@ view: transactions {
   }
 
   dimension: quantity {
+    required_access_grants: [lz_testing]
     type: number
     sql: ${TABLE}.quantity ;;
-    hidden:  yes
+    label: "Units"
+  }
+
+  dimension: quantity_tier {
+    required_access_grants: [lz_testing]
+    type: tier
+    sql: ${quantity};;
+    label: "Units Tier"
+    tiers: [0,1,2,3,4]
   }
 
   dimension: sales_channel {
@@ -1104,7 +1113,7 @@ view: transactions {
     group_label: "AOV"
     description: "Average margin (including unit funding) per order"
     type:  number
-    sql: COALESCE(AFE_DIVIDE(${total_margin_incl_funding}, ${number_of_transactions}),0) ;;
+    sql: COALESCE(SAFE_DIVIDE(${total_margin_incl_funding}, ${number_of_transactions}),0) ;;
     value_format_name: gbp
   }
 

@@ -96,6 +96,13 @@ explore: base {
     sql_on: ${single_line_transactions.parent_order_uid} = ${attached_products.parent_order_uid} ;;
   }
 
+  join: attached_products2 {
+    view_label: "Transactions"
+    type: left_outer
+    relationship: many_to_many
+    sql_on: ${single_line_transactions.parent_order_uid} = ${attached_products2.parent_order_uid} ;;
+  }
+
   join: category_budget {
     view_label: "Budget"
     type: left_outer
@@ -297,6 +304,13 @@ explore: base {
     view_label: "Products"
     relationship: many_to_one
     sql_on: ${products.product_uid} = ${product_dimensions.product_uid};;
+  }
+
+  join: product_quantity {
+    type: left_outer
+    view_label: "Products"
+    relationship: many_to_one
+    sql_on: ${transactions.parent_order_uid} = ${product_quantity.parent_order_uid};;
   }
 
   join: retail_price_history {
