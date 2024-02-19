@@ -196,19 +196,21 @@ view: ga4_rjagdev_test {
   }
 
   measure: total_events {
-    view_label: "GA4"
     group_label: "Total Measures"
     label: "Total Events"
     type: sum
     sql: ${events} ;;
   }
 
-  measure: page_views {
-    view_label: "GA4"
-    group_label: "Total Measures"
-    label: "Total Page Views"
-    type: sum
+  dimension: page_views {
+    type: number
     sql: ${TABLE}.page_views ;;
+  }
+
+  measure: total_page_views {
+    label: "Page Views"
+    type: sum
+    sql: ${page_views} ;;
   }
 
   dimension: bounce_def {
