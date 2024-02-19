@@ -3,18 +3,12 @@ view: ga4_rjagdev_test {
    sql_table_name: `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` ;;
   #
   # # Define your dimensions and measures here, like this:
-   dimension: P_K {
-    description: "sessionID with min Time for P_K"
-    type: string
-    hidden: yes
-    sql: row_number() over ();;
-   }
 
   dimension: PK {
     type: string
     primary_key: yes
     hidden: yes
-    sql: ${P_K} ;;
+    sql: concat(${session_id},${TABLE}.minTime) ;;
   }
 
    dimension_group: date {
