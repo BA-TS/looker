@@ -4,9 +4,10 @@ view: ga4_rjagdev_test {
   #
   # # Define your dimensions and measures here, like this:
    dimension: P_K {
-     description: "sessionID with min Time for P_K"
-     type: string
-     sql: concat(${TABLE}.session_id,${TABLE}.MinTime) ;;
+    description: "sessionID with min Time for P_K"
+    type: string
+    primary_key: yes
+    sql: row_number() over ();;
    }
 
    dimension_group: date {
@@ -144,6 +145,7 @@ view: ga4_rjagdev_test {
   }
 
   dimension: User {
+    hidden: yes
     description: "User"
     type: string
     sql: ${TABLE}.User ;;
@@ -209,43 +211,38 @@ view: ga4_rjagdev_test {
     hidden: yes
     sql: ${TABLE}.transactions ;;
   }
-}
 
-# view: ga4_rjagdev_test {
-#   # Or, you could make this view a derived table, like this:
-#   derived_table: {
-#     sql: SELECT
-#         user_id as user_id
-#         , COUNT(*) as lifetime_orders
-#         , MAX(orders.created_at) as most_recent_purchase_at
-#       FROM orders
-#       GROUP BY user_id
-#       ;;
-#   }
-#
-#   # Define your dimensions and measures here, like this:
-#   dimension: user_id {
-#     description: "Unique ID for each user that has ordered"
-#     type: number
-#     sql: ${TABLE}.user_id ;;
-#   }
-#
-#   dimension: lifetime_orders {
-#     description: "The total number of orders for each user"
-#     type: number
-#     sql: ${TABLE}.lifetime_orders ;;
-#   }
-#
-#   dimension_group: most_recent_purchase {
-#     description: "The date when each user last ordered"
-#     type: time
-#     timeframes: [date, week, month, year]
-#     sql: ${TABLE}.most_recent_purchase_at ;;
-#   }
-#
-#   measure: total_lifetime_orders {
-#     description: "Use this for counting lifetime orders across many users"
-#     type: sum
-#     sql: ${lifetime_orders} ;;
-#   }
-# }
+  measure: Users {
+    label: "Total Users"
+    group_label: "Users"
+    type: count_distinct
+    sql: ${User} ;;
+  }
+
+  measure: New_users {
+    label: "New Users"
+    group_label: "Users"
+    description: "users who visted the platform for the first time or accepted cookies"
+    type: count_distinct
+    filters: [event_name: "first_visit,first_open"]
+    sql: ${User} ;;
+  }
+
+  measure: returning_users {
+    label: "Returning Users"
+    group_label: "Users"
+    type: number
+    description: "users who visted the platform prior"
+    sql: ${Users}-${New_users} ;;
+  }
+
+  measure: Active_Users {
+    label: "Active Users"
+    group_label: "Users"
+    type: count_distinct
+    description: "Users who had an active session"
+    filters: [bounce_def: "1"]
+    sql: ${User};;
+  }
+
+}
