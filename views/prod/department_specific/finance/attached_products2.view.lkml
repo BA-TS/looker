@@ -131,7 +131,7 @@ view: attached_products2 {
     group_label: "Single Line Transactions"
     label: "Product Match2"
     type: yesno
-    sql: ${product_code_attached}=${products.product_code} OR ${attached_products.product_code_attached}=${products.product_code};;
+    sql: ${product_code_attached}=${products.product_code} OR ${attached_products.product_code_attached}=${attached_products2.product_code_attached};;
   }
 
   # dimension: filter_match2 {
