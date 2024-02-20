@@ -470,7 +470,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     hidden: yes
     type: number
     value_format_name: gbp
-    sql: case when ${TABLE}.net_value is null ${TABLE}.net_value = 0 then (${TABLE}.ga4_revenue*0.83333) else ${TABLE}.net_value;;
+    sql: case when ${TABLE}.net_value is null or ${TABLE}.net_value = 0 then (${TABLE}.ga4_revenue*0.83333) else ${TABLE}.net_value;;
   }
 
   measure: net_value {
