@@ -5,10 +5,10 @@ view: ga4_rjagdev_test {
   # # Define your dimensions and measures here, like this:
 
   dimension: PK {
-    type: number
+    type: string
     primary_key: yes
     hidden: yes
-    sql: row_number() over(order by MinTime Desc);;
+    sql: concat(${session_id},${User},${TABLE}.MinTime,case when ${Item_id} is null then "noItemID" else ${Item_id} end,case when ${PromoID} is null then "noPromo" else ${PromoID} end);;
   }
 
    dimension_group: date {
