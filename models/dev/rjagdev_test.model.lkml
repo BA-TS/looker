@@ -7,7 +7,8 @@ explore: GA4_testy {
   required_access_grants: [ranjit_test]
   view_name: calendar
   label: "ranjit Test"
-  sql_always_where: _table_suffix >= FORMAT_DATE('%Y%m%d',date_sub(date_trunc(current_date, year), interval 2 month)) and ((${ga4_rjagdev_test.Item_id}=${ga4_transactions.item_id}) or (${ga4_rjagdev_test.Item_id} is not null and ${ga4_transactions.item_id} is null) or (${ga4_rjagdev_test.Item_id}=${ga4_transactions.item_id}) or (${ga4_rjagdev_test.Item_id} is null and ${ga4_transactions.item_id} is null)) ;;
+  sql_always_where: _table_suffix between FORMAT_DATE('%Y%m%d',date_sub(current_date(), interval 2 month)) and FORMAT_DATE('%Y%m%d',date_sub(current_date(), interval 1 day))
+  and ((${ga4_rjagdev_test.Item_id}=${ga4_transactions.item_id}) or (${ga4_rjagdev_test.Item_id} is not null and ${ga4_transactions.item_id} is null) or (${ga4_rjagdev_test.Item_id}=${ga4_transactions.item_id}) or (${ga4_rjagdev_test.Item_id} is null and ${ga4_transactions.item_id} is null)) ;;
   always_filter: {
     filters: [
       calendar.date: "7 days"
