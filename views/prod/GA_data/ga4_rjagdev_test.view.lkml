@@ -8,7 +8,7 @@ view: ga4_rjagdev_test {
     type: string
     primary_key: yes
     hidden: yes
-    sql: GENERATE_UUID() ;;
+    sql: concat(${session_id},${TABLE}.MinTime,${event_name},${Item_id});;
   }
 
    dimension_group: date {
