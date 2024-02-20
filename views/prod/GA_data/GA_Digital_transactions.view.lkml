@@ -483,7 +483,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     label: "Gross Revenue"
     type: sum
     value_format_name: gbp
-    sql: ${TABLE}.gross_value ;;
+    sql: case when ${TABLE}.gross_value is null or ${TABLE}.gross_value = 0 then ${TABLE}.ga4_revenue else ${TABLE}.gross_value end ;;
   }
 
   measure: MarginIncFunding {
