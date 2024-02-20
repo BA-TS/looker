@@ -1,4 +1,11 @@
 view: ga4_transactions {
+
+  dimension: P_K {
+    primary_key: yes
+    hidden: yes
+    type: string
+    sql: concat(${OrderID},${customer},${ProductUID},${placed_date},${placed_time_of_day}) ;;
+  }
   dimension: OrderID {
     description: "OrderID"
     type: string

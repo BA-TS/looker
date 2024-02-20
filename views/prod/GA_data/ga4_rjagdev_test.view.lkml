@@ -8,7 +8,7 @@ view: ga4_rjagdev_test {
     type: string
     primary_key: yes
     hidden: yes
-    sql: concat(${session_id},${TABLE}.MinTime,${event_name},${Item_id});;
+    sql: concat(${session_id},${TABLE}.MinTime,${event_name},${Item_id},${label_1},${label_2},${PromoID});;
   }
 
    dimension_group: date {
