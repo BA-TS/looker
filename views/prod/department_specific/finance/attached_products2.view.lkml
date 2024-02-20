@@ -14,7 +14,7 @@ view: attached_products2 {
      from `toolstation-data-storage.sales.transactions` t
         inner join `toolstation-data-storage.range.products_current` p
           using(productUID)
-    where  p.productCode not in ("85699","44842","00053")
+    where  p.productCode not in ("85699","44842","00053") and p.productCode>"10000"
     group by 1, 2, 3, 4, 5, 6
     ;;
     datagroup_trigger: ts_transactions_datagroup
