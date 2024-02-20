@@ -45,6 +45,7 @@ view: single_line_transactions {
     label: "Number of Attached Products Tier"
     view_label: "Products"
     type: tier
+    style: integer
     tiers: [0,1,2,3,4]
     sql: ${attached_product_count} ;;
   }

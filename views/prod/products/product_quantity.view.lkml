@@ -28,6 +28,7 @@ view: product_quantity {
     type: tier
     label: "Units Tier (PB)"
     sql: ${quantity} ;;
+    style: integer
     tiers: [0,1,2,3,4]
   }
 
