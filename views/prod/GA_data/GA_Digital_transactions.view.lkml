@@ -466,6 +466,13 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     sql: ${TABLE}.Quantity ;;
   }
 
+  dimension: net_value_hidden {
+    hidden: yes
+    type: number
+    value_format_name: gbp
+    sql: case when ${TABLE}.net_value is null ${TABLE}.net_value = 0 then (${TABLE}.ga4_revenue*0.83333) else ${TABLE}.net_value;;
+  }
+
   measure: net_value {
     view_label: "GA4"
     group_label: "Transactional"
@@ -473,7 +480,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     label: "Net Revenue"
     type: sum
     value_format_name: gbp
-    sql: ${TABLE}.net_value ;;
+    sql: ${net_value_hidden};;
   }
 
   measure: gross_value {
