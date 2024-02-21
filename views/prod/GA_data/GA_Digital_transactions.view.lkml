@@ -4,7 +4,7 @@ view: ga_digital_transactions {
      sql: SELECT distinct
     row_number() over () as P_K,
     platform,
-    date(timestamp_sub(MinTime, interval 1 HOUR)) as date,
+    case when date(MinTime) Between date("2023-10-29") and ("2024-02-15") then date(timestamp_sub(MinTime, interval 1 HOUR)) else date(MinTime) end as date,
     country,
     deviceCategory,
     source,
@@ -35,7 +35,7 @@ view: ga_digital_transactions {
     transactions.salesChannel,
     transactions.paymentType,
     transactions.placed,
-    timestamp_sub(MinTime, interval 1 HOUR) as MinTime,
+    case when date(MinTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(MinTime, interval 1 HOUR)) else (MinTime) end as MinTime,
     transactions.Quantity,
     transactions.net_value,
     transactions.gross_value,
