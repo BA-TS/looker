@@ -4,7 +4,7 @@ view: ga_digital_transactions {
      sql: SELECT distinct
     row_number() over () as P_K,
     platform,
-    date(timestamp_sub(MinTime, interval 1 HOUR)) as date,
+    case when date(MinTime) Between date("2023-10-29") and ("2024-02-15") then date(timestamp_sub(MinTime, interval 1 HOUR)) else date(MinTime) end as date,
     country,
     deviceCategory,
     source,
@@ -35,7 +35,7 @@ view: ga_digital_transactions {
     transactions.salesChannel,
     transactions.paymentType,
     transactions.placed,
-    timestamp_sub(MinTime, interval 1 HOUR) as MinTime,
+    case when date(MinTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(MinTime, interval 1 HOUR)) else (MinTime) end as MinTime,
     transactions.Quantity,
     transactions.net_value,
     transactions.gross_value,
@@ -466,6 +466,13 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     sql: ${TABLE}.Quantity ;;
   }
 
+  dimension: net_value_hidden {
+    hidden: yes
+    type: number
+    value_format_name: gbp
+    sql: case when ${TABLE}.net_value is null or ${TABLE}.net_value = 0 then (${TABLE}.ga4_revenue*0.83333) else ${TABLE}.net_value end;;
+  }
+
   measure: net_value {
     view_label: "GA4"
     group_label: "Transactional"
@@ -473,7 +480,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     label: "Net Revenue"
     type: sum
     value_format_name: gbp
-    sql: ${TABLE}.net_value ;;
+    sql: ${net_value_hidden};;
   }
 
   measure: gross_value {
@@ -483,7 +490,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     label: "Gross Revenue"
     type: sum
     value_format_name: gbp
-    sql: ${TABLE}.gross_value ;;
+    sql: case when ${TABLE}.gross_value is null or ${TABLE}.gross_value = 0 then ${TABLE}.ga4_revenue else ${TABLE}.gross_value end ;;
   }
 
   measure: MarginIncFunding {

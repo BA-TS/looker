@@ -1,3 +1,5 @@
+include: "/views/prod/department_specific/finance/attached_products.view"
+
 view: attached_products2 {
   derived_table: {
     sql:
@@ -14,7 +16,7 @@ view: attached_products2 {
      from `toolstation-data-storage.sales.transactions` t
         inner join `toolstation-data-storage.range.products_current` p
           using(productUID)
-    where  p.productCode not in ("85699","44842","00053")
+    where  p.productCode not in ("85699","44842","00053") and p.productCode>"10000"
     group by 1, 2, 3, 4, 5, 6
     ;;
     datagroup_trigger: ts_transactions_datagroup
@@ -125,12 +127,12 @@ view: attached_products2 {
   #   sql: ${TABLE}.productSubdepartment ;;
   # }
 
-  # dimension: filter_match {
-  #   group_label: "Single Line Transactions"
-  #   label: "Product Match"
-  #   type: yesno
-  #   sql: ${product_code_attached}=${products.product_code};;
-  # }
+  dimension: filter_match {
+    group_label: "Single Line Transactions"
+    label: "Product Match2"
+    type: yesno
+    sql: ${product_code_attached}=${products.product_code} OR ${attached_products.product_code_attached}=${attached_products2.product_code_attached};;
+  }
 
   # dimension: filter_match2 {
   #   group_label: "Single Line Transactions"

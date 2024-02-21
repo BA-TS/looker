@@ -306,6 +306,13 @@ explore: base {
     sql_on: ${products.product_uid} = ${product_dimensions.product_uid};;
   }
 
+  join: product_quantity {
+    type: left_outer
+    view_label: "Products"
+    relationship: many_to_one
+    sql_on: ${transactions.parent_order_uid} = ${product_quantity.parent_order_uid};;
+  }
+
   join: retail_price_history {
     type: left_outer
     view_label: "Products"
