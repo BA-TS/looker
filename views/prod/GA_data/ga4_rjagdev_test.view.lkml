@@ -15,7 +15,7 @@ view: ga4_rjagdev_test {
      description: "Date of event"
      type: time
     timeframes: [date,raw]
-     sql: timestamp(${TABLE}.date) ;;
+     sql: case when date(${TABLE}.minTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(${TABLE}.minTime, interval 1 HOUR)) else (${TABLE}.minTime) end ;;
    }
 
   dimension: Platform {
@@ -174,7 +174,7 @@ view: ga4_rjagdev_test {
     description: "Min datetime of event"
     type: time
     timeframes: [time_of_day]
-    sql: ${TABLE}.minTime ;;
+    sql: case when date(${TABLE}.minTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(${TABLE}.minTime, interval 1 HOUR)) else (${TABLE}.minTime) end ;;
   }
 
   dimension:  session_duration {
@@ -258,6 +258,15 @@ view: ga4_rjagdev_test {
     description: "Users who had an active session"
     filters: [bounce_def: "1"]
     sql: ${User};;
+  }
+
+  filter: select_date_range {
+    label: "GA4 Date Range"
+    group_label: "Date Filter"
+    view_label: "Date"
+    type: date
+    datatype: date
+    convert_tz: yes
   }
 
 }
