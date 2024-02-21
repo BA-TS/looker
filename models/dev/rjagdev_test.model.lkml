@@ -9,10 +9,12 @@ explore: GA4_testy {
   label: "ranjit Test"
   sql_always_where: _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {% date_start ga4_rjagdev_test.select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end ga4_rjagdev_test.select_date_range %})
   and ((${ga4_rjagdev_test.Item_id}=${ga4_transactions.item_id}) or (${ga4_rjagdev_test.Item_id} is not null and ${ga4_transactions.item_id} is null) or (${ga4_rjagdev_test.Item_id}=${ga4_transactions.item_id}) or (${ga4_rjagdev_test.Item_id} is null and ${ga4_transactions.item_id} is null)) ;;
-  always_filter: {
+  conditionally_filter: {
     filters: [
       calendar.date: "7 days"
-    ]}
+    ]
+
+    unless:[ga4_rjagdev_test.select_date_range]}
 
   join: ga4_rjagdev_test {
     view_label: "GA4"

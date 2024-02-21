@@ -8,7 +8,7 @@ view: ga4_rjagdev_test {
     type: string
     primary_key: yes
     hidden: yes
-    sql: concat(${session_id},${User},${TABLE}.MinTime,case when ${Item_id} is null then "noItemID" else ${Item_id} end,case when ${PromoID} is null then "noPromo" else ${PromoID} end);;
+    sql: ${TABLE}.P_K;;
   }
 
    dimension_group: date {
