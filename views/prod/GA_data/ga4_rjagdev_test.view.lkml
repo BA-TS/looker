@@ -226,7 +226,8 @@ view: ga4_rjagdev_test {
     hidden: yes
     sql: ${TABLE}.transactions ;;
   }
-
+##########Measures##########################
+############Users#########################
   measure: Users {
     label: "Total Users"
     group_label: "Users"
@@ -260,13 +261,13 @@ view: ga4_rjagdev_test {
     sql: ${User};;
   }
 
-  filter: select_date_range {
-    label: "GA4 Date Range"
-    group_label: "Date Filter"
-    view_label: "Date"
-    type: date
-    datatype: date
-    convert_tz: yes
-  }
+  #filter: select_date_range {
+    #label: "GA4 Date Range"
+    #group_label: "Date Filter"
+    #view_label: "Date"
+    #type: date
+    #datatype: date
+    #convert_tz: yes
+  #}
 
 }

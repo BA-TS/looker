@@ -13,7 +13,8 @@ explore: GA4_testy {
       calendar.filter_on_field_to_hide: "7 days"
     ]
 
-    unless:[ga4_rjagdev_test.select_date_range]}
+    #unless:[ga4_rjagdev_test.select_date_range]
+    }
 
   join: ga4_rjagdev_test {
     view_label: "GA4"
