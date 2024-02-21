@@ -20,8 +20,8 @@ explore: GA4_testy {
     type: left_outer
     relationship: many_to_one
     sql_on: ${calendar.date} = ${ga4_rjagdev_test.date_date};;
-    sql_where: _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {% date_start ga4_rjagdev_test.select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end ga4_rjagdev_test.select_date_range %})
-    and ${ga4_rjagdev_test.date_date} BETWEEN {% date_start ga4_rjagdev_test.select_date_range %} and {% date_end ga4_rjagdev_test.select_date_range %}
+    sql_where: _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {% date_start calendar.filter_on_field_to_hide %}) and FORMAT_DATE('%Y%m%d', {% date_end calendar.filter_on_field_to_hide %})
+    and ${ga4_rjagdev_test.date_date} BETWEEN {% date_start calendar.filter_on_field_to_hide %} and {% date_end calendar.filter_on_field_to_hide %}
       ;;
   }
 
