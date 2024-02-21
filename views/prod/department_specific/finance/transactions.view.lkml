@@ -476,6 +476,21 @@ view: transactions {
     sql: ${is_working_day} and ${is_working_hours};;
   }
 
+  dimension: fulfillment_channel_tk {
+    view_label: "Transactions"
+    group_label: "Purchase Details"
+    label: "Fulfillment Channel"
+    description: "Dropship = Dropship, Branch/Standard Click & Collect (excluding originating site UID 'XN') = RDC Fulfilled, Rest = Ecomm Fulfilled"
+    type: string
+    sql: CASE
+         WHEN ${sales_channel} IN ("DROPSHIP") THEN "Dropship"
+         WHEN (${sales_channel} IN ("BRANCHES") OR (${sales_channel} IN ("CLICK & COLLECT") AND ${originating_site_uid} != "XN")) THEN "RDC"
+         ELSE "E-commerce"
+       END ;;
+  }
+
+
+
   measure: working_day_hours_total {
     type: count_distinct
     value_format: "#,##0;(#,##0)"

@@ -438,6 +438,17 @@ view: customers {
     sql:${customer_classification.customer_type} ;;
   }
 
+  dimension: sign_up_type {
+    group_label: "Customer"
+    sql: CASE WHEN ${customer_uid} IS NULL THEN "Store"
+              WHEN LEFT(${customer_uid},3) = "CWW" THEN "Web/App" ELSE "Store" END ;;
+    label: "Signup Type"
+
+      }
+
+
+
+
   measure: number_of_customers {
     label: "
     {% if _explore._name == 'GA4' %}
