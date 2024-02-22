@@ -18,44 +18,57 @@ view: ga4_rjagdev_test {
      sql: case when date(${TABLE}.minTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(${TABLE}.minTime, interval 1 HOUR)) else (${TABLE}.minTime) end ;;
    }
 
-  dimension: Platform {
-    description: "If user used App or Web"
+
+  dimension: platform {
+    view_label: "GA4"
+    label: "Platform"
+    group_label: "User Attributes"
     type: string
     sql: ${TABLE}.platform ;;
   }
 
   dimension: country {
-    description: "Country user has been located"
+    view_label: "GA4"
+    label: "country"
+    group_label: "User Attributes"
     type: string
     sql: ${TABLE}.country ;;
   }
 
-  dimension: DeviceCategory {
-    description: "Device used"
+  dimension: deviceCategory {
+    view_label: "GA4"
+    label: "Device Category"
+    group_label: "User Attributes"
     type: string
-    sql: ${TABLE}.DeviceCategory ;;
+    sql: ${TABLE}.deviceCategory ;;
   }
 
-  dimension: Channel_group {
-    description: "Groupings of traffic sources"
+  dimension: channel_Group {
+    view_label: "GA4"
+    label: "Channel Group"
+    group_label: "Traffic Source"
     type: string
-    sql: ${TABLE}.Channel_group ;;
+    sql: ${TABLE}.channel_Group ;;
   }
 
+  dimension: Medium {
+    view_label: "GA4"
+    label: "Medium"
+    group_label: "Traffic Source"
+    type: string
+    sql: ${TABLE}.Medium ;;
+  }
   dimension: source {
-    description: "traffic source"
+    view_label: "GA4"
+    label: "Source"
+    group_label: "Traffic Source"
     type: string
     sql: ${TABLE}.source ;;
   }
-
-  dimension: medium {
-    description: "traffic Medium"
-    type: string
-    sql: ${TABLE}.medium ;;
-  }
-
   dimension: Campaign {
-    description: "traffic Campaign"
+    view_label: "GA4"
+    label: "Campaign"
+    group_label: "Traffic Source"
     type: string
     sql: ${TABLE}.Campaign ;;
   }
@@ -64,96 +77,128 @@ view: ga4_rjagdev_test {
     description: "event name"
     type: string
     sql: case
-    when ${TABLE}.event_name = "videoly" and ${key_1} = "action" and ${label_1} not in ("videoly_progress") then ${label_1}
+    when ${TABLE}.event_name = "videoly" and ${TABLE}.key_1 = "action" and ${label_1} not in ("videoly_progress") then ${label_1}
     when ${TABLE}.event_name = "videoly" and ${label_1} = "videoly_progress" then concat(${label_1},"-",${label_2},"%")
     when ${TABLE}.event_name = "videoly_videostart" then "videoly_start"
     when ${TABLE}.event_name = "videoly_initialize" then "videoly_box_shown"
     when ${TABLE}.event_name = "videoly_videoclosed" then "videoly_closed"
-    when ${TABLE}.event_name = "collection_oos" and ${Platform} = "Web" then "out_of_stock"
-    when ${TABLE}.event_name = "dual_oos" and ${Platform} = "Web" then "out_of_stock"
-    when ${TABLE}.event_name = "delivery_oos" and ${Platform} = "Web" then "out_of_stock"
-    when ${TABLE}.event_name = "out_of_stock" and ${Platform} = "Web" then null
+    when ${TABLE}.event_name = "collection_oos" and ${platform} = "Web" then "out_of_stock"
+    when ${TABLE}.event_name = "dual_oos" and ${platform} = "Web" then "out_of_stock"
+    when ${TABLE}.event_name = "delivery_oos" and ${platform} = "Web" then "out_of_stock"
+    when ${TABLE}.event_name = "out_of_stock" and ${platform} = "Web" then null
     else ${TABLE}.event_name
     end;;
   }
 
   dimension: key_1 {
-    description: "event key 1"
+    view_label: "GA4"
+    label: "1.Event Key"
+    group_label: "Event"
     type: string
-    sql: ${TABLE}.key_1 ;;
+    sql: case when ${TABLE}.key_1 is null and ${label_1} is not null then "action"
+          when ${TABLE}.event_name = "collection_oos" and ${platform} = "Web" then "Collection"
+          when ${TABLE}.event_name = "dual_oos" and ${platform} = "Web" then "Dual"
+          when${TABLE}.event_name = "delivery_oos" and ${platform} = "Web" then "Delivery"
+          when ${TABLE}.event_name = "out_of_stock" and ${platform} = "Web" then null
+          else ${TABLE}.key_1 end;;
   }
 
   dimension: label_1 {
-    description: "event label 1"
+    view_label: "GA4"
+    label: "1.Event Label"
+    group_label: "Event"
     type: string
     sql: ${TABLE}.label_1 ;;
   }
 
   dimension: key_2 {
-    description: "event key 2"
+    view_label: "GA4"
+    label: "2.Event Key"
+    group_label: "Event"
     type: string
-    sql: ${TABLE}.key_2 ;;
+    sql: case when ${TABLE}.key_2 is null and ${label_2} is not null then "action" else ${TABLE}.key_2 end ;;
   }
 
   dimension: label_2 {
-    description: "event label 2"
+    view_label: "GA4"
+    label: "2.Event Label"
+    group_label: "Event"
     type: string
     sql: ${TABLE}.label_2 ;;
   }
 
-  dimension: event_value {
-    description: "Event Value"
-    type: number
-    hidden: yes
+  measure: value {
+    view_label: "GA4"
+    group_label: "Total Measures"
+    label: "Total Event Value"
+    value_format_name: gbp
+    type: sum
     sql: ${TABLE}.value ;;
   }
 
   dimension: error {
-    description: "event error"
+    view_label: "GA4"
+    label: "Error Message"
+    group_label: "Event"
     type: string
     sql: ${TABLE}.error ;;
   }
 
-  dimension: PromoID {
-    description: "PromoID"
+  dimension: promoID {
+    view_label: "GA4"
+    label: "Promo ID"
+    group_label: "Promo Info"
     type: string
-    sql: ${TABLE}.PromoID ;;
+    sql: ${TABLE}.PromoID;;
   }
 
-  dimension: PromoName {
-    description: "PromoName"
+  dimension: promoNAme {
+    view_label: "GA4"
+    label: "Promo Name"
+    group_label: "Promo Info"
     type: string
-    sql: ${TABLE}.PromoName ;;
+    sql: ${TABLE}.PromoName;;
   }
 
-  dimension: Creative_name {
-    description: "creative_name"
+  dimension: creative_name {
+    view_label: "GA4"
+    label: "Creative Name"
+    group_label: "Promo Info"
     type: string
-    sql: ${TABLE}.creative_name ;;
+    sql: ${TABLE}.creative_name;;
   }
 
-  dimension: Item_id {
-    description: "item_id"
+  dimension: itemid {
     type: string
-    sql: ${TABLE}.item_id ;;
+    view_label: "Products"
+    group_label: "Product Details"
+    hidden: yes
+    label: "Product Code"
+    sql: case when ${TABLE}.item_id in ('44842') then 'null' else ${TABLE}.item_id end;;
   }
 
-  dimension: Item_category {
-    description: "item_category"
+  dimension: item_Category {
     type: string
-    sql: ${TABLE}.item_category ;;
+    view_label: "Products"
+    group_label: "Product Selling Category"
+    label: "1.Category"
+    sql: ${TABLE}.item_Category ;;
   }
 
-  dimension: Item_category2 {
-    description: "item_category2"
+  dimension: item_Category2 {
     type: string
-    sql: ${TABLE}.item_category2 ;;
+    view_label: "Products"
+    group_label: "Product Selling Category"
+    label: "2.Sub Category"
+    sql: ${TABLE}.item_Category2 ;;
   }
 
-  dimension: Item_category3 {
-    description: "item_category3"
+  dimension: item_Category3 {
     type: string
-    sql: ${TABLE}.item_category3 ;;
+    view_label: "Products"
+    group_label: "Product Selling Category"
+    label: "3.Sub Sub Category"
+    sql: ${TABLE}.item_Category3 ;;
   }
 
   dimension: User {
@@ -169,14 +214,18 @@ view: ga4_rjagdev_test {
     sql: ${TABLE}.session_id ;;
   }
 
-  dimension: Page {
-    description: "Page"
+  dimension: page_location {
+    view_label: "GA4"
+    label: "Page"
+    group_label: "Screen"
     type: string
     sql: ${TABLE}.page_location ;;
   }
 
-  dimension: screen {
-    description: "screen name"
+  dimension: Screen_name {
+    view_label: "GA4"
+    label: "Screen name"
+    group_label: "Screen"
     type: string
     sql: ${TABLE}.Screen_name ;;
   }
@@ -188,18 +237,21 @@ view: ga4_rjagdev_test {
     sql: case when date(${TABLE}.minTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(${TABLE}.minTime, interval 1 HOUR)) else (${TABLE}.minTime) end ;;
   }
 
-  dimension:  session_duration {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.session_duration ;;
-  }
-
-  measure: time_hours {
+  measure: session_duration {
     type: average
+    view_label: "GA4"
+    label: "Avg Session Duration"
     group_label: "Overall sessions"
     value_format: "h:mm:ss"
-    sql: ${session_duration}/86400.0;;
+    sql: ${TABLE}.session_duration / 86400.0;;
   }
+
+ # measure: time_hours {
+    #type: average
+    #group_label: "Overall sessions"
+    #value_format: "h:mm:ss"
+    #sql: ${session_duration}/86400.0;;
+  #}
 
   dimension: events {
     type: number
