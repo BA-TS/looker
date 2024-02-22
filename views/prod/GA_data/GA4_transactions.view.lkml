@@ -1,10 +1,10 @@
 view: ga4_transactions {
 
-  dimension: P_K {
-    primary_key: yes
-    type: string
-    sql: concat(${OrderID},${customer},case when ${ProductUID} is null then "1" else ${ProductUID} end,${placed_date},${placed_time_of_day},${MarginExclFunding}) ;;
-  }
+  #dimension: P_K {
+    #primary_key: yes
+    #type: string
+    #sql: concat(${OrderID},${customer},case when ${ProductUID} is null then "1" else ${ProductUID} end,${placed_date},${placed_time_of_day},${MarginExclFunding}) ;;
+  #}
 
   dimension: OrderID {
     description: "OrderID"
