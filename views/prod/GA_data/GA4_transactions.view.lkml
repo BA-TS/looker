@@ -13,6 +13,7 @@ view: ga4_transactions {
 
   dimension: customer {
     description: "customer"
+    hidden: yes
     type: string
   }
 
@@ -43,27 +44,32 @@ view: ga4_transactions {
 
   dimension: net_value {
     type: number
-    value_format_name: gbp
+    hidden: yes
+    #value_format_name: gbp
   }
 
   dimension: gross_value {
     type: number
-    value_format_name: gbp
+    hidden: yes
+    #value_format_name: gbp
   }
 
   dimension: ga4_revenue {
     type: number
-    value_format_name: gbp
+    hidden: yes
+    #value_format_name: gbp
   }
 
   dimension: MarginIncFunding {
     type: number
-    value_format_name: gbp
+    hidden: yes
+    #value_format_name: gbp
   }
 
   dimension: MarginExclFunding {
     type: number
-    value_format_name: gbp
+    hidden: yes
+    #value_format_name: gbp
   }
 
   dimension: Quantity {
@@ -86,10 +92,32 @@ view: ga4_transactions {
     type: string
   }
 
+  ##########Measures###############
+
   measure: Orders {
     label: "Orders"
     type: count_distinct
     sql: ${OrderID} ;;
+  }
+
+  measure: Customers {
+    label: "Customers"
+    type: count_distinct
+    sql: ${customer} ;;
+  }
+
+  measure: net_value_hidden {
+    label: "Net Revenue"
+    type: sum
+    value_format_name: gbp
+    sql: case when ${net_value} is null or ${net_value} = 0 then (${ga4_revenue}*0.83333) else ${net_value} end;;
+  }
+
+  measure: gross_values {
+    label: "Gross Revenue"
+    type: sum
+    value_format_name: gbp
+    sql: case when ${gross_value} is null or ${gross_value} = 0 then ${ga4_revenue} else ${gross_value} end ;;
   }
 
 
