@@ -115,6 +115,13 @@ view: ga4_transactions {
     sql: case when ${net_value} is null or ${net_value} = 0 then (${ga4_revenue}*0.83333) else ${net_value} end;;
   }
 
+  measure: ga4_rev {
+    label: "GA4 Revenue"
+    type: sum
+    value_format_name: gbp
+    sql: ${ga4_revenue};;
+  }
+
   measure: gross_values {
     label: "Gross Revenue"
     type: sum
