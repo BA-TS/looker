@@ -74,10 +74,12 @@ view: ga4_transactions {
 
   dimension: Quantity {
     type: number
+    hidden: yes
   }
 
   dimension: ga4_quantity {
     type: number
+    hidden: yes
   }
 
   dimension: item_id {
@@ -106,7 +108,7 @@ view: ga4_transactions {
     sql: ${customer} ;;
   }
 
-  measure: net_value_hidden {
+  measure: sum_net_value {
     label: "Net Revenue"
     type: sum
     value_format_name: gbp
@@ -118,6 +120,44 @@ view: ga4_transactions {
     type: sum
     value_format_name: gbp
     sql: case when ${gross_value} is null or ${gross_value} = 0 then ${ga4_revenue} else ${gross_value} end ;;
+  }
+
+  measure: Sum_marginIncFund {
+    label: "Margin Inc Funding"
+    type: sum
+    value_format_name: gbp
+    sql: ${MarginIncFunding} ;;
+  }
+
+  measure: Sum_marginExcFund {
+    label: "Margin Excl Funding"
+    type: sum
+    value_format_name: gbp
+    sql: ${MarginExclFunding} ;;
+  }
+
+  measure: margin_rate_inc_funding {
+    label: "Margin Rate (Inc funding)"
+    value_format: "0.00%;(0.00%)"
+    sql: COALESCE(safe_divide(${Sum_marginIncFund},${sum_net_value}),null) ;;
+  }
+
+  measure: margin_rate_excl_funding {
+    label: "Margin Rate (Excl funding)"
+    value_format: "0.00%;(0.00%)"
+    sql: COALESCE(safe_divide(${Sum_marginExcFund},${sum_net_value}),null) ;;
+  }
+
+  measure: Sum_quantity {
+    label: "Quantity"
+    type: sum
+    sql: ${Quantity} ;;
+  }
+
+  measure: Sum_GA4quantity {
+    label: "GA4 Quantity"
+    type: sum
+    sql: ${ga4_quantity} ;;
   }
 
 
