@@ -3,7 +3,7 @@ view: ga4_transactions {
   dimension: P_K {
     primary_key: yes
     type: string
-    sql: concat(${OrderID},${ProductUID},${item_id},${TABLE}.Placed,${MarginIncFunding},${status},${ga4_rjagdev_test.PK}) ;;
+    sql: coalesce(concat(${OrderID},${ProductUID},${item_id},${TABLE}.Placed,${MarginIncFunding},${status},${ga4_rjagdev_test.PK}),concat(${OrderID},${item_id},${ga4_rjagdev_test.PK},${ga4_quantity})) ;;
   }
 
   dimension: OrderID {
