@@ -63,7 +63,18 @@ view: ga4_rjagdev_test {
   dimension: event_name {
     description: "event name"
     type: string
-    sql: ${TABLE}.event_name ;;
+    sql: case
+    when ${TABLE}.event_name = "videoly" and ${key_1} = "action" and ${label_1} not in ("videoly_progress") then ${label_1}
+    when ${TABLE}.event_name = "videoly" and ${label_1} = "videoly_progress" then concat(${label_1},"-",${label_2},"%")
+    when ${TABLE}.event_name = "videoly_videostart" then "videoly_start"
+    when ${TABLE}.event_name = "videoly_initialize" then "videoly_box_shown"
+    when ${TABLE}.event_name = "videoly_videoclosed" then "videoly_closed"
+    when ${TABLE}.event_name = "collection_oos" and ${Platform} = "Web" then "out_of_stock"
+    when ${TABLE}.event_name = "dual_oos" and ${Platform} = "Web" then "out_of_stock"
+    when ${TABLE}.event_name = "delivery_oos" and ${Platform} = "Web" then "out_of_stock"
+    when ${TABLE}.event_name = "out_of_stock" and ${Platform} = "Web" then null
+    else ${TABLE}.event_name
+    end;;
   }
 
   dimension: key_1 {
@@ -259,6 +270,56 @@ view: ga4_rjagdev_test {
     description: "Users who had an active session"
     filters: [bounce_def: "1"]
     sql: ${User};;
+  }
+
+  #################Sessions########################
+
+  measure: sessions_total {
+    #hidden: yes
+    view_label: "GA4"
+    group_label: "Overall sessions"
+    label: "Total Sessions"
+    type: count_distinct
+    sql: ${session_id} ;;
+  }
+
+  measure: session_start {
+    view_label: "GA4"
+    group_label: "Overall sessions"
+    label: "Total Sessions Started"
+    type: count_distinct
+    filters: [event_name: "session_start"]
+    sql: ${session_id};;
+  }
+
+  measure: sessions {
+    view_label: "GA4"
+    label: "Engaged Sessions"
+    group_label: "Overall sessions"
+    description: "Sessions which were detirmined as engaged"
+    type: count_distinct
+    filters: [bounce_def: "1"]
+    sql: ${session_id};;
+  }
+
+  measure: bs {
+    view_label: "GA4"
+    label: "Bounced sessions"
+    group_label: "Overall sessions"
+    description: "Sessions where user left site after viewing 1 page"
+    type: number
+    sql: ${sessions_total}-${sessions} ;;
+  }
+
+  measure: bounce_rate {
+    view_label: "GA4"
+    label: "Bounce rate"
+    group_label: "Overall sessions"
+    type: number
+    description: "rate of total sessions where user left site after viewing 1 page"
+    value_format_name: percent_2
+    #sql: (${bs}/${session_start}) * 100
+    sql: safe_divide(${bs},${sessions_total});;
   }
 
   #filter: select_date_range {
