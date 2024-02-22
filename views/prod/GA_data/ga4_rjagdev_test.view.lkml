@@ -75,6 +75,9 @@ view: ga4_rjagdev_test {
 
   dimension: event_name {
     description: "event name"
+    view_label: "GA4"
+    label: "Event Name"
+    group_label: "Event"
     type: string
     sql: case
     when ${TABLE}.event_name = "videoly" and ${TABLE}.key_1 = "action" and ${label_1} not in ("videoly_progress") then ${label_1}
@@ -253,28 +256,20 @@ view: ga4_rjagdev_test {
     #sql: ${session_duration}/86400.0;;
   #}
 
-  dimension: events {
-    type: number
-    hidden: yes
-    sql: ${TABLE}.events  ;;
-  }
-
-  measure: total_events {
+  measure: events {
+    view_label: "GA4"
     group_label: "Total Measures"
     label: "Total Events"
     type: sum
-    sql: ${events} ;;
+    sql: ${TABLE}.events ;;
   }
 
-  dimension: page_views {
-    type: number
-    sql: ${TABLE}.page_views ;;
-  }
-
-  measure: total_page_views {
-    label: "Page Views"
+  measure: page_views {
+    view_label: "GA4"
+    group_label: "Total Measures"
+    label: "Total Page Views"
     type: sum
-    sql: ${page_views} ;;
+    sql: ${TABLE}.page_views ;;
   }
 
   dimension: bounce_def {
@@ -329,7 +324,7 @@ view: ga4_rjagdev_test {
   measure: sessions_total {
     #hidden: yes
     view_label: "GA4"
-    group_label: "Overall sessions"
+    group_label: "Sessions"
     label: "Total Sessions"
     type: count_distinct
     sql: ${session_id} ;;
@@ -337,7 +332,7 @@ view: ga4_rjagdev_test {
 
   measure: session_start {
     view_label: "GA4"
-    group_label: "Overall sessions"
+    group_label: "Sessions"
     label: "Total Sessions Started"
     type: count_distinct
     filters: [event_name: "session_start"]
@@ -347,7 +342,7 @@ view: ga4_rjagdev_test {
   measure: sessions {
     view_label: "GA4"
     label: "Engaged Sessions"
-    group_label: "Overall sessions"
+    group_label: "Sessions"
     description: "Sessions which were detirmined as engaged"
     type: count_distinct
     filters: [bounce_def: "1"]
@@ -357,7 +352,7 @@ view: ga4_rjagdev_test {
   measure: bs {
     view_label: "GA4"
     label: "Bounced sessions"
-    group_label: "Overall sessions"
+    group_label: "Sessions"
     description: "Sessions where user left site after viewing 1 page"
     type: number
     sql: ${sessions_total}-${sessions} ;;
@@ -366,7 +361,7 @@ view: ga4_rjagdev_test {
   measure: bounce_rate {
     view_label: "GA4"
     label: "Bounce rate"
-    group_label: "Overall sessions"
+    group_label: "Sessions"
     type: number
     description: "rate of total sessions where user left site after viewing 1 page"
     value_format_name: percent_2

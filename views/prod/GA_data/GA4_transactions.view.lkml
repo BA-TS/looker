@@ -14,7 +14,10 @@ view: ga4_transactions {
   }
 
   dimension: OrderID {
-    description: "OrderID"
+    view_label: "GA4"
+    group_label: "Transactional"
+    label: "Transaction ID"
+    description: "Order ID of order where order was seen in GA4"
     type: string
   }
 
@@ -30,16 +33,23 @@ view: ga4_transactions {
   }
 
   dimension: salesChannel {
+    view_label: "GA4"
+    group_label: "Transactional"
+    label: "Sales Channel"
     description: "SalesChannel"
     type: string
   }
 
   dimension_group: placed {
-    timeframes: [date,time_of_day]
+    view_label: "GA4"
+    group_label: "Order Placed"
+    label: ""
+    timeframes: [date]
     type: time
   }
 
   dimension_group: transaction {
+    hidden: yes
     timeframes: [date,time_of_day]
     type: time
   }
@@ -47,6 +57,7 @@ view: ga4_transactions {
   dimension: NetSalePrice {
     type: number
     value_format_name: gbp
+    hidden: yes
   }
 
   dimension: net_value {
@@ -104,18 +115,26 @@ view: ga4_transactions {
   ##########Measures###############
 
   measure: Orders {
+    view_label: "GA4"
+    group_label: "Transactional"
     label: "Orders"
+    description: "Total orders seen in GA4"
     type: count_distinct
     sql: ${OrderID} ;;
   }
 
-  measure: Customers {
-    label: "Customers"
+  measure: customers {
+    view_label: "GA4"
+    group_label: "Transactional"
+    label: "Total customers"
+    #group_label: "Measures"
     type: count_distinct
-    sql: ${customer} ;;
+    sql: coalesce(${customer},${ga4_rjagdev_test.User}) ;;
   }
 
   measure: sum_net_value {
+    view_label: "GA4"
+    group_label: "Transactional"
     label: "Net Revenue"
     type: sum
     value_format_name: gbp
@@ -123,6 +142,8 @@ view: ga4_transactions {
   }
 
   measure: ga4_rev {
+    view_label: "GA4"
+    group_label: "Transactional"
     label: "GA4 Revenue"
     type: sum
     value_format_name: gbp
@@ -130,6 +151,8 @@ view: ga4_transactions {
   }
 
   measure: gross_values {
+    view_label: "GA4"
+    group_label: "Transactional"
     label: "Gross Revenue"
     type: sum
     value_format_name: gbp
@@ -137,6 +160,8 @@ view: ga4_transactions {
   }
 
   measure: Sum_marginIncFund {
+    view_label: "GA4"
+    group_label: "Transactional"
     label: "Margin Inc Funding"
     type: sum
     value_format_name: gbp
@@ -144,6 +169,8 @@ view: ga4_transactions {
   }
 
   measure: Sum_marginExcFund {
+    view_label: "GA4"
+    group_label: "Transactional"
     label: "Margin Excl Funding"
     type: sum
     value_format_name: gbp
@@ -151,6 +178,8 @@ view: ga4_transactions {
   }
 
   measure: margin_rate_inc_funding {
+    view_label: "GA4"
+    group_label: "Transactional"
     label: "Margin Rate (Inc funding)"
     #value_format: "0.00%;(0.00%)"
     value_format_name: percent_2
@@ -158,6 +187,8 @@ view: ga4_transactions {
   }
 
   measure: margin_rate_excl_funding {
+    view_label: "GA4"
+    group_label: "Transactional"
     label: "Margin Rate (Excl funding)"
     #value_format: "0.00%;(0.00%)"
     value_format_name: percent_2
@@ -165,15 +196,30 @@ view: ga4_transactions {
   }
 
   measure: Sum_quantity {
-    label: "Quantity"
+    view_label: "GA4"
+    group_label: "Transactional"
+    label: "Product Quantity"
     type: sum
     sql: ${Quantity} ;;
   }
 
   measure: Sum_GA4quantity {
-    label: "GA4 Quantity"
+    view_label: "GA4"
+    group_label: "Total Measures"
+    label: "Total Product Quantity"
     type: sum
     sql: ${ga4_quantity} ;;
+  }
+
+
+  measure: avg_netSalePrice {
+    view_label: "GA4"
+    group_label: "Transactional"
+    #group_label: "Measures"
+    label: "Net Sale Price"
+    type: average
+    value_format_name: gbp
+    sql: ${NetSalePrice} ;;
   }
 
 
