@@ -145,13 +145,15 @@ view: ga4_transactions {
 
   measure: margin_rate_inc_funding {
     label: "Margin Rate (Inc funding)"
-    value_format: "0.00%;(0.00%)"
+    #value_format: "0.00%;(0.00%)"
+    value_format_name: percent_2
     sql: COALESCE(safe_divide(${Sum_marginIncFund},${sum_net_value}),null) ;;
   }
 
   measure: margin_rate_excl_funding {
     label: "Margin Rate (Excl funding)"
-    value_format: "0.00%;(0.00%)"
+    #value_format: "0.00%;(0.00%)"
+    value_format_name: percent_2
     sql: COALESCE(safe_divide(${Sum_marginExcFund},${sum_net_value}),null) ;;
   }
 
