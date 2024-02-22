@@ -56,8 +56,8 @@ view: ga4_transactions {
 
   dimension: ga4_revenue {
     type: number
-    hidden: yes
-    #value_format_name: gbp
+    #hidden: yes
+    value_format_name: gbp
   }
 
   dimension: MarginIncFunding {
