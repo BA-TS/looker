@@ -86,5 +86,11 @@ view: ga4_transactions {
     type: string
   }
 
+  measure: Orders {
+    label: "Orders"
+    type: count_distinct
+    sql: ${OrderID} ;;
+  }
+
 
 }
