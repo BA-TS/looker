@@ -27,8 +27,8 @@ explore: GA4_testy {
 
   join: ga4_transactions {
     view_label: "GA4: Transactions"
-    sql: LEFT JOIN UNNEST (${ga4_rjagdev_test.transactions}) as ga4_transactions ;;
-    relationship: one_to_many
+    sql: LEFT JOIN UNNEST (${ga4_rjagdev_test.transactions}) as ga4_transactions on ${ga4_rjagdev_test.Item_id}=${ga4_transactions.item_id} ;;
+    relationship: one_to_one
     sql_where: ((${ga4_rjagdev_test.Item_id}=${ga4_transactions.item_id}) or (${ga4_rjagdev_test.Item_id} is not null and ${ga4_transactions.item_id} is null) or (${ga4_rjagdev_test.Item_id}=${ga4_transactions.item_id}) or (${ga4_rjagdev_test.Item_id} is null and ${ga4_transactions.item_id} is null)) ;;
   }
 
