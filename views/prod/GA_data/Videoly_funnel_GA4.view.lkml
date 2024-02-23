@@ -30,7 +30,7 @@ event_name,
 session_id,
 item_id,
 min(MinTime) as MinTime,
-sum(events) as events,
+#sum(events) as events,
 sum(revenue) as revenue
 from cte
 where event_name in ("videoly_box_shown")
@@ -43,7 +43,7 @@ event_name,
 session_id,
 item_id,
 min(MinTime) as MinTime,
-sum(events) as events,
+#sum(events) as events,
 sum(revenue) as revenue,
 
 from cte
@@ -57,7 +57,7 @@ event_name,
 session_id,
 item_id,
 min(MinTime) as MinTime,
-sum(events) as events,
+#sum(events) as events,
 sum(revenue) as revenue
 from cte
 where event_name in ("add_to_cart")
@@ -71,7 +71,7 @@ session_id,
 item_id,
 orderID,
 min(MinTime) as MinTime,
-sum(events) as events,
+#sum(events) as events,
 sum(revenue) as revenue,
 sum(Quantity) as Quantity
 from cte
@@ -81,21 +81,25 @@ group by 1,2,3,4
 
 SELECT distinct
 row_number() over () as P_K,
-a.session_id,
+
 a.item_id,
 #a.DeviceCategory,
 #a.Channel_group,
 #a.Medium,
 #a.Campaign,
 d.orderID,
+a.session_id as videolyShown_sessionID,
 min(a.MinTime) as videoly_shownTime,
+b.session_id as videolyStart_sessionID,
 min(b.MinTime) as videoly_startedTime,
+c.session_id as addToCart_sessionID,
 min(c.MinTime) as Add_to_cartTime,
+d.session_id as purchase_sessionID,
 min(d.MinTime) as purchaseTime,
-sum(a.events) as Videoly_shown_events,
-sum(b.events) as Videoly_started_events,
-sum(c.events) as ATC_events,
-sum(d.events) as purchase_events,
+#sum(a.events) as Videoly_shown_events,
+#sum(b.events) as Videoly_started_events,
+#sum(c.events) as ATC_events,
+#sum(d.events) as purchase_events,
 sum(d.revenue) as revenue,
 sum(d.Quantity) as Quantity,
 from videoly_shown as a
@@ -108,7 +112,7 @@ on a.session_id = d.session_id and a.item_id = d.item_id
 where (((b.minTime) is null or a.minTime<b.minTime))
 and ((c.minTime is null or a.minTime<c.minTime))
 and ((d.minTime is null or a.minTime<d.minTime))
-group by 2,3,4;;
+group by 2,3,4,6,8,10;;
     sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 9
     ;;
   }
@@ -123,13 +127,6 @@ group by 2,3,4;;
     type: number
     sql: ${TABLE}.P_K ;;
    }
-  #
-   dimension: session_id {
-    description: "unique identifier for session"
-    hidden: yes
-    type: string
-    sql: ${TABLE}.session_id ;;
-   }
 
   dimension: item_id {
     description: "item_id join to product code"
@@ -137,7 +134,35 @@ group by 2,3,4;;
     type: string
     sql: ${TABLE}.item_id ;;
   }
-  #
+
+   dimension: videolyShown_sessionID {
+    description: "Videoly Shown session ID"
+    hidden: yes
+    type: string
+    sql: ${TABLE}.videolyShown_sessionID ;;
+   }
+
+  dimension: videolyStart_sessionID {
+    description: "Videoly Start session ID"
+    hidden: yes
+    type: string
+    sql: ${TABLE}.videolyStart_sessionID ;;
+  }
+
+  dimension: ATC_sessionID {
+    description: "Videoly Start session ID"
+    hidden: yes
+    type: string
+    sql: ${TABLE}.addToCart_sessionID ;;
+  }
+
+  dimension: purchase_sessionID {
+    description: "Videoly Start session ID"
+    hidden: yes
+    type: string
+    sql: ${TABLE}.purchase_sessionID ;;
+  }
+
    dimension_group: date {
      type: time
     hidden: yes
@@ -155,29 +180,14 @@ group by 2,3,4;;
     sql: ${TABLE}.videoly_shownTime ;;
   }
 
-  dimension: videoly_shownEvents {
-    type: number
-    hidden: yes
-    sql: ${TABLE}.Videoly_shown_events ;;
-  }
-
-  measure: videoly_shown_events {
-    view_label: "Videoly Funnel"
-    group_label: "Stage 1: Videoly Shown"
-    label: "Videoly Shown Events"
-    description: "Total Videoly shown events"
-    type: sum
-    sql: ${videoly_shownEvents} ;;
-  }
-
   measure: videoly_shownSessions {
     view_label: "Videoly Funnel"
     group_label: "Stage 1: Videoly Shown"
     label: "Videoly Shown sessions"
     description: "Sessions where Videoly was shown"
     type: count_distinct
-    sql: ${session_id} ;;
-    filters: [videoly_shownEvents: ">=1"]
+    sql: ${videolyShown_sessionID} ;;
+    filters: [videolyShown_sessionID: "-NULL"]
   }
 
   dimension_group: videoly_startedTime {
@@ -190,21 +200,6 @@ group by 2,3,4;;
     sql: ${TABLE}.videoly_startedTime ;;
   }
 
-  dimension: videoly_startedEvents {
-    type: number
-    hidden: yes
-    sql: ${TABLE}.Videoly_started_events ;;
-
-  }
-
-  measure: videoly_started_events {
-    view_label: "Videoly Funnel"
-    group_label: "Stage 2: Videoly Started"
-    label: "Videoly Started Events"
-    description: "Total Videoly started events"
-    type: sum
-    sql: ${videoly_startedEvents} ;;
-  }
 
   measure: videoly_startedSessions {
     view_label: "Videoly Funnel"
@@ -212,8 +207,8 @@ group by 2,3,4;;
     label: "Videoly started sessions"
     description: "Sessions where Videoly was started"
     type: count_distinct
-    sql: ${session_id} ;;
-    filters: [videoly_shownEvents: ">=1", videoly_startedEvents: ">=1",]
+    sql: ${videolyStart_sessionID} ;;
+    filters: [videolyShown_sessionID: "-NULL", videolyStart_sessionID: "-NULL"]
   }
 
   dimension_group: Add_to_cartTime {
@@ -226,57 +221,16 @@ group by 2,3,4;;
     sql: ${TABLE}.Add_to_cartTime ;;
   }
 
-  dimension: ATC_events {
-    type: number
-    hidden: yes
-    sql: ${TABLE}.ATC_events ;;
-  }
-
-  measure: add_to_cart_events {
-    view_label: "Videoly Funnel"
-    group_label: "Stage 3: Add to Cart"
-    label: "Add to Cart Events"
-    description: "Total Add to Cart events where video was shown and started"
-    type: sum
-    sql: ${ATC_events} ;;
-    filters: [videoly_shownEvents: ">=1", videoly_startedEvents: ">=1", ATC_events: ">=1"]
-  }
-
   measure: ATC_Sessions {
     view_label: "Videoly Funnel"
     group_label: "Stage 3: Add to Cart"
     label: "Add to cart sessions"
     description: "Sessions where item was added to cart where video was shown and started"
     type: count_distinct
-    sql: ${session_id} ;;
-    filters: [videoly_shownEvents: ">=1", videoly_startedEvents: ">=1", ATC_events: ">=1"]
+    sql: ${ATC_sessionID} ;;
+    filters: [videolyShown_sessionID: "-NULL", videolyStart_sessionID: "-NULL", ATC_sessionID: "-NULL"]
   }
 
-  dimension_group: purchase_Time {
-    hidden: yes
-    type: time
-    timeframes: [time]
-    description: "datetime purchase first occured in session where video was shown and started"
-    group_label: "Stage 4: Purchase"
-    label: "Purchase Time"
-    sql: ${TABLE}.purchaseTime ;;
-  }
-
-  dimension: purchase_events {
-    type: number
-    hidden: yes
-    sql: ${TABLE}.purchase_events ;;
-
-  }
-
-  measure: PurchaseEvents {
-    view_label: "Videoly Funnel"
-    group_label: "Stage 4: Purchase"
-    label: "Purchase Events"
-    description: "Total Purchase events where earlier in the session a video was shown and started"
-    type: sum
-    sql: ${purchase_events} ;;
-  }
 
   measure: purchase_Sessions {
     view_label: "Videoly Funnel"
@@ -284,8 +238,8 @@ group by 2,3,4;;
     label: "Purchase sessions"
     description: "Sessions where purchase occured after a video was shown and started"
     type: count_distinct
-    sql: ${session_id} ;;
-    filters: [videoly_shownEvents: ">=1", videoly_startedEvents: ">=1", ATC_events: ">=1", purchase_events: ">=1" ]
+    sql: ${purchase_sessionID} ;;
+    filters: [videolyShown_sessionID: "-NULL", videolyStart_sessionID: "-NULL", ATC_sessionID: "-NULL", purchase_sessionID: "-NULL"]
   }
 
   measure: purchase_transactions {
@@ -295,7 +249,7 @@ group by 2,3,4;;
     description: "Transactions after a video was shown and started"
     type: count_distinct
     sql: ${TABLE}.orderID ;;
-    filters: [videoly_shownEvents: ">=1", videoly_startedEvents: ">=1", ATC_events: ">=1", purchase_events: ">=1" ]
+    filters: [videolyShown_sessionID: "-NULL", videolyStart_sessionID: "-NULL", ATC_sessionID: "-NULL", purchase_sessionID: "-NULL"]
   }
 
   measure: purchase_productQuant {
@@ -305,7 +259,7 @@ group by 2,3,4;;
     description: "product quantity purchased after a video was shown and started"
     type: sum
     sql: ${TABLE}.Quantity ;;
-    filters: [videoly_shownEvents: ">=1", videoly_startedEvents: ">=1", ATC_events: ">=1", purchase_events: ">=1" ]
+    filters: [videolyShown_sessionID: "-NULL", videolyStart_sessionID: "-NULL", ATC_sessionID: "-NULL", purchase_sessionID: "-NULL"]
   }
 
   measure: purchase_revenue {
@@ -316,7 +270,7 @@ group by 2,3,4;;
     type: sum
     value_format_name: gbp
     sql: ${TABLE}.revenue ;;
-    filters: [videoly_shownEvents: ">=1", videoly_startedEvents: ">=1", ATC_events: ">=1", purchase_events: ">=1" ]
+    filters: [videolyShown_sessionID: "-NULL", videolyStart_sessionID: "-NULL", ATC_sessionID: "-NULL", purchase_sessionID: "-NULL"]
   }
 
   measure: purchaseNotStarted_Sessions {
@@ -325,8 +279,8 @@ group by 2,3,4;;
     label: "Purchase sessions (Videoly shown not started)"
     description: "Sessions where purchase occured after a video was shown and not started"
     type: count_distinct
-    sql: ${session_id} ;;
-    filters: [videoly_shownEvents: ">=1", videoly_startedEvents: "0 or NULL", purchase_events: ">=1"  ]
+    sql: ${purchase_sessionID} ;;
+    filters: [videolyShown_sessionID: "-NULL", videolyStart_sessionID: "NULL", ATC_sessionID: "-NULL", purchase_sessionID: "-NULL"]
   }
 
   measure: purchaseNotStarted_revenue {
@@ -337,7 +291,7 @@ group by 2,3,4;;
     type: sum
     value_format_name: gbp
     sql: ${TABLE}.revenue ;;
-    filters: [videoly_startedEvents: ">=1", videoly_startedEvents: "0 or NULL", purchase_events: ">=1"  ]
+    filters: [videolyShown_sessionID: "-NULL", videolyStart_sessionID: "NULL", ATC_sessionID: "-NULL", purchase_sessionID: "-NULL"]
   }
 
 }

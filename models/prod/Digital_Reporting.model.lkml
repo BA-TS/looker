@@ -110,7 +110,7 @@ explore: GA4_test {
     type: left_outer
     relationship: many_to_one
     sql_on:
-    ${ga_digital_transactions.session_id} = ${videoly_funnel_ga4.session_id}
+    ${calendar_completed_date.date} = ${videoly_funnel_ga4.date_date}
     and ${products.product_code} = ${videoly_funnel_ga4.item_id};;
   }
 
@@ -657,6 +657,15 @@ explore: GA4_testy {
     type:  left_outer
     relationship: many_to_one
     sql_on: ${stock_cover.stock_date_date} = ${aac.date} and ${products.product_uid} = ${aac.product_uid} ;;
+  }
+
+  join: videoly_funnel_ga4 {
+    view_label: "Videoly Funnel"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+    ${calendar.date} = ${videoly_funnel_ga4.date_date}
+    and ${products.product_code} = ((case when ${videoly_funnel_ga4.item_id} is null or length(${videoly_funnel_ga4.item_id}) != 5 then "null" else ${videoly_funnel_ga4.item_id} end) = ${products.product_code});;
   }
 
 
