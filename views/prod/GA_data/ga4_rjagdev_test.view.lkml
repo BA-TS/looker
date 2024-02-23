@@ -245,7 +245,7 @@ view: ga4_rjagdev_test {
     type: average
     view_label: "GA4"
     label: "Avg Session Duration"
-    group_label: "sessions"
+    group_label: "Sessions"
     value_format: "h:mm:ss"
     sql: ${TABLE}.session_duration / 86400.0;;
   }
@@ -411,7 +411,7 @@ view: ga4_rjagdev_test {
     label: "Sessions (View Item List)"
     description: "Sessions where an item was viewed in a list page"
     type: count_distinct
-    filters: [event_name: "view_item_list",bounce_def: "1"]
+    filters: [event_name: "view_item_list"]
     sql: ${session_id} ;;
   }
 
@@ -474,7 +474,7 @@ view: ga4_rjagdev_test {
     description: "Product quantity of cart"
     type: sum
     filters: [event_name: "view_cart"]
-    sql: ${TABLE}.ga4_quantity ;;
+    sql: ${ga4_transactions.ga4_quantity} ;;
   }
   measure: ViewCart_Value {
     view_label: "GA4"
@@ -558,7 +558,7 @@ view: ga4_rjagdev_test {
     description: "Product quantity of items added cart"
     type: sum
     filters: [event_name: "add_to_cart"]
-    sql: ${TABLE}.ga4_quantity ;;
+    sql: ${ga4_transactions.ga4_quantity} ;;
   }
   measure: add_to_cart_Value {
     view_label: "GA4"
