@@ -561,6 +561,13 @@ explore: GA4_testy {
     sql_on: ${calendar.date} BETWEEN ${products.activeFrom_date} AND ${products.activeTo_date};;
   }
 
+  join: currentRetailPrice {
+    view_label: "Products"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${products.product_uid} = ${currentRetailPrice.Product_ID} ;;
+  }
+
   join: ga4_rjagdev_test {
     view_label: "GA4"
     type: left_outer
@@ -635,6 +642,21 @@ explore: GA4_testy {
           and
           ((case when ${non_pdp_atc_purchase_funnel.item_id} is null or length(${non_pdp_atc_purchase_funnel.item_id}) != 5 then "null" else ${non_pdp_atc_purchase_funnel.item_id} end) = ${products.product_code})
             ;;
+  }
+
+  join: stock_cover {
+    view_label: "Stock Cover"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${products.product_code} = ${stock_cover.product_code}
+      and ${calendar.date} = ${stock_cover.stock_date_date};;
+  }
+
+  join: aac {
+    view_label: ""
+    type:  left_outer
+    relationship: many_to_one
+    sql_on: ${stock_cover.stock_date_date} = ${aac.date} and ${products.product_uid} = ${aac.product_uid} ;;
   }
 
 
