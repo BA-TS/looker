@@ -49,19 +49,26 @@ view: ga4_transactions {
   }
 
   dimension_group: placed {
-    view_label: "GA4"
-    group_label: "Order Placed"
-    label: ""
+    hidden: yes
     timeframes: [date]
     type: time
   }
 
   dimension_group: placed_time{
-    view_label: "GA4"
-    group_label: "Order Placed"
+    view_label: "Order Placed"
+    group_label: "Time"
     label: ""
     type: time
     timeframes: [time_of_day]
+    sql: ${TABLE}.placed ;;
+  }
+
+  dimension_group: placed_hour{
+    view_label: "Order Placed"
+    group_label: "Time"
+    label: ""
+    type: time
+    timeframes: [hour_of_day]
     sql: ${TABLE}.placed ;;
   }
 
