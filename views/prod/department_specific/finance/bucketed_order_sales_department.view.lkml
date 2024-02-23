@@ -6,7 +6,7 @@ view: bucketed_order_sales_department {
         SELECT
           parentOrderUID,
           productDepartment,
-          SUM(netSalesValue) AS total_netSalesValue
+          SUM(grossSalesValue) AS total_grossSalesValue
         FROM `sales.transactions` s
         LEFT JOIN `range.products_current` r ON s.productCode=r.productCode
         WHERE transactionlINEtype = 'Sale'
@@ -15,21 +15,21 @@ view: bucketed_order_sales_department {
       SELECT
         parentOrderUID AS parent_order_uid,
         productDepartment,
-        FLOOR(total_netSalesValue / 5) * 5 AS five_bucket,
-        FLOOR(total_netSalesValue / 10) * 10 AS ten_bucket,
-        FLOOR(total_netSalesValue / 20) * 20 AS twenty_bucket,
-        FLOOR(total_netSalesValue / 50) * 50 AS fifty_bucket,
-        FLOOR(total_netSalesValue / 100) * 100 AS oneHundred_bucket,
+        FLOOR(total_grossSalesValue / 5) * 5 AS five_bucket,
+        FLOOR(total_grossSalesValue / 10) * 10 AS ten_bucket,
+        FLOOR(total_grossSalesValue / 20) * 20 AS twenty_bucket,
+        FLOOR(total_grossSalesValue / 50) * 50 AS fifty_bucket,
+        FLOOR(total_grossSalesValue / 100) * 100 AS oneHundred_bucket,
         CASE
-          WHEN total_netSalesValue > 60 THEN 'Over 60'
+          WHEN total_grossSalesValue > 60 THEN 'Over 60'
           ELSE 'Under 60'
         END AS over_under_60,
         CASE
-          WHEN total_netSalesValue > 25 THEN 'Over 25'
+          WHEN total_grossSalesValue > 25 THEN 'Over 25'
           ELSE 'Under 25'
         END AS over_under_25,
         CASE
-          WHEN total_netSalesValue > 10 THEN 'Over 10'
+          WHEN total_grossSalesValue > 10 THEN 'Over 10'
           ELSE 'Under 10'
         END AS over_under_10
       FROM parent_order_sums
