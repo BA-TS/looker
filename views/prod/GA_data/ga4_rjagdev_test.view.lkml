@@ -244,7 +244,7 @@ view: ga4_rjagdev_test {
     type: average
     view_label: "GA4"
     label: "Avg Session Duration"
-    group_label: "Overall sessions"
+    group_label: "sessions"
     value_format: "h:mm:ss"
     sql: ${TABLE}.session_duration / 86400.0;;
   }

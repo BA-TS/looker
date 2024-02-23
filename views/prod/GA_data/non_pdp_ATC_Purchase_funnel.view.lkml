@@ -88,7 +88,7 @@ where ((pageItem_ID=item_id) or (pageItem_ID is null) or (item_id is null))
   ;;
 
 
-  sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01 00:00:00',SECOND)) - 60*60*9)/(60*60*24))
+  sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01 00:00:00',SECOND)) - 60*60*10)/(60*60*24))
   ;;
   }
 
