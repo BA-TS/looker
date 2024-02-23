@@ -81,7 +81,7 @@ view: ga4_transactions {
 
   dimension: ga4_revenue {
     type: number
-    #hidden: yes
+    hidden: yes
     value_format_name: gbp
   }
 
@@ -109,13 +109,20 @@ view: ga4_transactions {
 
   dimension: item_id {
     type: string
+    hidden: yes
   }
 
   dimension: status {
+    view_label: "GA4"
+    group_label: "Transactional"
+    label: "Order Status"
     type: string
   }
 
   dimension: payment_type {
+    view_label: "GA4"
+    group_label: "Transactional"
+    label: "Payment Type"
     type: string
   }
 
@@ -228,6 +235,26 @@ view: ga4_transactions {
     value_format_name: gbp
     sql: ${NetSalePrice} ;;
   }
+
+  measure: aov_net_rev {
+    view_label: "GA4"
+    group_label: "Transactional"
+    #group_label: "Measures"
+    label: "AOV (Net Rev)"
+    value_format_name: gbp
+    sql: SAFE_DIVIDE(${sum_net_value},${Orders}) ;;
+  }
+
+  measure: aov_gross_rev {
+    view_label: "GA4"
+    group_label: "Transactional"
+    #group_label: "Measures"
+    label: "AOV (Gross Rev)"
+    value_format_name: gbp
+    sql: SAFE_DIVIDE(${gross_values},${Orders}) ;;
+  }
+
+
 
 
 }

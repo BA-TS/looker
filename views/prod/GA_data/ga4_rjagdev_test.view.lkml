@@ -213,6 +213,7 @@ view: ga4_rjagdev_test {
 
   dimension: session_id {
     description: "session_id"
+    hidden: yes
     type: string
     sql: ${TABLE}.session_id ;;
   }
