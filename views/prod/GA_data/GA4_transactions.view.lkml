@@ -119,7 +119,7 @@ view: ga4_transactions {
     type: string
   }
 
-  dimension: payment_type {
+  dimension: paymentType {
     view_label: "GA4"
     group_label: "Transactional"
     label: "Payment Type"
