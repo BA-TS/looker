@@ -57,6 +57,7 @@ view: ds_assumed_trade{
     type:  string
     label: "Customer Type"
     required_access_grants: [lz_testing]
+    hidden: yes
     sql:
     CASE
     WHEN ${customers.is_trade} = true then "Trade"
@@ -70,6 +71,7 @@ view: ds_assumed_trade{
   dimension: customer_type_pb {
     type:  string
     label: "Customer Type (PB)"
+    hidden: yes
     required_access_grants: [lz_testing]
     sql:
     CASE
@@ -84,6 +86,7 @@ view: ds_assumed_trade{
 
   measure: mean_proba_Yes_final {
     required_access_grants: [lz_testing]
+    hidden: yes
     label: "Probability - Mean "
     type:  average
     sql:${proba_Yes_final} ;;
