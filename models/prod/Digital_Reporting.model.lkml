@@ -564,6 +564,7 @@ explore: GA4_testy {
   required_access_grants: [ranjit_test]
   view_name: calendar
   label: "ranjit Test"
+  view_label: "Datetime (of event)"
   #sql_always_where:  ;;
   conditionally_filter: {
     filters: [
@@ -573,20 +574,41 @@ explore: GA4_testy {
     #unless:[ga4_rjagdev_test.select_date_range]
   }
 
+  join: products {
+    view_label: "Products"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${calendar.date} BETWEEN ${products.activeFrom_date} AND ${products.activeTo_date};;
+  }
+
   join: ga4_rjagdev_test {
     view_label: "GA4"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${calendar.date} = ${ga4_rjagdev_test.date_date};;
+    sql_on: ${calendar.date} = ${ga4_rjagdev_test.date_date} and ${products.product_code} = ${ga4_rjagdev_test.itemid};;
     sql_where: _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {% date_start calendar.filter_on_field_to_hide %}) and FORMAT_DATE('%Y%m%d', {% date_end calendar.filter_on_field_to_hide %})
       ;;
   }
 
   join: ga4_transactions {
-    view_label: "GA4: Transactions"
     sql: LEFT JOIN UNNEST (${ga4_rjagdev_test.transactions}) as ga4_transactions WITH OFFSET as test1 ;;
     relationship: one_to_one
     sql_where: ((${ga4_rjagdev_test.itemid}=${ga4_transactions.item_id}) or (${ga4_rjagdev_test.itemid} is not null and ${ga4_transactions.item_id} is null) or (${ga4_rjagdev_test.itemid}=${ga4_transactions.item_id}) or (${ga4_rjagdev_test.itemid} is null and ${ga4_transactions.item_id} is null)) ;;
+  }
+
+  join: catalogue {
+    view_label: ""
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${calendar.date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
+  }
+
+  join: promoworking {
+    view_label: ""
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${products.product_code} = ${promoworking.Product_Code}
+      and cast(${catalogue.catalogue_id} as string) = ${promoworking.cycleID};;
   }
 
 

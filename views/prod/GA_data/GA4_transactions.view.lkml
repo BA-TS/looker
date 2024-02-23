@@ -37,6 +37,7 @@ view: ga4_transactions {
   dimension: ProductUID {
     description: "ProductUID"
     type: string
+    hidden: yes
   }
 
   dimension: salesChannel {
