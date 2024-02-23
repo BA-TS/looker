@@ -18,6 +18,26 @@ view: ga4_rjagdev_test {
      sql: case when date(${TABLE}.minTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(${TABLE}.minTime, interval 1 HOUR)) else (${TABLE}.minTime) end ;;
    }
 
+  dimension_group: time{
+    group_label: "Time"
+    view_label: "Datetime (of event)"
+    description: "Min datetime of event"
+    label: ""
+    type: time
+    timeframes: [time_of_day]
+    sql: ${TABLE}.minTime ;;
+  }
+
+  dimension_group: hour{
+    group_label: "Time"
+    view_label: "Datetime (of event)"
+    description: "Min datetime of event"
+    label: ""
+    type: time
+    timeframes: [hour_of_day]
+    sql: ${TABLE}.minTime ;;
+  }
+
 
   dimension: platform {
     view_label: "GA4"
@@ -232,13 +252,6 @@ view: ga4_rjagdev_test {
     group_label: "Screen"
     type: string
     sql: ${TABLE}.Screen_name ;;
-  }
-
-  dimension_group: time{
-    description: "Min datetime of event"
-    type: time
-    timeframes: [time_of_day]
-    sql: case when date(${TABLE}.minTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(${TABLE}.minTime, interval 1 HOUR)) else (${TABLE}.minTime) end ;;
   }
 
   measure: session_duration {

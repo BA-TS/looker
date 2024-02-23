@@ -68,14 +68,6 @@ explore: GA4_test {
     sql_on: ${ga_digital_transactions.placed_date_date}=${calendar_completed_datev2.date} ;;
   }
 
-  #join: calendar_completed_datev3{
-    #from:  calendar
-    #view_label: "Order Completed"
-    #type:  inner
-    #relationship: one_to_many
-    #sql_on: ${ga_digital_transactions.transaction_date_date}=${calendar_completed_datev3.date} ;;
-  #}
-
   join: customers {
     view_label: "Customers"
     type: left_outer
@@ -97,18 +89,6 @@ explore: GA4_test {
     sql_on: ${customers.customer_uid} = ${trade_customers.customer_uid} ;;
   }
 
-  #join: total_sessions_ga4_dt {
-   # view_label: "GA4"
-    #type: left_outer
-    #relationship: many_to_one
-    #sql_on: ${ga_digital_transactions.date_date} = ${total_sessions_ga4_dt.date_date}
-    #and
-    #${ga_digital_transactions.channel_Group} = ${total_sessions_ga4_dt.channel_grouping}
-    #and ${ga_digital_transactions.Medium} = ${total_sessions_ga4_dt.Medium}
-    #and ${ga_digital_transactions.Campaign} = ${total_sessions_ga4_dt.Campaign}
-    #and ${ga_digital_transactions.platform} = ${total_sessions_ga4_dt.Platform}
-   #;;
-  #}
 
   join: stock_cover {
     view_label: "Stock Cover"
@@ -585,7 +565,7 @@ explore: GA4_testy {
     view_label: "GA4"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${calendar.date} = ${ga4_rjagdev_test.date_date} and ${products.product_code} = ${ga4_rjagdev_test.itemid};;
+    sql_on: ${calendar.date} = ${ga4_rjagdev_test.date_date} and ${products.product_code} = (case when ${ga4_transactions.item_id} is null or length(${ga4_transactions.item_id}) != 5 then "null" else ${ga4_transactions.item_id} end);;
     sql_where: _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {% date_start calendar.filter_on_field_to_hide %}) and FORMAT_DATE('%Y%m%d', {% date_end calendar.filter_on_field_to_hide %})
       ;;
   }
@@ -609,6 +589,52 @@ explore: GA4_testy {
     relationship: one_to_one
     sql_on: ${products.product_code} = ${promoworking.Product_Code}
       and cast(${catalogue.catalogue_id} as string) = ${promoworking.cycleID};;
+  }
+
+  join: calendar_completed_datev2{
+    from:  calendar
+    view_label: "Order Placed"
+    type:  inner
+    relationship: one_to_many
+    sql_on: ${ga4_transactions.placed_date}=${calendar_completed_datev2.date} ;;
+  }
+
+  join: customers {
+    view_label: "Customers"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${ga4_transactions.customer}=${customers.customer_uid} ;;
+  }
+
+  join: customer_classification {
+    view_label: "Customers"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${customers.customer_uid} = ${customer_classification.customer_uid} ;;
+  }
+
+  join: trade_customers {
+    view_label: "Customers"
+    type:  left_outer
+    relationship: many_to_one
+    sql_on: ${customers.customer_uid} = ${trade_customers.customer_uid} ;;
+  }
+
+  join: page_type_to_purchase_funnel {
+    view_label: "GA4"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${calendar.date} = ${page_type_to_purchase_funnel.date_date}
+      and ((case when ${page_type_to_purchase_funnel.item_id} is null or length(${page_type_to_purchase_funnel.item_id}) != 5 then "null" else ${page_type_to_purchase_funnel.item_id} end) = ${products.product_code});;
+  }
+
+  join: non_pdp_atc_purchase_funnel {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${calendar.date} = ${non_pdp_atc_purchase_funnel.date_date}
+          and
+          ((case when ${non_pdp_atc_purchase_funnel.item_id} is null or length(${non_pdp_atc_purchase_funnel.item_id}) != 5 then "null" else ${non_pdp_atc_purchase_funnel.item_id} end) = ${products.product_code})
+            ;;
   }
 
 
