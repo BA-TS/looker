@@ -72,11 +72,11 @@ view: ga4_transactions {
     sql: ${TABLE}.placed ;;
   }
 
-  dimension_group: transaction {
-    hidden: yes
-    timeframes: [date,time_of_day]
-    type: time
-  }
+  #dimension_group: transaction {
+    #hidden: yes
+    #timeframes: [date,time_of_day]
+    #type: time
+  #}
 
   dimension: NetSalePrice {
     type: number
