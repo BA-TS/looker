@@ -580,8 +580,10 @@ explore: GA4_testy {
   join: ga4_transactions {
     sql: LEFT JOIN UNNEST (${ga4_rjagdev_test.transactions}) as ga4_transactions WITH OFFSET as test1;;
     relationship: one_to_one
-    sql_where: ${ga4_transactions.OrderID} not in ("(not set)")  and ${ga4_transactions.customer} is not null and ((${ga4_rjagdev_test.itemid}=${ga4_transactions.item_id}) or (${ga4_rjagdev_test.itemid} is not null and ${ga4_transactions.item_id} is null) or (${ga4_rjagdev_test.itemid}=${ga4_transactions.item_id}) or (${ga4_rjagdev_test.itemid} is null and ${ga4_transactions.item_id} is null)) ;;
+    sql_where: ((${ga4_rjagdev_test.itemid}=${ga4_transactions.item_id}) or (${ga4_rjagdev_test.itemid} is not null and ${ga4_transactions.item_id} is null) or (${ga4_rjagdev_test.itemid}=${ga4_transactions.item_id}) or (${ga4_rjagdev_test.itemid} is null and ${ga4_transactions.item_id} is null)) ;;
   }
+
+  #${ga4_transactions.OrderID} not in ("(not set)")  and ${ga4_transactions.customer} is not null and
 
   join: catalogue {
     view_label: ""
