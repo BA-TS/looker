@@ -11,7 +11,7 @@ view: ga4_transactions {
     primary_key: yes
     type: string
     hidden: yes
-    sql: concat(${OrderID},${item_id}, cast(${offset} as string)) ;;
+    sql: concat(${OrderID},${item_id},${ga4_rjagdev_test.channel_Group}, cast(${offset} as string)) ;;
   }
 
   dimension: offset {
