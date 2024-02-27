@@ -124,7 +124,7 @@ view: ga4_transactions {
     hidden: yes
   }
 
-  dimension: item_id {
+  dimension: productCode {
     type: string
     hidden: yes
   }
