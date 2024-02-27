@@ -20,7 +20,7 @@ view: ds_assumed_trade{
   dimension: today_last_year {
     required_access_grants: [lz_testing]
     type:  date
-    sql: date(2023,01,01);;
+    sql: date(2023,02,26);;
     hidden: yes
   }
 
@@ -42,7 +42,7 @@ view: ds_assumed_trade{
   dimension: final_prediction {
     type:  yesno
     label: "Is Assumed Trade"
-    sql:${proba_Yes_final} > 0.9;;
+    sql:${proba_Yes_final} > 0.55;;
     hidden: yes
   }
 
@@ -57,7 +57,7 @@ view: ds_assumed_trade{
     type:  string
     label: "Customer Type"
     required_access_grants: [lz_testing]
-    hidden: yes
+    # hidden: yes
     sql:
     CASE
     WHEN ${customers.is_trade} = true then "Trade"
@@ -71,7 +71,7 @@ view: ds_assumed_trade{
   dimension: customer_type_pb {
     type:  string
     label: "Customer Type (PB)"
-    hidden: yes
+    # hidden: yes
     required_access_grants: [lz_testing]
     sql:
     CASE
