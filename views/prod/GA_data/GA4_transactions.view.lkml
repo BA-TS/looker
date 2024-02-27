@@ -11,7 +11,7 @@ view: ga4_transactions {
     primary_key: yes
     type: string
     hidden: yes
-    sql: concat(transactions_PK, cast(${offset} as string)) ;;
+    sql: concat(transaction_PK, cast(${offset} as string)) ;;
   }
 
   dimension: offset {
