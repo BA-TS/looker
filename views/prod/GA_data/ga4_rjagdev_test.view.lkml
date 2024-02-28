@@ -8,7 +8,7 @@ view: ga4_rjagdev_test {
     type: string
     primary_key: yes
     hidden: yes
-    sql: ${TABLE}.P_K;;
+    sql: concat(${TABLE}.P_K,coalesce(${ga4_transactions.P_K},"NONE"),coalesce(${itemid},"NONE"), coalesce(cast(${TABLE}.minTime as string),"NONE"));;
   }
 
    dimension_group: date {
