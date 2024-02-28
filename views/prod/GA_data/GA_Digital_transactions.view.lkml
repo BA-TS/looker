@@ -2,7 +2,8 @@ view: ga_digital_transactions {
 
    derived_table: {
      sql: SELECT distinct
-    P_K,
+    P_K as PK1,
+    row_number() over () as P_K,
     platform,
     case when date(MinTime) Between date("2023-10-29") and ("2024-02-15") then date(timestamp_sub(MinTime, interval 1 HOUR)) else date(MinTime) end as date,
     country,
@@ -65,7 +66,7 @@ and ((aw.item_id = transactions.productCode) or (aw.item_id is not null and tran
    }
 
   dimension: P_K {
-    type: string
+    type: number
     hidden: yes
     primary_key: yes
     sql: ${TABLE}.P_K ;;
