@@ -65,7 +65,7 @@ and ((aw.item_id = transactions.productCode) or (aw.item_id is not null and tran
    }
 
   dimension: P_K {
-    type: number
+    type: string
     hidden: yes
     primary_key: yes
     sql: ${TABLE}.P_K ;;
