@@ -126,11 +126,12 @@ view: ga4_rjagdev_test {
     label: "1.Event Key"
     group_label: "Event"
     type: string
-    sql: case when ${TABLE}.key_1 is null and ${label_1} is not null then "action"
+    sql: case
           when ${TABLE}.event_name = "collection_OOS" and ${platform} = "Web" then "Collection"
           when ${TABLE}.event_name = "dual_OOS" and ${platform} = "Web" then "Dual"
           when ${TABLE}.event_name = "Delivery_OOS" and ${platform} = "Web" then "Delivery"
           when ${TABLE}.event_name = "out_of_stock" and ${platform} = "Web" then null
+          when ${TABLE}.key_1 is null and ${label_1} is not null then "action"
           else ${TABLE}.key_1 end;;
   }
 
