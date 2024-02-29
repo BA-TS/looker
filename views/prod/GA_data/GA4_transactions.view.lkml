@@ -212,7 +212,7 @@ view: ga4_transactions {
     view_label: "GA4"
     group_label: "Transactional"
     label: "Margin Rate (Inc funding)"
-    #value_format: "0.00%;(0.00%)"
+    type: number
     value_format_name: percent_2
     sql: COALESCE(safe_divide(${Sum_marginIncFund},${sum_net_value}),null) ;;
   }
@@ -221,7 +221,7 @@ view: ga4_transactions {
     view_label: "GA4"
     group_label: "Transactional"
     label: "Margin Rate (Excl funding)"
-    #value_format: "0.00%;(0.00%)"
+    type: number
     value_format_name: percent_2
     sql: COALESCE(safe_divide(${Sum_marginExcFund},${sum_net_value}),null) ;;
   }
@@ -246,7 +246,7 @@ view: ga4_transactions {
   measure: avg_netSalePrice {
     view_label: "GA4"
     group_label: "Transactional"
-    #group_label: "Measures"
+    #type: number
     label: "Net Sale Price"
     type: average
     value_format_name: gbp
@@ -256,7 +256,7 @@ view: ga4_transactions {
   measure: aov_net_rev {
     view_label: "GA4"
     group_label: "Transactional"
-    #group_label: "Measures"
+    type: number
     label: "AOV (Net Rev)"
     value_format_name: gbp
     sql: SAFE_DIVIDE(${sum_net_value},${Orders}) ;;
@@ -265,7 +265,7 @@ view: ga4_transactions {
   measure: aov_gross_rev {
     view_label: "GA4"
     group_label: "Transactional"
-    #group_label: "Measures"
+    type: number
     label: "AOV (Gross Rev)"
     value_format_name: gbp
     sql: SAFE_DIVIDE(${gross_values},${Orders}) ;;
