@@ -14,7 +14,6 @@ transactions.Quantity as Qu,
 transactions.OrderID
 FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` as aw left join unnest (transactions) as transactions
 where event_name in ("page_view","view_item", "screen_view","purchase", "Purchase", "add_to_cart")
-and bounces = 1
 and _table_suffix between format_date("%Y%m%d", date_sub(current_date(), INTERVAL 30 day)) and format_date("%Y%m%d", date_sub(current_date(), INTERVAL 1 day))
 and
       ((aw.item_id = transactions.productCode) or (aw.item_id is not null and transactions.productCode is null) or (aw.item_id is null and transactions.
