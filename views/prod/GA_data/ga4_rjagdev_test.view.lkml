@@ -8,7 +8,7 @@ view: ga4_rjagdev_test {
     type: string
     primary_key: yes
     hidden: yes
-    sql: ${TABLE}.P_K;;
+    sql: concat(${TABLE}.P_K,coalesce(${ga4_transactions.P_K},"NONE"),coalesce(${itemid},"NONE"), coalesce(${Mintime},"NONE"));;
   }
 
    dimension_group: date {
@@ -18,6 +18,13 @@ view: ga4_rjagdev_test {
     timeframes: [date,raw]
      sql: case when date(${TABLE}.minTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(${TABLE}.minTime, interval 1 HOUR)) else (${TABLE}.minTime) end ;;
    }
+
+
+  dimension: Mintime{
+    hidden: yes
+    type: string
+    sql: cast(${TABLE}.minTime as string) ;;
+  }
 
   dimension_group: time{
     group_label: "Time"
@@ -106,9 +113,9 @@ view: ga4_rjagdev_test {
     when ${TABLE}.event_name = "videoly_videostart" then "videoly_start"
     when ${TABLE}.event_name = "videoly_initialize" then "videoly_box_shown"
     when ${TABLE}.event_name = "videoly_videoclosed" then "videoly_closed"
-    when ${TABLE}.event_name = "collection_oos" and ${platform} = "Web" then "out_of_stock"
-    when ${TABLE}.event_name = "dual_oos" and ${platform} = "Web" then "out_of_stock"
-    when ${TABLE}.event_name = "delivery_oos" and ${platform} = "Web" then "out_of_stock"
+    when ${TABLE}.event_name = "collection_OOS" and ${platform} = "Web" then "out_of_stock"
+    when ${TABLE}.event_name = "dual_OOS" and ${platform} = "Web" then "out_of_stock"
+    when ${TABLE}.event_name = "Delivery_OOS" and ${platform} = "Web" then "out_of_stock"
     when ${TABLE}.event_name = "out_of_stock" and ${platform} = "Web" then null
     else ${TABLE}.event_name
     end;;
@@ -119,11 +126,12 @@ view: ga4_rjagdev_test {
     label: "1.Event Key"
     group_label: "Event"
     type: string
-    sql: case when ${TABLE}.key_1 is null and ${label_1} is not null then "action"
-          when ${TABLE}.event_name = "collection_oos" and ${platform} = "Web" then "Collection"
-          when ${TABLE}.event_name = "dual_oos" and ${platform} = "Web" then "Dual"
-          when ${TABLE}.event_name = "delivery_oos" and ${platform} = "Web" then "Delivery"
+    sql: case
+          when ${TABLE}.event_name = "collection_OOS" and ${platform} = "Web" then "Collection"
+          when ${TABLE}.event_name = "dual_OOS" and ${platform} = "Web" then "Dual"
+          when ${TABLE}.event_name = "Delivery_OOS" and ${platform} = "Web" then "Delivery"
           when ${TABLE}.event_name = "out_of_stock" and ${platform} = "Web" then null
+          when ${TABLE}.key_1 is null and ${label_1} is not null then "action"
           else ${TABLE}.key_1 end;;
   }
 
