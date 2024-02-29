@@ -56,7 +56,7 @@ view: ga_digital_transactions {
     cast(bounces as string) as bounces,
     transactions.transaction
     FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as transactions
-        where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 4 day)) and FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 1 day))
+        where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 60 day)) and FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 1 day))
 and ((aw.item_id = transactions.productCode) or (aw.item_id is not null and transactions.productCode is null) or (aw.item_id is null and transactions.productCode is null))
        ;;
     sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01 00:00:00',SECOND)) - 60*60*10)/(60*60*24))
