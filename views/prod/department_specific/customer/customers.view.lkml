@@ -430,13 +430,13 @@ view: customers {
     sql:${creation_date};;
   }
 
-  dimension: customer_classification_type {
-    type: string
-    group_label: "Flags"
-    label: "Is Trade/Assumed/DIY"
-    hidden: yes
-    sql:${customer_classification.customer_type} ;;
-  }
+  # dimension: customer_classification_type {
+  #   type: string
+  #   group_label: "Flags"
+  #   label: "Is Trade/Assumed/DIY"
+  #   hidden: yes
+  #   sql:${customer_classification.customer_type} ;;
+  # }
 
   dimension: sign_up_type {
     group_label: "Customer"
