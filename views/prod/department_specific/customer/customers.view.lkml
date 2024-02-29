@@ -252,7 +252,7 @@ view: customers {
     label: "Customer - Anonymous?"
     description: "If a customer is anonymous"
     type: yesno
-    sql:${customer__email} LIKE "TILL_%TOOLSTATION.COM";;
+    sql:${customer__email} LIKE "TILL_%TOOLSTATION.COM" OR ${customer__email} LIKE "SHOP_%TOOLSTATION.COM";;
   }
 
   dimension: flags__guest_checkout {
@@ -445,9 +445,6 @@ view: customers {
     label: "Signup Type"
 
       }
-
-
-
 
   measure: number_of_customers {
     label: "
