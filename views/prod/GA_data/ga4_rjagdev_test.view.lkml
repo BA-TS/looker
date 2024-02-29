@@ -113,9 +113,9 @@ view: ga4_rjagdev_test {
     when ${TABLE}.event_name = "videoly_videostart" then "videoly_start"
     when ${TABLE}.event_name = "videoly_initialize" then "videoly_box_shown"
     when ${TABLE}.event_name = "videoly_videoclosed" then "videoly_closed"
-    when ${TABLE}.event_name = "collection_oos" and ${platform} = "Web" then "out_of_stock"
-    when ${TABLE}.event_name = "dual_oos" and ${platform} = "Web" then "out_of_stock"
-    when ${TABLE}.event_name = "delivery_oos" and ${platform} = "Web" then "out_of_stock"
+    when ${TABLE}.event_name = "collection_OOS" and ${platform} = "Web" then "out_of_stock"
+    when ${TABLE}.event_name = "dual_OOS" and ${platform} = "Web" then "out_of_stock"
+    when ${TABLE}.event_name = "Delivery_OOS" and ${platform} = "Web" then "out_of_stock"
     when ${TABLE}.event_name = "out_of_stock" and ${platform} = "Web" then null
     else ${TABLE}.event_name
     end;;
