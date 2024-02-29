@@ -14,7 +14,7 @@ explore: GA4_test {
   required_access_grants: [GA4_access]
   view_name: calendar_completed_date
   from:  calendar
-  label: "GA4"
+  label: "GA4 (Old)"
   view_label: "Datetime (of event)"
   conditionally_filter: {
     filters: [
@@ -543,7 +543,7 @@ explore: digital_reporting {
 explore: GA4_testy {
   required_access_grants: [ranjit_test]
   view_name: calendar
-  label: "ranjit Test"
+  label: "GA4 (new)"
   view_label: "Datetime (of event)"
   #sql_always_where:  ;;
   conditionally_filter: {
