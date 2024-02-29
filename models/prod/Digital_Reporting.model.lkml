@@ -605,7 +605,7 @@ explore: GA4_testy {
     type:  inner
     relationship: one_to_many
     sql_on: ${ga4_transactions.placed_date}=${calendar_completed_datev2.date} ;;
-    fields: [-field_to_hide]
+    #fields: [-field_to_hide]
   }
 
   join: customers {
