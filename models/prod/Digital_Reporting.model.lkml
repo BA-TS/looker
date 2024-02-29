@@ -314,8 +314,7 @@ explore: digital_reporting {
   #    select_date_reference: "app^_web^_data"
 
   fields: [
-    ALL_FIELDS*,
-    -customers.customer_classification_type
+    ALL_FIELDS*
   ]
   #,-products.department
   sql_always_where:

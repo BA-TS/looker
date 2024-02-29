@@ -252,7 +252,7 @@ view: customers {
     label: "Customer - Anonymous?"
     description: "If a customer is anonymous"
     type: yesno
-    sql:${customer__email} LIKE "TILL_%TOOLSTATION.COM";;
+    sql:${customer__email} LIKE "TILL_%TOOLSTATION.COM" OR ${customer__email} LIKE "SHOP_%TOOLSTATION.COM";;
   }
 
   dimension: flags__guest_checkout {
@@ -430,13 +430,13 @@ view: customers {
     sql:${creation_date};;
   }
 
-  dimension: customer_classification_type {
-    type: string
-    group_label: "Flags"
-    label: "Is Trade/Assumed/DIY"
-    hidden: yes
-    sql:${customer_classification.customer_type} ;;
-  }
+  # dimension: customer_classification_type {
+  #   type: string
+  #   group_label: "Flags"
+  #   label: "Is Trade/Assumed/DIY"
+  #   hidden: yes
+  #   sql:${customer_classification.customer_type} ;;
+  # }
 
   dimension: sign_up_type {
     group_label: "Customer"
@@ -445,9 +445,6 @@ view: customers {
     label: "Signup Type"
 
       }
-
-
-
 
   measure: number_of_customers {
     label: "

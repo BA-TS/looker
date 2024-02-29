@@ -62,11 +62,14 @@ view: ds_assumed_trade{
     CASE
     WHEN ${customers.is_trade} = true then "Trade"
     When ${customers.flags__customer_anonymous} = true then "DIY"
+    When ${customers.customer__first_name} = "EBAY" AND ${customers.customer__last_name} = "USER" then "DIY"
     When ${final_prediction} = true then "Assumed Trade"
     Else "DIY"
     END
     ;;
   }
+
+
 
   dimension: customer_type_pb {
     type:  string

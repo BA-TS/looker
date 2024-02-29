@@ -423,11 +423,11 @@ explore: base {
     sql_on: ${transactions.parent_order_uid} = ${bucketed_order_sales_department.parent_order_uid} and ${transactions.product_department} = ${bucketed_order_sales_department.product_department} ;;
   }
 
-  join: customer_classification {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${customers.customer_uid} = ${customer_classification.customer_uid} ;;
-  }
+  # join: customer_classification {
+  #   type: left_outer
+  #   relationship: many_to_one
+  #   sql_on: ${customers.customer_uid} = ${customer_classification.customer_uid} ;;
+  # }
 
   join: customer_spending {
     view_label: "Transactions"
@@ -466,14 +466,6 @@ explore: base {
     relationship: many_to_one
     sql_on: ${customers.customer_uid} = ${rakuten_analysis_0112.customerUID} and ${transactions.parent_order_uid} = ${rakuten_analysis_0112.parent_order_UID};;
   }
-
-  # join: assumed_trade_dataiku {
-  #   required_access_grants:[lz_testing]
-  #   view_label: "Customer Classification"
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${customers.customer_uid} = ${assumed_trade_dataiku.customer_uid} ;;
-  # }
 
   join: ds_assumed_trade {
     view_label: "Customer Classification"
