@@ -4,6 +4,7 @@ include: "/views/**/*.view"              # include all views in the views/ folde
 label: "ragdev_testy_test"
 
 explore: GA4_testy {
+  hidden: yes
   required_access_grants: [ranjit_test]
   view_name: calendar
   label: "ranjit Test"
