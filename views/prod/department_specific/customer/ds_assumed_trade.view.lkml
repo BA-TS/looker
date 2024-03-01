@@ -3,7 +3,8 @@ include: "/views/prod/department_specific/customer/customers.view"
 
 view: ds_assumed_trade{
 
-  sql_table_name: `toolstation-data-storage.customer.ds_assumed_trade` ;;
+  # sql_table_name: `toolstation-data-storage.customer.ds_assumed_trade` ;;
+  sql_table_name: `toolstation-data-storage.customer.ds_assumed_trade_history_Looker` ;;
 
   dimension: customer_uid {
     type: string
@@ -20,7 +21,7 @@ view: ds_assumed_trade{
   dimension: today_last_year {
     required_access_grants: [lz_testing]
     type:  date
-    sql: date(2023,02,26);;
+    sql: date(2023,01,01);;
     hidden: yes
   }
 
@@ -69,8 +70,6 @@ view: ds_assumed_trade{
     ;;
   }
 
-
-
   dimension: customer_type_pb {
     type:  string
     label: "Customer Type (PB)"
@@ -85,7 +84,6 @@ view: ds_assumed_trade{
     END
     ;;
   }
-
 
   measure: mean_proba_Yes_final {
     required_access_grants: [lz_testing]
