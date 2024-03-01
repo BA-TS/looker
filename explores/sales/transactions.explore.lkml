@@ -414,7 +414,7 @@ explore: base {
   join: spc_buckets {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${transactions.parent_order_uid} = ${spc_buckets.parent_order_uid} ;;
+    sql_on: ${transactions.customer_uid} = ${spc_buckets.customer_uid} ;;
   }
 
   join: bucketed_order_sales_department {
