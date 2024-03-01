@@ -540,7 +540,7 @@ explore: digital_reporting {
 }
 
 explore: GA4_testy {
-  required_access_grants: [ranjit_test]
+  required_access_grants: [GA4_access_v2]
   view_name: calendar
   label: "GA4 (new)"
   view_label: "Datetime (of event)"

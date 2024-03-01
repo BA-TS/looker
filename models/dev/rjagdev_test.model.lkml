@@ -5,7 +5,7 @@ label: "ragdev_testy_test"
 
 explore: GA4_testy {
   hidden: yes
-  required_access_grants: [ranjit_test]
+  required_access_grants: [GA4_access_v2]
   view_name: calendar
   label: "ranjit Test"
   #sql_always_where:  ;;
