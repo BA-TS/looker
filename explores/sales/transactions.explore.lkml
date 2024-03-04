@@ -414,6 +414,7 @@ explore: base {
   join: spc_buckets {
     type: left_outer
     relationship: many_to_one
+    # sql_on: ${transactions.customer_uid} = ${spc_buckets.customer_uid} ;;
     sql_on: ${transactions.parent_order_uid} = ${spc_buckets.parent_order_uid} ;;
   }
 
@@ -472,7 +473,6 @@ explore: base {
     type: left_outer
     relationship: many_to_one
     sql_on: ${customers.customer_uid} = ${ds_assumed_trade.customer_uid}
-            and ${base.date_date} > ${ds_assumed_trade.today_last_year}
     ;;
   }
 

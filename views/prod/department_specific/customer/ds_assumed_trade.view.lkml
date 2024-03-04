@@ -1,9 +1,9 @@
 include: "/views/prod/department_specific/customer/customers.view"
-include: "/views/prod/department_specific/customer/customers.view"
 
 view: ds_assumed_trade{
 
-  sql_table_name: `toolstation-data-storage.customer.ds_assumed_trade` ;;
+  # sql_table_name: `toolstation-data-storage.customer.ds_assumed_trade` ;;
+  sql_table_name: `toolstation-data-storage.customer.ds_assumed_trade_history_Looker` ;;
 
   dimension: customer_uid {
     type: string
@@ -20,7 +20,7 @@ view: ds_assumed_trade{
   dimension: today_last_year {
     required_access_grants: [lz_testing]
     type:  date
-    sql: date(2023,02,26);;
+    sql: date(2023,01,01);;
     hidden: yes
   }
 
@@ -46,18 +46,9 @@ view: ds_assumed_trade{
     hidden: yes
   }
 
-  # dimension: final_prediction {
-  #   type:  yesno
-  #   label: "Is Assumed Trade"
-  #   sql:${TABLE}.final_prediction = "true";;
-  #   hidden: yes
-  # }
-
   dimension: final_prediction2 {
     type:  string
     label: "Customer Type"
-    required_access_grants: [lz_testing]
-    # hidden: yes
     sql:
     CASE
     WHEN ${customers.is_trade} = true then "Trade"
@@ -69,23 +60,19 @@ view: ds_assumed_trade{
     ;;
   }
 
-
-
   dimension: customer_type_pb {
     type:  string
     label: "Customer Type (PB)"
-    # hidden: yes
-    required_access_grants: [lz_testing]
     sql:
     CASE
     WHEN ${customers.is_trade} = true then "Trade"
     When ${customers.flags__customer_anonymous} = true then "DIY"
+    When ${customers.customer__first_name} = "EBAY" AND ${customers.customer__last_name} = "USER" then "DIY"
     When ${final_prediction} = true then "Trade"
     Else "DIY"
     END
     ;;
   }
-
 
   measure: mean_proba_Yes_final {
     required_access_grants: [lz_testing]
@@ -94,5 +81,4 @@ view: ds_assumed_trade{
     type:  average
     sql:${proba_Yes_final} ;;
   }
-
 }
