@@ -178,7 +178,16 @@ view: ga4_transactions {
     label: "GA4 Revenue"
     type: sum
     value_format_name: gbp
-    sql: ${ga4_revenue}*${ga4_quantity};;
+    sql: ${ga4_revenue};;
+  }
+
+  measure: ga4_rev2 {
+    view_label: "GA4"
+    group_label: "Transactional"
+    label: "GA42 Revenue"
+    type: number
+    value_format_name: gbp
+    sql: ${ga4_rev}*${Sum_GA4quantity};;
   }
 
   measure: gross_values {
@@ -270,6 +279,9 @@ view: ga4_transactions {
     value_format_name: gbp
     sql: SAFE_DIVIDE(${gross_values},${Orders}) ;;
   }
+
+
+
 
 
 
