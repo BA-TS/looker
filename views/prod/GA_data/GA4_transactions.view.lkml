@@ -176,18 +176,18 @@ view: ga4_transactions {
     view_label: "GA4"
     group_label: "Transactional"
     label: "GA4 Revenue"
-    type: sum
+    type: number
     value_format_name: gbp
-    sql: ${ga4_revenue};;
+    sql: sum(${ga4_revenue}*${Sum_GA4quantity});;
   }
 
   measure: gross_values {
     view_label: "GA4"
     group_label: "Transactional"
     label: "Gross Revenue"
-    type: sum
+    type: number
     value_format_name: gbp
-    sql: case when ${gross_value} is null or ${gross_value} = 0 then ${ga4_revenue} else ${gross_value} end ;;
+    sql: sum(case when ${gross_value} is null or ${gross_value} = 0 then ${ga4_revenue}*${Sum_GA4quantity} else ${gross_value}) end ;;
   }
 
   measure: Sum_marginIncFund {
