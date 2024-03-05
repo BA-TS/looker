@@ -42,7 +42,7 @@ view: ds_assumed_trade{
   dimension: final_prediction {
     type:  yesno
     label: "Is Assumed Trade"
-    sql:${proba_Yes_final} > 0.50 ;;
+    sql:${proba_Yes_final} > 0.55 ;;
     hidden: yes
   }
 
