@@ -181,14 +181,6 @@ view: ga4_transactions {
     sql: ${ga4_revenue};;
   }
 
-  measure: ga4_rev2 {
-    view_label: "GA4"
-    group_label: "Transactional"
-    label: "GA42 Revenue"
-    type: number
-    value_format_name: gbp
-    sql: ${ga4_rev}*${Sum_quantity};;
-  }
 
   measure: gross_values {
     view_label: "GA4"
