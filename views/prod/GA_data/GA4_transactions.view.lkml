@@ -187,7 +187,7 @@ view: ga4_transactions {
     label: "GA42 Revenue"
     type: number
     value_format_name: gbp
-    sql: ${ga4_rev}*${Sum_GA4quantity};;
+    sql: ${ga4_rev}*${Sum_quantity};;
   }
 
   measure: gross_values {
