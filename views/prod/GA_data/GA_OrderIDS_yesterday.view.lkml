@@ -61,7 +61,7 @@ view: ga_orderids_yesterday {
     group_label: "Product Details"
     hidden: yes
     label: "Product Code"
-    sql: case when ${TABLE}.item_id in ('44842') then 'null' else ${TABLE}.item_id end;;
+    sql: case when ${TABLE}.productCode in ('44842') then 'null' else ${TABLE}.productCode end;;
   }
 
 }
