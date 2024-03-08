@@ -543,7 +543,7 @@ explore: digital_reporting {
 explore: GA4_testy {
   required_access_grants: [GA4_access_v2]
   view_name: calendar
-  label: "GA4 (new)"
+  label: "GA4"
   view_label: "Datetime (of event)"
   #sql_always_where:  ;;
   conditionally_filter: {
