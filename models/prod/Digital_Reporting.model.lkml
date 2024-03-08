@@ -11,6 +11,7 @@ include: "/views/prod/GA_data/PDP_Purchase_funnel.view.lkml"
 include: "/views/prod/GA_data/Search_PLP_to_PDP_funnel.view.lkml"
 label: "Digital"
 explore: GA4_test {
+  hidden: yes
   required_access_grants: [GA4_access]
   view_name: calendar_completed_date
   from:  calendar
