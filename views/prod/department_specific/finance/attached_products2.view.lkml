@@ -79,9 +79,9 @@ view: attached_products2 {
 
   dimension: pack_description_attached {
     group_label: "Single Line Transactions"
-    label: "Pack Description Attached Product 2"
+    label: "Pack Description Attached 2"
     type: string
-    sql:${TABLE}.pack_description;;
+    sql:${TABLE}.packDescription;;
   }
 
   dimension: marginInclFunding_attached2 {
