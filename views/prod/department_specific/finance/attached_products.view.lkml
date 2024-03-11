@@ -6,7 +6,7 @@ view: attached_products {
       parentOrderUID,
       p.productCode,
       p.productDescription,
-      pd.pack_description,
+      pd.packDescription,
       productDepartment,
       productSubdepartment,
       row_number() OVER(ORDER BY parentOrderUID) AS prim_key,

@@ -8,7 +8,7 @@ view: attached_products2 {
       parentOrderUID,
       p.productCode,
       p.productDescription,
-      pd.pack_description,
+      pd.packDescription,
       productDepartment,
       productSubdepartment,
       sum(marginInclFunding) as marginInclFunding,
