@@ -1,6 +1,7 @@
-include: "/views/prod/department_specific/data/ran_queries.view"
+include: "/views/**/*.view"
 
 explore: ran_queries {
   label: "BigQuery Cost"
   description: "Explore for viewing BigQuery usage cost."
+  required_access_grants: [is_developer]
 }

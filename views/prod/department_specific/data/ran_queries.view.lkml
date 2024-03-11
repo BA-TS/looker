@@ -4,32 +4,35 @@ view: ran_queries {
   # to be used for all fields in this view.
   sql_table_name: `toolstation-data-storage.audit.ranQueries` ;;
 
-  # No primary key is defined for this view. In order to join this view in an Explore,
-  # define primary_key: yes on a dimension that has no repeated values.
-
-    # Here's what a typical dimension looks like in LookML.
-    # A dimension is a groupable field that can be used to filter query results.
-    # This dimension will be called "Cache Hit" in Explore.
+  dimension: composite_key {
+    primary_key: yes
+    type: string
+    sql: CONCAT(${query}, '-', ${user_email}, '-', ${run_start_date_raw}, '-', ${run_start_hour}) ;;
+    hidden: yes
+  }
 
   dimension: cache_hit {
     type: yesno
-    sql: ${TABLE}.cache_hit ;;
+    sql: ${TABLE}.cache_hit;;
+    hidden: yes
+  }
+
+  dimension: user_group{
+    type: string
+    sql: CASE WHEN ${TABLE}.user_email IN ('david.martin@toolstation.com', 'lin.zhang@toolstation.com','iqra.naz@toolstation.com','ranjit.jagdev@toolstation.com') THEN 'Core Data Team'
+              WHEN ${TABLE}.user_email IN ('heather.grayson@toolstation.com','vishesh.kulshreshtha@toolstation.com') THEN 'Supply Chain Analysts'
+              WHEN ${TABLE}.user_email = 'taresh.patel@toolstation.com' THEN 'Commercial Analysts'
+              WHEN ${TABLE}.user_email = 'hayley.fisher@toolstation.com' THEN 'CRM Analysts'
+              WHEN ${TABLE}.user_email = 'data@toolstation.com' THEN 'Data Account'
+               WHEN ${TABLE}.user_email = '681588707520-compute@developer.gserviceaccount.com' THEN 'ETL Account'
+              ELSE 'Other' END;;
   }
 
   dimension: cost_in_gbp {
     type: number
-    sql: ${TABLE}.cost_in_gbp ;;
+    sql: ${TABLE}.cost_in_gbp;;
+    hidden: yes
   }
-
-  # A measure is a field that uses a SQL aggregate function. Here are defined sum and average
-  # measures for this dimension, but you can also add measures of many different aggregates.
-  # Click on the type parameter to see all the options in the Quick Help panel on the right.
-
-  measure: total_cost_in_gbp {
-    type: sum
-    sql: ${cost_in_gbp}
-    label: "Total Cost in GBP";;  }
-
 
   dimension: duration {
     type: number
@@ -37,18 +40,19 @@ view: ran_queries {
   }
 
   dimension: job_id_computed {
+    label: "Job Destination Type"
     type: string
-    sql: ${TABLE}.job_id_computed
-    label: "Job Type";;
+    sql: ${TABLE}.job_id_computed;;
   }
 
   dimension: query {
+    label: "Query Text"
     type: string
-    sql: ${TABLE}.query
-    label: "Query Text";;
+    sql: ${TABLE}.query;;
   }
 
   dimension_group: run_start_date {
+    label: "Date & Time"
     type: time
     timeframes: [raw, date, week, month, quarter, year]
     convert_tz: no
@@ -57,16 +61,41 @@ view: ran_queries {
   }
 
   dimension: run_start_hour {
+    label: "Hour"
     type: number
     sql: ${TABLE}.run_start_hour ;;
   }
 
   dimension: user_email {
+    label: "User Email"
     type: string
-    sql: ${TABLE}.user_email
-    label: "User";;
+    sql: ${TABLE}.user_email;;
   }
-  measure: count {
-    type: count
+
+  measure: total_cost_gbp {
+    label: "Cost £"
+    description: "Total cost in GBP"
+    type:  sum
+    view_label: "Measures"
+    sql: ${cost_in_gbp} ;;
+    value_format_name: gbp
   }
+
+  measure: distinct_users {
+    label: "Distinct Users"
+    description: "Number of Distinct Users"
+    type:  count_distinct
+    view_label: "Measures"
+    sql: ${user_email} ;;
+  }
+
+  measure: queries_ran {
+    label: "Number of Queries"
+    description: "Number of Queries Ran"
+    type: count_distinct
+    view_label: "Measures"
+    sql: ${composite_key} ;;
+  }
+
+
 }
