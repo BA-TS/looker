@@ -14,11 +14,10 @@ transactions.Quantity as Qu,
 transactions.OrderID
 FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` as aw left join unnest (transactions) as transactions
 where event_name in ("page_view","view_item", "screen_view","purchase", "Purchase", "add_to_cart")
-and bounces = 1
 and _table_suffix between format_date("%Y%m%d", date_sub(current_date(), INTERVAL 30 day)) and format_date("%Y%m%d", date_sub(current_date(), INTERVAL 1 day))
 and
-      ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transactions.item_id is null) or (aw.item_id is null and transactions.
-      item_id is null))
+      ((aw.item_id = transactions.productCode) or (aw.item_id is not null and transactions.productCode is null) or (aw.item_id is null and transactions.
+      productCode is null))
 group by 2,3,4,5,6,7,8,9),
 
 #products as (select distinct productStartDate,activeTo,productCode from `toolstation-data-storage.range.products_current`),
@@ -64,7 +63,7 @@ where extract(date from coalesce(pdp.pdp_time,ATC.atc_time,purchase.purchase_tim
 select distinct row_number() over () as P_K, * from sub2
 ;;
 
-sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01 00:00:00',SECOND)) - 60*60*10)/(60*60*24))
+sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01 00:00:00',SECOND)) - 60*60*09)/(60*60*24))
 ;;
 }
 

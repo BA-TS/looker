@@ -8,15 +8,43 @@ view: ga4_rjagdev_test {
     type: string
     primary_key: yes
     hidden: yes
-    sql: ${TABLE}.P_K;;
+    sql: concat(${TABLE}.P_K,coalesce(${ga4_transactions.P_K},"NONE"),coalesce(${itemid},"NONE"), coalesce(${Mintime},"NONE"));;
   }
 
    dimension_group: date {
      description: "Date of event"
+    hidden: yes
      type: time
     timeframes: [date,raw]
      sql: case when date(${TABLE}.minTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(${TABLE}.minTime, interval 1 HOUR)) else (${TABLE}.minTime) end ;;
    }
+
+
+  dimension: Mintime{
+    hidden: yes
+    type: string
+    sql: cast(${TABLE}.minTime as string) ;;
+  }
+
+  dimension_group: time{
+    group_label: "Time"
+    view_label: "Datetime (of event)"
+    description: "Min datetime of event"
+    label: ""
+    type: time
+    timeframes: [time_of_day]
+    sql: ${TABLE}.minTime ;;
+  }
+
+  dimension_group: hour{
+    group_label: "Time"
+    view_label: "Datetime (of event)"
+    description: "Min datetime of event"
+    label: ""
+    type: time
+    timeframes: [hour_of_day]
+    sql: ${TABLE}.minTime ;;
+  }
 
 
   dimension: platform {
@@ -85,9 +113,9 @@ view: ga4_rjagdev_test {
     when ${TABLE}.event_name = "videoly_videostart" then "videoly_start"
     when ${TABLE}.event_name = "videoly_initialize" then "videoly_box_shown"
     when ${TABLE}.event_name = "videoly_videoclosed" then "videoly_closed"
-    when ${TABLE}.event_name = "collection_oos" and ${platform} = "Web" then "out_of_stock"
-    when ${TABLE}.event_name = "dual_oos" and ${platform} = "Web" then "out_of_stock"
-    when ${TABLE}.event_name = "delivery_oos" and ${platform} = "Web" then "out_of_stock"
+    when ${TABLE}.event_name = "collection_OOS" and ${platform} = "Web" then "out_of_stock"
+    when ${TABLE}.event_name = "dual_OOS" and ${platform} = "Web" then "out_of_stock"
+    when ${TABLE}.event_name = "Delivery_OOS" and ${platform} = "Web" then "out_of_stock"
     when ${TABLE}.event_name = "out_of_stock" and ${platform} = "Web" then null
     else ${TABLE}.event_name
     end;;
@@ -98,11 +126,12 @@ view: ga4_rjagdev_test {
     label: "1.Event Key"
     group_label: "Event"
     type: string
-    sql: case when ${TABLE}.key_1 is null and ${label_1} is not null then "action"
-          when ${TABLE}.event_name = "collection_oos" and ${platform} = "Web" then "Collection"
-          when ${TABLE}.event_name = "dual_oos" and ${platform} = "Web" then "Dual"
-          when${TABLE}.event_name = "delivery_oos" and ${platform} = "Web" then "Delivery"
+    sql: case
+          when ${TABLE}.event_name = "collection_OOS" and ${platform} = "Web" then "Collection"
+          when ${TABLE}.event_name = "dual_OOS" and ${platform} = "Web" then "Dual"
+          when ${TABLE}.event_name = "Delivery_OOS" and ${platform} = "Web" then "Delivery"
           when ${TABLE}.event_name = "out_of_stock" and ${platform} = "Web" then null
+          when ${TABLE}.key_1 is null and ${label_1} is not null then "action"
           else ${TABLE}.key_1 end;;
   }
 
@@ -213,6 +242,7 @@ view: ga4_rjagdev_test {
 
   dimension: session_id {
     description: "session_id"
+    hidden: yes
     type: string
     sql: ${TABLE}.session_id ;;
   }
@@ -233,18 +263,11 @@ view: ga4_rjagdev_test {
     sql: ${TABLE}.Screen_name ;;
   }
 
-  dimension_group: time{
-    description: "Min datetime of event"
-    type: time
-    timeframes: [time_of_day]
-    sql: case when date(${TABLE}.minTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(${TABLE}.minTime, interval 1 HOUR)) else (${TABLE}.minTime) end ;;
-  }
-
   measure: session_duration {
     type: average
     view_label: "GA4"
     label: "Avg Session Duration"
-    group_label: "sessions"
+    group_label: "Sessions"
     value_format: "h:mm:ss"
     sql: ${TABLE}.session_duration / 86400.0;;
   }
@@ -369,13 +392,261 @@ view: ga4_rjagdev_test {
     sql: safe_divide(${bs},${sessions_total});;
   }
 
-  #filter: select_date_range {
-    #label: "GA4 Date Range"
-    #group_label: "Date Filter"
-    #view_label: "Date"
-    #type: date
-    #datatype: date
-    #convert_tz: yes
-  #}
+  ############# Measures by events#################
+  ############### PDP #######################
+
+  measure: PDP_sessions {
+    view_label: "GA4"
+    group_label: "PDP"
+    label: "Sessions (PDP)"
+    description: "Sessions where product-detail-page was viewed"
+    type: count_distinct
+    filters: [event_name: "view_item", Screen_name: "product-detail-page"]
+    sql: ${session_id} ;;
+  }
+
+  measure: PDP_Users {
+    view_label: "GA4"
+    group_label: "PDP"
+    label: "Users (PDP)"
+    description: "Users who viewed a product-detail-page"
+    type: count_distinct
+    filters: [event_name: "view_item", Screen_name: "product-detail-page"]
+    sql: ${User} ;;
+  }
+
+  measure: PDP_events {
+    view_label: "GA4"
+    group_label: "PDP"
+    label: "Events (PDP)"
+    description: "Views to a product-detail-page"
+    type: sum
+    filters: [event_name: "view_item", Screen_name: "product-detail-page"]
+    sql: ${TABLE}.events ;;
+  }
+
+  ############### View Item List #######################
+
+  measure: viewItemList_sessions {
+    view_label: "GA4"
+    group_label: "View Item List"
+    label: "Sessions (View Item List)"
+    description: "Sessions where an item was viewed in a list page"
+    type: count_distinct
+    filters: [event_name: "view_item_list"]
+    sql: ${session_id} ;;
+  }
+
+  measure: viewItemList_Users {
+    view_label: "GA4"
+    group_label: "View Item List"
+    label: "Users (View Item List)"
+    description: "Users who viewed a item in a list page"
+    type: count_distinct
+    filters: [event_name: "view_item_list"]
+    sql: ${User} ;;
+  }
+
+  measure: ViewItemList_events {
+    view_label: "GA4"
+    group_label: "View Item List"
+    label: "Events (View Item List)"
+    description: "total times a item was viewed in a list page"
+    type: sum
+    filters: [event_name: "view_item_list"]
+    sql: ${TABLE}.events ;;
+  }
+
+  ############### View Cart #######################
+
+  measure: viewCart_sessions {
+    view_label: "GA4"
+    group_label: "View Cart"
+    label: "Sessions (View Cart)"
+    description: "Sessions where cart was viewed"
+    type: count_distinct
+    filters: [event_name: "view_cart",bounce_def: "1"]
+    sql: ${session_id} ;;
+  }
+
+  measure: viewCart_Users {
+    view_label: "GA4"
+    group_label: "View Cart"
+    label: "Users (View Cart)"
+    description: "Users who viewed their cart"
+    type: count_distinct
+    filters: [event_name: "view_cart"]
+    sql: ${User} ;;
+  }
+
+  measure: ViewCart_events {
+    view_label: "GA4"
+    group_label: "View Cart"
+    label: "Events (View Cart)"
+    description: "total times the cart was viewed"
+    type: sum
+    filters: [event_name: "view_cart"]
+    sql: ${TABLE}.events ;;
+  }
+
+  measure: ViewCart_Quantity {
+    view_label: "GA4"
+    group_label: "View Cart"
+    label: "Product Quantity (View Cart)"
+    description: "Product quantity of cart"
+    type: sum
+    filters: [event_name: "view_cart"]
+    sql: ${ga4_transactions.ga4_quantity} ;;
+  }
+  measure: ViewCart_Value {
+    view_label: "GA4"
+    group_label: "View Cart"
+    label: "Value (View Cart)"
+    description: "Monetary value of cart"
+    type: sum
+    value_format_name: gbp
+    filters: [event_name: "view_cart"]
+    sql: ${TABLE}.value ;;
+  }
+
+############### Out of Stock #######################
+
+  measure: OOS_sessions {
+    view_label: "GA4"
+    group_label: "Out of Stock"
+    label: "Sessions (OOS)"
+    description: "Sessions where an item was shown to be oos"
+    type: count_distinct
+    filters: [event_name: "out_of_stock"]
+    sql: ${session_id} ;;
+  }
+
+  measure: OOS_Users {
+    view_label: "GA4"
+    group_label: "Out of Stock"
+    label: "Users (OOS)"
+    description: "Users who viewed a item oos"
+    type: count_distinct
+    filters: [event_name: "out_of_stock"]
+    sql: ${User} ;;
+  }
+
+  measure: OOS_events {
+    view_label: "GA4"
+    group_label: "Out of Stock"
+    label: "Events (OOS)"
+    description: "total times a item was shown to be OOS"
+    type: sum
+    filters: [event_name: "out_of_stock"]
+    sql: ${TABLE}.events ;;
+  }
+
+  ############### add to Cart #######################
+
+  measure: add_to_cart_sessions {
+    view_label: "GA4"
+    group_label: "Add to Cart"
+    label: "Sessions (ATC)"
+    description: "Sessions where an item was added to cart"
+    type: count_distinct
+    filters: [event_name: "add_to_cart"]
+    sql: ${session_id} ;;
+  }
+
+  measure: add_to_cart_Users {
+    view_label: "GA4"
+    group_label: "Add to Cart"
+    label: "Users (ATC)"
+    description: "Users who added an item to cart"
+    type: count_distinct
+    filters: [event_name: "add_to_cart"]
+    sql: ${User} ;;
+  }
+
+  measure: add_to_cart_events {
+    view_label: "GA4"
+    group_label: "Add to Cart"
+    label: "Events (ATC)"
+    description: "total times an item was added to cart"
+    type: sum
+    filters: [event_name: "add_to_cart"]
+    sql: ${TABLE}.events ;;
+  }
+
+  measure: add_to_cart_Quantity {
+    view_label: "GA4"
+    group_label: "Add to Cart"
+    label: "Product Quantity (ATC)"
+    description: "Product quantity of items added cart"
+    type: sum
+    filters: [event_name: "add_to_cart"]
+    sql: ${ga4_transactions.ga4_quantity} ;;
+  }
+  measure: add_to_cart_Value {
+    view_label: "GA4"
+    group_label: "Add to Cart"
+    label: "Value (ATC)"
+    description: "Monetary value of items added cart"
+    type: sum
+    value_format_name: gbp
+    filters: [event_name: "add_to_cart"]
+    sql: ${TABLE}.value ;;
+  }
+
+  measure: atc_conversion_rate {
+    view_label: "GA4"
+    label: "ATC Conversion rate"
+    group_label: "Add to Cart"
+    type: number
+    value_format_name: percent_2
+    description: "rate of total sessions where add to cart event happened"
+    #sql: ${Count_transaction_id}/${session_start} * 100
+    sql: safe_divide(${add_to_cart_sessions},${sessions_total});;
+  }
+
+  #############Purchase###############
+
+  measure: session_purchase {
+    view_label: "GA4"
+    label: "Sessions (Purchase)"
+    group_label: "Purchase"
+    description: "Sessions where a purchase event happened"
+    #hidden: yes
+    type: count_distinct
+    filters: [event_name: "Purchase, purchase"]
+    sql: ${session_id};;
+  }
+
+  measure: conversion_rate {
+    view_label: "GA4"
+    label: "Purchase Conversion rate"
+    group_label: "Purchase"
+    type: number
+    value_format_name: percent_2
+    description: "rate of total sessions where a pucrhase event happened"
+    #sql: ${Count_transaction_id}/${session_start} * 100
+    sql: safe_divide(${session_purchase},${sessions_total});;
+  }
+
+  measure: purchase_Users {
+    view_label: "GA4"
+    group_label: "Purchase"
+    label: "Users (Purchase)"
+    description: "Users who Purchased"
+    type: count_distinct
+    filters: [event_name: "purchase"]
+    sql: ${User} ;;
+  }
+
+  measure: purchase_events {
+    view_label: "GA4"
+    group_label: "Purchase"
+    label: "Events (Purchase)"
+    description: "total times an item was added to cart"
+    type: sum
+    filters: [event_name: "purchase"]
+    sql: ${TABLE}.events ;;
+  }
+
 
 }

@@ -1,13 +1,13 @@
 include: "/views/prod/department_specific/customer/customers.view"
-include: "/views/prod/department_specific/customer/customers.view"
 
 view: ds_assumed_trade{
 
-  sql_table_name: `toolstation-data-storage.customer.ds_assumed_trade` ;;
+  # sql_table_name: `toolstation-data-storage.customer.ds_assumed_trade` ;;
+  sql_table_name: `toolstation-data-storage.customer.ds_assumed_trade_history_Looker` ;;
 
   dimension: customer_uid {
     type: string
-    sql: ${TABLE}.customer_uid;;
+    sql: ${TABLE}.customers_customer_uid;;
     hidden: yes
   }
 
@@ -27,7 +27,7 @@ view: ds_assumed_trade{
   dimension: proba_Yes_final {
     label: "Probability (Assumed Trade)"
     type:  number
-    sql: coalesce(mean_proba_Yes,0);;
+    sql: ${TABLE}.Assumed_Trade_Probability;;
     value_format:"0.0%"
   }
 
@@ -42,7 +42,7 @@ view: ds_assumed_trade{
   dimension: final_prediction {
     type:  yesno
     label: "Is Assumed Trade"
-    sql:${TABLE}.final_prediction = "true";;
+    sql:${proba_Yes_final} > 0.55 ;;
     hidden: yes
   }
 
@@ -53,6 +53,7 @@ view: ds_assumed_trade{
     CASE
     WHEN ${customers.is_trade} = true then "Trade"
     When ${customers.flags__customer_anonymous} = true then "DIY"
+    When ${customers.customer__first_name} = "EBAY" AND ${customers.customer__last_name} = "USER" then "DIY"
     When ${final_prediction} = true then "Assumed Trade"
     Else "DIY"
     END
@@ -66,17 +67,18 @@ view: ds_assumed_trade{
     CASE
     WHEN ${customers.is_trade} = true then "Trade"
     When ${customers.flags__customer_anonymous} = true then "DIY"
+    When ${customers.customer__first_name} = "EBAY" AND ${customers.customer__last_name} = "USER" then "DIY"
     When ${final_prediction} = true then "Trade"
     Else "DIY"
     END
     ;;
   }
 
-
   measure: mean_proba_Yes_final {
+    required_access_grants: [lz_testing]
+    hidden: yes
     label: "Probability - Mean "
     type:  average
     sql:${proba_Yes_final} ;;
   }
-
 }

@@ -15,8 +15,8 @@ view: basket_buy_to_detail_trends {
       FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as transactions
       where _TABLE_SUFFIX >= FORMAT_DATE('%Y%m%d', '2023-11-02')
       and
-      ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transactions.item_id is null) or (aw.item_id is null and transactions.
-      item_id is null))
+      ((aw.item_id = transactions.productCode) or (aw.item_id is not null and transactions.productCode is null) or (aw.item_id is null and transactions.
+      productCode is null))
       group by 2,3,4,5,6,7,8
                    ;;
     sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 10 ;;

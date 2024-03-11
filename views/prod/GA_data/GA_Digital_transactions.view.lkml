@@ -2,6 +2,7 @@ view: ga_digital_transactions {
 
    derived_table: {
      sql: SELECT distinct
+    P_K as PK1,
     row_number() over () as P_K,
     platform,
     case when date(MinTime) Between date("2023-10-29") and ("2024-02-15") then date(timestamp_sub(MinTime, interval 1 HOUR)) else date(MinTime) end as date,
@@ -55,10 +56,10 @@ view: ga_digital_transactions {
     cast(bounces as string) as bounces,
     transactions.transaction
     FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as transactions
-        where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 90 day)) and FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 1 day))
-and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transactions.item_id is null) or (aw.item_id is null and transactions.item_id is null))
+        where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 60 day)) and FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 1 day))
+and ((aw.item_id = transactions.productCode) or (aw.item_id is not null and transactions.productCode is null) or (aw.item_id is null and transactions.productCode is null))
        ;;
-    sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01 00:00:00',SECOND)) - 60*60*10)/(60*60*24))
+    sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01 00:00:00',SECOND)) - 60*60*9)/(60*60*24))
     ;;
 
     partition_keys: ["date"]

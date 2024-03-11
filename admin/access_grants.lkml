@@ -53,8 +53,8 @@ access_grant: GA4_access {
   allowed_values: ["Y"]
 }
 
-access_grant: ranjit_test {
-  user_attribute: ranjit_test
+access_grant: GA4_access_v2 {
+  user_attribute: ga4_access_v2
   allowed_values: ["Y"]
 }
 

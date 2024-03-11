@@ -4,6 +4,7 @@ view: spc_buckets {
     explore_source: base {
       bind_all_filters: yes
       column: parent_order_uid { field: transactions.parent_order_uid }
+      # column: customer_uid { field: customers.customer_uid }
       column: spc_gross_sales { field: transactions.spc_gross_sales }
       column: spc_net_sales { field: transactions.spc_net_sales }
     }
@@ -13,6 +14,11 @@ view: spc_buckets {
     hidden: yes
     sql: ${TABLE}.parent_order_uid ;;
   }
+
+  # dimension: customer_uid {
+  #   hidden: yes
+  #   sql: ${TABLE}.customer_uid ;;
+  # }
 
   dimension: spc_net_sales {
     hidden: yes

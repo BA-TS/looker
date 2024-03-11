@@ -11,7 +11,7 @@ view: ga4_transactions {
     primary_key: yes
     type: string
     hidden: yes
-    sql: concat(${OrderID},${item_id},${ga4_rjagdev_test.PK},${ga4_quantity}, cast(${offset} as string)) ;;
+    sql: concat(transaction_PK, coalesce(${ga4_rjagdev_test.session_id},"NONE"), coalesce(${ga4_rjagdev_test.Mintime},"NONE"),cast(${offset} as string)) ;;
   }
 
   dimension: offset {
@@ -37,6 +37,7 @@ view: ga4_transactions {
   dimension: ProductUID {
     description: "ProductUID"
     type: string
+    hidden: yes
   }
 
   dimension: salesChannel {
@@ -48,18 +49,34 @@ view: ga4_transactions {
   }
 
   dimension_group: placed {
-    view_label: "GA4"
-    group_label: "Order Placed"
-    label: ""
+    hidden: yes
     timeframes: [date]
     type: time
   }
 
-  dimension_group: transaction {
-    hidden: yes
-    timeframes: [date,time_of_day]
+  dimension_group: placed_time{
+    view_label: "Order Placed"
+    group_label: "Time"
+    label: ""
     type: time
+    timeframes: [time_of_day]
+    sql: ${TABLE}.placed ;;
   }
+
+  dimension_group: placed_hour{
+    view_label: "Order Placed"
+    group_label: "Time"
+    label: ""
+    type: time
+    timeframes: [hour_of_day]
+    sql: ${TABLE}.placed ;;
+  }
+
+  #dimension_group: transaction {
+    #hidden: yes
+    #timeframes: [date,time_of_day]
+    #type: time
+  #}
 
   dimension: NetSalePrice {
     type: number
@@ -81,7 +98,7 @@ view: ga4_transactions {
 
   dimension: ga4_revenue {
     type: number
-    #hidden: yes
+    hidden: yes
     value_format_name: gbp
   }
 
@@ -107,15 +124,22 @@ view: ga4_transactions {
     hidden: yes
   }
 
-  dimension: item_id {
+  dimension: productCode {
     type: string
+    hidden: yes
   }
 
   dimension: status {
+    view_label: "GA4"
+    group_label: "Transactional"
+    label: "Order Status"
     type: string
   }
 
-  dimension: payment_type {
+  dimension: paymentType {
+    view_label: "GA4"
+    group_label: "Transactional"
+    label: "Payment Type"
     type: string
   }
 
@@ -157,6 +181,7 @@ view: ga4_transactions {
     sql: ${ga4_revenue};;
   }
 
+
   measure: gross_values {
     view_label: "GA4"
     group_label: "Transactional"
@@ -188,7 +213,7 @@ view: ga4_transactions {
     view_label: "GA4"
     group_label: "Transactional"
     label: "Margin Rate (Inc funding)"
-    #value_format: "0.00%;(0.00%)"
+    type: number
     value_format_name: percent_2
     sql: COALESCE(safe_divide(${Sum_marginIncFund},${sum_net_value}),null) ;;
   }
@@ -197,7 +222,7 @@ view: ga4_transactions {
     view_label: "GA4"
     group_label: "Transactional"
     label: "Margin Rate (Excl funding)"
-    #value_format: "0.00%;(0.00%)"
+    type: number
     value_format_name: percent_2
     sql: COALESCE(safe_divide(${Sum_marginExcFund},${sum_net_value}),null) ;;
   }
@@ -222,12 +247,35 @@ view: ga4_transactions {
   measure: avg_netSalePrice {
     view_label: "GA4"
     group_label: "Transactional"
-    #group_label: "Measures"
+    #type: number
     label: "Net Sale Price"
     type: average
     value_format_name: gbp
     sql: ${NetSalePrice} ;;
   }
+
+  measure: aov_net_rev {
+    view_label: "GA4"
+    group_label: "Transactional"
+    type: number
+    label: "AOV (Net Rev)"
+    value_format_name: gbp
+    sql: SAFE_DIVIDE(${sum_net_value},${Orders}) ;;
+  }
+
+  measure: aov_gross_rev {
+    view_label: "GA4"
+    group_label: "Transactional"
+    type: number
+    label: "AOV (Gross Rev)"
+    value_format_name: gbp
+    sql: SAFE_DIVIDE(${gross_values},${Orders}) ;;
+  }
+
+
+
+
+
 
 
 }
