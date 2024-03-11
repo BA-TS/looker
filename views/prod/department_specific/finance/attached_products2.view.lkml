@@ -8,6 +8,7 @@ view: attached_products2 {
       parentOrderUID,
       p.productCode,
       p.productDescription,
+      pd.packDescription,
       productDepartment,
       productSubdepartment,
       sum(marginInclFunding) as marginInclFunding,
@@ -16,8 +17,10 @@ view: attached_products2 {
      from `toolstation-data-storage.sales.transactions` t
         inner join `toolstation-data-storage.range.products_current` p
           using(productUID)
+          inner join `toolstation-data-storage.range.productDimensions` pd
+             using (productUID)
     where  p.productCode not in ("85699","44842","00053") and p.productCode>"10000"
-    group by 1, 2, 3, 4, 5, 6
+    group by 1, 2, 3, 4, 5, 6, 7
     ;;
     datagroup_trigger: ts_transactions_datagroup
   }
@@ -72,6 +75,13 @@ view: attached_products2 {
     label: "Product Description Attached Product 2"
     type: string
     sql:${TABLE}.productDescription;;
+  }
+
+  dimension: pack_description_attached {
+    group_label: "Single Line Transactions"
+    label: "Pack Description Attached 2"
+    type: string
+    sql:${TABLE}.packDescription;;
   }
 
   dimension: marginInclFunding_attached2 {
