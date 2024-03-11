@@ -9,7 +9,7 @@ view: site_budget {
       sum(COGs) COGs
       FROM `toolstation-data-storage.ts_finance.AOPBySiteAndDate`
       GROUP BY 1, 2);;
-    datagroup_trigger: ts_transactions_datagroup
+    # datagroup_trigger: ts_transactions_datagroup
   }
 
   dimension: date_site  {
