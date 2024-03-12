@@ -43,6 +43,11 @@ access_grant: lz_testing {
   allowed_values: ["Y"]
 }
 
+access_grant: dm_testing {
+  user_attribute: dm_testing
+  allowed_values: ["Y"]
+}
+
 access_grant: retail_testing {
   user_attribute: retail_testing
   allowed_values: ["Y"]
