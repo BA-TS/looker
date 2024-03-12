@@ -20,7 +20,8 @@ view: ecrebo {
                       LEFT JOIN
                       `toolstation-data-storage.sales.ecreboCoupons` ec ON  et.transaction_uuid=ec.transaction_uuid
                       JOIN
-                      `toolstation-data-storage.sales.TrolleySales` ts ON et.transaction_uuid=ts.trolleyUID
+                      `toolstation-data-storage.sales.TrolleySales` ts ON (case when date(et.datetime) <= date("2023-07-13") then et.transaction_uuid else et.receipt_id end)=
+                      (case when date(ts.PlacedDate) <= date("2023-07-13") then ts.trolleyUID else ts.ParentOrderUID end)
 
                     WHERE
                       ec.campaign_id IS NOT NULL
