@@ -1,4 +1,4 @@
-view: spc_buckets_buckets {
+view: spc_buckets_customers {
   view_label:"Buckets"
   derived_table: {
     explore_source: base {
