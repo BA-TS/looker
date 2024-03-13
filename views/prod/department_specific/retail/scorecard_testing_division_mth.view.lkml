@@ -1,4 +1,4 @@
-view: scorecard_testing3 {
+view: scorecard_testing_division_mth {
   sql_table_name:`toolstation-data-storage.tmp.typyCustomerRetention_division`;;
 
 

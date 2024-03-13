@@ -1,6 +1,5 @@
-view: scorecard_testing1 {
+view: scorecard_testing_branch_mth {
   sql_table_name:`toolstation-data-storage.tmp.typyCustomerRetention`;;
-
 
   dimension: siteUID {
     type: string
