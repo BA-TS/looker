@@ -7,7 +7,16 @@ view: spc_buckets_customers {
       column: customer_uid { field: customers.customer_uid }
       column: spc_gross_sales { field: transactions.spc_gross_sales }
       column: spc_net_sales { field: transactions.spc_net_sales }
+      # filters: {
+      #   field: base.select_date_reference
+      #   value: "Transaction"
+      # }
+      # filters: {
+      #   field: base.select_date_range
+      #   # value: "Yesterday"
+      # }
     }
+
   }
 
   # dimension: parent_order_uid {
