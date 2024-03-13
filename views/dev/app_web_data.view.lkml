@@ -447,12 +447,12 @@ group by 2,3,4,5,6,8,9,10,11,12,13,14,15,16,17;;
     hidden: yes
   }
 
-  dimension: sing_line_transaction {
-    group_label: "Digital Transactions"
-    label: "Single Line Transactions"
-    type: number
-    sql: count(count(distinct case when ${productv2.product_code} >= '10000' and lower(${productv2.department}) not in ('uncatalogued') then ${productv2.product_code} else null end)) over (partition by ${OrderID}) ;;
-  }
+  #dimension: sing_line_transaction {
+    #group_label: "Digital Transactions"
+    #label: "Single Line Transactions"
+    #type: number
+    #sql: count(count(distinct case when ${productv2.product_code} >= '10000' and lower(${productv2.department}) not in ('uncatalogued') then ${productv2.product_code} else null end)) over (partition by ${OrderID}) ;;
+  #}
 
 
 
