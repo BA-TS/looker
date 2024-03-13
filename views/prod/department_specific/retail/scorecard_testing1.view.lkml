@@ -21,6 +21,7 @@ view: scorecard_testing1 {
     required_access_grants: [retail_testing]
     type: yesno
     view_label: "Scorecard testing"
+    label: "Customer TYLY (BRANCH)"
     sql: ${customerUID} is not null ;;
   }
 

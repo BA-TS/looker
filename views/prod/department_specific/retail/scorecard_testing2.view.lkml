@@ -23,7 +23,7 @@ view: scorecard_testing2 {
     required_access_grants: [retail_testing]
     type: yesno
     view_label: "Scorecard testing"
-    label: "customer_tyly_flag_region"
+    label: "CUSTOMER TYLY (REGION)"
     sql: ${customerUID} is not null ;;
   }
 
