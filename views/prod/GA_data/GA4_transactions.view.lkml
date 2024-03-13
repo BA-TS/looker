@@ -26,6 +26,7 @@ view: ga4_transactions {
     label: "Transaction ID"
     description: "Order ID of order where order was seen in GA4"
     type: string
+    sql: case when  ${ga4_rjagdev_test.Screen_name} not in ("Already Registered?") then ${TABLE}.OrderID else null end;;
   }
 
   dimension: customer {
