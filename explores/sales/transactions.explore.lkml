@@ -499,31 +499,32 @@ explore: base {
     sql_on: ${products.product_uid} = ${costPrice.product_uid} ;;
   }
 
-  # join: scorecard_testing_branch_mth {
-  #   required_access_grants:[retail_testing]
-  #   type: left_outer
-  #   relationship: one_to_one
-  #   sql_on:
-  #   ${sites.site_uid} = ${scorecard_testing_branch_mth.siteUID} and
-  #   ${customers.customer_uid} = ${scorecard_testing1.customerUID};;
-  # }
+  join: scorecard_testing_branch_mth {
+    required_access_grants:[retail_testing]
+    type: left_outer
+    relationship: one_to_one
+    sql_on:
+    ${sites.site_uid} = ${scorecard_testing_branch_mth.siteUID} and
+    ${customers.customer_uid} = ${scorecard_testing_branch_mth.customerUID};;
+  }
 
-  # join: scorecard_testing_region_mth {
-  #   required_access_grants:[retail_testing]
-  #   type: left_outer
-  #   relationship: one_to_one
-  #   sql_on:
-  # ${customers.customer_uid} = ${scorecard_testing_region_mth.customerUID}
-  # and ${sites.region_name} = ${scorecard_testing2.siteUID};;
-  # }
+  join: scorecard_testing_region_mth {
+    required_access_grants:[retail_testing]
+    type: left_outer
+    relationship: one_to_one
+    sql_on:
+  ${customers.customer_uid} = ${scorecard_testing_region_mth.customerUID}
+  and ${sites.region_name} = ${scorecard_testing_region_mth.siteUID};;
+  }
 
-  # join: scorecard_testing_division_mth {
-  #   required_access_grants:[retail_testing]
-  #   type: left_outer
-  #   relationship: one_to_one
-  #   sql_on: ${customers.customer_uid} = ${scorecard_testing_division_mth.customerUID}
-  #     and ${sites.division} = ${scorecard_testing3.siteUID};;
-  # }
+
+  join: scorecard_testing_division_mth {
+    required_access_grants:[retail_testing]
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${customers.customer_uid} = ${scorecard_testing_division_mth.customerUID}
+      and ${sites.division} = ${scorecard_testing_division_mth.siteUID};;
+  }
 }
 
 
