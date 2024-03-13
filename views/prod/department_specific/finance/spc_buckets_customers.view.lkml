@@ -7,7 +7,16 @@ view: spc_buckets_customers {
       column: customer_uid { field: customers.customer_uid }
       column: spc_gross_sales { field: transactions.spc_gross_sales }
       column: spc_net_sales { field: transactions.spc_net_sales }
+      # filters: {
+      #   field: base.select_date_reference
+      #   value: "Transaction"
+      # }
+      # filters: {
+      #   field: base.select_date_range
+      #   # value: "Yesterday"
+      # }
     }
+
   }
 
   # dimension: parent_order_uid {
@@ -34,7 +43,7 @@ view: spc_buckets_customers {
 
   dimension: spend_per_customer_buckets {
     label: "Over/Under £100 (Net Sales)"
-    group_label: "Spend Per Customer 2"
+    group_label: "Spend Per Customer (by Customer)"
     type: tier
     tiers: [0,100]
     style: integer
@@ -43,46 +52,46 @@ view: spc_buckets_customers {
 
   dimension: spend_per_customer_buckets_gross {
     label: "Over/Under £100 (Gross Sales)"
-    group_label: "Spend Per Customer 2"
+    group_label: "Spend Per Customer (by Customer)"
     type: tier
     tiers: [0,100]
     style: integer
     sql: ${spc_gross_sales} ;;
   }
 
-  # dimension: spend_per_customer_buckets75 {
-  #   label: "Over/Under £75 (Net Sales)"
-  #   group_label: "Spend Per Customer"
-  #   type: tier
-  #   tiers: [0,75]
-  #   style: integer
-  #   sql: ${spc_net_sales} ;;
-  # }
+  dimension: spend_per_customer_buckets75 {
+    label: "Over/Under £75 (Net Sales)"
+    group_label: "Spend Per Customer (by Customer)"
+    type: tier
+    tiers: [0,75]
+    style: integer
+    sql: ${spc_net_sales} ;;
+  }
 
-  # dimension: spend_per_customer_buckets_gross75 {
-  #   label: "Over/Under £75 (Gross Sales)"
-  #   group_label: "Spend Per Customer"
-  #   type: tier
-  #   tiers: [0,75]
-  #   style: integer
-  #   sql: ${spc_gross_sales} ;;
-  # }
+  dimension: spend_per_customer_buckets_gross75 {
+    label: "Over/Under £75 (Gross Sales)"
+    group_label: "Spend Per Customer (by Customer)"
+    type: tier
+    tiers: [0,75]
+    style: integer
+    sql: ${spc_gross_sales} ;;
+  }
 
-  # dimension: spend_per_customer_buckets25 {
-  #   label: "Over/Under £25 (Net Sales)"
-  #   group_label: "Spend Per Customer"
-  #   type: tier
-  #   tiers: [0,25]
-  #   style: integer
-  #   sql: ${spc_net_sales} ;;
-  # }
+  dimension: spend_per_customer_buckets25 {
+    label: "Over/Under £25 (Net Sales)"
+    group_label: "Spend Per Customer (by Customer)"
+    type: tier
+    tiers: [0,25]
+    style: integer
+    sql: ${spc_net_sales} ;;
+  }
 
-  # dimension: spend_per_customer_buckets_gross25 {
-  #   label: "Over/Under £25 (Gross Sales)"
-  #   group_label: "Spend Per Customer"
-  #   type: tier
-  #   tiers: [0,25]
-  #   style: integer
-  #   sql: ${spc_gross_sales} ;;
-  # }
+  dimension: spend_per_customer_buckets_gross25 {
+    label: "Over/Under £25 (Gross Sales)"
+    group_label: "Spend Per Customer (by Customer)"
+    type: tier
+    tiers: [0,25]
+    style: integer
+    sql: ${spc_gross_sales} ;;
+  }
 }
