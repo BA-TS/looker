@@ -152,6 +152,7 @@ view: ga4_transactions {
     description: "Total orders seen in GA4"
     type: count_distinct
     sql: ${OrderID} ;;
+    filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
   }
 
   measure: customers {
