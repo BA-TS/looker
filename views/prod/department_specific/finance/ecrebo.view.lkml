@@ -4,7 +4,7 @@ view: ecrebo {
 
   derived_table: {
     sql:
-      WITH ecrebo_cte as (
+            WITH ecrebo_cte as (
 
                     SELECT DISTINCT
                       DATE(et.datetime) as date,
@@ -32,7 +32,15 @@ view: ecrebo {
                       ec.campaign_id IS NOT NULL
 
 
-                    )
+                    ),
+
+    tr as (select distinct
+    parentOrderUID,productCode,transactionLineType,NetSalesValue, marginInclFunding
+    from `toolstation-data-storage.sales.transactions`
+    union distinct
+    select distinct
+    parentOrderUID,productCode,transactionLineType,NetSalesValue, marginInclFunding
+    from `toolstation-data-storage.sales.transactions_incomplete`)
 
 SELECT
    ecrebo_cte.campaign_id,
@@ -49,7 +57,7 @@ SELECT
    SUM(tr.marginInclFunding) as orderMarginInclFunding
 
 FROM
-  `sales.transactions` tr
+   tr
   JOIN
   ecrebo_cte ON tr.parentOrderUID=ecrebo_cte.parentOrderUID
 
@@ -58,7 +66,6 @@ FROM
 GROUP BY
   1,2,3,4,5
 
-order by 1,2,3
  ;;
     datagroup_trigger: ts_transactions_datagroup
   }
