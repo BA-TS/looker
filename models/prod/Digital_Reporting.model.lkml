@@ -538,6 +538,13 @@ explore: digital_reporting {
     and ${ga_orderids_yesterday.item_id} = ${productv2.product_code};;
   }
 
+  join: ecrebo {
+    view_label: "Ecrebo"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${base.date_date} = ${ecrebo.ecrebo_date_filter} AND ${app_web_data.OrderID} = ${ecrebo.parent_order_uid};;
+  }
+
 }
 
 explore: GA4_testy {
@@ -669,6 +676,13 @@ explore: GA4_testy {
     sql_on:
     ${calendar.date} = ${videoly_funnel_ga4.date_date}
     and ${products.product_code} = ((case when ${videoly_funnel_ga4.item_id} is null or length(${videoly_funnel_ga4.item_id}) != 5 then "null" else ${videoly_funnel_ga4.item_id} end) = ${products.product_code});;
+  }
+
+  join: ecrebo {
+    view_label: "Ecrebo"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${calendar.date} = ${ecrebo.ecrebo_date_filter} AND ${ga4_transactions.OrderID} = ${ecrebo.parent_order_uid};;
   }
 
 
