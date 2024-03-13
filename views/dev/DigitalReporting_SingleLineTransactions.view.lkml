@@ -32,7 +32,6 @@ dimension: OrderID {
   }
 
   dimension: SLT {
-    hidden: yes
     type: string
     sql: ${TABLE}.SLT ;;
   }
