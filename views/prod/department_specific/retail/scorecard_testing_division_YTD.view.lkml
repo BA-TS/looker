@@ -1,10 +1,9 @@
-view: scorecard_testing_region_mth {
-  sql_table_name:`toolstation-data-storage.tmp.typyCustomerRetention_region2`
-  ;;
+view: scorecard_testing_division_YTD {
+  sql_table_name:`toolstation-data-storage.tmp.typyCustomerRetention_division_YTD`;;
+
 
   dimension: siteUID {
     type: string
-    label: "siteUID"
     view_label: "Scorecard testing"
     sql: ${TABLE}.siteUID ;;
     hidden: yes
@@ -22,7 +21,7 @@ view: scorecard_testing_region_mth {
     required_access_grants: [retail_testing]
     type: yesno
     view_label: "Scorecard testing"
-    label: "CUSTOMER TYLY (REGION)"
+    label: "CUSTOMER TYLY (DIVISION)"
     sql: ${customerUID} is not null ;;
   }
 

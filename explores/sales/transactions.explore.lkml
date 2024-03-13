@@ -517,7 +517,6 @@ explore: base {
   and ${sites.region_name} = ${scorecard_testing_region_mth.siteUID};;
   }
 
-
   join: scorecard_testing_division_mth {
     required_access_grants:[retail_testing]
     type: left_outer
@@ -525,6 +524,32 @@ explore: base {
     sql_on: ${customers.customer_uid} = ${scorecard_testing_division_mth.customerUID}
       and ${sites.division} = ${scorecard_testing_division_mth.siteUID};;
   }
+
+  join: scorecard_testing_branch_YTD {
+    required_access_grants:[retail_testing]
+    type: left_outer
+    relationship: one_to_one
+    sql_on:
+    ${sites.site_uid} = ${scorecard_testing_branch_YTD.siteUID} and
+    ${customers.customer_uid} = ${scorecard_testing_branch_YTD.customerUID};;
+  }
+
+  join: scorecard_testing_region_YTD {
+    required_access_grants:[retail_testing]
+    type: left_outer
+    relationship: one_to_one
+    sql_on:
+      ${customers.customer_uid} = ${scorecard_testing_region_YTD.customerUID}
+      and ${sites.region_name} = ${scorecard_testing_region_YTD.siteUID};;
+  }
+
+  # join: scorecard_testing_division_YTD {
+  #   required_access_grants:[retail_testing]
+  #   type: left_outer
+  #   relationship: one_to_one
+  #   sql_on: ${customers.customer_uid} = ${scorecard_testing_division_YTD.customerUID}
+  #     and ${sites.division} = ${scorecard_testing_division_YTD.siteUID};;
+  # }
 }
 
 

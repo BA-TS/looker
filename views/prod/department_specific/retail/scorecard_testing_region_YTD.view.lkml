@@ -1,6 +1,5 @@
-view: scorecard_testing_region_mth {
-  sql_table_name:`toolstation-data-storage.tmp.typyCustomerRetention_region2`
-  ;;
+view: scorecard_testing_region_YTD {
+  sql_table_name:`toolstation-data-storage.tmp.typyCustomerRetention_region_YTD`;;
 
   dimension: siteUID {
     type: string
