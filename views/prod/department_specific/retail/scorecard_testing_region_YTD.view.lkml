@@ -21,7 +21,7 @@ view: scorecard_testing_region_YTD {
     required_access_grants: [retail_testing]
     type: yesno
     view_label: "Scorecard testing"
-    label: "CUSTOMER TYLY (REGION)"
+    label: "CUSTOMER TYLY YTD (REGION)"
     sql: ${customerUID} is not null ;;
   }
 

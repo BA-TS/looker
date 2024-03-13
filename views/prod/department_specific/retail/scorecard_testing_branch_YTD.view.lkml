@@ -20,7 +20,7 @@ view: scorecard_testing_branch_YTD {
     required_access_grants: [retail_testing]
     type: yesno
     view_label: "Scorecard testing"
-    label: "Customer TYLY (BRANCH)"
+    label: "Customer TYLY YTD (BRANCH)"
     sql: ${customerUID} is not null ;;
   }
 

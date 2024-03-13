@@ -21,7 +21,7 @@ view: scorecard_testing_division_YTD {
     required_access_grants: [retail_testing]
     type: yesno
     view_label: "Scorecard testing"
-    label: "CUSTOMER TYLY (DIVISION)"
+    label: "CUSTOMER TYLY YTD(DIVISION)"
     sql: ${customerUID} is not null ;;
   }
 
