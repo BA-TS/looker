@@ -613,7 +613,7 @@ view: ga4_rjagdev_test {
     description: "Sessions where a purchase event happened"
     #hidden: yes
     type: count_distinct
-    filters: [event_name: "Purchase, purchase"]
+    filters: [event_name: "Purchase, purchase", Screen_name: "-Already Registered?"]
     sql: ${session_id};;
   }
 
@@ -634,7 +634,7 @@ view: ga4_rjagdev_test {
     label: "Users (Purchase)"
     description: "Users who Purchased"
     type: count_distinct
-    filters: [event_name: "purchase"]
+    filters: [event_name: "purchase", Screen_name: "-Already Registered?"]
     sql: ${User} ;;
   }
 
@@ -644,7 +644,7 @@ view: ga4_rjagdev_test {
     label: "Events (Purchase)"
     description: "total times an item was added to cart"
     type: sum
-    filters: [event_name: "purchase"]
+    filters: [event_name: "purchase", Screen_name: "-Already Registered?"]
     sql: ${TABLE}.events ;;
   }
 
