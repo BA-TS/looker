@@ -162,6 +162,7 @@ view: ga4_transactions {
     #group_label: "Measures"
     type: count_distinct
     sql: coalesce(${customer},${ga4_rjagdev_test.User}) ;;
+    filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
   }
 
   measure: sum_net_value {
@@ -171,6 +172,7 @@ view: ga4_transactions {
     type: sum
     value_format_name: gbp
     sql: case when ${net_value} is null or ${net_value} = 0 then (${ga4_revenue}*0.83333) else ${net_value} end;;
+    filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
   }
 
   measure: ga4_rev {
@@ -180,6 +182,7 @@ view: ga4_transactions {
     type: sum
     value_format_name: gbp
     sql: ${ga4_revenue};;
+    filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
   }
 
 
@@ -190,6 +193,7 @@ view: ga4_transactions {
     type: sum
     value_format_name: gbp
     sql: case when ${gross_value} is null or ${gross_value} = 0 then ${ga4_revenue} else ${gross_value} end ;;
+    filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
   }
 
   measure: Sum_marginIncFund {
@@ -199,6 +203,7 @@ view: ga4_transactions {
     type: sum
     value_format_name: gbp
     sql: ${MarginIncFunding} ;;
+    filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
   }
 
   measure: Sum_marginExcFund {
@@ -208,6 +213,7 @@ view: ga4_transactions {
     type: sum
     value_format_name: gbp
     sql: ${MarginExclFunding} ;;
+    filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
   }
 
   measure: margin_rate_inc_funding {
@@ -234,6 +240,7 @@ view: ga4_transactions {
     label: "Product Quantity"
     type: sum
     sql: ${Quantity} ;;
+    filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
   }
 
   measure: Sum_GA4quantity {
@@ -242,6 +249,7 @@ view: ga4_transactions {
     label: "Total Product Quantity"
     type: sum
     sql: ${ga4_quantity} ;;
+    filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
   }
 
 
@@ -253,6 +261,7 @@ view: ga4_transactions {
     type: average
     value_format_name: gbp
     sql: ${NetSalePrice} ;;
+    filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
   }
 
   measure: aov_net_rev {
