@@ -11,7 +11,10 @@ view: ecrebo {
                       ec.campaign_id,
                       ec.campaign_name,
                       et.transaction_uuid,
-                      ts.parentOrderUID
+                      et.receipt_id,
+                      #ts1.parentOrderUID,
+                      #OrderID,
+                      coalesce(ts1.parentOrderUID,OrderID) as ParentOrderUID
 
 
 
@@ -19,10 +22,12 @@ view: ecrebo {
                       `toolstation-data-storage.sales.ecreboTransactions` et
                       LEFT JOIN
                       `toolstation-data-storage.sales.ecreboCoupons` ec ON  et.transaction_uuid=ec.transaction_uuid
-                      JOIN
-                      `toolstation-data-storage.sales.TrolleySales` ts ON (case when date(et.datetime) <= date("2023-07-13") then et.transaction_uuid else et.receipt_id end)=
-                      (case when date(ts.PlacedDate) <= date("2023-07-13") then ts.trolleyUID else ts.ParentOrderUID end)
-
+                      left JOIN
+                      `toolstation-data-storage.sales.TrolleySales` ts1 ON et.transaction_uuid = ts1.trolleyUID
+                       left join (
+                  select distinct ParentOrderUID as OrderID from `toolstation-data-storage.sales.transactions`
+                       union distinct
+                       select distinct ParentOrderUID as OrderID from `toolstation-data-storage.sales.transactions_incomplete`) on regexp_extract(et.receipt_id,"^.{0,11}") = OrderID
                     WHERE
                       ec.campaign_id IS NOT NULL
 
