@@ -418,6 +418,14 @@ explore: base {
     sql_on: ${transactions.parent_order_uid} = ${spc_buckets.parent_order_uid} ;;
   }
 
+  # join: spc_buckets_customers {
+  #   type: left_outer
+  #   relationship: many_to_one
+  #   sql_on: ${transactions.customer_uid} = ${spc_buckets_customers.customer_uid} ;;
+  #   # sql_on: ${transactions.parent_order_uid} = ${spc_buckets.parent_order_uid} ;;
+  # }
+
+
   join: bucketed_order_sales_department {
     type: left_outer
     relationship: one_to_many
