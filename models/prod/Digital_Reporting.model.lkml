@@ -545,12 +545,6 @@ explore: digital_reporting {
     sql_on: ${base.date_date} = ${ecrebo.ecrebo_date_filter} AND ${app_web_data.OrderID} = ${ecrebo.parent_order_uid};;
   }
 
-  join: digitalreporting_singlelinetransactions {
-    view_label: "SLT"
-    type: left_outer
-    relationship: one_to_many
-    sql_on: ${app_web_data.OrderID} = ${digitalreporting_singlelinetransactions.OrderID} ;;
-  }
 
 }
 
