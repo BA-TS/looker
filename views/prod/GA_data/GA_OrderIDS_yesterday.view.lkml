@@ -35,6 +35,7 @@ view: ga_orderids_yesterday {
     group_label: "Seen in GA (yesterday)"
     label: "Transaction ID"
     description: "Order ID of order where order was seen in GA4"
+    hidden: yes
     type: string
     sql: ${TABLE}.OrderIDs ;;
   }
