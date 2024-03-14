@@ -118,6 +118,27 @@ view: customers {
     sql: ${TABLE}.address.postcode ;;
   }
 
+  dimension: loyalty_club_member {
+    group_label: "Loyalty Club"
+    group_item_label: "Loyalty Club Member"
+    type: string
+    sql:CASE WHEN ${TABLE}.loyalty.loyalty_club_member  THEN "Yes" ELSE "No" END;;
+  }
+
+  dimension: loyalty_club_start {
+    group_label: "Loyalty Club"
+    group_item_label: "Sign Up Date"
+    type: date
+    sql: ${TABLE}.loyalty.sign_up_date ;;
+  }
+
+  dimension: loyalty_club_end {
+    group_label: "Loyalty Club"
+    group_item_label: "Leave Date"
+    type: date
+    sql: ${TABLE}.loyalty.leave_date ;;
+  }
+
   dimension_group: creation {
     type: time
     timeframes: [
@@ -231,7 +252,7 @@ view: customers {
     label: "Customer - Anonymous?"
     description: "If a customer is anonymous"
     type: yesno
-    sql:${customer__email} LIKE "TILL_%TOOLSTATION.COM";;
+    sql:${customer__email} LIKE "TILL_%TOOLSTATION.COM" OR ${customer__email} LIKE "SHOP_%TOOLSTATION.COM";;
   }
 
   dimension: flags__guest_checkout {
@@ -405,42 +426,25 @@ view: customers {
     group_label: "Customer"
     type: time
     datatype: date
-    timeframes: [year]
+    timeframes: [year, month]
     sql:${creation_date};;
   }
 
-  dimension: customer_classification_type {
-    type: string
-    group_label: "Flags"
-    label: "Is Trade/Assumed/DIY"
-    sql:${customer_classification.customer_type} ;;
-  }
+  # dimension: customer_classification_type {
+  #   type: string
+  #   group_label: "Flags"
+  #   label: "Is Trade/Assumed/DIY"
+  #   hidden: yes
+  #   sql:${customer_classification.customer_type} ;;
+  # }
 
-  dimension: assumed_trade_2023_prediction {
-    view_label: "Customer Classification"
-    group_label: "Flags"
-    label: "Is Assumed Trade (2023)"
-    type:  string
-    sql:
-          CASE
-          WHEN ${is_trade} = false AND ${assumed_trade_dataiku.final_prediction} = true THEN 'Assumed Trade'
-          WHEN ${is_trade} = false THEN 'DIY'
-          ELSE 'Existing Trade'
-        END ;;
-  }
+  dimension: sign_up_type {
+    group_label: "Customer"
+    sql: CASE WHEN ${customer_uid} IS NULL THEN "Store"
+              WHEN LEFT(${customer_uid},3) = "CWW" THEN "Web/App" ELSE "Store" END ;;
+    label: "Signup Type"
 
-  dimension: assumed_trade_2023_prediction2 {
-    view_label: "Customer Classification"
-    group_label: "Flags"
-    label: "Is Assumed Trade (Total Trade, 2023)"
-    type:  string
-    sql:
-          CASE
-          WHEN ${is_trade} = false AND ${assumed_trade_dataiku.final_prediction} = true THEN 'Total Trade'
-          WHEN ${is_trade} = false THEN 'DIY'
-          ELSE 'Total Trade'
-        END ;;
-  }
+      }
 
   measure: number_of_customers {
     label: "

@@ -57,9 +57,9 @@ explore: base {
           OR
         ${transactions.is_cancelled} IS NULL)
       {% if ${transactions.charity_status} == "1" %}
-        AND (${transactions.product_code} IN ('85699', '00053'))
+        AND (${transactions.product_code} IN ('85699', '00053','44842'))
       {% else %}
-        AND (${transactions.product_code} NOT IN ('85699', '00053') OR ${transactions.product_code} IS NULL)
+        AND (${transactions.product_code} NOT IN ('85699', '00053','44842') OR ${transactions.product_code} IS NULL)
       {% endif %}
         {% if
           (category_budget._in_query and site_budget._in_query)
@@ -94,6 +94,13 @@ explore: base {
     type: left_outer
     relationship: many_to_many
     sql_on: ${single_line_transactions.parent_order_uid} = ${attached_products.parent_order_uid} ;;
+  }
+
+  join: attached_products2 {
+    view_label: "Transactions"
+    type: left_outer
+    relationship: many_to_many
+    sql_on: ${single_line_transactions.parent_order_uid} = ${attached_products2.parent_order_uid} ;;
   }
 
   join: category_budget {
@@ -142,7 +149,6 @@ explore: base {
     sql_on:${base.date_date}=${channel_budget.date_date} AND ${transactions.sales_channel} = ${channel_budget.channel} ;;
   }
 
-
   join: site_budget {
     view_label: "Budget"
     type: left_outer
@@ -155,6 +161,20 @@ explore: base {
     type: left_outer
     relationship: many_to_one
     sql_on: ${transactions.site_uid}=${sites.site_uid} ;;
+  }
+
+  join: foh_master_products_2024 {
+    view_label: "Location"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:${foh_master_products_2024.siteUID} =${sites.site_uid} and ${transactions.product_code}=${foh_master_products_2024.SKU} and ${calendar_completed_date.fiscal_year_week}=${foh_master_products_2024.Week}  ;;
+  }
+
+  join: foh_master_stores {
+    view_label: "Location"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${foh_master_stores.SKU}=${transactions.product_code} and ${calendar_completed_date.fiscal_year_week}=${foh_master_stores.Week};;
   }
 
   join: customers {
@@ -230,6 +250,14 @@ explore: base {
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
   }
 
+  join: spi_cpi {
+    view_label: "SPI CPI"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.product_code} = ${spi_cpi.productCode} and
+     ${base.date_date} = ${spi_cpi.date_date};;
+  }
+
   join: digital_transaction_mapping {
     view_label: "Digital"
     type: left_outer
@@ -276,6 +304,13 @@ explore: base {
     view_label: "Products"
     relationship: many_to_one
     sql_on: ${products.product_uid} = ${product_dimensions.product_uid};;
+  }
+
+  join: product_quantity {
+    type: left_outer
+    view_label: "Products"
+    relationship: many_to_one
+    sql_on: ${transactions.parent_order_uid} = ${product_quantity.parent_order_uid};;
   }
 
   join: retail_price_history {
@@ -379,14 +414,29 @@ explore: base {
   join: spc_buckets {
     type: left_outer
     relationship: many_to_one
+    # sql_on: ${transactions.customer_uid} = ${spc_buckets.customer_uid} ;;
     sql_on: ${transactions.parent_order_uid} = ${spc_buckets.parent_order_uid} ;;
   }
 
-  join: customer_classification {
+  join: spc_buckets_customers {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${customers.customer_uid} = ${customer_classification.customer_uid} ;;
+    sql_on: ${transactions.customer_uid} = ${spc_buckets_customers.customer_uid} ;;
+    # sql_on: ${transactions.parent_order_uid} = ${spc_buckets.parent_order_uid} ;;
   }
+
+
+  join: bucketed_order_sales_department {
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${transactions.parent_order_uid} = ${bucketed_order_sales_department.parent_order_uid} and ${transactions.product_department} = ${bucketed_order_sales_department.product_department} ;;
+  }
+
+  # join: customer_classification {
+  #   type: left_outer
+  #   relationship: many_to_one
+  #   sql_on: ${customers.customer_uid} = ${customer_classification.customer_uid} ;;
+  # }
 
   join: customer_spending {
     view_label: "Transactions"
@@ -426,12 +476,12 @@ explore: base {
     sql_on: ${customers.customer_uid} = ${rakuten_analysis_0112.customerUID} and ${transactions.parent_order_uid} = ${rakuten_analysis_0112.parent_order_UID};;
   }
 
-  join: assumed_trade_dataiku {
-    required_access_grants:[lz_testing]
+  join: ds_assumed_trade {
     view_label: "Customer Classification"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${customers.customer_uid} = ${assumed_trade_dataiku.customer_uid} ;;
+    sql_on: ${customers.customer_uid} = ${ds_assumed_trade.customer_uid}
+    ;;
   }
 
   join: assumed_trade_measures {
@@ -441,7 +491,67 @@ explore: base {
     relationship: many_to_one
     sql_on: ${customers.customer_uid} = ${assumed_trade_measures.customer_uid};;
   }
+
+  join: costPrice {
+    view_label: "Products"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${products.product_uid} = ${costPrice.product_uid} ;;
+  }
+
+  join: scorecard_testing_branch_mth {
+    required_access_grants:[retail_testing]
+    type: left_outer
+    relationship: one_to_one
+    sql_on:
+    ${sites.site_uid} = ${scorecard_testing_branch_mth.siteUID} and
+    ${customers.customer_uid} = ${scorecard_testing_branch_mth.customerUID};;
+  }
+
+  join: scorecard_testing_region_mth {
+    required_access_grants:[retail_testing]
+    type: left_outer
+    relationship: one_to_one
+    sql_on:
+  ${customers.customer_uid} = ${scorecard_testing_region_mth.customerUID}
+  and ${sites.region_name} = ${scorecard_testing_region_mth.siteUID};;
+  }
+
+  join: scorecard_testing_division_mth {
+    required_access_grants:[retail_testing]
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${customers.customer_uid} = ${scorecard_testing_division_mth.customerUID}
+      and ${sites.division} = ${scorecard_testing_division_mth.siteUID};;
+  }
+
+  join: scorecard_testing_branch_YTD {
+    required_access_grants:[retail_testing]
+    type: left_outer
+    relationship: one_to_one
+    sql_on:
+    ${sites.site_uid} = ${scorecard_testing_branch_YTD.siteUID} and
+    ${customers.customer_uid} = ${scorecard_testing_branch_YTD.customerUID};;
+  }
+
+  join: scorecard_testing_region_YTD {
+    required_access_grants:[retail_testing]
+    type: left_outer
+    relationship: one_to_one
+    sql_on:
+      ${customers.customer_uid} = ${scorecard_testing_region_YTD.customerUID}
+      and ${sites.region_name} = ${scorecard_testing_region_YTD.siteUID};;
+  }
+
+  join: scorecard_testing_division_YTD {
+    required_access_grants:[retail_testing]
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${customers.customer_uid} = ${scorecard_testing_division_YTD.customerUID}
+      and ${sites.division} = ${scorecard_testing_division_YTD.siteUID};;
+  }
 }
+
 
 explore: +base {
   query: department_weekly_sales {

@@ -2,13 +2,15 @@ view: ga_digital_transactions {
 
    derived_table: {
      sql: SELECT distinct
+    P_K as PK1,
     row_number() over () as P_K,
     platform,
-    date(timestamp_sub(MinTime, interval 1 HOUR)) as date,
+    case when date(MinTime) Between date("2023-10-29") and ("2024-02-15") then date(timestamp_sub(MinTime, interval 1 HOUR)) else date(MinTime) end as date,
     country,
     deviceCategory,
     source,
     channel_Group,
+    `toolstation-data-storage.Digital_reporting.channel_grouping`(source, medium, Campaign) as channel_groupingv2,
     Medium,
     Campaign,
     lower(event_name) as event_name,
@@ -34,7 +36,7 @@ view: ga_digital_transactions {
     transactions.salesChannel,
     transactions.paymentType,
     transactions.placed,
-    timestamp_sub(MinTime, interval 1 HOUR) as MinTime,
+    case when date(MinTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(MinTime, interval 1 HOUR)) else (MinTime) end as MinTime,
     transactions.Quantity,
     transactions.net_value,
     transactions.gross_value,
@@ -45,17 +47,19 @@ view: ga_digital_transactions {
     transactions.NetSalePrice,
     transactions.status,
     aw.item_id,
+    item_Category,
+    item_Category2,
+    item_Category3,
     session_duration,
     events,
     page_views,
     cast(bounces as string) as bounces,
     transactions.transaction
     FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as transactions
-    where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
-AND {% condition select_date_range %} (date) {% endcondition %}
-and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transactions.item_id is null) or (aw.item_id is null and transactions.item_id is null))
+        where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 60 day)) and FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 1 day))
+and ((aw.item_id = transactions.productCode) or (aw.item_id is not null and transactions.productCode is null) or (aw.item_id is null and transactions.productCode is null))
        ;;
-    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 13
+    sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01 00:00:00',SECOND)) - 60*60*9)/(60*60*24))
     ;;
 
     partition_keys: ["date"]
@@ -105,6 +109,15 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     group_label: "Traffic Source"
     type: string
     sql: ${TABLE}.channel_Group ;;
+  }
+
+  dimension: channel_Groupv2 {
+    view_label: "GA4"
+    label: "Channel Groupv2"
+    group_label: "Traffic Source"
+    hidden: yes
+    type: string
+    sql: ${TABLE}.channel_groupingv2 ;;
   }
 
   dimension: Medium {
@@ -261,7 +274,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   }
 
   dimension: order_id {
-    view_label: "Transactional"
+    view_label: "GA4"
+    group_label: "Transactional"
     label: "Transaction ID"
     description: "Order ID of order where order was seen in GA4"
     type: string
@@ -269,7 +283,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   }
 
   measure: orders {
-    view_label: "Transactional"
+    view_label: "GA4"
+    group_label: "Transactional"
     label: "Orders"
     description: "Total orders seen in GA4"
     #group_label: "Measures"
@@ -278,9 +293,9 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   }
 
   dimension: customer {
-    view_label: "Transactional"
+    view_label: "GA4"
+    group_label: "Transactional"
     label: "Customer ID"
-    group_label: "Transaction"
     hidden: yes
     type: string
     sql: ${TABLE}.customer ;;
@@ -293,7 +308,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   }
 
   measure: customers {
-    view_label: "Transactional"
+    view_label: "GA4"
+    group_label: "Transactional"
     label: "Total customers"
     #group_label: "Measures"
     type: count_distinct
@@ -301,38 +317,55 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   }
 
   dimension: salesChannel {
-    view_label: "Transactional"
+    view_label: "GA4"
+    group_label: "Transactional"
     label: "Sales Channel"
-    group_label: "Transaction"
     type: string
     sql: ${TABLE}.salesChannel ;;
   }
 
   dimension: paymentType {
-    view_label: "Transactional"
+    view_label: "GA4"
+    group_label: "Transactional"
     label: "Payment Type"
-    group_label: "Transaction"
     type: string
     sql: ${TABLE}.paymentType ;;
   }
 
 
   dimension: status_order {
-    view_label: "Transactional"
+    view_label: "GA4"
+    group_label: "Transactional"
     label: "Status"
-    group_label: "Transaction"
     type: string
     sql: ${TABLE}.status ;;
   }
 
+  #filter: select_date_range {
+    #label: "GA4/Transactional Date Range"
+    #group_label: "Date Filter"
+    #view_label: "Datetime (of event)"
+    #type: date
+    #datatype: date
+    #convert_tz: yes
+  #}
+
   filter: select_date_range {
-    label: "GA4 Date Range"
-    group_label: "Date Filter"
-    view_label: "Datetime (of event)"
-    type: date
-    datatype: date
-    convert_tz: yes
+      #view_label: "Datetime (of event)"
+      label: "Dated"
+      group_label: "Date Filter"
+      type: date
+      sql: {% condition select_date_range %} timestamp(${date_date}) {% endcondition %} ;;
+    }
+
+  dimension_group: daert {
+    label: "TEST"
+    hidden: yes
+    type: time
+    timeframes: [date,raw]
+    sql: ${calendar_completed_date.date} ;;
   }
+
 
   dimension_group: time{
     group_label: "Time"
@@ -377,10 +410,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   }
 
   dimension_group: placed_date{
-    view_label: "Digital Transactions"
+    view_label: "GA4"
     group_label: "Order Placed"
-    label: ""
-    hidden: yes
     type: time
     timeframes: [date]
     sql: ${TABLE}.placed ;;
@@ -388,10 +419,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   }
 
   dimension_group: placed_time{
-    view_label: "Order Placed"
-    group_label: "Time"
-    #group_label: "Order Placed"
-    #hidden: yes
+    view_label: "GA4"
+    group_label: "Order Placed"
     label: ""
     type: time
     timeframes: [time_of_day]
@@ -399,7 +428,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   }
 
   dimension_group: placed_week{
-    view_label: "Digital Transactions"
+    view_label: "GA4"
     group_label: "Order Placed"
     hidden: yes
     label: ""
@@ -408,55 +437,66 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     sql: ${TABLE}.placed ;;
   }
 
-  dimension_group: transaction_date{
-    view_label: "Digital Transactions"
-    group_label: "Order Completed"
-    hidden: yes
-    label: ""
-    type: time
-    timeframes: [date]
-    sql: ${TABLE}.transaction ;;
-    html: {{ rendered_value | date: "%d/%m/%Y" }};;
-  }
-
-  dimension_group: transaction_time{
-    view_label: "Order Completed"
-    group_label: "Time"
+  #dimension_group: transaction_date{
+    #view_label: "Digital Transactions"
     #group_label: "Order Completed"
-    label: ""
-    type: time
-    timeframes: [time_of_day]
-    sql: ${TABLE}.transaction ;;
-  }
+    #hidden: yes
+    #label: ""
+    #type: time
+    #timeframes: [date]
+    #sql: ${TABLE}.transaction ;;
+    #html: {{ rendered_value | date: "%d/%m/%Y" }};;
+  #}
+
+  #dimension_group: transaction_time{
+    #view_label: "Order Completed"
+    #group_label: "Time"
+    #group_label: "Order Completed"
+    #label: ""
+    #type: time
+    #timeframes: [time_of_day]
+    #sql: ${TABLE}.transaction ;;
+  #}
 
   measure: transactions_quantity {
-    view_label: "Transactional"
+    view_label: "GA4"
+    group_label: "Transactional"
     #group_label: "Measures"
     label: "Product Quantity"
     type: sum
     sql: ${TABLE}.Quantity ;;
   }
 
+  dimension: net_value_hidden {
+    hidden: yes
+    type: number
+    value_format_name: gbp
+    sql: case when ${TABLE}.net_value is null or ${TABLE}.net_value = 0 then (${TABLE}.ga4_revenue*0.83333) else ${TABLE}.net_value end;;
+  }
+
   measure: net_value {
-    view_label: "Transactional"
+    view_label: "GA4"
+    group_label: "Transactional"
     #group_label: "Measures"
     label: "Net Revenue"
     type: sum
     value_format_name: gbp
-    sql: ${TABLE}.net_value * 0.993 ;;
+    sql: ${net_value_hidden};;
   }
 
   measure: gross_value {
-    view_label: "Transactional"
+    view_label: "GA4"
+    group_label: "Transactional"
     #group_label: "Measures"
     label: "Gross Revenue"
     type: sum
     value_format_name: gbp
-    sql: ${TABLE}.gross_value ;;
+    sql: case when ${TABLE}.gross_value is null or ${TABLE}.gross_value = 0 then ${TABLE}.ga4_revenue else ${TABLE}.gross_value end ;;
   }
 
   measure: MarginIncFunding {
-    view_label: "Transactional"
+    view_label: "GA4"
+    group_label: "Transactional"
     #group_label: "Measures"
     label: "Margin inc Funding"
     type: sum
@@ -465,7 +505,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   }
 
   measure: MarginExclFunding {
-    view_label: "Transactional"
+    view_label: "GA4"
+    group_label: "Transactional"
     #group_label: "Measures"
     label: "Margin excl Funding"
     type: sum
@@ -474,7 +515,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   }
 
   measure: margin_rate_exc_funding {
-    view_label: "Transactional"
+    view_label: "GA4"
+    group_label: "Transactional"
     #group_label: "Measures"
     label: "Margin Rate (excl funding)"
     value_format: "0.00%;(0.00%)"
@@ -482,7 +524,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   }
 
   measure: margin_rate_inc_funding {
-    view_label: "Transactional"
+    view_label: "GA4"
+    group_label: "Transactional"
     #group_label: "Measures"
     label: "Margin Rate (Inc funding)"
     value_format: "0.00%;(0.00%)"
@@ -490,7 +533,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   }
 
   measure: netSalePrice {
-    view_label: "Transactional"
+    view_label: "GA4"
+    group_label: "Transactional"
     #group_label: "Measures"
     label: "Net Sale Price"
     type: average
@@ -500,8 +544,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
 
   measure: ga4_revenue {
     view_label: "GA4"
-    group_label: "Ecommerce"
-    label: "Revenue"
+    group_label: "Transactional"
+    label: "GA4 Revenue"
     hidden: yes
     type: sum
     value_format_name: gbp
@@ -510,8 +554,8 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
 
   measure: ga4_quantity {
     view_label: "GA4"
-    group_label: "Ecommerce"
-    label: "Purchase Product Quantity"
+    group_label: "Transactional"
+    label: "GA4 Purchase Product Quantity"
     hidden: yes
     type: sum
     sql: ${TABLE}.ga4_quantity;;
@@ -544,9 +588,9 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
   }
 
   measure: sessions_total {
-    hidden: yes
+    #hidden: yes
     view_label: "GA4"
-    group_label: "Measures"
+    group_label: "Overall sessions"
     label: "Total Sessions"
     type: count_distinct
     sql: ${session_id} ;;
@@ -601,7 +645,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     group_label: "Overall sessions"
     description: "Sessions where user left site after viewing 1 page"
     type: number
-    sql: ${session_start}-${sessions} ;;
+    sql: ${sessions_total}-${sessions} ;;
   }
 
   measure: bounce_rate {
@@ -612,7 +656,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     description: "rate of total sessions where user left site after viewing 1 page"
     value_format_name: percent_2
     #sql: (${bs}/${session_start}) * 100
-    sql: safe_divide(${bs},${session_start});;
+    sql: safe_divide(${bs},${sessions_total});;
   }
 
   measure: New_users {
@@ -650,7 +694,31 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     group_label: "Product Details"
     hidden: yes
     label: "Product Code"
-    sql: ${TABLE}.item_id ;;
+    sql: case when ${TABLE}.item_id in ('44842') then 'null' else ${TABLE}.item_id end;;
+  }
+
+  dimension: item_Category {
+    type: string
+    view_label: "Products"
+    group_label: "Product Selling Category"
+    label: "1.Category"
+    sql: ${TABLE}.item_Category ;;
+  }
+
+  dimension: item_Category2 {
+    type: string
+    view_label: "Products"
+    group_label: "Product Selling Category"
+    label: "2.Sub Category"
+    sql: ${TABLE}.item_Category2 ;;
+  }
+
+  dimension: item_Category3 {
+    type: string
+    view_label: "Products"
+    group_label: "Product Selling Category"
+    label: "3.Sub Sub Category"
+    sql: ${TABLE}.item_Category3 ;;
   }
 
   dimension: productUID {
@@ -863,6 +931,17 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     sql: ${TABLE}.value ;;
   }
 
+  measure: atc_conversion_rate {
+    view_label: "GA4"
+    label: "ATC Conversion rate"
+    group_label: "Add to Cart"
+    type: number
+    value_format_name: percent_2
+    description: "rate of total sessions where add to cart event happened"
+    #sql: ${Count_transaction_id}/${session_start} * 100
+    sql: safe_divide(${add_to_cart_sessions},${sessions_total});;
+  }
+
   #############Purchase###############
 
   measure: session_purchase {
@@ -872,7 +951,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     description: "Sessions where a purchase event happened"
     #hidden: yes
     type: count_distinct
-    filters: [event_name: "Purchase, purchase",bounce_def: "1"]
+    filters: [event_name: "Purchase, purchase"]
     sql: ${session_id};;
   }
 
@@ -884,7 +963,7 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     value_format_name: percent_2
     description: "rate of total sessions where a pucrhase event happened"
     #sql: ${Count_transaction_id}/${session_start} * 100
-    sql: safe_divide(${session_purchase},${sessions});;
+    sql: safe_divide(${session_purchase},${sessions_total});;
   }
 
   measure: purchase_Users {
@@ -905,6 +984,16 @@ and ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transact
     type: sum
     filters: [event_name: "purchase"]
     sql: ${TABLE}.events ;;
+  }
+
+  measure: aov {
+    view_label: "GA4"
+    group_label: "Transactional"
+    label: "AOV"
+    type: number
+    description: "average order value"
+    value_format_name: gbp
+    sql: safe_divide(${net_value},${orders}) ;;
   }
 
 }

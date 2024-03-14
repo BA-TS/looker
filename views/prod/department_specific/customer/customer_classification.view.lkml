@@ -21,13 +21,14 @@ view: customer_classification {
   dimension: customer_type {
     type: string
     sql: ${TABLE}.customer_type ;;
+    hidden: yes
   }
 
-  dimension: customer_type2 {
-    type: string
-    required_access_grants: [lz_testing]
-    sql: ${TABLE}.customer_type2;;
-  }
+  # dimension: customer_type2 {
+  #   type: string
+  #   required_access_grants: [lz_testing]
+  #   sql: ${TABLE}.customer_type2;;
+  # }
 
   dimension: customer_uid {
     type: string

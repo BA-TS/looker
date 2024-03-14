@@ -214,9 +214,18 @@ view: transactions {
   }
 
   dimension: quantity {
+    required_access_grants: [lz_testing]
     type: number
     sql: ${TABLE}.quantity ;;
-    hidden:  yes
+    label: "Units"
+  }
+
+  dimension: quantity_tier {
+    required_access_grants: [lz_testing]
+    type: tier
+    sql: ${quantity};;
+    label: "Units Tier"
+    tiers: [0,1,2,3,4]
   }
 
   dimension: sales_channel {
@@ -467,6 +476,21 @@ view: transactions {
     sql: ${is_working_day} and ${is_working_hours};;
   }
 
+  dimension: fulfillment_channel_tk {
+    view_label: "Transactions"
+    group_label: "Purchase Details"
+    label: "Fulfillment Channel"
+    description: "Dropship = Dropship, Branch/Standard Click & Collect (excluding originating site UID 'XN') = RDC Fulfilled, Rest = Ecomm Fulfilled"
+    type: string
+    sql: CASE
+         WHEN ${sales_channel} IN ("DROPSHIP") THEN "Dropship"
+         WHEN (${sales_channel} IN ("BRANCHES") OR (${sales_channel} IN ("CLICK & COLLECT") AND ${originating_site_uid} != "XN")) THEN "RDC"
+         ELSE "E-commerce"
+       END ;;
+  }
+
+
+
   measure: working_day_hours_total {
     type: count_distinct
     value_format: "#,##0;(#,##0)"
@@ -633,6 +657,15 @@ view: transactions {
     description: "Flags if a product is new to the business in the previous calendar year"
     type:  yesno
     sql:${product_first_sale_date.first_sale_date_group_year}=EXTRACT(Year from CURRENT_DATE)-1;;
+  }
+
+  dimension: customer_transaction_year_2023 {
+    required_access_grants: [lz_testing]
+    hidden: yes
+    view_label: "Customer"
+    group_label: "Flags"
+    type:  yesno
+    sql:extract (year from ${transactions.transaction_date})=2023;;
   }
 
   # UID #
@@ -1095,7 +1128,7 @@ view: transactions {
     group_label: "AOV"
     description: "Average margin (including unit funding) per order"
     type:  number
-    sql: COALESCE(AFE_DIVIDE(${total_margin_incl_funding}, ${number_of_transactions}),0) ;;
+    sql: COALESCE(SAFE_DIVIDE(${total_margin_incl_funding}, ${number_of_transactions}),0) ;;
     value_format_name: gbp
   }
 

@@ -411,4 +411,14 @@ view: ga_sessions {
     value_format_name: decimal_0
     drill_fields: [client_id, account.id, visit_number, hits_total, page_views_total, time_on_site_total]
   }
+
+  filter: filter_on_field_to_hide {
+    #view_label: "Datetime (of event)"
+    label: "Date"
+    group_label: "Date Filter"
+
+    type: date
+    sql: {% condition filter_on_field_to_hide %} timestamp(${partition_date}) {% endcondition %} ;;
+  }
+
 }

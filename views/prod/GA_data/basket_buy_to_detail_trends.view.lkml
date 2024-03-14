@@ -6,21 +6,20 @@ view: basket_buy_to_detail_trends {
       event_name,
       platform,
       date(timestamp_sub(MinTime, interval 1 HOUR)) as date,
+      screen_name,
       aw.item_id,
-      case when screen_name like "%| Search |%" then "search-page" else Screen_name end as Screen_name,
-      session_id,
-      bounces,
-      events
+      cast(bounces as string) as bounces,
+      session_id as session_id,
+      sum(transactions.net_value) as revenue,
+      sum(events) as events
       FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as transactions
       where _TABLE_SUFFIX >= FORMAT_DATE('%Y%m%d', '2023-11-02')
-      and bounces <= 1
-      and event_name in ("screen_view", "page_view","view_item","add_to_cart","purchase","session_start","view_item_list")
       and
-      ((aw.item_id = transactions.item_id) or (aw.item_id is not null and transactions.item_id is null) or (aw.item_id is null and transactions.
-      item_id is null))
-      group by 2,3,4,5,6,7,8,9
+      ((aw.item_id = transactions.productCode) or (aw.item_id is not null and transactions.productCode is null) or (aw.item_id is null and transactions.
+      productCode is null))
+      group by 2,3,4,5,6,7,8
                    ;;
-    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 13 ;;
+    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 10 ;;
     partition_keys: ["date"]
   }
 
@@ -41,13 +40,6 @@ view: basket_buy_to_detail_trends {
     sql: ${TABLE}.date ;;
   }
 
-  dimension: Screen_name {
-    view_label: "Trends"
-    group_label: "Page"
-    label: "Screen name"
-    type: string
-    sql: ${TABLE}.Screen_name ;;
-  }
 
   dimension: Platform {
     view_label: "Trends"
@@ -62,10 +54,31 @@ view: basket_buy_to_detail_trends {
     sql: ${TABLE}.event_name ;;
   }
 
+  dimension: screen_name {
+    label: "page"
+    type: string
+    sql: case when ${TABLE}.screen_name LIKE '%| Search |%' then 'search-page' else ${TABLE}.screen_name end;;
+  }
+
   dimension: item_id {
     type: string
     hidden: yes
     sql: ${TABLE}.item_id ;;
+  }
+
+  dimension: bounce_def {
+    description: "if session is bounce 0 = no, 1 = yes"
+    type: string
+    hidden: yes
+    sql: ${TABLE}.bounces ;;
+  }
+
+  dimension: revenue {
+    description: "revenue"
+    type: number
+    value_format_name: gbp
+    hidden: yes
+    sql: ${TABLE}.revenue ;;
   }
 
   measure: purchase_events {
@@ -94,27 +107,42 @@ view: basket_buy_to_detail_trends {
     sql: ${TABLE}.session_id ;;
   }
 
-  measure: screen_views {
+
+  measure: PDP_sessions {
+    description: "Sessions with PDP event"
+    type: count_distinct
+    group_label: "Page"
+    label: "PDP sessions"
+    sql:${TABLE}.session_id;;
+    filters: [event_name: "view_item", screen_name: "product-detail-page",bounce_def: "1"]
+    }
+
+  measure: PDP_events {
     description: "Page views"
     type: sum
     group_label: "Page"
-    label: "Page Views"
-    sql:
-    case when (${event_name} in ("screen_view","page_view") and ${Screen_name} not in ("search-page", "product-detail-page")) or (${event_name} in ("view_item_list") and ${Screen_name} in ("search-page")) or (${event_name} in ("view_item") and ${Screen_name} in ("product-detail-page")) then
-    ${TABLE}.events else null end;;
-    #filters: [event_name: "screen_view OR page_view"]
+    label: "PDP events"
+    sql:${TABLE}.events;;
+    filters: [event_name: "view_item", screen_name: "product-detail-page",bounce_def: "1"]
+    }
+
+  measure: unique_page_views {
+    description: "Sessions with page view"
+    group_label: "Page"
+    label: "Unique page views"
+    type: count_distinct
+    sql: ${TABLE}.session_id ;;
+    filters: [event_name: "page_view, screen_view"]
   }
 
-  measure: unique_screen_views {
-    description: "Page views"
-    type: count_distinct
+  measure: total_page_views {
+    description: "page view events"
     group_label: "Page"
-    label: "Unique Page Views"
-    sql:
-    case when (${event_name} in ("screen_view","page_view") and ${Screen_name} not in ("search-page", "product-detail-page")) or (${event_name} in ("view_item_list") and ${Screen_name} in ("search-page")) or (${event_name} in ("view_item") and ${Screen_name} in ("product-detail-page")) then
-    ${TABLE}.events else null end;;
-    #filters: [event_name: "screen_view OR page_view"]
-    }
+    label: "Total page views"
+    type: sum
+    sql: ${TABLE}.events;;
+    filters: [event_name: "page_view, screen_view"]
+  }
 
   measure: add_to_cart_sessions {
     description: "Add to Cart Sessions"
@@ -122,7 +150,7 @@ view: basket_buy_to_detail_trends {
     label: "ATC Sessions"
     type: count_distinct
     sql: ${TABLE}.session_id ;;
-    filters: [event_name: "add_to_cart"]
+    filters: [event_name: "add_to_cart",bounce_def: "1"]
   }
 
   measure: add_to_cart_rate {
@@ -134,14 +162,6 @@ view: basket_buy_to_detail_trends {
     sql: safe_divide(${add_to_cart_sessions},${total_Sessions}) ;;
   }
 
-  measure: add_to_cart_rate_views {
-    description: "Add to Cart Rate from page views"
-    group_label: "Add to Cart"
-    label: "ATC C.R (From Page Views)"
-    type: number
-    value_format_name: percent_2
-    sql: safe_divide(${atc_events},${screen_views}) ;;
-  }
 
   measure: purchase_sessions {
     description: "Purchase Sessions"
@@ -161,8 +181,19 @@ view: basket_buy_to_detail_trends {
     sql: safe_divide(${purchase_sessions},${total_Sessions}) ;;
   }
 
+  measure: revenu {
+    description: "Revenue"
+    group_label: "Purchase"
+    label: "Net Revenue"
+    type: sum
+    value_format_name: gbp
+    sql: ${revenue} ;;
+  }
+
   filter: filter_on_field_to_hide {
-    label: "Date"
+    #view_label: "Datetime (of event)"
+    label: "Dated"
+    group_label: "Date Filter"
     type: date
     sql: {% condition filter_on_field_to_hide %} timestamp(${date_date}) {% endcondition %} ;;
   }

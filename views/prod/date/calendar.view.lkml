@@ -2,6 +2,7 @@ view: calendar {
   derived_table: {
     sql:
     select distinct * except(fiscalYearWeek), cast(fiscalYearWeek as string) as fiscalYearWeek,
+fullDate as field_to_hide,
 current_date() as todayFullDate,
 (select dateName from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayDateName,
 (select dateNameUSA from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaydateNameUSA,
@@ -69,6 +70,13 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
     sql: ${TABLE}.calendarYear ;;
   }
 
+  measure: number_of_year {
+    group_label: "Dates"
+    type: count_distinct
+    value_format: "0"
+    sql: ${TABLE}.calendarYear ;;
+  }
+
   dimension: today_calendar_year {
     group_label: "Today Dates"
     label: "Year (yyyy)"
@@ -83,6 +91,24 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
     type: string
     sql: ${TABLE}.calendarYearMonth ;;
   }
+
+  dimension: calendar_year_month2 {
+    group_label: "Dates"
+    label: "Year Month (yyyy-mm)"
+    description: "used in the retail explore"
+    type: string
+    sql: replace(${calendar_year_month},'-','') ;;
+    hidden: yes
+  }
+
+  dimension: fulldate2 {
+    group_label: "Dates"
+    label: "full date2"
+    type: string
+    sql: replace(cast(${date} as string),'-','') ;;
+    hidden: yes
+  }
+
 
   dimension: today_calendar_year_month {
     group_label: "Today Dates"
@@ -314,6 +340,24 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
     hidden: yes
   }
 
+  measure: distinct_year_count {
+    view_label: "Measures"
+    group_label: "Other Metrics"
+    label: "Number of Distinct Years"
+    required_access_grants: [lz_testing]
+    type: count_distinct
+    sql: ${calendar_year} ;;
+  }
+
+  measure: distinct_year_month_count {
+    view_label: "Measures"
+    group_label: "Other Metrics"
+    label: "Number of Distinct Year Months"
+    required_access_grants: [retail_testing]
+    type: count_distinct
+    sql: ${calendar_year_month} ;;
+  }
+
   measure: distinct_month_count {
     view_label: "Measures"
     group_label: "Other Metrics"
@@ -330,6 +374,24 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
     required_access_grants: [lz_testing]
     type: count_distinct
     sql: ${week_in_year} ;;
+  }
+
+  dimension: field_to_hide {
+    group_label: "Dates"
+    label: "HIDE"
+    hidden: yes
+    type: date
+    sql: timestamp(${TABLE}.field_to_hide) ;;
+    #html: {{ rendered_value | date: "%d/%m/%Y" }};;
+  }
+
+  filter: filter_on_field_to_hide {
+    #view_label: "Datetime (of event)"
+    label: "Date"
+    group_label: "Date Filter"
+
+    type: date
+    sql: {% condition filter_on_field_to_hide %} timestamp(field_to_hide) {% endcondition %} ;;
   }
 
 }

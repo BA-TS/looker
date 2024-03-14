@@ -27,7 +27,7 @@ from `toolstation-data-storage.sales.transactions`
 where
 --date_diff(current_date (),date(transactionDate), day) <= 500 and
 --transactionLineType = "Sale" and
-productCode not in ('85699','00053') and
+productCode not in ('85699','00053','44842') and
 isCancelled = 0  and
 (userUID  = 'APP')
 group by 1,2,3,4,5,6,7,8,9
@@ -56,7 +56,7 @@ from `toolstation-data-storage.sales.transactions`
 where
 --date_diff(current_date (),date(transactionDate), day) <= 500 and
 --transactionLineType = "Sale" and
-productCode not in ('85699','00053') and
+productCode not in ('85699','00053','44842') and
 isCancelled = 0 and
 (userUID  = 'WWW')
 group by 1,2,3,4,5,6,7,8,9
@@ -83,7 +83,7 @@ sum(marginExclFunding) as marginExclFunding
 from `toolstation-data-storage.sales.transactions_incomplete`
 where
 --transactionLineType = "Sale" and
-productCode not in ('85699','00053') and
+productCode not in ('85699','00053','44842') and
 (userUID  = 'APP')
 group by 1,2,3,4,5,6,7,8,9
 union distinct
@@ -109,15 +109,34 @@ sum(marginExclFunding) as marginExclFunding
 from `toolstation-data-storage.sales.transactions_incomplete`
 where
 --transactionLineType = "Sale" and
-productCode not in ('85699','00053') and
+productCode not in ('85699','00053','44842') and
 (userUID  = 'WWW')
 group by 1,2,3,4,5,6,7,8,9
 ) )
-select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
+select distinct row_number() over (order by (Placed)) as P_K, customerID,
+OrderID,
+productUID,
+salesChannel,
+paymentType,
+max(Transaction) as Transaction,
+Placed,
+App_Web,
+status,
+NetSalePrice,
+Quantity,
+NetSaleValue,
+revenue,
+revenue2,
+MarginIncFunding,
+marginExclFunding from sub1
+group by 2,3,4,5,6,8,9,10,11,12,13,14,15,16,17;;
+
+
+    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 8;;
+    #datagroup_trigger:ts_transactions_datagroup
 
     partition_keys: ["Transaction"]
     cluster_keys: ["salesChannel", "productUID"]
-    datagroup_trigger: ts_transactions_datagroup
         }
 
       dimension: P_K {
@@ -136,7 +155,7 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
       }
 
       dimension: OrderID {
-        hidden: yes
+        label: "Transaction ID"
         description: "transaction ID"
         type:string
         sql: ${TABLE}.OrderID ;;
@@ -200,19 +219,12 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
       }
 
       dimension: seen_in_Ga {
-        view_label: "
-        {% if _explore._name == 'GA4' %}
-        {% else %}
-        Digital Transactions
-        {% endif %}"
-        label: "
-      {% if _explore._name == 'GA4' %}
-      {% else %}
-      Seen in GA
-      {% endif %}"
+        view_label: "Digital Transactions"
+        group_label: "Flags"
+        label: "Seen in GA (yesterday)"
         description: "If order ID was seen in GA "
         type: yesno
-        sql: ${ga4_all_transaction_ids.OrderID} is not null ;;
+        sql: ${ga_orderids_yesterday.order_id} is not null ;;
       }
 
       measure: Totalrevenue {
@@ -222,12 +234,12 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
       {% else %}
       Measures
       {% endif %}"
-        group_label: "Measures"
+       # group_label: "Measures"
         label: "Net Sale Revenue"
         description: "Net Revenue of order"
         type: sum
         value_format_name: gbp
-        sql: {% if base.select_date_reference._parameter_value == "Placed" %} (${TABLE}.NetSaleValue) * 0.9973 {% else %} (${TABLE}.NetSaleValue) {% endif %};;
+        sql:${TABLE}.NetSaleValue;;
       }
 
       measure: revenue2 {
@@ -237,12 +249,12 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
         {% else %}
         Measures
         {% endif %}"
-        group_label: "Measures"
+        #group_label: "Measures"
         label: "Gross Revenue"
         description: "Gross Revenue of order"
         type: sum
         value_format_name: gbp
-        sql: {% if base.select_date_reference._parameter_value == "Placed" %} (${TABLE}.revenue2) * 0.9973 {% else %} (${TABLE}.revenue2) {% endif %};;
+        sql: ${TABLE}.revenue2;;
       }
 
       measure: AOV {
@@ -252,12 +264,12 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
         {% else %}
         Measures
         {% endif %}"
-        group_label: "Measures"
+        #group_label: "Measures"
         label: "AOV"
         description: "Average Order value"
         type: number
         value_format_name: gbp
-        sql: {% if base.select_date_reference._parameter_value == "Placed" %} ((SUM(${TABLE}.NetSaleValue) * 0.9973)/((count(distinct(${TABLE}.OrderID))) * 0.9973)) {% else %} (SUM(${TABLE}.NetSaleValue)/(count(distinct(${TABLE}.OrderID)))) {% endif %};;
+        sql:(SUM(${TABLE}.NetSaleValue)/(count(distinct(${TABLE}.OrderID))));;
 
         #sql: (SUM(${TABLE}.NetSaleValue) * 0.9973)/((count(distinct(${TABLE}.OrderID))) * 0.9973) ;;
       }
@@ -277,12 +289,12 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
         {% else %}
         Measures
         {% endif %}"
-        group_label: "Measures"
+        #group_label: "Measures"
         label: "Product Quantity"
         description: "Total products in order"
         type: sum
         value_format_name: decimal_0
-        sql: {% if base.select_date_reference._parameter_value == "Placed" %} (${TABLE}.Quantity * 0.9973) {% else %} (${TABLE}.Quantity) {% endif %};;
+        sql: ${TABLE}.Quantity;;
 
         #sql:  (${TABLE}.Quantity * 0.9973) ;;
       }
@@ -292,7 +304,7 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
         description: "Total value of order"
         type: sum
         value_format_name: gbp
-        sql: (${TABLE}.NetSaleValue * 0.9973) ;;
+        sql: (${TABLE}.NetSaleValue) ;;
       }
 
       measure: Total_orders {
@@ -302,12 +314,12 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
         {% else %}
         Measures
         {% endif %}"
-        group_label: "Measures"
+        #group_label: "Measures"
         label: "Total Orders"
         description: "total orders"
-        type: number
+        type: count_distinct
         value_format_name: decimal_0
-        sql: {% if base.select_date_reference._parameter_value == "Placed" %} (count(distinct ${TABLE}.OrderID) * 0.9973) {% else %} (count(distinct ${TABLE}.OrderID)) {% endif %};;
+        sql: ${TABLE}.OrderID;;
 
        # sql: count(distinct ${TABLE}.OrderID) * 0.9973;;
       }
@@ -319,12 +331,12 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
         {% else %}
         Measures
         {% endif %}"
-        group_label: "Measures"
+        #group_label: "Measures"
         label: "Margin Rate (inc funding)"
         description: "margin percentage per order"
         type: number
         value_format_name: percent_2
-        sql: {% if base.select_date_reference._parameter_value == "Placed" %} ((sum(${TABLE}.MarginIncFunding) * 0.9973)/(SUM(${TABLE}.NetSaleValue) * 0.9973)) {% else %} (sum(${TABLE}.MarginIncFunding)/SUM(${TABLE}.NetSaleValue)) {% endif %};;
+        sql: (sum(${TABLE}.MarginIncFunding))/(SUM(${TABLE}.NetSaleValue));;
 
         #sql: (sum(${TABLE}.MarginIncFunding) * 0.9973)/(SUM(${TABLE}.NetSaleValue) * 0.9973);;
       }
@@ -336,12 +348,12 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
         {% else %}
         Measures
         {% endif %}"
-        group_label: "Measures"
+        #group_label: "Measures"
         label: "Margin per order (inc funding)"
         description: "Margin inc funding by order"
         type: number
         value_format_name: gbp
-        sql: {% if base.select_date_reference._parameter_value == "Placed" %} ((sum(${TABLE}.MarginIncFunding) * 0.9973)/((count(distinct(${TABLE}.OrderID))) * 0.9973)) {% else %} (sum(${TABLE}.MarginIncFunding)/(count(distinct(${TABLE}.OrderID)))) {% endif %};;
+        sql: (sum(${TABLE}.MarginIncFunding))/((count(distinct(${TABLE}.OrderID))));;
 
         #sql: (sum(${TABLE}.MarginIncFunding) * 0.9973)/((count(distinct(${TABLE}.OrderID))) * 0.9973);;
       }
@@ -361,7 +373,7 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
         {% else %}
         Measures
         {% endif %}"
-        group_label: "Measures"
+        #group_label: "Measures"
         label: "Total Customers"
         description: "Total Customers who made Order"
         type: count_distinct
@@ -376,7 +388,7 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
     {% else %}
     Measures
     {% endif %}"
-    group_label: "Measures"
+    #group_label: "Measures"
     label: "Products"
     description: "Total products purchased"
     type: number
@@ -391,12 +403,12 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
         {% else %}
         Measures
         {% endif %}"
-        group_label: "Measures"
+        #group_label: "Measures"
         label: "Total Margin (inc funding)"
         description: "sum of Margin inc funding"
         type: sum
         value_format_name: gbp
-        sql: {% if base.select_date_reference._parameter_value == "Placed" %} (${TABLE}.MarginIncFunding * 0.9973) {% else %} (${TABLE}.MarginIncFunding) {% endif %};;
+        sql: ${TABLE}.MarginIncFunding;;
 
         #sql: (${TABLE}.MarginIncFunding * 0.9973) ;;
       }
@@ -408,12 +420,12 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
         {% else %}
         Measures
         {% endif %}"
-        group_label: "Measures"
+        #group_label: "Measures"
         label: "Total Margin (excl funding)"
         description: "sum of Margin excluding funding"
         type: sum
         value_format_name: gbp
-        sql: {% if base.select_date_reference._parameter_value == "Placed" %} (${TABLE}.MarginExclFunding * 0.9973) {% else %} (${TABLE}.MarginExclFunding) {% endif %};;
+        sql: ${TABLE}.MarginExclFunding;;
 
         #sql: (${TABLE}.marginExclFunding * 0.9973);;
       }
@@ -435,6 +447,13 @@ select distinct row_number() over (order by (Transaction)) as P_K, * from sub1;;
     sql: ${TABLE}.transaction_raw ;;
     hidden: yes
   }
+
+  #dimension: sing_line_transaction {
+    #group_label: "Digital Transactions"
+    #label: "Single Line Transactions"
+    #type: number
+    #sql: count(count(distinct case when ${productv2.product_code} >= '10000' and lower(${productv2.department}) not in ('uncatalogued') then ${productv2.product_code} else null end)) over (partition by ${OrderID}) ;;
+  #}
 
 
 

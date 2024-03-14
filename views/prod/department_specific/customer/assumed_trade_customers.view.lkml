@@ -8,7 +8,6 @@ view: assumed_trade_customers {
     sql: ${TABLE}.CustomerUID ;;
     label: "customerUid_test"
     hidden: yes
-
   }
 
   dimension: is_assumed_trade_customer {
@@ -18,6 +17,7 @@ view: assumed_trade_customers {
     label: "Is Assumed Trade"
     type:  yesno
     sql:${assumed_trade_customers.customer_uid} is not null;;
+    hidden: yes
   }
 
 }
