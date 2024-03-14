@@ -694,5 +694,13 @@ explore: GA4_testy {
     sql_on: ${calendar.date} = ${ecrebo.ecrebo_date_filter} AND ${ga4_transactions.OrderID} = ${ecrebo.parent_order_uid};;
   }
 
+  join: single_line_transactions {
+    view_label: "transactions single"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${ga4_transactions.OrderID} = ${single_line_transactions.parent_order_uid} ;;
+  }
+
+
 
 }
