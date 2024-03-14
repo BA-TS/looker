@@ -36,7 +36,7 @@ inner join `toolstation-data-storage.range.products_current` p
   }
 
   dimension: single_line_transaction_flag {
-    view_label: "{% if _explore._name == 'Digital Reporting' %}
+    view_label: "{% if _explore._name == 'digital_reporting' %}
         Digital Transactions
         {% else %}
         Transactions
