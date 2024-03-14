@@ -45,7 +45,7 @@ inner join `toolstation-data-storage.range.products_current` p
         {% endif %}"
     #view_label: "Transactions"
     group_label: "{% if _explore._name == 'GA4_testy' %}
-        Transactional
+    Transactional
         {% else %}
         Flags
         {% endif %}"
