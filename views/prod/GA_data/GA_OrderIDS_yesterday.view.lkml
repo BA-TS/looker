@@ -32,7 +32,7 @@ view: ga_orderids_yesterday {
 
   dimension: order_id {
     view_label: "Digital Transactions"
-    group_label: "Seen in GA"
+    group_label: "Seen in GA (yesterday)"
     label: "Transaction ID"
     description: "Order ID of order where order was seen in GA4"
     type: string
@@ -41,7 +41,7 @@ view: ga_orderids_yesterday {
 
   measure: orders {
     view_label: "Measures"
-    group_label: "Seen in GA"
+    group_label: "Seen in GA (yesterday)"
     label: "Orders"
     description: "Total orders seen in GA4"
     #group_label: "Measures"
@@ -51,7 +51,7 @@ view: ga_orderids_yesterday {
 
   measure: net_value {
     view_label: "Measures"
-    group_label: "Seen in GA"
+    group_label: "Seen in GA (yesterday)"
     label: "Net Revenue"
     type: sum
     value_format_name: gbp

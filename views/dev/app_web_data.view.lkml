@@ -221,7 +221,7 @@ group by 2,3,4,5,6,8,9,10,11,12,13,14,15,16,17;;
       dimension: seen_in_Ga {
         view_label: "Digital Transactions"
         group_label: "Flags"
-        label: "Seen in GA"
+        label: "Seen in GA (yesterday)"
         description: "If order ID was seen in GA "
         type: yesno
         sql: ${ga_orderids_yesterday.order_id} is not null ;;
