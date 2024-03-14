@@ -36,7 +36,12 @@ inner join `toolstation-data-storage.range.products_current` p
   }
 
   dimension: single_line_transaction_flag {
-    view_label: "Transactions"
+    view_label: "{% if _explore._name == 'digital_reporting' %}
+        Digital Transactions
+        {% else %}
+        Transactions
+        {% endif %}"
+    #view_label: "Transactions"
     group_label: "Flags"
     label: "Single Line Transaction"
     description: "Yes/No whether the transaction contained only one product line."
