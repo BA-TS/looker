@@ -74,12 +74,7 @@ inner join `toolstation-data-storage.range.products_current` p
         {% else %}
         Measures
         {% endif %}"
-    group_label:
-    "{% if _explore._name == 'GA4_testy' %}
-        Transactional
-        {% else %}
-        Single Line Transactions
-        {% endif %}"
+    group_label: "Single Line Transactions"
     type: count_distinct
     value_format: "#,##0;(#,##0)"
     sql: CASE WHEN ${single_line_transaction_flag} = true THEN ${parent_order_uid}  ELSE NULL END;;
@@ -91,11 +86,7 @@ inner join `toolstation-data-storage.range.products_current` p
         {% else %}
         Measures
         {% endif %}"
-    group_label: "{% if _explore._name == 'GA4_testy' %}
-        Transactional
-        {% else %}
-        Single Line Transactions
-        {% endif %}"
+    group_label: "Single Line Transactions"
     type: count_distinct
     value_format: "#,##0;(#,##0)"
     sql: CASE WHEN ${single_line_transaction_flag} = false THEN ${parent_order_uid}  ELSE NULL END;;
@@ -108,11 +99,7 @@ inner join `toolstation-data-storage.range.products_current` p
         {% else %}
         Measures
         {% endif %}"
-    group_label: "{% if _explore._name == 'GA4_testy' %}
-        Transactional
-        {% else %}
-        Single Line Transactions
-        {% endif %}"
+    group_label: "Single Line Transactions"
     label: "Single Line Transactions %"
     description: "Single line transactions as a percentage of total transactions (Single Line + Non-single Line)"
     type: number
@@ -126,11 +113,7 @@ inner join `toolstation-data-storage.range.products_current` p
         {% else %}
         Measures
         {% endif %}"
-    group_label: "{% if _explore._name == 'GA4_testy' %}
-        Transactional
-        {% else %}
-        Single Line Transactions
-        {% endif %}"
+    group_label: "Single Line Transactions"
     label: "Attachment Rate %"
     description: "Attachment rate as a percentage of total transactions (Single Line + Non-single Line)"
     type: number
