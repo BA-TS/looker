@@ -68,16 +68,34 @@ inner join `toolstation-data-storage.range.products_current` p
   }
 
   measure: single_line_transactions_total {
-    view_label: "Measures"
-    group_label: "Single Line Transactions"
+    view_label:
+    "{% if _explore._name == 'GA4_testy' %}
+        GA4
+        {% else %}
+        Measures
+        {% endif %}"
+    group_label:
+    "{% if _explore._name == 'GA4_testy' %}
+        Transactional
+        {% else %}
+        Single Line Transactions
+        {% endif %}"
     type: count_distinct
     value_format: "#,##0;(#,##0)"
     sql: CASE WHEN ${single_line_transaction_flag} = true THEN ${parent_order_uid}  ELSE NULL END;;
   }
 
   measure: non_single_line_transactions_total {
-    view_label: "Measures"
-    group_label: "Single Line Transactions"
+    view_label: "{% if _explore._name == 'GA4_testy' %}
+        GA4
+        {% else %}
+        Measures
+        {% endif %}"
+    group_label: "{% if _explore._name == 'GA4_testy' %}
+        Transactional
+        {% else %}
+        Single Line Transactions
+        {% endif %}"
     type: count_distinct
     value_format: "#,##0;(#,##0)"
     sql: CASE WHEN ${single_line_transaction_flag} = false THEN ${parent_order_uid}  ELSE NULL END;;
@@ -85,8 +103,16 @@ inner join `toolstation-data-storage.range.products_current` p
   }
 
   measure: single_line_percent {
-    view_label: "Measures"
-    group_label: "Single Line Transactions"
+    view_label: "{% if _explore._name == 'GA4_testy' %}
+        GA4
+        {% else %}
+        Measures
+        {% endif %}"
+    group_label: "{% if _explore._name == 'GA4_testy' %}
+        Transactional
+        {% else %}
+        Single Line Transactions
+        {% endif %}"
     label: "Single Line Transactions %"
     description: "Single line transactions as a percentage of total transactions (Single Line + Non-single Line)"
     type: number
@@ -95,8 +121,16 @@ inner join `toolstation-data-storage.range.products_current` p
   }
 
   measure: attachment_rate_percent {
-    view_label: "Measures"
-    group_label: "Single Line Transactions"
+    view_label: "{% if _explore._name == 'GA4_testy' %}
+        GA4
+        {% else %}
+        Measures
+        {% endif %}"
+    group_label: "{% if _explore._name == 'GA4_testy' %}
+        Transactional
+        {% else %}
+        Single Line Transactions
+        {% endif %}"
     label: "Attachment Rate %"
     description: "Attachment rate as a percentage of total transactions (Single Line + Non-single Line)"
     type: number
