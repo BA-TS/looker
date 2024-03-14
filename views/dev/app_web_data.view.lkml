@@ -331,7 +331,7 @@ group by 2,3,4,5,6,8,9,10,11,12,13,14,15,16,17;;
         {% else %}
         Measures
         {% endif %}"
-        group_label: "Measures"
+        #group_label: "Measures"
         label: "Margin Rate (inc funding)"
         description: "margin percentage per order"
         type: number
@@ -348,7 +348,7 @@ group by 2,3,4,5,6,8,9,10,11,12,13,14,15,16,17;;
         {% else %}
         Measures
         {% endif %}"
-        group_label: "Measures"
+        #group_label: "Measures"
         label: "Margin per order (inc funding)"
         description: "Margin inc funding by order"
         type: number
@@ -373,7 +373,7 @@ group by 2,3,4,5,6,8,9,10,11,12,13,14,15,16,17;;
         {% else %}
         Measures
         {% endif %}"
-        group_label: "Measures"
+        #group_label: "Measures"
         label: "Total Customers"
         description: "Total Customers who made Order"
         type: count_distinct
@@ -388,7 +388,7 @@ group by 2,3,4,5,6,8,9,10,11,12,13,14,15,16,17;;
     {% else %}
     Measures
     {% endif %}"
-    group_label: "Measures"
+    #group_label: "Measures"
     label: "Products"
     description: "Total products purchased"
     type: number
@@ -403,7 +403,7 @@ group by 2,3,4,5,6,8,9,10,11,12,13,14,15,16,17;;
         {% else %}
         Measures
         {% endif %}"
-        group_label: "Measures"
+        #group_label: "Measures"
         label: "Total Margin (inc funding)"
         description: "sum of Margin inc funding"
         type: sum
@@ -420,7 +420,7 @@ group by 2,3,4,5,6,8,9,10,11,12,13,14,15,16,17;;
         {% else %}
         Measures
         {% endif %}"
-        group_label: "Measures"
+        #group_label: "Measures"
         label: "Total Margin (excl funding)"
         description: "sum of Margin excluding funding"
         type: sum
