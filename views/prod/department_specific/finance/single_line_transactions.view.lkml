@@ -44,11 +44,7 @@ inner join `toolstation-data-storage.range.products_current` p
         Transactions
         {% endif %}"
     #view_label: "Transactions"
-    group_label: "{% if _explore._name == 'GA4_testy' %}
-    Transactional
-        {% else %}
-        Flags
-        {% endif %}"
+    group_label: "Flags"
     label: "Single Line Transaction"
     description: "Yes/No whether the transaction contained only one product line."
     type: yesno
