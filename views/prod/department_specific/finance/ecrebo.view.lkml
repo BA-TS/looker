@@ -20,7 +20,7 @@ view: ecrebo {
 
                     FROM
                       `toolstation-data-storage.sales.ecreboTransactions` et
-                      LEFT JOIN
+                      JOIN
                       `toolstation-data-storage.sales.ecreboCoupons` ec ON  et.transaction_uuid=ec.transaction_uuid
                       left JOIN
                       `toolstation-data-storage.sales.TrolleySales` ts1 ON et.transaction_uuid = ts1.trolleyUID
