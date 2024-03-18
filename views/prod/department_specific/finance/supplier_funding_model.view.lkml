@@ -56,6 +56,12 @@ dimension: Supplier {
   sql: ${TABLE}.Supplier ;;
 }
 
+# TH added
+  dimension: Status {
+    type: string
+    sql: ${TABLE}.status ;;
+  }
+
   dimension_group: valid_from {
     view_label: "Date"
     type: time
