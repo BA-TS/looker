@@ -90,7 +90,7 @@ inner join `toolstation-data-storage.range.products_current` p
     type: count_distinct
     value_format: "#,##0;(#,##0)"
     sql: CASE WHEN ${single_line_transaction_flag} = false THEN ${parent_order_uid}  ELSE NULL END;;
-    hidden: yes
+    # hidden: yes
   }
 
   measure: single_line_percent {
