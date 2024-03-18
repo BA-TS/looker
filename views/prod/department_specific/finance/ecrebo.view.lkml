@@ -29,7 +29,7 @@ view: ecrebo {
                        union distinct
                        select distinct ParentOrderUID as OrderID from `toolstation-data-storage.sales.transactions_incomplete`) on regexp_extract(et.receipt_id,"^.{0,11}") = OrderID
                     WHERE
-                      ec.campaign_id IS NOT NULL
+                      ec.campaign_id IS NOT NULL and ec.issuance_redemption = 'r'
 
 
                     ),
