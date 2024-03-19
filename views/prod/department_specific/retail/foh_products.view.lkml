@@ -14,6 +14,14 @@ view: foh_master_products_2024 {
     hidden: yes
   }
 
+  dimension: Week  {
+    group_label: "Site Information"
+    type: string
+    label: "FOH Week"
+    sql: CAST(${TABLE}.fiscalYearWeek AS String);;
+    hidden: yes
+  }
+
   dimension: foh_Area  {
     group_label: "Site Information"
     type: string
@@ -26,12 +34,5 @@ view: foh_master_products_2024 {
     type: string
     label: "FOH Location"
     sql: ${TABLE}.Location ;;
-  }
-
-  dimension: Week  {
-    group_label: "Site Information"
-    type: string
-    label: "FOH Week"
-    sql: CAST(${TABLE}.fiscalYearWeek AS String);;
   }
 }
