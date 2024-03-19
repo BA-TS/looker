@@ -18,6 +18,7 @@ view: supplier_funding_model {
     convert_tz: no
     datatype: date
     sql: ${TABLE}.date ;;
+    hidden: yes
   }
 
   dimension: dealtrack_id {
