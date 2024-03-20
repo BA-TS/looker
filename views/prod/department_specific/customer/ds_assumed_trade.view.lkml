@@ -49,6 +49,7 @@ view: ds_assumed_trade{
   dimension: final_prediction2 {
     type:  string
     label: "Customer Type (Trade/Assumed Trade/DIY)"
+    description: "Assumed Trade customers are customers who are currently DIY customerse but are predicted to be trade customers"
     sql:
     CASE
     WHEN ${customers.is_trade} = true then "Trade"
@@ -63,6 +64,7 @@ view: ds_assumed_trade{
   dimension: customer_type_pb {
     type:  string
     label: "Customer Type (New Trade/DIY)"
+    description: "New Trade includes existing trade customers and assumed trade customers"
     sql:
     CASE
     WHEN ${customers.is_trade} = true then "New Trade"

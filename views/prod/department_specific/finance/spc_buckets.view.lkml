@@ -4,7 +4,6 @@ view: spc_buckets {
     explore_source: base {
       bind_all_filters: yes
       column: parent_order_uid { field: transactions.parent_order_uid }
-      # column: customer_uid { field: customers.customer_uid }
       column: spc_gross_sales { field: transactions.spc_gross_sales }
       column: spc_net_sales { field: transactions.spc_net_sales }
     }
@@ -14,11 +13,6 @@ view: spc_buckets {
     hidden: yes
     sql: ${TABLE}.parent_order_uid ;;
   }
-
-  # dimension: customer_uid {
-  #   hidden: yes
-  #   sql: ${TABLE}.customer_uid ;;
-  # }
 
   dimension: spc_net_sales {
     hidden: yes
@@ -34,7 +28,7 @@ view: spc_buckets {
 
   dimension: spend_per_customer_buckets {
     label: "Over/Under £100 (Net Sales)"
-    group_label: "Spend Per Customer"
+    group_label: "Spend Per Customer (by Transaction)"
     type: tier
     tiers: [0,100]
     style: integer
@@ -43,7 +37,7 @@ view: spc_buckets {
 
   dimension: spend_per_customer_buckets_gross {
     label: "Over/Under £100 (Gross Sales)"
-    group_label: "Spend Per Customer"
+    group_label: "Spend Per Customer (by Transaction)"
     type: tier
     tiers: [0,100]
     style: integer
@@ -52,7 +46,7 @@ view: spc_buckets {
 
   dimension: spend_per_customer_buckets75 {
     label: "Over/Under £75 (Net Sales)"
-    group_label: "Spend Per Customer"
+    group_label: "Spend Per Customer (by Transaction)"
     type: tier
     tiers: [0,75]
     style: integer
@@ -61,7 +55,7 @@ view: spc_buckets {
 
   dimension: spend_per_customer_buckets_gross75 {
     label: "Over/Under £75 (Gross Sales)"
-    group_label: "Spend Per Customer"
+    group_label: "Spend Per Customer (by Transaction)"
     type: tier
     tiers: [0,75]
     style: integer
@@ -70,7 +64,7 @@ view: spc_buckets {
 
   dimension: spend_per_customer_buckets25 {
     label: "Over/Under £25 (Net Sales)"
-    group_label: "Spend Per Customer"
+    group_label: "Spend Per Customer (by Transaction)"
     type: tier
     tiers: [0,25]
     style: integer
@@ -79,7 +73,7 @@ view: spc_buckets {
 
   dimension: spend_per_customer_buckets_gross25 {
     label: "Over/Under £25 (Gross Sales)"
-    group_label: "Spend Per Customer"
+    group_label: "Spend Per Customer (by Transaction)"
     type: tier
     tiers: [0,25]
     style: integer
