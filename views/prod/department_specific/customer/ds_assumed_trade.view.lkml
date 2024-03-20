@@ -48,7 +48,7 @@ view: ds_assumed_trade{
 
   dimension: final_prediction2 {
     type:  string
-    label: "Customer Type"
+    label: "Customer Type (Trade/Assumed Trade/DIY)"
     sql:
     CASE
     WHEN ${customers.is_trade} = true then "Trade"
@@ -62,13 +62,13 @@ view: ds_assumed_trade{
 
   dimension: customer_type_pb {
     type:  string
-    label: "Customer Type (PB)"
+    label: "Customer Type (New Trade/DIY)"
     sql:
     CASE
-    WHEN ${customers.is_trade} = true then "Trade"
+    WHEN ${customers.is_trade} = true then "New Trade"
     When ${customers.flags__customer_anonymous} = true then "DIY"
     When ${customers.customer__first_name} = "EBAY" AND ${customers.customer__last_name} = "USER" then "DIY"
-    When ${final_prediction} = true then "Trade"
+    When ${final_prediction} = true then "New Trade"
     Else "DIY"
     END
     ;;
