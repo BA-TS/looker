@@ -359,44 +359,44 @@ view: sites {
   }
 
   dimension: Is_trading_branch_end_FY23 {
-    required_access_grants: [retail_testing]
     group_label: "Site Information"
     type: yesno
     sql: ${TABLE}.Is_trading_branch_end_FY23 ;;
   }
 
   dimension: Is_consistent_branch {
-    required_access_grants: [retail_testing]
     group_label: "Site Information"
     type: yesno
     sql: ${TABLE}.Is_consistent_branch ;;
   }
 
   dimension: Is_mature_branch {
-    required_access_grants: [retail_testing]
     group_label: "Site Information"
     type: yesno
     sql: ${TABLE}.Is_mature_branch ;;
   }
 
   dimension: Is_top_50_FY23_branch_contribution {
-    required_access_grants: [retail_testing]
     group_label: "Site Information"
     type: yesno
     sql: ${TABLE}.Is_top_50_FY23_branch_contribution ;;
   }
 
   dimension: Is_div1_top_25_FY23_branch_contribution {
-    required_access_grants: [retail_testing]
     group_label: "Site Information"
     type: yesno
     sql: ${TABLE}.Is_div1_top_25_FY23_branch_contribution ;;
   }
 
   dimension: Is_div2_top_25_FY23_branch_contribution {
-    required_access_grants: [retail_testing]
     group_label: "Site Information"
     type: yesno
     sql: ${TABLE}.Is_div2_top_25_FY23_branch_contribution ;;
+  }
+
+  dimension: Is_London {
+    group_label: "Site Information"
+    type: yesno
+    sql: ${TABLE}.Is_London ;;
   }
 }
