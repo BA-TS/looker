@@ -56,10 +56,9 @@ all_purchase.ORderID as total_OrderID
 from Sub1
 left join PDP on sub1.session_id = PDP.PDP_session_id and sub1.item_id = PDP.item_id
 left join ATC on PDP.PDP_session_id = ATC.atc_session_id and PDP.item_id = ATC.item_id
-left join purchase on PDP.PDP_session_id = purchase.purchase_session_id and PDP.item_id = purchase.item_id
-left join purchase as all_purchase on sub1.session_id = all_purchase.purchase_session_id and sub1.item_id = all_purchase.item_id
+left join purchase on PDP.PDP_session_id = purchase.purchase_session_id and PDP.item_id = purchase.item_id and sub1.OrderID = purchase.OrderID
+left join purchase as all_purchase on sub1.session_id = all_purchase.purchase_session_id and sub1.item_id = all_purchase.item_id and sub1.OrderID = all_purchase.OrderID
 where extract(date from coalesce(pdp.pdp_time,ATC.atc_time,purchase.purchase_time, all_purchase.purchase_time)) is not null)
-
 select distinct row_number() over () as P_K, * from sub2
 ;;
 
