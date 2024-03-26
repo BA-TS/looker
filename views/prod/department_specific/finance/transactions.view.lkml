@@ -987,6 +987,20 @@ view: transactions {
     sql: min(timestamp(${transactions.transaction_date}));;
   }
 
+  dimension: app_transactions_date {
+    hidden: yes
+    type: date
+    sql: case when ${user_uid} = "APP" then ${transactions.transaction_date} else null end;;
+  }
+
+  measure: first_app_transaction_date {
+    label: "First APP Transaction Date"
+    view_label: "Measures"
+    group_label: "Core Metrics"
+    type: date
+    sql: min(timestamp(${app_transactions_date}));;
+  }
+
   measure: last_transaction_date {
     view_label: "Measures"
     group_label: "Core Metrics"

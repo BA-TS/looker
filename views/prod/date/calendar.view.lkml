@@ -286,6 +286,8 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
     sql: ${TABLE}.fiscalYearWeek ;;
   }
 
+
+
   dimension: today_fiscal_year_week {
     group_label: "Dates Fiscal"
     label: "Today Fiscal Year Week (yyyyww)"
@@ -338,6 +340,13 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
     type: yesno
     sql: ${TABLE}.dayInMonth = 1 ;;
     hidden: yes
+  }
+
+  dimension: is_christmas_period {
+    group_label: "Dates Fiscal"
+    label: "Fiscal Year Week (yyyyww)"
+    type: yesno
+    sql: ${TABLE}.fiscalYearWeek between 2 and 50;;
   }
 
   measure: distinct_year_count {
