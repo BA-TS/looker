@@ -551,13 +551,12 @@ explore: base {
       and ${sites.division} = ${scorecard_testing_division_YTD.siteUID};;
   }
 
-  # join: app_transactions_pre_post {
-  #   required_access_grants:[retail_testing]
-  #   type: left_outer
-  #   relationship: one_to_one
-  #   sql_on: ${transactions.customer_uid} = ${app_transactions_pre_post.customerUID}
-  #     and ${transactions.transaction_date} = ${app_transactions_pre_post.date};;
-  # }
+  join: app_transactions_pre_post {
+    required_access_grants:[retail_testing]
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${transactions.customer_uid} = ${app_transactions_pre_post.customer_uid};;
+  }
 }
 
 

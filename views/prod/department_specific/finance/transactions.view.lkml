@@ -998,6 +998,7 @@ view: transactions {
     view_label: "Measures"
     group_label: "Core Metrics"
     type: date
+    hidden: yes
     sql: min(timestamp(${app_transactions_date}));;
   }
 

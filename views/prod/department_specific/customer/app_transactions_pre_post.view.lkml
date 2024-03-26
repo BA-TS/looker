@@ -1,36 +1,43 @@
+include: "/views/**/*.view"
+
 view: app_transactions_pre_post {
   derived_table: {
     explore_source: base {
       bind_all_filters: yes
       column: customer_uid { field: customers.customer_uid }
-      column: date { field: calendar_completed_date.date }
+      # column: date { field: calendar_completed_date.date }
       column: first_app_transaction_date { field: transactions.first_app_transaction_date }
-      filters: {
-        field: base.select_date_reference
-        value: "Transaction"
-      }
     }
   }
+
   dimension: customer_uid {
     label: "Customers Customer UID"
     description: ""
-  }
-
-  dimension: date {
-    label: "Date Date (dd/mm/yyyy)"
-    description: ""
-    type: date
-    sql: ${TABLE}.date ;;
+    hidden: yes
   }
 
   dimension: first_app_transaction_date {
     label: "Measures First APP Transaction Date"
     sql: ${TABLE}.first_app_transaction_date ;;
     type: date
+    # hidden: yes
   }
 
   dimension: days_since_first_app_transaction_date {
     type: number
-    sql: date_diff(${first_app_transaction_date},${date},day);;
+    sql: date_diff(${transactions.transaction_date},${first_app_transaction_date},day);;
   }
+
+  dimension: 12_weeks_pre_first_app_transaction_date {
+    label: "Pre vs Post First App Transaction (<=12 Weeks)"
+    type: string
+    sql:
+    case
+    when ${days_since_first_app_transaction_date} between 0 and 84 then "Post"
+    when ${days_since_first_app_transaction_date} between -84 and -0 then "Pre"
+    else null
+    end
+    ;;
+  }
+
 }
