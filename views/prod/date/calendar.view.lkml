@@ -343,10 +343,9 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
   }
 
   dimension: is_christmas_period {
-    group_label: "Dates Fiscal"
-    label: "Fiscal Year Week (yyyyww)"
+    group_label: "Flags"
     type: yesno
-    sql: ${TABLE}.fiscalYearWeek between 2 and 50;;
+    sql: ${fiscal_week_of_year} IN (1,51,52);;
   }
 
   measure: distinct_year_count {
