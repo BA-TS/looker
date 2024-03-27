@@ -5,6 +5,7 @@ view: app_transactions_pre_post {
     explore_source: base {
       bind_all_filters: yes
       column: customer_uid { field: customers.customer_uid }
+      column: first_transaction_date { field: transactions.first_transaction_date }
       column: first_app_transaction_date { field: transactions.first_app_transaction_date }
     }
   }
@@ -18,6 +19,19 @@ view: app_transactions_pre_post {
     label: "First APP Transaction Date"
     sql: ${TABLE}.first_app_transaction_date ;;
     type: date
+  }
+
+  dimension: first_transaction_date {
+    label: "Measures First Transaction Date"
+    description: "First transaction date"
+    type: date
+    hidden: yes
+    sql: date(${TABLE}.first_transaction_date);;
+  }
+
+  dimension: first_transaction_date_same_as_app {
+    type: yesno
+    sql: ${first_app_transaction_date}=${first_transaction_date};;
   }
 
   dimension: days_since_first_app_transaction_date {
