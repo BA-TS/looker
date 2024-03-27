@@ -5,22 +5,19 @@ view: app_transactions_pre_post {
     explore_source: base {
       bind_all_filters: yes
       column: customer_uid { field: customers.customer_uid }
-      # column: date { field: calendar_completed_date.date }
       column: first_app_transaction_date { field: transactions.first_app_transaction_date }
     }
   }
 
   dimension: customer_uid {
     label: "Customers Customer UID"
-    description: ""
     hidden: yes
   }
 
   dimension: first_app_transaction_date {
-    label: "Measures First APP Transaction Date"
+    label: "First APP Transaction Date"
     sql: ${TABLE}.first_app_transaction_date ;;
     type: date
-    # hidden: yes
   }
 
   dimension: days_since_first_app_transaction_date {
@@ -29,7 +26,7 @@ view: app_transactions_pre_post {
   }
 
   dimension: 12_weeks_pre_first_app_transaction_date {
-    label: "Pre vs Post First App Transaction (<=12 Weeks)"
+    label: "Pre vs Post First App Transaction (<12 Weeks)"
     type: string
     sql:
     case
@@ -39,5 +36,4 @@ view: app_transactions_pre_post {
     end
     ;;
   }
-
 }
