@@ -282,7 +282,7 @@ explore: base {
     view_label: "Ecrebo"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${base.date_date} = ${ecrebo.ecrebo_date_filter} AND ${transactions.parent_order_uid} = ${ecrebo.parent_order_uid};;
+    sql_on: ${transactions.placed_date} = ${ecrebo.ecrebo_date_filter} AND ${transactions.parent_order_uid} = ${ecrebo.parent_order_uid};;
   }
 
   join: po_numbers {
