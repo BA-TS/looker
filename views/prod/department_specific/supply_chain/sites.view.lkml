@@ -396,6 +396,7 @@ view: sites {
 
   dimension: Is_London {
     group_label: "Site Information"
+    label: "Is London Site"
     type: yesno
     sql: ${TABLE}.Is_London ;;
   }

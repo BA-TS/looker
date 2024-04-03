@@ -550,6 +550,13 @@ explore: base {
     sql_on: ${customers.customer_uid} = ${scorecard_testing_division_YTD.customerUID}
       and ${sites.division} = ${scorecard_testing_division_YTD.siteUID};;
   }
+
+  join: app_transactions_pre_post {
+    required_access_grants:[retail_testing]
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${transactions.customer_uid} = ${app_transactions_pre_post.customer_uid};;
+  }
 }
 
 
