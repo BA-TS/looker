@@ -969,7 +969,7 @@ view: transactions {
   }
 
   measure: total_units_uk {
-    label: "Units (Sold in UK)"
+    label: "Units (UK only)"
     view_label: "Measures"
     group_label: "Core Metrics"
     description: "Number of units sold - only inclduing retail products (UK only)"
@@ -979,7 +979,7 @@ view: transactions {
   }
 
   measure: total_units_export {
-    label: "Units (Export)"
+    label: "Units (Export only)"
     view_label: "Measures"
     group_label: "Core Metrics"
     description: "Number of units sold - only inclduing retail products (UK only)"
