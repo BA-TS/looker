@@ -282,7 +282,8 @@ explore: base {
     view_label: "Ecrebo"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${transactions.placed_date} = ${ecrebo.ecrebo_date_filter} AND ${transactions.parent_order_uid} = ${ecrebo.parent_order_uid};;
+    sql_on: (case when ${base.select_date_reference} = "Placed" then ${ecrebo.ecrebo_date_filter} else ${ecrebo.TransactionDate}) = ${base.date_date}
+    AND ${transactions.parent_order_uid} = ${ecrebo.parent_order_uid};;
   }
 
   join: po_numbers {

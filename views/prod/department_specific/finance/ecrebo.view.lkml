@@ -34,11 +34,11 @@ view: ecrebo {
 
                     ),
 
-    tr as (select distinct
+    tr as (select distinct date(transactionDate) as TransactionDate, date(PlacedDate) as PlacedDate,
     parentOrderUID,productCode,transactionLineType,NetSalesValue, marginInclFunding
     from `toolstation-data-storage.sales.transactions`
     union distinct
-    select distinct
+    select distinct date(transactionDate) as TransactionDate, date(PlacedDate) as PlacedDate,
     parentOrderUID,productCode,transactionLineType,NetSalesValue, marginInclFunding
     from `toolstation-data-storage.sales.transactions_incomplete`)
 
@@ -49,7 +49,8 @@ SELECT
     WHEN STRPOS(campaign_id, ' ') > 0 THEN campaign_id
     ELSE campaign_name
   END AS new_campaign_name,
-    ecrebo_cte.date as date,
+   TransactionDate,
+  PlacedDate,
     ecrebo_cte.parentOrderUID,
    SUM(CASE WHEN tr.transactionLineType = 'Marketing' AND productCode IN ('00021','00027') THEN tr.netSalesValue ELSE 0 END) as code21_27Value,
    SUM(CASE WHEN tr.transactionLineType = 'Sale' THEN tr.netSalesValue ELSE 0 END) as salesLineOnlyNetSalesValue,
@@ -64,7 +65,7 @@ FROM
 
 
 GROUP BY
-  1,2,3,4,5
+  1,2,3,4,5,6
 
  ;;
     datagroup_trigger: ts_transactions_datagroup
@@ -73,7 +74,14 @@ GROUP BY
   dimension: ecrebo_date_filter {
     type: date
     datatype: date
-    sql: ${TABLE}.date;;
+    sql: ${TABLE}.PlacedDate;;
+    hidden:  yes
+  }
+
+  dimension: TransactionDate {
+    type: date
+    datatype: date
+    sql: ${TABLE}.TransactionDate;;
     hidden:  yes
   }
 
