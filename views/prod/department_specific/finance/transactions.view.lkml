@@ -982,7 +982,7 @@ view: transactions {
     label: "Units (Export only)"
     view_label: "Measures"
     group_label: "Core Metrics"
-    description: "Number of units sold - only inclduing retail products (UK only)"
+    description: "Number of units sold - only inclduing retail products (Export only)"
     type:  sum
     sql:(case when ${product_code} like '0%' or ${customers.address__country_is_uk} =false then 0 else ${quantity} end) - (case when ${product_code} like '0%' then 0 else ${quantity} end) ;;
     value_format: "#,##0;(#,##0)"
