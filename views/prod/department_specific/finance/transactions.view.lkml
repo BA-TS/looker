@@ -968,6 +968,26 @@ view: transactions {
     value_format: "#,##0;(#,##0)"
   }
 
+  measure: total_units_uk {
+    label: "Units (Sold in UK)"
+    view_label: "Measures"
+    group_label: "Core Metrics"
+    description: "Number of units sold - only inclduing retail products (UK only)"
+    type:  sum
+    sql: case when ${product_code} like '0%' or ${customers.address__country_is_uk} =false then 0 else ${quantity} end ;;
+    value_format: "#,##0;(#,##0)"
+  }
+
+  measure: total_units_export {
+    label: "Units (Export)"
+    view_label: "Measures"
+    group_label: "Core Metrics"
+    description: "Number of units sold - only inclduing retail products (UK only)"
+    type:  sum
+    sql:(case when ${product_code} like '0%' or ${customers.address__country_is_uk} =false then 0 else ${quantity} end) - (case when ${product_code} like '0%' then 0 else ${quantity} end) ;;
+    value_format: "#,##0;(#,##0)"
+  }
+
   measure: total_units_incl_system_codes {
     label: "Units (System Codes)"
     view_label: "Measures"
