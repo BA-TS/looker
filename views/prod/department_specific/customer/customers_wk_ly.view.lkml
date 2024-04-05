@@ -20,9 +20,9 @@ view: customers_wk_ly {
     hidden: yes
   }
 
-  dimension: customer_wk47_2022{
+  dimension: is_customer{
     group_label: "Flags"
-    label: "Is Customer Fiscal Week PY"
+    label: "Is Customer Previous Week PY"
     type: yesno
     sql: ${customer_uid} is not null;;
   }

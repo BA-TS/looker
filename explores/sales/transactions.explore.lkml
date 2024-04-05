@@ -471,6 +471,13 @@ explore: base {
     sql_on: ${customers.customer_uid} = ${customers_wk_ty.customer_uid} ;;
   }
 
+  join: customers_2wk_ty {
+    view_label: "Customers"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${customers.customer_uid} = ${customers_2wk_ty.customer_uid} ;;
+  }
+
   join: rakuten_analysis_0112 {
     view_label: "Other - Ad-hoc Analysis"
     required_access_grants: [adhoc_rakuten]
