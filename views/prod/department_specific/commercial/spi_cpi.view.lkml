@@ -291,7 +291,6 @@ view: spi_cpi{
 
   measure: netSales_var {
     type: sum
-    # group_label: "LY"
     sql: ${ly_netSales}-${cy_netSales};;
     label: "Net Sales Var"
     value_format_name: gbp
@@ -366,7 +365,7 @@ view: spi_cpi{
     group_label: "CY"
     description: "Net Sales AOV / Average Units"
     type: number
-    sql: COALESCE(SAFE_DIVIDE(${cy_netSales_total}, ${cy_unitsSOLD_total})) ;;
+    sql: COALESCE(SAFE_DIVIDE(${cy_netSales_total}, ${cy_unitsSOLD_total}),0) ;;
     value_format_name: gbp
   }
 
@@ -375,15 +374,42 @@ view: spi_cpi{
     group_label: "LY"
     description: "Net Sales AOV / Average Units"
     type: number
-    sql: COALESCE(SAFE_DIVIDE(${ly_netSales_total}, ${ly_unitsSOLD_total})) ;;
+    sql: COALESCE(SAFE_DIVIDE(${ly_netSales_total}, ${ly_unitsSOLD_total}),0) ;;
     value_format_name: gbp
   }
 
   measure: asp_var {
     label: "ASP Var"
     type: number
-    sql: COALESCE(SAFE_DIVIDE(${cy_netSales_total}, ${cy_unitsSOLD_total}))- COALESCE(SAFE_DIVIDE(${ly_netSales_total}, ${ly_unitsSOLD_total})) ;;
+    sql: COALESCE(${cy_asp}-${ly_asp},0);;
     value_format_name: gbp
+  }
+
+  measure: unit_var {
+    label: "Unit Var"
+    type: number
+    sql: ${cy_unitsSOLD_total}-${ly_unitsSOLD_total};;
+  }
+
+  measure: price_var {
+    label: "Price Var"
+    type: number
+    sql:
+    Case WHEN abs(${cy_unitsSOLD_total}) > 0
+    THEN ${asp_var}*${ly_unitsSOLD_total}
+    ELSE ${asp_var}*${cy_unitsSOLD_total}
+    END ;;
+    value_format_name: gbp
+  }
+
+  measure: volume_var {
+    label: "Volume Var"
+    type: number
+    sql:
+    Case WHEN abs(${cy_unitsSOLD_total}) > 0
+    THEN ${unit_var}*${cy_asp}
+    ELSE ${unit_var}*${ly_asp}
+    END ;;
   }
 
 }
