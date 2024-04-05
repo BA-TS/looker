@@ -207,7 +207,7 @@ view: spi_cpi{
     group_label: "CY"
     label: "CY Units Sold"
     sql: ${cy_unitsSOLD};;
-    value_format: "0.00"
+    value_format: "0"
   }
 
   measure: ly_unitsSOLD_total {
@@ -215,7 +215,7 @@ view: spi_cpi{
     group_label: "LY"
     label: "LY Units Sold"
     sql: ${ly_unitsSOLD};;
-    value_format: "0.00"
+    value_format: "0"
   }
 
   measure: aac_comparator_total {
@@ -389,6 +389,7 @@ view: spi_cpi{
     label: "Unit Var"
     type: number
     sql: ${cy_unitsSOLD_total}-${ly_unitsSOLD_total};;
+    value_format: "0"
   }
 
   measure: price_var {
@@ -410,6 +411,7 @@ view: spi_cpi{
     THEN ${unit_var}*${cy_asp}
     ELSE ${unit_var}*${ly_asp}
     END ;;
+    value_format: "0.00"
   }
 
 }
