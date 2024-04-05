@@ -53,24 +53,28 @@ view: spi_cpi{
 
   dimension: is_promo_cy_ly {
     type: yesno
+    group_label: "Promo"
     label: "Promo CY/LY"
     sql: ${TABLE}.promo=1 ;;
   }
 
   dimension: is_promo_cy {
     type: yesno
+    group_label: "Promo"
     label: "Promo CY"
     sql: ${TABLE}.promo_cy=1 ;;
   }
 
   dimension: is_promo_ly {
     type: yesno
+    group_label: "Promo"
     label: "Promo LY"
     sql: ${TABLE}.promo_ly=1 ;;
   }
 
   dimension: promo_nonpromo_cyly {
     type: yesno
+    group_label: "Promo"
     label: "Both Promos or Non Promos CY and LY"
     sql:
     (${TABLE}.promo_cy=1 and ${TABLE}.promo_ly=1) OR (${TABLE}.promo_cy=0 and ${TABLE}.promo_ly=0);;
@@ -207,7 +211,7 @@ view: spi_cpi{
     group_label: "CY"
     label: "CY Units Sold"
     sql: ${cy_unitsSOLD};;
-    value_format: "0"
+    value_format: "#,##0"
   }
 
   measure: ly_unitsSOLD_total {
@@ -215,7 +219,7 @@ view: spi_cpi{
     group_label: "LY"
     label: "LY Units Sold"
     sql: ${ly_unitsSOLD};;
-    value_format: "0"
+    value_format: "#,##0"
   }
 
   measure: aac_comparator_total {
@@ -293,6 +297,7 @@ view: spi_cpi{
     type: sum
     sql: ${cy_netSales}-${ly_netSales};;
     label: "Net Sales Var"
+    group_label: "Var"
     value_format_name: gbp
   }
 
@@ -380,6 +385,7 @@ view: spi_cpi{
 
   measure: asp_var {
     label: "ASP Var"
+    group_label: "Var"
     type: number
     sql: COALESCE(${cy_asp}-${ly_asp},0);;
     value_format_name: gbp
@@ -387,13 +393,15 @@ view: spi_cpi{
 
   measure: unit_var {
     label: "Unit Var"
+    group_label: "Var"
     type: number
     sql: ${cy_unitsSOLD_total}-${ly_unitsSOLD_total};;
-    value_format: "0"
+    value_format: "#,##0"
   }
 
   measure: price_var {
     label: "Price Var"
+    group_label: "Var"
     type: number
     sql:
     Case WHEN abs(${cy_unitsSOLD_total}) > 0
@@ -405,13 +413,14 @@ view: spi_cpi{
 
   measure: volume_var {
     label: "Volume Var"
+    group_label: "Var"
     type: number
     sql:
     Case WHEN abs(${cy_unitsSOLD_total}) > 0
     THEN ${unit_var}*${cy_asp}
     ELSE ${unit_var}*${ly_asp}
     END ;;
-    value_format: "0.00"
+    value_format: "#,##0.00"
   }
 
 }
