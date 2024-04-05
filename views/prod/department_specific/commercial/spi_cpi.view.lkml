@@ -291,7 +291,7 @@ view: spi_cpi{
 
   measure: netSales_var {
     type: sum
-    sql: ${ly_netSales}-${cy_netSales};;
+    sql: ${cy_netSales}-${ly_netSales};;
     label: "Net Sales Var"
     value_format_name: gbp
   }
