@@ -8,7 +8,7 @@ view: ga_orderids_yesterday {
       row_number() over () P_K
       FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` as aw left join unnest(transactions) as transactions
       where
-      _TABLE_SUFFIX = format_date("%Y%m%d", date_sub(current_date(), INTERVAL 2 day)) and
+      _TABLE_SUFFIX >= format_date("%Y%m%d", date_sub(current_date(), INTERVAL 2 day)) and
       ((aw.item_id = transactions.productCode) or (aw.item_id is not null and transactions.productCode is null) or (aw.item_id is null and transactions.productCode is null))
       and transactions.OrderID is not null
       group by 1,2,3
