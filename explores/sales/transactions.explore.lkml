@@ -489,7 +489,7 @@ explore: base {
   join: ds_assumed_trade {
     view_label: "Customer Classification"
     type: left_outer
-    relationship: many_to_one
+    relationship: one_to_many
     sql_on: ${customers.customer_uid} = ${ds_assumed_trade.customer_uid}
     ;;
   }
