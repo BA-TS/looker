@@ -655,7 +655,7 @@ view: ga4_rjagdev_test {
     label: "Landing Screen name"
     group_label: "Screen"
     type: string
-    sql: first_value(${Screen_name}) over (partition by ${session_id} order by ${TABLE}.minTime asc) ;;
+    sql: min_by(${Screen_name}, ${Mintime}) ;;
   }
 
 
