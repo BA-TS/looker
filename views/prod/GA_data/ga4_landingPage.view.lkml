@@ -6,14 +6,9 @@ view: ga4_landingpage {
     primary_key: yes
     hidden: yes
     type: string
-    sql: concat(${TABLE}.P_K,coalesce("NONE"),coalesce(${itemid},"NONE"), coalesce(${land_Mintime},"NONE")) ;;
+    sql: concat(${TABLE}.P_K) ;;
   }
 
-  dimension: land_Mintime {
-    hidden: yes
-    type: string
-    sql: cast(${TABLE}.minTime as string) ;;
-  }
 
   dimension: land_session {
     description: "session_id"
@@ -22,25 +17,20 @@ view: ga4_landingpage {
     sql: ${TABLE}.session_id ;;
   }
 
-  dimension: land_screen {
-    type: string
-    sql: ${TABLE}.Screen_name ;;
-  }
+  #dimension: land_screen {
+    #type: string
+    #sql: ${TABLE}.Screen_name ;;
+  #}
 
   dimension: land_page {
     type: string
-    sql: ${TABLE}.page_location ;;
+    sql: first_value(${TABLE}.page_location) over (partition by ${TABLE}.session_id order by ${TABLE}.minTime asc) ;;
   }
 
-  dimension: firstEvent {
+  dimension: land_screen {
     type: number
-    sql: row_number() over (partition by ${land_session} order by ${land_Mintime} asc ) ;;
+    sql: first_value(${TABLE}.Screen_name) over (partition by ${TABLE}.session_id order by ${TABLE}.minTime asc) ;;
   }
 
-  dimension: itemid {
-    type: string
-    hidden: yes
-    sql: case when ${TABLE}.item_id in ('44842') then 'null' else ${TABLE}.item_id end;;
-  }
 
 }
