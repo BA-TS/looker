@@ -1,44 +1,46 @@
 view: ga4_landingpage {
 
-  derived_table: {
-    explore_source: GA4_testy {
-      bind_all_filters: yes
-      column: land_PK { field: ga4_rjagdev_test.PK}
-      column: land_time { field: ga4_rjagdev_test.Mintime}
-      column: land_session { field: ga4_rjagdev_test.session_id}
-      column: land_page { field: ga4_rjagdev_test.page_location}
-      column: land_screen { field: ga4_rjagdev_test.Screen_name}
-      derived_column: firstEvent {
-        sql: row_number() over (partition by land_session order by land_time asc) ;;
-      }
-    }
-  }
+  sql_table_name: `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` ;;
 
   dimension: land_PK {
     primary_key: yes
     hidden: yes
     type: string
-    sql: ${TABLE}.land_PK ;;
+    sql: sql: concat(${TABLE}.P_K,coalesce("NONE"),coalesce(${itemid},"NONE"), coalesce(${land_Mintime},"NONE")) ;;
+  }
+
+  dimension: land_Mintime {
+    hidden: yes
+    type: string
+    sql: cast(${TABLE}.minTime as string) ;;
   }
 
   dimension: land_session {
+    description: "session_id"
+    hidden: yes
     type: string
-    sql: ${TABLE}.land_session ;;
+    sql: ${TABLE}.session_id ;;
   }
 
   dimension: land_screen {
     type: string
-    sql: ${TABLE}.land_screen ;;
+    sql: ${TABLE}.Screen_name ;;
   }
 
   dimension: land_page {
     type: string
-    sql: ${TABLE}.land_page ;;
+    sql: ${TABLE}.page_location ;;
   }
 
   dimension: firstEvent {
     type: number
-    sql: ${TABLE}.firstEvent ;;
+    sql: row_number() over (partition by ${land_session} order by ${land_Mintime} asc ) ;;
+  }
+
+  dimension: itemid {
+    type: string
+    hidden: yes
+    sql: case when ${TABLE}.item_id in ('44842') then 'null' else ${TABLE}.item_id end;;
   }
 
 }
