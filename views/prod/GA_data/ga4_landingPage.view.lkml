@@ -6,7 +6,7 @@ view: ga4_landingpage {
     primary_key: yes
     hidden: yes
     type: string
-    sql: sql: concat(${TABLE}.P_K,coalesce("NONE"),coalesce(${itemid},"NONE"), coalesce(${land_Mintime},"NONE")) ;;
+    sql: concat(${TABLE}.P_K,coalesce("NONE"),coalesce(${itemid},"NONE"), coalesce(${land_Mintime},"NONE")) ;;
   }
 
   dimension: land_Mintime {

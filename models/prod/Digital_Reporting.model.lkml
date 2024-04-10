@@ -588,7 +588,7 @@ explore: GA4_testy {
     type: left_outer
     relationship: many_to_one
     sql_on: ${calendar.date} = ${ga4_rjagdev_test.date_date} and ${products.product_code} = (case when ${ga4_rjagdev_test.itemid} is null or length(${ga4_rjagdev_test.itemid}) != 5 then "null" else ${ga4_rjagdev_test.itemid} end);;
-    sql_where: _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {% date_start calendar.filter_on_field_to_hide %}) and FORMAT_DATE('%Y%m%d', {% date_end calendar.filter_on_field_to_hide %})
+    sql_where: ga4_rjagdev_test._TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {% date_start calendar.filter_on_field_to_hide %}) and FORMAT_DATE('%Y%m%d', {% date_end calendar.filter_on_field_to_hide %})
       ;;
   }
 
@@ -710,7 +710,7 @@ explore: GA4_testy {
     and ${ga4_rjagdev_test.session_id} = ${ga4_landingpage.land_session}
     and ${ga4_rjagdev_test.page_location} = ${ga4_landingpage.land_page}
     and ${ga4_rjagdev_test.Screen_name} = ${ga4_landingpage.land_screen};;
-    sql_where: _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {% date_start calendar.filter_on_field_to_hide %}) and FORMAT_DATE('%Y%m%d', {% date_end calendar.filter_on_field_to_hide %}) and ${ga4_landingpage.firstEvent} = 1 ;;
+    sql_where: ga4_landingpage._TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {% date_start calendar.filter_on_field_to_hide %}) and FORMAT_DATE('%Y%m%d', {% date_end calendar.filter_on_field_to_hide %}) and ${ga4_landingpage.firstEvent} = 1 ;;
   }
 
 
