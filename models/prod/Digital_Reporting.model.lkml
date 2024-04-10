@@ -706,7 +706,10 @@ explore: GA4_testy {
     view_label: "GA4 Landing"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${ga4_rjagdev_test.PK} = ${ga4_landingpage.land_PK} ;;
+    sql_on: ${ga4_rjagdev_test.PK} = ${ga4_landingpage.land_PK}
+    and ${ga4_rjagdev_test.session_id} = ${ga4_landingpage.land_session}
+    and ${ga4_rjagdev_test.page_location} = ${ga4_landingpage.land_page}
+    and ${ga4_rjagdev_test.Screen_name} = ${ga4_landingpage.land_screen};;
     sql_where: ${ga4_landingpage.firstEvent} = 1 ;;
   }
 
