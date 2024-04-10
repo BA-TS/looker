@@ -650,7 +650,7 @@ view: ga4_rjagdev_test {
 
   ##############################Landing Page################
 
-  measure: landingPage {
+  dimension: landingPage {
     view_label: "GA4"
     label: "Landing Screen name"
     group_label: "Screen"
