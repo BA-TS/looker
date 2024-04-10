@@ -6,7 +6,7 @@ view: ga4_landingpage {
     primary_key: yes
     hidden: yes
     type: string
-    sql: concat(${TABLE}.P_K) ;;
+    sql: row_number() over () ;;
   }
 
 
@@ -22,15 +22,15 @@ view: ga4_landingpage {
     #sql: ${TABLE}.Screen_name ;;
   #}
 
-  dimension: land_page {
+  measure: land_page {
     type: string
-    sql: first_value(${TABLE}.page_location) over (partition by ${TABLE}.session_id order by ${TABLE}.minTime asc) ;;
+    sql: min_by(${TABLE}.Screen_name, ${TABLE}.minTime);;
   }
 
-  dimension: land_screen {
-    type: number
-    sql: first_value(${TABLE}.Screen_name) over (partition by ${TABLE}.session_id order by ${TABLE}.minTime asc) ;;
-  }
+  #dimension: land_screen {
+    #type: number
+    #sql: first_value(${TABLE}.Screen_name) over (partition by ${TABLE}.session_id order by ${TABLE}.minTime asc) ;;
+  #}
 
 
 }
