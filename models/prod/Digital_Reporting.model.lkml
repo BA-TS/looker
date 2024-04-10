@@ -652,7 +652,7 @@ explore: GA4_testy {
     relationship: many_to_one
     sql_on: ${calendar.date} = ${page_type_to_purchase_funnel.date_date}
       and ((case when ${page_type_to_purchase_funnel.item_id} is null or length(${page_type_to_purchase_funnel.item_id}) != 5 then "null" else ${page_type_to_purchase_funnel.item_id} end) = ${products.product_code});;
-    sql_where: sql_where: _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {% date_start calendar.filter_on_field_to_hide %}) and FORMAT_DATE('%Y%m%d', {% date_end calendar.filter_on_field_to_hide %}) ;;
+    sql_where: _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {% date_start calendar.filter_on_field_to_hide %}) and FORMAT_DATE('%Y%m%d', {% date_end calendar.filter_on_field_to_hide %}) ;;
   }
 
   join: non_pdp_atc_purchase_funnel {
@@ -700,6 +700,14 @@ explore: GA4_testy {
     type: left_outer
     relationship: one_to_many
     sql_on: ${ga4_transactions.OrderID} = ${single_line_transactions.parent_order_uid} ;;
+  }
+
+  join: ga4_landingpage {
+    view_label: "GA4 Landing"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${ga4_rjagdev_test.PK} = ${ga4_landingpage.land_PK} ;;
+    sql_where: ${ga4_landingpage.firstEvent} = 1 ;;
   }
 
 
