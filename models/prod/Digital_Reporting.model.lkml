@@ -706,6 +706,8 @@ explore: GA4_testy {
     type: left_outer
     relationship: one_to_many
     sql_on: ${ga4_rjagdev_test.session_id} = ${ga4_landingpage.land_session} ;;
+    sql_where: ga4_landingpage._TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {% date_start calendar.filter_on_field_to_hide %}) and FORMAT_DATE('%Y%m%d', {% date_end calendar.filter_on_field_to_hide %})
+    ;;
   }
 
 
