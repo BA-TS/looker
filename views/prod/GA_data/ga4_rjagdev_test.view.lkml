@@ -662,9 +662,18 @@ view: ga4_rjagdev_test {
     #hidden: yes
     view_label: "GA4"
     group_label: "Screen"
-    label: "landing"
+    label: "Landing Sessions"
     type: count_distinct
     sql: case when ${landingscreen} is not null then ${session_id} else null end;;
+  }
+
+  measure: landing_perc {
+    view_label: "GA4"
+    group_label: "Screen"
+    label: "Landing %"
+    type: number
+    value_format_name: percent_2
+    sql: safe_divide(${landingSessions},${sessions_total}) ;;
   }
 
 
