@@ -4,8 +4,8 @@ view: ga4_landingpage {
     case when date(minTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(minTime, interval 1 HOUR)) else (timestamp_add(minTime, interval 1 HOUR)) end as date,
     session_id, minTime, Screen_name
     from `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*`
-    where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
-AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %};;
+    where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start calendar.filter_on_field_to_hide %}) and FORMAT_DATE('%Y%m%d', {% date_end calendar.filter_on_field_to_hide %})
+AND {% condition calendar.filter_on_field_to_hide %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %};;
   }
 
 
