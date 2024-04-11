@@ -57,9 +57,9 @@ date(case when date(minTime) Between date("2023-10-29") and ("2024-02-15") then 
     sql: {{ calendar.filter_on_field_to_hide._value }} ;;
   }
 
-  filter: firstE {
+  dimension: firstE {
     type: number
-    sql: ${TABLE}.Landing = 1 ;;
+    sql: ${TABLE}.Landing;;
   }
 
 
