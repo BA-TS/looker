@@ -705,7 +705,7 @@ explore: GA4_testy {
   join: ga4_landingpage {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${ga4_rjagdev_test.session_id} = ${ga4_landingpage.land_session} ;;
+    sql_on: ${ga4_rjagdev_test.session_id} = ${ga4_landingpage.land_session} and ${calendar.date} = ${ga4_landingpage.date_date};;
     sql_where: ga4_landingpage.select_date_range BETWEEN {% date_start calendar.filter_on_field_to_hide %} and {% date_end calendar.filter_on_field_to_hide %}
     ;;
   }

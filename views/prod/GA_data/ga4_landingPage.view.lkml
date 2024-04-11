@@ -36,9 +36,9 @@ AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% 
     #sql: ${TABLE}.Screen_name ;;
   #}
 
-  measure: land_page {
+  dimension: land_page {
     type: string
-    sql: min_by(${TABLE}.Screen_name, ${TABLE}.minTime);;
+    sql: ${TABLE}.Screen_name;;
   }
 
   filter: select_date_range {
