@@ -658,5 +658,14 @@ view: ga4_rjagdev_test {
     sql: case when ${ga4_landingpage.land_screen} = ${Screen_name} then ${Screen_name} else null end;;
   }
 
+  measure: landingSessions {
+    #hidden: yes
+    view_label: "GA4"
+    group_label: "Screen"
+    label: "landing"
+    type: count_distinct
+    sql: case when landingscreen is not null then ${session_id} else null end;;
+  }
+
 
 }
