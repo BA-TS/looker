@@ -652,7 +652,7 @@ view: ga4_rjagdev_test {
 
   dimension: landingscreen {
     view_label: "GA4"
-    label: "Landing Screen name"
+    label: "Landing Screen"
     group_label: "Screen"
     type: string
     sql: case when ${ga4_landingpage.land_screen} = ${Screen_name} then ${Screen_name} else null end;;
@@ -662,7 +662,7 @@ view: ga4_rjagdev_test {
     #hidden: yes
     view_label: "GA4"
     group_label: "Screen"
-    label: "Landing Sessions"
+    label: "Landing Screen Sessions"
     type: count_distinct
     sql: case when ${landingscreen} is not null then ${session_id} else null end;;
   }
@@ -670,10 +670,36 @@ view: ga4_rjagdev_test {
   measure: landing_perc {
     view_label: "GA4"
     group_label: "Screen"
-    label: "Landing %"
+    label: "Landing Screen %"
     type: number
     value_format_name: percent_2
     sql: safe_divide(${landingSessions},${sessions_total}) ;;
+  }
+
+  dimension: landingPage {
+    view_label: "GA4"
+    label: "Landing Page"
+    group_label: "Screen"
+    type: string
+    sql: case when ${ga4_landingpage.land_page} = ${page_location} then ${page_location} else null end;;
+  }
+
+  measure: landingPageSessions {
+    #hidden: yes
+    view_label: "GA4"
+    group_label: "Screen"
+    label: "Landing Page Sessions"
+    type: count_distinct
+    sql: case when ${landingPage} is not null then ${session_id} else null end;;
+  }
+
+  measure: landingPage_perc {
+    view_label: "GA4"
+    group_label: "Screen"
+    label: "Landing Page %"
+    type: number
+    value_format_name: percent_2
+    sql: safe_divide(${landingPageSessions},${sessions_total}) ;;
   }
 
 
@@ -681,7 +707,7 @@ view: ga4_rjagdev_test {
 
   dimension: exitscreen {
     view_label: "GA4"
-    label: "Exit Screen name"
+    label: "Exit Screen"
     group_label: "Screen"
     type: string
     sql: case when ${ga4_exitpage.exit_screen} = ${Screen_name} then ${Screen_name} else null end;;
@@ -691,7 +717,7 @@ view: ga4_rjagdev_test {
     #hidden: yes
     view_label: "GA4"
     group_label: "Screen"
-    label: "Exit Sessions"
+    label: "Exit Screen Sessions"
     type: count_distinct
     sql: case when ${exitscreen} is not null then ${session_id} else null end;;
   }
@@ -699,10 +725,36 @@ view: ga4_rjagdev_test {
   measure: exit_perc {
     view_label: "GA4"
     group_label: "Screen"
-    label: "Exit %"
+    label: "Exit Screen %"
     type: number
     value_format_name: percent_2
     sql: safe_divide(${exitSessions},${sessions_total}) ;;
+  }
+
+  dimension: exitPage {
+    view_label: "GA4"
+    label: "Exit Page"
+    group_label: "Screen"
+    type: string
+    sql: case when ${ga4_exitpage.exit_page} = ${page_location} then ${page_location} else null end;;
+  }
+
+  measure: exitPageSessions {
+    #hidden: yes
+    view_label: "GA4"
+    group_label: "Screen"
+    label: "Exit Page Sessions"
+    type: count_distinct
+    sql: case when ${exitPage} is not null then ${session_id} else null end;;
+  }
+
+  measure: exit_pageperc {
+    view_label: "GA4"
+    group_label: "Screen"
+    label: "Exit Page %"
+    type: number
+    value_format_name: percent_2
+    sql: safe_divide(${exitPageSessions},${sessions_total}) ;;
   }
 
 
