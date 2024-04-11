@@ -5,7 +5,7 @@ view: ga4_landingpage {
     session_id, minTime, Screen_name
     from `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*`
     where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start calendar.filter_on_field_to_hide %}) and FORMAT_DATE('%Y%m%d', {% date_end calendar.filter_on_field_to_hide %})
-AND {% condition calendar.filter_on_field_to_hide %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %};;
+AND {% condition calendar.filter_on_field_to_hide %} date(PARSE_DATE('%Y%m%d', date)) {% endcondition %};;
   }
 
 
