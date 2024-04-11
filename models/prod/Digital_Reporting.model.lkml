@@ -710,6 +710,14 @@ explore: GA4_testy {
     ;;
   }
 
+  join: ga4_exitpage {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${ga4_rjagdev_test.session_id} = ${ga4_exitpage.exit_session} and ${calendar.date} = ${ga4_exitpage.date_date};;
+    sql_where: ${ga4_exitpage.LastE} = 1
+      ;;
+  }
+
 
 
 

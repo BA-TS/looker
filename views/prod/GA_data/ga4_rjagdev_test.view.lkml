@@ -677,4 +677,33 @@ view: ga4_rjagdev_test {
   }
 
 
+  ##############################Exit Page################
+
+  dimension: exitscreen {
+    view_label: "GA4"
+    label: "Exit Screen name"
+    group_label: "Screen"
+    type: string
+    sql: case when ${ga4_exitpage.exit_screen} = ${Screen_name} then ${Screen_name} else null end;;
+  }
+
+  measure: exitSessions {
+    #hidden: yes
+    view_label: "GA4"
+    group_label: "Screen"
+    label: "Exit Sessions"
+    type: count_distinct
+    sql: case when ${exitscreen} is not null then ${session_id} else null end;;
+  }
+
+  measure: exit_perc {
+    view_label: "GA4"
+    group_label: "Screen"
+    label: "Exit %"
+    type: number
+    value_format_name: percent_2
+    sql: safe_divide(${exitSessions},${sessions_total}) ;;
+  }
+
+
 }
