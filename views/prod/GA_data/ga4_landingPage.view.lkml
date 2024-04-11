@@ -1,11 +1,15 @@
 view: ga4_landingpage {
   derived_table: {
-    sql: SELECT distinct
-    case when date(minTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(minTime, interval 1 HOUR)) else (timestamp_add(minTime, interval 1 HOUR)) end as date,
-    session_id, minTime, Screen_name
+    sql:  select distinct date, session_id, minTime,screen_name, page_location, row_number() over (partition by session_id order by minTime asc) as Landing
+ from
+ (SELECT distinct
+date(case when date(minTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(minTime, interval 1 HOUR)) else (timestamp_add(minTime, interval 1 HOUR)) end) as date,
+    session_id, minTime, Screen_name, page_location
     from `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*`
-    where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start calendar.filter_on_field_to_hide %}) and FORMAT_DATE('%Y%m%d', {% date_end calendar.filter_on_field_to_hide %});;
+    where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start calendar.filter_on_field_to_hide %}) and FORMAT_DATE('%Y%m%d', {% date_end calendar.filter_on_field_to_hide %}));;
   }
+
+
 
 
   dimension: land_PK {
@@ -35,9 +39,14 @@ view: ga4_landingpage {
     #sql: ${TABLE}.Screen_name ;;
   #}
 
-  dimension: land_page {
+  dimension: land_screen {
     type: string
     sql: ${TABLE}.Screen_name;;
+  }
+
+  dimension: land_page {
+    type: string
+    sql: ${TABLE}.page_location;;
   }
 
   filter: select_date_range {
@@ -46,6 +55,11 @@ view: ga4_landingpage {
     group_label: "Date Filter"
     type: date
     sql: {{ calendar.filter_on_field_to_hide._value }} ;;
+  }
+
+  filter: firstE {
+    type: number
+    sql: ${TABLE}.Landing = 1 ;;
   }
 
 
