@@ -46,7 +46,7 @@ AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% 
     label: "Dated"
     group_label: "Date Filter"
     type: date
-    sql: {% condition select_date_range %} timestamp(${date_date}) {% endcondition %} ;;
+    sql: {{ calendar.filter_on_field_to_hide._value }} ;;
   }
 
 
