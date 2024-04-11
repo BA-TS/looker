@@ -40,16 +40,19 @@ date(case when date(minTime) Between date("2023-10-29") and ("2024-02-15") then 
   #}
 
   dimension: land_screen {
+    hidden: yes
     type: string
     sql: ${TABLE}.Screen_name;;
   }
 
   dimension: land_page {
+    hidden: yes
     type: string
     sql: ${TABLE}.page_location;;
   }
 
   filter: select_date_range {
+    hidden: yes
     #view_label: "Datetime (of event)"
     label: "Dated"
     group_label: "Date Filter"
@@ -58,6 +61,7 @@ date(case when date(minTime) Between date("2023-10-29") and ("2024-02-15") then 
   }
 
   dimension: firstE {
+    hidden: yes
     type: number
     sql: ${TABLE}.Landing;;
   }
