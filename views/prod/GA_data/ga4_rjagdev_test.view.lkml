@@ -664,7 +664,7 @@ view: ga4_rjagdev_test {
     group_label: "Screen"
     label: "landing"
     type: count_distinct
-    sql: case when landingscreen is not null then ${session_id} else null end;;
+    sql: case when ${landingscreen} is not null then ${session_id} else null end;;
   }
 
 
