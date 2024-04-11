@@ -650,12 +650,12 @@ view: ga4_rjagdev_test {
 
   ##############################Landing Page################
 
-  measure: landingPage {
+  dimension: landingscreen {
     view_label: "GA4"
     label: "Landing Screen name"
     group_label: "Screen"
     type: string
-    sql: ${ga4_landingpage.land_page};;
+    sql: case when ${ga4_landingpage.land_screen} = ${Screen_name} then ${Screen_name} else null end;;
   }
 
 
