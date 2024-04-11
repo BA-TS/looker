@@ -655,7 +655,7 @@ view: ga4_rjagdev_test {
     label: "Landing Screen name"
     group_label: "Screen"
     type: string
-    sql: ${pop.land_page};;
+    sql: ${ga4_landingpage.land_page};;
   }
 
 
