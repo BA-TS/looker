@@ -1,12 +1,26 @@
 view: ga4_landingpage {
+  derived_table: {
+    sql: SELECT distinct
+    case when date(minTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(minTime, interval 1 HOUR)) else (timestamp_add(minTime, interval 1 HOUR)) as date,
+    session_id, minTime, Screen_name
+    from `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*`
+    _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start select_date_range %}) and FORMAT_DATE('%Y%m%d', {% date_end select_date_range %})
+AND {% condition select_date_range %} date(PARSE_DATE('%Y%m%d', event_date)) {% endcondition %};;
+  }
 
-  sql_table_name: `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` ;;
 
   dimension: land_PK {
     primary_key: yes
     hidden: yes
     type: string
     sql: row_number() over () ;;
+  }
+
+  dimension_group: date {
+    hidden: yes
+    type: time
+    timeframes: [raw,date]
+    sql: ${TABLE}.date ;;
   }
 
 
@@ -27,10 +41,13 @@ view: ga4_landingpage {
     sql: min_by(${TABLE}.Screen_name, ${TABLE}.minTime);;
   }
 
-  #dimension: land_screen {
-    #type: number
-    #sql: first_value(${TABLE}.Screen_name) over (partition by ${TABLE}.session_id order by ${TABLE}.minTime asc) ;;
-  #}
+  filter: select_date_range {
+    #view_label: "Datetime (of event)"
+    label: "Dated"
+    group_label: "Date Filter"
+    type: date
+    sql: {% condition select_date_range %} timestamp(${date_date}) {% endcondition %} ;;
+  }
 
 
 }
