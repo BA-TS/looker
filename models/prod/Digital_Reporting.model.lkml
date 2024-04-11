@@ -702,10 +702,11 @@ explore: GA4_testy {
     sql_on: ${ga4_transactions.OrderID} = ${single_line_transactions.parent_order_uid} ;;
   }
 
-  join: ga4_landingpage {
+  join: pop {
+    from: ga4_landingpage
     type: left_outer
-    relationship: one_to_many
-    sql_on: ${ga4_rjagdev_test.session_id} = ${ga4_landingpage.land_session} ;;
+    relationship: many_to_one
+    sql_on: ${ga4_rjagdev_test.session_id} = ${pop.land_session} ;;
     sql_where: ga4_landingpage._TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {% date_start calendar.filter_on_field_to_hide %}) and FORMAT_DATE('%Y%m%d', {% date_end calendar.filter_on_field_to_hide %})
     ;;
   }

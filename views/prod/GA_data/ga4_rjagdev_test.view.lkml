@@ -650,13 +650,13 @@ view: ga4_rjagdev_test {
 
   ##############################Landing Page################
 
-  #dimension: landingPage {
-    #view_label: "GA4"
-    #label: "Landing Screen name"
-    #group_label: "Screen"
-    #type: string
-    #sql: min_by(${Screen_name}, ${Mintime}) ;;
-  #}
+  measure: landingPage {
+    view_label: "GA4"
+    label: "Landing Screen name"
+    group_label: "Screen"
+    type: string
+    sql: ${pop.land_page};;
+  }
 
 
 }
