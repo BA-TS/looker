@@ -28,35 +28,54 @@ group by 2,3,6,7,8
   }
 
   dimension: search_ID {
+    hidden: yes
     type: string
     sql: ${TABLE}.search_ID ;;
   }
 
   dimension_group: search_date {
+    hidden: yes
     type: time
     timeframes: [raw,date]
     sql: ${TABLE}.search_date ;;
   }
 
   dimension: purchase_ID {
+    hidden: yes
     type: string
     sql: ${TABLE}.purchase_ID ;;
   }
 
   dimension: search_purch_diff {
+    hidden: yes
     type: number
     sql: ${TABLE}.search_purch_diff ;;
   }
 
   measure: search_sessions {
+    view_label: "GA4"
+    group_label: "Search to purchase"
+    label: "Search Sessions"
     type: count_distinct
     sql: ${search_ID} ;;
   }
 
   measure: purchase_sessions {
+    view_label: "GA4"
+    group_label: "Search to purchase"
+    label: "Search to Purchase Sessions"
     type: count_distinct
     sql: ${purchase_ID} ;;
     filters: [search_purch_diff: "NULL, >0"]
+  }
+
+  measure: search_purchase_rate {
+    view_label: "GA4"
+    group_label: "Search to purchase"
+    label: "Search to Purchase Rate"
+    type: number
+    value_format_name: percent_2
+    sql: safe_divide(${purchase_sessions}, ${search_sessions}) ;;
   }
 
 
