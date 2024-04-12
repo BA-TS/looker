@@ -55,7 +55,7 @@ group by 2,3,6,7,8
 
   measure: purchase_sessions {
     type: count_distinct
-    sql: ${purchase_ID}} ;;
+    sql: ${purchase_ID} ;;
     filters: [search_purch_diff: "NULL, >0"]
   }
 
