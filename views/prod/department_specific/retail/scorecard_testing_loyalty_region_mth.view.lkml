@@ -1,11 +1,10 @@
-view: scorecard_testing_region_mth {
-  sql_table_name:`toolstation-data-storage.tmp.typyCustomerRetention_region`;;
+view: scorecard_testing_loyalty_region_mth {
+  sql_table_name:`toolstation-data-storage.tmp.loyalty_mth_region`;;
 
   dimension: siteUID {
     type: string
-    label: "siteUID"
     view_label: "Scorecard testing"
-    sql: ${TABLE}.siteUID ;;
+    sql: ${TABLE}.regionName ;;
     hidden: yes
   }
 
@@ -16,12 +15,10 @@ view: scorecard_testing_region_mth {
     hidden: yes
   }
 
-  dimension: customer_tyly_flag {
-    required_access_grants: [retail_testing]
+  dimension: customer_flag {
     type: yesno
     view_label: "Scorecard testing"
-    label: "CUSTOMER TYLY MTH (REGION)"
+    label: "Loyalty (Region MTH)"
     sql: ${customerUID} is not null ;;
   }
-
 }
