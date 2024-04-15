@@ -141,7 +141,7 @@ from `toolstation-data-storage.ts_finance.dim_date`;;
   }
 
   dimension: month_name_in_year {
-    group_label: "Dates Calendar"
+    group_label: "Dates"
     label: "Month name"
     type: string
     sql: ${TABLE}.monthNameInYear ;;
