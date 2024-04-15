@@ -553,6 +553,16 @@ explore: digital_reporting {
   }
 
 
+  join: digitalreport_top10depts {
+    view_label: "Top N Ranking"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${productv2.department} = ${digitalreport_top10depts.Department} ;;
+    sql_where: ${digitalreport_top10depts.dept_rank_top_dept_bigquery_4} != "Other" ;;
+  }
+
+
+
 }
 
 explore: GA4_testy {
