@@ -668,7 +668,7 @@ else ${Screen_name} end ;;
     label: "Landing Screen"
     group_label: "Screen"
     type: string
-    sql: case when ${ga4_landingpage.land_screen} = ${Screen_name} then ${screen_type} else null end;;
+    sql: case when ${ga4_landingpage.land_page} = ${page_location} then ${screen_type} else null end;;
   }
 
   measure: landingSessions {
