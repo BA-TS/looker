@@ -303,7 +303,7 @@ explore: digital_reporting {
   label: "Digital Reporting"
   description: "Explore Toolstation transactional data."
 
-  always_filter: {
+  conditionally_filter: {
     filters: [
       base.select_date_range: "54 weeks",
       select_date_reference: "Placed"
