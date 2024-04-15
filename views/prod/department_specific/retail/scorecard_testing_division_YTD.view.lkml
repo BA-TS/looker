@@ -5,7 +5,7 @@ view: scorecard_testing_division_YTD {
   dimension: siteUID {
     type: string
     view_label: "Scorecard testing"
-    sql: ${TABLE}.siteUID ;;
+    sql: ${TABLE}.Division ;;
     hidden: yes
   }
 
@@ -13,7 +13,6 @@ view: scorecard_testing_division_YTD {
     type: string
     view_label: "Scorecard testing"
     sql: ${TABLE}.customerUID ;;
-    label: "customer UID retention"
     hidden: yes
   }
 
@@ -21,7 +20,7 @@ view: scorecard_testing_division_YTD {
     required_access_grants: [retail_testing]
     type: yesno
     view_label: "Scorecard testing"
-    label: "CUSTOMER TYLY YTD(DIVISION)"
+    label: "CUSTOMER TYLY YTD (DIVISION)"
     sql: ${customerUID} is not null ;;
   }
 
