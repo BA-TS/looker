@@ -263,6 +263,19 @@ view: ga4_rjagdev_test {
     sql: ${TABLE}.Screen_name ;;
   }
 
+  dimension: screen_type {
+    view_label: "GA4"
+    label: "Screen Type"
+    group_label: "Screen"
+    type: string
+    sql: CASE when regexp_contains(${page_location},".*/p([0-9]*)$") then "product-detail-page"
+when regexp_contains(${page_location}, ".*/p[0-9]*[^0-9a-zA-Z]") then "product-detail-page"
+when regexp_contains(${page_location},".*/c([0-9]*)$") then "product-listing-page"
+when regexp_contains(${page_location}, ".*/c[0-9]*[^0-9a-zA-Z]") then "product-listing-page"
+else ${Screen_name} end ;;
+
+  }
+
   measure: session_duration {
     type: average
     view_label: "GA4"
