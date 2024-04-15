@@ -16,10 +16,9 @@ view: scorecard_testing_division_mth {
   }
 
   dimension: customer_tyly_flag {
-    required_access_grants: [retail_testing]
     type: yesno
     view_label: "Scorecard testing"
-    label: "CUSTOMER TYLY MTH (DIVISION)"
+    label: "Customer Rentention (Division MTH)"
     sql: ${customerUID} is not null ;;
   }
 

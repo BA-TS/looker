@@ -18,10 +18,9 @@ view: scorecard_testing_region_YTD {
   }
 
   dimension: customer_tyly_flag {
-    required_access_grants: [retail_testing]
     type: yesno
     view_label: "Scorecard testing"
-    label: "CUSTOMER TYLY YTD (REGION)"
+    label: "Customer Rentention (Region YTD)"
     sql: ${customerUID} is not null ;;
   }
 
