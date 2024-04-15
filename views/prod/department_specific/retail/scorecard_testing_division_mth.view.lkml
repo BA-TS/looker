@@ -4,7 +4,7 @@ view: scorecard_testing_division_mth {
   dimension: siteUID {
     type: string
     view_label: "Scorecard testing"
-    sql: ${TABLE}.Division ;;
+    sql: ${TABLE}.siteUID ;;
     hidden: yes
   }
 
