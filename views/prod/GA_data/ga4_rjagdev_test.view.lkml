@@ -665,10 +665,18 @@ else ${Screen_name} end ;;
 
   dimension: landingscreen {
     view_label: "GA4"
-    label: "Landing Screen"
+    label: "Landing Screen Type"
     group_label: "Screen"
     type: string
     sql: case when ${ga4_landingpage.land_page} = ${page_location} then ${screen_type} else null end;;
+  }
+
+  dimension: landingscreenName {
+    view_label: "GA4"
+    label: "Landing Screen Type"
+    group_label: "Screen"
+    type: string
+    sql: case when ${ga4_landingpage.land_page} = ${page_location} then ${Screen_name} else null end;;
   }
 
   measure: landingSessions {
@@ -720,10 +728,18 @@ else ${Screen_name} end ;;
 
   dimension: exitscreen {
     view_label: "GA4"
-    label: "Exit Screen"
+    label: "Exit Screen Type"
     group_label: "Screen"
     type: string
-    sql: case when ${ga4_exitpage.exit_screen} = ${Screen_name} then ${screen_type} else null end;;
+    sql: case when ${ga4_exitpage.exit_page} = ${page_location} then ${screen_type} else null end;;
+  }
+
+  dimension: exitscreenName {
+    view_label: "GA4"
+    label: "Exit Screen Name"
+    group_label: "Screen"
+    type: string
+    sql: case when ${ga4_exitpage.exit_page} = ${page_location} then ${Screen_name} else null end;;
   }
 
   measure: exitSessions {
