@@ -1,5 +1,6 @@
 include: "/views/**/*base*.view"
 include: "/views/**/calendar.view"
+include: "/views/**/sites.view"
 
 view: transactions {
   derived_table: {
@@ -692,6 +693,14 @@ view: transactions {
     description: "Flags if an order is Like For Like. Orders placed at site IDs that have been open for 1 year or more"
     type: yesno
     sql: ${TABLE}.isLFL = 1 ;;
+  }
+
+  dimension: is_closing {
+    view_label: "Location"
+    group_label: "Flags"
+    label: "Is Closing"
+    type: yesno
+    sql: date(${transactions.transaction_date})>date(${sites.date_closed_12months_date}) ;;
   }
 
   dimension: is_mature {

@@ -189,13 +189,29 @@ view: sites {
     sql: ${TABLE}.dateOpened ;;
   }
 
-  dimension_group: date_closed {
-    group_label: "Site Information"
-    label: "Closed"
-    type: time
-    timeframes: [date]
+  # dimension_group: date_closed {
+  #   required_access_grants: [lz_testing]
+  #   group_label: "Site Information"
+  #   label: "Closed"
+  #   type: time
+  #   timeframes: [date]
+  #   sql: ${TABLE}.dateClosed ;;
+  # }
+
+  dimension: date_closed{
+    required_access_grants: [lz_testing]
+    type: date
     sql: ${TABLE}.dateClosed ;;
     hidden: yes
+  }
+
+  dimension_group: date_closed_12months {
+    required_access_grants: [lz_testing]
+    group_label: "Site Information"
+    label: "Closed Date (-12 Months)"
+    type: time
+    datatype: date
+    sql:DATE_SUB(${date_closed}, INTERVAL 365 DAY) ;;
   }
 
   dimension_group: branch_age {
