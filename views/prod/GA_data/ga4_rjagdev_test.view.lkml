@@ -673,7 +673,7 @@ else ${Screen_name} end ;;
 
   dimension: landingscreenName {
     view_label: "GA4"
-    label: "Landing Screen Type"
+    label: "Landing Screen Name"
     group_label: "Screen"
     type: string
     sql: case when ${ga4_landingpage.land_page} = ${page_location} then ${Screen_name} else null end;;
