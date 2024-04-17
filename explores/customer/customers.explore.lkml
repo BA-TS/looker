@@ -34,7 +34,8 @@ explore: customers {
 
   fields: [
     ALL_FIELDS*,
-    -products.department
+    -products.department,
+    -customer_segmentation.trade_specific_cluster
   ]
 
   sql_always_where:

@@ -1,3 +1,4 @@
+include: "/views/**/*ds_assumed_trade.view"
 view: customer_segmentation {
   sql_table_name: `toolstation-data-storage.ts_analytics.ts_SCVFinal` ;;
 
@@ -20,6 +21,18 @@ view: customer_segmentation {
     group_label: "Segmentation"
     type: string
     sql: ${TABLE}.cluster ;;
+  }
+
+  dimension: trade_specific_cluster {
+    group_label: "Segmentation"
+    type: string
+    sql: case when ${cluster} IN ("T3","T4","T5","T6","T7","T8") then "T3-T8"
+    when ${cluster} = "T1" then "T1"
+    when ${cluster} = "T2" then "T2"
+    when ${ds_assumed_trade.final_prediction2}= "Assumed Trade" then "Assumed Trade"
+    else "Other"
+    end
+    ;;
   }
 
   dimension: company {

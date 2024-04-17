@@ -35,6 +35,7 @@ explore: single_line_transactions {
   fields: [
     ALL_FIELDS*,
     -products.department,
+    -customer_segmentation.trade_specific_cluster
   ]
 
   sql_always_where:
