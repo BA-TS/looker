@@ -212,6 +212,7 @@ view: sites {
     type: time
     datatype: date
     sql:DATE_SUB(${date_closed}, INTERVAL 365 DAY) ;;
+    hidden: yes
   }
 
   dimension_group: branch_age {
