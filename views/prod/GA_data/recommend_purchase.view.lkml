@@ -14,10 +14,10 @@ from sub1 left join (
   select distinct session_id as purchase_ID, productCode as purchasePC, date(min(Time1)) as purchase_date,  min(Time1) as purchase_time, round(sum(net),2) as purchase_net
 from sub1
 where event_name in ("purchase", "Purchase")
-group by 1,2,3
+group by 1,2
 ) on session_id = purchase_ID and item_id = purchasePC
 where event_name in ("suggested_item_click", "recommended_item_tapped")
-group by 2,3,6,7,8,9;;}
+group by 2,3,6,7,8,9,11 ;;}
 
 
   dimension: PK {
