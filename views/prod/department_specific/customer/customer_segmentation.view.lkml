@@ -25,6 +25,7 @@ view: customer_segmentation {
 
   dimension: trade_specific_cluster {
     group_label: "Segmentation"
+    label: "Cluster (Trade Specific)"
     type: string
     sql: case when ${cluster} IN ("T3","T4","T5","T6","T7","T8") then "T3-T8"
     when ${cluster} = "T1" then "T1"
