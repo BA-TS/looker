@@ -258,14 +258,14 @@ explore: base {
      ${base.date_date} = ${spi_cpi.date_date};;
   }
 
-  # join: spi_cpi_weekly {
-  #   view_label: "SPI CPI (Weekly View)"
-  #   required_access_grants: [lz_testing]
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${transactions.product_code} = ${spi_cpi_weekly.productCode} and
-  #     ${base.date_date} = ${spi_cpi_weekly.date_date};;
-  # }
+  join: spi_cpi_weekly {
+    view_label: "SPI CPI (Weekly View)"
+    required_access_grants: [lz_testing]
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.product_code} = ${spi_cpi_weekly.productCode} and
+      ${base.date_date} = ${spi_cpi_weekly.date_date};;
+  }
 
   join: digital_transaction_mapping {
     view_label: "Digital"
