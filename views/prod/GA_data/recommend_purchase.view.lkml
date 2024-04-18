@@ -9,12 +9,12 @@ and event_name in ("purchase", "Purchase", "suggested_item_click", "recommended_
 group by 1,2,3,4,5,6)
 
 
-select distinct row_number() over() as PK,Platform,session_id as recommend_ID, date(min(Time1)) as recommend_date, min(Time1) as recommend_time, item_id, purchase_ID,purchase_date, purchase_time, timestamp_diff(purchase_time, min(Time1), second) as recommend_purch_diff
+select distinct row_number() over() as PK,Platform,session_id as recommend_ID, date(min(Time1)) as recommend_date, min(Time1) as recommend_time, item_id, purchase_ID,purchase_date, purchase_time, timestamp_diff(purchase_time, min(Time1), second) as recommend_purch_diff, purchase_net
 from sub1 left join (
-  select distinct session_id as purchase_ID, productCode as purchasePC, date(min(Time1)) as purchase_date,  min(Time1) as purchase_time
+  select distinct session_id as purchase_ID, productCode as purchasePC, date(min(Time1)) as purchase_date,  min(Time1) as purchase_time, round(sum(net),2) as purchase_net
 from sub1
 where event_name in ("purchase", "Purchase")
-group by 1,2
+group by 1,2,3
 ) on session_id = purchase_ID and item_id = purchasePC
 where event_name in ("suggested_item_click", "recommended_item_tapped")
 group by 2,3,6,7,8,9;;}
@@ -56,6 +56,16 @@ group by 2,3,6,7,8,9;;}
     hidden: yes
     type: string
     sql: ${TABLE}.item_id ;;
+  }
+
+  measure: net_rev {
+    value_format_name: gbp
+    view_label: "GA4"
+    group_label: "Recommend to purchase"
+    label: "(Recommend) Net Revenue"
+    type: sum
+    sql: ${TABLE}.purchase_net ;;
+    filters: [recommend_purch_diff: "NULL, >0"]
   }
 
   measure: recommend_sessions {
