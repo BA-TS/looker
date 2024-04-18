@@ -1,4 +1,4 @@
-view: spi_cpi_weelly{
+view: spi_cpi_weekly{
 
   derived_table: {
     sql:
