@@ -264,7 +264,7 @@ explore: base {
     type: left_outer
     relationship: many_to_one
     sql_on: ${transactions.product_code} = ${spi_cpi_weekly.productCode} and
-      ${base.date_date} = ${spi_cpi_weekly.date_date};;
+      ${calendar_completed_date.fiscal_year_week} = ${spi_cpi_weekly.fiscal_year_week};;
   }
 
   join: digital_transaction_mapping {
