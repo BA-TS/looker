@@ -259,7 +259,7 @@ explore: base {
   }
 
   join: spi_cpi_weekly {
-    view_label: "SPI CPI (Weekly View)"
+    view_label: "SPI CPI (By Fiscal Week)"
     required_access_grants: [lz_testing]
     type: left_outer
     relationship: many_to_one

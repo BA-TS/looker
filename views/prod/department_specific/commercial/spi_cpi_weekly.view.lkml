@@ -5,10 +5,12 @@ view: spi_cpi_weekly{
     SELECT
     dims.fiscalYearWeek as fiscalYearWeek,
     dims.productCode as productCode,
-    metrics.cy_netSales as cy_netSales,
-    metrics.ly_netSales as ly_netSales,
+    sum(metrics.cy_netSales) as cy_netSales,
+    sum(metrics.ly_netSales) as ly_netSales,
     row_number() OVER(ORDER BY dims.productCode) AS prim_key
-    FROM `toolstation-data-storage.financeReporting.DS_DAILY_SPI_CPI`;;
+    FROM `toolstation-data-storage.financeReporting.DS_DAILY_SPI_CPI`
+    group by 1, 2
+    ;;
   }
 
   dimension: prim_key {
