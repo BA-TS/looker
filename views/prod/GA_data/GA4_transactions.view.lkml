@@ -172,7 +172,7 @@ view: ga4_transactions {
     label: "Net Revenue"
     type: sum
     value_format_name: gbp
-    sql: case when ${net_value} is null or ${net_value} = 0 then (${ga4_revenue}*0.83333) else ${net_value} end;;
+    sql: ${net_value};;
     filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
   }
 
@@ -193,7 +193,7 @@ view: ga4_transactions {
     label: "Gross Revenue"
     type: sum
     value_format_name: gbp
-    sql: case when ${gross_value} is null or ${gross_value} = 0 then ${ga4_revenue} else ${gross_value} end ;;
+    sql: ${gross_value} ;;
     filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
   }
 
