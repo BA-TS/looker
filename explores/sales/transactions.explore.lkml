@@ -623,7 +623,7 @@ explore: base {
   }
 
   join: app_transactions_pre_post {
-    required_access_grants:[retail_testing]
+    required_access_grants:[is_developer]
     type: left_outer
     relationship: one_to_one
     sql_on: ${transactions.customer_uid} = ${app_transactions_pre_post.customer_uid};;
