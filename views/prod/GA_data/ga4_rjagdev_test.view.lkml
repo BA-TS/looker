@@ -414,8 +414,8 @@ else ${Screen_name} end ;;
     label: "Sessions (PDP)"
     description: "Sessions where product-detail-page was viewed"
     type: count_distinct
-    filters: [event_name: "view_item", Screen_name: "product-detail-page"]
-    sql: ${session_id} ;;
+    #filters: [event_name: "view_item", Screen_name: "product-detail-page"]
+    sql: case when ${event_name} in ("view_item") and (${Screen_name} in ("product-detail-page") or ${screen_type} in ("product-detail-page")) then ${session_id} else null end;;
   }
 
   measure: PDP_Users {
