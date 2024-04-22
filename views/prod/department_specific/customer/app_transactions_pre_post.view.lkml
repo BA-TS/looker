@@ -31,11 +31,13 @@ view: app_transactions_pre_post {
 
   dimension: first_transaction_date_same_as_app {
     type: yesno
+    hidden: yes
     sql: ${first_app_transaction_date}=${first_transaction_date};;
   }
 
   dimension: days_since_first_app_transaction_date {
     type: number
+    hidden: yes
     sql: date_diff(${transactions.transaction_date},${first_app_transaction_date},day);;
   }
 
