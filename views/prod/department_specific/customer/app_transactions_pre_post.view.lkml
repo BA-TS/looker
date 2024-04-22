@@ -16,6 +16,7 @@ view: app_transactions_pre_post {
   }
 
   dimension: first_app_transaction_date {
+    group_label: "App Transactions - Pre vs Post (Apr 24)"
     label: "First APP Transaction Date"
     sql: ${TABLE}.first_app_transaction_date ;;
     type: date
@@ -42,6 +43,7 @@ view: app_transactions_pre_post {
   }
 
   dimension: 12_weeks_pre_first_app_transaction_date {
+    group_label: "App Transactions - Pre vs Post (Apr 24)"
     label: "Pre vs Post First App Transaction (<12 Weeks)"
     type: string
     sql:

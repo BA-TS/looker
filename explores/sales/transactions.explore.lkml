@@ -623,6 +623,7 @@ explore: base {
   }
 
   join: app_transactions_pre_post {
+    view_label: "Other - Ad-hoc Analysis"
     required_access_grants:[is_developer]
     type: left_outer
     relationship: one_to_one
