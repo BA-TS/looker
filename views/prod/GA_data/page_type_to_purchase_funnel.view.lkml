@@ -4,7 +4,7 @@ view: page_type_to_purchase_funnel {
         with sub1 as (SELECT distinct min(timestamp_sub(MinTime, interval 1 HOUR)) as minTime, session_id, event_name,
 #page_location,
 case
-when Screen_name in ("product-detail-page") and event_name in ("view_item") and platform in ("Web") then "PDP"
+when (regexp_contains(page_location,".*/p([0-9]*)$") or regexp_contains(page_location, ".*/p[0-9]*[^0-9a-zA-Z]")) and event_name in ("view_item") and platform in ("Web") then "PDP"
 when Screen_name in ("product-detail-page") and event_name in ("view_item") and platform in ("App") then "PDP"
 end as screen,
 platform,
@@ -86,6 +86,7 @@ sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01
     label: "Web/App"
     sql: ${TABLE}.platform ;;
   }
+
 
   dimension: item_id {
     hidden: yes
