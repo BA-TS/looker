@@ -392,6 +392,7 @@ view: transactions {
     description: "Date and time the order was placed"
     type: time
     timeframes: [
+      raw,
       time,
       date
     ]

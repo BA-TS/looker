@@ -630,10 +630,10 @@ explore: base {
   }
 
   join: clickCollect {
-    view_label: "Click and Collect"
+    view_label: "Click & Collect"
     type: left_outer
-    relationship: many_to_one
-    sql_on: ${transactions.transaction_uid} = ${clickCollect.transactionUID} and ${base.date_date} = ${clickCollect.date} ;;
+    relationship: one_to_one
+    sql_on: ${transactions.transaction_uid} = ${clickCollect.transactionUID};;
   }
 
 }
