@@ -43,7 +43,14 @@ view: clickCollect {
   dimension: minutes_to_collect {
     type: number
     sql:timestamp_diff(${order_collected_raw}, ${transactions.placed_raw}, minute) ;;
-    hidden: yes
+    hidden:yes
+  }
+
+  dimension: minutes_to_collect_buckets {
+    type: tier
+    tiers: [0,30,60,120,180,240,300,360,420,480]
+    style: integer
+    sql: ${minutes_to_collect} ;;
   }
 
   measure: total_minutes_to_pick {
