@@ -631,6 +631,7 @@ explore: base {
 
   join: clickCollect {
     view_label: "Click & Collect"
+    required_access_grants: [is_super]
     type: left_outer
     relationship: many_to_one
     sql_on: ${transactions.transaction_uid} = ${clickCollect.transactionUID} ;;

@@ -7,8 +7,7 @@ view: clickCollect {
     max(orderCollectedDate) as orderCollectedDate,
     row_number() over () as P_K,
     from `toolstation-data-storage.sales.clickCollectCollectionTimes`
-    group by 1;;
-    # datagroup_trigger: ts_transactions_datagroup
+    group by 1      ;;
   }
 
   dimension: P_K {
@@ -36,14 +35,20 @@ view: clickCollect {
 
   dimension: minutes_to_pick {
     type: number
-    sql: timestamp_diff(${transactions.transaction_raw},${transactions.placed_raw},minute);;
+    sql:
+    case when (TIME(${transactions.transaction_raw}) BETWEEN "07:00:00" AND "16:59:59") then
+    timestamp_diff(${transactions.transaction_raw},${transactions.placed_raw},minute)
+    else null end;;
     hidden: yes
   }
 
   dimension: minutes_to_collect {
     type: number
-    sql:timestamp_diff(${order_collected_raw}, ${transactions.placed_raw}, minute) ;;
-    hidden:yes
+    sql:
+    case when (TIME(${transactions.transaction_raw}) BETWEEN "07:00:00" AND "16:59:59") then
+    timestamp_diff(${order_collected_raw}, ${transactions.placed_raw}, minute)
+    else null end ;;
+   hidden:yes
   }
 
   dimension: minutes_to_collect_buckets {
