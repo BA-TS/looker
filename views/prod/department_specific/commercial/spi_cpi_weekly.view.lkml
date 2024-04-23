@@ -7,6 +7,8 @@ view: spi_cpi_weekly{
     dims.productCode as productCode,
     sum(metrics.cy_netSales) as cy_netSales,
     sum(metrics.ly_netSales) as ly_netSales,
+    sum(metrics.cy_unitsSOLD) as cy_unitsSOLD,
+    sum(metrics.ly_unitsSOLD) as ly_unitsSOLD,
     row_number() OVER(ORDER BY dims.productCode) AS prim_key
     FROM `toolstation-data-storage.financeReporting.DS_DAILY_SPI_CPI`
     group by 1, 2
@@ -47,6 +49,34 @@ view: spi_cpi_weekly{
     hidden: yes
   }
 
+  dimension: cy_unitsSOLD {
+    type: number
+    sql: ${TABLE}.cy_unitsSOLD;;
+    hidden: yes
+  }
+
+  dimension: ly_unitsSOLD {
+    type: number
+    sql: ${TABLE}.ly_unitsSOLD;;
+    hidden: yes
+  }
+
+  measure: cy_unitsSOLD_total {
+    type: sum
+    group_label: "CY"
+    label: "CY Units Sold"
+    sql: ${cy_unitsSOLD};;
+    value_format: "#,##0"
+  }
+
+  measure: ly_unitsSOLD_total {
+    type: sum
+    group_label: "LY"
+    label: "LY Units Sold"
+    sql: ${ly_unitsSOLD};;
+    value_format: "#,##0"
+  }
+
   measure: cy_netSales_total {
     type: sum
     group_label: "CY"
@@ -60,6 +90,24 @@ view: spi_cpi_weekly{
     group_label: "LY"
     sql: ${ly_netSales};;
     label: "LY Net Sales"
+    value_format_name: gbp
+  }
+
+  measure: cy_asp {
+    label: "CY ASP"
+    group_label: "CY"
+    description: "Net Sales AOV / Average Units"
+    type: number
+    sql: COALESCE(SAFE_DIVIDE(${cy_netSales_total}, ${cy_unitsSOLD_total}),0) ;;
+    value_format_name: gbp
+  }
+
+  measure: ly_asp {
+    label: "LY ASP"
+    group_label: "LY"
+    description: "Net Sales AOV / Average Units"
+    type: number
+    sql: COALESCE(SAFE_DIVIDE(${ly_netSales_total}, ${ly_unitsSOLD_total}),0) ;;
     value_format_name: gbp
   }
 }
