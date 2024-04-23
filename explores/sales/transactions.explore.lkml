@@ -5,7 +5,6 @@ explore: base {
   description: "Explore Toolstation transactional data."
   always_filter: {
     filters: [
-
       select_date_reference: "Transaction"
       ]
   }
