@@ -3,13 +3,19 @@ include: "/views/**/*transactions.view"
 view: clickCollect {
   derived_table: {
     sql:
-    select a.transactionUID, orderCollectedDate
-    FROM `toolstation-data-storage.sales.transactions` a
-    inner join
-    (select distinct transactionUID, max(orderCollectedDate) as orderCollectedDate from `toolstation-data-storage.sales.clickCollectCollectionTimes` group by transactionUID) b
-    on a.transactionUID = b.transactionUID
-    WHERE a.salesChannel = 'Click & Collect';;
-    datagroup_trigger: ts_transactions_datagroup
+    select distinct transactionUID,
+    max(orderCollectedDate) as orderCollectedDate,
+    row_number() over () as P_K,
+    from `toolstation-data-storage.sales.clickCollectCollectionTimes`
+    group by 1;;
+    # datagroup_trigger: ts_transactions_datagroup
+  }
+
+  dimension: P_K {
+    type: number
+    sql: ${TABLE}.P_K ;;
+    hidden: yes
+    primary_key: yes
   }
 
   dimension: transactionUID {
@@ -18,7 +24,7 @@ view: clickCollect {
     hidden: yes
   }
 
-  dimension_group: orderCollected{
+  dimension_group: order_collected{
       type: time
       timeframes: [
         raw,
@@ -31,10 +37,34 @@ view: clickCollect {
   dimension: minutes_to_pick {
     type: number
     sql: timestamp_diff(${transactions.transaction_raw},${transactions.placed_raw},minute);;
+    hidden: yes
   }
 
   dimension: minutes_to_collect {
     type: number
-    sql:timestamp_diff(${orderCollected_raw}, ${transactions.placed_raw}, minute) ;;
+    sql:timestamp_diff(${order_collected_raw}, ${transactions.placed_raw}, minute) ;;
+    hidden: yes
+  }
+
+  measure: total_minutes_to_pick {
+    type: sum
+    sql: ${minutes_to_pick};;
+    hidden: yes
+  }
+
+  measure: minutes_to_pick_per_transaction {
+    type: number
+    sql: safe_divide(${total_minutes_to_pick},${transactions.number_of_transactions});;
+  }
+
+  measure: total_minutes_to_collect {
+    type: sum
+    sql: ${minutes_to_collect};;
+    hidden: yes
+  }
+
+  measure: minutes_to_collect_per_transaction {
+    type: number
+    sql: safe_divide(${total_minutes_to_collect},${transactions.number_of_transactions});;
   }
 }
