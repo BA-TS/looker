@@ -628,6 +628,14 @@ explore: base {
     relationship: one_to_one
     sql_on: ${transactions.customer_uid} = ${app_transactions_pre_post.customer_uid};;
   }
+
+  join: clickCollect {
+    view_label: "Click and Collect"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.transaction_uid} = ${clickCollect.transactionUID} and ${base.date_date} = ${clickCollect.date} ;;
+  }
+
 }
 
 
