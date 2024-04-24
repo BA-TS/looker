@@ -70,7 +70,9 @@ view: clickCollect {
   measure: minutes_to_pick_per_transaction {
     type: number
     sql: safe_divide(${total_minutes_to_pick},${transactions.number_of_transactions});;
-  }
+    value_format: "#,##0.0"
+
+ }
 
   measure: total_minutes_to_collect {
     type: sum
@@ -81,5 +83,6 @@ view: clickCollect {
   measure: minutes_to_collect_per_transaction {
     type: number
     sql: safe_divide(${total_minutes_to_collect},${transactions.number_of_transactions});;
+    value_format: "#,##0.0"
   }
 }
