@@ -86,7 +86,7 @@ view: clickCollect {
     type: tier
     tiers: [0,1,2,3,7]
     style: integer
-    sql: ${minutes_to_collect} ;;
+    sql: ${days_to_collect} ;;
     }
 
   measure: total_minutes_to_pick {
