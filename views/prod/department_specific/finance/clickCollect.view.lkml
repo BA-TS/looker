@@ -69,6 +69,11 @@ view: clickCollect {
     hidden: yes
   }
 
+  dimension: collected_same_day {
+    type: yesno
+    sql: ${days_to_collect}=1;;
+  }
+
   dimension: days_to_collect_buckets {
     group_label: "Buckets"
     type: tier
