@@ -1,13 +1,16 @@
 include: "/views/**/*transactions.view"
 
 view: clickCollect {
+
   derived_table: {
     sql:
     select distinct transactionUID,
     max(orderCollectedDate) as orderCollectedDate,
     row_number() over () as P_K,
     from `toolstation-data-storage.sales.clickCollectCollectionTimes`
-    group by 1      ;;
+    group by 1;;
+
+    datagroup_trigger: ts_transactions_datagroup
   }
 
   dimension: P_K {
