@@ -70,11 +70,13 @@ view: clickCollect {
   }
 
   dimension: collected_same_day {
+    group_label: "Flags"
     type: yesno
     sql: ${days_to_collect}=1;;
   }
 
-  dimension: uncollected_orders_end_of_day {
+  dimension: not_collected_same_day {
+    group_label: "Flags"
     type: yesno
     sql: ${days_to_collect}!=1;;
   }
@@ -125,7 +127,7 @@ view: clickCollect {
 
   measure:total_uncollected_orders_end_of_day{
     type: count_distinct
-    sql: case when ${uncollected_orders_end_of_day}=true then ${transactionUID} else null end;;
+    sql: case when ${not_collected_same_day}=true then ${transactionUID} else null end;;
     value_format: "#,##0"
   }
 
