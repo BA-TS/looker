@@ -78,7 +78,7 @@ view: clickCollect {
   dimension: not_collected_same_day {
     group_label: "Flags"
     type: yesno
-    sql: ${days_to_collect}!=1;;
+    sql: ${days_to_collect}>1;;
   }
 
   dimension: days_to_collect_buckets {
