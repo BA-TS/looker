@@ -55,11 +55,27 @@ view: clickCollect {
   }
 
   dimension: minutes_to_collect_buckets {
+    group_label: "Buckets"
     type: tier
     tiers: [0,30,60,120,180,240,300,360,420,480]
     style: integer
     sql: ${minutes_to_collect} ;;
   }
+
+  dimension: days_to_collect {
+    type: number
+    sql:
+    date_diff(${order_collected_date}, ${transactions.placed_date}, day) ;;
+    hidden: yes
+  }
+
+  dimension: days_to_collect_buckets {
+    group_label: "Buckets"
+    type: tier
+    tiers: [0,1,2,3,7]
+    style: integer
+    sql: ${minutes_to_collect} ;;
+    }
 
   measure: total_minutes_to_pick {
     type: sum
@@ -71,7 +87,6 @@ view: clickCollect {
     type: number
     sql: safe_divide(${total_minutes_to_pick},${transactions.number_of_transactions});;
     value_format: "#,##0.0"
-
  }
 
   measure: total_minutes_to_collect {
@@ -85,4 +100,18 @@ view: clickCollect {
     sql: safe_divide(${total_minutes_to_collect},${transactions.number_of_transactions});;
     value_format: "#,##0.0"
   }
+
+  measure: total_days_to_collect {
+    type: sum
+    sql: ${days_to_collect};;
+    hidden: yes
+  }
+
+  measure: days_to_collect_per_transaction {
+    type: number
+    sql: safe_divide(${total_days_to_collect},${transactions.number_of_transactions});;
+    value_format: "#,##0.0"
+  }
+
+
 }
