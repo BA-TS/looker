@@ -131,4 +131,17 @@ view: clickCollect {
     value_format: "#,##0"
   }
 
+  measure:total_collected_orders_end_of_day{
+    type: count_distinct
+    sql: case when ${collected_same_day}=true then ${transactionUID} else null end;;
+    value_format: "#,##0"
+  }
+
+  measure:percentage_orders_collected_same_day{
+    label: "% Orders Collected Same Day"
+    type: number
+    sql: safe_divide(${total_collected_orders_end_of_day},(${total_collected_orders_end_of_day}+${total_uncollected_orders_end_of_day}));;
+    value_format: "0.0%"
+  }
+
 }
