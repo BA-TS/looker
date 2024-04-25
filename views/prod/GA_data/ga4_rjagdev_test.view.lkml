@@ -132,6 +132,7 @@ view: ga4_rjagdev_test {
           when ${TABLE}.event_name = "Delivery_OOS" and ${platform} = "Web" then "Delivery"
           when ${TABLE}.event_name = "out_of_stock" and ${platform} = "Web" then null
           when ${TABLE}.key_1 is null and ${label_1} is not null then "action"
+          when ${TABLE}.event_name in ("MegaMenu") then ${label_2}
           else ${TABLE}.key_1 end;;
   }
 
@@ -148,7 +149,9 @@ view: ga4_rjagdev_test {
     label: "2.Event Key"
     group_label: "Event"
     type: string
-    sql: case when ${TABLE}.key_2 is null and ${label_2} is not null then "action" else ${TABLE}.key_2 end ;;
+    sql: case when ${TABLE}.key_2 is null and ${label_2} is not null then "action"
+    when ${TABLE}.event_name in ("MegaMenu") then null
+    else ${TABLE}.key_2 end ;;
   }
 
   dimension: label_2 {
@@ -156,7 +159,7 @@ view: ga4_rjagdev_test {
     label: "2.Event Label"
     group_label: "Event"
     type: string
-    sql: ${TABLE}.label_2 ;;
+    sql: case when when ${TABLE}.event_name in ("MegaMenu") then null else ${TABLE}.label_2 end;;
   }
 
   measure: value {
