@@ -128,15 +128,16 @@ view: customers {
   dimension: loyalty_club_start {
     group_label: "Loyalty Club"
     group_item_label: "Sign Up Date"
-    type: date
-    sql: ${TABLE}.loyalty.sign_up_date ;;
+    type:date
+    sql: TIMESTAMP(${TABLE}.loyalty.sign_up_date) ;;
+
   }
 
   dimension: loyalty_club_end {
     group_label: "Loyalty Club"
     group_item_label: "Leave Date"
     type: date
-    sql: ${TABLE}.loyalty.leave_date ;;
+    sql: TIMESTAMP(${TABLE}.loyalty.leave_date) ;;
   }
 
   dimension_group: creation {
@@ -145,9 +146,7 @@ view: customers {
       raw,
       time,
       date,
-      week,
       month,
-      quarter,
       year
     ]
     sql: ${TABLE}.creationDate ;;
@@ -429,14 +428,6 @@ view: customers {
     timeframes: [year, month]
     sql:${creation_date};;
   }
-
-  # dimension: customer_classification_type {
-  #   type: string
-  #   group_label: "Flags"
-  #   label: "Is Trade/Assumed/DIY"
-  #   hidden: yes
-  #   sql:${customer_classification.customer_type} ;;
-  # }
 
   dimension: sign_up_type {
     group_label: "Customer"
