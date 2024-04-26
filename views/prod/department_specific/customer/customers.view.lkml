@@ -6,7 +6,11 @@ include: "/views/prod/department_specific/customer/assumed_trade_dataiku.view"
 
 
 view: customers {
-  sql_table_name: `toolstation-data-storage.customer.allCustomers`;;
+  derived_table: {
+    sql:
+    select * from `toolstation-data-storage.customer.allCustomers`;;
+    datagroup_trigger: ts_transactions_datagroup
+  }
 
   dimension: customer_uid {
     group_label: "Customer"
