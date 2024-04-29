@@ -40,13 +40,19 @@ date(case when date(minTime) Between date("2023-10-29") and ("2024-02-15") then 
   #}
 
   dimension: land_screen {
-    hidden: yes
+    #hidden: yes
+    view_label: "GA4"
+    label: "Landing Screen Name"
+    group_label: "Screen"
     type: string
     sql: ${TABLE}.Screen_name;;
   }
 
   dimension: land_page {
-    hidden: yes
+    view_label: "GA4"
+    label: "Landing Page"
+    group_label: "Screen"
+    #hidden: yes
     type: string
     sql: ${TABLE}.page_location;;
   }
@@ -64,6 +70,19 @@ date(case when date(minTime) Between date("2023-10-29") and ("2024-02-15") then 
     hidden: yes
     type: number
     sql: ${TABLE}.Landing;;
+  }
+
+  dimension: Landingscreen_type {
+    view_label: "GA4"
+    label: "Landing Screen Type"
+    group_label: "Screen"
+    type: string
+    sql: CASE when regexp_contains(${land_page},".*/p([0-9]*)$") then "product-detail-page"
+      when regexp_contains(${land_page}, ".*/p[0-9]*[^0-9a-zA-Z]") then "product-detail-page"
+      when regexp_contains(${land_page},".*/c([0-9]*)$") then "product-listing-page"
+      when regexp_contains(${land_page}, ".*/c[0-9]*[^0-9a-zA-Z]") then "product-listing-page"
+      else ${land_screen} end ;;
+
   }
 
 

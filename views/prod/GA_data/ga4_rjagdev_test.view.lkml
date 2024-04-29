@@ -670,6 +670,7 @@ else ${Screen_name} end ;;
     view_label: "GA4"
     label: "Landing Screen Type"
     group_label: "Screen"
+    hidden: yes
     type: string
     sql: case when ${ga4_landingpage.land_page} = ${page_location} then ${screen_type} else null end;;
   }
@@ -678,6 +679,7 @@ else ${Screen_name} end ;;
     view_label: "GA4"
     label: "Landing Screen Name"
     group_label: "Screen"
+    hidden: yes
     type: string
     sql: case when ${ga4_landingpage.land_page} = ${page_location} then ${Screen_name} else null end;;
   }
@@ -704,6 +706,7 @@ else ${Screen_name} end ;;
     view_label: "GA4"
     label: "Landing Page"
     group_label: "Screen"
+    hidden: yes
     type: string
     sql: case when ${ga4_landingpage.land_page} = ${page_location} then ${page_location} else null end;;
   }
