@@ -737,6 +737,7 @@ else ${Screen_name} end ;;
     label: "Exit Screen Type"
     group_label: "Screen"
     type: string
+    hidden: yes
     sql: case when ${ga4_exitpage.exit_page} = ${page_location} then ${screen_type} else null end;;
   }
 
@@ -745,6 +746,7 @@ else ${Screen_name} end ;;
     label: "Exit Screen Name"
     group_label: "Screen"
     type: string
+    hidden: yes
     sql: case when ${ga4_exitpage.exit_page} = ${page_location} then ${Screen_name} else null end;;
   }
 
@@ -770,6 +772,7 @@ else ${Screen_name} end ;;
     view_label: "GA4"
     label: "Exit Page"
     group_label: "Screen"
+    hidden: yes
     type: string
     sql: case when ${ga4_exitpage.exit_page} = ${page_location} then ${page_location} else null end;;
   }

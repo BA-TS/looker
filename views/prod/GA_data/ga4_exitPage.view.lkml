@@ -40,13 +40,18 @@ view: ga4_exitpage {
   #}
 
   dimension: exit_screen {
-    hidden: yes
+    view_label: "GA4"
+    label: "Exit Screen Name"
+    group_label: "Screen"
     type: string
     sql: ${TABLE}.Screen_name;;
   }
 
   dimension: exit_page {
-    hidden: yes
+    view_label: "GA4"
+    label: "Exit Page"
+    group_label: "Screen"
+    #hidden: yes
     type: string
     sql: ${TABLE}.page_location;;
   }
@@ -65,6 +70,19 @@ view: ga4_exitpage {
     type: number
     sql: ${TABLE}.exit;;
   }
+
+  dimension: Exitscreen_type {
+    view_label: "GA4"
+    label: "Exit Screen Type"
+    group_label: "Screen"
+    type: string
+    sql: CASE when regexp_contains(${exit_page},".*/p([0-9]*)$") then "product-detail-page"
+      when regexp_contains(${exit_page}, ".*/p[0-9]*[^0-9a-zA-Z]") then "product-detail-page"
+      when regexp_contains(${exit_page},".*/c([0-9]*)$") then "product-listing-page"
+      when regexp_contains(${exit_page}, ".*/c[0-9]*[^0-9a-zA-Z]") then "product-listing-page"
+      else ${exit_screen} end ;;
+
+    }
 
 
 }
