@@ -1295,6 +1295,7 @@ view: transactions {
     label: "Used Promo?"
     group_label: "Order Details"
     type: yesno
+    hidden: yes
     sql: case when ${promo_orders.promo_id} is not null then true else false end;;
   }
 
@@ -1304,6 +1305,7 @@ view: transactions {
     group_label: "Core Metrics"
     filters: [promoFlag: "Yes"]
     type: count_distinct
+    hidden: yes
     sql: ${parent_order_uid} ;;
   }
 
@@ -1313,6 +1315,7 @@ view: transactions {
     group_label: "Core Metrics"
     filters: [promoFlag: "Yes"]
     type: sum
+    hidden: yes
     value_format_name: gbp
     sql: ${net_sales_value} ;;
   }
