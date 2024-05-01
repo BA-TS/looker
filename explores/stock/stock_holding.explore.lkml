@@ -3,7 +3,7 @@ include: "/views/prod/department_specific/supply_chain/stockLocation.view.lkml"
 
 explore: stock_level_date_site_product {
   required_access_grants: [can_use_supplier_information]
-
+  persist_with: ts_transactions_datagroup
   label: "Stock Holding"
   description: "By Date, Site, Product"
 
