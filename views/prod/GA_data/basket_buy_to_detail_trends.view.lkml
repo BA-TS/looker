@@ -13,7 +13,8 @@ view: basket_buy_to_detail_trends {
       sum(transactions.net_value) as revenue,
       sum(events) as events
       FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as transactions
-      where _TABLE_SUFFIX >= FORMAT_DATE('%Y%m%d', '2023-11-02')
+      where _TABLE_SUFFIX = "00000000"
+      --FORMAT_DATE('%Y%m%d', '2023-11-02')
       and
       ((aw.item_id = transactions.productCode) or (aw.item_id is not null and transactions.productCode is null) or (aw.item_id is null and transactions.
       productCode is null))
