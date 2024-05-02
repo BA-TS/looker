@@ -61,7 +61,7 @@ view: sites {
       LEFT JOIN
         `toolstation-data-storage.locations.sites` AS sites
       USING(siteUID);;
-    # datagroup_trigger: ts_location_datagroup
+    datagroup_trigger: ts_location_datagroup
   }
 
   dimension: site_uid {
