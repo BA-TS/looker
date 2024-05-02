@@ -32,6 +32,14 @@ view: product_quantity {
     tiers: [0,1,2,3,4]
   }
 
+  dimension: quantity_tier2 {
+    type: tier
+    label: "Units Tier (PB2)"
+    sql: ${quantity} ;;
+    style: integer
+    tiers: [0, 1,2,3,4,5,6,7,8,9,10,11]
+  }
+
   dimension: parent_order_uid {
     group_label: "Order Details"
     label: "Parent Order UID2"

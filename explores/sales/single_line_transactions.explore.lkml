@@ -5,6 +5,7 @@ explore: single_line_transactions {
   description: "Explore Toolstation customer data."
   hidden: yes
   view_name: base
+  persist_with: ts_transactions_datagroup
   always_filter: {
     filters: [
       select_date_type: "Calendar",

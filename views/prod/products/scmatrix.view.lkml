@@ -1,6 +1,11 @@
 view: scmatrix {
-  sql_table_name: `toolstation-data-storage.range.SCMatrix`;;
-    view_label: "SC Matrix"
+  derived_table: {
+    sql:
+    select * from `toolstation-data-storage.range.SCMatrix`;;
+    datagroup_trigger: ts_transactions_datagroup
+  }
+
+  view_label: "SC Matrix"
 
   dimension_group: active_from {
     type: time

@@ -3,6 +3,7 @@ view: stocklocation {
     sql: SELECT distinct row_number() over () as P_K, *, (TIMESTAMP_SUB(openingStockDate, INTERVAL 1 SECOND) ) AS closingStockDate
     FROM `toolstation-data-storage.stock.stockLocation`
     ;;
+    datagroup_trigger: ts_transactions_datagroup
   }
 
    dimension: P_K {
