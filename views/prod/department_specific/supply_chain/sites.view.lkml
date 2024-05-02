@@ -1,3 +1,5 @@
+include: "/views/**/transactions.view"
+
 view: sites {
   derived_table: {
     sql:
@@ -54,14 +56,12 @@ view: sites {
                 OR
             dc_data.dc_name IS NOT NULL
           )
-            -- AND
-          -- sites.isClosed = 0 -- added 11/05/22
         GROUP BY 1,2,3,4,5,6
       )
       LEFT JOIN
         `toolstation-data-storage.locations.sites` AS sites
       USING(siteUID);;
-    datagroup_trigger: ts_location_datagroup
+    # datagroup_trigger: ts_location_datagroup
   }
 
   dimension: site_uid {
@@ -416,5 +416,17 @@ view: sites {
     label: "Is London Site"
     type: yesno
     sql: ${TABLE}.Is_London ;;
+  }
+
+  dimension: Refurb_start_date {
+    group_label: "Site Information"
+    type: date
+    sql: ${TABLE}.Refurb_start_date ;;
+  }
+
+  dimension: Refurb_end_date {
+    group_label: "Site Information"
+    type: date
+    sql: ${TABLE}.Refurb_end_date ;;
   }
 }

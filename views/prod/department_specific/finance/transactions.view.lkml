@@ -776,6 +776,36 @@ view: transactions {
     sql: case when ${promo_main_catalogue.product_code} is null and ${promo_extra.product_code} is null then false else true end ;;
   }
 
+  # Sites
+
+  dimension: days_before_refurb {
+    description: "Days before refurbishment (at a site level)"
+    type: number
+    sql: date_diff(${sites.Refurb_start_date},${transactions.transaction_date},day);;
+    hidden: yes
+  }
+
+  dimension: days_after_refurb {
+    description: "Days after refurbishment (at a site level)"
+    type: number
+    sql: date_diff(${transactions.transaction_date},${sites.Refurb_end_date},day);;
+    hidden: yes
+  }
+
+  dimension: refurb_pre_post {
+    view_label: "Location"
+    group_label: "Site Information"
+    label: "Pre vs Post Refurb"
+    type: string
+    sql:
+    case
+    when ${days_before_refurb} between 0 and 56 then "Pre"
+    when ${days_after_refurb} >0 then "Post"
+    when ${days_before_refurb} <0 and ${days_after_refurb} <0 then "During"
+    else "Other"
+    end;;
+  }
+
   measure: trade_net_margin {
     type: sum
     label: "Total Margin inc (Trade Only)"
