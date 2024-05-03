@@ -27,9 +27,9 @@ view: transactions {
         NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, NULL,NULL,NULL
         FROM `toolstation-data-storage.looker_persistent_tables.missing_channel_dimensions` AS missing_dimensions
         ));;
-    partition_keys: ["transactionDate"]
-    cluster_keys: ["salesChannel", "productDepartment", "productCode"]
-    datagroup_trigger: ts_transactions_datagroup
+    # partition_keys: ["transactionDate"]
+    # cluster_keys: ["salesChannel", "productDepartment", "productCode"]
+    # datagroup_trigger: ts_transactions_datagroup
   }
 
   dimension: prim_key {
