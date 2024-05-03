@@ -2,7 +2,7 @@ view: search_purchase {
   derived_table: {
     sql: with sub1 as (SELECT distinct platform, event_name, session_id, min(case when date(minTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(minTime, interval 1 HOUR)) else (timestamp_add(minTime, interval 1 HOUR)) end) as Time1
 FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*`
-where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start calendar.filter_on_field_to_hide %}) and FORMAT_DATE('%Y%m%d', {% date_end calendar.filter_on_field_to_hide %})
+where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 12 week)) and FORMAT_DATE('%Y%m%d',current_date())
 and (regexp_contains(event_name, "search") or event_name in ("purchase", "Purchase") ) and event_name not in ("blank_search")
 group by 1,2,3)
 
@@ -15,9 +15,9 @@ group by 1
 ) on session_id = purchase_ID
 where regexp_contains(event_name, "search") and event_name not in ("blank_search")
 group by 2,3,6,7,8
-
-
 ;;
+
+sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01 00:00:00',SECOND)) - 60*60*9)/(60*60*24));;
 }
 
   dimension: PK {

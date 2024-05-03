@@ -3,7 +3,7 @@ view: recommend_purchase {
     sql:
 with sub1 as (SELECT distinct platform, event_name, session_id, item_id,t.productCode,t.orderID, min(case when date(minTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(minTime, interval 1 HOUR)) else (timestamp_add(minTime, interval 1 HOUR)) end) as Time1, round(sum(net_value),2) as net
 FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` a left join unnest(transactions) as t
-where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {%date_start calendar.filter_on_field_to_hide %}) and FORMAT_DATE('%Y%m%d', {% date_end calendar.filter_on_field_to_hide %})
+where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 12 week)) and FORMAT_DATE('%Y%m%d',current_date())
 and ((a.item_id=t.productCode) or (a.item_id is not null and t.productCode is null) or (a.item_id is null and t.productCode is null))
 and event_name in ("purchase", "Purchase", "suggested_item_click", "recommended_item_tapped")
 group by 1,2,3,4,5,6)
@@ -17,7 +17,10 @@ where event_name in ("purchase", "Purchase")
 group by 1,2
 ) on session_id = purchase_ID and item_id = purchasePC
 where event_name in ("suggested_item_click", "recommended_item_tapped")
-group by 2,3,6,7,8,9,11 ;;}
+group by 2,3,6,7,8,9,11 ;;
+
+sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01 00:00:00',SECOND)) - 60*60*9)/(60*60*24));;
+}
 
 
   dimension: PK {
