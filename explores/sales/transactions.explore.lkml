@@ -3,7 +3,6 @@ include: "/views/**/*.view"
 explore: base {
   label: "Transactions"
   description: "Explore Toolstation transactional data."
-  persist_with: ts_transactions_datagroup
   always_filter: {
     filters: [
       select_date_reference: "Transaction"
