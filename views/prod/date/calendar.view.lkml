@@ -46,7 +46,7 @@ datagroup_trigger: ts_monthly_datagroup
     group_label: "Current Date"
     label: "Today (dd/mm/yyyy)"
     type: date
-    sql: timestamp(${TABLE}.todayFullDate) ;;
+    sql: current_timestamp() ;;
     html: {{ rendered_value | date: "%d/%m/%Y" }};;
   }
 
@@ -62,7 +62,7 @@ datagroup_trigger: ts_monthly_datagroup
     label: "today Quarter (q)"
     hidden: yes
     type: number
-    sql: ${TABLE}.todaycalendarQuarter;;
+    sql: extract(quarter from (current_date());;
   }
 
   dimension: calendar_year {
@@ -85,7 +85,7 @@ datagroup_trigger: ts_monthly_datagroup
     label: "Year (yyyy)"
     hidden: yes
     type: number
-    sql: ${TABLE}.todaycalendarYear;;
+    sql: extract(year from (current_date());;
   }
 
   dimension: calendar_year_month {
@@ -140,7 +140,7 @@ datagroup_trigger: ts_monthly_datagroup
     label: "Month (mm)"
     hidden: yes
     type: number
-    sql: ${TABLE}.todaymonthInYear;;
+    sql: extract(month from current_date());;
   }
 
   dimension: month_name_in_year {
@@ -191,7 +191,7 @@ datagroup_trigger: ts_monthly_datagroup
     group_label: "Current Date"
     label: "Day of Month (dd)"
     type: number
-    sql: ${TABLE}.todaydayInMonth ;;
+    sql: ltrim(format_date("%d", current_date()), "0") ;;
   }
 
   dimension: day_in_week {
@@ -207,7 +207,7 @@ datagroup_trigger: ts_monthly_datagroup
     label: "Day of Week (d)"
     description:"First day of week is Sunday,Sun=1,Mon=2,Tue=3,Wed=4,Thu=5,Fri=6,Sat=7"
     type: number
-    sql: ${TABLE}.todaydayInWeek;;
+    sql: extract(dayofweek FROM current_date());;
   }
 
   dimension: day_in_year {
@@ -221,7 +221,7 @@ datagroup_trigger: ts_monthly_datagroup
     group_label: "Current Date"
     label: "Day of Year (ddd)"
     type: number
-    sql: ${TABLE}.todaydayInYear ;;
+    sql: extract(dayofyear FROM current_date()) ;;
   }
 
 
