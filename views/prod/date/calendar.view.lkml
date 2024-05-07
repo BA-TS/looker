@@ -191,7 +191,7 @@ datagroup_trigger: ts_monthly_datagroup
     group_label: "Current Date"
     label: "Day of Month (dd)"
     type: number
-    sql: ltrim(format_date("%d", current_date()), "0") ;;
+    sql: cast(ltrim(format_date("%d", current_date()), "0") as int64);;
   }
 
   dimension: day_in_week {
