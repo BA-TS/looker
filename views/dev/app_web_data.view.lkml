@@ -132,7 +132,7 @@ marginExclFunding from sub1
 group by 2,3,4,5,6,8,9,10,11,12,13,14,15,16,17;;
 
 
-    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 8;;
+    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 7;;
     #datagroup_trigger:ts_transactions_datagroup
 
     partition_keys: ["Transaction"]
