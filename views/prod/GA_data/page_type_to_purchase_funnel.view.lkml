@@ -62,7 +62,7 @@ where extract(date from coalesce(pdp.pdp_time,ATC.atc_time,purchase.purchase_tim
 select distinct row_number() over () as P_K, * from sub2
 ;;
 
-    sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01 00:00:00',SECOND)) - 60*60*9)/(60*60*24))
+    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 7
 ;;
 }
 

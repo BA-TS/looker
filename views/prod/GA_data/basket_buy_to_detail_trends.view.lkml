@@ -20,7 +20,7 @@ view: basket_buy_to_detail_trends {
       productCode is null))
       group by 2,3,4,5,6,7,8
                    ;;
-    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 10 ;;
+    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 7 ;;
     partition_keys: ["date"]
   }
 

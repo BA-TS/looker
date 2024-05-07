@@ -17,7 +17,7 @@ where regexp_contains(event_name, "search") and event_name not in ("blank_search
 group by 2,3,6,7,8
 ;;
 
-sql_trigger_value: SELECT FLOOR(((TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),'1970-01-01 00:00:00',SECOND)) - 60*60*9)/(60*60*24));;
+sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 7;;
 }
 
   dimension: PK {
