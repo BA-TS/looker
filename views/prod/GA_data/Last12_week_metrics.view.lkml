@@ -211,4 +211,20 @@ group by all
     sql: ${all_sessions} ;;
   }
 
+  measure: total_net_rev {
+    group_label: "Last 12 Weeks"
+    label: "Total Net Revenu"
+    type: sum
+    value_format_name: gbp
+    sql: ${purchase_net} ;;
+  }
+
+  measure: get_to_PDP {
+    group_label: "Last 12 Weeks"
+    label: "Get to PDP"
+    type: count_distinct
+    sql: ${all_sessions} ;;
+    filters: [get_to_product: "%Get_to_PDP%"]
+  }
+
 }
