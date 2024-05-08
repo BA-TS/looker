@@ -290,7 +290,8 @@ group by all
   }
 
   measure: sumsearch_sessions {
-    hidden: yes
+    group_label: "Last 12 Weeks"
+    label: "Total Search Sessions"
     type: count_distinct
     sql: case when ${search_sessions} is not null or ${blank_search} is not null then ${all_sessions} else null end ;;
     #filters: [search_sessions: "-NULL"]
@@ -311,6 +312,8 @@ group by all
     value_format_name: percent_2
     sql: safe_divide(${Blanksearch_sessions},${sumsearch_sessions}) ;;
   }
+
+
 
 
 }
