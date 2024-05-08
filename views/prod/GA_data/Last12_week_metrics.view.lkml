@@ -142,13 +142,15 @@ group by all
   }
 
   dimension: get_to_product {
-    hidden: yes
+    group_label: "Last 12 Weeks"
+    #hidden: yes
     type: string
     sql: ${TABLE}.get_to_product;;
   }
 
   dimension: LandingScreenType {
-    hidden: yes
+    group_label: "Last 12 Weeks"
+    #hidden: yes
     type: string
     sql: ${TABLE}.LandingScreenType;;
   }
