@@ -755,7 +755,7 @@ explore: GA4_testy {
     relationship: many_to_one
     view_label: "Last12 Week Metrics"
     sql_on: ${calendar.date} = ${search_purchase.search_date_date};;
-    fields: [search_date_date, search_purchase_rate, search_purch_diff]
+    #fields: [search_date_date, search_purchase_rate, search_purch_diff]
   }
 
 
