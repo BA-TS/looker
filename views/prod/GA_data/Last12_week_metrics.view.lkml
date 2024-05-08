@@ -271,4 +271,22 @@ group by all
     sql: safe_divide(${page_nav_purchase},${page_nav}) ;;
   }
 
+
+  measure: filter_sessions {
+    group_label: "Last 12 Weeks"
+    label: "Filter Usage"
+    type: count_distinct
+    sql: ${all_sessions} ;;
+    filters: [filter_session: "-NULL"]
+  }
+
+  measure: filter_usage_rate {
+    group_label: "Last 12 Weeks"
+    label: "Filter Usage Rate"
+    type: number
+    value_format_name: percent_2
+    sql: safe_divide(${filter_sessions},${total_sessions}) ;;
+  }
+
+
 }
