@@ -292,16 +292,16 @@ group by all
   measure: sumsearch_sessions {
     hidden: yes
     type: count_distinct
-    sql: ${all_sessions} ;;
-    filters: [search_sessions: "-NULL"]
+    sql: case when ${search_sessions} is not null or ${blank_search} is not null then ${all_sessions} else null end ;;
+    #filters: [search_sessions: "-NULL"]
   }
 
   measure: Blanksearch_sessions {
     group_label: "Last 12 Weeks"
     label: "Blank Searches"
     type: count_distinct
-    sql: case when ${search_sessions} is not null or ${blank_search} is not null then ${all_sessions} else null end;;
-    #filters: [search_sessions: "-NULL", blank_search: "-NULL"]
+    sql: ${all_sessions};;
+    filters: [blank_search: "-NULL"]
   }
 
   measure: blank_search_rate {
