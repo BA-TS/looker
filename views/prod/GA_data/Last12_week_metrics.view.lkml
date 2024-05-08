@@ -247,4 +247,28 @@ group by all
     sql: safe_divide(${get_to_PDP},${PDP_notLanding}) ;;
   }
 
+  measure: page_nav {
+    group_label: "Last 12 Weeks"
+    label: "Navigation Usage"
+    type: count_distinct
+    sql: ${all_sessions} ;;
+    filters: [search_sessions: "NULL", pagesSessions: ">0"]
+  }
+
+  measure: page_nav_purchase {
+    group_label: "Last 12 Weeks"
+    label: "Navigation Usage Purchase"
+    type: count_distinct
+    sql: ${all_sessions} ;;
+    filters: [search_sessions: "NULL", pagesSessions: ">0", purchase_session: "-NULL"]
+  }
+
+  measure: nav_purchase_rate {
+    group_label: "Last 12 Weeks"
+    label: "Nav to Purchase Rate"
+    type: number
+    value_format_name: percent_2
+    sql: safe_divide(${page_nav_purchase},${page_nav}) ;;
+  }
+
 }
