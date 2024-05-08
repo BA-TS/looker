@@ -59,6 +59,9 @@ with sub1 as (SELECT distinct date, minTime, platform, deviceCategory, session_i
       PDP as (select distinct session_id as PDP_session from sub1
       where event_name in ("view_item") and screen_Type in ("product-detail-page") ),
 
+      megamenu as (select distinct session_id as megamenu_session from sub1
+      where event_name in ("MegaMenu") ),
+
       sub2 as (select distinct sub1.date as date, platform, deviceCategory,sub1.session_id as all_sessions,
       count(distinct screen_name) over (partition by sub1.session_id) pages_in_session,
       #page_location, screen_name,
@@ -75,7 +78,8 @@ with sub1 as (SELECT distinct date, minTime, platform, deviceCategory, session_i
       purchase.purchase_time as purchase_time,
       purchase.net as purchase_net,
       purchase.quantity as purchase_quantity,
-      filters_used.filter_session
+      filters_used.filter_session,
+      megamenu_session
       from sub1
       inner join landing_P on session_id=landing_session
       inner join exit_p on session_id=exit_session
@@ -84,7 +88,8 @@ with sub1 as (SELECT distinct date, minTime, platform, deviceCategory, session_i
       left join blank_search on session_id = blanksearch_session
       left join filters_used on session_id=filter_session
       left join PDP on session_id=PDP_session
-      group by 1,2,3,4,screen_name,6,7,8,9,10,11,12,13,14,15)
+      left join megamenu on session_id=megamenu_session
+      group by 1,2,3,4,screen_name,6,7,8,9,10,11,12,13,14,15,16)
 
 select distinct row_number() over () as PK,  date,
 platform,
@@ -100,9 +105,9 @@ purchase_session,
 purchase_time,
 purchase_net,
 purchase_quantity,
-filter_session
+filter_session,
+megamenu_session
 from sub2
-group by all
       ;;
 
     sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 7;;
@@ -181,6 +186,12 @@ group by all
     hidden: yes
     type: string
     sql: ${TABLE}.filter_session;;
+  }
+
+  dimension: megamenu_session {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.megamenu_session;;
   }
 
   dimension: purchase_net {
@@ -311,6 +322,23 @@ group by all
     type: number
     value_format_name: percent_2
     sql: safe_divide(${Blanksearch_sessions},${sumsearch_sessions}) ;;
+  }
+
+
+  measure: megamenu_sessions {
+    group_label: "Last 12 Weeks"
+    label: "Megamenu Usage"
+    type: count_distinct
+    sql: ${all_sessions} ;;
+    filters: [megamenu_session: "-NULL"]
+  }
+
+  measure: megamenu_usage_rate {
+    group_label: "Last 12 Weeks"
+    label: "Megamenu Usage Rate"
+    type: number
+    value_format_name: percent_2
+    sql: safe_divide(${megamenu_sessions},${total_sessions}) ;;
   }
 
 

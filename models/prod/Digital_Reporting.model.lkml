@@ -737,6 +737,7 @@ explore: GA4_testy {
   }
 
   join: recommend_purchase {
+    view_label: "GA4"
     type: left_outer
     relationship: many_to_one
     sql_on: ${ga4_rjagdev_test.session_id} = ${recommend_purchase.recommend_ID} and ${calendar.date} = ${recommend_purchase.recommend_date_date} and ${products.product_code} = ${recommend_purchase.item_id};;
@@ -754,8 +755,17 @@ explore: GA4_testy {
     type: left_outer
     relationship: many_to_one
     view_label: "Last12 Week Metrics"
-    sql_on: ${calendar.date} = ${search_purchase.search_date_date};;
+    sql_on: ${calendar.date} = ${search_purchase12W.search_date_date};;
     #fields: [search_date_date, search_purchase_rate, search_purch_diff]
+  }
+
+  join: recommend_purchase12W {
+    from: recommend_purchase
+    view_label: "Last12 Week Metrics"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${calendar.date} = ${recommend_purchase12W.recommend_date_date} and ${products.product_code} = ${recommend_purchase.item_id};;
+    #sql_where: ${ga4_exitpage.LastE} = 1;;
   }
 
 
