@@ -748,6 +748,15 @@ explore: GA4_testy {
     sql_on: ${calendar.date} = ${last12_week_metrics.date_date} ;;
   }
 
+  join: search_purchase12W {
+    from: search_purchase
+    type: left_outer
+    relationship: many_to_one
+    view_label: "Last12 Week Metrics"
+    sql_on: ${calendar.date} = ${search_purchase.search_date_date};;
+    fields: [search_date_date, search_purchase_rate, search_purch_diff]
+  }
+
 
 
 
