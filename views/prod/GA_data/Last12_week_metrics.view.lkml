@@ -3,7 +3,7 @@ view: last12_week_metrics {
   derived_table: {
     sql:
 
-    with sub1 as (SELECT distinct date, minTime, platform, deviceCategory, session_id, page_location, screen_name,
+with sub1 as (SELECT distinct date, minTime, platform, deviceCategory, session_id, page_location, screen_name,
 
       CASE when regexp_contains(page_location,".*/p([0-9]*)$") then "product-detail-page"
       when regexp_contains(page_location, ".*/p[0-9]*[^0-9a-zA-Z]") then "product-detail-page"
@@ -56,14 +56,18 @@ view: last12_week_metrics {
       filters_used as (select distinct session_id as filter_session from sub1
       where (event_name in ("search_actions") and key1 in ("Add Filter")) or (event_name in ("Filter_Used")) or (event_name in ("bloomreach_search_unknown_attribute") and screen_name in ("filters_page")) ),
 
+      PDP as (select distinct session_id as PDP_session from sub1
+      where event_name in ("view_item") and screen_Type in ("product-detail-page") ),
+
       sub2 as (select distinct sub1.date as date, platform, deviceCategory,sub1.session_id as all_sessions,
       count(distinct screen_name) over (partition by sub1.session_id) pages_in_session,
       #page_location, screen_name,
-    case when screen_type in ("product-detail-page") and landingScreenType not in ("product-detail-page") then "Get_to_PDP" else "Other" end as screen_type_grouped,
+    #case when screen_type in ("product-detail-page") and landingScreen not in ("product-detail-page") then "Get_to_PDP" else "Other" end as screen_type_grouped,
       #landingPage,landingScreen,
       LandingScreenType,
       #exitPage,exitScreen,
       #exitScreenType,
+      PDP_session,
       search.search_session as search_session,
       search.search_time as search_time,
       blanksearch_session as blank_search,
@@ -79,6 +83,7 @@ view: last12_week_metrics {
       left join purchase on session_id=purchase_session
       left join blank_search on session_id = blanksearch_session
       left join filters_used on session_id=filter_session
+      left join PDP on session_id=PDP_session
       group by 1,2,3,4,screen_name,6,7,8,9,10,11,12,13,14,15)
 
 select distinct row_number() over () as PK,  date,
@@ -86,11 +91,11 @@ platform,
 deviceCategory,
 all_sessions,
 pages_in_session,
-string_agg(screen_type_grouped) as get_to_product,
+PDP_Session as get_to_product,
 LandingScreenType,
 search_session,
 search_time,
-blank_search
+blank_search,
 purchase_session,
 purchase_time,
 purchase_net,
@@ -142,8 +147,7 @@ group by all
   }
 
   dimension: get_to_product {
-    group_label: "Last 12 Weeks"
-    #hidden: yes
+    hidden: yes
     type: string
     sql: ${TABLE}.get_to_product;;
   }
@@ -225,8 +229,8 @@ group by all
     group_label: "Last 12 Weeks"
     label: "Get to PDP"
     type: count_distinct
-    sql: ${all_sessions} ;;
-    filters: [get_to_product: "%Get_to_PDP%"]
+    sql: ${get_to_product} ;;
+    filters: [LandingScreenType: "-product-detail-page"]
   }
 
 }
