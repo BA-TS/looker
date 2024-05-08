@@ -12,7 +12,10 @@ view: bucketed_order_sales {
       )
       SELECT
         parentOrderUID AS parent_order_uid,
-        FLOOR(total_grossSalesValue / 5) * 5 AS five_bucket,
+       CASE
+        WHEN FLOOR(total_grossSalesValue / 5) * 5 > 50 THEN 51  -- Assigning 51+ to represent "Over 50"
+        ELSE FLOOR(total_grossSalesValue / 5) * 5
+        END AS five_bucket,
         FLOOR(total_grossSalesValue / 10) * 10 AS ten_bucket,
         FLOOR(total_grossSalesValue / 20) * 20 AS twenty_bucket,
         FLOOR(total_grossSalesValue / 50) * 50 AS fifty_bucket,
