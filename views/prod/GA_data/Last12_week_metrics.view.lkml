@@ -233,4 +233,18 @@ group by all
     filters: [LandingScreenType: "-product-detail-page"]
   }
 
+  measure: PDP_notLanding {
+    type: count_distinct
+    sql: ${all_sessions} ;;
+    filters: [LandingScreenType: "-product-detail-page"]
+  }
+
+  measure: get_to_PDP_rate {
+    group_label: "Last 12 Weeks"
+    label: "Get to PDP Rate"
+    type: number
+    value_format_name: percent_2
+    sql: ${get_to_PDP}/${PDP_notLanding} ;;
+  }
+
 }
