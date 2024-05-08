@@ -288,5 +288,27 @@ group by all
     sql: safe_divide(${filter_sessions},${total_sessions}) ;;
   }
 
+  measure: sumsearch_sessions {
+    type: count_distinct
+    sql: ${all_sessions} ;;
+    filters: [search_sessions: "-NULL"]
+  }
+
+  measure: Blanksearch_sessions {
+    group_label: "Last 12 Weeks"
+    label: "Blank Searches"
+    type: count_distinct
+    sql: ${all_sessions} ;;
+    filters: [blank_search: "-NULL"]
+  }
+
+  measure: blank_search_rate {
+    group_label: "Last 12 Weeks"
+    label: "Blank Search Rate"
+    type: number
+    value_format_name: percent_2
+    sql: safe_divide(${Blanksearch_sessions},${sumsearch_sessions}) ;;
+  }
+
 
 }
