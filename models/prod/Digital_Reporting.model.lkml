@@ -764,7 +764,7 @@ explore: GA4_testy {
     view_label: "Last12 Week Metrics"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${calendar.date} = ${recommend_purchase12W.recommend_date_date} and ${products.product_code} = ${recommend_purchase.item_id};;
+    sql_on: ${calendar.date} = ${recommend_purchase12W.recommend_date_date};;
     #sql_where: ${ga4_exitpage.LastE} = 1;;
   }
 

@@ -64,12 +64,12 @@ with sub1 as (SELECT distinct date, minTime, platform, deviceCategory, session_i
 
       sub2 as (select distinct sub1.date as date, platform, deviceCategory,sub1.session_id as all_sessions,
       count(distinct screen_name) over (partition by sub1.session_id) pages_in_session,
-      #page_location, screen_name,
-    #case when screen_type in ("product-detail-page") and landingScreen not in ("product-detail-page") then "Get_to_PDP" else "Other" end as screen_type_grouped,
-      #landingPage,landingScreen,
+      --page_location, screen_name,
+    --case when screen_type in ("product-detail-page") and landingScreen not in ("product-detail-page") then "Get_to_PDP" else "Other" end as screen_type_grouped,
+      --landingPage,landingScreen,
       LandingScreenType,
-      #exitPage,exitScreen,
-      #exitScreenType,
+      --exitPage,exitScreen,
+      --exitScreenType,
       PDP_session,
       search.search_session as search_session,
       search.search_time as search_time,
@@ -159,7 +159,7 @@ from sub2
 
   dimension: LandingScreenType {
     group_label: "Last 12 Weeks"
-    #hidden: yes
+    hidden: yes
     type: string
     sql: ${TABLE}.LandingScreenType;;
   }
