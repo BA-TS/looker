@@ -742,6 +742,12 @@ explore: GA4_testy {
     #sql_where: ${ga4_exitpage.LastE} = 1;;
   }
 
+  join: last12_week_metrics {
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${calendar.date} = ${last12_week_metrics.date_date} ;;
+  }
+
 
 
 
