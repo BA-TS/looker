@@ -59,7 +59,7 @@ view: last12_week_metrics {
       sub2 as (select distinct sub1.date as date, platform, deviceCategory,sub1.session_id as all_sessions,
       count(distinct screen_name) over (partition by sub1.session_id) pages_in_session,
       #page_location, screen_name,
-    case when screen_type in ("product-detail-page") and landingScreen not in ("product-detail-page") then "Get_to_PDP" else "Other" end as screen_type_grouped,
+    case when screen_type in ("product-detail-page") and landingScreenType not in ("product-detail-page") then "Get_to_PDP" else "Other" end as screen_type_grouped,
       #landingPage,landingScreen,
       LandingScreenType,
       #exitPage,exitScreen,
