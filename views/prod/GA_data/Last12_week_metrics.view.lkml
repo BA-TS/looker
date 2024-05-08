@@ -244,7 +244,7 @@ group by all
     label: "Get to PDP Rate"
     type: number
     value_format_name: percent_2
-    sql: ${get_to_PDP}/${PDP_notLanding} ;;
+    sql: safe_divide(${get_to_PDP},${PDP_notLanding}) ;;
   }
 
 }
