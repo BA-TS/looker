@@ -252,7 +252,7 @@ group by all
     label: "Navigation Usage"
     type: count_distinct
     sql: ${all_sessions} ;;
-    filters: [search_sessions: "NULL", pagesSessions: ">0"]
+    filters: [search_sessions: "NULL", pagesSessions: ">1"]
   }
 
   measure: page_nav_purchase {
@@ -260,7 +260,7 @@ group by all
     label: "Navigation Usage Purchase"
     type: count_distinct
     sql: ${all_sessions} ;;
-    filters: [search_sessions: "NULL", pagesSessions: ">0", purchase_session: "-NULL"]
+    filters: [search_sessions: "NULL", pagesSessions: ">1", purchase_session: "-NULL"]
   }
 
   measure: nav_purchase_rate {
