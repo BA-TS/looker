@@ -28,12 +28,14 @@ case when regexp_contains(page_location,"checkout\\/confirmation") then "Checkou
       sum(transactions.net_value) as net,
       sum(transactions.Quantity) as Quantity,
       sum(events) as events,
+      count(distinct transactions.OrderID) as Orders
       row_number () over (partition by session_id order by minTime asc) as landingP,
       row_number () over (partition by session_id order by minTime desc) as exitP
       FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as transactions
       where ((aw.item_id = transactions.productCode) or (aw.item_id is not null and transactions.productCode is null) or (aw.item_id is null and transactions.productCode is null))
 
       and _TABLE_Suffix between format_date("%Y%m%d", date_sub(current_date(), interval 12 week)) and format_date("%Y%m%d", date_sub(current_date(), interval 1 day))
+      and transactions.productCode not in ('00021', '00099', '00006', '00037', '00004', '00033', '00005', '00014', '00008', '00042', '00052', '00041', '00015', '00051', '00007', '00040', '00050')
       group by all),
 
       landing_P as (select distinct session_id as landing_session, page_location as landingPage, screen_name as landingScreen, screen_Type as LandingScreenType
@@ -42,7 +44,7 @@ case when regexp_contains(page_location,"checkout\\/confirmation") then "Checkou
       exit_P as (select distinct session_id as exit_session, page_location as exitPage, screen_name as exitScreen, screen_Type as exitScreenType
       from sub1 where exitP = 1),
 
-      purchase as (select distinct session_id as purchase_session, min(minTime) as purchase_time,  sum(net) as net, sum(Quantity) as quantity
+      purchase as (select distinct session_id as purchase_session, min(minTime) as purchase_time,  sum(net) as net, sum(Quantity) as quantity, sum(Orders) as Orders
       from sub1 where event_name in ("purchase", "Purchase")
       group by all),
 
@@ -79,6 +81,7 @@ case when regexp_contains(page_location,"checkout\\/confirmation") then "Checkou
       purchase.purchase_time as purchase_time,
       purchase.net as purchase_net,
       purchase.quantity as purchase_quantity,
+      purchase.Orders as Orders,
       filters_used.filter_session,
       megamenu_session
       from sub1
@@ -90,7 +93,7 @@ case when regexp_contains(page_location,"checkout\\/confirmation") then "Checkou
       left join filters_used on session_id=filter_session
       left join PDP on session_id=PDP_session
       left join megamenu on session_id=megamenu_session
-      group by 1,2,3,4,screen_name,6,7,8,9,10,11,12,13,14,15,16)
+      group by 1,2,3,4,screen_name,6,7,8,9,10,11,12,13,14,15,16,17)
 
 select distinct row_number() over () as PK,  date,
 platform,
@@ -106,6 +109,7 @@ purchase_session,
 purchase_time,
 purchase_net,
 purchase_quantity,
+Orders,
 filter_session,
 megamenu_session
 from sub2
@@ -205,6 +209,12 @@ from sub2
     hidden: yes
     type: number
     sql: ${TABLE}.purchase_quantity;;
+  }
+
+  dimension: orders {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.Orders;;
   }
 
 
@@ -379,6 +389,25 @@ from sub2
     type: number
     value_format_name: percent_2
     sql: safe_divide(${purchase_sessions},${total_sessions}) ;;
+  }
+
+  measure: total_quantity {
+    hidden: yes
+    type: sum
+    sql: ${purchase_quantity} ;;
+  }
+
+  measure: total_orders {
+    hidden: yes
+    type: sum
+    sql: ${orders} ;;
+  }
+
+  measure: avg_basket_size {
+    type: number
+    group_label: "Last 12 Weeks"
+    label: "Avg Basket Size"
+    sql: SAFE_DIVIDE(${total_quantity}, ${total_orders}) ;;
   }
 
 
