@@ -768,6 +768,13 @@ explore: GA4_testy {
     #sql_where: ${ga4_exitpage.LastE} = 1;;
   }
 
+  join: oos_items_l12weeks {
+    view_label: "Last12 Week Metrics"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${calendar.date} = ${oos_items_l12weeks.date_date} and ${products.product_code} = ${oos_items_l12weeks.PDPitem_id};;
+  }
+
 
 
 
