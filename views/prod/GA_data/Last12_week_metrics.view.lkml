@@ -367,6 +367,7 @@ from sub2
   }
 
   measure: purchase_sessions {
+    hidden: yes
     type: count_distinct
     sql: ${all_sessions} ;;
     filters: [purchase_session: "-NULL"]
