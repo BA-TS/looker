@@ -3,7 +3,8 @@ view: last12_week_metrics {
   derived_table: {
     sql:
 
-with sub1 as (SELECT distinct date, minTime, platform, deviceCategory, session_id, page_location, screen_name,
+with sub1 as (SELECT distinct date, minTime, platform, deviceCategory, session_id, page_location,
+case when regexp_contains(page_location,"checkout\\/confirmation") then "Checkout Confirmation" else screen_name end as screen_name,
 
       CASE when regexp_contains(page_location,".*/p([0-9]*)$") then "product-detail-page"
       when regexp_contains(page_location, ".*/p[0-9]*[^0-9a-zA-Z]") then "product-detail-page"
@@ -32,7 +33,7 @@ with sub1 as (SELECT distinct date, minTime, platform, deviceCategory, session_i
       FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as transactions
       where ((aw.item_id = transactions.productCode) or (aw.item_id is not null and transactions.productCode is null) or (aw.item_id is null and transactions.productCode is null))
 
-      and _TABLE_Suffix between format_date("%Y%m%d", date_sub(current_date(), interval 2 week)) and format_date("%Y%m%d", date_sub(current_date(), interval 1 day))
+      and _TABLE_Suffix between format_date("%Y%m%d", date_sub(current_date(), interval 12 week)) and format_date("%Y%m%d", date_sub(current_date(), interval 1 day))
       group by all),
 
       landing_P as (select distinct session_id as landing_session, page_location as landingPage, screen_name as landingScreen, screen_Type as LandingScreenType
@@ -63,7 +64,7 @@ with sub1 as (SELECT distinct date, minTime, platform, deviceCategory, session_i
       where event_name in ("MegaMenu") ),
 
       sub2 as (select distinct sub1.date as date, platform, deviceCategory,sub1.session_id as all_sessions,
-      count(distinct screen_name) over (partition by sub1.session_id) pages_in_session,
+      count(distinct case when screen_name not in ("Trolley | Toolstation", "trolley-page", "Review & Pay","Checkout Confirmation", "checkout-page", "payment-page", "order-confirmation-page") then screen_name else null end) over (partition by sub1.session_id) pages_in_session,
       --page_location, screen_name,
     --case when screen_type in ("product-detail-page") and landingScreen not in ("product-detail-page") then "Get_to_PDP" else "Other" end as screen_type_grouped,
       --landingPage,landingScreen,
@@ -230,7 +231,7 @@ from sub2
 
   measure: total_net_rev {
     group_label: "Last 12 Weeks"
-    label: "Total Net Revenu"
+    label: "Total Net Revenue"
     type: sum
     value_format_name: gbp
     sql: ${purchase_net} ;;
@@ -302,7 +303,7 @@ from sub2
 
   measure: sumsearch_sessions {
     group_label: "Last 12 Weeks"
-    label: "Total Search Sessions"
+    label: "Search Sessions"
     type: count_distinct
     sql: case when ${search_sessions} is not null or ${blank_search} is not null then ${all_sessions} else null end ;;
     #filters: [search_sessions: "-NULL"]
@@ -339,6 +340,30 @@ from sub2
     type: number
     value_format_name: percent_2
     sql: safe_divide(${megamenu_sessions},${total_sessions}) ;;
+  }
+
+  measure: Desktop_Web_sessions {
+    group_label: "Last 12 Weeks"
+    label: "Desktop Web Sessions"
+    type: count_distinct
+    sql: ${all_sessions} ;;
+    filters: [platform: "Web", deviceCategory: "desktop"]
+  }
+
+  measure: mobile_Web_sessions {
+    group_label: "Last 12 Weeks"
+    label: "Desktop Mobile Sessions"
+    type: count_distinct
+    sql: ${all_sessions} ;;
+    filters: [platform: "Web", deviceCategory: "mobile"]
+  }
+
+  measure: mobile_App_sessions {
+    group_label: "Last 12 Weeks"
+    label: "App Mobile Sessions"
+    type: count_distinct
+    sql: ${all_sessions} ;;
+    filters: [platform: "App", deviceCategory: "mobile"]
   }
 
 
