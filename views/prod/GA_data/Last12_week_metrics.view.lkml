@@ -366,7 +366,19 @@ from sub2
     filters: [platform: "App", deviceCategory: "mobile"]
   }
 
+  measure: purchase_sessions {
+    type: count_distinct
+    sql: ${all_sessions} ;;
+    filters: [purchase_session: "-NULL"]
+  }
 
+  measure: purchase_conv_rate {
+    group_label: "Last 12 Weeks"
+    label: "Purchase Conv Rate"
+    type: number
+    value_format_name: percent_2
+    sql: safe_divide(${purchase_sessions},${total_sessions}) ;;
+  }
 
 
 }
