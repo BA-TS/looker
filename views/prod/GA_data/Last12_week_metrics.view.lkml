@@ -28,7 +28,7 @@ case when regexp_contains(page_location,"checkout\\/confirmation") then "Checkou
       sum(transactions.net_value) as net,
       sum(transactions.Quantity) as Quantity,
       sum(events) as events,
-      count(distinct transactions.OrderID) as Orders
+      count(distinct transactions.OrderID) as Orders,
       row_number () over (partition by session_id order by minTime asc) as landingP,
       row_number () over (partition by session_id order by minTime desc) as exitP
       FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as transactions
