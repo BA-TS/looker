@@ -34,8 +34,8 @@ case when regexp_contains(page_location,"checkout\\/confirmation") then "Checkou
       FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as transactions
       where ((aw.item_id = transactions.productCode) or (aw.item_id is not null and transactions.productCode is null) or (aw.item_id is null and transactions.productCode is null))
 
-      and _TABLE_Suffix between format_date("%Y%m%d", date_sub(current_date(), interval 12 week)) and format_date("%Y%m%d", date_sub(current_date(), interval 1 day))
-      and transactions.productCode not in ('00021', '00099', '00006', '00037', '00004', '00033', '00005', '00014', '00008', '00042', '00052', '00041', '00015', '00051', '00007', '00040', '00050')
+      and _TABLE_Suffix between format_date("%Y%m%d", date_sub(current_date(), interval 2 week)) and format_date("%Y%m%d", date_sub(current_date(), interval 1 day))
+      and aw.item_id not in ('00021')
       group by all),
 
       landing_P as (select distinct session_id as landing_session, page_location as landingPage, screen_name as landingScreen, screen_Type as LandingScreenType
