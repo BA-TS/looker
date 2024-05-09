@@ -104,4 +104,29 @@ left join dual_OOS on view_item.date = dual_OOS.dual_date and view_item.item_id 
     type: count_distinct
     sql: ${dualOOS_itemID} ;;
   }
+
+  measure: Collect_OOS_rate {
+    group_label: "Product Unavailability"
+    label: "Collection OOS Rate"
+    type: number
+    value_format_name: percent_2
+    sql: safe_divide(${Collect_OOS_items},${PDP_items}) ;;
+}
+
+measure: delivery_OOS_rate {
+  group_label: "Product Unavailability"
+  label: "Delivery OOS Rate"
+  type: number
+  value_format_name: percent_2
+  sql: safe_divide(${Delivery_OOS_items},${PDP_items}) ;;
+}
+
+  measure: dual_OOS_rate {
+    group_label: "Product Unavailability"
+    label: "Dual OOS Rate"
+    type: number
+    value_format_name: percent_2
+    sql: safe_divide(${Dual_OOS_items},${PDP_items}) ;;
+  }
+
 }
