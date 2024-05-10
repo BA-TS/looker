@@ -25,17 +25,17 @@ case when regexp_contains(page_location,"checkout\\/confirmation") then "Checkou
       case when key_2 is null and label_2 is not null then "action"
       when event_name in ("MegaMenu") then null
       else key_2 end as key_2,
+      transactions.productCode,
+      transactions.OrderID,
       sum(transactions.net_value) as net,
       sum(transactions.Quantity) as Quantity,
       sum(events) as events,
-      count(distinct transactions.OrderID) as Orders,
       row_number () over (partition by session_id order by minTime asc) as landingP,
       row_number () over (partition by session_id order by minTime desc) as exitP
       FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as transactions
       where ((aw.item_id = transactions.productCode) or (aw.item_id is not null and transactions.productCode is null) or (aw.item_id is null and transactions.productCode is null))
 
       and _TABLE_Suffix between format_date("%Y%m%d", date_sub(current_date(), interval 2 week)) and format_date("%Y%m%d", date_sub(current_date(), interval 1 day))
-      and aw.item_id not in ('00021')
       group by all),
 
       landing_P as (select distinct session_id as landing_session, page_location as landingPage, screen_name as landingScreen, screen_Type as LandingScreenType
@@ -44,8 +44,8 @@ case when regexp_contains(page_location,"checkout\\/confirmation") then "Checkou
       exit_P as (select distinct session_id as exit_session, page_location as exitPage, screen_name as exitScreen, screen_Type as exitScreenType
       from sub1 where exitP = 1),
 
-      purchase as (select distinct session_id as purchase_session, min(minTime) as purchase_time,  sum(net) as net, sum(Quantity) as quantity, sum(Orders) as Orders
-      from sub1 where event_name in ("purchase", "Purchase")
+      purchase as (select distinct session_id as purchase_session, min(minTime) as purchase_time,  sum(net) as net, sum(Quantity) as quantity, count(distinct OrderID) as Orders
+      from sub1 where event_name in ("purchase", "Purchase") and productCode not in ("00021")
       group by all),
 
       search as (select distinct session_id as search_session, min(minTime) as search_time
