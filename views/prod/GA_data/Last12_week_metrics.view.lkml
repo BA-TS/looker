@@ -407,6 +407,7 @@ from sub2
     type: number
     group_label: "Last 12 Weeks"
     label: "Avg Basket Size"
+    value_format_name: decimal_2
     sql: SAFE_DIVIDE(${total_quantity}, ${total_orders}) ;;
   }
 

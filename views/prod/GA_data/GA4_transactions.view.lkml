@@ -283,6 +283,15 @@ view: ga4_transactions {
     sql: SAFE_DIVIDE(${gross_values},${Orders}) ;;
   }
 
+  measure: avg_basket_size {
+    view_label: "GA4"
+    group_label: "Transactional"
+    type: number
+    label: "Avg Basket Size"
+    value_format_name: decimal_2
+    sql: SAFE_DIVIDE(${Sum_quantity},${Orders}) ;;
+  }
+
 
 
 
