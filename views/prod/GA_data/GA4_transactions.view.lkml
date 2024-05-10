@@ -241,7 +241,7 @@ view: ga4_transactions {
     label: "Product Quantity"
     type: sum
     sql: ${Quantity} ;;
-    filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
+    filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?", productCode: "-00021"]
   }
 
   measure: Sum_GA4quantity {
