@@ -28,7 +28,9 @@ view: spi_cpi{
     metrics.AAC_CPI_abs as AAC_CPI_abs,
     metrics.AAC_CPI_abs2 as AAC_CPI_abs2,
     row_number() OVER(ORDER BY dims.productCode) AS prim_key
-    FROM `toolstation-data-storage.financeReporting.DS_DAILY_SPI_CPI`;;
+    FROM `toolstation-data-storage.financeReporting.DS_DAILY_SPI_CPI`
+    Where dims.productCode not in ("00053", "44842","85699")
+    ;;
   }
 
   dimension: prim_key {

@@ -11,6 +11,7 @@ view: spi_cpi_weekly{
     sum(metrics.ly_unitsSOLD) as ly_unitsSOLD,
     row_number() OVER(ORDER BY dims.productCode) AS prim_key
     FROM `toolstation-data-storage.financeReporting.DS_DAILY_SPI_CPI`
+    Where dims.productCode not in ("00053", "44842","85699")
     group by 1, 2
     ;;
   }
