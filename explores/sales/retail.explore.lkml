@@ -5,7 +5,7 @@ persist_with: ts_transactions_datagroup
 explore: retail {
   view_name: google_reviews
   required_access_grants: [retail_testing]
-  label: "Retail Scorecard"
+  label: "Retail"
 
 
   fields: [
