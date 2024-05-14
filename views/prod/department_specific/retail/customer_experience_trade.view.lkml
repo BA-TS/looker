@@ -1,6 +1,6 @@
-view: customer_experience {
+view: customer_experience_trade {
 
-  sql_table_name:`toolstation-data-storage.retailReporting.SC_CUSTOMER_EXPERIENCE`;;
+  sql_table_name:`toolstation-data-storage.retailReporting.SC_CUSTOMER_EXPERIENCE_TRADE`;;
 
   dimension: month {
     type: string
