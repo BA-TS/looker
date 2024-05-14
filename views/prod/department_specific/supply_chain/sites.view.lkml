@@ -354,6 +354,13 @@ view: sites {
     sql: ${TABLE}.labourTier ;;
   }
 
+  dimension: Tier2plus_above {
+    group_label: "Site Information"
+    label: "Tier 2+ and Above"
+    type: yesno
+    sql: ${labourTier} in ("Tier 2+", "Tier 3");;
+  }
+
   dimension: Opening_times_Mon_Fri {
     group_label: "Site Information"
     label: "Opening Times Mon - Fri"
