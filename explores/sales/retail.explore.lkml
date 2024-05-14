@@ -33,6 +33,7 @@ explore: retail {
 
   fields: [
     ALL_FIELDS*,
+    -catalogue.catalogue_live_date
   ]
 
   sql_always_where:${period_over_period};;
