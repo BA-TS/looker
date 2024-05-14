@@ -126,14 +126,14 @@ view: spi_cpi{
     label: "CY Net Sales"
     sql: ${TABLE}.cy_netSales;;
     value_format_name: gbp
-    hidden: yes
+    # hidden: yes
   }
 
   dimension: ly_netSales {
     type: number
     sql: ${TABLE}.ly_netSales;;
     value_format_name: gbp
-    hidden: yes
+    # hidden: yes
   }
 
   dimension: cy_unitsSOLD {

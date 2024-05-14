@@ -45,11 +45,18 @@ explore: retail {
     sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
   }
 
+  join: transactions {
+    type: left_outer
+    relationship: one_to_many
+    fields: [transactions.refurb_pre_post]
+    sql_on: ${base.base_date_date} = ${transactions.transaction_date_filter};;
+  }
+
   join: sites {
-    view_label: "Site Information"
+    view_label: "Location"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${google_reviews.siteUID}=${sites.site_uid} ;;
+    sql_on: ${transactions.site_uid}=${sites.site_uid} ;;
   }
 
   join: catalogue {
