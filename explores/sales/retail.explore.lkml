@@ -74,6 +74,20 @@ explore: retail {
     sql_on: ${profit_protection.siteUID}=${holiday_management.siteUID} and ${profit_protection.month}=${holiday_management.month} ;;
   }
 
+  join: customer_experience {
+    view_label: "Customer Experience"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${customer_experience.siteUID}=${holiday_management.siteUID} and ${customer_experience.month}=${holiday_management.month} ;;
+  }
+
+  join: customer_experience_trade {
+    view_label: "Customer Experience"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${customer_experience_trade.siteUID}=${holiday_management.siteUID} and ${customer_experience_trade.month}=${holiday_management.month} ;;
+  }
+
   # join: foh_master_products_2024 {
   #   view_label: "FOH Location"
   #   type: left_outer

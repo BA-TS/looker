@@ -19,7 +19,7 @@ view: customer_experience {
 
   dimension: nps {
     type: string
-    label: "NP"
+    label: "NPS"
     sql: ${TABLE}.nps ;;
   }
 }
