@@ -48,7 +48,7 @@ explore: retail {
   join: transactions {
     type: left_outer
     relationship: one_to_many
-    fields: [transactions.refurb_pre_post]
+    fields: [transactions.refurb_pre_post,transactions.number_of_branches]
     sql_on: ${base.base_date_date} = ${transactions.transaction_date_filter};;
   }
 
