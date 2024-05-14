@@ -14,7 +14,7 @@ explore: retail {
 
   conditionally_filter: {
     filters: [
-      select_date_range: "1 months"
+      select_date_range: "1 month ago for 1 month"
     ]
     unless: [
       select_fixed_range,
