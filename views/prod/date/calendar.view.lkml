@@ -97,7 +97,6 @@ datagroup_trigger: ts_monthly_datagroup
 
   dimension: calendar_year_month2 {
     group_label: "Dates"
-    label: "Year Month (yyyy-mm)"
     description: "used in the retail explore"
     type: string
     sql: replace(${calendar_year_month},'-','') ;;
@@ -365,7 +364,7 @@ datagroup_trigger: ts_monthly_datagroup
     view_label: "Measures"
     group_label: "Other Metrics"
     label: "Number of Distinct Year Months"
-    required_access_grants: [retail_testing]
+    required_access_grants: [is_retail]
     type: count_distinct
     sql: ${calendar_year_month} ;;
   }

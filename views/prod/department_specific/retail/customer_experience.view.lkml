@@ -6,7 +6,8 @@ view: customer_experience {
     type: string
     view_label: "Date"
     sql: CAST(${TABLE}.month AS string);;
-    hidden: yes
+    # hidden: yes
+    label: "Customer Experience Month"
   }
 
   dimension: siteUID {
@@ -18,7 +19,7 @@ view: customer_experience {
   }
 
   dimension: nps {
-    type: string
+    type: number
     label: "NPS"
     sql: ${TABLE}.nps ;;
   }

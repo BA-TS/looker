@@ -48,7 +48,7 @@ access_grant: dm_testing {
   allowed_values: ["Y"]
 }
 
-access_grant: retail_testing {
+access_grant: is_retail {
   user_attribute: retail_testing
   allowed_values: ["Y"]
 }
