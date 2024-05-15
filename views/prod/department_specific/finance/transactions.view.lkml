@@ -779,17 +779,19 @@ view: transactions {
   # Sites
 
   dimension: days_before_refurb {
+    view_label: "Location"
+    group_label: "Site Information"
     description: "Days before refurbishment (at a site level)"
     type: number
     sql: date_diff(${sites.Refurb_start_date},${transactions.transaction_date},day);;
-    hidden: yes
   }
 
   dimension: days_after_refurb {
+    view_label: "Location"
+    group_label: "Site Information"
     description: "Days after refurbishment (at a site level)"
     type: number
     sql: date_diff(${transactions.transaction_date},${sites.Refurb_end_date},day);;
-    hidden: yes
   }
 
   dimension: refurb_pre_post {
