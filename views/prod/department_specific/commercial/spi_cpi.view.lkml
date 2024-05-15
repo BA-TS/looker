@@ -283,7 +283,7 @@ view: spi_cpi{
   measure: cy_netSales_total {
     type: sum
     group_label: "CY"
-    sql: ${cy_netSales};;
+    sql: coalesce(${cy_netSales},0);;
     label: "CY Net Sales"
     value_format_name: gbp
   }
@@ -291,7 +291,7 @@ view: spi_cpi{
   measure: ly_netSales_total {
     type: sum
     group_label: "LY"
-    sql: ${ly_netSales};;
+    sql: coalesce(${ly_netSales},0);;
     label: "LY Net Sales"
     value_format_name: gbp
   }
@@ -368,12 +368,30 @@ view: spi_cpi{
     value_format: "0.00"
   }
 
+  dimension: cy_asp_dim {
+    label: "CY ASP"
+    group_label: "CY"
+    description: "Net Sales AOV / Average Units"
+    type: number
+    sql: COALESCE(SAFE_DIVIDE(${cy_netSales}, ${cy_unitsSOLD}),0) ;;
+    value_format_name: gbp
+  }
+
   measure: cy_asp {
     label: "CY ASP"
     group_label: "CY"
     description: "Net Sales AOV / Average Units"
     type: number
     sql: COALESCE(SAFE_DIVIDE(${cy_netSales_total}, ${cy_unitsSOLD_total}),0) ;;
+    value_format_name: gbp
+  }
+
+  dimension: ly_asp_dim {
+    label: "LY ASP"
+    group_label: "LY"
+    description: "Net Sales AOV / Average Units"
+    type: number
+    sql: COALESCE(SAFE_DIVIDE(${ly_netSales}, ${ly_unitsSOLD}),0) ;;
     value_format_name: gbp
   }
 
@@ -394,34 +412,70 @@ view: spi_cpi{
     value_format_name: gbp
   }
 
+  dimension: unit_var_dim {
+    label: "Unit Var Dim"
+    group_label: "Var"
+    type: number
+    sql: ${cy_unitsSOLD}-${ly_unitsSOLD};;
+    value_format: "#,##0"
+    hidden: yes
+  }
+
   measure: unit_var {
     label: "Unit Var"
     group_label: "Var"
-    type: number
-    sql: ${cy_unitsSOLD_total}-${ly_unitsSOLD_total};;
+    # type: number
+    # sql: ${cy_unitsSOLD_total}-${ly_unitsSOLD_total};;
+    type: sum
+    sql: ${unit_var_dim} ;;
     value_format: "#,##0"
   }
+
+  # measure: price_var {
+  #   label: "Price Var"
+  #   group_label: "Var"
+  #   type: number
+  #   sql:
+  #   Case WHEN abs(${cy_unitsSOLD_total}) > 0
+  #   THEN ${asp_var}*${ly_unitsSOLD_total}
+  #   ELSE ${asp_var}*${cy_unitsSOLD_total}
+  #   END ;;
+  #   value_format_name: gbp
+  # }
+
 
   measure: price_var {
     label: "Price Var"
     group_label: "Var"
-    type: number
+    type: sum
     sql:
-    Case WHEN abs(${cy_unitsSOLD_total}) > 0
-    THEN ${asp_var}*${ly_unitsSOLD_total}
-    ELSE ${asp_var}*${cy_unitsSOLD_total}
+    Case WHEN abs(${cy_unitsSOLD}) > 0
+    THEN (${cy_asp_dim}-${ly_asp_dim})*${ly_unitsSOLD}
+    ELSE (${cy_asp_dim}-${ly_asp_dim})*${cy_unitsSOLD}
     END ;;
     value_format_name: gbp
   }
 
+  # measure: volume_var {
+  #   label: "Volume Var"
+  #   group_label: "Var"
+  #   type: number
+  #   sql:
+  #   Case WHEN abs(${cy_unitsSOLD_total}) > 0
+  #   THEN ${unit_var}*${cy_asp}
+  #   ELSE ${unit_var}*${ly_asp}
+  #   END ;;
+  #   value_format: "#,##0.00"
+  # }
+
   measure: volume_var {
     label: "Volume Var"
     group_label: "Var"
-    type: number
+    type: sum
     sql:
-    Case WHEN abs(${cy_unitsSOLD_total}) > 0
-    THEN ${unit_var}*${cy_asp}
-    ELSE ${unit_var}*${ly_asp}
+    Case WHEN abs(${cy_unitsSOLD}) > 0
+    THEN ${unit_var_dim}*${cy_asp_dim}
+    ELSE ${unit_var_dim}*${ly_asp_dim}
     END ;;
     value_format: "#,##0.00"
   }
