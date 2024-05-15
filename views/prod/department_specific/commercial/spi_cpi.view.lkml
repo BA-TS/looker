@@ -31,7 +31,7 @@ view: spi_cpi{
     FROM `toolstation-data-storage.financeReporting.DS_DAILY_SPI_CPI`
     Where dims.productCode not in ("00053", "44842","85699")
     ;;
-    datagroup_trigger: ts_daily_datagroup
+    # datagroup_trigger: ts_daily_datagroup
   }
 
   dimension: prim_key {
@@ -139,13 +139,13 @@ view: spi_cpi{
 
   dimension: cy_unitsSOLD {
     type: number
-    sql: ${TABLE}.cy_unitsSOLD;;
+    sql: coalesce(${TABLE}.cy_unitsSOLD,0);;
     hidden: yes
   }
 
   dimension: ly_unitsSOLD {
     type: number
-    sql: ${TABLE}.ly_unitsSOLD;;
+    sql: coalesce(${TABLE}.ly_unitsSOLD,0);;
     hidden: yes
   }
 
