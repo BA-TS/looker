@@ -213,7 +213,7 @@ view: spi_cpi{
     type: sum
     group_label: "CY"
     label: "CY Units Sold"
-    sql: ${cy_unitsSOLD};;
+    sql: coalesce(${cy_unitsSOLD},0);;
     value_format: "#,##0"
   }
 
@@ -221,7 +221,7 @@ view: spi_cpi{
     type: sum
     group_label: "LY"
     label: "LY Units Sold"
-    sql: ${ly_unitsSOLD};;
+    sql: coalesce(${ly_unitsSOLD},0);;
     value_format: "#,##0"
   }
 

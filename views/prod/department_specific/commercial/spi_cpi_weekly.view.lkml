@@ -52,13 +52,13 @@ view: spi_cpi_weekly{
 
   dimension: cy_unitsSOLD {
     type: number
-    sql: ${TABLE}.cy_unitsSOLD;;
+    sql: coalesce(${TABLE}.cy_unitsSOLD,0);;
     hidden: yes
   }
 
   dimension: ly_unitsSOLD {
     type: number
-    sql: ${TABLE}.ly_unitsSOLD;;
+    sql: coalesce(${TABLE}.ly_unitsSOLD,0);;
     hidden: yes
   }
 
