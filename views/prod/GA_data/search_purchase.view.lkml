@@ -53,7 +53,7 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 7;;
   }
 
   measure: search_sessions {
-    view_label: "GA4"
+    #view_label: "GA4"
     group_label: "Search to purchase"
     label: "Search Sessions"
     type: count_distinct
@@ -61,7 +61,7 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 7;;
   }
 
   measure: purchase_sessions {
-    view_label: "GA4"
+    #view_label: "GA4"
     group_label: "Search to purchase"
     label: "Search to Purchase Sessions"
     type: count_distinct
@@ -70,7 +70,7 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 7;;
   }
 
   measure: search_purchase_rate {
-    view_label: "GA4"
+    #view_label: "GA4"
     group_label: "Search to purchase"
     label: "Search to Purchase Rate"
     type: number

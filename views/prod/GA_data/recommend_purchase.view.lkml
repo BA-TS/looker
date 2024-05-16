@@ -63,7 +63,7 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 7;;
 
   measure: net_rev {
     value_format_name: gbp
-    view_label: "GA4"
+    #view_label: "GA4"
     group_label: "Recommend to purchase"
     label: "(Recommend) Net Revenue"
     type: sum
@@ -72,7 +72,7 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 7;;
   }
 
   measure: recommend_sessions {
-    view_label: "GA4"
+    #view_label: "GA4"
     group_label: "Recommend to purchase"
     label: "Recommend Sessions"
     type: count_distinct
@@ -80,7 +80,7 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 7;;
   }
 
   measure: purchase_sessions {
-    view_label: "GA4"
+    #view_label: "GA4"
     group_label: "Recommend to purchase"
     label: "Recommend to Purchase Sessions"
     type: count_distinct
@@ -89,7 +89,7 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 7;;
   }
 
   measure: recommend_purchase_rate {
-    view_label: "GA4"
+    #view_label: "GA4"
     group_label: "Recommend to purchase"
     label: "Recommend to Purchase Rate"
     type: number

@@ -241,7 +241,7 @@ view: ga4_transactions {
     label: "Product Quantity"
     type: sum
     sql: ${Quantity} ;;
-    filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
+    filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?", productCode: "-00021"]
   }
 
   measure: Sum_GA4quantity {
@@ -281,6 +281,15 @@ view: ga4_transactions {
     label: "AOV (Gross Rev)"
     value_format_name: gbp
     sql: SAFE_DIVIDE(${gross_values},${Orders}) ;;
+  }
+
+  measure: avg_basket_size {
+    view_label: "GA4"
+    group_label: "Transactional"
+    type: number
+    label: "Avg Basket Size"
+    value_format_name: decimal_2
+    sql: SAFE_DIVIDE(${Sum_quantity},${Orders}) ;;
   }
 
 

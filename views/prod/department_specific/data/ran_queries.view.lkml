@@ -3,8 +3,6 @@ view: ran_queries {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
   derived_table: {
-    increment_key: "run_start_date"
-    increment_offset: 3
     datagroup_trigger: ts_daily_datagroup
     sql:
     select * from `toolstation-data-storage.audit.ranQueries`

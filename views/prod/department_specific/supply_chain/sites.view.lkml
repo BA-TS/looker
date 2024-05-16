@@ -1,4 +1,6 @@
 include: "/views/**/transactions.view"
+include: "/views/**/calendar.view"
+
 
 view: sites {
   derived_table: {
@@ -354,6 +356,13 @@ view: sites {
     sql: ${TABLE}.labourTier ;;
   }
 
+  dimension: Tier2plus_above {
+    group_label: "Site Information"
+    label: "Tier 2+ and Above"
+    type: yesno
+    sql: ${labourTier} in ("Tier 2+", "Tier 3");;
+  }
+
   dimension: Opening_times_Mon_Fri {
     group_label: "Site Information"
     label: "Opening Times Mon - Fri"
@@ -429,4 +438,11 @@ view: sites {
     type: date
     sql: ${TABLE}.Refurb_end_date ;;
   }
+
+  # dimension: days_before_refurb {
+  #   description: "Days before refurbishment (at a site level)"
+  #   type: number
+  #   sql: date_diff(${sites.Refurb_start_date},cast(${base.date_date} as date),day);;
+  #   # hidden: yes
+  # }
 }

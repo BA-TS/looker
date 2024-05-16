@@ -729,6 +729,7 @@ explore: GA4_testy {
   }
 
   join: search_purchase {
+    view_label: "GA4"
     type: left_outer
     relationship: many_to_one
     sql_on: ${ga4_rjagdev_test.session_id} = ${search_purchase.search_ID} and ${calendar.date} = ${search_purchase.search_date_date};;
@@ -736,11 +737,51 @@ explore: GA4_testy {
   }
 
   join: recommend_purchase {
+    view_label: "GA4"
     type: left_outer
     relationship: many_to_one
     sql_on: ${ga4_rjagdev_test.session_id} = ${recommend_purchase.recommend_ID} and ${calendar.date} = ${recommend_purchase.recommend_date_date} and ${products.product_code} = ${recommend_purchase.item_id};;
     #sql_where: ${ga4_exitpage.LastE} = 1;;
   }
+
+  join: last12_week_metrics {
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${calendar.date} = ${last12_week_metrics.date_date} ;;
+  }
+
+  join: search_purchase12W {
+    from: search_purchase
+    type: left_outer
+    relationship: many_to_one
+    view_label: "Last12 Week Metrics"
+    sql_on: ${calendar.date} = ${search_purchase12W.search_date_date};;
+    #fields: [search_date_date, search_purchase_rate, search_purch_diff]
+  }
+
+  join: recommend_purchase12W {
+    from: recommend_purchase
+    view_label: "Last12 Week Metrics"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${calendar.date} = ${recommend_purchase12W.recommend_date_date};;
+    #sql_where: ${ga4_exitpage.LastE} = 1;;
+  }
+
+  join: oos_items_l12weeks {
+    view_label: "Last12 Week Metrics"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${calendar.date} = ${oos_items_l12weeks.date_date} and ${products.product_code} = ${oos_items_l12weeks.PDPitem_id};;
+  }
+
+  join: order_shippingmethod_l12weeks {
+    view_label: "Last12 Week Metrics"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${calendar.date} = ${order_shippingmethod_l12weeks.date_date};;
+  }
+
 
 
 
