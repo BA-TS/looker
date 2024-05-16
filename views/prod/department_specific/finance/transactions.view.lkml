@@ -803,7 +803,7 @@ view: transactions {
     case
     when ${days_before_refurb} between 0 and 56 then "Pre"
     when ${days_after_refurb} >=0 then "Post"
-    when ${days_before_refurb} <0 and ${days_after_refurb} <0 then "During"
+    when ${days_before_refurb} <0 and ${days_after_refurb} <0 then "Refurb"
     else "Other"
     end;;
   }
