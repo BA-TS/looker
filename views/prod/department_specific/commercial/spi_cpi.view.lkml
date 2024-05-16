@@ -421,29 +421,6 @@ view: spi_cpi{
     hidden: yes
   }
 
-  measure: unit_var {
-    label: "Unit Var"
-    group_label: "Var"
-    # type: number
-    # sql: ${cy_unitsSOLD_total}-${ly_unitsSOLD_total};;
-    type: sum
-    sql: ${unit_var_dim} ;;
-    value_format: "#,##0"
-  }
-
-  # measure: price_var {
-  #   label: "Price Var"
-  #   group_label: "Var"
-  #   type: number
-  #   sql:
-  #   Case WHEN abs(${cy_unitsSOLD_total}) > 0
-  #   THEN ${asp_var}*${ly_unitsSOLD_total}
-  #   ELSE ${asp_var}*${cy_unitsSOLD_total}
-  #   END ;;
-  #   value_format_name: gbp
-  # }
-
-
   measure: price_var {
     label: "Price Var"
     group_label: "Var"
@@ -456,18 +433,6 @@ view: spi_cpi{
     value_format_name: gbp
   }
 
-  # measure: volume_var {
-  #   label: "Volume Var"
-  #   group_label: "Var"
-  #   type: number
-  #   sql:
-  #   Case WHEN abs(${cy_unitsSOLD_total}) > 0
-  #   THEN ${unit_var}*${cy_asp}
-  #   ELSE ${unit_var}*${ly_asp}
-  #   END ;;
-  #   value_format: "#,##0.00"
-  # }
-
   measure: volume_var {
     label: "Volume Var"
     group_label: "Var"
@@ -479,5 +444,4 @@ view: spi_cpi{
     END ;;
     value_format: "#,##0.00"
   }
-
 }

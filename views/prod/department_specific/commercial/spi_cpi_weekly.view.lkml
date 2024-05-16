@@ -94,21 +94,21 @@ view: spi_cpi_weekly{
     value_format_name: gbp
   }
 
-  measure: cy_asp {
-    label: "CY ASP"
-    group_label: "CY"
-    description: "Net Sales AOV / Average Units"
-    type: number
-    sql: COALESCE(SAFE_DIVIDE(${cy_netSales_total}, ${cy_unitsSOLD_total}),0) ;;
-    value_format_name: gbp
-  }
+  # measure: cy_asp {
+  #   label: "CY ASP"
+  #   group_label: "CY"
+  #   description: "Net Sales AOV / Average Units"
+  #   type: number
+  #   sql: COALESCE(SAFE_DIVIDE(${cy_netSales_total}, ${cy_unitsSOLD_total}),0) ;;
+  #   value_format_name: gbp
+  # }
 
-  measure: ly_asp {
-    label: "LY ASP"
-    group_label: "LY"
-    description: "Net Sales AOV / Average Units"
-    type: number
-    sql: COALESCE(SAFE_DIVIDE(${ly_netSales_total}, ${ly_unitsSOLD_total}),0) ;;
-    value_format_name: gbp
-  }
+  # measure: ly_asp {
+  #   label: "LY ASP"
+  #   group_label: "LY"
+  #   description: "Net Sales AOV / Average Units"
+  #   type: number
+  #   sql: COALESCE(SAFE_DIVIDE(${ly_netSales_total}, ${ly_unitsSOLD_total}),0) ;;
+  #   value_format_name: gbp
+  # }
 }
