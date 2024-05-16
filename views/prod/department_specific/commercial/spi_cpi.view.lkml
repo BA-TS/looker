@@ -375,6 +375,7 @@ view: spi_cpi{
     type: number
     sql: COALESCE(SAFE_DIVIDE(${cy_netSales}, ${cy_unitsSOLD}),0) ;;
     value_format_name: gbp
+    hidden: yes
   }
 
   measure: cy_asp {
@@ -393,6 +394,7 @@ view: spi_cpi{
     type: number
     sql: COALESCE(SAFE_DIVIDE(${ly_netSales}, ${ly_unitsSOLD}),0) ;;
     value_format_name: gbp
+    hidden: yes
   }
 
   measure: ly_asp {
