@@ -426,8 +426,8 @@ view: spi_cpi{
     group_label: "Var"
     type: sum
     sql:
-    Case WHEN abs(${cy_unitsSOLD}) > 0
-    THEN (${cy_asp_dim}-${ly_asp_dim})*${ly_unitsSOLD}
+    Case WHEN cast(${productCode} as int) <10000 THEN ${cy_netSales}-${ly_netSales}
+    WHEN abs(${cy_unitsSOLD}) > 0 THEN (${cy_asp_dim}-${ly_asp_dim})*${ly_unitsSOLD}
     ELSE (${cy_asp_dim}-${ly_asp_dim})*${cy_unitsSOLD}
     END ;;
     value_format_name: gbp
@@ -438,8 +438,8 @@ view: spi_cpi{
     group_label: "Var"
     type: sum
     sql:
-    Case WHEN abs(${cy_unitsSOLD}) > 0
-    THEN ${unit_var_dim}*${cy_asp_dim}
+    Case WHEN cast(${productCode} as int) <10000 THEN 0
+    WHEN abs(${cy_unitsSOLD}) > 0 THEN ${unit_var_dim}*${cy_asp_dim}
     ELSE ${unit_var_dim}*${ly_asp_dim}
     END ;;
     value_format: "#,##0.00"
