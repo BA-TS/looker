@@ -1,5 +1,12 @@
 view: dc_to_shop_mapping {
-  sql_table_name: `toolstation-data-storage.locations.DCtoShopMapping` ;;
+  derived_table: {
+    sql:
+    select * from
+    `toolstation-data-storage.locations.DCtoShopMapping`
+    ;;
+    datagroup_trigger: ts_monthly_datagroup
+  }
+
   fields_hidden_by_default: yes
 
   dimension_group: active_from {

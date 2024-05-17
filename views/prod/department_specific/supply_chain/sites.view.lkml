@@ -1,5 +1,5 @@
-include: "/views/**/transactions.view"
-include: "/views/**/calendar.view"
+# include: "/views/**/transactions.view"
+# include: "/views/**/calendar.view"
 
 view: sites {
   derived_table: {

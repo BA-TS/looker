@@ -8,8 +8,7 @@ view: sku_cover_dc_wrong_stock {
        FROM `toolstation-data-storage.supplyChainReporting.BQ_DAILY_STOCK_SKU_COVER_DC_WRONG_STOCK`
        ;;
    }
-#
-#    Define your dimensions and measures here, like this:
+
    dimension: P_K {
     description: "Primary Key"
     primary_key: yes
