@@ -800,4 +800,384 @@ explore: +base {
       datagroup_trigger: ts_transactions_datagroup
     }
   }
-}
+
+    aggregate_table: rollup__calendar_completed_date_fiscal_year_week__transactions_product_department__0 {
+      query: {
+        dimensions: [calendar_completed_date.fiscal_year_week, transactions.product_department]
+        measures: [customers.number_of_customers]
+        filters: [
+          base.select_date_range: "NOT NULL",
+          base.select_date_reference: "Transaction",
+          # "calendar_completed_date.fiscal_year_week" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          calendar_completed_date.fiscal_year_week: "202413,202313",
+          # "customers_2wk_ty.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_2wk_ty.is_customer: "Yes,No",
+          # "customers_wk_ly.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_wk_ly.is_customer: "Yes,No",
+          # "customers_wk_ty.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_wk_ty.is_customer: "Yes,No",
+          # "ds_assumed_trade.customer_type_pb" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          ds_assumed_trade.customer_type_pb: "Combined Trade,DIY",
+          transactions.product_department: "-Uncatalogued,-Marketing Vouchers,-Deleted"
+        ]
+      }
+
+      materialization: {
+        datagroup_trigger: ts_transactions_datagroup
+      }
+    }
+
+    aggregate_table: rollup__calendar_completed_date_fiscal_year_week__transactions_sales_channel__1 {
+      query: {
+        dimensions: [calendar_completed_date.fiscal_year_week, transactions.sales_channel]
+        measures: [customers.number_of_customers]
+        filters: [
+          base.select_date_range: "NOT NULL",
+          base.select_date_reference: "Transaction",
+          # "calendar_completed_date.fiscal_year_week" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          calendar_completed_date.fiscal_year_week: "202413,202313",
+          # "customers_2wk_ty.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_2wk_ty.is_customer: "Yes,No",
+          # "customers_wk_ly.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_wk_ly.is_customer: "Yes,No",
+          # "customers_wk_ty.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_wk_ty.is_customer: "Yes,No",
+          # "ds_assumed_trade.customer_type_pb" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          ds_assumed_trade.customer_type_pb: "Combined Trade,DIY"
+        ]
+      }
+
+      materialization: {
+        datagroup_trigger: ts_transactions_datagroup
+      }
+    }
+
+    aggregate_table: rollup__calendar_completed_date_fiscal_year_week__products_subdepartment__2 {
+      query: {
+        dimensions: [calendar_completed_date.fiscal_year_week, products.subdepartment]
+        measures: [customers.number_of_customers]
+        filters: [
+          base.select_date_range: "NOT NULL",
+          base.select_date_reference: "Transaction",
+          # "calendar_completed_date.fiscal_year_week" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          calendar_completed_date.fiscal_year_week: "202413,202313",
+          # "customers_2wk_ty.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_2wk_ty.is_customer: "Yes,No",
+          # "customers_wk_ly.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_wk_ly.is_customer: "Yes,No",
+          # "customers_wk_ty.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_wk_ty.is_customer: "Yes,No",
+          # "ds_assumed_trade.customer_type_pb" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          ds_assumed_trade.customer_type_pb: "Combined Trade,DIY",
+          products.subdepartment: "-Delivery Charges,-Marketing Vouchers"
+        ]
+      }
+
+      materialization: {
+        datagroup_trigger: ts_transactions_datagroup
+      }
+    }
+
+    aggregate_table: rollup__calendar_completed_date_fiscal_year_week__customer_segmentation_cluster__3 {
+      query: {
+        dimensions: [calendar_completed_date.fiscal_year_week, customer_segmentation.cluster]
+        measures: [customers.number_of_customers]
+        filters: [
+          base.select_date_range: "NOT NULL",
+          base.select_date_reference: "Transaction",
+          # "calendar_completed_date.fiscal_year_week" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          calendar_completed_date.fiscal_year_week: "202413,202313",
+          # "customers_2wk_ty.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_2wk_ty.is_customer: "Yes,No",
+          # "customers_wk_ly.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_wk_ly.is_customer: "Yes,No",
+          # "customers_wk_ty.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_wk_ty.is_customer: "Yes,No",
+          # "ds_assumed_trade.customer_type_pb" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          ds_assumed_trade.customer_type_pb: "Combined Trade,DIY"
+        ]
+      }
+
+      materialization: {
+        datagroup_trigger: ts_transactions_datagroup
+      }
+    }
+
+    aggregate_table: rollup__calendar_completed_date_fiscal_year_week__ds_assumed_trade_customer_type_pb__4 {
+      query: {
+        dimensions: [calendar_completed_date.fiscal_year_week, ds_assumed_trade.customer_type_pb]
+        measures: [customers.number_of_customers]
+        filters: [
+          base.select_date_range: "NOT NULL",
+          base.select_date_reference: "Transaction",
+          # "calendar_completed_date.fiscal_year_week" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          calendar_completed_date.fiscal_year_week: "202413,202313",
+          # "customers_2wk_ty.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_2wk_ty.is_customer: "Yes,No",
+          # "customers_wk_ly.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_wk_ly.is_customer: "Yes,No",
+          # "customers_wk_ty.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_wk_ty.is_customer: "Yes,No",
+          # "ds_assumed_trade.customer_type_pb" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          ds_assumed_trade.customer_type_pb: "Combined Trade,DIY"
+        ]
+      }
+
+      materialization: {
+        datagroup_trigger: ts_transactions_datagroup
+      }
+    }
+
+    aggregate_table: rollup__calendar_completed_date_fiscal_year_week__sites_site_name__5 {
+      query: {
+        dimensions: [calendar_completed_date.fiscal_year_week, sites.site_name]
+        measures: [customers.number_of_customers]
+        filters: [
+          base.select_date_range: "NOT NULL",
+          base.select_date_reference: "Transaction",
+          # "calendar_completed_date.fiscal_year_week" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          calendar_completed_date.fiscal_year_week: "202413,202313",
+          # "customers_2wk_ty.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_2wk_ty.is_customer: "Yes,No",
+          # "customers_wk_ly.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_wk_ly.is_customer: "Yes,No",
+          # "customers_wk_ty.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_wk_ty.is_customer: "Yes,No",
+          # "ds_assumed_trade.customer_type_pb" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          ds_assumed_trade.customer_type_pb: "Combined Trade,DIY",
+          sites.site_name: "-Website"
+        ]
+      }
+
+      materialization: {
+        datagroup_trigger: ts_transactions_datagroup
+      }
+    }
+
+    aggregate_table: rollup__calendar_completed_date_fiscal_year_week__sites_division__6 {
+      query: {
+        dimensions: [calendar_completed_date.fiscal_year_week, sites.division]
+        measures: [customers.number_of_customers]
+        filters: [
+          base.select_date_range: "NOT NULL",
+          base.select_date_reference: "Transaction",
+          # "calendar_completed_date.fiscal_year_week" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          calendar_completed_date.fiscal_year_week: "202413,202313",
+          # "customers_2wk_ty.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_2wk_ty.is_customer: "Yes,No",
+          # "customers_wk_ly.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_wk_ly.is_customer: "Yes,No",
+          # "customers_wk_ty.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_wk_ty.is_customer: "Yes,No",
+          # "ds_assumed_trade.customer_type_pb" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          ds_assumed_trade.customer_type_pb: "Combined Trade,DIY",
+          sites.division: "Division 1,Division 2,Division 3",
+          sites.site_name: "-Website"
+        ]
+      }
+
+      materialization: {
+        datagroup_trigger: ts_transactions_datagroup
+      }
+    }
+
+    aggregate_table: rollup__calendar_completed_date_fiscal_year_week__sites_region_name__7 {
+      query: {
+        dimensions: [calendar_completed_date.fiscal_year_week, sites.region_name]
+        measures: [customers.number_of_customers]
+        filters: [
+          base.select_date_range: "NOT NULL",
+          base.select_date_reference: "Transaction",
+          # "calendar_completed_date.fiscal_year_week" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          calendar_completed_date.fiscal_year_week: "202413,202313",
+          # "customers_2wk_ty.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_2wk_ty.is_customer: "Yes,No",
+          # "customers_wk_ly.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_wk_ly.is_customer: "Yes,No",
+          # "customers_wk_ty.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_wk_ty.is_customer: "Yes,No",
+          # "ds_assumed_trade.customer_type_pb" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          ds_assumed_trade.customer_type_pb: "Combined Trade,DIY",
+          sites.site_name: "-Website"
+        ]
+      }
+
+      materialization: {
+        datagroup_trigger: ts_transactions_datagroup
+      }
+    }
+
+    aggregate_table: rollup__calendar_completed_date_fiscal_year_week__transactions_user_uid__8 {
+      query: {
+        dimensions: [calendar_completed_date.fiscal_year_week, transactions.user_uid]
+        measures: [customers.number_of_customers]
+        filters: [
+          base.select_date_range: "NOT NULL",
+          base.select_date_reference: "Transaction",
+          # "calendar_completed_date.fiscal_year_week" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          calendar_completed_date.fiscal_year_week: "202413,202313",
+          # "customers_2wk_ty.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_2wk_ty.is_customer: "Yes,No",
+          # "customers_wk_ly.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_wk_ly.is_customer: "Yes,No",
+          # "customers_wk_ty.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_wk_ty.is_customer: "Yes,No",
+          # "ds_assumed_trade.customer_type_pb" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          ds_assumed_trade.customer_type_pb: "Combined Trade,DIY",
+          sites.site_name: "-Website",
+          transactions.user_uid: "WWW,APP"
+        ]
+      }
+
+      materialization: {
+        datagroup_trigger: ts_transactions_datagroup
+      }
+    }
+
+    aggregate_table: rollup__calendar_completed_date_fiscal_year_week__products_product_name__9 {
+      query: {
+        dimensions: [calendar_completed_date.fiscal_year_week, products.product_name]
+        measures: [customers.number_of_customers]
+        filters: [
+          base.select_date_range: "NOT NULL",
+          base.select_date_reference: "Transaction",
+          # "calendar_completed_date.fiscal_year_week" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          calendar_completed_date.fiscal_year_week: "202413,202313",
+          # "customers_2wk_ty.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_2wk_ty.is_customer: "Yes,No",
+          # "customers_wk_ly.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_wk_ly.is_customer: "Yes,No",
+          # "customers_wk_ty.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_wk_ty.is_customer: "Yes,No",
+          # "ds_assumed_trade.customer_type_pb" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          ds_assumed_trade.customer_type_pb: "Combined Trade,DIY",
+          transactions.product_department: "-Uncatalogued,-Marketing Vouchers,-Deleted"
+        ]
+      }
+
+      materialization: {
+        datagroup_trigger: ts_transactions_datagroup
+      }
+    }
+
+    aggregate_table: rollup__calendar_completed_date_fiscal_year_week__transactions_promoFlag__10 {
+      query: {
+        dimensions: [calendar_completed_date.fiscal_year_week, transactions.promoFlag]
+        measures: [customers.number_of_customers]
+        filters: [
+          base.select_date_range: "NOT NULL",
+          base.select_date_reference: "Transaction",
+          # "calendar_completed_date.fiscal_year_week" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          calendar_completed_date.fiscal_year_week: "202413,202313",
+          # "customers_2wk_ty.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_2wk_ty.is_customer: "Yes,No",
+          # "customers_wk_ly.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_wk_ly.is_customer: "Yes,No",
+          # "customers_wk_ty.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_wk_ty.is_customer: "Yes,No",
+          # "ds_assumed_trade.customer_type_pb" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          ds_assumed_trade.customer_type_pb: "Combined Trade,DIY"
+        ]
+      }
+
+      materialization: {
+        datagroup_trigger: ts_transactions_datagroup
+      }
+    }
+
+    aggregate_table: rollup__calendar_completed_date_fiscal_year_week__sites_region_name__11 {
+      query: {
+        dimensions: [calendar_completed_date.fiscal_year_week, sites.region_name]
+        measures: [customers.number_of_customers]
+        filters: [
+          base.select_date_range: "NOT NULL",
+          base.select_date_reference: "Transaction",
+          # "calendar_completed_date.fiscal_year_week" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          calendar_completed_date.fiscal_year_week: "202413,202313",
+          # "customers_2wk_ty.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_2wk_ty.is_customer: "Yes,No",
+          # "customers_wk_ly.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_wk_ly.is_customer: "Yes,No",
+          # "customers_wk_ty.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_wk_ty.is_customer: "Yes,No",
+          # "ds_assumed_trade.customer_type_pb" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          ds_assumed_trade.customer_type_pb: "Combined Trade,DIY",
+          sites.division: "-Other Channels,-Unallocated",
+          sites.site_uid: "B9,R8,B6,A2,B3,B1,RN,CN,BS,GJ,O3,C3,TK,S1,G6,AK,G4,H7,RA,CB,AI,AE,H2,FK,I3,L3,L9,BM,O1,P2,R5,R1,Site UID,S3,FQ,S7,RL,T4,W3,O7,YS"
+        ]
+      }
+
+      materialization: {
+        datagroup_trigger: ts_transactions_datagroup
+      }
+    }
+
+    aggregate_table: rollup__calendar_completed_date_fiscal_year_week__trade_customers_trade_type__12 {
+      query: {
+        dimensions: [calendar_completed_date.fiscal_year_week, trade_customers.trade_type]
+        measures: [customers.number_of_customers]
+        filters: [
+          base.select_date_range: "NOT NULL",
+          base.select_date_reference: "Transaction",
+          # "calendar_completed_date.fiscal_year_week" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          calendar_completed_date.fiscal_year_week: "202413,202313",
+          # "customers_2wk_ty.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_2wk_ty.is_customer: "Yes,No",
+          # "customers_wk_ly.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_wk_ly.is_customer: "Yes,No",
+          # "customers_wk_ty.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_wk_ty.is_customer: "Yes,No",
+          # "ds_assumed_trade.customer_type_pb" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          ds_assumed_trade.customer_type_pb: "Combined Trade,DIY",
+          trade_customers.trade_type: "-NULL"
+        ]
+      }
+
+      materialization: {
+        datagroup_trigger: ts_transactions_datagroup
+      }
+    }
+
+    aggregate_table: rollup__calendar_completed_date_fiscal_year_week__transactions_is_next_day_click_and_collect__13 {
+      query: {
+        dimensions: [calendar_completed_date.fiscal_year_week, transactions.is_next_day_click_and_collect]
+        measures: [customers.number_of_customers]
+        filters: [
+          base.select_date_range: "NOT NULL",
+          base.select_date_reference: "Transaction",
+          # "calendar_completed_date.fiscal_year_week" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          calendar_completed_date.fiscal_year_week: "202413,202313",
+          # "customers_2wk_ty.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_2wk_ty.is_customer: "Yes,No",
+          # "customers_wk_ly.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_wk_ly.is_customer: "Yes,No",
+          # "customers_wk_ty.is_customer" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          customers_wk_ty.is_customer: "Yes,No",
+          # "ds_assumed_trade.customer_type_pb" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          ds_assumed_trade.customer_type_pb: "Combined Trade,DIY",
+          transactions.sales_channel: "CLICK & COLLECT"
+        ]
+      }
+
+      materialization: {
+        datagroup_trigger: ts_transactions_datagroup
+      }
+    }
+
+    aggregate_table: rollup__customers_wk_ly_is_customer__customers_wk_ty_is_customer__14 {
+      query: {
+        dimensions: [customers_wk_ly.is_customer, customers_wk_ty.is_customer]
+        measures: [transactions.number_of_unique_customers]
+        filters: [
+          base.select_date_range: "NOT NULL",
+          base.select_date_reference: "Transaction",
+          # "ds_assumed_trade.customer_type_pb" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
+          ds_assumed_trade.customer_type_pb: "Combined Trade,DIY"
+        ]
+      }
+
+      materialization: {
+        datagroup_trigger: ts_transactions_datagroup
+      }
+    }
+  }

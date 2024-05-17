@@ -2,7 +2,9 @@ view: stock_level_date_site_product {
   view_label: "Stock Measures"
 
   derived_table: {
-    sql: SELECT distinct * from `toolstation-data-storage.stock.stock_level_date_site_product`
+    sql:
+    SELECT distinct *
+    from `toolstation-data-storage.stock.stock_level_date_site_product`
     where {% condition select_date_range %} date(TIMESTAMP_SUB(openingStockDate, INTERVAL 1 SECOND)) {% endcondition %};;
     datagroup_trigger: ts_transactions_datagroup
     }

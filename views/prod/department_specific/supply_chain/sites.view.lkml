@@ -1,7 +1,6 @@
 include: "/views/**/transactions.view"
 include: "/views/**/calendar.view"
 
-
 view: sites {
   derived_table: {
     sql:
@@ -438,11 +437,4 @@ view: sites {
     type: date
     sql: ${TABLE}.Refurb_end_date ;;
   }
-
-  # dimension: days_before_refurb {
-  #   description: "Days before refurbishment (at a site level)"
-  #   type: number
-  #   sql: date_diff(${sites.Refurb_start_date},cast(${base.date_date} as date),day);;
-  #   # hidden: yes
-  # }
 }
