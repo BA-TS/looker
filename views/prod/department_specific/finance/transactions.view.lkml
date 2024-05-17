@@ -1,5 +1,5 @@
 include: "/views/**/*base*.view"
-include: "/views/**/calendar.view"
+# include: "/views/**/calendar.view"
 include: "/views/**/sites.view"
 
 view: transactions {

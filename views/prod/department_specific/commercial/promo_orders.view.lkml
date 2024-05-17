@@ -2,15 +2,15 @@ view: promo_orders {
   #using ecrebo data
    derived_table: {
      sql: SELECT distinct row_number() over () as P_K,
-    date(ts.placedDate) as date,
-    ts.parentOrderUID as OrdersFromTrolleySales,
-    et.transaction_uuid as transactionID_ecrebo,
-    ec.issuance_redemption as CouponType,
-    ec.campaign_id as CampaignID,
-    ec.campaign_name as EcreboCoupon_name,
-    from`toolstation-data-storage.sales.TrolleySales` ts
-    inner join `toolstation-data-storage.sales.ecreboTransactions` as et on ts.trolleyUID=et.transaction_uuid
-    inner join `toolstation-data-storage.sales.ecreboCoupons` as ec on et.transaction_uuid = ec.transaction_uuid
+      date(ts.placedDate) as date,
+      ts.parentOrderUID as OrdersFromTrolleySales,
+      et.transaction_uuid as transactionID_ecrebo,
+      ec.issuance_redemption as CouponType,
+      ec.campaign_id as CampaignID,
+      ec.campaign_name as EcreboCoupon_name,
+      from`toolstation-data-storage.sales.TrolleySales` ts
+      inner join `toolstation-data-storage.sales.ecreboTransactions` as et on ts.trolleyUID=et.transaction_uuid
+      inner join `toolstation-data-storage.sales.ecreboCoupons` as ec on et.transaction_uuid = ec.transaction_uuid
        ;;
    }
 

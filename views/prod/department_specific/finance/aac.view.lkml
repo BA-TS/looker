@@ -2,6 +2,7 @@ view: aac {
   derived_table: {
     sql: select distinct *, row_number() over () as P_K from
    `toolstation-data-storage.stock.aacHistory`;;
+    datagroup_trigger: ts_daily_datagroup
   }
 
   dimension: P_K {

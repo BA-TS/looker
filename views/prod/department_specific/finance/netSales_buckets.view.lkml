@@ -41,8 +41,8 @@ view: bucketed_order_sales {
           ELSE 'Under 40'
         END AS over_under_40
       FROM parent_order_sums
-
       ;;
+      datagroup_trigger: ts_daily_datagroup
   }
 
   dimension: parent_order_uid {
