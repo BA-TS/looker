@@ -661,14 +661,14 @@ view: transactions {
     sql:${product_first_sale_date.first_sale_date_group_year}=EXTRACT(Year from CURRENT_DATE)-1;;
   }
 
-  dimension: customer_transaction_year_2023 {
-    required_access_grants: [lz_testing]
-    hidden: yes
-    view_label: "Customer"
-    group_label: "Flags"
-    type:  yesno
-    sql:extract (year from ${transactions.transaction_date})=2023;;
-  }
+  # dimension: customer_transaction_year_2023 {
+  #   required_access_grants: [lz_testing]
+  #   hidden: yes
+  #   view_label: "Customer"
+  #   group_label: "Flags"
+  #   type:  yesno
+  #   sql:extract (year from ${transactions.transaction_date})=2023;;
+  # }
 
   # UID #
   dimension: parent_order_uid {
