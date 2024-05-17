@@ -1,4 +1,3 @@
-include: "/views/prod/department_specific/finance/transactions.view"
 include: "/views/prod/department_specific/customer/trade_customers.view"
 
 view: customers {
