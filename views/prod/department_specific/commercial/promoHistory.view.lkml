@@ -9,7 +9,7 @@ view: promoHistory_Current{
   completedAt) as endDate, publication.catalogue.
   publicationName, productCode, cycleID,financial.costPrice,financial.vatRate, financial.regularPrice, financial.promoPrice,retail.descriptionFOH,retail.isAisleEnd,retail.isTrough,retail.isGrabBin,retail.isCounterTop, retail.isPoster, retail.isStand,retail.isDumpStack,retail.isFSDU
   FROM `toolstation-data-storage.promotions.promoWorking` )
-select distinct row_number() over () as P_K, sub1.* from sub1;;
+  select distinct row_number() over () as P_K, sub1.* from sub1;;
 }
 
   dimension: P_K {
