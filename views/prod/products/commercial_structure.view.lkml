@@ -43,7 +43,7 @@ view: commercial_structure {
       FROM matt_rockliff
       UNION ALL(SELECT * FROM dave_taylor)
       UNION ALL(SELECT * FROM unallocated);;
-  datagroup_trigger: ts_range_datagroup
+    datagroup_trigger: ts_range_datagroup
   }
 
   dimension: buyer {

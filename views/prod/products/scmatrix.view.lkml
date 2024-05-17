@@ -4,7 +4,6 @@ view: scmatrix {
     select * from `toolstation-data-storage.range.SCMatrix`;;
     datagroup_trigger: ts_transactions_datagroup
   }
-
   view_label: "SC Matrix"
 
   dimension_group: active_from {

@@ -42,7 +42,6 @@ view: product_quantity {
 
   dimension: parent_order_uid {
     group_label: "Order Details"
-    label: "Parent Order UID2"
     description: "Main order ID"
     type: string
     sql: ${TABLE}.parentOrderUID ;;

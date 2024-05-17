@@ -6,8 +6,7 @@ view: products {
   union all
   SELECT "null", "null", "null", "null","null", "null",timestamp("2000-05-23 00:00:00"), "null", "null", "null","null", "null",cast(null as int),"null",cast(null as int),"null",cast(null as int),"null", "null", "null", "null",cast(null as int),cast(null as int),"null", "null", "null", "null",timestamp("2021-04-15 00:00:00 UTC"), timestamp("3000-01-01 00:00:00"), cast(null as int)
   ;;
-
-    datagroup_trigger: ts_transactions_datagroup
+  datagroup_trigger: ts_transactions_datagroup
   }
 
   dimension_group: date {
@@ -283,29 +282,8 @@ view: products {
     sql:case
     when ${department} in ('Painting & Decorating', 'Workwear & Safety', 'Ventilation & Heating', 'Smart Technology & Consumer Electrical', 'Plumbing', 'Lighting', 'Kitchens', 'Electrical', 'Central Heating', 'Bathrooms') THEN 'Trade'
     WHEN ${department}  IN ('Hand Tools', 'Power Tools', 'Power Tool Accessories', 'Screws & Fixings', 'Ladders & Storage', 'Landscaping', 'Ironmongery & Security', 'Cleaning & Pest Control', 'Building & Joinery', 'Automotive', 'Adhesives & Sealants') THEN 'Hardware'
-  ELSE 'Other (Uncatalogued, Deleted, Vouchers)'
-END
-
-    ;;
+    ELSE 'Other (Uncatalogued, Deleted, Vouchers)'
+    END;;
   }
-
-  # dimension: retail_base_price {
-  #   description: "Retail Base Price"
-  #   label: "Retail Base Price"
-  #   group_label: "Current Retail Price"
-  #   type: number
-  #   value_format_name: gbp
-  #   sql: ${TABLE}.retailBasePrice ;;
-  # }
-
-  # dimension: baseVAT {
-  #   description: "baseVAT"
-  #   label: "Base VAT"
-  #   group_label: "Current Retail Price"
-  #   type: number
-  #   value_format_name: decimal_1
-  #   sql: ${TABLE}.baseVAT ;;
-  # }
-
 
 }

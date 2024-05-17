@@ -1,5 +1,11 @@
 view: suppliers {
-  sql_table_name: `toolstation-data-storage.range.suppliers`;;
+  derived_table: {
+  sql:
+  select * from
+   `toolstation-data-storage.range.suppliers`;;
+  datagroup_trigger: ts_weekly_datagroup
+  }
+
   drill_fields: [supplier_uid]
 
   dimension: supplier_uid {
