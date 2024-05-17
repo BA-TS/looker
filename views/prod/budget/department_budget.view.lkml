@@ -1,5 +1,10 @@
 view: category_budget {
-  sql_table_name:`toolstation-data-storage.ts_finance.categoryBudget`;;
+  derived_table: {
+   sql:
+   select * from
+  `toolstation-data-storage.ts_finance.categoryBudget`;;
+  datagroup_trigger: ts_monthly_datagroup
+  }
 
   dimension: category_budget_in_query {
     hidden: yes
@@ -14,6 +19,7 @@ view: category_budget {
       {% else %}
       FALSE
       {% endif %};;
+
   }
 
   dimension: date {
