@@ -1,7 +1,12 @@
 view: trade_customers {
   view_label: "Customers"
-  sql_table_name: `toolstation-data-storage.customer.dbs_trade_customers`;;
-  #fields_hidden_by_default: yes
+  derived_table: {
+    sql:
+    select * from
+    `toolstation-data-storage.customer.dbs_trade_customers`;;
+     datagroup_trigger: ts_weekly_datagroup
+  }
+
   required_access_grants: [can_use_customer_information]
 
   dimension: customer_uid {

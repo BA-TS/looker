@@ -1,9 +1,12 @@
 include: "/views/prod/department_specific/customer/customers.view"
 
 view: ds_assumed_trade{
-
-  # sql_table_name: `toolstation-data-storage.customer.ds_assumed_trade` ;;
-  sql_table_name: `toolstation-data-storage.customer.ds_assumed_trade_history_Looker` ;;
+   derived_table: {
+    sql:
+    select * from
+    `toolstation-data-storage.customer.ds_assumed_trade_history_Looker` ;;
+    datagroup_trigger: ts_weekly_datagroup
+   }
 
   dimension: customer_uid {
     type: string
