@@ -33,7 +33,6 @@ view: bucketed_order_sales_department {
           ELSE 'Under 10'
         END AS over_under_10
       FROM parent_order_sums
-
       ;;
   }
 

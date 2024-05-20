@@ -5,20 +5,18 @@ view: single_line_transactions {
       case when  count(distinct case when p.productCode >= '10000' and lower(p.productDepartment) not in ('uncatalogued') then p.productCode else null end) over (partition by parentOrderUID) = 1 then true else false end single_line_transaction_flag,
       count(distinct case when p.productCode >= '10000' and lower(p.productDepartment) not in ('uncatalogued') then p.productCode else null end) over (partition by parentOrderUID) as attached_product_count,
       row_number() OVER(ORDER BY parentOrderUID) AS prim_key,
- from
-
-(select distinct
-parentOrderUID,
-productUID
-from `toolstation-data-storage.sales.transactions`
-union distinct
-select distinct
-parentOrderUID,
-productUID
-from `toolstation-data-storage.sales.transactions_incomplete`)
-
-inner join `toolstation-data-storage.range.products_current` p
-          using(productUID);;
+      from
+      (select distinct
+      parentOrderUID,
+      productUID
+      from `toolstation-data-storage.sales.transactions`
+      union distinct
+      select distinct
+      parentOrderUID,
+      productUID
+      from `toolstation-data-storage.sales.transactions_incomplete`)
+      inner join `toolstation-data-storage.range.products_current` p
+                using(productUID);;
     datagroup_trigger: ts_transactions_datagroup
   }
 

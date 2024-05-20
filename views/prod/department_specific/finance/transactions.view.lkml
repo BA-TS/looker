@@ -1,5 +1,5 @@
 include: "/views/**/*base*.view"
-include: "/views/**/calendar.view"
+# include: "/views/**/calendar.view"
 include: "/views/**/sites.view"
 
 view: transactions {
@@ -661,14 +661,14 @@ view: transactions {
     sql:${product_first_sale_date.first_sale_date_group_year}=EXTRACT(Year from CURRENT_DATE)-1;;
   }
 
-  dimension: customer_transaction_year_2023 {
-    required_access_grants: [lz_testing]
-    hidden: yes
-    view_label: "Customer"
-    group_label: "Flags"
-    type:  yesno
-    sql:extract (year from ${transactions.transaction_date})=2023;;
-  }
+  # dimension: customer_transaction_year_2023 {
+  #   required_access_grants: [lz_testing]
+  #   hidden: yes
+  #   view_label: "Customer"
+  #   group_label: "Flags"
+  #   type:  yesno
+  #   sql:extract (year from ${transactions.transaction_date})=2023;;
+  # }
 
   # UID #
   dimension: parent_order_uid {
@@ -779,17 +779,19 @@ view: transactions {
   # Sites
 
   dimension: days_before_refurb {
+    view_label: "Location"
+    group_label: "Site Information"
     description: "Days before refurbishment (at a site level)"
     type: number
     sql: date_diff(${sites.Refurb_start_date},${transactions.transaction_date},day);;
-    hidden: yes
   }
 
   dimension: days_after_refurb {
+    view_label: "Location"
+    group_label: "Site Information"
     description: "Days after refurbishment (at a site level)"
     type: number
     sql: date_diff(${transactions.transaction_date},${sites.Refurb_end_date},day);;
-    hidden: yes
   }
 
   dimension: refurb_pre_post {
@@ -799,9 +801,9 @@ view: transactions {
     type: string
     sql:
     case
-    when ${days_before_refurb} between 0 and 56 then "Pre"
+    when ${days_before_refurb} between 1 and 56 then "Pre"
     when ${days_after_refurb} >0 then "Post"
-    when ${days_before_refurb} <0 and ${days_after_refurb} <0 then "During"
+    when ${days_before_refurb} <=0 and ${days_after_refurb} <=0 then "Refurb"
     else "Other"
     end;;
   }

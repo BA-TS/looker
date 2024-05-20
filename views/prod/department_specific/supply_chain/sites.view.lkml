@@ -1,4 +1,5 @@
-include: "/views/**/transactions.view"
+# include: "/views/**/transactions.view"
+# include: "/views/**/calendar.view"
 
 view: sites {
   derived_table: {
@@ -352,6 +353,13 @@ view: sites {
     label: "Labour Tier"
     type: string
     sql: ${TABLE}.labourTier ;;
+  }
+
+  dimension: Tier2plus_above {
+    group_label: "Site Information"
+    label: "Tier 2+ and Above"
+    type: yesno
+    sql: ${labourTier} in ("Tier 2+", "Tier 3");;
   }
 
   dimension: Opening_times_Mon_Fri {

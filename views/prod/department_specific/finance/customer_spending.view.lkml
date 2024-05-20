@@ -1,7 +1,6 @@
 view: customer_spending {
 
     derived_table: {
-      #parameter value specifies which of the rankings from the inner table to use
       explore_source: base {
         bind_all_filters: yes
         column: net_sales { field: transactions.total_net_sales }
@@ -96,8 +95,6 @@ view: customer_spending {
         WHEN ${customer_sales}="{% parameter top_rank_limit_2 %}"
           THEN ${customer_uid}
         ELSE "Other"
-      END
-    ;;
+      END ;;
     }
-
   }

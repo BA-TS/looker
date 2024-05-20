@@ -1,6 +1,11 @@
 include: "/views/**/*ds_assumed_trade.view"
 view: customer_segmentation {
-  sql_table_name: `toolstation-data-storage.ts_analytics.ts_SCVFinal` ;;
+  derived_table: {
+  sql:
+  select * from
+  `toolstation-data-storage.ts_analytics.ts_SCVFinal` ;;
+   datagroup_trigger: ts_weekly_datagroup
+  }
 
   dimension: ucu_uid {
     label: "Customer UID"

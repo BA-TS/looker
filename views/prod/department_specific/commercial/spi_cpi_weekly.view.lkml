@@ -11,6 +11,7 @@ view: spi_cpi_weekly{
     sum(metrics.ly_unitsSOLD) as ly_unitsSOLD,
     row_number() OVER(ORDER BY dims.productCode) AS prim_key
     FROM `toolstation-data-storage.financeReporting.DS_DAILY_SPI_CPI`
+    Where dims.productCode not in ("00053", "44842","85699")
     group by 1, 2
     ;;
   }
@@ -37,27 +38,27 @@ view: spi_cpi_weekly{
   dimension: cy_netSales {
     type: number
     label: "CY Net Sales"
-    sql: ${TABLE}.cy_netSales;;
+    sql: coalesce(${TABLE}.cy_netSales,0);;
     value_format_name: gbp
     hidden: yes
   }
 
   dimension: ly_netSales {
     type: number
-    sql: ${TABLE}.ly_netSales;;
+    sql: coalesce(${TABLE}.ly_netSales,0);;
     value_format_name: gbp
     hidden: yes
   }
 
   dimension: cy_unitsSOLD {
     type: number
-    sql: ${TABLE}.cy_unitsSOLD;;
+    sql: coalesce(${TABLE}.cy_unitsSOLD,0);;
     hidden: yes
   }
 
   dimension: ly_unitsSOLD {
     type: number
-    sql: ${TABLE}.ly_unitsSOLD;;
+    sql: coalesce(${TABLE}.ly_unitsSOLD,0);;
     hidden: yes
   }
 
@@ -93,21 +94,21 @@ view: spi_cpi_weekly{
     value_format_name: gbp
   }
 
-  measure: cy_asp {
-    label: "CY ASP"
-    group_label: "CY"
-    description: "Net Sales AOV / Average Units"
-    type: number
-    sql: COALESCE(SAFE_DIVIDE(${cy_netSales_total}, ${cy_unitsSOLD_total}),0) ;;
-    value_format_name: gbp
-  }
+  # measure: cy_asp {
+  #   label: "CY ASP"
+  #   group_label: "CY"
+  #   description: "Net Sales AOV / Average Units"
+  #   type: number
+  #   sql: COALESCE(SAFE_DIVIDE(${cy_netSales_total}, ${cy_unitsSOLD_total}),0) ;;
+  #   value_format_name: gbp
+  # }
 
-  measure: ly_asp {
-    label: "LY ASP"
-    group_label: "LY"
-    description: "Net Sales AOV / Average Units"
-    type: number
-    sql: COALESCE(SAFE_DIVIDE(${ly_netSales_total}, ${ly_unitsSOLD_total}),0) ;;
-    value_format_name: gbp
-  }
+  # measure: ly_asp {
+  #   label: "LY ASP"
+  #   group_label: "LY"
+  #   description: "Net Sales AOV / Average Units"
+  #   type: number
+  #   sql: COALESCE(SAFE_DIVIDE(${ly_netSales_total}, ${ly_unitsSOLD_total}),0) ;;
+  #   value_format_name: gbp
+  # }
 }

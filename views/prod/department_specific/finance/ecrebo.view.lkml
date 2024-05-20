@@ -1,5 +1,3 @@
-include: "/views/**/*base*.view"
-
 view: ecrebo {
 
   derived_table: {
@@ -15,9 +13,6 @@ view: ecrebo {
                       #ts1.parentOrderUID,
                       #OrderID,
                       coalesce(ts1.parentOrderUID,OrderID) as ParentOrderUID
-
-
-
                     FROM
                       `toolstation-data-storage.sales.ecreboTransactions` et
                       JOIN
@@ -30,8 +25,6 @@ view: ecrebo {
                        select distinct ParentOrderUID as OrderID from `toolstation-data-storage.sales.transactions_incomplete`) on regexp_extract(et.receipt_id,"^.{0,11}") = OrderID
                     WHERE
                       ec.campaign_id IS NOT NULL and ec.issuance_redemption = 'r'
-
-
                     ),
 
     tr as (select distinct date(transactionDate) as TransactionDate, date(PlacedDate) as PlacedDate,
@@ -56,18 +49,11 @@ SELECT
    SUM(CASE WHEN tr.transactionLineType = 'Sale' THEN tr.netSalesValue ELSE 0 END) as salesLineOnlyNetSalesValue,
    SUM(tr.netSalesValue) as NetSalesValue,
    SUM(tr.marginInclFunding) as orderMarginInclFunding
-
 FROM
    tr
   JOIN
   ecrebo_cte ON tr.parentOrderUID=ecrebo_cte.parentOrderUID
-
-
-
-GROUP BY
-  1,2,3,4,5,6
-
- ;;
+  GROUP BY 1,2,3,4,5,6;;
     datagroup_trigger: ts_transactions_datagroup
   }
 

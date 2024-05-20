@@ -1,13 +1,12 @@
-view: customer_experience {
+view: customer_experience_trade {
 
-  sql_table_name:`toolstation-data-storage.retailReporting.SC_CUSTOMER_EXPERIENCE`;;
+  sql_table_name:`toolstation-data-storage.retailReporting.SC_CUSTOMER_EXPERIENCE_TRADE`;;
 
   dimension: month {
     type: string
     view_label: "Date"
     sql: CAST(${TABLE}.month AS string);;
     hidden: yes
-    label: "Customer Experience Month"
   }
 
   dimension: siteUID {
@@ -19,8 +18,8 @@ view: customer_experience {
   }
 
   dimension: nps {
-    type: number
-    label: "NPS"
+    type: string
+    label: "NPS Trade"
     sql: ${TABLE}.nps ;;
   }
 }

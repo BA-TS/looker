@@ -1,4 +1,5 @@
-include: "/views/**/*.view"
+include: "/views/**/*customers.view"
+include: "/views/**/*transactions.view"
 
 view: app_transactions_pre_post {
   derived_table: {

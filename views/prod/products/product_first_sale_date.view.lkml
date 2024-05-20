@@ -6,7 +6,7 @@ view: product_first_sale_date {
       MIN(DATE(transactionDate)) AS first_sale_date
       FROM `toolstation-data-storage.sales.transactions`
       GROUP BY 1;;
-    datagroup_trigger: ts_transactions_datagroup
+      datagroup_trigger: ts_weekly_datagroup
   }
 
   dimension: product_code {
@@ -33,48 +33,4 @@ view: product_first_sale_date {
     timeframes: [year]
     sql: ${TABLE}.first_sale_date ;;
   }
-
-  # dimension_group: active_from {
-  #   type: time
-  #   timeframes: [
-  #     raw,
-  #     time,
-  #     date,
-  #     week,
-  #     month,
-  #     quarter,
-  #     year
-  #   ]
-  #   sql: ${TABLE}.activeFrom ;;
-  # }
-  # dimension_group: active_to {
-  #   type: time
-  #   timeframes: [
-  #     raw,
-  #     time,
-  #     date,
-  #     week,
-  #     month,
-  #     quarter,
-  #     year
-  #   ]
-  #   sql: ${TABLE}.activeTo ;;
-  # }
-  # dimension_group: product_start {
-  #   type: time
-  #   timeframes: [
-  #     raw,
-  #     time,
-  #     date,
-  #     week,
-  #     month,
-  #     quarter,
-  #     year
-  #   ]
-  #   sql: ${TABLE}.productStartDate ;;
-  # }
-  # dimension: is_active {
-  #   type: number
-  #   sql: ${TABLE}.isActive ;;
-  # }
 }

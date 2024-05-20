@@ -2,24 +2,24 @@ view: summarised_daily_Sales {
   derived_table: {
     sql: with sub1 as (SELECT distinct
     timestamp(dated) as date,
-fiscalYearWeek,
-case when App_Web = 'Web Trolley' then 'Web'
-when App_Web = 'App Trolley' then 'App'
-else null end as App_web,
-max(Weeklytotal_customers) as Weeklytotal_customers,
-max(total_customers) as total_customers,
-max(WeeklyOrders) as Weekly_Orders,
-max(ordersDaily) as ordersDaily,
-max(revenueDaily) as revenueDaily,
-max(TotalNetSaleDaily) as TotalNetSaleDaily,
-max(MarginDaily) as MarginDaily
-from `toolstation-data-storage.sales.SummarisedSales_byApp_orWeb`
-group by 1,2,3
-order by 2 desc)
+    fiscalYearWeek,
+    case when App_Web = 'Web Trolley' then 'Web'
+    when App_Web = 'App Trolley' then 'App'
+    else null end as App_web,
+    max(Weeklytotal_customers) as Weeklytotal_customers,
+    max(total_customers) as total_customers,
+    max(WeeklyOrders) as Weekly_Orders,
+    max(ordersDaily) as ordersDaily,
+    max(revenueDaily) as revenueDaily,
+    max(TotalNetSaleDaily) as TotalNetSaleDaily,
+    max(MarginDaily) as MarginDaily
+    from `toolstation-data-storage.sales.SummarisedSales_byApp_orWeb`
+    group by 1,2,3
+    order by 2 desc)
 
-select distinct row_number() over () as P_K ,*
-from sub1
-order by 2 desc;;
+    select distinct row_number() over () as P_K ,*
+    from sub1
+    order by 2 desc;;
   }
 
 dimension: Primary_key {

@@ -2,35 +2,34 @@ view: calendar {
   derived_table: {
     sql:
     select distinct * except(fiscalYearWeek), cast(fiscalYearWeek as string) as fiscalYearWeek,
-fullDate as field_to_hide,
-current_date() as todayFullDate,
-(select dateName from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayDateName,
-(select dateNameUSA from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaydateNameUSA,
-(select dateNameEU from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaydateNameEU,
-(select dayInWeek from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaydayInWeek,
-(select dayNameInWeek from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaydayNameInWeek,
-(select dayInMonth from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaydayInMonth,
-(select dayInYear from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaydayInYear,
-(select weekInYear from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayweekInYear,
+    fullDate as field_to_hide,
+    current_date() as todayFullDate,
+    (select dateName from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayDateName,
+    (select dateNameUSA from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaydateNameUSA,
+    (select dateNameEU from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaydateNameEU,
+    (select dayInWeek from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaydayInWeek,
+    (select dayNameInWeek from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaydayNameInWeek,
+    (select dayInMonth from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaydayInMonth,
+    (select dayInYear from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaydayInYear,
+    (select weekInYear from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayweekInYear,
 
-(select monthNameInYear from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaymonthNameInYear,
-(select monthInYear from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaymonthInYear,
-(select calendarQuarter from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaycalendarQuarter,
-(select calendarYear from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaycalendarYear,
-(select calendarYearMonth from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaydaycalendarYearMonth,
-(select calendarYearQuarter from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaycalendarYearQuarter,
-(select fiscalWeekOfYear from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayfiscalWeekOfYear,
-(select fiscalMonthOfYear from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayfiscalMonthOfYear,
+    (select monthNameInYear from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaymonthNameInYear,
+    (select monthInYear from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaymonthInYear,
+    (select calendarQuarter from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaycalendarQuarter,
+    (select calendarYear from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaycalendarYear,
+    (select calendarYearMonth from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaydaycalendarYearMonth,
+    (select calendarYearQuarter from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todaycalendarYearQuarter,
+    (select fiscalWeekOfYear from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayfiscalWeekOfYear,
+    (select fiscalMonthOfYear from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayfiscalMonthOfYear,
 
-(select fiscalQuarter from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayfiscalQuarter,
-(select fiscalYear from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayfiscalYear,
-(select fiscalYearMonth from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayfiscalYearMonth,
-(select fiscalYearQuarter from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayfiscalYearQuarter,
-(select cast(fiscalYearWeek as string) from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayfiscalYearWeek
-from `toolstation-data-storage.ts_finance.dim_date`;;
+    (select fiscalQuarter from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayfiscalQuarter,
+    (select fiscalYear from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayfiscalYear,
+    (select fiscalYearMonth from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayfiscalYearMonth,
+    (select fiscalYearQuarter from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayfiscalYearQuarter,
+    (select cast(fiscalYearWeek as string) from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayfiscalYearWeek
+    from `toolstation-data-storage.ts_finance.dim_date`;;
 
-datagroup_trigger: ts_monthly_datagroup
-
+    datagroup_trigger: ts_monthly_datagroup
     }
 
   dimension: date{
@@ -97,7 +96,6 @@ datagroup_trigger: ts_monthly_datagroup
 
   dimension: calendar_year_month2 {
     group_label: "Dates"
-    label: "Year Month (yyyy-mm)"
     description: "used in the retail explore"
     type: string
     sql: replace(${calendar_year_month},'-','') ;;
@@ -365,7 +363,7 @@ datagroup_trigger: ts_monthly_datagroup
     view_label: "Measures"
     group_label: "Other Metrics"
     label: "Number of Distinct Year Months"
-    required_access_grants: [retail_testing]
+    required_access_grants: [is_retail]
     type: count_distinct
     sql: ${calendar_year_month} ;;
   }

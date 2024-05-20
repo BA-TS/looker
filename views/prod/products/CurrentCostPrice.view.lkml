@@ -1,11 +1,10 @@
 view: costPrice {
 
    derived_table: {
-     sql: SELECT distinct row_number() over () as P_K ,* FROM `toolstation-data-storage.range.currentCostPrice`
-       ;;
+     sql: SELECT distinct row_number() over () as P_K ,*
+     FROM `toolstation-data-storage.range.currentCostPrice`;;
    }
-#
-#   # Define your dimensions and measures here, like this:
+
    dimension: P_K {
     description: "Primary Key"
     type: number

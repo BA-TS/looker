@@ -28,7 +28,10 @@ view: spi_cpi{
     metrics.AAC_CPI_abs as AAC_CPI_abs,
     metrics.AAC_CPI_abs2 as AAC_CPI_abs2,
     row_number() OVER(ORDER BY dims.productCode) AS prim_key
-    FROM `toolstation-data-storage.financeReporting.DS_DAILY_SPI_CPI`;;
+    FROM `toolstation-data-storage.financeReporting.DS_DAILY_SPI_CPI`
+    Where dims.productCode not in ("00053", "44842","85699")
+    ;;
+    # datagroup_trigger: ts_daily_datagroup
   }
 
   dimension: prim_key {
@@ -122,27 +125,27 @@ view: spi_cpi{
   dimension: cy_netSales {
     type: number
     label: "CY Net Sales"
-    sql: ${TABLE}.cy_netSales;;
+    sql: coalesce(${TABLE}.cy_netSales,0);;
     value_format_name: gbp
     hidden: yes
   }
 
   dimension: ly_netSales {
     type: number
-    sql: ${TABLE}.ly_netSales;;
+    sql: coalesce(${TABLE}.ly_netSales,0);;
     value_format_name: gbp
     hidden: yes
   }
 
   dimension: cy_unitsSOLD {
     type: number
-    sql: ${TABLE}.cy_unitsSOLD;;
+    sql: coalesce(${TABLE}.cy_unitsSOLD,0);;
     hidden: yes
   }
 
   dimension: ly_unitsSOLD {
     type: number
-    sql: ${TABLE}.ly_unitsSOLD;;
+    sql: coalesce(${TABLE}.ly_unitsSOLD,0);;
     hidden: yes
   }
 
@@ -210,7 +213,7 @@ view: spi_cpi{
     type: sum
     group_label: "CY"
     label: "CY Units Sold"
-    sql: ${cy_unitsSOLD};;
+    sql: coalesce(${cy_unitsSOLD},0);;
     value_format: "#,##0"
   }
 
@@ -218,7 +221,7 @@ view: spi_cpi{
     type: sum
     group_label: "LY"
     label: "LY Units Sold"
-    sql: ${ly_unitsSOLD};;
+    sql: coalesce(${ly_unitsSOLD},0);;
     value_format: "#,##0"
   }
 
@@ -280,7 +283,7 @@ view: spi_cpi{
   measure: cy_netSales_total {
     type: sum
     group_label: "CY"
-    sql: ${cy_netSales};;
+    sql: coalesce(${cy_netSales},0);;
     label: "CY Net Sales"
     value_format_name: gbp
   }
@@ -288,7 +291,7 @@ view: spi_cpi{
   measure: ly_netSales_total {
     type: sum
     group_label: "LY"
-    sql: ${ly_netSales};;
+    sql: coalesce(${ly_netSales},0);;
     label: "LY Net Sales"
     value_format_name: gbp
   }
@@ -365,6 +368,16 @@ view: spi_cpi{
     value_format: "0.00"
   }
 
+  dimension: cy_asp_dim {
+    label: "CY ASP"
+    group_label: "CY"
+    description: "Net Sales AOV / Average Units"
+    type: number
+    sql: COALESCE(SAFE_DIVIDE(${cy_netSales}, ${cy_unitsSOLD}),0) ;;
+    value_format_name: gbp
+    hidden: yes
+  }
+
   measure: cy_asp {
     label: "CY ASP"
     group_label: "CY"
@@ -372,6 +385,16 @@ view: spi_cpi{
     type: number
     sql: COALESCE(SAFE_DIVIDE(${cy_netSales_total}, ${cy_unitsSOLD_total}),0) ;;
     value_format_name: gbp
+  }
+
+  dimension: ly_asp_dim {
+    label: "LY ASP"
+    group_label: "LY"
+    description: "Net Sales AOV / Average Units"
+    type: number
+    sql: COALESCE(SAFE_DIVIDE(${ly_netSales}, ${ly_unitsSOLD}),0) ;;
+    value_format_name: gbp
+    hidden: yes
   }
 
   measure: ly_asp {
@@ -391,22 +414,23 @@ view: spi_cpi{
     value_format_name: gbp
   }
 
-  measure: unit_var {
-    label: "Unit Var"
+  dimension: unit_var_dim {
+    label: "Unit Var Dim"
     group_label: "Var"
     type: number
-    sql: ${cy_unitsSOLD_total}-${ly_unitsSOLD_total};;
+    sql: ${cy_unitsSOLD}-${ly_unitsSOLD};;
     value_format: "#,##0"
+    hidden: yes
   }
 
   measure: price_var {
     label: "Price Var"
     group_label: "Var"
-    type: number
+    type: sum
     sql:
-    Case WHEN abs(${cy_unitsSOLD_total}) > 0
-    THEN ${asp_var}*${ly_unitsSOLD_total}
-    ELSE ${asp_var}*${cy_unitsSOLD_total}
+    Case WHEN cast(${productCode} as int) <10000 THEN ${cy_netSales}-${ly_netSales}
+    WHEN abs(${cy_unitsSOLD}) > 0 THEN (${cy_asp_dim}-${ly_asp_dim})*${ly_unitsSOLD}
+    ELSE (${cy_asp_dim}-${ly_asp_dim})*${cy_unitsSOLD}
     END ;;
     value_format_name: gbp
   }
@@ -414,13 +438,12 @@ view: spi_cpi{
   measure: volume_var {
     label: "Volume Var"
     group_label: "Var"
-    type: number
+    type: sum
     sql:
-    Case WHEN abs(${cy_unitsSOLD_total}) > 0
-    THEN ${unit_var}*${cy_asp}
-    ELSE ${unit_var}*${ly_asp}
+    Case WHEN cast(${productCode} as int) <10000 THEN 0
+    WHEN abs(${cy_unitsSOLD}) > 0 THEN ${unit_var_dim}*${cy_asp_dim}
+    ELSE ${unit_var_dim}*${ly_asp_dim}
     END ;;
     value_format: "#,##0.00"
   }
-
 }

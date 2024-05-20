@@ -1,13 +1,8 @@
-include: "/views/prod/department_specific/finance/transactions.view"
 include: "/views/prod/department_specific/customer/trade_customers.view"
-include: "/views/prod/department_specific/customer/trade_credit_details.view"
-include: "/views/prod/department_specific/customer/customer_classification.view"
-include: "/views/prod/department_specific/customer/assumed_trade_dataiku.view"
-
 
 view: customers {
   derived_table: {
-    increment_key: "creationDate"
+    increment_key: "updatedDate"
     increment_offset: 3
     sql:
     select * from `toolstation-data-storage.customer.allCustomers`;;

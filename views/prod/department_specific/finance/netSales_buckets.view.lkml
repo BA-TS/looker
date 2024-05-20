@@ -13,7 +13,7 @@ view: bucketed_order_sales {
       SELECT
         parentOrderUID AS parent_order_uid,
         CASE
-          WHEN total_grossSalesValue  > 50 THEN 51  -- Assigning 51+ to represent "Over 50"
+          WHEN total_grossSalesValue  >= 50 THEN 51  -- Assigning 51+ to represent "Over 50"
           ELSE FLOOR(total_grossSalesValue / 5) * 5
         END AS five_bucket,
         FLOOR(total_grossSalesValue / 10) * 10 AS ten_bucket,
@@ -31,10 +31,18 @@ view: bucketed_order_sales {
         CASE
           WHEN total_grossSalesValue > 10 THEN 'Over 10'
           ELSE 'Under 10'
-        END AS over_under_10
+        END AS over_under_10,
+                CASE
+          WHEN total_grossSalesValue > 30 THEN 'Over 30'
+          ELSE 'Under 30'
+        END AS over_under_30,
+                CASE
+          WHEN total_grossSalesValue > 40 THEN 'Over 40'
+          ELSE 'Under 40'
+        END AS over_under_40
       FROM parent_order_sums
-
       ;;
+      datagroup_trigger: ts_daily_datagroup
   }
 
   dimension: parent_order_uid {
@@ -87,6 +95,20 @@ view: bucketed_order_sales {
     type: string
     sql: ${TABLE}.over_under_25 ;;
     label: "Over or Under £25"
+    group_label: "Sales Over/Under (Gross)"
+  }
+
+  dimension: over_under_40 {
+    type: string
+    sql: ${TABLE}.over_under_40 ;;
+    label: "Over or Under £40"
+    group_label: "Sales Over/Under (Gross)"
+  }
+
+  dimension: over_under_30 {
+    type: string
+    sql: ${TABLE}.over_under_30 ;;
+    label: "Over or Under £30"
     group_label: "Sales Over/Under (Gross)"
   }
 

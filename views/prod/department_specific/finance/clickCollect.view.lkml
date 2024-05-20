@@ -9,8 +9,6 @@ view: clickCollect {
     row_number() over () as P_K,
     from `toolstation-data-storage.sales.clickCollectCollectionTimes`
     group by 1;;
-
-    datagroup_trigger: ts_transactions_datagroup
   }
 
   dimension: P_K {

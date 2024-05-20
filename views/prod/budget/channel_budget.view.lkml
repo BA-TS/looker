@@ -1,6 +1,7 @@
 view: channel_budget {
   derived_table: {
     sql: SELECT distinct row_number() over () as PK, date,
+-- HEAD
 case when channel in ("NEXT DAY C&C") then "CLICK & COLLECT" else channel end as channel,
 sum(netSales) as netSales,
 sum(grossProfit) as grossProfit,
@@ -20,6 +21,28 @@ sum(rf3.retroFunding) as rf3_retroFunding,
 sum(rf3.fixedFunding) as rf3_fixedFunding
 from`toolstation-data-storage.ts_finance.channelBudget`
 group by 2,3;;
+
+    # case when channel in ("NEXT DAY C&C") then "CLICK & COLLECT" else channel end as channel,
+    # sum(netSales) as netSales,
+    # sum(grossProfit) as grossProfit,
+    # sum(retroFunding) as retroFunding,
+    # sum(fixedFunding) as retroFunding,
+    # sum(rf1.netSales) as rf1_netSales,
+    # sum(rf1.grossProfit) as rf1_grossProfit,
+    # sum(rf1.retroFunding) as rf1_retroFunding,
+    # sum(rf1.fixedFunding) as rf1_fixedFunding,
+    # sum(rf2.netSales) as rf2_netSales,
+    # sum(rf2.grossProfit) as rf2_grossProfit,
+    # sum(rf2.retroFunding) as rf2_retroFunding,
+    # sum(rf2.fixedFunding) as rf2_fixedFunding,
+    # sum(rf3.netSales) as rf3_netSales,
+    # sum(rf3.grossProfit) as rf3_grossProfit,
+    # sum(rf3.retroFunding) as rf3_retroFunding,
+    # sum(rf3.fixedFunding) as rf3_fixedFunding
+    # from`toolstation-data-storage.ts_finance.channelBudget`
+    # group by 2,3;;
+    datagroup_trigger: ts_monthly_datagroup
+# branch 'master' of git@github.com:BA-TS/looker.git
 }
   dimension: channel_budget_in_query {
     hidden: yes

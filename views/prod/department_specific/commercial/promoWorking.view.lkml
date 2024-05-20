@@ -1,8 +1,14 @@
 view: promoworking {
    derived_table: {
-     sql: SELECT distinct row_number() over () as P_K,publication.catalogue.publicationName,productCode,
-     cycleID, financial.costPrice,financial.regularPrice,financial.promoPrice, offer.type as offer_type
-     FROM `toolstation-data-storage.promotions.promoHistory` ;;
+     sql:
+      SELECT distinct row_number() over () as P_K,publication.catalogue.publicationName,
+      productCode,
+      cycleID,
+      financial.costPrice,
+      financial.regularPrice,
+      financial.promoPrice,
+      offer.type as offer_type
+      FROM `toolstation-data-storage.promotions.promoHistory` ;;
    }
 
    dimension: P_K {

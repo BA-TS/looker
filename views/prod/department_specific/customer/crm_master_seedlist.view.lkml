@@ -1,5 +1,4 @@
 view: crm_master_seedlist {
-  # required_access_grants: [can_use_customers]
 
   sql_table_name:`toolstation-data-storage.tmp.CRM_Master_SeedList_copy`;;
 

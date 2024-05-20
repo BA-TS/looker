@@ -3,7 +3,7 @@ include: "/views/**/*.view"
 explore: customers {
   label: "Customer"
   description: "Explore Toolstation customer data."
-  # required_access_grants: [can_use_customer_information]
+  hidden: yes
   view_name: base
   always_filter: {
     filters: [

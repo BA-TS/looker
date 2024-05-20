@@ -1,16 +1,16 @@
 view: catalogue {
   derived_table: {
   sql:
-  SELECT distinct row_number() over () as P_K,
-  C.catalogueNAme,CD.* except(isActive),
-  case when isActive = 1 then "true" else "false" end as isActive,
-  PE.extraID, PE.extraName, PE.extraStartDate, PE.extraEndDate,
-CASE WHEN CURRENT_TIMESTAMP BETWEEN extraStartDate AND extraEndDate THEN TRUE ELSE FALSE END AS extra_is_active
-FROM `toolstation-data-storage.range.catalogueDates` as CD
-INNER JOIN `toolstation-data-storage.range.catalogue` c ON CD.catalogueID = C.catalogueID
-full outer join `toolstation-data-storage.publication.extra` as PE
-on cast(CD.catalogueID as string) = regexp_extract(cast(PE.extraID as string),"^.{0,5}")
-WHERE PE.extraName IS NOT NULL
+    SELECT distinct row_number() over () as P_K,
+    C.catalogueNAme,CD.* except(isActive),
+    case when isActive = 1 then "true" else "false" end as isActive,
+    PE.extraID, PE.extraName, PE.extraStartDate, PE.extraEndDate,
+    CASE WHEN CURRENT_TIMESTAMP BETWEEN extraStartDate AND extraEndDate THEN TRUE ELSE FALSE END AS extra_is_active
+    FROM `toolstation-data-storage.range.catalogueDates` as CD
+    INNER JOIN `toolstation-data-storage.range.catalogue` c ON CD.catalogueID = C.catalogueID
+    full outer join `toolstation-data-storage.publication.extra` as PE
+    on cast(CD.catalogueID as string) = regexp_extract(cast(PE.extraID as string),"^.{0,5}")
+    WHERE PE.extraName IS NOT NULL
     -- WITH
     -- catalogue AS
     -- (

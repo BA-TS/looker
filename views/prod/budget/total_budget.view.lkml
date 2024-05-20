@@ -1,7 +1,6 @@
 view: total_budget {
   view_label: "Budget"
   derived_table: {
-    datagroup_trigger: ts_transactions_datagroup
     sql:
       SELECT
         date,
@@ -14,6 +13,7 @@ view: total_budget {
       FROM
         `toolstation-data-storage.ts_finance.channelBudget`
       GROUP BY 1;;
+    datagroup_trigger: ts_monthly_datagroup
   }
 
   dimension: total_budget_date {
