@@ -5,7 +5,7 @@ case when channel in ("NEXT DAY C&C") then "CLICK & COLLECT" else channel end as
 sum(netSales) as netSales,
 sum(grossProfit) as grossProfit,
 sum(retroFunding) as retroFunding,
-sum(fixedFunding) as retroFunding,
+sum(fixedFunding) as fixedFunding,
 sum(rf1.netSales) as rf1_netSales,
 sum(rf1.grossProfit) as rf1_grossProfit,
 sum(rf1.retroFunding) as rf1_retroFunding,
