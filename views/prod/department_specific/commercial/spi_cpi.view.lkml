@@ -428,6 +428,6 @@ view: spi_cpi{
     WHEN abs(${cy_unitsSOLD}) > 0 THEN ${unit_var_dim}*${cy_asp_dim}
     ELSE ${unit_var_dim}*${ly_asp_dim}
     END ;;
-    value_format: "#,##0.00"
+    value_format: "#,##0.0"
   }
 }
