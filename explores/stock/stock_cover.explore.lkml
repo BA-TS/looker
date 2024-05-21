@@ -1,4 +1,9 @@
-include: "/views/**/*.view"
+include: "/views/**/stock_cover.view"
+include: "/views/**/products.view"
+include: "/views/**/suppliers.view"
+include: "/views/**/aac.view"
+include: "/views/**/catalogue.view"
+include: "/views/**/promoWorking.view"
 
 explore: stock_cover {
   required_access_grants: [is_super]

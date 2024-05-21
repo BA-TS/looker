@@ -1,36 +1,31 @@
-include: "/views/**/*.view"
-include: "/views/prod/department_specific/supply_chain/stockLocation.view.lkml"
+include: "/views/**/stockLocation.view.lkml"
+include: "/views/**/stock_level_date_site_product.view"
+include: "/views/**/aac.view"
+include: "/views/**/products.view"
+include: "/views/**/scmatrix.view"
+include: "/views/**/suppliers.view"
+include: "/views/**/sites.view"
+include: "/views/**/promoWorking.view"
+include: "/views/**/Sku_Cover_DC_wrong_stock.view"
+include: "/views/**/stockLocation.view"
 
 explore: stock_level_date_site_product {
   required_access_grants: [can_use_supplier_information]
   persist_with: ts_transactions_datagroup
   label: "Stock Holding"
-  description: "By Date, Site, Product"
 
   always_filter: {
     filters: [ stock_level_date_site_product.select_date_range: "yesterday" ]
-    #unless: [
-     # closing_stock_date
-      #]
+    #unless: [closing_stock_date]
   }
-
-  sql_always_where:
-  ${products.product_type} = "Real"
-  AND
-  ${sites.is_active} = TRUE
-  AND
-  ${scmatrix.is_active} = 1
-  and
-  ${products.isActive}
-
-
-  ;;
-
-  #;;
-  #AND UPPER(${sites.site_type}) NOT LIKE "%D%SHIP%"
-  #  and
-  #${stocklocation.isPickable}
-
+    sql_always_where:
+    ${products.product_type} = "Real"
+    AND
+    ${sites.is_active} = TRUE
+    AND
+    ${scmatrix.is_active} = 1
+    and
+    ${products.isActive}  ;;
 
     join: aac {
       type:  left_outer
@@ -87,7 +82,6 @@ explore: stock_level_date_site_product {
     ${products.product_uid} = ${stocklocation.productUID}
     and ${sites.site_uid} = ${stocklocation.siteUID};;
   }
-
 
     # join: dc_to_shop_mapping {
     #   type: left_outer

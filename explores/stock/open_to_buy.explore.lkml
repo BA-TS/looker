@@ -1,5 +1,5 @@
 include: "/models/backend/config.model"
-include: "/views/**/*.view"
+include: "/views/**/open_to_buy_model.view"
 
 explore: open_to_buy_model {
   label: "Open to Buy"
