@@ -1,13 +1,12 @@
-include: "/views/**/stockLocation.view.lkml"
 include: "/views/**/stock_level_date_site_product.view"
 include: "/views/**/aac.view"
 include: "/views/**/products.view"
 include: "/views/**/scmatrix.view"
 include: "/views/**/suppliers.view"
 include: "/views/**/sites.view"
-include: "/views/**/promoWorking.view"
-include: "/views/**/Sku_Cover_DC_wrong_stock.view"
-include: "/views/**/stockLocation.view"
+include: "/views/**/promoworking.view"
+include: "/views/**/sku_cover_dc_wrong_stock.view"
+include: "/views/**/stocklocation.view"
 
 explore: stock_level_date_site_product {
   required_access_grants: [can_use_supplier_information]

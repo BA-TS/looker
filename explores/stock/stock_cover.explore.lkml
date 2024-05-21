@@ -3,7 +3,7 @@ include: "/views/**/products.view"
 include: "/views/**/suppliers.view"
 include: "/views/**/aac.view"
 include: "/views/**/catalogue.view"
-include: "/views/**/promoWorking.view"
+include: "/views/**/promoworking.view"
 
 explore: stock_cover {
   required_access_grants: [is_super]
