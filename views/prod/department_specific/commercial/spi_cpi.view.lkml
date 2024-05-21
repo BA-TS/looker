@@ -12,8 +12,6 @@ view: spi_cpi{
     metrics.ly_netSales as ly_netSales,
     metrics.cy_unitsSOLD as cy_unitsSOLD,
     metrics.ly_unitsSOLD as ly_unitsSOLD,
-    metrics.cy_unitPRICE as cy_unitPRICE,
-    metrics.ly_unitPRICE as ly_unitPRICE,
     metrics.cy_aac_cogs as cy_aac_cogs,
     metrics.ly_aac_cogs as ly_aac_cogs,
     metrics.cy_aac_unit_cogs as cy_aac_unit_cogs,
@@ -146,18 +144,6 @@ view: spi_cpi{
   dimension: ly_unitsSOLD {
     type: number
     sql: coalesce(${TABLE}.ly_unitsSOLD,0);;
-    hidden: yes
-  }
-
-  dimension: cy_unitPRICE {
-    type: number
-    sql: ${TABLE}.cy_unitPRICE;;
-    hidden: yes
-  }
-
-  dimension: ly_unitPRICE {
-    type: number
-    sql: ${TABLE}.ly_unitPRICE;;
     hidden: yes
   }
 
