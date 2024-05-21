@@ -31,7 +31,7 @@ view: spi_cpi{
     FROM `toolstation-data-storage.financeReporting.DS_DAILY_SPI_CPI`
     Where dims.productCode not in ("00053", "44842","85699")
     ;;
-    # datagroup_trigger: ts_daily_datagroup
+    datagroup_trigger: ts_daily_datagroup
   }
 
   dimension: prim_key {
