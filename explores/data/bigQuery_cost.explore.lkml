@@ -1,4 +1,4 @@
-include: "/views/**/*.view"
+include: "/views/**/ran_queries.view"
 
 explore: ran_queries {
   label: "BigQuery Cost"
