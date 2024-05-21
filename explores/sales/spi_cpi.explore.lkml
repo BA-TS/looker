@@ -1,4 +1,9 @@
-include: "/views/**/*.view"
+include: "/views/**/base.view"
+include: "/views/**/calendar.view"
+include: "/views/**/spi_cpi.view"
+include: "/views/**/spi_cpi_weekly.view"
+include: "/views/**/catalogue.view"
+include: "/views/**/products.view"
 
 explore: spi_cpi {
   required_access_grants: [is_super]
