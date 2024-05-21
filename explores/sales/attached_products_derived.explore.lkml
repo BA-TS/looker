@@ -1,5 +1,5 @@
-include: "/views/**/*.view"
+# include: "/views/**/*.view"
 
-explore: attached_products_derived {
-  hidden: yes
-}
+# explore: attached_products_derived {
+#   hidden: yes
+# }

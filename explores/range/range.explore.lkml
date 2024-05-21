@@ -1,12 +1,9 @@
-include: "/views/**/*.view"
+include: "/views/**/products.view"
+include: "/views/**/suppliers.view"
 
 explore: products {
   label: "Products"
   description: "Explore Toolstation product data."
-  fields: [
-    ALL_FIELDS*,
-  ]
-
   join: suppliers {
     view_label: "Suppliers"
     type: left_outer

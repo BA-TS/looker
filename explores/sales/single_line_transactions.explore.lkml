@@ -2,7 +2,6 @@ include: "/views/**/*.view"
 
 explore: single_line_transactions {
   label: "Single Line Transactions"
-  description: "Explore Toolstation customer data."
   hidden: yes
   view_name: base
   persist_with: ts_transactions_datagroup

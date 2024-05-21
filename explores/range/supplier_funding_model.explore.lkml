@@ -1,4 +1,5 @@
-include: "/views/**/*.view"
+include: "/views/**/supplier_funding_model.view"
+include: "/views/**/calendar.view"
 
 explore: supplier_funding_model {
   label: "Supplier Funding Model "
