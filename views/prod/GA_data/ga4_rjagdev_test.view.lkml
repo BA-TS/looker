@@ -279,6 +279,16 @@ else ${Screen_name} end ;;
 
   }
 
+  dimension: filters_used {
+    view_label: "GA4"
+    label: "Filters Used"
+    group_label: "Event"
+    type: string
+    sql: case when regexp_contains(${TABLE}.filters_used, "\\:")
+and not regexp_contains(${TABLE}.filters_used, "\\@import") then ${TABLE}.filters_used else null end;;
+
+  }
+
   measure: session_duration {
     type: average
     view_label: "GA4"
@@ -287,6 +297,8 @@ else ${Screen_name} end ;;
     value_format: "h:mm:ss"
     sql: ${TABLE}.session_duration / 86400.0;;
   }
+
+
 
  # measure: time_hours {
     #type: average
