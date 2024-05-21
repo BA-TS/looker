@@ -11,7 +11,6 @@ include: "/views/**/holiday_management.view"
 include: "/views/**/profit_protection.view"
 include: "/views/**/customer_experience.view"
 include: "/views/**/customer_experience_trade.view"
-include: "/views/**/*.view"
 
 persist_with: ts_transactions_datagroup
 
