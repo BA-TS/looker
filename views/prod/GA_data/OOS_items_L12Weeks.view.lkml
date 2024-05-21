@@ -36,7 +36,7 @@ left join delivery_OOS on view_item.date = delivery_OOS.delivery_date and view_i
 left join dual_OOS on view_item.date = dual_OOS.dual_date and view_item.item_id = dual_OOS.dualOOS_itemID
        ;;
 
-    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 7;;
+    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 8;;
    }
 
   dimension: PK {
