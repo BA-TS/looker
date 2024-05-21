@@ -1,4 +1,62 @@
-include: "/views/**/*.view"
+include: "/views/**/calendar.view"
+include: "/views/**/transactions.view"
+include: "/views/**/single_line_transactions.view"
+include: "/views/**/attached_products.view"
+include: "/views/**/attached_products2.view"
+include: "/views/**/category_budget.view"
+include: "/views/**/products.view"
+include: "/views/**/product_first_sale_date.view"
+include: "/views/**/total_budget.view"
+include: "/views/**/channel_budget.view"
+include: "/views/**/site_budget.view"
+include: "/views/**/sites.view"
+include: "/views/**/foh_master_stores.view"
+include: "/views/**/customers.view"
+include: "/views/**/customer_segmentation.view"
+include: "/views/**/trade_customers.view"
+include: "/views/**/trade_credit_details.view"
+include: "/views/**/trade_credit_ids.view"
+include: "/views/**/suppliers.view"
+include: "/views/**/promo_main_catalogue.view"
+include: "/views/**/promo_extra.view"
+include: "/views/**/catalogue.view"
+include: "/views/**/spi_cpi.view"
+include: "/views/**/spi_cpi_weekly.view"
+include: "/views/**/digital_transaction_mapping.view"
+include: "/views/**/digital_channel_grouping.view"
+include: "/views/**/ecrebo.view"
+include: "/views/**/po_numbers.view"
+include: "/views/**/promoHistory_Current.view"
+include: "/views/**/product_dimensions.view"
+include: "/views/**/product_quantity.view"
+include: "/views/**/retail_price_history.view"
+include: "/views/**/top_clusters_net_sales.view"
+include: "/views/**/top_clusters_customers.view"
+include: "/views/**/top_subdepartment_customers.view"
+include: "/views/**/top_subdepartment_net_sales.view"
+include: "/views/**/top_trade_types_sales.view"
+include: "/views/**/top_trade_types_customers.view"
+include: "/views/**/promo_orders.view"
+include: "/views/**/promoworking.view"
+include: "/views/**/brand_test.view"
+include: "/views/**/bucketed_order_sales.view"
+include: "/views/**/spc_buckets.view"
+include: "/views/**/spc_buckets_customers.view"
+include: "/views/**/bucketed_order_sales_department.view"
+include: "/views/**/customer_spending.view"
+include: "/views/**/transactions_incomplete.view"
+include: "/views/**/customers_wk_ly.view"
+include: "/views/**/customers_wk_ty.view"
+include: "/views/**/customers_2wk_ty.view"
+include: "/views/**/rakuten_analysis_0112.view"
+include: "/views/**/ds_assumed_trade.view"
+include: "/views/**/assumed_trade_measures.view"
+include: "/views/**/costprice.view"
+include: "/views/**/app_transactions_pre_post.view"
+include: "/views/**/clickCollect.view"
+include: "/views/**/foh_products.view"
+include: "/views/prod/department_specific/finance/**/*.view.lkml"
+
 
 explore: base {
   label: "Transactions"
@@ -162,11 +220,11 @@ explore: base {
     sql_on: ${transactions.site_uid}=${sites.site_uid} ;;
   }
 
-  join: foh_master_products_2024 {
+  join: foh_products {
     view_label: "Location"
     type: left_outer
     relationship: many_to_one
-    sql_on:${foh_master_products_2024.siteUID} =${sites.site_uid} and ${transactions.product_code}=${foh_master_products_2024.SKU} and ${calendar_completed_date.fiscal_year_week}=${foh_master_products_2024.Week}  ;;
+    sql_on:${foh_products.siteUID} =${sites.site_uid} and ${transactions.product_code}=${foh_products.SKU} and ${calendar_completed_date.fiscal_year_week}=${foh_products.Week}  ;;
   }
 
   join: foh_master_stores {

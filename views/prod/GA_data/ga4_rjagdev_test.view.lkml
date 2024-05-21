@@ -1,8 +1,6 @@
 view: ga4_rjagdev_test {
   # # You can specify the table name if it's different from the view name:
    sql_table_name: `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` ;;
-  #
-  # # Define your dimensions and measures here, like this:
 
   dimension: PK {
     type: string

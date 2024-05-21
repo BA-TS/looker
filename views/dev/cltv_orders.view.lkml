@@ -10,9 +10,9 @@ view: cltv_orders {
     and transactionlinetype <> 'Charity'
     and iscancelled <> 0
     group by 1,2,3;;
-  datagroup_trigger:ts_transactions_datagroup
-  partition_keys: ["transactiondate"]
-  cluster_keys: ["CUSTOMERUID"]
+    datagroup_trigger:ts_transactions_datagroup
+    partition_keys: ["transactiondate"]
+    cluster_keys: ["CUSTOMERUID"]
   }
 
   dimension: CUSTOMERUID {

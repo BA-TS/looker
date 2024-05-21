@@ -1,4 +1,4 @@
-view: foh_master_products_2024 {
+view: foh_products {
 
   sql_table_name:`toolstation-data-storage.commercial.DS_WEEKLY_FOH_SALES`;;
 

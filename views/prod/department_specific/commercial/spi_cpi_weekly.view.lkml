@@ -1,5 +1,6 @@
 view: spi_cpi_weekly{
-  derived_table: {
+
+ derived_table: {
     sql:
     SELECT
     dims.fiscalYearWeek as fiscalYearWeek,
