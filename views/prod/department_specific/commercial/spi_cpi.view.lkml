@@ -54,28 +54,28 @@ view: spi_cpi{
 
   dimension: is_promo_cy_ly {
     type: yesno
-    group_label: "Promo"
+    view_label: "Promo"
     label: "Promo CY/LY"
     sql: ${TABLE}.promo=1 ;;
   }
 
   dimension: is_promo_cy {
     type: yesno
-    group_label: "Promo"
+    view_label: "Promo"
     label: "Promo CY"
     sql: ${TABLE}.promo_cy=1 ;;
   }
 
   dimension: is_promo_ly {
     type: yesno
-    group_label: "Promo"
+    view_label: "Promo"
     label: "Promo LY"
     sql: ${TABLE}.promo_ly=1 ;;
   }
 
   dimension: promo_nonpromo_cyly {
     type: yesno
-    group_label: "Promo"
+    view_label: "Promo"
     label: "Both Promos or Non Promos CY and LY"
     sql:
     (${TABLE}.promo_cy=1 and ${TABLE}.promo_ly=1) OR (${TABLE}.promo_cy=0 and ${TABLE}.promo_ly=0);;
