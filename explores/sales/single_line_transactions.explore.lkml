@@ -1,5 +1,8 @@
-
-include: "/views/**/**.view"
+include: "/views/prod/date/base.view"
+include: "/views/prod/date/calendar.view"
+include: "/views/prod/department_specific/finance/**/**.view"
+include: "/views/prod/products/products.view"
+include: "/views/prod/products/catalogue.view"
 
 
 explore: single_line_transactions {
