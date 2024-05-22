@@ -27,6 +27,7 @@ case when regexp_contains(page_location,"checkout\\/confirmation") then "Checkou
       else key_2 end as key_2,
       transactions.productCode,
       transactions.OrderID,
+      Filters_used,
       sum(transactions.net_value) as net,
       sum(transactions.Quantity) as Quantity,
       sum(events) as events,
@@ -57,7 +58,7 @@ case when regexp_contains(page_location,"checkout\\/confirmation") then "Checkou
       group by all),
 
       filters_used as (select distinct session_id as filter_session from sub1
-      where (event_name in ("search_actions") and key1 in ("Add Filter")) or (event_name in ("Filter_Used")) or (event_name in ("bloomreach_search_unknown_attribute") and screen_name in ("filters_page")) ),
+      where (event_name in ("search_actions") and key1 in ("Add Filter")) or (event_name in ("Filter_Used")) or (event_name in ("bloomreach_search_unknown_attribute") and screen_name in ("filters_page")) or (Filters_used is not null)),
 
       PDP as (select distinct session_id as PDP_session from sub1
       where event_name in ("view_item") and screen_Type in ("product-detail-page") ),
