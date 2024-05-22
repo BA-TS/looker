@@ -35,7 +35,8 @@ explore: single_line_transactions {
   fields: [
     ALL_FIELDS*,
     -products.department,
-    -customer_segmentation.trade_specific_cluster
+    -products.product_promo
+
   ]
 
   sql_always_where:
@@ -43,27 +44,10 @@ explore: single_line_transactions {
     and
     ${products.isActive};;
 
-  join: customers {
-    type :  full_outer
-    relationship: many_to_one
-    sql_on: ${transactions.customer_uid}=${customers.customer_uid} ;;
-  }
-
-  join: trade_credit_ids {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${customers.customer_uid} = ${trade_credit_ids.customer_uid} ;;
-  }
-
-  join: trade_credit_details {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${trade_credit_ids.main_trade_credit_account_uid} = ${trade_credit_details.main_trade_credit_account_uid} ;;
-  }
-
   join: transactions {
     type: left_outer
     relationship: one_to_many
+    fields: [transactions.number_of_transactions]
     sql_on:
         ${base.base_date_date} = ${transactions.transaction_date_filter}
           AND
@@ -79,14 +63,9 @@ explore: single_line_transactions {
 
   join: products {
     type:  left_outer
+    fields: [products.product_code,products.product_name,products.description]
     relationship: many_to_one
     sql_on: ${transactions.product_uid}=${products.product_uid};;
-  }
-
-  join: sites {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${transactions.site_uid}=${sites.site_uid} ;;
   }
 
   join: calendar_completed_date{
@@ -94,30 +73,6 @@ explore: single_line_transactions {
     type:  inner
     relationship:  many_to_one
     sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
-  }
-
-  join: customer_segmentation {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${transactions.customer_uid} = ${customer_segmentation.ucu_uid} ;;
-  }
-
-  join: trade_customers {
-    type:  left_outer
-    relationship: many_to_one
-    sql_on: ${customers.customer_uid} = ${trade_customers.customer_uid} ;;
-  }
-
-  join: promo_main_catalogue {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${transactions.product_code} = ${promo_main_catalogue.product_code} and ${base.date_date} between ${promo_main_catalogue.live_date} and ${promo_main_catalogue.end_date} ;;
-  }
-
-  join: promo_extra {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${transactions.product_code} = ${promo_extra.product_code} and ${base.date_date} between ${promo_extra.live_date} and ${promo_extra.end_date} ;;
   }
 
   join: single_line_transactions {
@@ -134,30 +89,11 @@ explore: single_line_transactions {
     sql_on: ${single_line_transactions.parent_order_uid} = ${attached_products.parent_order_uid} ;;
   }
 
-  join: product_first_sale_date {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${transactions.product_code} = ${product_first_sale_date.product_code} ;;
-  }
-
   join: catalogue {
+    fields: [catalogue.catalogue_live_date]
     type: left_outer
     relationship: many_to_one
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
-  }
-
-  join: promo_orders {
-    view_label: ""
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${transactions.transaction_uid} = ${promo_orders.order_id} and ${base.date_date} = ${promo_orders.date_date} ;;
-  }
-
-  join: promoworking {
-    view_label: ""
-    type: left_outer
-    relationship: one_to_one
-    sql_on: ${products.product_code} = ${promoworking.Product_Code} ;;
   }
 
 }
