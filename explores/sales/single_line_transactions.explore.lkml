@@ -1,4 +1,6 @@
-include: "/views/**/*.view"
+
+include: "/views/**/**.view"
+
 
 explore: single_line_transactions {
   label: "Single Line Transactions"
@@ -32,10 +34,6 @@ explore: single_line_transactions {
     ]
   }
 
-  fields: [
-    ALL_FIELDS*,
-  ]
-
   sql_always_where:
     ${period_over_period}
     and
@@ -44,7 +42,7 @@ explore: single_line_transactions {
   join: transactions {
     type: left_outer
     relationship: one_to_many
-    fields: [transactions.number_of_transactions]
+    fields: [transactions.number_of_transactions,transactions.product_uid,transactions.parent_order_uid,transactions.transaction_date_filter]
     sql_on:
         ${base.base_date_date} = ${transactions.transaction_date_filter}
           AND

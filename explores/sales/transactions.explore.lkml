@@ -55,7 +55,7 @@ include: "/views/**/costprice.view"
 include: "/views/**/app_transactions_pre_post.view"
 include: "/views/**/clickCollect.view"
 include: "/views/**/foh_products.view"
-include: "/views/prod/department_specific/finance/**/*.view.lkml"
+include: "/views/**/app_web_data.view"
 
 
 explore: base {
