@@ -34,9 +34,6 @@ explore: single_line_transactions {
 
   fields: [
     ALL_FIELDS*,
-    -products.department,
-    -products.product_promo
-
   ]
 
   sql_always_where:
