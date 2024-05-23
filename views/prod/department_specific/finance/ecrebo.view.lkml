@@ -4,7 +4,7 @@ view: ecrebo {
     sql:
     SELECT
     parentOrderUID,
-    et.datetime,
+    et.datetime as datetime,
     et.storeid,
     issuanceRedemption,
     campaignName,
@@ -13,13 +13,16 @@ view: ecrebo {
     itemName,
     itemDiscount,
     itemSaleRefund
-    FROM `toolstation-data-storage.ecrebo.ecreboCoupons` ec
-    left join `toolstation-data-storage.ecrebo.ecreboItems` ei
+    FROM `toolstation-data-storage.ecrebo.ecreboCoupons` AS ec
+    left join `toolstation-data-storage.ecrebo.ecreboItems` AS ei
     using (transactionUuid)
-    left join `toolstation-data-storage.ecrebo.ecreboTransactions` et
+    left join `toolstation-data-storage.ecrebo.ecreboTransactions` AS et
     using (transactionUuid)
     ;;
   }
+      # left join toolstation-data-storage.ecrebo.ecreboCampaignHeirarchy eh
+    # using (campaignName)
+
 
   dimension: parent_order_uid {
     type: string
@@ -38,12 +41,12 @@ view: ecrebo {
       quarter,
       year
     ]
-    sql: ${TABLE}.et.datetime ;;
+    sql: ${TABLE}.datetime ;;
   }
 
   dimension: store_id {
     type: string
-    sql: ${TABLE}.et.storeid ;;
+    sql: ${TABLE}.storeid ;;
   }
 
   dimension: issuance_redemption {
@@ -55,6 +58,11 @@ view: ecrebo {
     type: string
     sql: ${TABLE}.campaignName ;;
   }
+
+  # dimension: campaign_group {
+  #   type: string
+  #   sql: ${TABLE}.campaignGroup  ;;
+  # }
 
   dimension: discount {
     type: number
