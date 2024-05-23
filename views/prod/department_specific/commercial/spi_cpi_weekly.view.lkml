@@ -423,6 +423,14 @@ view: spi_cpi_weekly{
     value_format: "\"£\"#,##0.0"
   }
 
+  measure: spi_percentage{
+    group_label: "Var"
+    label: "SPI %"
+    type: number
+    sql:safe_divide(${price_var},${ly_netSales_total});;
+    value_format: "0.00%"
+  }
+
   measure: volume_var {
     label: "Volume Var"
     group_label: "Var"
@@ -433,5 +441,13 @@ view: spi_cpi_weekly{
     ELSE ${unit_var_dim}*${ly_asp_dim}
     END ;;
     value_format: "#,##0.0"
+  }
+
+  measure: volume_percentage{
+    group_label: "Var"
+    label: "Vol %"
+    type: number
+    sql:safe_divide(${volume_var},${ly_netSales_total});;
+    value_format: "0.00%"
   }
 }
