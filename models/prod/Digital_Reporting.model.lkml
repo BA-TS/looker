@@ -542,7 +542,8 @@ explore: digital_reporting {
     view_label: "Ecrebo"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${app_web_data.Placed_date} = ${ecrebo.ecrebo_date_filter} AND ${app_web_data.OrderID} = ${ecrebo.parent_order_uid};;
+    sql_on:
+    ${app_web_data.OrderID} = ${ecrebo.parent_order_uid};;
   }
 
   join: single_line_transactions {
@@ -704,7 +705,8 @@ explore: GA4_testy {
     view_label: "Ecrebo"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${calendar.date} = ${ecrebo.ecrebo_date_filter} AND ${ga4_transactions.OrderID} = ${ecrebo.parent_order_uid};;
+    sql_on:
+    ${ga4_transactions.OrderID} = ${ecrebo.parent_order_uid};;
   }
 
   join: single_line_transactions {
