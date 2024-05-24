@@ -115,7 +115,7 @@ view: spi_cpi_weekly{
     description: "Net Sales AOV / Average Units"
     type: number
     sql: COALESCE(SAFE_DIVIDE(${cy_netSales}, ${cy_unitsSOLD}),0) ;;
-    value_format: "\"£\"#,##0.0"
+    value_format_name: "gbp_0"
     hidden: yes
   }
 
@@ -125,7 +125,7 @@ view: spi_cpi_weekly{
     description: "Net Sales AOV / Average Units"
     type: number
     sql: COALESCE(SAFE_DIVIDE(${ly_netSales}, ${ly_unitsSOLD}),0) ;;
-    value_format: "\"£\"#,##0.0"
+    value_format_name: "gbp_0"
     hidden: yes
   }
 
@@ -134,7 +134,7 @@ view: spi_cpi_weekly{
     group_label: "Var"
     type: number
     sql: ${cy_unitsSOLD}-${ly_unitsSOLD};;
-    value_format: "#,##0"
+    value_format_name: "decimal_0"
     hidden: yes
   }
 
@@ -334,7 +334,7 @@ view: spi_cpi_weekly{
     group_label: "CY"
     label: "CY Units Sold"
     sql: coalesce(${cy_unitsSOLD},0);;
-    value_format: "#,##0"
+    value_format_name: "decimal_0"
   }
 
   measure: ly_unitsSOLD_total {
@@ -342,7 +342,7 @@ view: spi_cpi_weekly{
     group_label: "LY"
     label: "LY Units Sold"
     sql: coalesce(${ly_unitsSOLD},0);;
-    value_format: "#,##0"
+    value_format_name: "decimal_0"
   }
 
   measure: cy_netSales_total {
@@ -350,7 +350,7 @@ view: spi_cpi_weekly{
     group_label: "CY"
     sql: coalesce(${cy_netSales},0);;
     label: "CY Net Sales"
-    value_format: "\"£\"#,##0.0"
+    value_format_name: "gbp_0"
   }
 
   measure: ly_netSales_total {
@@ -358,7 +358,7 @@ view: spi_cpi_weekly{
     group_label: "LY"
     sql: coalesce(${ly_netSales},0);;
     label: "LY Net Sales"
-    value_format: "\"£\"#,##0.0"
+    value_format_name: "gbp_0"
   }
 
   measure: netSales_var {
@@ -366,7 +366,7 @@ view: spi_cpi_weekly{
     sql: ${cy_netSales}-${ly_netSales};;
     label: "Net Sales Var"
     group_label: "Var"
-    value_format: "\"£\"#,##0.0"
+    value_format_name: "gbp_0"
   }
 
   measure: cy_unitPrice {
@@ -374,7 +374,7 @@ view: spi_cpi_weekly{
     group_label: "CY"
     sql:  COALESCE(SAFE_DIVIDE(${cy_netSales_total}, ${cy_unitsSOLD_total}),0) ;;
     label: "CY Unit Price"
-    value_format: "\"£\"#,##0.0"
+    value_format_name: "gbp_0"
   }
 
   measure: ly_unitPrice {
@@ -382,7 +382,7 @@ view: spi_cpi_weekly{
     group_label: "LY"
     sql:  COALESCE(SAFE_DIVIDE(${ly_netSales_total}, ${ly_unitsSOLD_total}),0) ;;
     label: "LY Unit Price"
-    value_format: "\"£\"#,##0.0"
+    value_format_name: "gbp_0"
   }
 
   measure: cy_asp {
@@ -391,7 +391,7 @@ view: spi_cpi_weekly{
     description: "Net Sales AOV / Average Units"
     type: number
     sql: COALESCE(SAFE_DIVIDE(${cy_netSales_total}, ${cy_unitsSOLD_total}),0) ;;
-    value_format: "\"£\"#,##0.0"
+    value_format_name: "gbp_0"
   }
 
   measure: ly_asp {
@@ -400,7 +400,7 @@ view: spi_cpi_weekly{
     description: "Net Sales AOV / Average Units"
     type: number
     sql: COALESCE(SAFE_DIVIDE(${ly_netSales_total}, ${ly_unitsSOLD_total}),0) ;;
-    value_format: "\"£\"#,##0.0"
+    value_format_name: "gbp_0"
   }
 
   measure: asp_var {
@@ -408,7 +408,7 @@ view: spi_cpi_weekly{
     group_label: "Var"
     type: number
     sql: COALESCE(${cy_asp}-${ly_asp},0);;
-    value_format: "\"£\"#,##0.0"
+    value_format_name: "gbp_0"
   }
 
   measure: price_var {
@@ -420,7 +420,7 @@ view: spi_cpi_weekly{
     WHEN abs(${cy_unitsSOLD}) > 0 THEN (${cy_asp_dim}-${ly_asp_dim})*${ly_unitsSOLD}
     ELSE (${cy_asp_dim}-${ly_asp_dim})*${cy_unitsSOLD}
     END ;;
-    value_format: "\"£\"#,##0.0"
+    value_format_name: "gbp_0"
   }
 
   measure: spi_percentage{
@@ -428,7 +428,7 @@ view: spi_cpi_weekly{
     label: "SPI %"
     type: number
     sql:safe_divide(${price_var},${ly_netSales_total});;
-    value_format: "0.00%"
+    value_format_name: "percent_1"
   }
 
   measure: volume_var {
@@ -440,7 +440,7 @@ view: spi_cpi_weekly{
     WHEN abs(${cy_unitsSOLD}) > 0 THEN ${unit_var_dim}*${cy_asp_dim}
     ELSE ${unit_var_dim}*${ly_asp_dim}
     END ;;
-    value_format: "#,##0.0"
+    value_format_name: "gbp_0"
   }
 
   measure: volume_percentage{
@@ -448,6 +448,6 @@ view: spi_cpi_weekly{
     label: "Vol %"
     type: number
     sql:safe_divide(${volume_var},${ly_netSales_total});;
-    value_format: "0.00%"
+    value_format_name: "percent_1"
   }
 }

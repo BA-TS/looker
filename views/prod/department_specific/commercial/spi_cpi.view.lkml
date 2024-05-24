@@ -198,7 +198,7 @@ view: spi_cpi{
     group_label: "CY"
     label: "CY Units Sold"
     sql: coalesce(${cy_unitsSOLD},0);;
-    value_format: "#,##0"
+    value_format_name: "decimal_0"
   }
 
   measure: ly_unitsSOLD_total {
@@ -206,7 +206,7 @@ view: spi_cpi{
     group_label: "LY"
     label: "LY Units Sold"
     sql: coalesce(${ly_unitsSOLD},0);;
-    value_format: "#,##0"
+    value_format_name: "decimal_0"
   }
 
   measure: aac_comparator_total {
@@ -214,7 +214,7 @@ view: spi_cpi{
     group_label: "CPI"
     label: "AAC Comparator"
     sql: ${aac_comparator};;
-    value_format: "0.00;"
+    value_format_name: "gbp_0"
   }
 
   measure: SPI_comparator_total {
@@ -222,7 +222,7 @@ view: spi_cpi{
     group_label: "SPI"
     label: "SPI Comparator"
     sql: ${SPI_comparator};;
-    value_format: "0.00;"
+    value_format_name: "gbp_0"
   }
 
   measure: SPI_total {
@@ -230,7 +230,7 @@ view: spi_cpi{
     group_label: "SPI"
     label: "SPI"
     sql: ${SPI_abs};;
-    value_format: "0.00"
+    value_format_name: "gbp_0"
   }
 
   measure: SPI_total2 {
@@ -238,14 +238,14 @@ view: spi_cpi{
     group_label: "SPI"
     label: "SPI New"
     sql: ${SPI_abs2};;
-    value_format: "0.00"
+    value_format_name: "gbp_0"
   }
 
   measure: SPI_LY_VOL {
     type: sum
     group_label: "SPI"
     sql: ${SPI_abs3};;
-    value_format: "0.00"
+    value_format_name: "gbp_0"
   }
 
   measure: AAC_CPI_abs_total {
@@ -253,7 +253,7 @@ view: spi_cpi{
     group_label: "CPI"
     label: "AAC CPI (TY Vol)"
     sql: ${AAC_CPI_abs};;
-    value_format: "0.00"
+    value_format_name: "gbp_0"
   }
 
   measure: AAC_CPI_abs2_total {
@@ -261,7 +261,7 @@ view: spi_cpi{
     group_label: "CPI"
     label: "AAC CPI (LY Vol)"
     sql: ${AAC_CPI_abs2};;
-    value_format: "0.00"
+    value_format_name: "gbp_0"
   }
 
   measure: cy_netSales_total {
@@ -269,7 +269,7 @@ view: spi_cpi{
     group_label: "CY"
     sql: coalesce(${cy_netSales},0);;
     label: "CY Net Sales"
-    value_format: "\"£\"#,##0.0"
+    value_format_name: "gbp_0"
   }
 
   measure: ly_netSales_total {
@@ -277,7 +277,7 @@ view: spi_cpi{
     group_label: "LY"
     sql: coalesce(${ly_netSales},0);;
     label: "LY Net Sales"
-    value_format: "\"£\"#,##0.0"
+    value_format_name: "gbp_0"
   }
 
   measure: netSales_var {
@@ -285,7 +285,7 @@ view: spi_cpi{
     sql: ${cy_netSales}-${ly_netSales};;
     label: "Net Sales Var"
     group_label: "Var"
-    value_format: "\"£\"#,##0.0"
+    value_format_name: "gbp_0"
   }
 
   measure: cy_unitPrice {
@@ -293,7 +293,7 @@ view: spi_cpi{
     group_label: "CY"
     sql:  COALESCE(SAFE_DIVIDE(${cy_netSales_total}, ${cy_unitsSOLD_total}),0) ;;
     label: "CY Unit Price"
-    value_format: "\"£\"#,##0.0"
+    value_format_name: "gbp_0"
   }
 
   measure: ly_unitPrice {
@@ -301,7 +301,7 @@ view: spi_cpi{
     group_label: "LY"
     sql:  COALESCE(SAFE_DIVIDE(${ly_netSales_total}, ${ly_unitsSOLD_total}),0) ;;
     label: "LY Unit Price"
-    value_format: "\"£\"#,##0.0"
+    value_format_name: "gbp_0"
   }
 
   measure: cy_aac_unit_cogs_ {
@@ -309,7 +309,7 @@ view: spi_cpi{
     group_label: "CY"
     sql:  COALESCE(SAFE_DIVIDE(${cy_aac_cogs_total}, ${cy_unitsSOLD_total}),0) ;;
     label: "CY Unit COGs (AAC)"
-    value_format: "0.00"
+    value_format_name: "gbp_0"
   }
 
   measure: ly_aac_unit_cogs_ {
@@ -317,7 +317,7 @@ view: spi_cpi{
     group_label: "LY"
     label: "LY Unit COGs (AAC)"
     sql:  COALESCE(SAFE_DIVIDE(${ly_aac_cogs_total}, ${ly_unitsSOLD_total}),0) ;;
-    value_format: "0.00"
+    value_format_name: "gbp_0"
   }
 
   measure: cy_aac_cogs_total {
@@ -325,7 +325,7 @@ view: spi_cpi{
     label: "CY AAC COGS"
     group_label: "CY"
     sql: ${TABLE}.cy_aac_cogs;;
-    value_format: "0.00"
+    value_format_name: "gbp_0"
   }
 
   measure: ly_aac_cogs_total {
@@ -333,7 +333,7 @@ view: spi_cpi{
     label: "LY AAC COGS"
     group_label: "LY"
     sql: ${TABLE}.ly_aac_cogs;;
-    value_format: "0.00"
+    value_format_name: "gbp_0"
   }
 
   measure: cy_ccp_cogs_total {
@@ -341,7 +341,7 @@ view: spi_cpi{
     label: "CY CCP COGS"
     group_label: "CY"
     sql: ${TABLE}.cy_ccp_cogs;;
-    value_format: "0.00"
+    value_format_name: "gbp_0"
   }
 
   measure: ly_ccp_cogs_total {
@@ -349,7 +349,7 @@ view: spi_cpi{
     label: "LY CCP COGS"
     group_label: "LY"
     sql: ${TABLE}.ly_ccp_cogs;;
-    value_format: "0.00"
+    value_format_name: "gbp_0"
   }
 
   dimension: cy_asp_dim {
@@ -358,7 +358,7 @@ view: spi_cpi{
     description: "Net Sales AOV / Average Units"
     type: number
     sql: COALESCE(SAFE_DIVIDE(${cy_netSales}, ${cy_unitsSOLD}),0) ;;
-    value_format: "\"£\"#,##0.0"
+    value_format_name: "gbp_0"
     hidden: yes
   }
 
@@ -368,7 +368,7 @@ view: spi_cpi{
     description: "Net Sales AOV / Average Units"
     type: number
     sql: COALESCE(SAFE_DIVIDE(${cy_netSales_total}, ${cy_unitsSOLD_total}),0) ;;
-    value_format: "\"£\"#,##0.0"
+    value_format_name: "gbp_0"
   }
 
   dimension: ly_asp_dim {
@@ -377,7 +377,7 @@ view: spi_cpi{
     description: "Net Sales AOV / Average Units"
     type: number
     sql: COALESCE(SAFE_DIVIDE(${ly_netSales}, ${ly_unitsSOLD}),0) ;;
-    value_format: "\"£\"#,##0.0"
+    value_format_name: "gbp_0"
     hidden: yes
   }
 
@@ -387,7 +387,7 @@ view: spi_cpi{
     description: "Net Sales AOV / Average Units"
     type: number
     sql: COALESCE(SAFE_DIVIDE(${ly_netSales_total}, ${ly_unitsSOLD_total}),0) ;;
-    value_format: "\"£\"#,##0.0"
+    value_format_name: "gbp_0"
   }
 
   measure: asp_var {
@@ -395,7 +395,7 @@ view: spi_cpi{
     group_label: "Var"
     type: number
     sql: COALESCE(${cy_asp}-${ly_asp},0);;
-    value_format: "\"£\"#,##0.0"
+    value_format_name: "gbp_0"
   }
 
   dimension: unit_var_dim {
@@ -416,7 +416,7 @@ view: spi_cpi{
     WHEN abs(${cy_unitsSOLD}) > 0 THEN (${cy_asp_dim}-${ly_asp_dim})*${ly_unitsSOLD}
     ELSE (${cy_asp_dim}-${ly_asp_dim})*${cy_unitsSOLD}
     END ;;
-    value_format: "\"£\"#,##0.0"
+    value_format_name: "gbp_0"
   }
 
   measure: spi_percentage{
@@ -424,7 +424,7 @@ view: spi_cpi{
     group_label: "Var"
     type: number
     sql:safe_divide(${price_var},${ly_netSales_total});;
-    value_format: "0.00%"
+    value_format_name: "percent_1"
   }
 
   measure: volume_var {
@@ -436,7 +436,7 @@ view: spi_cpi{
     WHEN abs(${cy_unitsSOLD}) > 0 THEN ${unit_var_dim}*${cy_asp_dim}
     ELSE ${unit_var_dim}*${ly_asp_dim}
     END ;;
-    value_format: "#,##0.0"
+    value_format_name: "gbp_0"
   }
 
   measure: volume_percentage{
@@ -444,6 +444,6 @@ view: spi_cpi{
     group_label: "Var"
     type: number
     sql:safe_divide(${volume_var},${ly_netSales_total});;
-    value_format: "0.00%"
+    value_format_name: "percent_1"
   }
 }
