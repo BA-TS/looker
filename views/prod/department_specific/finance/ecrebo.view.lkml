@@ -90,6 +90,23 @@ view: ecrebo {
     sql: ${TABLE}.itemSaleRefund ;;
   }
 
+  measure: average_item_discount {
+    group_label: "Measures"
+    type: average
+    sql: ${item_discount} ;;
+  }
+
+  measure: average_discount {
+    group_label: "Measures"
+    type: average
+    sql: ${discount} ;;
+  }
+
+  measure: average_item_sale_refund {
+    group_label: "Measures"
+    type: average
+    sql: ${item_sale_refund} ;;
+  }
 }
 
 # view: ecrebo {
