@@ -776,7 +776,7 @@ explore: GA4_testy {
     view_label: "Last12 Week Metrics"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${calendar.date} = ${oos_items_l12weeks.date_date} and ${products.product_code} = ${oos_items_l12weeks.PDPitem_id};;
+    sql_on: ${calendar.date} = ${oos_items_l12weeks.date_date};;
   }
 
   join: order_shippingmethod_l12weeks {
