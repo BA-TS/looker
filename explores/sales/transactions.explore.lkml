@@ -55,7 +55,7 @@ include: "/views/**/costprice.view"
 include: "/views/**/app_transactions_pre_post.view"
 include: "/views/**/clickCollect.view"
 include: "/views/**/foh_products.view"
-include: "/views/prod/department_specific/finance/**/*.view.lkml"
+include: "/views/**/app_web_data.view"
 
 
 explore: base {
@@ -348,10 +348,8 @@ explore: base {
     view_label: "Ecrebo"
     type: left_outer
     relationship: one_to_many
-    sql_on: {% if base.select_date_reference._parameter_value == "Placed" %} DATE(${ecrebo.ecrebo_date_filter}) {% else %} DATE(${ecrebo.TransactionDate}) {% endif %} = ${base.date_date}
-    AND ${transactions.parent_order_uid} = ${ecrebo.parent_order_uid};;
+    sql_on: ${transactions.parent_order_uid} = ${ecrebo.parent_order_uid};;
   }
-
 #(case when ${base.select_date_reference} = "Placed" then ${ecrebo.ecrebo_date_filter} else ${ecrebo.TransactionDate} end)
 
   join: po_numbers {

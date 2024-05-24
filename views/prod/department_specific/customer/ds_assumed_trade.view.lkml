@@ -5,7 +5,7 @@ view: ds_assumed_trade{
     sql:
     select * from
     `toolstation-data-storage.customer.ds_assumed_trade_history_Looker` ;;
-    datagroup_trigger: ts_weekly_datagroup
+    datagroup_trigger: ts_daily_datagroup
    }
 
   dimension: customer_uid {

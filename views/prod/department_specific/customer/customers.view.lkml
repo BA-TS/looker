@@ -2,8 +2,8 @@ include: "/views/prod/department_specific/customer/trade_customers.view"
 
 view: customers {
   derived_table: {
-    increment_key: "updatedDate"
-    increment_offset: 3
+    # increment_key: "creationDate"
+    # increment_offset: 3
     sql:
     select * from `toolstation-data-storage.customer.allCustomers`;;
     datagroup_trigger: ts_transactions_datagroup
