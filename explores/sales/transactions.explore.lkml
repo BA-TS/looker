@@ -54,7 +54,7 @@ include: "/views/**/assumed_trade_measures.view"
 include: "/views/**/costprice.view"
 include: "/views/**/app_transactions_pre_post.view"
 include: "/views/**/clickCollect.view"
-include: "/views/**/foh_products.view"
+include: "/views/**/foh_master_products_2024.view"
 include: "/views/**/app_web_data.view"
 
 
@@ -220,11 +220,11 @@ explore: base {
     sql_on: ${transactions.site_uid}=${sites.site_uid} ;;
   }
 
-  join: foh_products {
+  join: foh_master_products_2024 {
     view_label: "Location"
     type: left_outer
     relationship: many_to_one
-    sql_on:${foh_products.siteUID} =${sites.site_uid} and ${transactions.product_code}=${foh_products.SKU} and ${calendar_completed_date.fiscal_year_week}=${foh_products.Week}  ;;
+    sql_on:${foh_master_products_2024.siteUID} =${sites.site_uid} and ${transactions.product_code}=${foh_master_products_2024.SKU} and ${calendar_completed_date.fiscal_year_week}=${foh_master_products_2024.Week}  ;;
   }
 
   join: foh_master_stores {
