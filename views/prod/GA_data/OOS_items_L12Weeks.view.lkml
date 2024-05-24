@@ -22,15 +22,18 @@ FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw
 where  _TABLE_Suffix between format_date("%Y%m%d", date_sub(current_date(), interval 12 week)) and format_date("%Y%m%d", current_date()) and event_name in ("collection_OOS", "dual_OOS", "Delivery_OOS", "out_of_stock", "view_item")
 group by all),
 
-view_item as (select distinct date, item_id from sub1 where event_name in ("view_item") and screen_Type in ("product-detail-page")),
+view_item as (select distinct date, item_id, count(distinct session_id) as sessions from sub1 where event_name in ("view_item") and screen_Type in ("product-detail-page") group by 1,2),
 
-collection_OOS as (select distinct date as collect_date, item_id as COOS_itemID from sub1 where event_name in ("collection_OOS") and screen_Type in ("product-detail-page")),
+collection_OOS as (select distinct date as collect_date, item_id as COOS_itemID, count(distinct session_id) as COOS_sessions from sub1 where event_name in ("collection_OOS") and screen_Type in ("product-detail-page")
+group by 1,2),
 
-delivery_OOS as (select distinct date as delivery_date, item_id as deliveryOOS_itemID from sub1 where event_name in ("Delivery_OOS") and screen_Type in ("product-detail-page")),
+delivery_OOS as (select distinct date as delivery_date, item_id as deliveryOOS_itemID, count(distinct session_id) as delOOS_sessions from sub1 where event_name in ("Delivery_OOS") and screen_Type in ("product-detail-page")
+group by 1,2),
 
-dual_OOS as (select distinct date as dual_date, item_id as dualOOS_itemID from sub1 where event_name in ("dual_OOS") and screen_Type in ("product-detail-page"))
+dual_OOS as (select distinct date as dual_date, item_id as dualOOS_itemID, count(distinct session_id) as dual_sessions from sub1 where event_name in ("dual_OOS") and screen_Type in ("product-detail-page") group by 1,2)
 
-select distinct row_number() over () as P_K, view_item.*, COOS_itemID, delivery_OOS.deliveryOOS_itemID, dual_OOS.dualOOS_itemID  from view_item
+select distinct row_number() over () as P_K, view_item.*, COOS_itemID, COOS_sessions, delivery_OOS.deliveryOOS_itemID, delOOS_sessions, dual_OOS.dualOOS_itemID, dual_sessions
+from view_item
 left join collection_OOS on view_item.date = collection_OOS.collect_date and view_item.item_id = collection_OOS.COOS_itemID
 left join delivery_OOS on view_item.date = delivery_OOS.delivery_date and view_item.item_id = delivery_OOS.deliveryOOS_itemID
 left join dual_OOS on view_item.date = dual_OOS.dual_date and view_item.item_id = dual_OOS.dualOOS_itemID
@@ -79,30 +82,30 @@ left join dual_OOS on view_item.date = dual_OOS.dual_date and view_item.item_id 
 
   measure: PDP_items {
     group_label: "Product Unavailability"
-    label: "PDP Product Code"
-    type: count_distinct
-    sql: ${PDPitem_id} ;;
+    label: "PDP sessions"
+    type: sum
+    sql: ${TABLE}.sessions ;;
   }
 
   measure: Collect_OOS_items {
     group_label: "Product Unavailability"
-    label: "Collection OOS"
-    type: count_distinct
-    sql: ${Collection_OOS_itemID} ;;
+    label: "Collection OOS Sessions"
+    type: sum
+    sql: ${TABLE}.COOS_sessions ;;
   }
 
   measure: Delivery_OOS_items {
     group_label: "Product Unavailability"
-    label: "Delivery OOS"
-    type: count_distinct
-    sql: ${delivery_OOS_itemID} ;;
+    label: "Delivery OOS Sessions"
+    type: sum
+    sql: ${TABLE}.delOOS_sessions ;;
   }
 
   measure: Dual_OOS_items {
     group_label: "Product Unavailability"
-    label: "Dual OOS"
+    label: "Dual OOS Sessions"
     type: count_distinct
-    sql: ${dualOOS_itemID} ;;
+    sql: ${TABLE}.dual_sessions ;;
   }
 
   measure: Collect_OOS_rate {
