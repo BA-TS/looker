@@ -348,7 +348,7 @@ explore: base {
     view_label: "Ecrebo"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${transactions.parent_order_uid} = ${ecrebo.parent_order_uid};;
+    sql_on: ${transactions.parent_order_uid} = ${ecrebo.parent_order_uid} and ${transactions.product_code} = ${ecrebo.item_sku};;
   }
 #(case when ${base.select_date_reference} = "Placed" then ${ecrebo.ecrebo_date_filter} else ${ecrebo.TransactionDate} end)
 

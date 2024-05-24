@@ -3,26 +3,33 @@ view: ecrebo {
   derived_table: {
     sql:
     SELECT
+    DISTINCT row_number() over () AS prim_key,
     parentOrderUID,
     et.datetime as datetime,
     et.storeid,
     issuanceRedemption,
+    campaignUuid,
     campaignName,
     discount,
     itemSku,
-    itemName,
+    --itemName,
     itemDiscount,
     itemSaleRefund
     FROM `toolstation-data-storage.ecrebo.ecreboCoupons` AS ec
-    left join `toolstation-data-storage.ecrebo.ecreboItems` AS ei
+    LEFT JOIN `toolstation-data-storage.ecrebo.ecreboItems` AS ei
     using (transactionUuid)
-    left join `toolstation-data-storage.ecrebo.ecreboTransactions` AS et
-    using (transactionUuid)
-    ;;
+    LEFT JOIN `toolstation-data-storage.ecrebo.ecreboTransactions` AS et
+    using (transactionUuid);;
   }
       # left join toolstation-data-storage.ecrebo.ecreboCampaignHeirarchy eh
     # using (campaignName)
 
+  dimension: prim_key {
+    type: number
+    primary_key: yes
+    sql: ${TABLE}.prim_key ;;
+    hidden:  yes
+  }
 
   dimension: parent_order_uid {
     type: string
@@ -54,6 +61,12 @@ view: ecrebo {
     sql: ${TABLE}.issuanceRedemption ;;
   }
 
+  dimension: campaignUuid {
+    type: string
+    sql: ${TABLE}.campaignUuid ;;
+    hidden: yes
+  }
+
   dimension: campaign_name {
     type: string
     sql: ${TABLE}.campaignName ;;
@@ -69,15 +82,11 @@ view: ecrebo {
     sql: ${TABLE}.discount ;;
   }
 
-  dimension: item_Sku {
+  dimension: item_sku {
     label: "Item SKU"
     type: string
     sql: ${TABLE}.itemSku ;;
-  }
-
-  dimension: item_name{
-    type: string
-    sql: ${TABLE}.itemName ;;
+    hidden: yes
   }
 
   dimension: item_discount {
@@ -86,26 +95,29 @@ view: ecrebo {
   }
 
   dimension: item_sale_refund {
-    type: number
+    type: string
     sql: ${TABLE}.itemSaleRefund ;;
   }
 
+  measure: number_of_store_ids {
+    label: "Number of Store IDs"
+    type: count_distinct
+    sql: ${store_id} ;;
+  }
+
+  measure: number_of_ecrebo_campaigns {
+    type: count_distinct
+    sql: ${campaignUuid} ;;
+  }
+
   measure: average_item_discount {
-    group_label: "Measures"
     type: average
     sql: ${item_discount} ;;
   }
 
   measure: average_discount {
-    group_label: "Measures"
     type: average
     sql: ${discount} ;;
-  }
-
-  measure: average_item_sale_refund {
-    group_label: "Measures"
-    type: average
-    sql: ${item_sale_refund} ;;
   }
 }
 

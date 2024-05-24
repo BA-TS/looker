@@ -1,7 +1,8 @@
 view: promoworking {
    derived_table: {
      sql:
-      SELECT distinct row_number() over () as P_K,publication.catalogue.publicationName,
+      SELECT distinct row_number() over () as P_K,
+      publication.catalogue.publicationName,
       productCode,
       cycleID,
       financial.costPrice,
