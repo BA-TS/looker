@@ -104,7 +104,7 @@ left join dual_OOS on view_item.date = dual_OOS.dual_date and view_item.item_id 
   measure: Dual_OOS_items {
     group_label: "Product Unavailability"
     label: "Dual OOS Sessions"
-    type: count_distinct
+    type: sum
     sql: ${TABLE}.dual_sessions ;;
   }
 
