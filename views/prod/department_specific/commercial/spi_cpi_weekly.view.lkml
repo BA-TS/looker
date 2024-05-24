@@ -12,6 +12,8 @@ view: spi_cpi_weekly{
     sum(metrics.ly_netSales) as ly_netSales,
     sum(metrics.cy_unitsSOLD) as cy_unitsSOLD,
     sum(metrics.ly_unitsSOLD) as ly_unitsSOLD,
+    sum(metrics.cy_aac_cogs) as cy_aac_cogs,
+    sum(metrics.ly_aac_cogs) as ly_aac_cogs,
     row_number() OVER(ORDER BY dims.productCode) AS prim_key
     FROM `toolstation-data-storage.financeReporting.DS_DAILY_SPI_CPI`
     Where dims.productCode not in ("00053", "44842","85699")
@@ -20,8 +22,7 @@ view: spi_cpi_weekly{
     datagroup_trigger: ts_daily_datagroup
   }
 
-    #   metrics.cy_aac_cogs as cy_aac_cogs,
-    # metrics.ly_aac_cogs as ly_aac_cogs,
+
     # metrics.cy_aac_unit_cogs as cy_aac_unit_cogs,
     # metrics.ly_aac_unit_cogs as ly_aac_unit_cogs,
     # metrics.cy_ccp_cogs as cy_ccp_cogs,
@@ -177,17 +178,17 @@ view: spi_cpi_weekly{
   #   hidden: yes
   # }
 
-  # dimension: cy_aac_cogs {
-  #   type: number
-  #   sql: ${TABLE}.cy_aac_cogs;;
-  #   hidden: yes
-  # }
+  dimension: cy_aac_cogs {
+    type: number
+    sql: ${TABLE}.cy_aac_cogs;;
+    hidden: yes
+  }
 
-  # dimension: ly_aac_cogs {
-  #   type: number
-  #   sql: ${TABLE}.ly_aac_cogs;;
-  #   hidden: yes
-  # }
+  dimension: ly_aac_cogs {
+    type: number
+    sql: ${TABLE}.ly_aac_cogs;;
+    hidden: yes
+  }
 
   # dimension: cy_aac_unit_cogs {
   #   type: number
@@ -297,21 +298,23 @@ view: spi_cpi_weekly{
   #   value_format: "0.00"
   # }
 
-  # measure: cy_aac_cogs_total {
-  #   type: sum
-  #   label: "CY AAC COGS"
-  #   group_label: "CY"
-  #   sql: ${TABLE}.cy_aac_cogs;;
-  #   value_format: "0.00"
-  # }
+  measure: cy_aac_cogs_total {
+    type: sum
+    label: "CY AAC COGS"
+    group_label: "CY"
+    sql: ${TABLE}.cy_aac_cogs;;
+    value_format: "0.00"
+    hidden: yes
+  }
 
-  # measure: ly_aac_cogs_total {
-  #   type: sum
-  #   label: "LY AAC COGS"
-  #   group_label: "LY"
-  #   sql: ${TABLE}.ly_aac_cogs;;
-  #   value_format: "0.00"
-  # }
+  measure: ly_aac_cogs_total {
+    type: sum
+    label: "LY AAC COGS"
+    group_label: "LY"
+    sql: ${TABLE}.ly_aac_cogs;;
+    value_format: "0.00"
+    hidden: yes
+  }
 
   # measure: cy_ccp_cogs_total {
   #   type: sum
@@ -431,6 +434,14 @@ view: spi_cpi_weekly{
     value_format_name: "percent_1"
   }
 
+  measure: cpi_percentage{
+    group_label: "Var"
+    label: "CPI %"
+    type: number
+    sql:safe_divide(${price_var},${ly_aac_cogs_total});;
+    value_format_name: "percent_1"
+  }
+
   measure: volume_var {
     label: "Volume Var"
     group_label: "Var"
@@ -445,9 +456,17 @@ view: spi_cpi_weekly{
 
   measure: volume_percentage{
     group_label: "Var"
-    label: "Vol %"
+    label: "Vol % (SPI)"
     type: number
     sql:safe_divide(${volume_var},${ly_netSales_total});;
+    value_format_name: "percent_1"
+  }
+
+  measure: volume_percentage_CPI{
+    group_label: "Var"
+    label: "Vol % (CPI)"
+    type: number
+    sql:safe_divide(${volume_var},${ly_aac_cogs_total});;
     value_format_name: "percent_1"
   }
 }
