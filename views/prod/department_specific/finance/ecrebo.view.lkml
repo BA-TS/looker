@@ -1,4 +1,5 @@
 view: ecrebo {
+  fields_hidden_by_default: yes
 
   derived_table: {
     sql:
@@ -11,13 +12,13 @@ view: ecrebo {
     campaignUuid,
     campaignName,
     discount,
-    itemSku,
+--    itemSku,
     --itemName,
-    itemDiscount,
-    itemSaleRefund
+  --  itemDiscount,
+    --itemSaleRefund
     FROM `toolstation-data-storage.ecrebo.ecreboCoupons` AS ec
-    LEFT JOIN `toolstation-data-storage.ecrebo.ecreboItems` AS ei
-    using (transactionUuid)
+    --LEFT JOIN `toolstation-data-storage.ecrebo.ecreboItems` AS ei
+    --using (transactionUuid)
     LEFT JOIN `toolstation-data-storage.ecrebo.ecreboTransactions` AS et
     using (transactionUuid);;
   }
