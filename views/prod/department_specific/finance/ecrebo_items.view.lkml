@@ -26,14 +26,12 @@ view: ecrebo_items {
   }
 
   dimension: item_sku {
-    label: "Item SKU"
     type: string
     sql: ${TABLE}.itemSku ;;
     hidden: yes
   }
 
   dimension: item_name {
-    label: "Item SKU"
     type: string
     sql: ${TABLE}.itemName ;;
     hidden: yes

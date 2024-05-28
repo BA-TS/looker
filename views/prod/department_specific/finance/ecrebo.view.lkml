@@ -45,7 +45,6 @@ view: ecrebo {
     sql: ${parent_order_uid} is not null ;;
   }
 
-
   dimension_group: ecrebo {
     type: time
     timeframes: [
