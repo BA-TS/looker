@@ -348,7 +348,7 @@ explore: base {
   join: ecrebo {
     view_label: "Ecrebo"
     type: left_outer
-    relationship: one_to_many
+    relationship: many_to_one
     sql_on: ${transactions.parent_order_uid} = ${ecrebo.parent_order_uid} ;;
   }
 
