@@ -109,5 +109,6 @@ view: ecrebo {
   measure: discount {
     type: average
     sql: ${discount_dim} ;;
+    value_format:  "\"£\"0.00"
   }
 }

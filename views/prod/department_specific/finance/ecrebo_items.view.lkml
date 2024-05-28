@@ -61,6 +61,6 @@ view: ecrebo_items {
     type: average
     label: "Item Discount"
     sql: ${item_discount_dim} ;;
+    value_format:  "\"£\"0.00"
   }
-
 }
