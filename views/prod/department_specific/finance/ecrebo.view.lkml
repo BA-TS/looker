@@ -12,6 +12,7 @@ view: ecrebo {
     campaignUuid,
     campaignName,
     discount,
+    transactionUuid,
 --    itemSku,
     --itemName,
   --  itemDiscount,
@@ -35,6 +36,12 @@ view: ecrebo {
   dimension: parent_order_uid {
     type: string
     sql: ${TABLE}.parentOrderUID ;;
+    hidden:  yes
+  }
+
+  dimension: transactionUuid {
+    type: string
+    sql: ${TABLE}.transactionUuid ;;
     hidden:  yes
   }
 

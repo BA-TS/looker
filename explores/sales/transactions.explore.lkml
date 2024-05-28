@@ -25,6 +25,7 @@ include: "/views/**/spi_cpi_weekly.view"
 include: "/views/**/digital_transaction_mapping.view"
 include: "/views/**/digital_channel_grouping.view"
 include: "/views/**/ecrebo.view"
+include: "/views/**/ecrebo_items.view"
 include: "/views/**/po_numbers.view"
 include: "/views/**/promoHistory_Current.view"
 include: "/views/**/product_dimensions.view"
@@ -348,9 +349,15 @@ explore: base {
     view_label: "Ecrebo"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${transactions.parent_order_uid} = ${ecrebo.parent_order_uid} and ${transactions.product_code} = ${ecrebo.item_sku};;
+    sql_on: ${transactions.parent_order_uid} = ${ecrebo.parent_order_uid} ;;
   }
-#(case when ${base.select_date_reference} = "Placed" then ${ecrebo.ecrebo_date_filter} else ${ecrebo.TransactionDate} end)
+
+  join: ecrebo_items {
+    view_label: "Ecrebo"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.product_code} = ${ecrebo_items.item_sku} and ${ecrebo_items.transactionUuid} = ${ecrebo.transactionUuid} ;;
+  }
 
   join: po_numbers {
     view_label: "Transactions"
