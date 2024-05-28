@@ -1,5 +1,4 @@
 view: ecrebo {
-  fields_hidden_by_default: yes
 
   derived_table: {
     sql:
@@ -124,12 +123,6 @@ view: ecrebo {
   measure: number_of_ecrebo_campaigns {
     type: count_distinct
     sql: ${campaignUuid} ;;
-  }
-
-  measure: item_discount {
-    type: average
-    label: "Item Discount"
-    sql: ${item_discount_dim} ;;
   }
 
   measure: discount {

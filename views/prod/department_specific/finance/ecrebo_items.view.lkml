@@ -1,5 +1,4 @@
 view: ecrebo_items {
-  fields_hidden_by_default: yes
 
   derived_table: {
     sql:
