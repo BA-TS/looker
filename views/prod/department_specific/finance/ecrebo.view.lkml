@@ -107,6 +107,7 @@ view: ecrebo {
 
   measure: discount {
     type: average
+    label: "Total Discount"
     sql: ${discount_dim} ;;
     value_format:  "\"£\"0.00"
   }
