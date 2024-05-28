@@ -50,6 +50,13 @@ view: ecrebo_items {
     sql: ${TABLE}.itemSaleRefund ;;
   }
 
+  dimension: is_order_ecrebo {
+    group_label: "Is Ecrebo"
+    label: "Item"
+    type: yesno
+    sql: ${item_sku} is not null ;;
+  }
+
   measure: item_discount {
     type: average
     label: "Item Discount"

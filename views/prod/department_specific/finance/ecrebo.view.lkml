@@ -12,13 +12,7 @@ view: ecrebo {
     campaignName,
     discount,
     transactionUuid,
---    itemSku,
-    --itemName,
-  --  itemDiscount,
-    --itemSaleRefund
     FROM `toolstation-data-storage.ecrebo.ecreboCoupons` AS ec
-    --LEFT JOIN `toolstation-data-storage.ecrebo.ecreboItems` AS ei
-    --using (transactionUuid)
     LEFT JOIN `toolstation-data-storage.ecrebo.ecreboTransactions` AS et
     using (transactionUuid);;
   }
@@ -45,6 +39,8 @@ view: ecrebo {
   }
 
   dimension: is_order_ecrebo {
+    group_label: "Is Ecrebo"
+    label: "Order"
     type: yesno
     sql: ${parent_order_uid} is not null ;;
   }
@@ -54,11 +50,8 @@ view: ecrebo {
     type: time
     timeframes: [
       raw,
-      time,
       date,
-      week,
       month,
-      quarter,
       year
     ]
     sql: ${TABLE}.datetime ;;
