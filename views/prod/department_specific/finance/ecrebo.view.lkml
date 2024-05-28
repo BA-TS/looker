@@ -96,22 +96,10 @@ view: ecrebo {
     hidden: yes
   }
 
-  dimension: item_sku {
-    label: "Item SKU"
-    type: string
-    sql: ${TABLE}.itemSku ;;
-    hidden: yes
-  }
-
   dimension: item_discount_dim {
     type: number
     sql: ${TABLE}.itemDiscount;;
     hidden: yes
-  }
-
-  dimension: item_sale_refund {
-    type: string
-    sql: ${TABLE}.itemSaleRefund ;;
   }
 
   measure: number_of_store_ids {
