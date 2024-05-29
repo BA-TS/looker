@@ -5,7 +5,6 @@ view: ecrebo {
     SELECT
     DISTINCT row_number() over () AS prim_key,
     parentOrderUID,
-    et.datetime as datetime,
     et.storeid,
     issuanceRedemption,
     campaignUuid,
@@ -20,7 +19,6 @@ view: ecrebo {
     using (campaignName)
     ;;
   }
-
 
   dimension: prim_key {
     type: number
@@ -46,17 +44,6 @@ view: ecrebo {
     label: "Order"
     type: yesno
     sql: ${parent_order_uid} is not null ;;
-  }
-
-  dimension_group: ecrebo {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      month,
-      year
-    ]
-    sql: ${TABLE}.datetime ;;
   }
 
   dimension: store_id {
