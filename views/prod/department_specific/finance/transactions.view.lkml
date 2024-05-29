@@ -441,7 +441,6 @@ view: transactions {
     label: "Reason for Order"
     type: string
     sql: ${TABLE}.orderReason ;;
-    hidden: yes
   }
 
   dimension: order_special_requests {
