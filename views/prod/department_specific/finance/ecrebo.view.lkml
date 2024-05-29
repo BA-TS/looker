@@ -115,8 +115,15 @@ view: ecrebo {
 
   measure: discount {
     type: average
+    label: "Average Discount"
+    sql: ${discount_dim} ;;
+    value_format_name:  "gbp"
+  }
+
+  measure: total_discount {
+    type: sum
     label: "Total Discount"
     sql: ${discount_dim} ;;
-    value_format:  "\"£\"0.00"
+    value_format_name:  "gbp"
   }
 }
