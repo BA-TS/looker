@@ -49,12 +49,14 @@ view: ga4_transactions {
     label: "Sales Channel"
     description: "SalesChannel"
     type: string
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.salesChannel end;;
   }
 
   dimension_group: placed {
     hidden: yes
     timeframes: [date]
     type: time
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.placed end ;;
   }
 
   dimension_group: placed_time{
@@ -63,7 +65,7 @@ view: ga4_transactions {
     label: ""
     type: time
     timeframes: [time_of_day]
-    sql: ${TABLE}.placed ;;
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.placed end;;
   }
 
   dimension_group: placed_hour{
@@ -72,7 +74,7 @@ view: ga4_transactions {
     label: ""
     type: time
     timeframes: [hour_of_day]
-    sql: ${TABLE}.placed ;;
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.placed end ;;
   }
 
   #dimension_group: transaction {
@@ -85,17 +87,19 @@ view: ga4_transactions {
     type: number
     value_format_name: gbp
     hidden: yes
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.NetSalePrice end;;
   }
 
   dimension: net_value {
     type: number
     hidden: yes
-    #value_format_name: gbp
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.net_value end ;;
   }
 
   dimension: gross_value {
     type: number
     hidden: yes
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.gross_value end;;
     #value_format_name: gbp
   }
 
@@ -103,33 +107,39 @@ view: ga4_transactions {
     type: number
     hidden: yes
     value_format_name: gbp
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.ga4_revenue end;;
   }
 
   dimension: MarginIncFunding {
     type: number
     hidden: yes
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.MarginIncFunding end;;
     #value_format_name: gbp
   }
 
   dimension: MarginExclFunding {
     type: number
     hidden: yes
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.MarginExclFunding end;;
     #value_format_name: gbp
   }
 
   dimension: Quantity {
     type: number
     hidden: yes
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.Quantity end;;
   }
 
   dimension: ga4_quantity {
     type: number
     hidden: yes
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.ga4_quantity end;;
   }
 
   dimension: productCode {
     type: string
     hidden: yes
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.productCode end;;
   }
 
   dimension: status {
@@ -137,6 +147,7 @@ view: ga4_transactions {
     group_label: "Transactional"
     label: "Order Status"
     type: string
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.status end;;
   }
 
   dimension: paymentType {
@@ -144,6 +155,7 @@ view: ga4_transactions {
     group_label: "Transactional"
     label: "Payment Type"
     type: string
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.paymentType end;;
   }
 
   ##########Measures###############
@@ -165,7 +177,7 @@ view: ga4_transactions {
     #group_label: "Measures"
     type: count_distinct
     sql: coalesce(${customer},${ga4_rjagdev_test.User}) ;;
-    filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
+    #filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
   }
 
   measure: sum_net_value {
@@ -175,7 +187,7 @@ view: ga4_transactions {
     type: sum
     value_format_name: gbp
     sql: ${net_value};;
-    filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
+    #filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
   }
 
   measure: ga4_rev {
@@ -185,7 +197,7 @@ view: ga4_transactions {
     type: sum
     value_format_name: gbp
     sql: ${ga4_revenue};;
-    filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
+    #filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
   }
 
 
@@ -196,7 +208,7 @@ view: ga4_transactions {
     type: sum
     value_format_name: gbp
     sql: ${gross_value} ;;
-    filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
+    #filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
   }
 
   measure: Sum_marginIncFund {
@@ -206,7 +218,7 @@ view: ga4_transactions {
     type: sum
     value_format_name: gbp
     sql: ${MarginIncFunding} ;;
-    filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
+    #filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
   }
 
   measure: Sum_marginExcFund {
@@ -216,7 +228,7 @@ view: ga4_transactions {
     type: sum
     value_format_name: gbp
     sql: ${MarginExclFunding} ;;
-    filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
+    #filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
   }
 
   measure: margin_rate_inc_funding {
@@ -243,7 +255,7 @@ view: ga4_transactions {
     label: "Product Quantity"
     type: sum
     sql: ${Quantity} ;;
-    filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?", productCode: "-00021"]
+    #filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?", productCode: "-00021"]
   }
 
   measure: Sum_GA4quantity {
@@ -252,7 +264,7 @@ view: ga4_transactions {
     label: "Total Product Quantity"
     type: sum
     sql: ${ga4_quantity} ;;
-    filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
+    #filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
   }
 
 
@@ -264,7 +276,7 @@ view: ga4_transactions {
     type: average
     value_format_name: gbp
     sql: ${NetSalePrice} ;;
-    filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
+    #filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
   }
 
   measure: aov_net_rev {
