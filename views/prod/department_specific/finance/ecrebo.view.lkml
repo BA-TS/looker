@@ -5,19 +5,20 @@ view: ecrebo {
     SELECT
     DISTINCT row_number() over () AS prim_key,
     parentOrderUID,
-    et.datetime as datetime,
     et.storeid,
     issuanceRedemption,
     campaignUuid,
-    campaignName,
+    ec.campaignName as campaignName,
+    campaignGroup,
     discount,
     transactionUuid,
     FROM `toolstation-data-storage.ecrebo.ecreboCoupons` AS ec
     LEFT JOIN `toolstation-data-storage.ecrebo.ecreboTransactions` AS et
-    using (transactionUuid);;
+    using (transactionUuid)
+    LEFT JOIN `toolstation-data-storage.ecrebo.ecreboHeirarchy` eh
+    using (campaignName)
+    ;;
   }
-      # left join toolstation-data-storage.ecrebo.ecreboCampaignHeirarchy eh
-    # using (campaignName)
 
   dimension: prim_key {
     type: number
@@ -45,17 +46,6 @@ view: ecrebo {
     sql: ${parent_order_uid} is not null ;;
   }
 
-  dimension_group: ecrebo {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      month,
-      year
-    ]
-    sql: ${TABLE}.datetime ;;
-  }
-
   dimension: store_id {
     type: string
     sql: ${TABLE}.storeid ;;
@@ -77,10 +67,10 @@ view: ecrebo {
     sql: ${TABLE}.campaignName ;;
   }
 
-  # dimension: campaign_group {
-  #   type: string
-  #   sql: ${TABLE}.campaignGroup  ;;
-  # }
+  dimension: campaign_group {
+    type: string
+    sql: ${TABLE}.campaignGroup ;;
+  }
 
   dimension: discount_dim {
     type: number
@@ -105,10 +95,22 @@ view: ecrebo {
     sql: ${campaignUuid} ;;
   }
 
+  measure: number_of_campaigns_groups {
+    type: count_distinct
+    sql: ${campaign_group} ;;
+  }
+
   measure: discount {
     type: average
+    label: "Average Discount"
+    sql: ${discount_dim} ;;
+    value_format_name:  "gbp"
+  }
+
+  measure: total_discount {
+    type: sum
     label: "Total Discount"
     sql: ${discount_dim} ;;
-    value_format:  "\"£\"0.00"
+    value_format_name:  "gbp"
   }
 }
