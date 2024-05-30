@@ -26,19 +26,21 @@ view: ga4_transactions {
     label: "Transaction ID"
     description: "Order ID of order where order was seen in GA4"
     type: string
-    sql: case when  ${ga4_rjagdev_test.Screen_name} not in ("Already Registered?") then ${TABLE}.OrderID else null end;;
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.OrderID end;;
   }
 
   dimension: customer {
     description: "customer"
     hidden: yes
     type: string
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.customer end;;
   }
 
   dimension: ProductUID {
     description: "ProductUID"
     type: string
     hidden: yes
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.ProductUID end;;
   }
 
   dimension: salesChannel {
@@ -153,7 +155,7 @@ view: ga4_transactions {
     description: "Total orders seen in GA4"
     type: count_distinct
     sql: ${OrderID} ;;
-    filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
+    #filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
   }
 
   measure: customers {
