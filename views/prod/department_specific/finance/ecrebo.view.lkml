@@ -114,4 +114,17 @@ view: ecrebo {
     sql: ${discount_dim} ;;
     value_format_name:  "gbp"
   }
+
+  measure: count_issuance_redemption_r {
+    type: sum
+    sql: CASE WHEN ${issuance_redemption} = 'r' THEN 1 ELSE NULL END ;;
+  }
+
+  measure: count_issuance_redemption_i {
+    type: sum
+    sql: CASE WHEN ${issuance_redemption} = 'i' THEN 1 ELSE NULL END ;;
+  }
+
+
+
 }
