@@ -26,21 +26,21 @@ view: ga4_transactions {
     label: "Transaction ID"
     description: "Order ID of order where order was seen in GA4"
     type: string
-    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.OrderID end;;
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.OrderID end;;
   }
 
   dimension: customer {
     description: "customer"
     hidden: yes
     type: string
-    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.customer end;;
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.customer end;;
   }
 
   dimension: ProductUID {
     description: "ProductUID"
     type: string
     hidden: yes
-    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.ProductUID end;;
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.ProductUID end;;
   }
 
   dimension: salesChannel {
@@ -49,14 +49,14 @@ view: ga4_transactions {
     label: "Sales Channel"
     description: "SalesChannel"
     type: string
-    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.salesChannel end;;
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.salesChannel end;;
   }
 
   dimension_group: placed {
     hidden: yes
     timeframes: [date]
     type: time
-    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.placed end ;;
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.placed end ;;
   }
 
   dimension_group: placed_time{
@@ -65,7 +65,7 @@ view: ga4_transactions {
     label: ""
     type: time
     timeframes: [time_of_day]
-    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.placed end;;
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.placed end;;
   }
 
   dimension_group: placed_hour{
@@ -74,7 +74,7 @@ view: ga4_transactions {
     label: ""
     type: time
     timeframes: [hour_of_day]
-    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.placed end ;;
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.placed end ;;
   }
 
   #dimension_group: transaction {
@@ -87,19 +87,19 @@ view: ga4_transactions {
     type: number
     value_format_name: gbp
     hidden: yes
-    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.NetSalePrice end;;
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.NetSalePrice end;;
   }
 
   dimension: net_value {
     type: number
     hidden: yes
-    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.net_value end ;;
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.net_value end ;;
   }
 
   dimension: gross_value {
     type: number
     hidden: yes
-    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.gross_value end;;
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.gross_value end;;
     #value_format_name: gbp
   }
 
@@ -107,39 +107,39 @@ view: ga4_transactions {
     type: number
     hidden: yes
     value_format_name: gbp
-    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.ga4_revenue end;;
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.ga4_revenue end;;
   }
 
   dimension: MarginIncFunding {
     type: number
     hidden: yes
-    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.MarginIncFunding end;;
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.MarginIncFunding end;;
     #value_format_name: gbp
   }
 
   dimension: MarginExclFunding {
     type: number
     hidden: yes
-    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.MarginExclFunding end;;
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.MarginExclFunding end;;
     #value_format_name: gbp
   }
 
   dimension: Quantity {
     type: number
     hidden: yes
-    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.Quantity end;;
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.Quantity end;;
   }
 
   dimension: ga4_quantity {
     type: number
     hidden: yes
-    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.ga4_quantity end;;
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.ga4_quantity end;;
   }
 
   dimension: productCode {
     type: string
     hidden: yes
-    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.productCode end;;
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.productCode end;;
   }
 
   dimension: status {
@@ -147,7 +147,7 @@ view: ga4_transactions {
     group_label: "Transactional"
     label: "Order Status"
     type: string
-    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.status end;;
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.status end;;
   }
 
   dimension: paymentType {
@@ -155,7 +155,7 @@ view: ga4_transactions {
     group_label: "Transactional"
     label: "Payment Type"
     type: string
-    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} in ("Already Registered?") then null else ${TABLE}.paymentType end;;
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.paymentType end;;
   }
 
   ##########Measures###############
