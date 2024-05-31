@@ -88,17 +88,20 @@ view: ecrebo {
     label: "Number of Store IDs"
     type: count_distinct
     sql: ${store_id} ;;
+    hidden:  yes
   }
 
   measure: number_of_ecrebo_campaigns {
     label: "Number of Campaigns"
     type: count_distinct
     sql: ${campaignUuid} ;;
+    hidden:  yes
   }
 
   measure: number_of_campaigns_groups {
     type: count_distinct
     sql: ${campaign_group} ;;
+    hidden:  yes
   }
 
   measure: discount {
@@ -106,6 +109,7 @@ view: ecrebo {
     label: "Average Discount"
     sql: ${discount_dim} ;;
     value_format_name:  "gbp"
+    hidden:  yes
   }
 
   measure: total_discount {
