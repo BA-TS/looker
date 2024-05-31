@@ -207,7 +207,7 @@ view: ga4_transactions {
     label: "Gross Revenue"
     type: sum
     value_format_name: gbp
-    sql: case when ${gross_value} = 0 then ${ga4_revenue} else ${gross_value};;
+    sql: case when ${gross_value} = 0 then ${ga4_revenue} else ${gross_value} end;;
     #filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
   }
 
