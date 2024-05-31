@@ -8,14 +8,14 @@ view: ecrebo {
     et.storeid,
     issuanceRedemption,
     campaignUuid,
-    ec.campaignName as campaignName,
+    ec.campaignName AS campaignName,
     campaignGroup,
     discount,
     transactionUuid,
     FROM `toolstation-data-storage.ecrebo.ecreboCoupons` AS ec
     LEFT JOIN `toolstation-data-storage.ecrebo.ecreboTransactions` AS et
     using (transactionUuid)
-    LEFT JOIN `toolstation-data-storage.ecrebo.ecreboHeirarchy` eh
+    LEFT JOIN `toolstation-data-storage.ecrebo.ecreboHeirarchy` AS eh
     using (campaignName)
     ;;
   }
@@ -91,6 +91,7 @@ view: ecrebo {
   }
 
   measure: number_of_ecrebo_campaigns {
+    label: "Number of Campaigns"
     type: count_distinct
     sql: ${campaignUuid} ;;
   }
