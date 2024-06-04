@@ -562,6 +562,14 @@ explore: digital_reporting {
     sql_where: ${digitalreport_top10depts.dept_rank_top_dept_bigquery_4} != "Other" ;;
   }
 
+  join: ecrebobudget {
+    view_label: "Ecrebo Budget"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${base.date_date} = ${ecrebobudget.date_date} and ${ecrebo.campaign_group} = ${ecrebobudget.campaign_group};;
+
+  }
+
 
 
 }
