@@ -18,6 +18,8 @@ view: ecrebo {
     LEFT JOIN `toolstation-data-storage.ecrebo.ecreboHeirarchy` AS eh
     using (campaignName)
     ;;
+
+    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 7;;
   }
 
   dimension: prim_key {
