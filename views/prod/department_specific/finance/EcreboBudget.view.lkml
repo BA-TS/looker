@@ -177,7 +177,7 @@ group by 1, Total) inner join `toolstation-data-storage.ts_finance.dim_date` as 
     hidden: yes
     type: time
     timeframes: [raw,date]
-    sql: ${TABLE}.date ;;
+    sql: ${TABLE}.fullDate ;;
   }
 #
    measure: Budget {
