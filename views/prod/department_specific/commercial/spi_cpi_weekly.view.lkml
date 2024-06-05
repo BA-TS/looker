@@ -139,80 +139,8 @@ view: spi_cpi_weekly{
     hidden: yes
   }
 
-  # dimension: SPI_abs {
-  #   type: number
-  #   sql: ${TABLE}.SPI_abs;;
-  #   hidden: yes
-  # }
 
-  # dimension: SPI_abs2_raw {
-  #   type: number
-  #   sql: ${TABLE}.SPI_abs2;;
-  #   hidden: yes
-  # }
 
-  # dimension: SPI_abs2 {
-  #   type: number
-  #   sql:
-  #   CASE WHEN ${is_promo_ly} is true and ${is_promo_cy} is false THEN ${SPI_abs2_raw}
-  #   ELSE ${SPI_abs}
-  #   END ;;
-  #   hidden: yes
-  # }
-
-  # dimension: SPI_abs3 {
-  #   type: number
-  #   sql: ${TABLE}.SPI_abs3;;
-  #   hidden: yes
-  # }
-
-  # dimension: AAC_CPI_abs {
-  #   type: number
-  #   sql: ${TABLE}.AAC_CPI_abs;;
-  #   hidden: yes
-  # }
-
-  # dimension: AAC_CPI_abs2 {
-  #   type: number
-  #   sql: ${TABLE}.AAC_CPI_abs2;;
-  #   hidden: yes
-  # }
-
-  dimension: cy_aac_cogs {
-    type: number
-    sql: ${TABLE}.cy_aac_cogs;;
-    hidden: yes
-  }
-
-  dimension: ly_aac_cogs {
-    type: number
-    sql: ${TABLE}.ly_aac_cogs;;
-    hidden: yes
-  }
-
-  # dimension: cy_aac_unit_cogs {
-  #   type: number
-  #   sql: ${TABLE}.cy_aac_unit_cogs;;
-  #   hidden: yes
-  # }
-
-  # dimension: ly_aac_unit_cogs {
-  #   type: number
-  #   sql: ${TABLE}.ly_aac_unit_cogs;;
-  #   hidden: yes
-  # }
-
-  # dimension: cy_ccp_cogs {
-  #   type: number
-  #   sql: ${TABLE}.cy_ccp_cogs;;
-  #   hidden: yes
-  # }
-
-  # dimension: ly_ccp_cogs {
-  #   type: number
-  #   sql: ${TABLE}.ly_ccp_cogs;;
-  #   hidden: yes
-  # }
 
   # dimension: aac_comparator {
   #   type: number
@@ -282,18 +210,63 @@ view: spi_cpi_weekly{
   #   value_format: "0.00"
   # }
 
-  measure: cy_aac_unit_cogs_ {
+  measure: cy_unitsSOLD_total {
+    type: sum
+    group_label: "CY"
+    label: "CY Units Sold"
+    sql: coalesce(${cy_unitsSOLD},0);;
+    value_format_name: "decimal_0"
+  }
+
+  measure: ly_unitsSOLD_total {
+    type: sum
+    group_label: "LY"
+    label: "LY Units Sold"
+    sql: coalesce(${ly_unitsSOLD},0);;
+    value_format_name: "decimal_0"
+  }
+
+#---------COGS-------------------------
+  dimension: cy_aac_cogs {
+    type: number
+    sql: ${TABLE}.cy_aac_cogs;;
+    hidden: yes
+  }
+
+  dimension: ly_aac_cogs {
+    type: number
+    sql: ${TABLE}.ly_aac_cogs;;
+    hidden: yes
+  }
+
+  dimension: cy_cogs_asp_dim {
     type: number
     group_label: "CY"
-    sql:  COALESCE(SAFE_DIVIDE(${cy_aac_cogs_total}, ${cy_unitsSOLD_total}),0) ;;
-    label: "CY Unit COGs (AAC)"
+    sql:  COALESCE(SAFE_DIVIDE(${cy_aac_cogs}, ${cy_unitsSOLD}),0) ;;
+    hidden: yes
     value_format: "0.00"
   }
 
-  measure: ly_aac_unit_cogs_ {
+  dimension: ly_cogs_asp_dim {
     type: number
     group_label: "LY"
-    label: "LY Unit COGs (AAC)"
+    sql:  COALESCE(SAFE_DIVIDE(${ly_aac_cogs}, ${ly_unitsSOLD}),0) ;;
+    hidden: yes
+    value_format: "0.00"
+  }
+
+  measure: cy_cogs_asp {
+    type: number
+    group_label: "CY"
+    sql:  COALESCE(SAFE_DIVIDE(${cy_aac_cogs_total}, ${cy_unitsSOLD_total}),0) ;;
+    label: "CY COGS ASP (AAC)"
+    value_format: "0.00"
+  }
+
+  measure: ly_cogs_asp {
+    type: number
+    group_label: "LY"
+    label: "LY COGS ASP (AAC)"
     sql:  COALESCE(SAFE_DIVIDE(${ly_aac_cogs_total}, ${ly_unitsSOLD_total}),0) ;;
     value_format: "0.00"
   }
@@ -314,38 +287,47 @@ view: spi_cpi_weekly{
     value_format: "0.00"
   }
 
-  # measure: cy_ccp_cogs_total {
-  #   type: sum
-  #   label: "CY CCP COGS"
-  #   group_label: "CY"
-  #   sql: ${TABLE}.cy_ccp_cogs;;
-  #   value_format: "0.00"
-  # }
-
-  # measure: ly_ccp_cogs_total {
-  #   type: sum
-  #   label: "LY CCP COGS"
-  #   group_label: "LY"
-  #   sql: ${TABLE}.ly_ccp_cogs;;
-  #   value_format: "0.00"
-  # }
-
-  measure: cy_unitsSOLD_total {
-    type: sum
-    group_label: "CY"
-    label: "CY Units Sold"
-    sql: coalesce(${cy_unitsSOLD},0);;
-    value_format_name: "decimal_0"
+  measure: COGS_asp_var {
+    label: "COGS ASP Var"
+    group_label: "Var"
+    type: number
+    sql: COALESCE(${cy_cogs_asp}-${ly_cogs_asp},0);;
+    value_format_name: "gbp_0"
   }
 
-  measure: ly_unitsSOLD_total {
+  measure: COGS_var {
     type: sum
-    group_label: "LY"
-    label: "LY Units Sold"
-    sql: coalesce(${ly_unitsSOLD},0);;
-    value_format_name: "decimal_0"
+    sql: ${cy_aac_cogs}-${ly_aac_cogs};;
+    label: "COGS Var"
+    group_label: "Var"
+    value_format_name: "gbp_0"
   }
 
+  measure: COGS_price_var {
+    label: "COGS Price Var"
+    group_label: "Var"
+    type: sum
+    sql:
+    Case WHEN cast(${productCode} as int) <10000 THEN ${cy_aac_cogs}-${ly_aac_cogs}
+    WHEN abs(${cy_unitsSOLD}) > 0 THEN (${cy_cogs_asp_dim}-${ly_cogs_asp_dim})*${ly_unitsSOLD}
+    ELSE (${cy_cogs_asp_dim}-${ly_cogs_asp_dim})*${cy_unitsSOLD}
+    END ;;
+    value_format_name: "gbp_0"
+  }
+
+  measure: COGS_volume_var {
+    label: "COGS Volume Var"
+    group_label: "Var"
+    type: sum
+    sql:
+    Case WHEN cast(${productCode} as int) <10000 THEN 0
+    WHEN abs(${cy_unitsSOLD}) > 0 THEN ${unit_var_dim}*${cy_cogs_asp_dim}
+    ELSE ${unit_var_dim}*${ly_cogs_asp_dim}
+    END ;;
+    value_format_name: "gbp_0"
+  }
+
+#---------SPI-------------------------
   measure: cy_netSales_total {
     type: sum
     group_label: "CY"
