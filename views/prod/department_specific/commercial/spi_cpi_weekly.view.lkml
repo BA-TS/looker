@@ -282,21 +282,21 @@ view: spi_cpi_weekly{
   #   value_format: "0.00"
   # }
 
-  # measure: cy_aac_unit_cogs_ {
-  #   type: number
-  #   group_label: "CY"
-  #   sql:  COALESCE(SAFE_DIVIDE(${cy_aac_cogs_total}, ${cy_unitsSOLD_total}),0) ;;
-  #   label: "CY Unit COGs (AAC)"
-  #   value_format: "0.00"
-  # }
+  measure: cy_aac_unit_cogs_ {
+    type: number
+    group_label: "CY"
+    sql:  COALESCE(SAFE_DIVIDE(${cy_aac_cogs_total}, ${cy_unitsSOLD_total}),0) ;;
+    label: "CY Unit COGs (AAC)"
+    value_format: "0.00"
+  }
 
-  # measure: ly_aac_unit_cogs_ {
-  #   type: number
-  #   group_label: "LY"
-  #   label: "LY Unit COGs (AAC)"
-  #   sql:  COALESCE(SAFE_DIVIDE(${ly_aac_cogs_total}, ${ly_unitsSOLD_total}),0) ;;
-  #   value_format: "0.00"
-  # }
+  measure: ly_aac_unit_cogs_ {
+    type: number
+    group_label: "LY"
+    label: "LY Unit COGs (AAC)"
+    sql:  COALESCE(SAFE_DIVIDE(${ly_aac_cogs_total}, ${ly_unitsSOLD_total}),0) ;;
+    value_format: "0.00"
+  }
 
   measure: cy_aac_cogs_total {
     type: sum
@@ -304,7 +304,6 @@ view: spi_cpi_weekly{
     group_label: "CY"
     sql: ${TABLE}.cy_aac_cogs;;
     value_format: "0.00"
-    hidden: yes
   }
 
   measure: ly_aac_cogs_total {
@@ -313,7 +312,6 @@ view: spi_cpi_weekly{
     group_label: "LY"
     sql: ${TABLE}.ly_aac_cogs;;
     value_format: "0.00"
-    hidden: yes
   }
 
   # measure: cy_ccp_cogs_total {
