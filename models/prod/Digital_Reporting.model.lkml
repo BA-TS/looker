@@ -570,6 +570,16 @@ explore: digital_reporting {
 
   }
 
+  join: ecrebobudget_total {
+    from: ecrebobudget
+    view_label: "Ecrebo Budget Total"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${base.date_date} = ${ecrebobudget.date_date};;
+    sql_where: ${ecrebobudget.campaign_group} in ("Total") ;;
+
+  }
+
 
 
 }
