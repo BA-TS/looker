@@ -567,7 +567,7 @@ explore: digital_reporting {
     type: left_outer
     relationship: many_to_one
     sql_on: ${base.date_date} = ${ecrebobudget.date_date} and ${ecrebo.campaign_group} = ${ecrebobudget.campaign_group};;
-    fields: [-ecrebobudget.totalBudget]
+    fields: [ecrebobudget.Budget]
 
   }
 
