@@ -185,11 +185,24 @@ group by 1, Total) inner join `toolstation-data-storage.ts_finance.dim_date` as 
     type: sum
     sql: ${TABLE}.daily_budget ;;
     value_format_name: gbp
+    view_label: "Ecrebo"
+    label: "Budget (per campaign group)"
    }
 
   dimension: campaign_group {
     description: "Campaign Group"
+    hidden: yes
     type: string
     sql: ${TABLE}.CampaignGroup ;;
+  }
+
+  measure: totalBudget {
+    description: "Budget of each campaign"
+    type: sum
+    sql: ${TABLE}.daily_budget ;;
+    value_format_name: gbp
+    filters: [campaign_group: "Total"]
+    view_label: "Ecrebo"
+    label: "Budget (Total)"
   }
  }

@@ -563,7 +563,7 @@ explore: digital_reporting {
   }
 
   join: ecrebobudget {
-    view_label: "Ecrebo Budget"
+    view_label: "Ecrebo"
     type: left_outer
     relationship: many_to_one
     sql_on: ${base.date_date} = ${ecrebobudget.date_date} and ${ecrebo.campaign_group} = ${ecrebobudget.campaign_group};;
@@ -572,11 +572,12 @@ explore: digital_reporting {
 
   join: ecrebobudget_total {
     from: ecrebobudget
-    view_label: "Ecrebo Budget Total"
+    view_label: "Ecrebo"
     type: left_outer
     relationship: many_to_one
     sql_on: ${base.date_date} = ${ecrebobudget_total.date_date};;
-    sql_where: ${ecrebobudget_total.campaign_group} in ("Total") ;;
+    fields: [ecrebobudget_total.totalBudget]
+    #sql_where: ${ecrebobudget_total.campaign_group} in ("Total") ;;
 
   }
 
