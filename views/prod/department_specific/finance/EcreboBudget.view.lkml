@@ -186,6 +186,7 @@ group by 1, Total) inner join `toolstation-data-storage.ts_finance.dim_date` as 
     sql: ${TABLE}.daily_budget ;;
     value_format_name: gbp
     view_label: "Ecrebo"
+    group_label: "Budget"
     label: "Budget (per campaign group)"
    }
 
@@ -203,6 +204,7 @@ group by 1, Total) inner join `toolstation-data-storage.ts_finance.dim_date` as 
     value_format_name: gbp
     filters: [campaign_group: "Total"]
     view_label: "Ecrebo"
+    group_label: "Budget"
     label: "Budget (Total)"
   }
  }

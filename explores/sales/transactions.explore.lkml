@@ -57,6 +57,7 @@ include: "/views/**/app_transactions_pre_post.view"
 include: "/views/**/clickCollect.view"
 include: "/views/**/foh_master_products_2024.view"
 include: "/views/**/app_web_data.view"
+include: "/views/**/EcreboBudget.view"
 
 
 explore: base {
@@ -594,6 +595,26 @@ explore: base {
     type: left_outer
     relationship: many_to_one
     sql_on: ${transactions.transaction_uid} = ${clickCollect.transactionUID} ;;
+  }
+
+  join: ecrebobudget {
+    view_label: "Ecrebo"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${base.date_date} = ${ecrebobudget.date_date} and ${ecrebo.campaign_group} = ${ecrebobudget.campaign_group};;
+    fields: [ecrebobudget.Budget]
+
+  }
+
+  join: ecrebobudget_total {
+    from: ecrebobudget
+    view_label: "Ecrebo"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${base.date_date} = ${ecrebobudget_total.date_date};;
+    fields: [ecrebobudget_total.totalBudget]
+    #sql_where: ${ecrebobudget_total.campaign_group} in ("Total") ;;
+
   }
 
 }

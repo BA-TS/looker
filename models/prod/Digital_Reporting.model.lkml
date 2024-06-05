@@ -806,6 +806,26 @@ explore: GA4_testy {
     sql_on: ${calendar.date} = ${order_shippingmethod_l12weeks.date_date};;
   }
 
+  join: ecrebobudget {
+    view_label: "Ecrebo"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${calendar.date} = ${ecrebobudget.date_date} and ${ecrebo.campaign_group} = ${ecrebobudget.campaign_group};;
+    fields: [ecrebobudget.Budget]
+
+  }
+
+  join: ecrebobudget_total {
+    from: ecrebobudget
+    view_label: "Ecrebo"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${calendar.date} = ${ecrebobudget_total.date_date};;
+    fields: [ecrebobudget_total.totalBudget]
+    #sql_where: ${ecrebobudget_total.campaign_group} in ("Total") ;;
+
+  }
+
 
 
 
