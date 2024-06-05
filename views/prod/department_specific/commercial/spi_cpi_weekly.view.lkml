@@ -241,7 +241,7 @@ view: spi_cpi_weekly{
 
   dimension: cy_cogs_asp_dim {
     type: number
-    group_label: "CY"
+    group_label: "COGS"
     sql:  COALESCE(SAFE_DIVIDE(${cy_aac_cogs}, ${cy_unitsSOLD}),0) ;;
     hidden: yes
     value_format: "0.00"
@@ -249,7 +249,7 @@ view: spi_cpi_weekly{
 
   dimension: ly_cogs_asp_dim {
     type: number
-    group_label: "LY"
+    group_label: "COGS"
     sql:  COALESCE(SAFE_DIVIDE(${ly_aac_cogs}, ${ly_unitsSOLD}),0) ;;
     hidden: yes
     value_format: "0.00"
@@ -257,39 +257,39 @@ view: spi_cpi_weekly{
 
   measure: cy_cogs_asp {
     type: number
-    group_label: "CY"
+    group_label: "COGS"
     sql:  COALESCE(SAFE_DIVIDE(${cy_aac_cogs_total}, ${cy_unitsSOLD_total}),0) ;;
-    label: "CY COGS ASP (AAC)"
+    label: "CY COGS ASP"
     value_format: "0.00"
   }
 
   measure: ly_cogs_asp {
     type: number
-    group_label: "LY"
-    label: "LY COGS ASP (AAC)"
+    group_label: "COGS"
+    label: "LY COGS ASP"
     sql:  COALESCE(SAFE_DIVIDE(${ly_aac_cogs_total}, ${ly_unitsSOLD_total}),0) ;;
     value_format: "0.00"
   }
 
   measure: cy_aac_cogs_total {
     type: sum
-    label: "CY AAC COGS"
-    group_label: "CY"
+    label: "CY COGS"
+    group_label: "COGS"
     sql: ${TABLE}.cy_aac_cogs;;
     value_format: "0.00"
   }
 
   measure: ly_aac_cogs_total {
     type: sum
-    label: "LY AAC COGS"
-    group_label: "LY"
+    label: "LY COGS"
+    group_label: "COGS"
     sql: ${TABLE}.ly_aac_cogs;;
     value_format: "0.00"
   }
 
   measure: COGS_asp_var {
-    label: "COGS ASP Var"
-    group_label: "Var"
+    label: "ASP Var"
+    group_label: "COGS"
     type: number
     sql: COALESCE(${cy_cogs_asp}-${ly_cogs_asp},0);;
     value_format_name: "gbp_0"
@@ -299,13 +299,13 @@ view: spi_cpi_weekly{
     type: sum
     sql: ${cy_aac_cogs}-${ly_aac_cogs};;
     label: "COGS Var"
-    group_label: "Var"
+    group_label: "COGS"
     value_format_name: "gbp_0"
   }
 
   measure: COGS_price_var {
     label: "COGS Price Var"
-    group_label: "Var"
+    group_label: "COGS"
     type: sum
     sql:
     Case WHEN cast(${productCode} as int) <10000 THEN ${cy_aac_cogs}-${ly_aac_cogs}
@@ -317,7 +317,7 @@ view: spi_cpi_weekly{
 
   measure: COGS_volume_var {
     label: "COGS Volume Var"
-    group_label: "Var"
+    group_label: "COGS"
     type: sum
     sql:
     Case WHEN cast(${productCode} as int) <10000 THEN 0
