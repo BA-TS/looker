@@ -575,8 +575,8 @@ explore: digital_reporting {
     view_label: "Ecrebo Budget Total"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${base.date_date} = ${ecrebobudget.date_date};;
-    sql_where: ${ecrebobudget.campaign_group} in ("Total") ;;
+    sql_on: ${base.date_date} = ${ecrebobudget_total.date_date};;
+    sql_where: ${ecrebobudget_total.campaign_group} in ("Total") ;;
 
   }
 
