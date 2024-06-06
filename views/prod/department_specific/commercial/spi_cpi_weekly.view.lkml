@@ -159,7 +159,7 @@ view: spi_cpi_weekly{
     type: sum
     label: "CY COGS"
     group_label: "COGS"
-    sql: ${cy_aac_cogs};;
+    sql: coalesce(${cy_aac_cogs},0);;
     value_format_name: "gbp_0"
   }
 
@@ -167,7 +167,7 @@ view: spi_cpi_weekly{
     type: sum
     label: "LY COGS"
     group_label: "COGS"
-    sql: ${ly_aac_cogs};;
+    sql: coalesce(${ly_aac_cogs},0);;
     value_format_name: "gbp_0"
   }
 
