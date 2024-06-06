@@ -19,7 +19,7 @@ view: spi_cpi_weekly{
     Where dims.productCode not in ("00053", "44842","85699")
     GROUP BY ALL
     ;;
-    datagroup_trigger: ts_daily_datagroup
+    # datagroup_trigger: ts_daily_datagroup
   }
 
   dimension: prim_key {
@@ -96,7 +96,6 @@ view: spi_cpi_weekly{
     sql: coalesce(${TABLE}.ly_unitsSOLD,0);;
     hidden: yes
   }
-
 
   measure: cy_unitsSOLD_total {
     type: sum
