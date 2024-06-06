@@ -212,7 +212,6 @@ view: spi_cpi_weekly{
   }
 
 #---------SPI-------------------------
-
   dimension: cy_asp_dim {
     label: "CY ASP"
     group_label: "CY"
@@ -332,7 +331,7 @@ view: spi_cpi_weekly{
     group_label: "Var"
     label: "CPI %"
     type: number
-    sql:safe_divide(${price_var},${ly_aac_cogs_total});;
+    sql:safe_divide(${COGS_price_var},${ly_aac_cogs_total});;
     value_format_name: "percent_1"
   }
 
@@ -360,7 +359,7 @@ view: spi_cpi_weekly{
     group_label: "Var"
     label: "Vol % (CPI)"
     type: number
-    sql:safe_divide(${volume_var},${ly_aac_cogs_total});;
+    sql:safe_divide(${COGS_volume_var},${ly_aac_cogs_total});;
     value_format_name: "percent_1"
   }
 }
