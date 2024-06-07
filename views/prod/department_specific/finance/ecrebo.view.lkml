@@ -19,7 +19,7 @@ view: ecrebo {
     using (campaignName)
     ;;
 
-    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 8;;
+    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 7;;
   }
 
   dimension: prim_key {
