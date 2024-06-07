@@ -333,13 +333,20 @@ explore: digital_reporting {
     #sql_on: ${base.date_date} = ${digital_budget.Date_date};;
   #}
 
+  join: productv2 {
+    view_label: "Products"
+    from: products
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${base.date_date} BETWEEN ${productv2.activeFrom_date} AND ${productv2.activeTo_date};;
+  }
+
+
   join: app_web_data {
     view_label: "Digital Transactions"
     type: left_outer
     relationship: many_to_one
-    sql_on:
-
-    ${base.base_date_date} = ${app_web_data.transaction_date_filter} ;;
+    sql_on: ${base.base_date_date} = ${app_web_data.transaction_date_filter} and ${app_web_data.ProductUID} = ${productv2.product_uid};;
   }
 
 
@@ -376,14 +383,6 @@ explore: digital_reporting {
     type:  inner
     relationship: one_to_many
     sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
-  }
-
-  join: productv2 {
-    view_label: "Products"
-    from: products
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${app_web_data.ProductUID}=${productv2.product_uid};;
   }
 
 
