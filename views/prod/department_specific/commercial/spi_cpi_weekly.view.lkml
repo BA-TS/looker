@@ -346,6 +346,14 @@ view: spi_cpi_weekly{
     value_format_name: "gbp_0"
   }
 
+  measure: SPI_CPI_price_variance {
+    label: "SPI CPI Price Variance"
+    group_label: "Var"
+    type: number
+    sql: ${price_var}-${COGS_price_var} ;;
+    value_format_name: "gbp_0"
+  }
+
   measure: volume_percentage{
     group_label: "Var"
     label: "Vol % (SPI)"
