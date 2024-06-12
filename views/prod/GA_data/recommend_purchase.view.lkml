@@ -19,7 +19,7 @@ group by 1,2
 where event_name in ("suggested_item_click", "recommended_item_tapped")
 group by 2,3,6,7,8,9,11 ;;
 
-sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 10;;
+sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
 }
 
 

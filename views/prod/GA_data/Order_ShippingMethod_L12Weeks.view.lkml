@@ -17,7 +17,7 @@ left join delivery on sub1.ORderID = delivery.delivered
 left join collection on sub1.ORderID = collection.collected
        ;;
 
-  sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 10;;
+  sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
 }
 
 dimension: PK {

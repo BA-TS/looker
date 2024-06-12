@@ -17,7 +17,7 @@ where regexp_contains(event_name, "search") and event_name not in ("blank_search
 group by 2,3,6,7,8
 ;;
 
-sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 10;;
+sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
 }
 
   dimension: PK {

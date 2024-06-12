@@ -88,7 +88,7 @@ where ((pageItem_ID=item_id) or (pageItem_ID is null) or (item_id is null))
   ;;
 
 
-  sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 10
+  sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11
   ;;
   }
 
