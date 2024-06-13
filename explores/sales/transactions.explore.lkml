@@ -58,6 +58,19 @@ include: "/views/**/clickCollect.view"
 include: "/views/**/foh_master_products_2024.view"
 include: "/views/**/app_web_data.view"
 include: "/views/**/EcreboBudget.view"
+include: "/views/**/scorecard_testing_branch_mth.view"
+include: "/views/**/scorecard_testing_region_mth.view"
+include: "/views/**/scorecard_testing_division_mth.view"
+include: "/views/**/scorecard_testing_branch_YTD.view"
+include: "/views/**/scorecard_testing_region_YTD.view"
+include: "/views/**/scorecard_testing_division_YTD.view"
+
+include: "/views/**/scorecard_testing_loyalty_branch_mth.view"
+include: "/views/**/scorecard_testing_loyalty_region_mth.view"
+include: "/views/**/scorecard_testing_loyalty_division_mth.view"
+include: "/views/**/scorecard_testing_loyalty_branch_ytd.view"
+include: "/views/**/scorecard_testing_loyalty_region_ytd.view"
+include: "/views/**/scorecard_testing_loyalty_division_ytd.view"
 
 
 explore: base {
@@ -603,7 +616,6 @@ explore: base {
     relationship: many_to_one
     sql_on: ${base.date_date} = ${ecrebobudget.date_date} and ${ecrebo.campaign_group} = ${ecrebobudget.campaign_group};;
     fields: [ecrebobudget.Budget]
-
   }
 
   join: ecrebobudget_total {
@@ -614,9 +626,111 @@ explore: base {
     sql_on: ${base.date_date} = ${ecrebobudget_total.date_date};;
     fields: [ecrebobudget_total.totalBudget]
     #sql_where: ${ecrebobudget_total.campaign_group} in ("Total") ;;
-
   }
 
+  join: scorecard_testing_branch_mth {
+    required_access_grants:[is_retail]
+    type: left_outer
+    relationship: one_to_one
+    sql_on:
+    ${sites.site_uid} = ${scorecard_testing_branch_mth.siteUID} and
+    ${customers.customer_uid} = ${scorecard_testing_branch_mth.customerUID};;
+  }
+
+  join: scorecard_testing_region_mth {
+    required_access_grants:[is_retail]
+    type: left_outer
+    relationship: one_to_one
+    sql_on:
+      ${customers.customer_uid} = ${scorecard_testing_region_mth.customerUID}
+      and ${sites.region_name} = ${scorecard_testing_region_mth.siteUID};;
+  }
+
+  join: scorecard_testing_division_mth {
+    required_access_grants:[is_retail]
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${customers.customer_uid} = ${scorecard_testing_division_mth.customerUID}
+      and ${sites.division} = ${scorecard_testing_division_mth.siteUID};;
+  }
+
+  join: scorecard_testing_branch_YTD {
+    required_access_grants:[is_retail]
+    type: left_outer
+    relationship: one_to_one
+    sql_on:
+    ${sites.site_uid} = ${scorecard_testing_branch_YTD.siteUID} and
+    ${customers.customer_uid} = ${scorecard_testing_branch_YTD.customerUID};;
+  }
+
+  join: scorecard_testing_region_YTD {
+    required_access_grants:[is_retail]
+    type: left_outer
+    relationship: one_to_one
+    sql_on:
+      ${customers.customer_uid} = ${scorecard_testing_region_YTD.customerUID}
+      and ${sites.region_name} = ${scorecard_testing_region_YTD.siteUID};;
+  }
+
+  join: scorecard_testing_division_YTD {
+    required_access_grants:[is_retail]
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${customers.customer_uid} = ${scorecard_testing_division_YTD.customerUID}
+      and ${sites.division} = ${scorecard_testing_division_YTD.siteUID};;
+  }
+
+  join: scorecard_testing_loyalty_branch_mth {
+    required_access_grants:[is_retail]
+    type: left_outer
+    relationship: one_to_one
+    sql_on:
+    ${sites.site_uid} = ${scorecard_testing_loyalty_branch_mth.siteUID} and
+    ${customers.customer_uid} = ${scorecard_testing_loyalty_branch_mth.customerUID};;
+  }
+
+  join: scorecard_testing_loyalty_region_mth {
+    required_access_grants:[is_retail]
+    type: left_outer
+    relationship: one_to_one
+    sql_on:
+      ${customers.customer_uid} = ${scorecard_testing_loyalty_region_mth.customerUID}
+      and ${sites.region_name} = ${scorecard_testing_loyalty_region_mth.siteUID};;
+  }
+
+  join: scorecard_testing_loyalty_division_mth {
+    required_access_grants:[is_retail]
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${customers.customer_uid} = ${scorecard_testing_loyalty_division_mth.customerUID}
+      and ${sites.division} = ${scorecard_testing_loyalty_division_mth.siteUID};;
+  }
+
+  join: scorecard_testing_loyalty_branch_ytd {
+    required_access_grants:[is_retail]
+    type: left_outer
+    relationship: one_to_one
+    sql_on:
+    ${sites.site_uid} = ${scorecard_testing_loyalty_branch_ytd.siteUID} and
+    ${customers.customer_uid} = ${scorecard_testing_loyalty_branch_ytd.customerUID};;
+  }
+
+  join: scorecard_testing_loyalty_region_ytd {
+    required_access_grants:[is_retail]
+    type: left_outer
+    relationship: one_to_one
+    sql_on:
+      ${customers.customer_uid} = ${scorecard_testing_loyalty_region_ytd.customerUID}
+      and ${sites.region_name} = ${scorecard_testing_loyalty_region_ytd.siteUID};;
+  }
+
+  join: scorecard_testing_loyalty_division_ytd {
+    required_access_grants:[is_retail]
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${customers.customer_uid} = ${scorecard_testing_loyalty_division_ytd.customerUID}
+      and ${sites.division} = ${scorecard_testing_loyalty_division_ytd.siteUID};;
+  }
 }
 
 

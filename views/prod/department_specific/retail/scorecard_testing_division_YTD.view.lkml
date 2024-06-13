@@ -16,7 +16,6 @@ view: scorecard_testing_division_YTD {
   }
 
   dimension: customer_tyly_flag {
-    required_access_grants: [retail_testing]
     type: yesno
     view_label: "Scorecard testing"
     label: "Customer Rentention (Division YTD)"
