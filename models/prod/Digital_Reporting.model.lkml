@@ -661,7 +661,7 @@ explore: GA4_testy {
     view_label: "Customers"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${ga4_transactions.customer}=${customers.customer_uid} ;;
+    sql_on: ${ga4_rjagdev_test.User}=${customers.customer_uid} ;;
   }
 
   join: customer_classification {
