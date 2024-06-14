@@ -2,6 +2,7 @@ datagroup: ts_daily_datagroup {
   label: "TS - Daily Datagroup (Generic)"
   description: "Daily trigger for non-specific data processes."
   sql_trigger: SELECT    EXTRACT(DAY FROM CURRENT_DATE()) ;;
+  max_cache_age: "24 hours"
 }
 
 datagroup: ts_weekly_datagroup {
