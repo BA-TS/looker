@@ -347,6 +347,7 @@ explore: digital_reporting {
     type: left_outer
     relationship: many_to_one
     sql_on: ${base.base_date_date} = ${app_web_data.transaction_date_filter} and ${app_web_data.ProductUID} = ${productv2.product_uid};;
+    sql_where: ${app_web_data.transaction_date_filter} BETWEEN {% date_start base.select_date_range %} and {% date_end base.select_date_range %} ;;
   }
 
 
