@@ -116,7 +116,7 @@ megamenu_session
 from sub2
       ;;
 
-    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
+    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 10;;
   }
 
   dimension: PK {
