@@ -62,7 +62,7 @@ where extract(date from coalesce(pdp.pdp_time,ATC.atc_time,purchase.purchase_tim
 select distinct row_number() over () as P_K, * from sub2
 ;;
 
-    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 10
+    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 12
 ;;
 }
 
