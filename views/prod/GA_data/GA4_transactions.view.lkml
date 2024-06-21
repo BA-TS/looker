@@ -315,6 +315,15 @@ view: ga4_transactions {
     filters: [productCode: "00006, 00037"]
   }
 
+  measure: delivery_orders {
+    view_label: "GA4"
+    group_label: "Transactional"
+    type: count_distinct
+    label: "Delivery Orders"
+    sql: ${OrderID} ;;
+    filters: [productCode: "00004, 00033, 00005, 00014, 00008, 00042, 00052, 00015, 00041, 00051, 00007, 00040, 00050"]
+  }
+
 
 
 
