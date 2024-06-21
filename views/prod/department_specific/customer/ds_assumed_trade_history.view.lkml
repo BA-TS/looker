@@ -28,32 +28,41 @@ view: ds_assumed_trade_history {
   }
 
   dimension: Score_End_Date{
-    group_label: "Assumed Trade History"
+    group_label: "Prediction History"
     type: date
     sql: ${TABLE}.Score_End_Date ;;
+    hidden: yes
   }
 
   dimension: Assumed_Trade_Probability {
-    group_label: "Assumed Trade History"
+    group_label: "Prediction History"
     type: number
     sql: ${TABLE}.Assumed_Trade_Probability ;;
+    hidden: yes
   }
 
   dimension: flag {
-    group_label: "Assumed Trade History"
+    group_label: "Prediction History"
     type: number
     sql: ${TABLE}.flag ;;
+    hidden: yes
   }
 
-  measure: avg_probability {
-    group_label: "Assumed Trade History"
+  measure: average_probability {
+    group_label: "Prediction History"
     type: average
     sql: ${Assumed_Trade_Probability} ;;
   }
 
-  measure: number_of_yes {
-    group_label: "Assumed Trade History"
+  measure: number_of_positive_predictions {
+    group_label: "Prediction History"
     type: number
     sql: ${flag} ;;
+  }
+
+  measure: total_number_of_predictions {
+    group_label: "Prediction History"
+    type: count_distinct
+    sql: ${Assumed_Trade_Probability} ;;
   }
 }
