@@ -11,7 +11,8 @@ view: ds_assumed_trade_history {
     Assumed_Trade_Probability,
     CASE WHEN Assumed_Trade_Probability>0.55 THEN 1 ELSE 0 END AS flag,
     from
-    `toolstation-data-storage.customer.ds_assumed_trade_history_Looker` ;;
+    `toolstation-data-storage.customer.ds_assumed_trade_history_Looker`
+    ;;
   }
 
   dimension:  prim_key{
@@ -52,11 +53,12 @@ view: ds_assumed_trade_history {
     group_label: "Prediction History"
     type: average
     sql: ${Assumed_Trade_Probability} ;;
+    value_format:"0.0%"
   }
 
   measure: number_of_positive_predictions {
     group_label: "Prediction History"
-    type: number
+    type: sum
     sql: ${flag} ;;
   }
 
