@@ -306,6 +306,15 @@ view: ga4_transactions {
     sql: SAFE_DIVIDE(${Sum_quantity},${Orders}) ;;
   }
 
+  measure: collection_orders {
+    view_label: "GA4"
+    group_label: "Transactional"
+    type: count_distinct
+    label: "Collection Orders"
+    sql: ${OrderID} ;;
+    filters: [productCode: "00006, 00037"]
+  }
+
 
 
 
