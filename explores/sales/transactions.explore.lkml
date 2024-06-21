@@ -558,8 +558,7 @@ explore: base {
     view_label: "Customer Classification"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${customers.customer_uid} = ${ds_assumed_trade.customer_uid}
-    ;;
+    sql_on: ${customers.customer_uid} = ${ds_assumed_trade.customer_uid};;
   }
 
   join: ds_assumed_trade_history {

@@ -17,37 +17,43 @@ view: ds_assumed_trade_history {
   dimension:  prim_key{
     type: number
     primary_key: yes
+    hidden: yes
     sql: ${TABLE}.prim_key ;;
-  }
-
-  dimension:  Score_End_Date{
-    type: date
-    sql: ${TABLE}.Score_End_Date ;;
   }
 
   dimension: customer_uid {
     type: string
+    hidden: yes
     sql: ${TABLE}.customers_customer_uid ;;
   }
 
+  dimension: Score_End_Date{
+    group_label: "Assumed Trade History"
+    type: date
+    sql: ${TABLE}.Score_End_Date ;;
+  }
+
   dimension: Assumed_Trade_Probability {
+    group_label: "Assumed Trade History"
     type: number
     sql: ${TABLE}.Assumed_Trade_Probability ;;
   }
 
   dimension: flag {
+    group_label: "Assumed Trade History"
     type: number
     sql: ${TABLE}.flag ;;
   }
 
   measure: avg_probability {
+    group_label: "Assumed Trade History"
     type: average
     sql: ${Assumed_Trade_Probability} ;;
   }
 
   measure: number_of_yes {
+    group_label: "Assumed Trade History"
     type: number
     sql: ${flag} ;;
   }
-
 }
