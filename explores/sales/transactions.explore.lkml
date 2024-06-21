@@ -261,16 +261,7 @@ explore: base {
     type: left_outer
     relationship: many_to_one
     sql_on: ${transactions.customer_uid} = ${customer_segmentation.ucu_uid};;
-   # and ${customers.customer_uid} = ${customer_segmentation.ucu_uid} ;;
   }
-
-  # join: assumed_trade_customers {
-  #   view_label: "Customers"
-  #   type:  left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${customers.customer_uid} = ${assumed_trade_customers.customer_uid} ;;
-  # }
-
 
   join: trade_customers {
     view_label: "Customers"
