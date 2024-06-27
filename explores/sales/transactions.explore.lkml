@@ -294,6 +294,7 @@ explore: base {
   }
 
   join: supplierAddresses {
+    required_access_grants: [is_developer]
     view_label: "Suppliers"
     type: left_outer
     relationship: many_to_one
