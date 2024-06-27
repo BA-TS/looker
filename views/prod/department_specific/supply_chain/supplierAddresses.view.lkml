@@ -1,4 +1,4 @@
-view: supplieraddresses {
+view: supplierAddresses {
   derived_table: {
     sql:
     select * from `toolstation-data-storage.locations.supplierAddresses`;;

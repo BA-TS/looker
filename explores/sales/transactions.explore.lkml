@@ -17,6 +17,7 @@ include: "/views/**/trade_customers.view"
 include: "/views/**/trade_credit_details.view"
 include: "/views/**/trade_credit_ids.view"
 include: "/views/**/suppliers.view"
+include: "/views/**/supplierAddresses.view"
 include: "/views/**/promo_main_catalogue.view"
 include: "/views/**/promo_extra.view"
 include: "/views/**/catalogue.view"
@@ -291,6 +292,13 @@ explore: base {
     sql_on: ${products.default_supplier}=${suppliers.supplier_uid} ;;
     fields: [suppliers.master_supplier_name, suppliers.supplier_name, suppliers.supplier_uid, suppliers.supplier_planner, suppliers.supplier_contact,suppliers.sage_supplier_code]
   }
+
+  join: supplierAddresses {
+    view_label: "Suppliers"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${suppliers.supplier_uid}=${supplierAddresses.supplierUID} ;;
+    }
 
   join: promo_main_catalogue {
     view_label: "Catalogue"
