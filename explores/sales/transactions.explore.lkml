@@ -294,11 +294,13 @@ explore: base {
   }
 
   join: supplierAddresses {
-    required_access_grants: [is_developer]
+    required_access_grants: [can_use_supplier_information]
     view_label: "Suppliers"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${suppliers.supplier_uid}=${supplierAddresses.supplierUID} ;;
+    sql_on: ${suppliers.supplier_uid}=${supplierAddresses.supplierUID}
+    and ${base.date_date} between ${supplierAddresses.addressStartDate} and ${supplierAddresses.addressEndDate}
+    ;;
     }
 
   join: promo_main_catalogue {
