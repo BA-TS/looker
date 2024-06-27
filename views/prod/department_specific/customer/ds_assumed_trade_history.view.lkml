@@ -6,7 +6,7 @@ view: ds_assumed_trade_history {
     sql:
     select
     DISTINCT row_number() over () AS prim_key,
-    extract (date from Score_End_Date) as Score_End_Date,
+    extract (year from Score_End_Date) as Score_End_Date,
     customers_customer_uid,
     Assumed_Trade_Probability,
     CASE WHEN Assumed_Trade_Probability>0.55 THEN 1 ELSE 0 END AS flag,
@@ -32,7 +32,7 @@ view: ds_assumed_trade_history {
     group_label: "Prediction History"
     type: date
     sql: ${TABLE}.Score_End_Date ;;
-    hidden: yes
+    # hidden: yes
   }
 
   dimension: Assumed_Trade_Probability {
