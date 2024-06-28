@@ -72,6 +72,7 @@ include: "/views/**/scorecard_testing_loyalty_division_mth.view"
 include: "/views/**/scorecard_testing_loyalty_branch_ytd.view"
 include: "/views/**/scorecard_testing_loyalty_region_ytd.view"
 include: "/views/**/scorecard_testing_loyalty_division_ytd.view"
+include: "/views/**/bdm_customers.view"
 
 
 explore: base {
@@ -731,6 +732,13 @@ explore: base {
     sql_on: ${customers.customer_uid} = ${scorecard_testing_loyalty_division_ytd.customerUID}
       and ${sites.division} = ${scorecard_testing_loyalty_division_ytd.siteUID};;
   }
+
+  # join: bdm_customers {
+  #   view_label: "BDM"
+  #   type: left_outer
+  #   relationship: one_to_one
+  #   sql_on: ${customers.customer_uid} = ${bdm_customers.customer_uid};;
+  # }
 }
 
 
