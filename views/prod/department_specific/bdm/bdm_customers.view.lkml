@@ -2,7 +2,7 @@ view: bdm_customers {
   required_access_grants: [lz_testing]
   derived_table: {
     sql:
-    select * from `toolstation-data-storage.retailReporting.BDM_CUSTOMERS`;;
+    select * from `toolstation-data-storage.retailReporting.BDM_CUSTOMERS_LIST`;;
     }
 
   dimension: customer_uid {
