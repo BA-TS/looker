@@ -285,6 +285,12 @@ view: sites {
     sql: ${TABLE}.regionName ;;
   }
 
+  dimension: old_region_name {
+    group_label: "Division and Region"
+    type: string
+    sql: ${TABLE}.Old_regionName ;;
+  }
+
   dimension: site_type {
     group_label: "Site Information"
     type: string
