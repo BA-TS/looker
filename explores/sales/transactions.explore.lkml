@@ -733,12 +733,12 @@ explore: base {
       and ${sites.division} = ${scorecard_testing_loyalty_division_ytd.siteUID};;
   }
 
-  # join: bdm_customers {
-  #   view_label: "BDM"
-  #   type: left_outer
-  #   relationship: one_to_one
-  #   sql_on: ${customers.customer_uid} = ${bdm_customers.customer_uid};;
-  # }
+  join: bdm_customers {
+    view_label: "BDM"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${customers.customer_uid} = ${bdm_customers.customer_uid};;
+  }
 }
 
 
