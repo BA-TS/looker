@@ -289,6 +289,7 @@ view: sites {
     group_label: "Division and Region"
     type: string
     sql: ${TABLE}.Old_regionName ;;
+    hidden: yes
   }
 
   dimension: site_type {
