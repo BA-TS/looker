@@ -736,7 +736,7 @@ explore: base {
   join: bdm_customers {
     view_label: "BDM"
     type: left_outer
-    relationship: many_to_one
+    relationship: one_to_many
     sql_on: ${customers.customer_uid} = ${bdm_customers.customer_uid};;
   }
 }
