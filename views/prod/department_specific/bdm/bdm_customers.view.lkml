@@ -28,19 +28,25 @@ view: bdm_customers {
 
   dimension_group: start {
     type: time
+    group_label: "Dates"
     datatype: date
     sql: ${TABLE}.startDate ;;
     timeframes: [
-      date
+      date,
+      month,
+      year
     ]
   }
 
   dimension_group: end {
     type: time
+    group_label: "Dates"
     datatype: date
     sql: ${TABLE}.endDate;;
     timeframes: [
-    date
+    date,
+    month,
+    year
     ]
   }
 
