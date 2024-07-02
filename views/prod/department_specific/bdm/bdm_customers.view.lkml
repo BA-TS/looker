@@ -17,14 +17,16 @@ view: bdm_customers {
     sql: ${TABLE}.bdm ;;
   }
 
-  dimension: start_date {
-    type: date
+  dimension_group: start {
+    type: time
+    datatype: date
     sql: ${TABLE}.startDate ;;
   }
 
-  dimension: end_date {
-    type: date
-    sql: ${TABLE}.endDate ;;
+  dimension_group: end {
+    type: time
+    datatype: date
+    sql: ${TABLE}.endDate;;
   }
 
   dimension: customer_name {
