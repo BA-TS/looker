@@ -314,14 +314,14 @@ view: sites {
     group_label: "Flags"
     label: "Is Distribution Centre?"
     type: yesno
-    sql: ${TABLE}.dc_flag = 1 ;;
+    sql: ${TABLE}.dc_flag = TRUE ;;
   }
 
   dimension: is_store {
     group_label: "Flags"
     label: "Is Store?"
     type: yesno
-    sql: ${TABLE}.store_flag = 1 ;;
+    sql: ${TABLE}.store_flag = TRUE ;;
   }
 
   dimension: servicing_dc_id {
