@@ -30,12 +30,18 @@ view: bdm_customers {
     type: time
     datatype: date
     sql: ${TABLE}.startDate ;;
+    timeframes: [
+      date
+    ]
   }
 
   dimension_group: end {
     type: time
     datatype: date
     sql: ${TABLE}.endDate;;
+    timeframes: [
+    date
+    ]
   }
 
   dimension: customer_name {
