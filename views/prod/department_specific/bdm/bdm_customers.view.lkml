@@ -2,14 +2,22 @@ view: bdm_customers {
   required_access_grants: [can_use_customer_information_trade]
   derived_table: {
     sql:
-    select * from `toolstation-data-storage.retailReporting.BDM_CUSTOMERS_LIST`;;
+    select
+    DISTINCT row_number() over () AS prim_key,
+    * from `toolstation-data-storage.retailReporting.BDM_CUSTOMERS_LIST`;;
     }
 
-  dimension: customer_uid {
-    label: "Customer UID"
+  dimension: prim_key {
     type: string
+    sql: ${TABLE}.prim_key ;;
     primary_key: yes
+    hidden: yes
+  }
+
+  dimension: customer_uid {
+    type: string
     sql: ${TABLE}.customerUID ;;
+    hidden: yes
   }
 
   dimension: bdm {
