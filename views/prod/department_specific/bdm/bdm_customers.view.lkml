@@ -13,6 +13,7 @@ view: bdm_customers {
   }
 
   dimension: bdm {
+    label: "BDM"
     type: string
     sql: ${TABLE}.bdm ;;
   }
@@ -35,6 +36,7 @@ view: bdm_customers {
   }
 
   dimension: is_bdm_customer {
+    label: "Is BDM customer"
     type: yesno
     sql:${customer_uid} is not null;;
   }
