@@ -64,7 +64,7 @@ view: bdm_customers {
 
   dimension: is_active {
     type: yesno
-    sql: ${start_date}<current_date() ;;
+    sql: ${start_date}<current_date() and ${end_date} is null ;;
   }
 
   measure: number_of_bdm {
