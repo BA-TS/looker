@@ -1,5 +1,5 @@
 view: bdm_customers {
-  required_access_grants: [lz_testing]
+  required_access_grants: [can_use_customer_information_trade]
   derived_table: {
     sql:
     select * from `toolstation-data-storage.retailReporting.BDM_CUSTOMERS_LIST`;;
@@ -33,6 +33,7 @@ view: bdm_customers {
   dimension: customer_name {
     type: string
     sql: ${TABLE}.customerName ;;
+    hidden: yes
   }
 
   dimension: is_bdm_customer {
