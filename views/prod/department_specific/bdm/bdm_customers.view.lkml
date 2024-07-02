@@ -55,4 +55,10 @@ view: bdm_customers {
     sql: ${start_date}<current_date() ;;
   }
 
+  measure: number_of_bdm {
+    label: "Number of BDMs"
+    type: count_distinct
+    sql: ${bdm};;
+  }
+
 }
