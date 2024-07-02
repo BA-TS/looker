@@ -64,6 +64,7 @@ view: bdm_customers {
 
   dimension: is_active {
     type: yesno
+    label: "Is Customer Account Active"
     sql: ${start_date}<current_date() and ${end_date} is null ;;
   }
 
