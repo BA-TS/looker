@@ -66,6 +66,9 @@ case when regexp_contains(page_location,"checkout\\/confirmation") then "Checkou
       megamenu as (select distinct session_id as megamenu_session from sub1
       where event_name in ("MegaMenu") ),
 
+      ATC as (select distinct session_id as atc_session from sub1
+      where event_name in ("add_to_cart") ),
+
       sub2 as (select distinct sub1.date as date, platform, deviceCategory,sub1.session_id as all_sessions,
       count(distinct case when screen_name not in ("Trolley | Toolstation", "trolley-page", "Review & Pay","Checkout Confirmation", "checkout-page", "payment-page", "order-confirmation-page") then screen_name else null end) over (partition by sub1.session_id) pages_in_session,
       --page_location, screen_name,
@@ -84,7 +87,8 @@ case when regexp_contains(page_location,"checkout\\/confirmation") then "Checkou
       purchase.quantity as purchase_quantity,
       purchase.Orders as Orders,
       filters_used.filter_session,
-      megamenu_session
+      megamenu_session,
+      atc_session
       from sub1
       inner join landing_P on session_id=landing_session
       inner join exit_p on session_id=exit_session
@@ -94,7 +98,8 @@ case when regexp_contains(page_location,"checkout\\/confirmation") then "Checkou
       left join filters_used on session_id=filter_session
       left join PDP on session_id=PDP_session
       left join megamenu on session_id=megamenu_session
-      group by 1,2,3,4,screen_name,6,7,8,9,10,11,12,13,14,15,16,17)
+      left join ATC on session_id=atc_session
+      group by 1,2,3,4,screen_name,6,7,8,9,10,11,12,13,14,15,16,17,18)
 
 select distinct row_number() over () as PK,  date,
 platform,
@@ -112,7 +117,8 @@ purchase_net,
 purchase_quantity,
 Orders,
 filter_session,
-megamenu_session
+megamenu_session,
+atc_session
 from sub2
       ;;
 
@@ -198,6 +204,12 @@ from sub2
     hidden: yes
     type: string
     sql: ${TABLE}.megamenu_session;;
+  }
+
+  dimension: atc_session {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.atc_session;;
   }
 
   dimension: purchase_net {
@@ -351,6 +363,20 @@ from sub2
     type: number
     value_format_name: percent_2
     sql: safe_divide(${megamenu_sessions},${total_sessions}) ;;
+  }
+
+  measure: atc_sessions {
+    type: count_distinct
+    sql: ${all_sessions} ;;
+    filters: [atc_session: "-NULL"]
+  }
+
+  measure: atc_conv_rate {
+    group_label: "Last 12 Weeks"
+    label: "Add to Cart Rate"
+    type: number
+    value_format_name: percent_2
+    sql: safe_divide(${atc_sessions},${total_sessions}) ;;
   }
 
   measure: Desktop_Web_sessions {
