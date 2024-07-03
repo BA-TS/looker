@@ -367,6 +367,7 @@ from sub2
 
   measure: atc_sessions {
     type: count_distinct
+    hidden: yes
     sql: ${all_sessions} ;;
     filters: [atc_session: "-NULL"]
   }
