@@ -28,7 +28,7 @@ explore: weekly_new_stores_sales {
 }
 
 explore: TP_Lightside_Invoice_Data {
-  required_access_grants: [is_advanced_super]
+  # required_access_grants: [is_advanced_super]
   label: "Daily - TP Lightside Invoice Data"
   hidden: yes
 }
