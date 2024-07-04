@@ -73,9 +73,13 @@ access_grant: user_lauren_england {
   allowed_values: ["Y"]
 }
 
-
 access_grant: adhoc_rakuten {
   user_attribute: adhoc_rakuten
+  allowed_values: ["Y"]
+}
+
+access_grant: is_advanced_super {
+  user_attribute: advanced_super
   allowed_values: ["Y"]
 }
 
