@@ -73,6 +73,7 @@ include: "/views/**/scorecard_testing_loyalty_branch_ytd.view"
 include: "/views/**/scorecard_testing_loyalty_region_ytd.view"
 include: "/views/**/scorecard_testing_loyalty_division_ytd.view"
 include: "/views/**/bdm_customers.view"
+include: "/views/**/key_accounts_customers.view"
 
 
 explore: base {
@@ -733,12 +734,21 @@ explore: base {
       and ${sites.division} = ${scorecard_testing_loyalty_division_ytd.siteUID};;
   }
 
-  join: bdm_customers {
-    view_label: "BDM"
-    type: left_outer
-    relationship: one_to_many
-    sql_on: ${customers.customer_uid} = ${bdm_customers.customer_uid};;
-  }
+  # join: bdm_customers {
+  #   required_access_grants: [lz_testing]
+  #   view_label: "BDM"
+  #   type: left_outer
+  #   relationship: one_to_many
+  #   sql_on: ${customers.customer_uid} = ${bdm_customers.customer_uid};;
+  # }
+
+  # join: key_accounts_customers {
+  #   required_access_grants: [lz_testing]
+  #   view_label: "Key Accounts"
+  #   type: left_outer
+  #   relationship: one_to_many
+  #   sql_on: ${customers.customer_uid} = ${key_accounts_customers.customer_uid};;
+  # }
 }
 
 

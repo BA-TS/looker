@@ -5,6 +5,7 @@ include: "/views/**/sites.view"
 include: "/views/**/catalogue.view"
 include: "/views/**/customers.view"
 include: "/views/**/bdm_customers.view"
+include: "/views/**/key_accounts_customers.view"
 include: "/views/**/*customer_segmentation.view"
 include: "/views/**/*trade_customers.view"
 
@@ -82,6 +83,13 @@ explore: bdm {
     type: left_outer
     relationship: one_to_many
     sql_on: ${customers.customer_uid} = ${bdm_customers.customer_uid};;
+  }
+
+  join: key_accounts_customers {
+    view_label: "Key Accounts"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${customers.customer_uid} = ${key_accounts_customers.customer_uid};;
   }
 
   join: customers {
