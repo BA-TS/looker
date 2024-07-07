@@ -24,7 +24,7 @@ explore: bdm {
 
   conditionally_filter: {
     filters: [
-      select_date_range: "1 month ago for 1 month"
+      select_date_range: "this month"
     ]
     unless: [
       select_fixed_range,
