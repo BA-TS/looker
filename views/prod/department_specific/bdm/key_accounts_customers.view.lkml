@@ -68,7 +68,8 @@ view: key_accounts_customers {
   }
 
   measure: number_of_bdm {
-    label: "Number of BDMs"
+    view_label: "Measures"
+    label: "Number of BDMs (Key Accounts)"
     type: count_distinct
     sql: ${bdm};;
   }

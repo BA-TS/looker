@@ -68,6 +68,7 @@ view: bdm_customers {
   }
 
   measure: number_of_bdm {
+    view_label: "Measures"
     label: "Number of BDMs"
     type: count_distinct
     sql: ${bdm};;

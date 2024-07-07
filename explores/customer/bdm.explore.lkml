@@ -43,7 +43,13 @@ explore: bdm {
 
   fields: [
     ALL_FIELDS*,
-    -catalogue.catalogue_live_date
+    -catalogue.catalogue_live_date,
+    -calendar_completed_date.distinct_month_count,
+    -calendar_completed_date.distinct_week_count,
+    -calendar_completed_date.distinct_year_month_count,
+    -calendar_completed_date.distinct_year_count,
+    -customers.opt_in_percent
+
   ]
 
   sql_always_where:${period_over_period};;
