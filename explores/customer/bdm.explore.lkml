@@ -48,7 +48,8 @@ explore: bdm {
     -calendar_completed_date.distinct_week_count,
     -calendar_completed_date.distinct_year_month_count,
     -calendar_completed_date.distinct_year_count,
-    -customers.opt_in_percent
+    -customers.opt_in_percent,
+    -sites.number_of_DCs
 
   ]
 
