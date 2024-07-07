@@ -20,7 +20,6 @@ view: key_accounts_customers {
   }
 
   dimension: bdm {
-    group_label: "Key Accounts"
     label: "BDM"
     type: string
     sql: ${TABLE}.bdm ;;
@@ -57,21 +56,18 @@ view: key_accounts_customers {
   }
 
   dimension: is_key_accounts_customer {
-    group_label: "Key Accounts"
     label: "Is Key Accounts customer"
     type: yesno
     sql:${customer_uid} is not null;;
   }
 
   dimension: is_active {
-    group_label: "Key Accounts"
     type: yesno
     label: "Is Customer Account Active"
     sql: ${start_date}<current_date() and ${end_date} is null ;;
   }
 
   measure: number_of_bdm {
-    group_label: "Key Accounts"
     label: "Number of BDMs"
     type: count_distinct
     sql: ${bdm};;
