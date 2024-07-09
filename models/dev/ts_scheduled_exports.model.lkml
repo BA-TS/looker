@@ -22,7 +22,7 @@ explore: daily_transactions_incomplete {
 }
 
 explore: weekly_new_stores_sales {
-  required_access_grants: [is_advanced_super]
+  required_access_grants: [is_super]
   label: "Weekly - New Stores Sales"
   hidden: yes
 }
