@@ -3,5 +3,5 @@ include: "/views/**/ran_queries.view"
 explore: ran_queries {
   label: "BigQuery Cost"
   description: "Explore for viewing BigQuery usage cost."
-  required_access_grants: [is_advanced_super]
+  required_access_grants: [is_super]
 }
