@@ -101,6 +101,4 @@ view: ran_queries {
     view_label: "Measures"
     sql: ${composite_key} ;;
   }
-
-
 }

@@ -3,6 +3,7 @@ include: "/views/prod/department_specific/data/ran_queries.view.lkml"
 include: "/views/**/*.view"
 include: "/explores/data/*"
 
+label: "Ts BigQuery Cost"
 # explore: ran_queries{
 #   label: "BigQuery Cost"
 # }
