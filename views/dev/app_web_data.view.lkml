@@ -307,7 +307,7 @@ group by 2,3,4,5,6,8,9,10,11,12,13,14,15,16,17,18;;
         type: sum
         value_format_name: decimal_0
         sql: ${TABLE}.Quantity;;
-        filters: [ProductUID: "-PXX00019263,-PXX00008088, -PXX00023200, -PXX00004119, -PXX00081322, -PXX00028889"]
+        #filters: [ProductUID: "-PXX00019263,-PXX00008088, -PXX00023200, -PXX00004119, -PXX00081322, -PXX00028889"]
 
         #sql:  (${TABLE}.Quantity * 0.9973) ;;
       }
