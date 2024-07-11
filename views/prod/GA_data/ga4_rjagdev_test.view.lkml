@@ -683,7 +683,7 @@ and not regexp_contains(${TABLE}.filters_used, "\\@import") then ${TABLE}.filter
     group_label: "Screen"
     hidden: yes
     type: string
-    sql: case when ${ga4_landingpage.land_page} = ${page_location} then ${screen_type} else null end;;
+    sql: case when ${ga4_landingpage.Landingscreen_type} = ${screen_type} then ${screen_type} else null end;;
   }
 
   dimension: landingscreenName {
@@ -692,7 +692,7 @@ and not regexp_contains(${TABLE}.filters_used, "\\@import") then ${TABLE}.filter
     group_label: "Screen"
     hidden: yes
     type: string
-    sql: case when ${ga4_landingpage.land_page} = ${page_location} then ${Screen_name} else null end;;
+    sql: case when ${ga4_landingpage.land_screen} = ${Screen_name} then ${Screen_name} else null end;;
   }
 
   measure: landingSessions {
@@ -749,7 +749,7 @@ and not regexp_contains(${TABLE}.filters_used, "\\@import") then ${TABLE}.filter
     group_label: "Screen"
     type: string
     hidden: yes
-    sql: case when ${ga4_exitpage.exit_page} = ${page_location} then ${screen_type} else null end;;
+    sql: case when ${ga4_exitpage.Exitscreen_type} = ${screen_type} then ${screen_type} else null end;;
   }
 
   dimension: exitscreenName {
@@ -758,7 +758,7 @@ and not regexp_contains(${TABLE}.filters_used, "\\@import") then ${TABLE}.filter
     group_label: "Screen"
     type: string
     hidden: yes
-    sql: case when ${ga4_exitpage.exit_page} = ${page_location} then ${Screen_name} else null end;;
+    sql: case when ${ga4_exitpage.exit_screen} = ${Screen_name} then ${Screen_name} else null end;;
   }
 
   measure: exitSessions {
