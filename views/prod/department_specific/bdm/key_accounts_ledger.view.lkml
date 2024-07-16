@@ -33,4 +33,28 @@ view: key_accounts_ledger {
     type: number
     sql: ${TABLE}.creditLimit ;;
   }
+
+  dimension: website {
+    group_label: "BDM"
+    type: string
+    sql: ${TABLE}.website ;;
+  }
+
+  dimension: email {
+    group_label: "BDM"
+    type: string
+    sql: ${TABLE}.email ;;
+  }
+
+  dimension: address {
+    group_label: "BDM"
+    type: string
+    sql: ${TABLE}.address ;;
+  }
+
+  dimension: notes {
+    group_label: "BDM"
+    type: string
+    sql: ${TABLE}.notes ;;
+  }
 }
