@@ -118,12 +118,12 @@ explore: bdm {
     sql_on: ${bdm_ledger.bdm} = ${bdm_customers.bdm} and ${bdm_ledger.customer_uid} = ${bdm_customers.customer_uid};;
   }
 
-  # join: key_accounts_ledger {
-  #   view_label: "Ledger"
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${key_accounts_ledger.bdm} = ${bdm_customers.bdm} and ${key_accounts_ledger.customer_uid} = ${bdm_customers.customer_uid};;
-  # }
+  join: key_accounts_ledger {
+    view_label: "Ledger"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${key_accounts_ledger.bdm} = ${bdm_customers.bdm} and ${key_accounts_ledger.customer_uid} = ${bdm_customers.customer_uid};;
+  }
 
   join: key_accounts_customers {
     view_label: "Key Accounts"
