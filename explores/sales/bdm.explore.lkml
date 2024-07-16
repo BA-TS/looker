@@ -70,7 +70,7 @@ explore: bdm {
   join: transactions {
     type: left_outer
     relationship: one_to_many
-    fields: [transactions.number_of_branches,transactions.total_net_sales]
+    fields: [transactions.number_of_branches,transactions.total_net_sales,transactions.payment_type]
     sql_on: ${base.base_date_date} = ${transactions.transaction_date_filter};;
   }
 
