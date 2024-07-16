@@ -5,6 +5,7 @@ include: "/views/**/sites.view"
 include: "/views/**/catalogue.view"
 include: "/views/**/customers.view"
 include: "/views/**/bdm_customers.view"
+include: "/views/**/bdm_targets.view"
 include: "/views/**/key_accounts_customers.view"
 include: "/views/**/*customer_segmentation.view"
 include: "/views/**/*trade_customers.view"
@@ -91,6 +92,12 @@ explore: bdm {
     type: left_outer
     relationship: one_to_many
     sql_on: ${customers.customer_uid} = ${bdm_customers.customer_uid};;
+  }
+
+  join: bdm_targets {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${bdm_targets.bdm} = ${bdm_customers.bdm} and ${bdm_targets.month}=${calendar_completed_date.calendar_year_month2};;
   }
 
   join: key_accounts_customers {

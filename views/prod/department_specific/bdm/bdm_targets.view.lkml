@@ -23,7 +23,7 @@ view: bdm_targets {
 
   dimension: month {
     type: string
-    sql: ${TABLE}.month ;;
+    sql: CAST(${TABLE}.month AS string);;
     hidden: yes
   }
 
