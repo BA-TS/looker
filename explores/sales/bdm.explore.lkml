@@ -95,6 +95,7 @@ explore: bdm {
   }
 
   join: bdm_targets {
+    view_label: "BDM Targets"
     type: left_outer
     relationship: many_to_one
     sql_on: ${bdm_targets.bdm} = ${bdm_customers.bdm} and ${bdm_targets.month}=${calendar_completed_date.calendar_year_month2};;
