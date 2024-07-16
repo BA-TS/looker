@@ -35,25 +35,25 @@ view: key_accounts_ledger {
   }
 
   dimension: website {
-    group_label: "BDM"
+    group_label: "KA"
     type: string
     sql: ${TABLE}.website ;;
   }
 
   dimension: email {
-    group_label: "BDM"
+    group_label: "KA"
     type: string
     sql: ${TABLE}.email ;;
   }
 
   dimension: address {
-    group_label: "BDM"
+    group_label: "KA"
     type: string
     sql: ${TABLE}.address ;;
   }
 
   dimension: notes {
-    group_label: "BDM"
+    group_label: "KA"
     type: string
     sql: ${TABLE}.notes ;;
   }
