@@ -24,10 +24,10 @@ view: bdm_ledger {
     label: "BDM"
     type: string
     sql: ${TABLE}.bdm ;;
+    hidden: yes
   }
 
   dimension: credit_limit {
-    label: "BDM"
     type: number
     sql: ${TABLE}.creditLimit ;;
   }
