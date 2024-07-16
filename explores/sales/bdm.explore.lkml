@@ -103,12 +103,12 @@ explore: bdm {
     sql_on: ${bdm_targets.bdm} = ${bdm_customers.bdm} and ${bdm_targets.month}=${calendar_completed_date.calendar_year_month2};;
   }
 
-  # join: key_accounts_targets {
-  #   view_label: "BDM Targets"
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${key_accounts_targets.bdm} = ${bdm_customers.bdm} and ${key_acounts_targets.month}=${calendar_completed_date.calendar_year_month2};;
-  # }
+  join: key_accounts_targets {
+    view_label: "KA Targets"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${key_accounts_targets.bdm} = ${bdm_customers.bdm} and ${key_accounts_targets.month}=${calendar_completed_date.calendar_year_month2};;
+  }
 
   # join: bdm_ledger {
   #   view_label: "BDM Ledger"
