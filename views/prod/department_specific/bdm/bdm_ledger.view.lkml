@@ -4,7 +4,7 @@ view: bdm_ledger {
     select
     DISTINCT row_number() over () AS prim_key,
     *
-    from `toolstation-data-storage.retailReporting.BDM_LEDGER`;;
+    from `toolstation-data-storage.retailReporting.BDM_LEDGER_LOOKER`;;
   }
 
   dimension: prim_key {
