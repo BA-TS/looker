@@ -22,12 +22,14 @@ view: bdm_ledger {
 
   dimension: bdm {
     label: "BDM"
+    group_label: "BDM"
     type: string
     sql: ${TABLE}.bdm ;;
     hidden: yes
   }
 
   dimension: credit_limit {
+    group_label: "BDM"
     type: number
     sql: ${TABLE}.creditLimit ;;
   }

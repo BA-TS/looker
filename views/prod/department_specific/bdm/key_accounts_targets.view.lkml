@@ -28,19 +28,19 @@ view: key_accounts_targets {
   }
 
   dimension: net_new {
-    label: "KA Targets"
+    group_label: "KA"
     type: number
     sql: ${TABLE}.netNew ;;
   }
 
   dimension: existing_incremental {
-    label: "KA Targets"
+    group_label: "KA"
     type: number
     sql: ${TABLE}.existingIncremental ;;
   }
 
   dimension: overall {
-    label: "KA Targets"
+    group_label: "KA"
     type: number
     sql: ${TABLE}.overall ;;
   }

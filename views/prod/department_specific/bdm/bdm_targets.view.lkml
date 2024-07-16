@@ -28,16 +28,19 @@ view: bdm_targets {
   }
 
   dimension: net_new {
+    group_label: "BDM"
     type: number
     sql: ${TABLE}.netNew ;;
   }
 
   dimension: existing_incremental {
+    group_label: "BDM"
     type: number
     sql: ${TABLE}.existingIncremental ;;
   }
 
   dimension: overall {
+    group_label: "BDM"
     type: number
     sql: ${TABLE}.overall ;;
   }
