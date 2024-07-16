@@ -8,6 +8,7 @@ include: "/views/**/bdm_customers.view"
 include: "/views/**/key_accounts_customers.view"
 include: "/views/**/*customer_segmentation.view"
 include: "/views/**/*trade_customers.view"
+include: "/views/**/po_numbers.view"
 
 
 persist_with: ts_transactions_datagroup
@@ -97,6 +98,13 @@ explore: bdm {
     type: left_outer
     relationship: one_to_many
     sql_on: ${customers.customer_uid} = ${key_accounts_customers.customer_uid};;
+  }
+
+  join: po_numbers {
+    view_label: "Transactions"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.parent_order_uid} = ${po_numbers.order_id};;
   }
 
   join: customers {
