@@ -13,6 +13,7 @@ include: "/views/**/key_accounts_customers.view"
 include: "/views/**/*customer_segmentation.view"
 include: "/views/**/*trade_customers.view"
 include: "/views/**/po_numbers.view"
+include: "/views/**/products.view"
 
 
 persist_with: ts_transactions_datagroup
@@ -152,5 +153,12 @@ explore: bdm {
     sql_on: ${customers.customer_uid} = ${trade_customers.customer_uid} ;;
   }
 
+  join: products {
+    view_label: "Products"
+    type:  left_outer
+    relationship: many_to_one
+    fields: [products.is_own_brand,products.description,products.product_code,products.product_name,products.subdepartment,products.brand]
+    sql_on: ${transactions.product_uid}=${products.product_uid};;
+  }
 
 }
