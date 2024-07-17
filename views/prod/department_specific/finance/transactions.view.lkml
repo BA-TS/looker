@@ -380,6 +380,7 @@ view: transactions {
     description: "Date and time the order was completed"
     type: time
     timeframes: [
+      raw,
       time,
       date
     ]

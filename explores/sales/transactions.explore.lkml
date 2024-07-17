@@ -390,7 +390,7 @@ explore: base {
     view_label: "Returns"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${transactions.parent_order_uid} = ${order_comments.order_id}
+    sql_on: ${transactions.parent_order_uid} = ${order_comments.linked_order_id}
     and ${base.date_date} = ${order_comments.date_date}
     ;;
   }
