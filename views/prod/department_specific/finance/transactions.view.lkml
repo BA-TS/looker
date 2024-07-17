@@ -380,6 +380,7 @@ view: transactions {
     description: "Date and time the order was completed"
     type: time
     timeframes: [
+      raw,
       time,
       date
     ]
@@ -438,9 +439,9 @@ view: transactions {
   dimension: order_reason {
     required_access_grants: [is_super]
     group_label: "Order Details"
-    label: "Reason for Order"
+    label: "Reason for Order/Return"
     type: string
-    sql: ${TABLE}.orderReason ;;
+    sql: replace(${TABLE}.orderReason,"Customer service:","") ;;
   }
 
   dimension: order_special_requests {
