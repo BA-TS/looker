@@ -74,6 +74,7 @@ include: "/views/**/scorecard_testing_loyalty_region_ytd.view"
 include: "/views/**/scorecard_testing_loyalty_division_ytd.view"
 include: "/views/**/bdm_customers.view"
 include: "/views/**/key_accounts_customers.view"
+include: "/views/**/order_comments.view"
 
 
 explore: base {
@@ -382,6 +383,16 @@ explore: base {
     type: left_outer
     relationship: many_to_one
     sql_on: ${transactions.parent_order_uid} = ${po_numbers.order_id};;
+  }
+
+  join: order_comments {
+    required_access_grants: [is_super]
+    view_label: "Returns"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.parent_order_uid} = ${order_comments.order_id}
+    and ${base.date_date} = ${order_comments.date_date}
+    ;;
   }
 
   join: promoHistory_Current {
@@ -734,21 +745,6 @@ explore: base {
       and ${sites.division} = ${scorecard_testing_loyalty_division_ytd.siteUID};;
   }
 
-  # join: bdm_customers {
-  #   required_access_grants: [lz_testing]
-  #   view_label: "BDM"
-  #   type: left_outer
-  #   relationship: one_to_many
-  #   sql_on: ${customers.customer_uid} = ${bdm_customers.customer_uid};;
-  # }
-
-  # join: key_accounts_customers {
-  #   required_access_grants: [lz_testing]
-  #   view_label: "Key Accounts"
-  #   type: left_outer
-  #   relationship: one_to_many
-  #   sql_on: ${customers.customer_uid} = ${key_accounts_customers.customer_uid};;
-  # }
 }
 
 
