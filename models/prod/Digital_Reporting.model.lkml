@@ -823,10 +823,14 @@ explore: GA4_testy {
     sql_on: ${calendar.date} = ${ecrebobudget_total.date_date};;
     fields: [ecrebobudget_total.totalBudget]
     #sql_where: ${ecrebobudget_total.campaign_group} in ("Total") ;;
-
   }
 
-
+  join: search_purchase_funnel {
+    view_label: "Search to Purchase (inc Query)"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${calendar.date} = ${search_purchase_funnel.search_date_date} ;;
+  }
 
 
 
