@@ -10,10 +10,11 @@ view: order_comments {
     hidden:  yes
   }
 
-  dimension: date {
-    type: date
+  dimension_group: date {
+    hidden: yes
+    type: time
+    timeframes: [raw,date]
     sql: ${TABLE}.date ;;
-    hidden:  yes
   }
 
   dimension: comments {
