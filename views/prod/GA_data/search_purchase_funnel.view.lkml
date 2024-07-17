@@ -207,7 +207,6 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
   measure: purchase_Quant {
     label: "Quantity"
     type: sum
-    value_format_name: gbp
     sql:${Quantity};;
   }
 
@@ -269,6 +268,13 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
     description: "Orders where user added to cart from search page"
     type: count_distinct
     sql: ${OrderID} ;;
+  }
+
+  measure: units_per_order {
+    label: "Units per Order"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide(${purchase_Quant}, ${Orders}) ;;
   }
 
  }
