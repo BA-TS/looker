@@ -3,10 +3,9 @@ view: order_comments {
 
   dimension: order_id {
     label: "Order ID"
-    description: "Transaction Parent Order UID"
     primary_key: yes
     type: string
-    sql: ${TABLE}.orderID ;;
+    sql: ${TABLE}.order_id ;;
     hidden:  yes
   }
 
