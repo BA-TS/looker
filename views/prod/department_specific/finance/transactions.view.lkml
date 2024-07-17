@@ -439,7 +439,7 @@ view: transactions {
   dimension: order_reason {
     required_access_grants: [is_super]
     group_label: "Order Details"
-    label: "Reason for Order"
+    label: "Reason for Order/Return"
     type: string
     sql: ${TABLE}.orderReason ;;
   }
