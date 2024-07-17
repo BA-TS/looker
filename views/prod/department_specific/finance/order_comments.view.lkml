@@ -40,7 +40,7 @@ view: order_comments {
   dimension: return_days_tier {
     type: tier
     style: integer
-    tiers: [0,30,60]
+    tiers: [0,31,61]
     sql:  ${return_days};;
   }
 
