@@ -441,7 +441,7 @@ view: transactions {
     group_label: "Order Details"
     label: "Reason for Order/Return"
     type: string
-    sql: ${TABLE}.orderReason ;;
+    sql: replace(${TABLE}.orderReason,"Customer service:","") ;;
   }
 
   dimension: order_special_requests {
