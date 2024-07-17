@@ -12,7 +12,8 @@ item_id,
 item_category,
 session_id,
 t.net_value as item_revenue,
-t.Quantity
+t.Quantity,
+t.OrderId
 FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` a left join unnest(transactions) as t
  #, unnest(event_params) as ep left join unnest(items) as items
  where _TABLE_SUFFIX between FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 10 daY)) and FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 1 daY)) and
@@ -38,12 +39,12 @@ session_id as atc_sessions from sub1 where event_name in ("add_to_cart") and
 
 regexp_contains(page_location, "search\\?") group by all ),
 
-purchase as (SELECT distinct min(dateTime) as purchase_Time, item_id as purchase_itemID, item_revenue as rev, quantity, session_id as purchase_id from sub1 where event_name in ("purchase") group by all)
+purchase as (SELECT distinct min(dateTime) as purchase_Time, item_id as purchase_itemID, item_revenue as rev, quantity, session_id as purchase_id, OrderID from sub1 where event_name in ("purchase") group by all)
 
 select distinct concat("Web",cast(row_number() over () as string)) as PK,"Web" as Platform, search_sessions as search_sessionID, search.search_time as searchTime, search_page, null as search_screenID, search.searchTerm,
 atc.atc_sessions, atc_time, atcp as atc_screen, null as atc_screenID,item_id,item_category,
 
-purchase_id as purchase_sessionID, purchase_time, rev as purchase_rev,  quantity from search left join atc on
+purchase_id as purchase_sessionID, OrderID, purchase_time, rev as purchase_rev,  quantity from search left join atc on
 search.search_sessions = atc.atc_sessions and search.search_page = atc.atcP
 left join purchase on search.search_sessions = purchase.purchase_id and atc.item_id = purchase.purchase_itemID
 where (atc_time > search_time or atc_time is null)
@@ -57,7 +58,8 @@ concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNE
 items.item_id,
 items.item_category,
 items.item_revenue,
-items.quantity
+items.quantity,
+ecommerce.transaction_id as ORderID
 FROM `toolstation-data-storage.analytics_265133009.events_*` left join unnest(items) as items
 where _TABLE_SUFFIX between FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 10 daY)) and FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 1 daY)) and (event_name in ("add_to_cart", "purchase", "search"))
 group by all),
@@ -67,13 +69,13 @@ group by all),
 
 atc as (Select distinct dateTime as atc_Time, event_name, screen as atc_screen, screen_id as atc_screenID, session_id as atc_sessionID, item_id, item_category from sub1 where event_name in ("add_to_cart")),
 
-purchase as (Select distinct dateTime as purchase_Time, session_id as purchase_sessionID, item_id as purchase_id, item_revenue as purchase_rev, quantity from sub1 where event_name in ("purchase"))
+purchase as (Select distinct dateTime as purchase_Time, session_id as purchase_sessionID, item_id as purchase_id, item_revenue as purchase_rev, quantity, OrderID from sub1 where event_name in ("purchase"))
 
-  SELECT distinct concat("APP",cast(row_number() over () as string)) as PK, "App" as Platform, search_sessionID, searchTime, search_screen as search_page, search_screenID,  query as searchTerm,
+  SELECT distinct concat("APP",cast(row_number() over () as string)) as PK, "App" as Platform, search_sessionID, searchTime, search_screen as search_page, search_screenID,   query as searchTerm,
 
  atc.atc_sessionID, atc_time, atc.atc_screen, atc.atc_screenID, atc.item_id, item_category,
 
-purchase.purchase_sessionID,purchase.purchase_time, purchase.purchase_rev, quantity
+purchase.purchase_sessionID, OrderID,purchase.purchase_time, purchase.purchase_rev, quantity
 
 from search
 left join atc on search.Search_sessionID = atc.atc_sessionID and search.search_screenID = (atc.atc_screenID - 1)
@@ -96,6 +98,7 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
 
   dimension: Platform {
     description: "Platform used App/Web"
+    label: "Platform"
     type: string
     sql: ${TABLE}.Platform ;;
   }
@@ -147,12 +150,14 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
 
   dimension: search_page {
     description: "search page"
+    label: "Search Page"
     type: string
     sql: ${TABLE}.search_page ;;
   }
 
   dimension: atc_page {
     description: "ATC page"
+    label: "ATC Page"
     type: string
     sql: ${TABLE}.atc_screen ;;
   }
@@ -173,6 +178,7 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
 
   dimension: search_term {
     description: "search term"
+    label: "Search Term"
     type: string
     sql: ${TABLE}.searchTerm ;;
   }
@@ -185,6 +191,7 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
   }
 
   measure: purchase_rev {
+    label: "Item Revenue"
     type: sum
     value_format_name: gbp
     sql:${Rev};;
@@ -198,36 +205,70 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
   }
 
   measure: purchase_Quant {
+    label: "Quantity"
     type: sum
     value_format_name: gbp
     sql:${Quantity};;
   }
 
   dimension: item_id {
+    label: "Item ID"
     description: "item_id"
     type: string
     sql: ${TABLE}.item_id ;;
   }
 
   dimension: item_category {
+    label: "Item Category"
     description: "Item Category"
     type: string
     sql: ${TABLE}.item_category ;;
   }
 
   measure: Search_sessions {
+    label: "Search Sessions"
     type: count_distinct
     sql: ${search_sessionID} ;;
   }
 
   measure: ATC_sessions {
+    label: "Search to ATC sessions"
     type: count_distinct
     sql: ${ATC_sessionID} ;;
   }
 
   measure: purchase_sessions {
+    label: "Search to Purchase sessions"
     type: count_distinct
     sql: ${Purchase_sessionID} ;;
+  }
+
+  measure: atc_conversion {
+    label: "Search to ATC rate %"
+    type: number
+    value_format_name: percent_2
+    sql: safe_divide(${ATC_sessions}, ${Search_sessions}) ;;
+  }
+
+  measure: purchase_conversion {
+    label: "Search to Purchase rate %"
+    type: number
+    value_format_name: percent_2
+    sql: safe_divide(${purchase_sessions}, ${Search_sessions}) ;;
+  }
+
+  dimension: OrderID {
+    label: "Order ID"
+    description: "Order ID"
+    type: string
+    sql: ${TABLE}.OrderID ;;
+  }
+
+  measure: Orders {
+    label: "Orders"
+    description: "Orders where user added to cart from search page"
+    type: count_distinct
+    sql: ${OrderID} ;;
   }
 
  }
