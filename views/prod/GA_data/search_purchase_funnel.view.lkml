@@ -154,7 +154,7 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
   dimension: atc_page {
     description: "ATC page"
     type: string
-    sql: ${TABLE}.atc_page ;;
+    sql: ${TABLE}.atc_screen ;;
   }
 
   dimension: search_screenID {
