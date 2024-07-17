@@ -389,9 +389,8 @@ explore: base {
     required_access_grants: [is_super]
     view_label: "Returns"
     type: left_outer
-    relationship: many_to_one
-    sql_on: ${transactions.parent_order_uid} = ${order_comments.linked_order_id}
-    and ${base.date_date} = ${order_comments.date_date}
+    relationship: one_to_many
+    sql_on: ${transactions.transaction_uid} = ${order_comments.linked_order_id}
     ;;
   }
 
