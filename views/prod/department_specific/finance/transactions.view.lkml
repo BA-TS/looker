@@ -436,7 +436,7 @@ view: transactions {
   }
 
   dimension: order_reason {
-    required_access_grants: [is_developer]
+    required_access_grants: [is_super]
     group_label: "Order Details"
     label: "Reason for Order"
     type: string
@@ -444,6 +444,7 @@ view: transactions {
   }
 
   dimension: order_special_requests {
+    required_access_grants: [is_super]
     group_label: "Order Details"
     label: "Special Requests"
     description: "Any special requests made by the customer when ordering"
