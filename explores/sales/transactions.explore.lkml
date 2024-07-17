@@ -386,11 +386,11 @@ explore: base {
   }
 
   join: order_comments {
-    required_access_grants: [is_super]
+    required_access_grants: [lz_testing]
     view_label: "Returns"
     type: left_outer
-    relationship: one_to_many
-    sql_on: ${transactions.transaction_uid} = ${order_comments.linked_order_id}
+    relationship: many_to_one
+    sql_on: ${transactions.parent_order_uid} = ${order_comments.linked_order_id}
     ;;
   }
 

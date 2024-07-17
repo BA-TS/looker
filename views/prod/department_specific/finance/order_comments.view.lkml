@@ -12,7 +12,7 @@ view: order_comments {
   }
 
   dimension: prim_key {
-    type: string
+    type: number
     sql: ${TABLE}.prim_key ;;
     primary_key: yes
     hidden: yes
