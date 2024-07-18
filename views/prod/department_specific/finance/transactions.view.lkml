@@ -724,7 +724,7 @@ view: transactions {
     group_label: "Flags"
     type: yesno
     description: "True when an order is a return, do NOT use the false flag as false can include multiple categories"
-    sql: ${transaction_line_type} = "Return" ;;
+    sql: ${transaction_line_type} = "Return" and ${product_code} not like "0%";;
   }
 
   # ORDER DETAILS #

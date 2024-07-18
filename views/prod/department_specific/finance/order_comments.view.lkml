@@ -20,7 +20,7 @@ view: order_comments {
   }
 
   dimension: order_id {
-    label: "Return Transaction UID "
+    label: "Return Order UID "
     type: string
     sql: ${TABLE}.order_id ;;
   }
@@ -39,9 +39,14 @@ view: order_comments {
     # hidden: yes
   }
 
-  dimension: order_has_been_returned {
+  dimension: has_linked_return {
     type: yesno
-    sql: ${transactions.transaction_line_type}="Sale" and ${linked_order_id} is not null and ${products.product_code} not like "0%";;
+    sql: ${order_id} is not null and ${products.product_code} not like "0%";;
+  }
+
+  dimension: has_linked_sales {
+    type: yesno
+    sql: ${linked_order_id} is not null and ${products.product_code} not like "0%";;
   }
 
   dimension: return_days {

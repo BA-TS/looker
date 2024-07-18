@@ -372,7 +372,7 @@ explore: base {
   join: return_orders {
     from: order_comments
     required_access_grants: [lz_testing]
-    fields:[return_orders.order_id]
+    # fields:[return_orders.order_id]
     view_label: "Returns"
     type: left_outer
     relationship: many_to_one
@@ -381,9 +381,9 @@ explore: base {
 
   join: return_derived {
     required_access_grants: [lz_testing]
-    view_label: "Returns"
+    view_label: "Returns Derived"
     type: left_outer
-    relationship: many_to_one
+    relationship: many_to_many
     sql_on: ${return_derived.parent_order_uid} = ${return_orders.order_id};;
   }
 
