@@ -98,6 +98,7 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
 
   dimension: Platform {
     description: "Platform used App/Web"
+    group_label: "Non Blank Search"
     label: "Platform"
     type: string
     sql: ${TABLE}.Platform ;;
@@ -150,14 +151,18 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
 
   dimension: search_page {
     description: "search page"
+    group_label: "Non Blank Search"
     label: "Search Page"
+    hidden: yes
     type: string
     sql: ${TABLE}.search_page ;;
   }
 
   dimension: atc_page {
     description: "ATC page"
+    group_label: "Non Blank Search"
     label: "ATC Page"
+    hidden: yes
     type: string
     sql: ${TABLE}.atc_screen ;;
   }
@@ -178,6 +183,7 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
 
   dimension: search_term {
     description: "search term"
+    group_label: "Non Blank Search"
     label: "Search Term"
     type: string
     sql: ${TABLE}.searchTerm ;;
@@ -191,6 +197,7 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
   }
 
   measure: purchase_rev {
+    group_label: "Non Blank Search"
     label: "Item Revenue"
     type: sum
     value_format_name: gbp
@@ -205,44 +212,53 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
   }
 
   measure: purchase_Quant {
-    label: "Quantity"
+    group_label: "Non Blank Search"
+    label: "Units"
     type: sum
     sql:${Quantity};;
   }
 
   dimension: item_id {
+    group_label: "Non Blank Search"
     label: "Item ID"
     description: "item_id"
+    hidden: yes
     type: string
     sql: ${TABLE}.item_id ;;
   }
 
   dimension: item_category {
+    group_label: "Non Blank Search"
     label: "Item Category"
     description: "Item Category"
+    hidden: yes
     type: string
     sql: ${TABLE}.item_category ;;
   }
 
   measure: Search_sessions {
+    group_label: "Non Blank Search"
     label: "Search Sessions"
     type: count_distinct
     sql: ${search_sessionID} ;;
   }
 
   measure: ATC_sessions {
+    group_label: "Non Blank Search"
     label: "Search to ATC sessions"
     type: count_distinct
     sql: ${ATC_sessionID} ;;
   }
 
   measure: purchase_sessions {
+    group_label: "Non Blank Search"
     label: "Search to Purchase sessions"
     type: count_distinct
     sql: ${Purchase_sessionID} ;;
   }
 
   measure: atc_conversion {
+    group_label: "Non Blank Search"
     label: "Search to ATC rate %"
     type: number
     value_format_name: percent_2
@@ -250,6 +266,7 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
   }
 
   measure: purchase_conversion {
+    group_label: "Non Blank Search"
     label: "Search to Purchase rate %"
     type: number
     value_format_name: percent_2
@@ -257,6 +274,7 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
   }
 
   dimension: OrderID {
+    hidden: yes
     label: "Order ID"
     description: "Order ID"
     type: string
@@ -264,6 +282,7 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
   }
 
   measure: Orders {
+    group_label: "Non Blank Search"
     label: "Orders"
     description: "Orders where user added to cart from search page"
     type: count_distinct
@@ -271,6 +290,7 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
   }
 
   measure: units_per_order {
+    group_label: "Non Blank Search"
     label: "Units per Order"
     type: number
     value_format_name: decimal_2
@@ -419,6 +439,7 @@ purchase as (select distinct minTime as PurchaseTime, productCode, Net_value,Qua
   dimension: OrderID {
     label: "Order ID"
     description: "Order ID"
+    hidden: yes
     type: string
     sql: ${TABLE}.OrderID ;;
   }
