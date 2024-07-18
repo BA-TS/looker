@@ -25,23 +25,18 @@ view: order_comments {
     sql: ${TABLE}.order_id ;;
   }
 
+
+  dimension: linked_order_id {
+    type: string
+    sql:${TABLE}.linked_order_id ;;
+  }
+
   dimension_group: date {
     label: "Return"
     type: time
     timeframes: [raw,date]
     sql: ${TABLE}.date ;;
     # hidden: yes
-  }
-
-  dimension: comments {
-    type: string
-    sql: ${TABLE}.comments ;;
-    hidden: yes
-  }
-
-  dimension: linked_order_id {
-    type: string
-    sql:${TABLE}.linked_order_id ;;
   }
 
   dimension: order_has_been_returned {

@@ -388,20 +388,22 @@ explore: base {
   join: return_orders {
     from: order_comments
     required_access_grants: [lz_testing]
+    fields:[return_orders.order_id]
     view_label: "Returns"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${transactions.parent_order_uid} = ${return_orders.linked_order_id}
+    sql_on: ${transactions.parent_order_uid} = ${return_orders.order_id}
     ;;
   }
 
   join: return_linked_orders {
     from: order_comments
+    fields:[return_linked_orders.linked_order_id]
     required_access_grants: [lz_testing]
     view_label: "Returns Linked Orders"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${transactions.parent_order_uid} = ${return_linked_orders.order_id}
+    sql_on:${transactions.parent_order_uid} = ${return_linked_orders.linked_order_id}
       ;;
   }
 
