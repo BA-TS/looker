@@ -140,7 +140,7 @@ view: ga4_rjagdev_test {
     label: "1.Event Label"
     group_label: "Event"
     type: string
-    sql: Ltrim(case when ${TABLE}.event_name in ("search", "search_actions") then coalesce(${TABLE}.label_1,regexp_replace(regexp_extract(${TABLE}.page_location, ".*q\\=(.*)$"), "\\+", " ")) else ${TABLE}.label_1 end) ;;
+    sql: Ltrim(case when ${TABLE}.event_name in ("search", "search_actions", "blank_search") then coalesce(${TABLE}.label_1,regexp_replace(regexp_extract(${TABLE}.page_location, ".*q\\=(.*)$"), "\\+", " ")) else ${TABLE}.label_1 end) ;;
   }
 
   dimension: key_2 {
