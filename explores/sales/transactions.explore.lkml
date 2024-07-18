@@ -328,23 +328,6 @@ explore: base {
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
   }
 
-  # join: spi_cpi {
-  #   view_label: "SPI CPI"
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${transactions.product_code} = ${spi_cpi.productCode} and
-  #   ${base.date_date} = ${spi_cpi.date_date};;
-  # }
-
-  # join: spi_cpi_weekly {
-  #   view_label: "SPI CPI (By Fiscal Week)"
-  #   required_access_grants: [lz_testing]
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${transactions.product_code} = ${spi_cpi_weekly.productCode} and
-  #     ${calendar_completed_date.fiscal_year_week} = ${spi_cpi_weekly.fiscal_year_week};;
-  # }
-
   join: digital_transaction_mapping {
     view_label: "Digital"
     type: left_outer
@@ -393,7 +376,7 @@ explore: base {
     view_label: "Returns"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${transactions.parent_order_uid} = ${return_orders.order_id};;
+    sql_on: ${transactions.parent_order_uid} = ${return_orders.linked_order_id};;
   }
 
   # join: return_derived {
