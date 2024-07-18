@@ -1,6 +1,7 @@
 view: rakuten_analysis_0112 {
 
   sql_table_name:`toolstation-data-storage.tmp.rakuten_transactions_customers`;;
+  fields_hidden_by_default: yes
 
   dimension: customerUID {
     type: string

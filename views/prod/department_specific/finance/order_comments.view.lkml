@@ -1,4 +1,5 @@
 include: "/views/**/*transactions.view"
+include: "/views/**/products.view"
 
 view: order_comments {
 
@@ -19,13 +20,13 @@ view: order_comments {
   }
 
   dimension: order_id {
-    label: "Return Parent Order UID "
+    label: "Return Transaction UID "
     type: string
     sql: ${TABLE}.order_id ;;
   }
 
   dimension_group: date {
-    label: "Return Date"
+    label: "Return"
     type: time
     timeframes: [raw,date]
     sql: ${TABLE}.date ;;
@@ -41,6 +42,11 @@ view: order_comments {
   dimension: linked_order_id {
     type: string
     sql:${TABLE}.linked_order_id ;;
+  }
+
+  dimension: order_has_been_returned {
+    type: yesno
+    sql: ${transactions.transaction_line_type}="Sale" and ${linked_order_id} is not null and ${products.product_code} not like "0%";;
   }
 
   dimension: return_days {
