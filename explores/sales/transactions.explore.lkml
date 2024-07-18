@@ -75,6 +75,7 @@ include: "/views/**/scorecard_testing_loyalty_division_ytd.view"
 include: "/views/**/bdm_customers.view"
 include: "/views/**/key_accounts_customers.view"
 include: "/views/**/order_comments.view"
+include: "/views/**/return_derived.view"
 
 
 explore: base {
@@ -392,20 +393,16 @@ explore: base {
     view_label: "Returns"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${transactions.parent_order_uid} = ${return_orders.order_id}
-    ;;
+    sql_on: ${transactions.parent_order_uid} = ${return_orders.order_id};;
   }
 
-  join: return_linked_orders {
-    from: order_comments
-    fields:[return_linked_orders.linked_order_id]
-    required_access_grants: [lz_testing]
-    view_label: "Returns Linked Orders"
-    type: left_outer
-    relationship: many_to_one
-    sql_on:${transactions.parent_order_uid} = ${return_linked_orders.linked_order_id}
-      ;;
-  }
+  # join: return_derived {
+  #   required_access_grants: [lz_testing]
+  #   view_label: "Returns"
+  #   type: left_outer
+  #   relationship: many_to_one
+  #   sql_on: ${return_derived.parent_order_uid} = ${return_orders.order_id};;
+  # }
 
   join: promoHistory_Current {
     type: left_outer
