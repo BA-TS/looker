@@ -385,13 +385,24 @@ explore: base {
     sql_on: ${transactions.parent_order_uid} = ${po_numbers.order_id};;
   }
 
-  join: order_comments {
+  join: return_orders {
+    from: order_comments
     required_access_grants: [lz_testing]
     view_label: "Returns"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${transactions.parent_order_uid} = ${order_comments.linked_order_id}
+    sql_on: ${transactions.parent_order_uid} = ${return_orders.linked_order_id}
     ;;
+  }
+
+  join: return_linked_orders {
+    from: order_comments
+    required_access_grants: [lz_testing]
+    view_label: "Returns Linked Orders"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.parent_order_uid} = ${return_linked_orders.order_id}
+      ;;
   }
 
   join: promoHistory_Current {
