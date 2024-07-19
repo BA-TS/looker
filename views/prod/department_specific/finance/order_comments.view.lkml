@@ -34,7 +34,7 @@ view: order_comments {
   dimension_group: date {
     label: "Return"
     type: time
-    timeframes: [raw,date]
+    timeframes: [raw,date,year]
     sql: ${TABLE}.date ;;
     # hidden: yes
   }
