@@ -10,7 +10,7 @@ view: ds_assumed_trade{
 
   dimension: customer_uid {
     type: string
-    sql: ${TABLE}.Customer_UID;;
+    sql: ${TABLE}.customers_customer_uid;;
     hidden: yes
   }
 
