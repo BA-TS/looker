@@ -1,41 +1,60 @@
 view: return_orders {
+
   derived_table: {
     sql:
-    select
-      distinct t.transactionUID as return_ID,
-      date(transactionDate) as returnDate,
-      Case when UPPER(t.orderReason) like '%CUSTOMER CHANGED MIND%' then 'Customer_Changed_Mind'
-      when UPPER(t.orderReason) like '%DAMAGED%' OR UPPER(t.orderReason) like '%FAULTY%'  then 'Damaged/Faulty'
-      else 'Others' END AS return_reason,
-      t.orderSpecialRequests,
-      TRIM(REGEXP_EXTRACT(oc.comments, r'This order is a return for(.{12})')) as link_OrderID
-      from `toolstation-data-storage.sales.transactions` t
-      left Join
-      `toolstation-data-storage.sales.order_comments` oc
-      On t.transactionUID = oc.order_id
-      where
-      --date(t.placedDate) >= "2023-01-01"
-      --and
-      t.transactionLineType = "Return" and t.productCode not like '0%';;
+    select *
+    from  `toolstation-data-storage.ts_finance.DS_DAILY_RETURNS_ORDERS_2023`;;
   }
 
   dimension: return_ID {
+    group_label: "Return Order"
+    label: "Parent Order UID"
     type: string
     sql: ${TABLE}.return_ID ;;
+    hidden: yes
   }
 
-  dimension: return_reason{
+  dimension: is_return {
+    label: "Order - Is Return"
+    type: yesno
+    sql: ${return_ID} is not null;;
+  }
+
+  dimension: transaction_uid{
+    group_label: "Link Order"
+    label: "Parent Order UID"
     type: string
-    sql: ${TABLE}.return_reason ;;
+    sql: ${TABLE}.link_OrderID ;;
   }
 
-  dimension: order_special_requests{
+  dimension: sales_channel{
+    group_label: "Link Order"
+    label: "Sales Channel"
     type: string
-    sql: ${TABLE}.orderSpecialRequests;;
+    sql: ${TABLE}.salesChannel ;;
   }
 
-  dimension: return_date {
-    type: date
-    sql: ${TABLE}.returnDate ;;
+  dimension_group: link_order {
+    group_label: "Link Order"
+    type: time
+    timeframes: [raw,date]
+    sql: ${TABLE}.link_OrderDate ;;
   }
+
+  dimension: return_days {
+    group_label: "Return Days"
+    label: "Number of Days"
+    type: number
+    sql: date_diff(${transactions.order_completed_date},${link_order_date},day);;
+  }
+
+  dimension: return_days_tier {
+    group_label: "Return Days"
+    label: "Number of Days - Tier"
+    type: tier
+    style: integer
+    tiers: [0,31,46,181,366]
+    sql:  ${return_days};;
+  }
+
 }
