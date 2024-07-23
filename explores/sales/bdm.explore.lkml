@@ -127,7 +127,7 @@ explore: bdm {
     view_label: "Targets"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${key_accounts_targets.bdm} = ${bdm_customers.bdm} and ${key_accounts_targets.month}=${calendar_completed_date.calendar_year_month2};;
+    sql_on: ${key_accounts_targets.bdm} = ${key_accounts_customers.bdm} and ${key_accounts_targets.month}=${calendar_completed_date.calendar_year_month2};;
   }
 
   join: bdm_ledger {
