@@ -57,4 +57,34 @@ view: bdm_ledger {
     type: string
     sql: ${TABLE}.notes ;;
   }
+
+  dimension: contact {
+    group_label: "BDM"
+    type: string
+    sql: ${TABLE}.contact ;;
+  }
+
+  dimension: job_title {
+    group_label: "BDM"
+    type: string
+    sql: ${TABLE}.jobTitle ;;
+  }
+
+  dimension: office_number {
+    group_label: "BDM"
+    type: string
+    sql: ${TABLE}.officeNumber ;;
+  }
+
+  dimension: phone_number {
+    group_label: "BDM"
+    type: string
+    sql: ${TABLE}.phoneNumber ;;
+  }
+
+  dimension: account_number {
+    group_label: "BDM"
+    type: string
+    sql: ${TABLE}.accountNumber ;;
+  }
  }
