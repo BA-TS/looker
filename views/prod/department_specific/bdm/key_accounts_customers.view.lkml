@@ -39,8 +39,8 @@ view: key_accounts_customers {
   }
 
   dimension_group: end {
-    view_label: "Customer"
-    group_label: "Dates (Key Accounts)"
+    view_label: "Customers"
+    group_label: "BDM"
     type: time
     datatype: date
     sql: ${TABLE}.endDate;;
@@ -58,14 +58,16 @@ view: key_accounts_customers {
   }
 
   dimension: is_key_accounts_customer {
-    view_label: "Customer"
+    view_label: "Customers"
+    group_label: "BDM"
     label: "Is Key Accounts customer"
     type: yesno
     sql:${customer_uid} is not null;;
   }
 
   dimension: is_active {
-    view_label: "Customer"
+    view_label: "Customers"
+    group_label: "BDM"
     type: yesno
     label: "Is Customer Account Active (Key Accounts)"
     sql: ${start_date}<current_date() and ${end_date} is null ;;

@@ -43,7 +43,18 @@ explore: bdm {
       combined_month,
       combined_quarter,
       combined_year,
-      separate_month
+      separate_month,
+      calendar_completed_date.holiday_name,
+      calendar_completed_date.is_holiday,
+      calendar_completed_date.is_weekend,
+      calendar_completed_date.exclude_christmas_new_year,
+      calendar_completed_date.fiscal_year_week,
+      calendar_completed_date.fiscal_year,
+      calendar_completed_date.fiscal_week_of_year,
+      calendar_completed_date.fiscal_month_of_year,
+      calendar_completed_date.calendar_quarter,
+      calendar_completed_date.month_name_in_year,
+      calendar_completed_date.day_in_year
     ]
   }
 
@@ -55,13 +66,15 @@ explore: bdm {
     -calendar_completed_date.distinct_year_month_count,
     -calendar_completed_date.distinct_year_count,
     -customers.opt_in_percent,
-    -sites.number_of_DCs
+    -sites.number_of_DCs,
+    -calendar_completed_date.today_day_in_month,
 
   ]
 
   sql_always_where:${period_over_period};;
 
   join: calendar_completed_date{
+    # fields: [base.select_comparison_period,base.select_number_of_periods,base.select_date_range,base.select_fixed_range,base.select_date_reference,base.pivot_dimension,calendar_completed_date.date,calendar_completed_date.calendar_year,calendar_completed_date.calendar_year_month,calendar_completed_date.calendar_year_quarter]
     from:  calendar
     view_label: "Date"
     type:  inner
