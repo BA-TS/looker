@@ -5,7 +5,9 @@ view: key_accounts_targets {
     select
     DISTINCT row_number() over () AS prim_key,
     *
-    from `toolstation-data-storage.retailReporting.KEY_ACCOUNTS_TARGETS_LOOKER`;;
+    from `toolstation-data-storage.retailReporting.KEY_ACCOUNTS_TARGETS_LOOKER`
+    where bdm is not null
+    ;;
   }
 
   dimension: prim_key {

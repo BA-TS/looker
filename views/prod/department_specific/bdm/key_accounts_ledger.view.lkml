@@ -4,7 +4,9 @@ view: key_accounts_ledger {
     select
     DISTINCT row_number() over () AS prim_key,
     *
-    from `toolstation-data-storage.retailReporting.KEY_ACCOUNTS_LEDGER_LOOKER`;;
+    from `toolstation-data-storage.retailReporting.KEY_ACCOUNTS_LEDGER_LOOKER`
+    where bdm is not null
+    ;;
   }
 
   dimension: prim_key {

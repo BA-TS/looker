@@ -3,7 +3,9 @@ view: key_accounts_customers {
     sql:
     select
     DISTINCT row_number() over () AS prim_key,
-    * from `toolstation-data-storage.retailReporting.KEY_ACCOUNTS_CUSTOMERS_LIST`;;
+    * from `toolstation-data-storage.retailReporting.KEY_ACCOUNTS_CUSTOMERS_LIST`
+    where bdm is not null
+    ;;
   }
 
   dimension: prim_key {
