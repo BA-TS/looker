@@ -26,7 +26,7 @@ view: key_accounts_customers {
   }
 
   dimension_group: start {
-    view_label: "Customer"
+    view_label: "Customers"
     group_label: "Dates (Key Accounts)"
     type: time
     datatype: date
@@ -59,7 +59,7 @@ view: key_accounts_customers {
 
   dimension: is_key_accounts_customer {
     view_label: "Customers"
-    group_label: "BDM"
+    group_label: "KA"
     label: "Is Key Accounts customer"
     type: yesno
     sql:${customer_uid} is not null;;
@@ -67,9 +67,9 @@ view: key_accounts_customers {
 
   dimension: is_active {
     view_label: "Customers"
-    group_label: "BDM"
+    group_label: "KA"
     type: yesno
-    label: "Is Customer Account Active (Key Accounts)"
+    label: "Is Customer Account Active (KA)"
     sql: ${start_date}<current_date() and ${end_date} is null ;;
   }
 
