@@ -44,17 +44,6 @@ explore: bdm {
       combined_quarter,
       combined_year,
       separate_month,
-      calendar_completed_date.holiday_name,
-      calendar_completed_date.is_holiday,
-      calendar_completed_date.is_weekend,
-      calendar_completed_date.exclude_christmas_new_year,
-      calendar_completed_date.fiscal_year_week,
-      calendar_completed_date.fiscal_year,
-      calendar_completed_date.fiscal_week_of_year,
-      calendar_completed_date.fiscal_month_of_year,
-      calendar_completed_date.calendar_quarter,
-      calendar_completed_date.month_name_in_year,
-      calendar_completed_date.day_in_year
     ]
   }
 
@@ -68,7 +57,23 @@ explore: bdm {
     -customers.opt_in_percent,
     -sites.number_of_DCs,
     -calendar_completed_date.today_day_in_month,
-
+    -calendar_completed_date.holiday_name,
+    -calendar_completed_date.is_holiday,
+    -calendar_completed_date.is_weekend,
+    -calendar_completed_date.exclude_christmas_new_year,
+    -calendar_completed_date.fiscal_year_week,
+    -calendar_completed_date.fiscal_year,
+    -calendar_completed_date.fiscal_week_of_year,
+    -calendar_completed_date.fiscal_month_of_year,
+    -calendar_completed_date.calendar_quarter,
+    -calendar_completed_date.month_name_in_year,
+    -calendar_completed_date.day_in_year,
+    -calendar_completed_date.today_day_in_week,
+    -calendar_completed_date.today_day_in_year,
+    -calendar_completed_date.today_date,
+    -calendar_completed_date.day_in_month,
+    -calendar_completed_date.number_of_year,
+    -calendar_completed_date.filter_on_field_to_hide
   ]
 
   sql_always_where:${period_over_period};;
@@ -85,7 +90,7 @@ explore: bdm {
   join: transactions {
     type: left_outer
     relationship: one_to_many
-    fields: [transactions.number_of_branches,transactions.total_net_sales,transactions.payment_type,transactions.product_department,transactions.number_of_departments]
+    fields: [transactions.number_of_branches,transactions.aov_net_sales,transactions.aov_units,transactions.total_margin_incl_funding,transactions.total_net_sales,transactions.payment_type,transactions.product_department,transactions.number_of_departments]
     sql_on: ${base.base_date_date} = ${transactions.transaction_date_filter};;
   }
 
