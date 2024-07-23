@@ -26,8 +26,9 @@ view: bdm_customers {
   }
 
   dimension_group: start {
-    type: time
+    view_label: "Customer"
     group_label: "Dates"
+    type: time
     datatype: date
     sql: ${TABLE}.startDate ;;
     timeframes: [
@@ -38,8 +39,9 @@ view: bdm_customers {
   }
 
   dimension_group: end {
+    view_label: "Customer"
+    group_label: "Dates (BDM)"
     type: time
-    group_label: "Dates"
     datatype: date
     sql: ${TABLE}.endDate;;
     timeframes: [
@@ -56,14 +58,16 @@ view: bdm_customers {
   }
 
   dimension: is_bdm_customer {
+    view_label: "Customer"
     label: "Is BDM customer"
     type: yesno
     sql:${customer_uid} is not null;;
   }
 
   dimension: is_active {
+    view_label: "Customer"
     type: yesno
-    label: "Is Customer Account Active"
+    label: "Is Customer Account Active (BDM)"
     sql: ${start_date}<current_date() and ${end_date} is null ;;
   }
 
