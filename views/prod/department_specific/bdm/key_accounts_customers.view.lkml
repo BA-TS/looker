@@ -27,7 +27,7 @@ view: key_accounts_customers {
 
   dimension_group: start {
     view_label: "Customers"
-    group_label: "Dates (Key Accounts)"
+    group_label: "KA"
     type: time
     datatype: date
     sql: ${TABLE}.startDate ;;
@@ -40,7 +40,7 @@ view: key_accounts_customers {
 
   dimension_group: end {
     view_label: "Customers"
-    group_label: "BDM"
+    group_label: "KA"
     type: time
     datatype: date
     sql: ${TABLE}.endDate;;
