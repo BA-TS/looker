@@ -1,4 +1,4 @@
-view: ds_assumed_trade_history {
+view: ds_assumed_trade_history_new_lake {
 
   required_access_grants: [lz_testing]
 
@@ -11,7 +11,7 @@ view: ds_assumed_trade_history {
     Assumed_Trade_Probability,
     CASE WHEN Assumed_Trade_Probability>0.55 THEN 1 ELSE 0 END AS flag,
     from
-    `toolstation-data-storage.customer.ds_assumed_trade_history`
+    `toolstation-data-storage.customer.ds_assumed_trade_history_v2`
     ;;
   }
 

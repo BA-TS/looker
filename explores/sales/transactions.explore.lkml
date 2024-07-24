@@ -73,7 +73,7 @@ include: "/views/**/scorecard_testing_loyalty_branch_ytd.view"
 include: "/views/**/scorecard_testing_loyalty_region_ytd.view"
 include: "/views/**/scorecard_testing_loyalty_division_ytd.view"
 include: "/views/**/return_orders.view"
-
+include: "/views/**/ds_assumed_trade_history_new_lake.view"
 
 explore: base {
   label: "Transactions"
@@ -564,10 +564,19 @@ explore: base {
   }
 
   join: ds_assumed_trade_history {
-    view_label: "Customer Classification"
+    view_label: "Customer Classification History"
     type: left_outer
     relationship: one_to_many
     sql_on: ${customers.customer_uid} = ${ds_assumed_trade_history.customer_uid};;
+  }
+
+  join: ds_assumed_trade_history_new_lake {
+    view_label: "Customer Classification History v2"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${customers.customer_uid} = ${ds_assumed_trade_history_new_lake.customer_uid}
+    and ${ds_assumed_trade_history.Score_End_Date} = ${ds_assumed_trade_history_new_lake.Score_End_Date}
+    ;;
   }
 
   join: assumed_trade_measures {
