@@ -6,7 +6,7 @@ view: bdm_customers {
     * from `toolstation-data-storage.retailReporting.BDM_CUSTOMERS_LIST`
     where bdm is not null
     ;;
-    }
+  }
 
   dimension: prim_key {
     type: string
@@ -47,9 +47,9 @@ view: bdm_customers {
     datatype: date
     sql: ${TABLE}.endDate;;
     timeframes: [
-    date,
-    month,
-    year
+      date,
+      month,
+      year
     ]
   }
 
