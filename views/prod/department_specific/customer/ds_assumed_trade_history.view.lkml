@@ -1,6 +1,6 @@
 view: ds_assumed_trade_history {
 
-  required_access_grants: [lz_testing]
+  required_access_grants: [tp_testing]
 
   derived_table: {
     sql:
