@@ -30,7 +30,7 @@ view: ds_assumed_trade_history {
 
   dimension: Score_End_Date{
     group_label: "Prediction History"
-    type: string
+    type: date
     sql: ${TABLE}.Score_End_Date ;;
     # hidden: yes
   }
