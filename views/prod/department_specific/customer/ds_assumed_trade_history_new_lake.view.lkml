@@ -6,10 +6,8 @@ view: ds_assumed_trade_history_new_lake {
     sql:
     select
     DISTINCT row_number() over () AS prim_key,
-    Score_End_Date,
-    customers_customer_uid,
-    Assumed_Trade_Probability,
     CASE WHEN Assumed_Trade_Probability>0.55 THEN 1 ELSE 0 END AS flag,
+    *
     from
     `toolstation-data-storage.customer.ds_assumed_trade_history_v2`
     ;;
@@ -25,7 +23,7 @@ view: ds_assumed_trade_history_new_lake {
   dimension: customer_uid {
     type: string
     hidden: yes
-    sql: ${TABLE}.customers_customer_uid ;;
+    sql: ${TABLE}.Customer_UID ;;
   }
 
   dimension: Score_End_Date{

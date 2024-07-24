@@ -567,7 +567,9 @@ explore: base {
     view_label: "Customer Classification History"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${customers.customer_uid} = ${ds_assumed_trade_history.customer_uid};;
+    sql_on: ${customers.customer_uid} = ${ds_assumed_trade_history.customer_uid}
+    and ${ds_assumed_trade_history.Score_End_Date} = ${ds_assumed_trade_history_new_lake.Score_End_Date}
+    ;;
   }
 
   join: ds_assumed_trade_history_new_lake {
@@ -575,7 +577,6 @@ explore: base {
     type: left_outer
     relationship: one_to_many
     sql_on: ${customers.customer_uid} = ${ds_assumed_trade_history_new_lake.customer_uid}
-    and ${ds_assumed_trade_history.Score_End_Date} = ${ds_assumed_trade_history_new_lake.Score_End_Date}
     ;;
   }
 
