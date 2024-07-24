@@ -50,6 +50,14 @@ view: ds_assumed_trade_history {
     hidden: yes
   }
 
+  measure: Assumed_Trade_Probability_STD {
+    group_label: "Prediction History"
+    label: "Assumed Trade Probability Std Dev"
+    type: number
+    value_format_name: "percent_2"
+    sql: stddev_pop(${Assumed_Trade_Probability}) ;;
+  }
+
   measure: average_probability {
     group_label: "Prediction History"
     type: average
