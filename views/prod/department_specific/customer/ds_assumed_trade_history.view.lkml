@@ -11,7 +11,7 @@ view: ds_assumed_trade_history {
     Assumed_Trade_Probability,
     CASE WHEN Assumed_Trade_Probability>0.55 THEN 1 ELSE 0 END AS flag,
     from
-    `toolstation-data-storage.customer.ds_assumed_trade_history_Looker`
+    `toolstation-data-storage.customer.ds_assumed_trade_history`
     ;;
   }
 
@@ -32,7 +32,6 @@ view: ds_assumed_trade_history {
     group_label: "Prediction History"
     type: date
     sql: ${TABLE}.Score_End_Date ;;
-    # hidden: yes
   }
 
   dimension: Assumed_Trade_Probability {
