@@ -560,14 +560,15 @@ explore: base {
   join: ds_assumed_trade {
     view_label: "Customer Classification"
     type: left_outer
-    relationship: one_to_many
+    relationship: many_to_one
     sql_on: ${customers.customer_uid} = ${ds_assumed_trade.customer_uid};;
   }
 
   join: ds_assumed_trade_v2 {
-    view_label: "Customer Classification"
+    view_label: "Customer Classification v2"
+    required_access_grants: [tp_testing]
     type: left_outer
-    relationship: one_to_many
+    relationship: many_to_one
     sql_on: ${customers.customer_uid} = ${ds_assumed_trade_v2.customer_uid};;
   }
 
