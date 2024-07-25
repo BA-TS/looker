@@ -52,6 +52,7 @@ include: "/views/**/customers_wk_ty.view"
 include: "/views/**/customers_2wk_ty.view"
 include: "/views/**/rakuten_analysis_0112.view"
 include: "/views/**/ds_assumed_trade.view"
+include: "/views/**/ds_assumed_trade_v2.view"
 include: "/views/**/ds_assumed_trade_history.view"
 include: "/views/**/assumed_trade_measures.view"
 include: "/views/**/costprice.view"
@@ -561,6 +562,13 @@ explore: base {
     type: left_outer
     relationship: one_to_many
     sql_on: ${customers.customer_uid} = ${ds_assumed_trade.customer_uid};;
+  }
+
+  join: ds_assumed_trade_v2 {
+    view_label: "Customer Classification"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${customers.customer_uid} = ${ds_assumed_trade_v2.customer_uid};;
   }
 
   join: ds_assumed_trade_history {
