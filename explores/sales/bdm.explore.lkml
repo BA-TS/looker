@@ -43,7 +43,7 @@ explore: bdm {
       combined_month,
       combined_quarter,
       combined_year,
-      separate_month
+      separate_month,
     ]
   }
 
@@ -55,13 +55,31 @@ explore: bdm {
     -calendar_completed_date.distinct_year_month_count,
     -calendar_completed_date.distinct_year_count,
     -customers.opt_in_percent,
-    -sites.number_of_DCs
-
+    -sites.number_of_DCs,
+    -calendar_completed_date.today_day_in_month,
+    -calendar_completed_date.holiday_name,
+    -calendar_completed_date.is_holiday,
+    -calendar_completed_date.is_weekend,
+    -calendar_completed_date.exclude_christmas_new_year,
+    -calendar_completed_date.fiscal_year_week,
+    -calendar_completed_date.fiscal_year,
+    -calendar_completed_date.fiscal_week_of_year,
+    -calendar_completed_date.fiscal_month_of_year,
+    -calendar_completed_date.calendar_quarter,
+    -calendar_completed_date.month_name_in_year,
+    -calendar_completed_date.day_in_year,
+    -calendar_completed_date.today_day_in_week,
+    -calendar_completed_date.today_day_in_year,
+    -calendar_completed_date.today_date,
+    -calendar_completed_date.day_in_month,
+    -calendar_completed_date.number_of_year,
+    -calendar_completed_date.filter_on_field_to_hide
   ]
 
   sql_always_where:${period_over_period};;
 
   join: calendar_completed_date{
+    # fields: [base.select_comparison_period,base.select_number_of_periods,base.select_date_range,base.select_fixed_range,base.select_date_reference,base.pivot_dimension,calendar_completed_date.date,calendar_completed_date.calendar_year,calendar_completed_date.calendar_year_month,calendar_completed_date.calendar_year_quarter]
     from:  calendar
     view_label: "Date"
     type:  inner
@@ -72,7 +90,7 @@ explore: bdm {
   join: transactions {
     type: left_outer
     relationship: one_to_many
-    fields: [transactions.number_of_branches,transactions.total_net_sales,transactions.payment_type,transactions.product_department,transactions.number_of_departments]
+    fields: [transactions.number_of_branches,transactions.spc_net_sales,transactions.aov_net_sales,transactions.aov_units,transactions.total_margin_incl_funding,transactions.total_net_sales,transactions.payment_type,transactions.product_department,transactions.number_of_departments]
     sql_on: ${base.base_date_date} = ${transactions.transaction_date_filter};;
   }
 
@@ -109,7 +127,7 @@ explore: bdm {
     view_label: "Targets"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${key_accounts_targets.bdm} = ${bdm_customers.bdm} and ${key_accounts_targets.month}=${calendar_completed_date.calendar_year_month2};;
+    sql_on: ${key_accounts_targets.bdm} = ${key_accounts_customers.bdm} and ${key_accounts_targets.month}=${calendar_completed_date.calendar_year_month2};;
   }
 
   join: bdm_ledger {

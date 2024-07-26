@@ -191,7 +191,8 @@ view: spi_cpi_weekly{
     group_label: "COGS"
     type: sum
     sql:
-    Case WHEN cast(${productCode} as int) <10000 THEN ${cy_aac_cogs}-${ly_aac_cogs}
+    Case WHEN safe_cast(${productCode} as int) <10000
+    THEN ${cy_aac_cogs}-${ly_aac_cogs}
     WHEN abs(${cy_unitsSOLD}) > 0 THEN (${cy_cogs_asp_dim}-${ly_cogs_asp_dim})*${ly_unitsSOLD}
     ELSE (${cy_cogs_asp_dim}-${ly_cogs_asp_dim})*${cy_unitsSOLD}
     END ;;
@@ -203,7 +204,7 @@ view: spi_cpi_weekly{
     group_label: "COGS"
     type: sum
     sql:
-    Case WHEN cast(${productCode} as int) <10000 THEN 0
+    Case WHEN safe_cast(${productCode} as int) <10000 THEN 0
     WHEN abs(${cy_unitsSOLD}) > 0 THEN ${unit_var_dim}*${cy_cogs_asp_dim}
     ELSE ${unit_var_dim}*${ly_cogs_asp_dim}
     END ;;
@@ -311,7 +312,7 @@ view: spi_cpi_weekly{
     group_label: "Var"
     type: sum
     sql:
-    Case WHEN cast(${productCode} as int) <10000 THEN ${cy_netSales}-${ly_netSales}
+    Case WHEN safe_cast(${productCode} as int) <10000 THEN ${cy_netSales}-${ly_netSales}
     WHEN abs(${cy_unitsSOLD}) > 0 THEN (${cy_asp_dim}-${ly_asp_dim})*${ly_unitsSOLD}
     ELSE (${cy_asp_dim}-${ly_asp_dim})*${cy_unitsSOLD}
     END ;;
@@ -339,7 +340,7 @@ view: spi_cpi_weekly{
     group_label: "Var"
     type: sum
     sql:
-    Case WHEN cast(${productCode} as int) <10000 THEN 0
+    Case WHEN safe_cast(${productCode} as int) <10000 THEN 0
     WHEN abs(${cy_unitsSOLD}) > 0 THEN ${unit_var_dim}*${cy_asp_dim}
     ELSE ${unit_var_dim}*${ly_asp_dim}
     END ;;

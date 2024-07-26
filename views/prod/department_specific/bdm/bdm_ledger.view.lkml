@@ -4,7 +4,9 @@ view: bdm_ledger {
     select
     DISTINCT row_number() over () AS prim_key,
     *
-    from `toolstation-data-storage.retailReporting.BDM_LEDGER_LOOKER`;;
+    from `toolstation-data-storage.retailReporting.BDM_LEDGER_LOOKER`
+    where bdm is not null
+    ;;
   }
 
   dimension: prim_key {
@@ -56,5 +58,35 @@ view: bdm_ledger {
     group_label: "BDM"
     type: string
     sql: ${TABLE}.notes ;;
+  }
+
+  dimension: contact {
+    group_label: "BDM"
+    type: string
+    sql: ${TABLE}.contact ;;
+  }
+
+  dimension: job_title {
+    group_label: "BDM"
+    type: string
+    sql: ${TABLE}.jobTitle ;;
+  }
+
+  dimension: office_number {
+    group_label: "BDM"
+    type: string
+    sql: ${TABLE}.officeNumber ;;
+  }
+
+  dimension: phone_number {
+    group_label: "BDM"
+    type: string
+    sql: ${TABLE}.phoneNumber ;;
+  }
+
+  dimension: account_number {
+    group_label: "BDM"
+    type: string
+    sql: ${TABLE}.accountNumber ;;
   }
  }

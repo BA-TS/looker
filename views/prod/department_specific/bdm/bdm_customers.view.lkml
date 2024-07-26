@@ -1,10 +1,14 @@
+include: "/views/**/transactions.view"
+
 view: bdm_customers {
   derived_table: {
     sql:
     select
     DISTINCT row_number() over () AS prim_key,
-    * from `toolstation-data-storage.retailReporting.BDM_CUSTOMERS_LIST`;;
-    }
+    * from `toolstation-data-storage.retailReporting.BDM_CUSTOMERS_LIST`
+    where bdm is not null
+    ;;
+  }
 
   dimension: prim_key {
     type: string
@@ -20,14 +24,15 @@ view: bdm_customers {
   }
 
   dimension: bdm {
-    label: "BDM"
+    label: "BDM Name"
     type: string
     sql: ${TABLE}.bdm ;;
   }
 
   dimension_group: start {
+    view_label: "Customers"
+    group_label: "BDM"
     type: time
-    group_label: "Dates"
     datatype: date
     sql: ${TABLE}.startDate ;;
     timeframes: [
@@ -38,14 +43,15 @@ view: bdm_customers {
   }
 
   dimension_group: end {
+    view_label: "Customers"
+    group_label: "BDM"
     type: time
-    group_label: "Dates"
     datatype: date
     sql: ${TABLE}.endDate;;
     timeframes: [
-    date,
-    month,
-    year
+      date,
+      month,
+      year
     ]
   }
 
@@ -56,15 +62,44 @@ view: bdm_customers {
   }
 
   dimension: is_bdm_customer {
+    view_label: "Customers"
+    group_label: "BDM"
     label: "Is BDM customer"
     type: yesno
     sql:${customer_uid} is not null;;
   }
 
   dimension: is_active {
+    view_label: "Customers"
+    group_label: "BDM"
     type: yesno
-    label: "Is Customer Account Active"
+    label: "Is Customer Account Active (BDM)"
     sql: ${start_date}<current_date() and ${end_date} is null ;;
+  }
+
+  dimension: period {
+    view_label: "Customers"
+    group_label: "BDM"
+    type: string
+    label: "Period - Pre vs Managed"
+    sql:
+    case when ${start_date}<${transactions.order_completed_date}
+    then "Pre" else "Managed"
+    End ;;
+  }
+
+  dimension: classification {
+    view_label: "Customers"
+    group_label: "BDM"
+    label: "BDM Customer Classification"
+    type: string
+    sql:
+    case
+      when (date_diff(current_date()-1, ${start_date}, day)) > 364 then 'Existing'
+      when (date_diff(${start_date}, ${transactions.order_completed_date},day)) <= 364 then 'Existing'
+      when (date_diff(${start_date}, ${transactions.order_completed_date}, day)) is null then 'New'
+      when (date_diff(${start_date}, ${transactions.order_completed_date}, day)) > 364 then 'New'
+      else 'Time Traveler' end;;
   }
 
   measure: number_of_bdm {
@@ -73,5 +108,4 @@ view: bdm_customers {
     type: count_distinct
     sql: ${bdm};;
   }
-
 }

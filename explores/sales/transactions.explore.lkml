@@ -52,6 +52,7 @@ include: "/views/**/customers_wk_ty.view"
 include: "/views/**/customers_2wk_ty.view"
 include: "/views/**/rakuten_analysis_0112.view"
 include: "/views/**/ds_assumed_trade.view"
+include: "/views/**/ds_assumed_trade_v2.view"
 include: "/views/**/ds_assumed_trade_history.view"
 include: "/views/**/assumed_trade_measures.view"
 include: "/views/**/costprice.view"
@@ -72,10 +73,8 @@ include: "/views/**/scorecard_testing_loyalty_division_mth.view"
 include: "/views/**/scorecard_testing_loyalty_branch_ytd.view"
 include: "/views/**/scorecard_testing_loyalty_region_ytd.view"
 include: "/views/**/scorecard_testing_loyalty_division_ytd.view"
-include: "/views/**/bdm_customers.view"
-include: "/views/**/key_accounts_customers.view"
-include: "/views/**/order_comments.view"
-
+include: "/views/**/return_orders.view"
+include: "/views/**/ds_assumed_trade_history_new_lake.view"
 
 explore: base {
   label: "Transactions"
@@ -327,23 +326,6 @@ explore: base {
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
   }
 
-  # join: spi_cpi {
-  #   view_label: "SPI CPI"
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${transactions.product_code} = ${spi_cpi.productCode} and
-  #   ${base.date_date} = ${spi_cpi.date_date};;
-  # }
-
-  # join: spi_cpi_weekly {
-  #   view_label: "SPI CPI (By Fiscal Week)"
-  #   required_access_grants: [lz_testing]
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${transactions.product_code} = ${spi_cpi_weekly.productCode} and
-  #     ${calendar_completed_date.fiscal_year_week} = ${spi_cpi_weekly.fiscal_year_week};;
-  # }
-
   join: digital_transaction_mapping {
     view_label: "Digital"
     type: left_outer
@@ -385,13 +367,11 @@ explore: base {
     sql_on: ${transactions.parent_order_uid} = ${po_numbers.order_id};;
   }
 
-  join: order_comments {
-    required_access_grants: [lz_testing]
+  join: return_orders {
     view_label: "Returns"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${transactions.parent_order_uid} = ${order_comments.linked_order_id}
-    ;;
+    sql_on: ${return_orders.return_ID} = ${transactions.transaction_uid} ;;
   }
 
   join: promoHistory_Current {
@@ -580,15 +560,33 @@ explore: base {
   join: ds_assumed_trade {
     view_label: "Customer Classification"
     type: left_outer
-    relationship: one_to_many
+    relationship: many_to_one
     sql_on: ${customers.customer_uid} = ${ds_assumed_trade.customer_uid};;
   }
 
+  join: ds_assumed_trade_v2 {
+    view_label: "Customer Classification v2"
+    required_access_grants: [tp_testing]
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${customers.customer_uid} = ${ds_assumed_trade_v2.customer_uid};;
+  }
+
   join: ds_assumed_trade_history {
-    view_label: "Customer Classification"
+    view_label: "Customer Classification History"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${customers.customer_uid} = ${ds_assumed_trade_history.customer_uid};;
+    sql_on: ${customers.customer_uid} = ${ds_assumed_trade_history.customer_uid}
+    and ${ds_assumed_trade_history.Score_End_Date} = ${ds_assumed_trade_history_new_lake.Score_End_Date}
+    ;;
+  }
+
+  join: ds_assumed_trade_history_new_lake {
+    view_label: "Customer Classification History v2"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${customers.customer_uid} = ${ds_assumed_trade_history_new_lake.customer_uid}
+    ;;
   }
 
   join: assumed_trade_measures {
