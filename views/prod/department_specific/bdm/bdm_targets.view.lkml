@@ -8,7 +8,7 @@ view: bdm_targets {
     from `toolstation-data-storage.retailReporting.BDM_TARGETS_LOOKER`
     where bdm is not null
     ;;
-    datagroup_trigger: ts_transactions_datagroup
+    datagroup_trigger: ts_weekly_datagroup
   }
 
   dimension: prim_key {
