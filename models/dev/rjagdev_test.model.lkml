@@ -4,10 +4,10 @@ include: "/views/**/*.view"              # include all views in the views/ folde
 label: "Digital"
 
 explore: GA4_testy {
-  hidden: no
-  required_access_grants: [GA4_access_v2]
+  required_access_grants: [GA4_view_access]
   view_name: calendar
-  label: "ranjit Test"
+  label: "GA4v2"
+  view_label: "Datetime (of event)"
   #sql_always_where:  ;;
   conditionally_filter: {
     filters: [
@@ -15,29 +15,149 @@ explore: GA4_testy {
     ]
 
     #unless:[ga4_rjagdev_test.select_date_range]
-    }
+  }
+
+  join: products {
+    view_label: "Products"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${calendar.date} BETWEEN ${products.activeFrom_date} AND ${products.activeTo_date};;
+  }
+
+  join: currentRetailPrice {
+    view_label: "Products"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${products.product_uid} = ${currentRetailPrice.Product_ID} ;;
+  }
 
   join: ga4_rjagdev_test {
     view_label: "GA4"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${calendar.date} = ${ga4_rjagdev_test.date_date};;
-    sql_where: _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {% date_start calendar.filter_on_field_to_hide %}) and FORMAT_DATE('%Y%m%d', {% date_end calendar.filter_on_field_to_hide %})
-      ;;
+    sql_on: ${calendar.date} = ${ga4_rjagdev_test.date_date} and ${products.product_code} = (case when ${ga4_rjagdev_test.itemid} is null or length(${ga4_rjagdev_test.itemid}) != 5 then "null" else ${ga4_rjagdev_test.itemid} end);;
+    sql_where: ga4_rjagdev_test._TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {% date_start calendar.filter_on_field_to_hide %}) and FORMAT_DATE('%Y%m%d', {% date_end calendar.filter_on_field_to_hide %})
+          and ((${ga4_rjagdev_test.event_name} in ("search", "search_actions", "blank_search", "bloomreach_search_unknown_attribute") and not regexp_contains(${ga4_rjagdev_test.label_1}, "^(shop|SHOP)[a-zA-Z0-9]") ) or (${ga4_rjagdev_test.event_name} not in ("search", "search_actions", "blank_search", "bloomreach_search_unknown_attribute") and regexp_contains(${ga4_rjagdev_test.label_1}, "^(shop|SHOP)[a-zA-Z0-9]")) or
+      (${ga4_rjagdev_test.event_name} not in ("search", "search_actions", "blank_search", "bloomreach_search_unknown_attribute") and (not regexp_contains(${ga4_rjagdev_test.label_1}, "^(shop|SHOP)[a-zA-Z0-9]") or ${ga4_rjagdev_test.label_1} is null) ))
+            ;;
   }
 
   join: ga4_transactions {
-    view_label: "GA4: Transactions"
-    sql: LEFT JOIN UNNEST (${ga4_rjagdev_test.transactions}) as ga4_transactions WITH OFFSET as test1 ;;
+    sql: LEFT JOIN UNNEST (${ga4_rjagdev_test.transactions}) as ga4_transactions WITH OFFSET as test1;;
     relationship: one_to_one
-    sql_where: ((${ga4_rjagdev_test.itemid}=${ga4_transactions.productCode}) or (${ga4_rjagdev_test.itemid} is not null and ${ga4_transactions.productCode} is null) or (${ga4_rjagdev_test.itemid} is null and ${ga4_transactions.productCode} is null)) ;;
+    sql_where: ((${ga4_rjagdev_test.itemid}=${ga4_transactions.productCode}) or (${ga4_rjagdev_test.itemid} is not null and ${ga4_transactions.productCode} is null) or (${ga4_rjagdev_test.itemid} is null and ${ga4_transactions.productCode} is null)) and (regexp_contains(${ga4_transactions.OrderID}, "^([A-Z]*[0-9]*)$") or ${ga4_transactions.OrderID} is null)
+      ;;
+  }
+
+  #${ga4_transactions.OrderID} not in ("(not set)")  and ${ga4_transactions.customer} is not null and
+
+  join: catalogue {
+    view_label: ""
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${calendar.date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
+  }
+
+  join: promoworking {
+    view_label: ""
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${products.product_code} = ${promoworking.Product_Code}
+      and cast(${catalogue.catalogue_id} as string) = ${promoworking.cycleID};;
+  }
+
+  join: calendar_completed_datev2{
+    from:  calendar
+    view_label: "Order Placed"
+    type:  inner
+    relationship: one_to_many
+    sql_on: ${ga4_transactions.placed_date}=${calendar_completed_datev2.date} ;;
+    fields: [calendar_completed_datev2.today_day_in_month,calendar_completed_datev2.today_day_in_week, calendar_completed_datev2.today_day_in_year,calendar_completed_datev2.today_date]
+  }
+
+  join: customers {
+    view_label: "Customers"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${ga4_rjagdev_test.User}=${customers.customer_uid} ;;
+  }
+
+  join: customer_classification {
+    view_label: "Customers"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${customers.customer_uid} = ${customer_classification.customer_uid} ;;
+  }
+
+  join: trade_customers {
+    view_label: "Customers"
+    type:  left_outer
+    relationship: many_to_one
+    sql_on: ${customers.customer_uid} = ${trade_customers.customer_uid} ;;
+  }
+
+  join: page_type_to_purchase_funnel {
+    view_label: "GA4"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${calendar.date} = ${page_type_to_purchase_funnel.date_date}
+      and ((case when ${page_type_to_purchase_funnel.item_id} is null or length(${page_type_to_purchase_funnel.item_id}) != 5 then "null" else ${page_type_to_purchase_funnel.item_id} end) = ${products.product_code});;
+    #sql_where: _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {% date_start calendar.filter_on_field_to_hide %}) and FORMAT_DATE('%Y%m%d', {% date_end calendar.filter_on_field_to_hide %}) ;;
+  }
+
+  join: non_pdp_atc_purchase_funnel {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${calendar.date} = ${non_pdp_atc_purchase_funnel.date_date}
+          and
+          ((case when ${non_pdp_atc_purchase_funnel.item_id} is null or length(${non_pdp_atc_purchase_funnel.item_id}) != 5 then "null" else ${non_pdp_atc_purchase_funnel.item_id} end) = ${products.product_code})
+            ;;
+  }
+
+  join: stock_cover {
+    view_label: "Stock Cover"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${products.product_code} = ${stock_cover.product_code}
+      and ${calendar.date} = ${stock_cover.stock_date_date};;
+  }
+
+  join: aac {
+    view_label: ""
+    type:  left_outer
+    relationship: many_to_one
+    sql_on: ${stock_cover.stock_date_date} = ${aac.date} and ${products.product_uid} = ${aac.product_uid} ;;
+  }
+
+  join: videoly_funnel_ga4 {
+    view_label: "Videoly Funnel"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+    ${calendar.date} = ${videoly_funnel_ga4.date_date}
+    and ${products.product_code} = ((case when ${videoly_funnel_ga4.item_id} is null or length(${videoly_funnel_ga4.item_id}) != 5 then "null" else ${videoly_funnel_ga4.item_id} end) = ${products.product_code});;
+  }
+
+  join: ecrebo {
+    view_label: "Ecrebo"
+    type: left_outer
+    relationship: one_to_many
+    sql_on:
+    ${ga4_transactions.OrderID} = ${ecrebo.parent_order_uid};;
+  }
+
+  join: single_line_transactions {
+    view_label: "transactions single"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${ga4_transactions.OrderID} = ${single_line_transactions.parent_order_uid} ;;
   }
 
   join: ga4_landingpage {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${ga4_rjagdev_test.session_id} = ${ga4_landingpage.land_session} ;;
-    sql_where: ga4_landingpage._TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {% date_start calendar.filter_on_field_to_hide %}) and FORMAT_DATE('%Y%m%d', {% date_end calendar.filter_on_field_to_hide %})
+    sql_on: ${ga4_rjagdev_test.session_id} = ${ga4_landingpage.land_session} and ${calendar.date} = ${ga4_landingpage.date_date};;
+    sql_where: ${ga4_landingpage.firstE} = 1
       ;;
   }
 
@@ -48,6 +168,94 @@ explore: GA4_testy {
     sql_where: ${ga4_exitpage.LastE} = 1
       ;;
   }
+
+  join: search_purchase {
+    view_label: "GA4"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${ga4_rjagdev_test.session_id} = ${search_purchase.search_ID} and ${calendar.date} = ${search_purchase.search_date_date};;
+    #sql_where: ${ga4_exitpage.LastE} = 1;;
+  }
+
+  join: recommend_purchase {
+    view_label: "GA4"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${ga4_rjagdev_test.session_id} = ${recommend_purchase.recommend_ID} and ${calendar.date} = ${recommend_purchase.recommend_date_date} and ${products.product_code} = ${recommend_purchase.item_id};;
+    #sql_where: ${ga4_exitpage.LastE} = 1;;
+  }
+
+  join: last12_week_metrics {
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${calendar.date} = ${last12_week_metrics.date_date} ;;
+  }
+
+  join: search_purchase12W {
+    from: search_purchase
+    type: left_outer
+    relationship: many_to_one
+    view_label: "Last12 Week Metrics"
+    sql_on: ${calendar.date} = ${search_purchase12W.search_date_date};;
+    #fields: [search_date_date, search_purchase_rate, search_purch_diff]
+  }
+
+  join: recommend_purchase12W {
+    from: recommend_purchase
+    view_label: "Last12 Week Metrics"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${calendar.date} = ${recommend_purchase12W.recommend_date_date};;
+    #sql_where: ${ga4_exitpage.LastE} = 1;;
+  }
+
+  join: oos_items_l12weeks {
+    view_label: "Last12 Week Metrics"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${calendar.date} = ${oos_items_l12weeks.date_date};;
+  }
+
+  join: order_shippingmethod_l12weeks {
+    view_label: "Last12 Week Metrics"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${calendar.date} = ${order_shippingmethod_l12weeks.date_date};;
+  }
+
+  join: ecrebobudget {
+    view_label: "Ecrebo"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${calendar.date} = ${ecrebobudget.date_date} and ${ecrebo.campaign_group} = ${ecrebobudget.campaign_group};;
+    fields: [ecrebobudget.Budget]
+
+  }
+
+  join: ecrebobudget_total {
+    from: ecrebobudget
+    view_label: "Ecrebo"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${calendar.date} = ${ecrebobudget_total.date_date};;
+    fields: [ecrebobudget_total.totalBudget]
+    #sql_where: ${ecrebobudget_total.campaign_group} in ("Total") ;;
+  }
+
+  join: search_purchase_funnel {
+    view_label: "Search to Purchase (inc Query)"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${calendar.date} = ${search_purchase_funnel.search_date_date} ;;
+  }
+
+  join: blank_search_purchase_funnel {
+    view_label: "Search to Purchase (inc Query)"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${calendar.date} = ${blank_search_purchase_funnel.Blanksearch_date_date} ;;
+  }
+
 
 
 }
