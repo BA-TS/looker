@@ -8,6 +8,7 @@ view: bdm_targets {
     from `toolstation-data-storage.retailReporting.BDM_TARGETS_LOOKER`
     where bdm is not null
     ;;
+    datagroup_trigger: ts_transactions_datagroup
   }
 
   dimension: prim_key {
@@ -46,4 +47,23 @@ view: bdm_targets {
     type: number
     sql: ${TABLE}.overall ;;
   }
+
+  measure: net_new_total {
+    group_label: "BDM"
+    type: sum_distinct
+    sql: ${net_new};;
+  }
+
+  measure: total_existing_incremental {
+    group_label: "BDM"
+    type: sum_distinct
+    sql: ${existing_incremental};;
+  }
+
+  measure: total_net_new {
+    group_label: "BDM"
+    type: sum_distinct
+    sql: ${overall};;
+  }
+
  }

@@ -6,8 +6,8 @@ view: key_accounts_customers {
     select
     DISTINCT row_number() over () AS prim_key,
     * from `toolstation-data-storage.retailReporting.KEY_ACCOUNTS_CUSTOMERS_LIST`
-    where bdm is not null
-    ;;
+    where bdm is not null;;
+    datagroup_trigger: ts_transactions_datagroup
   }
 
   dimension: prim_key {
