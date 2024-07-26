@@ -1,3 +1,5 @@
+include: "/views/**/transactions.view"
+
 view: key_accounts_customers {
   derived_table: {
     sql:
@@ -74,6 +76,17 @@ view: key_accounts_customers {
     type: yesno
     label: "Is Customer Account Active (KA)"
     sql: ${start_date}<current_date() and ${end_date} is null ;;
+  }
+
+  dimension: period {
+    view_label: "Customers"
+    group_label: "KA"
+    type: string
+    label: "Period - Pre vs Managed"
+    sql:
+    case when ${start_date}<${transactions.order_completed_date}
+    then "Pre" else "Managed"
+    End ;;
   }
 
   measure: number_of_bdm {
