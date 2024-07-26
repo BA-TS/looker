@@ -88,11 +88,24 @@ view: bdm_customers {
     End ;;
   }
 
+  dimension: classification {
+    view_label: "Customers"
+    group_label: "BDM"
+    label: "BDM Customer Classification"
+    type: string
+    sql:
+    case
+      when (date_diff(current_date()-1, ${start_date}, day)) > 364 then 'Existing'
+      when (date_diff(${start_date}, ${transactions.order_completed_date},day)) <= 364 then 'Existing'
+      when (date_diff(${start_date}, ${transactions.order_completed_date}, day)) is null then 'New'
+      when (date_diff(${start_date}, ${transactions.order_completed_date}, day)) > 364 then 'New'
+      else 'Time Traveler' end;;
+  }
+
   measure: number_of_bdm {
     view_label: "Measures"
     label: "Number of BDMs"
     type: count_distinct
     sql: ${bdm};;
   }
-
 }
