@@ -4,10 +4,12 @@ view: bdm_customers {
   derived_table: {
     sql:
     select
-    DISTINCT row_number() over () AS prim_key,
+    DISTINCT
+    row_number() over () AS prim_key,
     * from `toolstation-data-storage.retailReporting.BDM_CUSTOMERS_LIST`
     where bdm is not null
     ;;
+    datagroup_trigger: ts_transactions_datagroup
   }
 
   dimension: prim_key {

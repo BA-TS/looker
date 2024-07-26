@@ -6,7 +6,7 @@ view: customers {
     # increment_offset: 3
     sql:
     select * from `toolstation-data-storage.customer.allCustomers`;;
-    # datagroup_trigger: ts_transactions_datagroup
+    datagroup_trigger: ts_transactions_datagroup
   }
 
   dimension: customer_uid {

@@ -6,8 +6,8 @@ view: key_accounts_targets {
     DISTINCT row_number() over () AS prim_key,
     *
     from `toolstation-data-storage.retailReporting.KEY_ACCOUNTS_TARGETS_LOOKER`
-    where bdm is not null
-    ;;
+    where bdm is not null;;
+    datagroup_trigger: ts_weekly_datagroup
   }
 
   dimension: prim_key {
@@ -45,5 +45,24 @@ view: key_accounts_targets {
     group_label: "KA"
     type: number
     sql: ${TABLE}.overall ;;
+  }
+
+
+  measure: net_new_total {
+    group_label: "KA"
+    type: sum_distinct
+    sql: ${net_new};;
+  }
+
+  measure: total_existing_incremental {
+    group_label: "KA"
+    type: sum_distinct
+    sql: ${existing_incremental};;
+  }
+
+  measure: total_net_new {
+    group_label: "KA"
+    type: sum_distinct
+    sql: ${overall};;
   }
 }

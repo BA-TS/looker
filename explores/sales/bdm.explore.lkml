@@ -16,7 +16,7 @@ include: "/views/**/po_numbers.view"
 include: "/views/**/products.view"
 
 
-persist_with: ts_transactions_datagroup
+# persist_with: ts_transactions_datagroup
 
 explore: bdm {
   required_access_grants: [lz_testing]
@@ -49,31 +49,6 @@ explore: bdm {
 
   fields: [
     ALL_FIELDS*,
-    -catalogue.catalogue_live_date,
-    -calendar_completed_date.distinct_month_count,
-    -calendar_completed_date.distinct_week_count,
-    -calendar_completed_date.distinct_year_month_count,
-    -calendar_completed_date.distinct_year_count,
-    -customers.opt_in_percent,
-    -sites.number_of_DCs,
-    -calendar_completed_date.today_day_in_month,
-    -calendar_completed_date.holiday_name,
-    -calendar_completed_date.is_holiday,
-    -calendar_completed_date.is_weekend,
-    -calendar_completed_date.exclude_christmas_new_year,
-    -calendar_completed_date.fiscal_year_week,
-    -calendar_completed_date.fiscal_year,
-    -calendar_completed_date.fiscal_week_of_year,
-    -calendar_completed_date.fiscal_month_of_year,
-    -calendar_completed_date.calendar_quarter,
-    -calendar_completed_date.month_name_in_year,
-    -calendar_completed_date.day_in_year,
-    -calendar_completed_date.today_day_in_week,
-    -calendar_completed_date.today_day_in_year,
-    -calendar_completed_date.today_date,
-    -calendar_completed_date.day_in_month,
-    -calendar_completed_date.number_of_year,
-    -calendar_completed_date.filter_on_field_to_hide
   ]
 
   sql_always_where:${period_over_period};;
