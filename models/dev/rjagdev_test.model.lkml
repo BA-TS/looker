@@ -1,7 +1,7 @@
 #connection: "toolstation"
 
 include: "/views/**/*.view"              # include all views in the views/ folder in this project
-label: "ragdev_testy_test"
+label: "Digital"
 
 explore: GA4_testy {
   hidden: no
