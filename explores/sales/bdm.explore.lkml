@@ -90,7 +90,7 @@ explore: bdm {
   join: transactions {
     type: left_outer
     relationship: one_to_many
-    fields: [transactions.number_of_branches,transactions.aov_net_sales,transactions.aov_units,transactions.total_margin_incl_funding,transactions.total_net_sales,transactions.payment_type,transactions.product_department,transactions.number_of_departments]
+    fields: [transactions.number_of_branches,transactions.spc_net_sales,transactions.aov_net_sales,transactions.aov_units,transactions.total_margin_incl_funding,transactions.total_net_sales,transactions.payment_type,transactions.product_department,transactions.number_of_departments]
     sql_on: ${base.base_date_date} = ${transactions.transaction_date_filter};;
   }
 
