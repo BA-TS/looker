@@ -4,7 +4,7 @@ include: "/views/**/*.view"              # include all views in the views/ folde
 label: "Digital"
 
 explore: GA4_testy {
-  required_access_grants: [GA4_view_access]
+  required_access_grants: [GA4_view_access, GA4_access_v2]
   view_name: calendar
   label: "GA4v2"
   view_label: "Datetime (of event)"
