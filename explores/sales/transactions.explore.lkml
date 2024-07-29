@@ -559,6 +559,7 @@ explore: base {
 
   join: ds_assumed_trade {
     view_label: "Customer Classification"
+    required_access_grants: [tp_testing]
     type: left_outer
     relationship: many_to_one
     sql_on: ${customers.customer_uid} = ${ds_assumed_trade.customer_uid};;
