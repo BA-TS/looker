@@ -588,6 +588,7 @@ explore: digital_reporting {
 
 explore: GA4_testy {
   #required_access_grants: [GA4_access_v2]
+  hidden: yes
   view_name: calendar
   label: "GA4"
   view_label: "Datetime (of event)"
