@@ -597,8 +597,12 @@ explore: GA4_testy {
     filters: [
       calendar.filter_on_field_to_hide: "7 days"
     ]
+  }
 
-    #unless:[ga4_rjagdev_test.select_date_range]
+  always_filter: {
+    filters: [
+      calendar.date: "7 days"
+    ]
   }
 
 
