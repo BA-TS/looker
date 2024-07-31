@@ -600,7 +600,7 @@ explore: GA4_testy {
   }
 
 sql_always_where: {% if _user_attributes['ga4_access_v2'] == 'Y' %}
-${ga4_rjagdev_test.platform} == "App"
+${ga4_rjagdev_test.platform} = "App"
 {% else %}
 
 1=1
