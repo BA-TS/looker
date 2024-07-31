@@ -587,11 +587,12 @@ explore: digital_reporting {
 }
 
 explore: GA4_testy {
-  required_access_grants: [GA4_access_v2]
+  #required_access_grants: [GA4_access_v2]
   view_name: calendar
   label: "GA4"
   view_label: "Datetime (of event)"
-  #sql_always_where:  ;;
+
+
   conditionally_filter: {
     filters: [
       calendar.filter_on_field_to_hide: "7 days"
@@ -599,6 +600,7 @@ explore: GA4_testy {
 
     #unless:[ga4_rjagdev_test.select_date_range]
   }
+
 
   join: products {
     view_label: "Products"
