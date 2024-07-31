@@ -1,6 +1,12 @@
 #connection: "toolstation"
 
-include: "/views/**/*.view"              # include all views in the views/ folder in this project
+include: "/views/**/*.view"
+include: "/models/backend/config.model"
+include: "/views/prod/GA_data/GA4.view.lkml"
+include: "/views/prod/GA_data/Videoly_funnel_GA4.view.lkml"
+include: "/views/prod/GA_data/PDP_Purchase_funnel.view.lkml"
+include: "/views/prod/GA_data/Search_PLP_to_PDP_funnel.view.lkml"
+# include all views in the views/ folder in this project
 label: "Digital"
 
 explore: GA4_testy {
