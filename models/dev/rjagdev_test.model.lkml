@@ -5,7 +5,6 @@ label: "Digital"
 
 explore: GA4_testy {
   hidden: yes
-  required_access_grants: [GA4_view_access, GA4_access_v2]
   view_name: calendar
   label: "GA4v2"
   view_label: "Datetime (of event)"
