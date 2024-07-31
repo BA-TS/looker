@@ -32,7 +32,6 @@ view: ds_assumed_trade_history {
     group_label: "Prediction History"
     type: date
     sql: ${TABLE}.Score_End_Date ;;
-    hidden: yes
   }
 
   dimension: Assumed_Trade_Probability {
