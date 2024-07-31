@@ -4,18 +4,24 @@ include: "/views/**/*.view"              # include all views in the views/ folde
 label: "Digital"
 
 explore: GA4_testy {
-  hidden: yes
+  #required_access_grants: [GA4_access_v2]
   view_name: calendar
-  label: "GA4v2"
+  label: "GA4"
   view_label: "Datetime (of event)"
-  #sql_always_where:  ;;
+
+
   conditionally_filter: {
     filters: [
       calendar.filter_on_field_to_hide: "7 days"
     ]
-
-    #unless:[ga4_rjagdev_test.select_date_range]
   }
+
+#sql_always_where: {% if _user_attributes['ga4_access_v2'] == 'Y' %}
+#${ga4_rjagdev_test.platform} = "App"
+#{% else %}
+#1=1
+#{% endif %} ;;
+
 
   join: products {
     view_label: "Products"
