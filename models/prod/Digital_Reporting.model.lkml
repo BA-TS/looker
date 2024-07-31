@@ -599,11 +599,13 @@ explore: GA4_testy {
     ]
   }
 
-  always_filter: {
-    filters: [
-      calendar.date: "7 days"
-    ]
-  }
+sql_always_where: {% if _user_attributes['ga4_access_v2'] == 'Y' %}
+${ga4_rjagdev_test.platform} == "App"
+{% else %}
+
+1=1
+
+{% endif %} ;;
 
 
   join: products {
