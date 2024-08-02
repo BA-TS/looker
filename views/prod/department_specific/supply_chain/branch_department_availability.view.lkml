@@ -3,7 +3,7 @@ view: branch_department_availability {
 derived_table: {
   sql:
     select distinct *, row_number() over () as primary_key from
-    `toolstation-data-storage.availability_new.BranchDepartmentAvailability` ;;
+    `toolstation-data-storage.availability_new.BranchDepartmentAvailabilityHistory` ;;
     datagroup_trigger: ts_daily_datagroup
 }
 

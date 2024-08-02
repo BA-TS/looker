@@ -97,7 +97,8 @@ explore: availability {
     view_label: "Branch Availability"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${sites.site_uid}= ${branch_department_availability.site_uid} and ${base.base_date_date} = ${branch_department_availability.availability_date} and ${products.department} = ${branch_department_availability.product_department};;
+    sql_on: ${sites.site_uid}= ${branch_department_availability.site_uid} and ${base.base_date_date} = ${branch_department_availability.availability_date}
+    --and ${products.department} = ${branch_department_availability.product_department};;
   }
 
 }
