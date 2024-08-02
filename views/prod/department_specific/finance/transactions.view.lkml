@@ -105,6 +105,14 @@ view: transactions {
     sql: UPPER(${originating_site_uid}) = "XN" ;;
   }
 
+  dimension: is_day_click_and_collect {
+    group_label: "Flags"
+    label: "Click and Collect"
+    description: "Selecting 'Yes' will show only Click & Collect transactions"
+    type: yesno
+    sql: UPPER(${originating_site_uid}) = "XC" ;;
+  }
+
   dimension: transaction_date_filter {
     group_label: "Placed Date"
     label: "Placed Date Filter"
