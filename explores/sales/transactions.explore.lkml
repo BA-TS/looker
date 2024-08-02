@@ -549,13 +549,13 @@ explore: base {
     sql_on: ${customers.customer_uid} = ${customers_2wk_ty.customer_uid} ;;
   }
 
-  join: rakuten_analysis_0112 {
-    view_label: "Other - Ad-hoc Analysis"
-    required_access_grants: [adhoc_rakuten]
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${customers.customer_uid} = ${rakuten_analysis_0112.customerUID} and ${transactions.parent_order_uid} = ${rakuten_analysis_0112.parent_order_UID};;
-  }
+  # join: rakuten_analysis_0112 {
+  #   view_label: "Other - Ad-hoc Analysis"
+  #   required_access_grants: [tp_testing]
+  #   type: left_outer
+  #   relationship: many_to_one
+  #   sql_on: ${customers.customer_uid} = ${rakuten_analysis_0112.customerUID} and ${transactions.parent_order_uid} = ${rakuten_analysis_0112.parent_order_UID};;
+  # }
 
   join: ds_assumed_trade {
     view_label: "Customer Classification"
@@ -564,33 +564,33 @@ explore: base {
     sql_on: ${customers.customer_uid} = ${ds_assumed_trade.customer_uid};;
   }
 
-  join: ds_assumed_trade_v2 {
-    view_label: "Customer Classification v2"
-    required_access_grants: [tp_testing]
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${customers.customer_uid} = ${ds_assumed_trade_v2.customer_uid};;
-  }
+  # join: ds_assumed_trade_v2 {
+  #   view_label: "Customer Classification v2"
+  #   required_access_grants: [tp_testing]
+  #   type: left_outer
+  #   relationship: many_to_one
+  #   sql_on: ${customers.customer_uid} = ${ds_assumed_trade_v2.customer_uid};;
+  # }
 
-  join: ds_assumed_trade_history {
-    view_label: "Customer Classification History"
-    type: left_outer
-    relationship: one_to_many
-    sql_on: ${customers.customer_uid} = ${ds_assumed_trade_history.customer_uid}
-    and ${ds_assumed_trade_history.Score_End_Date} = ${ds_assumed_trade_history_new_lake.Score_End_Date}
-    ;;
-  }
+  # join: ds_assumed_trade_history {
+  #   view_label: "Customer Classification History"
+  #   type: left_outer
+  #   relationship: one_to_many
+  #   sql_on: ${customers.customer_uid} = ${ds_assumed_trade_history.customer_uid}
+  #   and ${ds_assumed_trade_history.Score_End_Date} = ${ds_assumed_trade_history_new_lake.Score_End_Date}
+  #   ;;
+  # }
 
-  join: ds_assumed_trade_history_new_lake {
-    view_label: "Customer Classification History v2"
-    type: left_outer
-    relationship: one_to_many
-    sql_on: ${customers.customer_uid} = ${ds_assumed_trade_history_new_lake.customer_uid}
-    ;;
-  }
+  # join: ds_assumed_trade_history_new_lake {
+  #   view_label: "Customer Classification History v2"
+  #   type: left_outer
+  #   relationship: one_to_many
+  #   sql_on: ${customers.customer_uid} = ${ds_assumed_trade_history_new_lake.customer_uid}
+  #   ;;
+  # }
 
   join: assumed_trade_measures {
-    required_access_grants:[lz_testing]
+    required_access_grants:[tp_testing]
     view_label: "Customer Classification"
     type: left_outer
     relationship: many_to_one
