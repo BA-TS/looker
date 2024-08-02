@@ -31,6 +31,7 @@ derived_table: {
     datatype: date
     sql: ${TABLE}.date;;
     timeframes: [raw,date]
+    hidden: yes
   }
 
   dimension: in_stock {
