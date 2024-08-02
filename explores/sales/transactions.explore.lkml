@@ -744,7 +744,7 @@ explore: base {
   }
 
   join: clickandcollect_addresses {
-    view_label: "Click and colelct address"
+    view_label: "Click & Collect"
     type: left_outer
     relationship: many_to_one
     sql_on: ${transactions.delivery_address_uid} = ${clickandcollect_addresses.addressUID} ;;
