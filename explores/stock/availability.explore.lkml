@@ -18,7 +18,6 @@ include: "/views/**/branch_department_availability.view"
 
 
 explore: availability {
-  required_access_grants: [lz_testing]
   view_name: base
   always_filter: {
     filters: [
