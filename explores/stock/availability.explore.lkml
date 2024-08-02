@@ -89,7 +89,7 @@ explore: availability {
     view_label: "Products"
     type:  left_outer
     relationship: many_to_one
-    fields: [products.is_own_brand,products.description,products.product_code,products.product_name,products.subdepartment,products.brand]
+    fields: [products.is_own_brand,products.description,products.product_code,products.product_name,products.subdepartment,products.brand,products.department]
     sql_on: ${transactions.product_uid}=${products.product_uid};;
   }
 
@@ -97,8 +97,7 @@ explore: availability {
     view_label: "Branch Availability"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${sites.site_uid}= ${branch_department_availability.site_uid} and ${base.base_date_date} = ${branch_department_availability.availability_date};;
-
+    sql_on: ${sites.site_uid}= ${branch_department_availability.site_uid} and ${base.base_date_date} = ${branch_department_availability.availability_date} and ${products.department} = ${branch_department_availability.product_department};;
   }
 
 }
