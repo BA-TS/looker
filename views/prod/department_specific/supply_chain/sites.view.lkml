@@ -339,6 +339,7 @@ view: sites {
     description: "Number of DCs"
     type: count_distinct
     sql: ${servicing_dc_name} ;;
+    hidden: yes
   }
 
   dimension: servicing_dc_name {

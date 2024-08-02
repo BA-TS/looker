@@ -354,7 +354,7 @@ view: calendar {
     view_label: "Measures"
     group_label: "Other Metrics"
     label: "Number of Distinct Years"
-    required_access_grants: [lz_testing]
+    hidden: yes
     type: count_distinct
     sql: ${calendar_year} ;;
   }
@@ -363,7 +363,7 @@ view: calendar {
     view_label: "Measures"
     group_label: "Other Metrics"
     label: "Number of Distinct Year Months"
-    required_access_grants: [is_retail]
+    hidden: yes
     type: count_distinct
     sql: ${calendar_year_month} ;;
   }
@@ -372,7 +372,7 @@ view: calendar {
     view_label: "Measures"
     group_label: "Other Metrics"
     label: "Number of Distinct Months"
-    required_access_grants: [lz_testing]
+    hidden: yes
     type: count_distinct
     sql: ${calendar_year_month} ;;
   }
@@ -381,7 +381,7 @@ view: calendar {
     view_label: "Measures"
     group_label: "Other Metrics"
     label: "Number of Distinct Weeks"
-    required_access_grants: [lz_testing]
+    hidden: yes
     type: count_distinct
     sql: ${week_in_year} ;;
   }
