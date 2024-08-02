@@ -27,7 +27,7 @@ explore: availability {
 
   conditionally_filter: {
     filters: [
-      select_date_range: "this month"
+      select_date_range: "Yesterday"
     ]
     unless: [
       select_fixed_range,
@@ -55,7 +55,7 @@ explore: availability {
   sql_always_where:${period_over_period};;
 
   join: calendar_completed_date{
-    # fields: [base.select_comparison_period,base.select_number_of_periods,base.select_date_range,base.select_fixed_range,base.select_date_reference,base.pivot_dimension,calendar_completed_date.date,calendar_completed_date.calendar_year,calendar_completed_date.calendar_year_month,calendar_completed_date.calendar_year_quarter]
+    fields: [calendar_completed_date.date,calendar_completed_date.calendar_year,calendar_completed_date.calendar_year_month,calendar_completed_date.calendar_year_quarter,calendar_completed_date.fiscal_year_week]
     from:  calendar
     view_label: "Date"
     type:  inner
@@ -94,7 +94,7 @@ explore: availability {
   }
 
   join: branch_department_availability {
-    view_label: "Branch Availability"
+    view_label: "Availability"
     type: left_outer
     relationship: many_to_one
     sql_on: ${sites.site_uid}= ${branch_department_availability.site_uid} and ${base.base_date_date} = ${branch_department_availability.availability_date}

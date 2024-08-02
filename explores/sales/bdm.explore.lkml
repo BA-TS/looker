@@ -49,12 +49,13 @@ explore: bdm {
 
   fields: [
     ALL_FIELDS*,
+    -catalogue*
   ]
 
   sql_always_where:${period_over_period};;
 
   join: calendar_completed_date{
-    # fields: [base.select_comparison_period,base.select_number_of_periods,base.select_date_range,base.select_fixed_range,base.select_date_reference,base.pivot_dimension,calendar_completed_date.date,calendar_completed_date.calendar_year,calendar_completed_date.calendar_year_month,calendar_completed_date.calendar_year_quarter]
+    fields: [calendar_completed_date.date,calendar_completed_date.calendar_year,calendar_completed_date.calendar_year_month,calendar_completed_date.calendar_year_quarter]
     from:  calendar
     view_label: "Date"
     type:  inner
@@ -78,7 +79,7 @@ explore: bdm {
 
   join: catalogue {
     view_label: "Catalogue"
-    fields: [catalogue.catalogue_live_date]
+    # fields: [catalogue.catalogue_live_date]
     type: left_outer
     relationship: many_to_one
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;

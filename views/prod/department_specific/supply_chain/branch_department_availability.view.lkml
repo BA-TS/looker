@@ -26,6 +26,7 @@ derived_table: {
   }
 
   dimension_group: availability {
+    label: "Availability"
     type: time
     datatype: date
     sql: ${TABLE}.date;;
