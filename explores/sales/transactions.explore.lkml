@@ -748,7 +748,6 @@ explore: base {
     type: left_outer
     relationship: many_to_one
     sql_on: ${transactions.delivery_address_uid} = ${clickandcollect_addresses.addressUID} ;;
-    sql_where: ${transactions.originating_site_uid} in ("XC", "XN") or UPPER(${transactions.sales_channel}) in ("CLICK & COLLECT");;
   }
 
 }

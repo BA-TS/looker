@@ -18,6 +18,9 @@ and (sites.siteType in ("Shop") or sites.siteType is null)
 and (sites.isClosed = 0 or sites.isClosed is null)
 group by all
        ;;
+
+    datagroup_trigger: ts_transactions_datagroup
+
    }
 #
 
@@ -32,55 +35,55 @@ group by all
    dimension: addressUID {
      description: "Address UID"
      type: string
-     sql: ${TABLE}.addressUID ;;
+     sql: case when ${transactions.originating_site_uid} in ("XC", "XN") or ${transactions.sales_channel} in ("CLICK & COLLECT") then ${TABLE}.addressUID else null end;;
    }
 
   dimension: siteUID {
     description: "site UID"
     type: string
-    sql: ${TABLE}.siteUID ;;
+    sql: case when ${transactions.originating_site_uid} in ("XC", "XN") or ${transactions.sales_channel} in ("CLICK & COLLECT") then ${TABLE}.siteUID else null end;;
   }
 
   dimension: siteName {
     description: "site Name"
     type: string
-    sql: ${TABLE}.siteName ;;
+    sql: case when ${transactions.originating_site_uid} in ("XC", "XN") or ${transactions.sales_channel} in ("CLICK & COLLECT") then ${TABLE}.siteName else null end;;
   }
 
   dimension: address1 {
     description: "Address line 1"
     type: string
-    sql: ${TABLE}.address1 ;;
+    sql: case when ${transactions.originating_site_uid} in ("XC", "XN") or ${transactions.sales_channel} in ("CLICK & COLLECT") then ${TABLE}.address1 else null end;;
   }
 
   dimension: address2 {
     description: "Address line 2"
     type: string
-    sql: ${TABLE}.address2 ;;
+    sql: case when ${transactions.originating_site_uid} in ("XC", "XN") or ${transactions.sales_channel} in ("CLICK & COLLECT") then ${TABLE}.address2 else null end;;
   }
 
   dimension: address3 {
     description: "Address line 3"
     type: string
-    sql: ${TABLE}.address3 ;;
+    sql: case when ${transactions.originating_site_uid} in ("XC", "XN") or ${transactions.sales_channel} in ("CLICK & COLLECT") then ${TABLE}.address3 else null end;;
   }
 
   dimension: town {
     description: "Town"
     type: string
-    sql: ${TABLE}.town ;;
+    sql: case when ${transactions.originating_site_uid} in ("XC", "XN") or ${transactions.sales_channel} in ("CLICK & COLLECT") then ${TABLE}.town else null end;;
   }
 
   dimension: county {
     description: "County"
     type: string
-    sql: ${TABLE}.county ;;
+    sql: case when ${transactions.originating_site_uid} in ("XC", "XN") or ${transactions.sales_channel} in ("CLICK & COLLECT") then ${TABLE}.county else null end;;
   }
 
   dimension: postcode {
     description: "Postcode"
     type: string
-    sql: ${TABLE}.postcode ;;
+    sql: case when ${transactions.originating_site_uid} in ("XC", "XN") or ${transactions.sales_channel} in ("CLICK & COLLECT") then ${TABLE}.postcode else null end;;
   }
 
  }
