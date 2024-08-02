@@ -23,6 +23,13 @@ derived_table: {
     sql: ${TABLE}.productDepartment ;;
   }
 
+  dimension_group: availability {
+    type: time
+    datatype: date
+    sql: ${TABLE}.date;;
+    timeframes: [raw,date]
+  }
+
   dimension: in_stock {
     type: number
     sql: ${TABLE}.inStock ;;

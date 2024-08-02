@@ -14,6 +14,7 @@ include: "/views/**/*customer_segmentation.view"
 include: "/views/**/*trade_customers.view"
 include: "/views/**/po_numbers.view"
 include: "/views/**/products.view"
+include: "/views/**/branch_department_availability.view"
 
 
 explore: availability {
@@ -90,6 +91,14 @@ explore: availability {
     relationship: many_to_one
     fields: [products.is_own_brand,products.description,products.product_code,products.product_name,products.subdepartment,products.brand]
     sql_on: ${transactions.product_uid}=${products.product_uid};;
+  }
+
+  join: branch_department_availability {
+    view_label: "Branch Availability"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${sites.site_uid}= ${branch_department_availability.site_uid} and ${base.base_date_date} = ${branch_department_availability.availability_date};;
+
   }
 
 }
