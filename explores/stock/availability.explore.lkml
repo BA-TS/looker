@@ -46,6 +46,9 @@ explore: availability {
 
   fields: [
     ALL_FIELDS*,
+    -catalogue.catalogue_live_date,
+    -transactions.payment_type,
+    -transactions*
   ]
 
   sql_always_where:${period_over_period};;
