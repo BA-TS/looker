@@ -120,7 +120,7 @@ view: attached_products {
     sql: ${product_department_attached}=${transactions.product_department};;
   }
 
-  dimension: subdepartment_match {
+  dimension: sub_department_match {
     group_label: "Attached 1"
     type: yesno
     sql: ${product_subdepartment_attached}=${products.subdepartment};;
