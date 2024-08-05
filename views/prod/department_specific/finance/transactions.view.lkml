@@ -110,7 +110,7 @@ view: transactions {
     label: "Click and Collect"
     description: "Selecting 'Yes' will show only Click & Collect transactions"
     type: yesno
-    sql: UPPER(${originating_site_uid}) = "XC" or UPPER(${sales_channel}) = "CLICK & COLLECT"  ;;
+    sql: UPPER(${originating_site_uid}) = "XC" or (UPPER(${sales_channel}) = "CLICK & COLLECT" and UPPER(${originating_site_uid}) != "XN" ) ;;
   }
 
   dimension: transaction_date_filter {
