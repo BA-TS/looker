@@ -149,7 +149,7 @@ view: ga4_rjagdev_test {
     group_label: "Event"
     type: string
     sql: case when ${TABLE}.key_2 is null and ${label_2} is not null then "action"
-    when ${TABLE}.event_name in ("MegaMenu", "outOfStockMessageVisible") then null
+    when ${TABLE}.event_name in ("MegaMenu") then null
     else ${TABLE}.key_2 end ;;
   }
 
@@ -158,7 +158,7 @@ view: ga4_rjagdev_test {
     label: "2.Event Label"
     group_label: "Event"
     type: string
-    sql: case when ${TABLE}.event_name in ("MegaMenu", "outOfStockMessageVisible") then null else ${TABLE}.label_2 end;;
+    sql: case when ${TABLE}.event_name in ("MegaMenu") then null else ${TABLE}.label_2 end;;
   }
 
   measure: value {
