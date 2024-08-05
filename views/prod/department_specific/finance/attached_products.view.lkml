@@ -102,6 +102,7 @@ view: attached_products {
 
   dimension: product_subdepartment_attached {
     group_label: "Attached 1"
+    label: "Product Sub Department Attached"
     type: string
     sql: ${TABLE}.productSubdepartment ;;
   }
