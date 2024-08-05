@@ -72,6 +72,7 @@ view: assumed_trade_measures {
   }
 
   measure: distinct_month_count_per_customer {
+    required_access_grants: [tp_testing]
     view_label: "Measures"
     group_label: "Other Metrics"
     label: "Number of Distinct Months (per Customer)"
@@ -81,6 +82,7 @@ view: assumed_trade_measures {
   }
 
   measure: distinct_week_count_per_customer {
+    required_access_grants: [tp_testing]
     view_label: "Measures"
     group_label: "Other Metrics"
     label: "Number of Distinct Weeks (per Customer)"
