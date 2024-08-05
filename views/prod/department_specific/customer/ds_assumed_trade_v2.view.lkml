@@ -3,7 +3,7 @@ include: "/views/prod/department_specific/customer/customers.view"
 view: ds_assumed_trade_v2{
   derived_table: {
     sql:
-    select * from
+    select distinct * from
     `toolstation-data-storage.customer.ds_assumed_trade_history_Looker_v2` ;;
     # datagroup_trigger: ts_daily_datagroup
     }
