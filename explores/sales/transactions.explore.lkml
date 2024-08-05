@@ -165,14 +165,14 @@ explore: base {
   }
 
   join: attached_products {
-    view_label: "Transactions"
+    view_label: "Transactions - Attached"
     type: left_outer
     relationship: many_to_many
     sql_on: ${single_line_transactions.parent_order_uid} = ${attached_products.parent_order_uid} ;;
   }
 
   join: attached_products2 {
-    view_label: "Transactions"
+    view_label: "Transactions - Attached"
     type: left_outer
     relationship: many_to_many
     sql_on: ${single_line_transactions.parent_order_uid} = ${attached_products2.parent_order_uid} ;;

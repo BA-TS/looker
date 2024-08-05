@@ -44,6 +44,7 @@ view: attached_products2 {
   }
 
   dimension_group: transaction {
+    group_label: "Attached 2"
     label: "Transaction"
     type: time
     timeframes: [
@@ -55,51 +56,50 @@ view: attached_products2 {
   }
 
   dimension: parent_order_uid {
-    group_label: "Single Line Transactions"
+    group_label: "Attached 2"
     label: "Parent Order UID Attached"
-    # primary_key: yes
     type: string
     sql: ${TABLE}.parentOrderUID ;;
     hidden: yes
   }
 
   dimension: product_code_attached {
-    group_label: "Single Line Transactions"
+    group_label: "Attached 2"
     label: "Product Code Attached 2"
     type: string
     sql:${TABLE}.productCode;;
   }
 
   dimension: product_description_attached {
-    group_label: "Single Line Transactions"
+    group_label: "Attached 2"
     label: "Product Description Attached Product 2"
     type: string
     sql:${TABLE}.productDescription;;
   }
 
   dimension: pack_description_attached {
-    group_label: "Single Line Transactions"
+    group_label: "Attached 2"
     label: "Pack Description Attached 2"
     type: string
     sql:${TABLE}.packDescription;;
   }
 
   dimension: marginInclFunding_attached2 {
-    group_label: "Single Line Transactions"
+    group_label: "Attached 2"
     label: "Margin (Incl Funding) Attached Product2"
     type: number
     sql:${TABLE}.marginInclFunding;;
   }
 
   dimension: netSalesValue {
-    group_label: "Single Line Transactions"
+    group_label: "Attached 2"
     label: "Net Sales Attached Product2"
     type: number
     sql:${TABLE}.netSalesValue;;
   }
 
   measure: total_marginInclFunding_attached2 {
-    group_label: "Single Line Transactions"
+    group_label: "Attached 2"
     label: "Margin (Incl Funding) Attached Product2"
     type: sum
     sql:${marginInclFunding_attached2};;
@@ -107,7 +107,7 @@ view: attached_products2 {
   }
 
   measure: total_netSalesValue {
-    group_label: "Single Line Transactions"
+    group_label: "Attached 2"
     label: "Net Sales Attached Product2"
     type: sum
     sql:${netSalesValue};;
@@ -115,7 +115,7 @@ view: attached_products2 {
   }
 
   measure: total_margin_rate_incl_funding {
-    group_label: "Single Line Transactions"
+    group_label: "Attached 2"
     label: "Margin Rate (Incl Funding) Attached Product2"
     type: number
     sql: COALESCE(safe_divide(cast(${total_marginInclFunding_attached2} as numeric),cast(${total_netSalesValue} as numeric)),null);;
@@ -138,7 +138,7 @@ view: attached_products2 {
   # }
 
   dimension: filter_match {
-    group_label: "Single Line Transactions"
+    group_label: "Attached 2"
     label: "Product Match2"
     type: yesno
     sql: ${product_code_attached}=${products.product_code} OR ${attached_products.product_code_attached}=${attached_products2.product_code_attached};;
