@@ -33,7 +33,7 @@ view: ga4_transactions {
     description: "customer"
     hidden: yes
     type: string
-    sql: ${TABLE}.customer;;
+    sql: coalesce(${TABLE}.customer, ${ga4_rjagdev_test.User});;
   }
 
   dimension: ProductUID {
