@@ -7,6 +7,7 @@ view: key_accounts_targets {
     *
     from `toolstation-data-storage.retailReporting.KEY_ACCOUNTS_TARGETS_LOOKER`
     where bdm is not null;;
+
     datagroup_trigger: ts_weekly_datagroup
   }
 

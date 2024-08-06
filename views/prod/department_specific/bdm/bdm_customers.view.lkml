@@ -9,7 +9,7 @@ view: bdm_customers {
     * from `toolstation-data-storage.retailReporting.BDM_CUSTOMERS_LIST`
     where bdm is not null
     ;;
-    datagroup_trigger: ts_transactions_datagroup
+    datagroup_trigger: ts_daily_datagroup
   }
 
   dimension: prim_key {
