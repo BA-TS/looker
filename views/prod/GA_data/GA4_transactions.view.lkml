@@ -33,7 +33,7 @@ view: ga4_transactions {
     description: "customer"
     hidden: yes
     type: string
-    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.customer end;;
+    sql: ${TABLE}.customer;;
   }
 
   dimension: ProductUID {
