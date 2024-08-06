@@ -34,35 +34,40 @@ view: key_accounts_targets {
     group_label: "KA"
     type: number
     sql: ${TABLE}.netNew ;;
+    hidden: yes
   }
 
   dimension: existing_incremental {
     group_label: "KA"
     type: number
     sql: ${TABLE}.existingIncremental ;;
+    hidden: yes
   }
 
   dimension: overall {
     group_label: "KA"
     type: number
     sql: ${TABLE}.overall ;;
+    hidden: yes
   }
-
 
   measure: net_new_total {
     group_label: "KA"
+    label: "Net New"
     type: sum_distinct
     sql: ${net_new};;
   }
 
   measure: total_existing_incremental {
     group_label: "KA"
+    label: "Existing Incremental"
     type: sum_distinct
     sql: ${existing_incremental};;
   }
 
-  measure: total_net_new {
+  measure: total_overall {
     group_label: "KA"
+    label: "Overall"
     type: sum_distinct
     sql: ${overall};;
   }
