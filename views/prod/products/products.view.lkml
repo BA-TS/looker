@@ -77,6 +77,7 @@ view: products {
 
   dimension: product_code {
     group_label: "Product Details"
+    label: "Product Code (SKU)"
     type: string
     sql: ${TABLE}.productCode ;;
   }
