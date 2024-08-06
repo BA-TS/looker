@@ -7,6 +7,8 @@ view: bdm_ledger {
     from `toolstation-data-storage.retailReporting.BDM_LEDGER_LOOKER`
     where bdm is not null
     ;;
+
+    datagroup_trigger: ts_daily_datagroup
   }
 
   dimension: prim_key {

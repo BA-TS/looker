@@ -1,13 +1,14 @@
 include: "/views/**/transactions.view"
 
 view: key_accounts_customers {
+
   derived_table: {
     sql:
     select
     DISTINCT row_number() over () AS prim_key,
     * from `toolstation-data-storage.retailReporting.KEY_ACCOUNTS_CUSTOMERS_LIST`
     where bdm is not null;;
-    datagroup_trigger: ts_transactions_datagroup
+    datagroup_trigger: ts_daily_datagroup
   }
 
   dimension: prim_key {
