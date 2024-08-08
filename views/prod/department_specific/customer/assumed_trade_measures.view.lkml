@@ -56,7 +56,7 @@ view: assumed_trade_measures {
   measure: number_of_branches_per_customer {
     view_label: "Measures"
     group_label: "Other Metrics"
-    label: "Number of branches (per Customer)"
+    label: "Number of Branches (per Customer)"
     type: average_distinct
     sql: ${number_of_branches} ;;
     value_format: "##0.0;(##0.0)"

@@ -445,4 +445,11 @@ view: sites {
     type: date
     sql: ${TABLE}.Refurb_end_date ;;
   }
+
+  measure: number_of_regions {
+    view_label: "Measures"
+    group_label: "Other Metrics"
+    type: count_distinct
+    sql: ${region_name} ;;
+  }
 }
