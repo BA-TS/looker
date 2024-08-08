@@ -41,7 +41,7 @@ view: bdm_ka_customers {
   }
 
   dimension: bdm {
-    label: "BDM"
+    label: "Name"
     type: string
     sql: ${TABLE}.bdm ;;
   }
