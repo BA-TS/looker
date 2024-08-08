@@ -120,7 +120,7 @@ explore: bdm {
   }
 
   join: key_accounts_customers {
-    view_label: "Key Accounts"
+    view_label: "Teams"
     type: left_outer
     relationship: one_to_many
     sql_on: ${customers.customer_uid} = ${key_accounts_customers.customer_uid};;

@@ -26,7 +26,7 @@ view: bdm_customers {
   }
 
   dimension: bdm {
-    label: "BDM Name"
+    label: "BDM"
     type: string
     sql: ${TABLE}.bdm ;;
   }
