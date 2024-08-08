@@ -112,4 +112,9 @@ view: ledger {
     type: string
     sql: ${TABLE}.accountNumber ;;
   }
+
+  measure: average_credit_limit {
+    type: average
+    sql: ${credit_limit} ;;
+  }
 }
