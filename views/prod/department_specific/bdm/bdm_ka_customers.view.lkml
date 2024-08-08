@@ -7,16 +7,7 @@ view: bdm_ka_customers {
     DISTINCT row_number() over () AS prim_key,
     *
     from
-    (
-    select "BDM" as team,
-    * from
-    `toolstation-data-storage.retailReporting.BDM_CUSTOMERS_LIST`
-    union all
-    select
-    "KA" as team,
-    * from
-    `toolstation-data-storage.retailReporting.KEY_ACCOUNTS_CUSTOMERS_LIST`
-    )
+    `toolstation-data-storage.retailReporting.BDM_KA_CUSTOMERS_LIST`
     where bdm is not null
     ;;
     datagroup_trigger: ts_daily_datagroup
