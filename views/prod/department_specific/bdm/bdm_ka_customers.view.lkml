@@ -21,6 +21,7 @@ view: bdm_ka_customers {
   }
 
   dimension: customer_uid {
+    label: "Customer UID"
     type: string
     sql: ${TABLE}.customerUID ;;
   }
@@ -93,7 +94,7 @@ view: bdm_ka_customers {
     view_label: "Customer Accounts"
     type: yesno
     label: "Is Account Active"
-    sql: ${start_date}<current_date() and ${end_date} is null ;;
+    sql: ${end_date}>current_date() OR ${end_date} is null ;;
   }
 
   dimension: period {
@@ -124,5 +125,18 @@ view: bdm_ka_customers {
     label: "Number of BDMs"
     type: count_distinct
     sql: ${bdm};;
+  }
+
+  measure: number_of_customers {
+    view_label: "Measures"
+    type: count_distinct
+    sql: ${customer_uid};;
+  }
+
+  measure: number_of_active_customers {
+    view_label: "Measures"
+    label: "Number of Customers (Active)"
+    type: count_distinct
+    sql: case when ${is_active} then ${customer_uid} else null end;;
   }
 }

@@ -57,18 +57,21 @@ view: targets {
     label: "Net New"
     type: sum_distinct
     sql: ${net_new};;
+    value_format_name: gbp_0
   }
 
   measure: total_existing_incremental {
     label: "Existing Incremental"
     type: sum_distinct
     sql: ${existing_incremental};;
+    value_format_name: gbp_0
   }
 
   measure: total_overall {
     label: "Overall"
     type: sum_distinct
     sql: ${overall};;
+    value_format_name: gbp_0
   }
 
 }
