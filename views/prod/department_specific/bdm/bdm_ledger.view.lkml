@@ -59,10 +59,17 @@ view: bdm_ledger {
     html: <a href="{{ website_raw}}"target=”_blank”>{{ website_label }}</a> ;;
   }
 
-  dimension: email {
+  dimension: email_raw {
     group_label: "BDM"
     type: string
     sql: ${TABLE}.email ;;
+  }
+
+  dimension: email {
+    group_label: "BDM"
+    type: string
+    sql: ${email_raw} ;;
+    html: <a href="mail:to {{ email_raw}}">{{ email_raw }}</a> ;;
   }
 
   dimension: address {
