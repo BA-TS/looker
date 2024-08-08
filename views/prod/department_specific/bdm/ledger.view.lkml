@@ -116,5 +116,6 @@ view: ledger {
   measure: average_credit_limit {
     type: average
     sql: ${credit_limit} ;;
+    value_format_name: gbp_0
   }
 }
