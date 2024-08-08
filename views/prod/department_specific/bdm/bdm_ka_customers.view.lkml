@@ -118,7 +118,7 @@ view: bdm_ka_customers {
 
   dimension: classification {
     view_label: "Customer Accounts"
-    label: "BDM Customer Classification"
+    label: "Account Classification"
     type: string
     sql:
     case
