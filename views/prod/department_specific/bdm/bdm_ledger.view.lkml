@@ -38,10 +38,25 @@ view: bdm_ledger {
     sql: ${TABLE}.creditLimit ;;
   }
 
+  dimension: website_raw {
+    group_label: "BDM"
+    type: string
+    sql: concat("https://",replace(${TABLE}.website,"https://","")) ;;
+    hidden: yes
+  }
+
+  dimension: website_label {
+    group_label: "BDM"
+    type: string
+    sql: replace(replace(replace(${TABLE}.website,"https:",""),"www.",""),"/","") ;;
+    hidden: yes
+  }
+
   dimension: website {
     group_label: "BDM"
     type: string
-    sql: ${TABLE}.website ;;
+    sql: ${website_raw} ;;
+    html: <a href="{{ website_raw}}">{{ website_label }}</a> ;;
   }
 
   dimension: email {

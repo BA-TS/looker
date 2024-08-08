@@ -79,14 +79,13 @@ explore: bdm {
 
   join: catalogue {
     view_label: "Catalogue"
-    # fields: [catalogue.catalogue_live_date]
     type: left_outer
     relationship: many_to_one
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
   }
 
   join: bdm_customers {
-    view_label: "BDM"
+    view_label: "Teams"
     type: left_outer
     relationship: one_to_many
     sql_on: ${customers.customer_uid} = ${bdm_customers.customer_uid};;
