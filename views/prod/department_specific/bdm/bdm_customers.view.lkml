@@ -60,7 +60,6 @@ view: bdm_customers {
   dimension: customer_name {
     type: string
     sql: ${TABLE}.customerName ;;
-    hidden: yes
   }
 
   dimension: is_bdm_customer {
