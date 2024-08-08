@@ -14,6 +14,8 @@ include: "/views/**/*customer_segmentation.view"
 include: "/views/**/*trade_customers.view"
 include: "/views/**/po_numbers.view"
 include: "/views/**/products.view"
+include: "/views/**/targets.view"
+include: "/views/**/bdm_ka_customers.view"
 
 
 # persist_with: ts_transactions_datagroup
@@ -84,47 +86,61 @@ explore: bdm {
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
   }
 
-  join: bdm_customers {
+  # join: bdm_customers {
+  #   view_label: "Teams"
+  #   type: left_outer
+  #   relationship: one_to_many
+  #   sql_on: ${customers.customer_uid} = ${bdm_customers.customer_uid};;
+  # }
+
+  join: bdm_ka_customers {
     view_label: "Teams"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${customers.customer_uid} = ${bdm_customers.customer_uid};;
+    sql_on: ${customers.customer_uid} = ${bdm_ka_customers.customer_uid};;
   }
 
-  join: bdm_targets {
-    view_label: "Teams"
+  join: targets {
+    view_label: "Targets"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${bdm_targets.bdm} = ${bdm_customers.bdm} and ${bdm_targets.month}=${calendar_completed_date.calendar_year_month2};;
+    sql_on: ${targets.bdm} = ${bdm_ka_customers.bdm} and ${targets.team} = ${bdm_ka_customers.team} and ${targets.month}=${calendar_completed_date.calendar_year_month2};;
   }
 
-  join: key_accounts_targets {
-    view_label: "Teams"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${key_accounts_targets.bdm} = ${key_accounts_customers.bdm} and ${key_accounts_targets.month}=${calendar_completed_date.calendar_year_month2};;
-  }
+  # join: bdm_targets {
+  #   view_label: "Teams"
+  #   type: left_outer
+  #   relationship: many_to_one
+  #   sql_on: ${bdm_targets.bdm} = ${bdm_customers.bdm} and ${bdm_targets.month}=${calendar_completed_date.calendar_year_month2};;
+  # }
+
+  # join: key_accounts_targets {
+  #   view_label: "Teams"
+  #   type: left_outer
+  #   relationship: many_to_one
+  #   sql_on: ${key_accounts_targets.bdm} = ${key_accounts_customers.bdm} and ${key_accounts_targets.month}=${calendar_completed_date.calendar_year_month2};;
+  # }
 
   join: bdm_ledger {
     view_label: "Ledger"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${bdm_ledger.bdm} = ${bdm_customers.bdm} and ${bdm_ledger.customer_uid} = ${bdm_customers.customer_uid};;
+    sql_on: ${bdm_ledger.bdm} = ${bdm_ka_customers.bdm} and ${bdm_ledger.customer_uid} = ${bdm_ka_customers.customer_uid};;
   }
 
   join: key_accounts_ledger {
     view_label: "Ledger"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${key_accounts_ledger.bdm} = ${bdm_customers.bdm} and ${key_accounts_ledger.customer_uid} = ${bdm_customers.customer_uid};;
+    sql_on: ${key_accounts_ledger.bdm} = ${bdm_ka_customers.bdm} and ${key_accounts_ledger.customer_uid} = ${bdm_ka_customers.customer_uid};;
   }
 
-  join: key_accounts_customers {
-    view_label: "Teams"
-    type: left_outer
-    relationship: one_to_many
-    sql_on: ${customers.customer_uid} = ${key_accounts_customers.customer_uid};;
-  }
+  # join: key_accounts_customers {
+  #   view_label: "Teams"
+  #   type: left_outer
+  #   relationship: one_to_many
+  #   sql_on: ${customers.customer_uid} = ${bdm_ka_customers.customer_uid};;
+  # }
 
   join: po_numbers {
     view_label: "Transactions"
