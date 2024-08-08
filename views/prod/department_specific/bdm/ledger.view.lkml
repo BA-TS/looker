@@ -46,6 +46,7 @@ view: ledger {
   dimension: credit_limit {
     type: number
     sql: ${TABLE}.creditLimit ;;
+    value_format_name: gbp_0
   }
 
   dimension: website_raw {
