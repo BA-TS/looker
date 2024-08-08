@@ -113,4 +113,11 @@ view: bdm_ledger {
     type: string
     sql: ${TABLE}.accountNumber ;;
   }
+
+  measure: average_credit_limit {
+    group_label: "BDM"
+    type: average
+    sql: ${credit_limit} ;;
+  }
+
  }
