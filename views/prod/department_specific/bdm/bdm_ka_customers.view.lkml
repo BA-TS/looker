@@ -92,9 +92,9 @@ view: bdm_ka_customers {
     sql: ${TABLE}.customerName ;;
   }
 
-  dimension: is_bdm_customer {
+  dimension: is_bdm_ka_customer {
     view_label: "Customer Accounts"
-    label: "Is BDM customer"
+    label: "Is BDM or KA customer"
     type: yesno
     sql:${customer_uid} is not null;;
   }
