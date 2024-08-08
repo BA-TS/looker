@@ -48,14 +48,14 @@ view: bdm_ka_customers {
 
   dimension: is_bdm {
     group_label: "Flags"
-    label: "Team-BDM"
+    label: "Team - BDM"
     type: yesno
     sql: ${bdm}="BDM" ;;
   }
 
   dimension: is_ka {
     group_label: "Flags"
-    label: "Team-KA"
+    label: "Team - KA"
     type: yesno
     sql: ${bdm}="KA" ;;
   }
