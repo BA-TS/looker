@@ -147,7 +147,6 @@ explore: bdm {
   }
 
   join: products {
-    view_label: "Transactions"
     type:  left_outer
     relationship: many_to_one
     fields: [products.is_own_brand,products.description,products.product_code,products.product_name,products.subdepartment,products.brand]
