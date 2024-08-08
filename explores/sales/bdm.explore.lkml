@@ -16,6 +16,7 @@ include: "/views/**/po_numbers.view"
 include: "/views/**/products.view"
 include: "/views/**/targets.view"
 include: "/views/**/bdm_ka_customers.view"
+include: "/views/**/ledger.view"
 
 
 # persist_with: ts_transactions_datagroup
@@ -121,19 +122,25 @@ explore: bdm {
   #   sql_on: ${key_accounts_targets.bdm} = ${key_accounts_customers.bdm} and ${key_accounts_targets.month}=${calendar_completed_date.calendar_year_month2};;
   # }
 
-  join: bdm_ledger {
-    view_label: "Ledger"
+  join: ledger {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${bdm_ledger.bdm} = ${bdm_ka_customers.bdm} and ${bdm_ledger.customer_uid} = ${bdm_ka_customers.customer_uid};;
+    sql_on: ${ledger.bdm} = ${bdm_ka_customers.bdm} and ${ledger.customer_uid} = ${bdm_ka_customers.customer_uid};;
   }
 
-  join: key_accounts_ledger {
-    view_label: "Ledger"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${key_accounts_ledger.bdm} = ${bdm_ka_customers.bdm} and ${key_accounts_ledger.customer_uid} = ${bdm_ka_customers.customer_uid};;
-  }
+  # join: bdm_ledger {
+  #   view_label: "Ledger"
+  #   type: left_outer
+  #   relationship: many_to_one
+  #   sql_on: ${bdm_ledger.bdm} = ${bdm_ka_customers.bdm} and ${bdm_ledger.customer_uid} = ${bdm_ka_customers.customer_uid};;
+  # }
+
+  # join: key_accounts_ledger {
+  #   view_label: "Ledger"
+  #   type: left_outer
+  #   relationship: many_to_one
+  #   sql_on: ${key_accounts_ledger.bdm} = ${bdm_ka_customers.bdm} and ${key_accounts_ledger.customer_uid} = ${bdm_ka_customers.customer_uid};;
+  # }
 
   # join: key_accounts_customers {
   #   view_label: "Teams"
