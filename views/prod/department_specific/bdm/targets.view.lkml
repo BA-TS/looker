@@ -5,16 +5,7 @@ view: targets {
     select
     DISTINCT row_number() over () AS prim_key,
     *
-    FROM (
-    SELECT
-    "BDM" as team,
-    *
-    from `toolstation-data-storage.retailReporting.BDM_TARGETS_LOOKER`
-    union all
-    select
-    "KA" as team,
-    *
-    from `toolstation-data-storage.retailReporting.KEY_ACCOUNTS_TARGETS_LOOKER`)
+    from `toolstation-data-storage.retailReporting.BDM_KA_TARGETS_LOOKER`
     ;;
     datagroup_trigger: ts_weekly_datagroup
   }
