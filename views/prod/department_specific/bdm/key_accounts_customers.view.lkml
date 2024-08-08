@@ -25,7 +25,6 @@ view: key_accounts_customers {
   }
 
   dimension: bdm {
-    view_label: "BDM"
     label: "KA"
     type: string
     sql: ${TABLE}.bdm ;;
