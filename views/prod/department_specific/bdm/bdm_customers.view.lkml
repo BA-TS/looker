@@ -58,6 +58,7 @@ view: bdm_customers {
   }
 
   dimension: customer_name {
+    view_label: "Customers"
     type: string
     sql: ${TABLE}.customerName ;;
   }

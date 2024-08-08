@@ -92,14 +92,14 @@ explore: bdm {
   }
 
   join: bdm_targets {
-    view_label: "Targets"
+    view_label: "Teams"
     type: left_outer
     relationship: many_to_one
     sql_on: ${bdm_targets.bdm} = ${bdm_customers.bdm} and ${bdm_targets.month}=${calendar_completed_date.calendar_year_month2};;
   }
 
   join: key_accounts_targets {
-    view_label: "Targets"
+    view_label: "Teams"
     type: left_outer
     relationship: many_to_one
     sql_on: ${key_accounts_targets.bdm} = ${key_accounts_customers.bdm} and ${key_accounts_targets.month}=${calendar_completed_date.calendar_year_month2};;
@@ -147,7 +147,7 @@ explore: bdm {
   }
 
   join: products {
-    view_label: "Products"
+    view_label: "Transactions"
     type:  left_outer
     relationship: many_to_one
     fields: [products.is_own_brand,products.description,products.product_code,products.product_name,products.subdepartment,products.brand]
