@@ -23,7 +23,6 @@ view: bdm_ka_customers {
   dimension: customer_uid {
     type: string
     sql: ${TABLE}.customerUID ;;
-    hidden: yes
   }
 
   dimension: team {

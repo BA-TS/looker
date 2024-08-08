@@ -52,7 +52,8 @@ explore: bdm {
 
   fields: [
     ALL_FIELDS*,
-    -catalogue*
+    -catalogue*,
+    -customers*
   ]
 
   sql_always_where:${period_over_period};;
