@@ -160,7 +160,7 @@ explore: bdm {
     view_label: "Customers"
     type :  left_outer
     relationship: many_to_one
-    sql_on: ${customers.customer_uid}=${customers.customer_uid} ;;
+    sql_on: ${transactions.customer_uid}=${customers.customer_uid} ;;
   }
 
   join: trade_customers {
