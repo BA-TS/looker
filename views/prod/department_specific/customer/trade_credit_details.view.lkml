@@ -67,13 +67,11 @@ view: trade_credit_details {
     label: "Credit Limit"
     type: sum
     sql: ${credit_limit} ;;
-    hidden: yes
   }
 
   measure: total_remaining_balance {
     label: "Remaining Balance"
     type: sum
     sql: ${remaining_balance} ;;
-    hidden: yes
   }
 }

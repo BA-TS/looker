@@ -133,6 +133,7 @@ explore: bdm {
     view_label: "Customers"
     type: left_outer
     relationship: many_to_one
+    fields: [trade_credit_details.total_credit_limit,trade_credit_details.total_remaining_balance]
     sql_on: ${trade_credit_ids.main_trade_credit_account_uid} = ${trade_credit_details.main_trade_credit_account_uid} ;;
   }
 
