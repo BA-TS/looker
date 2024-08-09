@@ -78,14 +78,14 @@ explore: GA4_testy {
       and cast(${catalogue.catalogue_id} as string) = ${promoworking.cycleID};;
   }
 
-  join: calendar_completed_datev2{
-    from:  calendar
-    view_label: "Order Placed"
-    type:  inner
-    relationship: one_to_many
-    sql_on: ${ga4_transactions.placed_date}=${calendar_completed_datev2.date} ;;
-    fields: [calendar_completed_datev2.today_day_in_month,calendar_completed_datev2.today_day_in_week, calendar_completed_datev2.today_day_in_year,calendar_completed_datev2.today_date]
-  }
+  #join: calendar_completed_datev2{
+    #from:  calendar
+    #view_label: "Order Placed"
+    #type:  inner
+    #relationship: one_to_many
+    #sql_on: ${ga4_transactions.placed_date}=${calendar_completed_datev2.date} ;;
+    #fields: [calendar_completed_datev2.today_day_in_month,calendar_completed_datev2.today_day_in_week, calendar_completed_datev2.today_day_in_year,calendar_completed_datev2.today_date]
+  #}
 
   join: customers {
     view_label: "Customers"
@@ -97,14 +97,14 @@ explore: GA4_testy {
   join: customer_classification {
     view_label: "Customers"
     type: left_outer
-    relationship: many_to_one
+    relationship: one_to_one
     sql_on: ${customers.customer_uid} = ${customer_classification.customer_uid} ;;
   }
 
   join: trade_customers {
     view_label: "Customers"
     type:  left_outer
-    relationship: many_to_one
+    relationship: one_to_one
     sql_on: ${customers.customer_uid} = ${trade_customers.customer_uid} ;;
   }
 
