@@ -89,13 +89,6 @@ explore: bdm {
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
   }
 
-  # join: bdm_customers {
-  #   view_label: "Teams"
-  #   type: left_outer
-  #   relationship: one_to_many
-  #   sql_on: ${customers.customer_uid} = ${bdm_customers.customer_uid};;
-  # }
-
   join: bdm_ka_customers {
     view_label: "Teams"
     type: left_outer
@@ -110,46 +103,11 @@ explore: bdm {
     sql_on: ${targets.bdm} = ${bdm_ka_customers.bdm} and ${targets.team} = ${bdm_ka_customers.team} and ${targets.month}=${calendar_completed_date.calendar_year_month2};;
   }
 
-  # join: bdm_targets {
-  #   view_label: "Teams"
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${bdm_targets.bdm} = ${bdm_customers.bdm} and ${bdm_targets.month}=${calendar_completed_date.calendar_year_month2};;
-  # }
-
-  # join: key_accounts_targets {
-  #   view_label: "Teams"
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${key_accounts_targets.bdm} = ${key_accounts_customers.bdm} and ${key_accounts_targets.month}=${calendar_completed_date.calendar_year_month2};;
-  # }
-
   join: ledger {
     type: left_outer
     relationship: many_to_one
     sql_on: ${ledger.bdm} = ${bdm_ka_customers.bdm} and ${ledger.customer_uid} = ${bdm_ka_customers.customer_uid};;
   }
-
-  # join: bdm_ledger {
-  #   view_label: "Ledger"
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${bdm_ledger.bdm} = ${bdm_ka_customers.bdm} and ${bdm_ledger.customer_uid} = ${bdm_ka_customers.customer_uid};;
-  # }
-
-  # join: key_accounts_ledger {
-  #   view_label: "Ledger"
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${key_accounts_ledger.bdm} = ${bdm_ka_customers.bdm} and ${key_accounts_ledger.customer_uid} = ${bdm_ka_customers.customer_uid};;
-  # }
-
-  # join: key_accounts_customers {
-  #   view_label: "Teams"
-  #   type: left_outer
-  #   relationship: one_to_many
-  #   sql_on: ${customers.customer_uid} = ${bdm_ka_customers.customer_uid};;
-  # }
 
   join: po_numbers {
     view_label: "Transactions"
@@ -191,5 +149,4 @@ explore: bdm {
     fields: [products.is_own_brand,products.description,products.product_code,products.product_name,products.subdepartment,products.brand]
     sql_on: ${transactions.product_uid}=${products.product_uid};;
   }
-
 }
