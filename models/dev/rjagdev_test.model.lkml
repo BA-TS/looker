@@ -39,7 +39,7 @@ explore: GA4_testy {
   join: currentRetailPrice {
     view_label: "Products"
     type: left_outer
-    relationship: many_to_one
+    relationship: one_to_one
     sql_on: ${products.product_uid} = ${currentRetailPrice.Product_ID} ;;
   }
 
