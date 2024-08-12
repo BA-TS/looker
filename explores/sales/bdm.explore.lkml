@@ -54,7 +54,6 @@ explore: bdm {
   fields: [
     ALL_FIELDS*,
     -catalogue*,
-    -customers*
   ]
 
   sql_always_where:${period_over_period};;
@@ -118,6 +117,7 @@ explore: bdm {
 
   join: customers {
     view_label: "Customers"
+    fields: [customers.customer__company]
     type :  left_outer
     relationship: many_to_one
     sql_on: ${transactions.customer_uid}=${customers.customer_uid} ;;
