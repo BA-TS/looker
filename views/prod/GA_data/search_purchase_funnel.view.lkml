@@ -16,7 +16,7 @@ t.Quantity,
 t.OrderId
 FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` a left join unnest(transactions) as t
  #, unnest(event_params) as ep left join unnest(items) as items
- where _TABLE_SUFFIX between FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 10 daY)) and FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 1 daY)) and
+ where _TABLE_SUFFIX between FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 30 daY)) and FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 1 daY)) and
  event_name in ("add_to_cart", "search_actions", "purchase")
  and ((a.item_id=t.productCode) or (a.item_id is not null and t.productCode is null) or (a.item_id is null and t.productCode is null))
  and platform in ("Web")
@@ -50,35 +50,43 @@ left join purchase on search.search_sessions = purchase.purchase_id and atc.item
 where (atc_time > search_time or atc_time is null)
 and (purchase_time > atc_time or purchase_time is null or atc_time is null))
 union distinct
-(with sub1 as (SELECT distinct min(timestamp_micros(event_timestamp)) as dateTime, event_name,
-concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) as session_id,
-(SELECT distinct (value.string_value) FROM UNNEST(event_params) WHERE key = 'firebase_screen') as screen,
-(SELECT distinct (value.int_value) FROM UNNEST(event_params) WHERE key = 'firebase_screen_id') as screen_id,
-(SELECT distinct (value.string_value) FROM UNNEST(event_params) WHERE key in ("search_term", "query", "product_code", "category_id")) as query,
-items.item_id,
-items.item_category,
-items.item_revenue,
-items.quantity,
-ecommerce.transaction_id as ORderID
-FROM `toolstation-data-storage.analytics_265133009.events_*` left join unnest(items) as items
-where _TABLE_SUFFIX between FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 10 daY)) and FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 1 daY)) and (event_name in ("add_to_cart", "purchase", "search"))
+(with sub1 as (SELECT distinct
+MinTime as dateTime,
+event_name,
+session_id,
+screen_name,
+page_location,
+coalesce(case when event_name in ("search") and key_1 in ("search_term", "query", "category_id") then label_1 else null end, case when event_name in ("search") then item_id else null end
+) as searchTerm,
+item_id,
+item_category,
+t.net_value as item_revenue,
+t.Quantity,
+t.OrderId
+FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` a left join unnest(transactions) as t
+ where _TABLE_SUFFIX between FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 30 daY)) and FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 1 daY)) and
+ event_name in ("add_to_cart", "search", "purchase")
+ and ((a.item_id=t.productCode) or (a.item_id is not null and t.productCode is null) or (a.item_id is null and t.productCode is null))
+ and platform in ("App")
+ group by all),
+
+search as (
+
+ Select distinct min(dateTime) as searchTime, event_name, screen_name as search_screen, page_location as search_screenID, searchTerm as query, session_id as Search_sessionID from sub1 where regexp_contains(event_name, "^search")
 group by all),
 
-search as (Select distinct min(dateTime) as searchTime, event_name, screen as search_screen, screen_id as search_screenID, query, session_id as Search_sessionID from sub1 where regexp_contains(event_name, "^search")
-group by all),
-
-atc as (Select distinct dateTime as atc_Time, event_name, screen as atc_screen, screen_id as atc_screenID, session_id as atc_sessionID, item_id, item_category from sub1 where event_name in ("add_to_cart")),
+atc as (Select distinct dateTime as atc_Time, event_name, screen_name as atc_screen, page_location as atc_screenID, session_id as atc_sessionID, item_id, item_category from sub1 where event_name in ("add_to_cart")),
 
 purchase as (Select distinct dateTime as purchase_Time, session_id as purchase_sessionID, item_id as purchase_id, item_revenue as purchase_rev, quantity, OrderID from sub1 where event_name in ("purchase"))
 
-  SELECT distinct concat("APP",cast(row_number() over () as string)) as PK, "App" as Platform, search_sessionID, searchTime, search_screen as search_page, search_screenID,   query as searchTerm,
+  SELECT distinct concat("APP",cast(row_number() over () as string)) as PK, "App" as Platform, search_sessionID, searchTime, search_screen as search_page, cast(search_screenID as int64),   query as searchTerm,
 
- atc.atc_sessionID, atc_time, atc.atc_screen, atc.atc_screenID, atc.item_id, item_category,
+ atc.atc_sessionID, atc_time, atc.atc_screen, cast(atc.atc_screenID as int64), atc.item_id, item_category,
 
 purchase.purchase_sessionID, OrderID,purchase.purchase_time, purchase.purchase_rev, quantity
 
 from search
-left join atc on search.Search_sessionID = atc.atc_sessionID and search.search_screenID = (atc.atc_screenID - 1)
+left join atc on search.Search_sessionID = atc.atc_sessionID and cast(search.search_screenID as int64) = (cast(atc.atc_screenID as int64) - 1)
 left join purchase on atc.atc_sessionID = purchase.purchase_sessionID and atc.item_id = purchase.purchase_id
 where (atc_time > searchTime or atc_time is null)
 and (purchase_time > atc_time or purchase_time is null or atc_time is null))
