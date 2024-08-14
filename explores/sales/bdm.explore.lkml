@@ -19,6 +19,7 @@ include: "/views/**/bdm_ka_customers.view"
 include: "/views/**/ledger.view"
 include: "/views/**/trade_credit_details.view"
 include: "/views/**/trade_credit_ids.view"
+include: "/views/**/incremental.view"
 
 # persist_with: ts_transactions_datagroup
 
@@ -59,7 +60,7 @@ explore: bdm {
   sql_always_where:${period_over_period};;
 
   join: calendar_completed_date{
-    fields: [calendar_completed_date.date,calendar_completed_date.calendar_year,calendar_completed_date.calendar_year_month,calendar_completed_date.calendar_year_quarter]
+    fields: [calendar_completed_date.date,calendar_completed_date.calendar_year,calendar_completed_date.calendar_year_month,calendar_completed_date.calendar_year_month2,calendar_completed_date.calendar_year_quarter]
     from:  calendar
     view_label: "Date"
     type:  inner
@@ -149,5 +150,11 @@ explore: bdm {
     relationship: many_to_one
     fields: [products.is_own_brand,products.description,products.product_code,products.product_name,products.subdepartment,products.brand]
     sql_on: ${transactions.product_uid}=${products.product_uid};;
+  }
+
+  join: incremental {
+    type:  left_outer
+    relationship: many_to_one
+    sql_on: ${calendar_completed_date.calendar_year_month2}=${incremental.calendar_year_month};;
   }
 }
