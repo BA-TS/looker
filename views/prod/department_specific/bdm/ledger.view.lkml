@@ -10,8 +10,12 @@ view: ledger {
     "BDM" as team,
     *
     from `toolstation-data-storage.retailReporting.BDM_LEDGER_LOOKER`
+    union all
+    select
+    "KA" as team,
+    * from
+    `toolstation-data-storage.retailReporting.KEY_ACCOUNTS_LEDGER_LOOKER`
     )
-    where bdm is not null
     ;;
 
     datagroup_trigger: ts_daily_datagroup
