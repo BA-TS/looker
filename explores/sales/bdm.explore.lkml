@@ -21,7 +21,7 @@ include: "/views/**/trade_credit_details.view"
 include: "/views/**/trade_credit_ids.view"
 include: "/views/**/incremental.view"
 
-# persist_with: ts_transactions_datagroup
+persist_with: ts_transactions_datagroup
 
 explore: bdm {
   required_access_grants: [lz_testing]
