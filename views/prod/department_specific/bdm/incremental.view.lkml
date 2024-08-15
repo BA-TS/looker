@@ -26,7 +26,6 @@ view: incremental {
     value_format_name: gbp_0
     type: number
     sql: ${TABLE}.total_net_sales ;;
-    hidden: yes
   }
 
   dimension: total_margin_incl_funding_dim {
@@ -71,7 +70,8 @@ view: incremental {
     label: "PY - Measures Net Sales"
     value_format_name: gbp_0
     type: sum
-    sql: ${total_net_sales_dim};;
+    # sql: ${total_net_sales_dim};;
+    sql: 1 ;;
   }
 
   measure: total_margin_incl_funding {
