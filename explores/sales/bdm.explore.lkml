@@ -92,7 +92,7 @@ explore: bdm {
   join: bdm_ka_customers {
     view_label: "Teams"
     type: left_outer
-    relationship: one_to_many
+    relationship: many_to_one
     sql_on: ${customers.customer_uid} = ${bdm_ka_customers.customer_uid};;
   }
 

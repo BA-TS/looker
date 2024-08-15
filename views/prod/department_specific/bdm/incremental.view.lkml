@@ -1,10 +1,7 @@
 
-include: "/explores/**/bdm.explore.lkml"
-
 view: incremental {
   derived_table: {
     explore_source: bdm {
-      # bind_all_filters: yes
       column: total_net_sales { field: transactions.total_net_sales }
       column: total_margin_incl_funding { field: transactions.total_margin_incl_funding }
       column: spc_net_sales { field: transactions.spc_net_sales }
@@ -17,7 +14,7 @@ view: incremental {
       }
       filters: {
         field: base.select_date_range
-        value: "2022/08/14 to 2024/08/14"
+        value: "2021/08/14 to 2024/08/14"
       }
     }
   }
@@ -30,15 +27,13 @@ view: incremental {
   }
 
   dimension: total_net_sales_dim {
-    label: "Measures Net Sales"
     value_format_name: gbp
     type: number
     sql: ${TABLE}.total_net_sales;;
-    # hidden: yes
+    hidden: yes
   }
 
   dimension: total_margin_incl_funding_dim {
-    label: "Measures Margin (Including Funding)"
     value_format_name: gbp
     type: number
     sql: ${TABLE}.total_margin_incl_funding ;;
@@ -46,7 +41,6 @@ view: incremental {
   }
 
   dimension: spc_net_sales_dim {
-    label: "Measures Spend Per Customer (Net sales)"
     value_format_name: gbp
     type: number
     sql: ${TABLE}.spc_net_sales ;;
@@ -56,8 +50,8 @@ view: incremental {
   dimension: PY_calendar_year_month {
     type: number
     sql: cast(${TABLE}.calendar_year_month as int) ;;
+    hidden: yes
   }
-
 
   dimension: calendar_year_month {
     label: "PY - Date Year Month (yyyy-mm)"
@@ -82,6 +76,12 @@ view: incremental {
     sql: ${total_net_sales_dim};;
   }
 
+  measure: incremental_net_sales {
+    value_format_name: gbp
+    type: number
+    sql: ${transactions.total_net_sales}-${total_net_sales};;
+  }
+
   measure: total_margin_incl_funding {
     label: "PY - Margin (Including Funding)"
     value_format_name: gbp
@@ -89,10 +89,10 @@ view: incremental {
     sql: ${total_margin_incl_funding_dim} ;;
   }
 
-  measure: spc_net_sales {
-    label: "PY - Spend Per Customer (Net sales)"
-    value_format_name: gbp
-    type: average
-    sql: ${spc_net_sales_dim} ;;
-  }
+  # measure: spc_net_sales {
+  #   label: "PY - Spend Per Customer (Net sales)"
+  #   value_format_name: gbp
+  #   type: average
+  #   sql: ${spc_net_sales_dim} ;;
+  # }
 }
