@@ -37,8 +37,8 @@ explore: bdm {
     filters: [
       select_date_range: "this month",
       bdm_ka_customers.is_bdm_ka_customer: "Yes",
-      bdm_ka_customers.team: "BDM",
-      bdm_ka_customers.is_active: "Yes"
+      bdm_ka_customers.is_active: "Yes",
+      bdm_ka_customers.team: "BDM"
     ]
     unless: [
       select_fixed_range,

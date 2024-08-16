@@ -86,7 +86,7 @@ view: bdm_ka_customers {
 
   dimension: is_bdm_ka_customer {
     view_label: "Customer Accounts"
-    label: "Is BDM or KA customer"
+    label: "Is BDM or KA Customer"
     type: yesno
     sql:${customer_uid} is not null;;
   }
@@ -132,12 +132,5 @@ view: bdm_ka_customers {
     view_label: "Measures"
     type: count_distinct
     sql: ${customer_uid};;
-  }
-
-  measure: number_of_active_customers {
-    view_label: "Measures"
-    label: "Number of Customers (Active)"
-    type: count_distinct
-    sql: case when ${is_active} then ${customer_uid} else null end;;
   }
 }
