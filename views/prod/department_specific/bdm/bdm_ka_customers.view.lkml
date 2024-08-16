@@ -27,6 +27,7 @@ view: bdm_ka_customers {
   }
 
   dimension: team {
+    label: "Team (BDM or KA)"
     type: string
     sql: ${TABLE}.team ;;
   }
