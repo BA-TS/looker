@@ -76,6 +76,7 @@ view: bdm_ka_customers {
     label: "Is BDM or KA Customer"
     type: yesno
     sql:${customer_uid} is not null;;
+    hidden: yes
   }
 
   dimension: is_active {
