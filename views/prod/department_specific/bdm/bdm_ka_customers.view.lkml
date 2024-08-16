@@ -21,6 +21,7 @@ view: bdm_ka_customers {
   }
 
   dimension: customer_uid {
+    view_label: "Customers"
     label: "Customer UID"
     type: string
     sql: ${TABLE}.customerUID ;;
@@ -36,20 +37,6 @@ view: bdm_ka_customers {
     label: "Name"
     type: string
     sql: ${TABLE}.bdm ;;
-  }
-
-  dimension: is_bdm {
-    group_label: "Flags"
-    label: "Team - BDM"
-    type: yesno
-    sql:  ${team} = "BDM";;
-  }
-
-  dimension: is_ka {
-    group_label: "Flags"
-    label: "Team - KA"
-    type: yesno
-    sql: ${team} = "KA" ;;
   }
 
   dimension_group: start {
