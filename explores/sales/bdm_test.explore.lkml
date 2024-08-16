@@ -23,35 +23,35 @@ include: "/views/**/incremental.view"
 
 persist_with: ts_transactions_datagroup
 
-explore: bdm {
+explore: bdm_ka_customers {
   required_access_grants: [lz_testing]
-  view_name: base
-  label: "BDM"
+  view_name: bdm_ka_customers
+  label: "BDM LZ Test"
   always_filter: {
     filters: [
-      select_date_reference: "Transaction"
+      base.select_date_reference: "Transaction"
     ]
   }
 
   conditionally_filter: {
     filters: [
-      select_date_range: "this month",
+      base.select_date_range: "this month",
       bdm_ka_customers.is_active: "Yes",
       bdm_ka_customers.team: "BDM",
       bdm_ka_customers.bdm: ""
     ]
     unless: [
-      select_fixed_range,
-      dynamic_fiscal_year,
-      dynamic_fiscal_half,
-      dynamic_fiscal_quarter,
-      dynamic_fiscal_month,
-      dynamic_actual_year,
-      combined_week,
-      combined_month,
-      combined_quarter,
-      combined_year,
-      separate_month,
+      base.select_fixed_range,
+      base.dynamic_fiscal_year,
+      base.dynamic_fiscal_half,
+      base.dynamic_fiscal_quarter,
+      base.dynamic_fiscal_month,
+      base.dynamic_actual_year,
+      base.combined_week,
+      base.combined_month,
+      base.combined_quarter,
+      base.combined_year,
+      base.separate_month,
     ]
   }
 
@@ -75,6 +75,14 @@ explore: bdm {
     type: left_outer
     relationship: one_to_many
     fields: [transactions.has_trade_account,transactions.number_of_branches,transactions.number_of_unique_products,transactions.number_of_transactions,transactions.spc_net_sales,transactions.aov_net_sales,transactions.aov_units,transactions.total_margin_incl_funding,transactions.total_net_sales,transactions.payment_type,transactions.product_department,transactions.number_of_departments]
+
+    sql_on:  ${bdm_ka_customers.customer_uid}=${transactions.customer_uid};;
+  }
+
+    join: base {
+    view_label: "Teams"
+    type: left_outer
+    relationship: many_to_one
     sql_on: ${base.base_date_date} = ${transactions.transaction_date_filter};;
   }
 
@@ -92,12 +100,12 @@ explore: bdm {
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
   }
 
-  join: bdm_ka_customers {
-    view_label: "Teams"
-    type: left_outer
-    relationship: many_to_one
-    sql_on:  ${bdm_ka_customers.customer_uid}=${transactions.customer_uid};;
-  }
+  # join: bdm_ka_customers {
+  #   view_label: "Teams"
+  #   type: left_outer
+  #   relationship: many_to_one
+  #   sql_on:  ${bdm_ka_customers.customer_uid}=${transactions.customer_uid};;
+  # }
 
   join: targets {
     view_label: "Targets"
@@ -163,6 +171,6 @@ explore: bdm {
     # sql_on: ${calendar_completed_date.calendar_year_month2}=${incremental.calendar_year_month} and ${bdm_ka_customers.customer_uid} = ${incremental.customer_uid}
     # ;;
     sql_on: ${calendar_completed_date.calendar_year_month2}=${incremental.calendar_year_month} and ${ledger.bdm} = ${incremental.bdm}
-    ;;
+      ;;
   }
 }
