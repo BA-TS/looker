@@ -36,7 +36,8 @@ explore: bdm {
 
   conditionally_filter: {
     filters: [
-      select_date_range: "this month"
+      select_date_range: "this month",
+      bdm_ka_customers.team: "BDM"
     ]
     unless: [
       select_fixed_range,
