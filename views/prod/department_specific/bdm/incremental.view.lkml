@@ -57,6 +57,7 @@ view: incremental {
     label: "PY - Date Year Month (yyyy-mm)"
     type: string
     sql: cast(${PY_calendar_year_month}+100 as string) ;;
+    hidden: yes
   }
 
   dimension: bdm {

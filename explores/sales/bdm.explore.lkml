@@ -29,7 +29,8 @@ explore: bdm {
   label: "BDM"
   always_filter: {
     filters: [
-      select_date_reference: "Transaction"
+      select_date_reference: "Transaction",
+      bdm_ka_customers.is_bdm_ka_customer: "Yes"
     ]
   }
 
