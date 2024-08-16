@@ -6,9 +6,9 @@ view: incremental {
       column: total_margin_incl_funding { field: transactions.total_margin_incl_funding }
       column: spc_net_sales { field: transactions.spc_net_sales }
       column: calendar_year_month { field: calendar_completed_date.calendar_year_month2 }
-      # column: bdm { field: bdm_ka_customers.bdm }
+      column: bdm { field: bdm_ka_customers.bdm }
       # column: team { field: bdm_ka_customers.team }
-      column: customer_uid { field: bdm_ka_customers.customer_uid }
+      # column: customer_uid { field: bdm_ka_customers.customer_uid }
 
       filters: {
         field: base.select_date_reference
@@ -21,30 +21,30 @@ view: incremental {
     }
   }
 
-  dimension: prim_key {
-    type: string
-    sql: concat(${customer_uid},${calendar_year_month}) ;;
-    hidden: yes
-    primary_key: yes
-  }
-
-  dimension: customer_uid {
-    type: string
-    sql: ${TABLE}.customer_uid ;;
-    hidden: yes
-  }
-
   # dimension: prim_key {
   #   type: string
-  #   sql: concat(${bdm},${calendar_year_month}) ;;
+  #   sql: concat(${customer_uid},${calendar_year_month}) ;;
   #   hidden: yes
   #   primary_key: yes
   # }
 
-  # dimension: bdm {
-  #   sql: ${TABLE}.bdm ;;
+  # dimension: customer_uid {
+  #   type: string
+  #   sql: ${TABLE}.customer_uid ;;
   #   hidden: yes
   # }
+
+  dimension: prim_key {
+    type: string
+    sql: concat(${bdm},${calendar_year_month}) ;;
+    hidden: yes
+    primary_key: yes
+  }
+
+  dimension: bdm {
+    sql: ${TABLE}.bdm ;;
+    hidden: yes
+  }
 
   # dimension: team {
   #   sql: ${TABLE}.team ;;
