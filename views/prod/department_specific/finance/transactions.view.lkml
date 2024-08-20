@@ -65,7 +65,7 @@ view: transactions {
 
     allowed_value: {
       label: "ALL"
-      value: "-NULL"
+      value: "ALL"
     }
     default_value: "SALE"
   }
