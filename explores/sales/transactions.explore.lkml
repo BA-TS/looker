@@ -153,8 +153,11 @@ explore: base {
         {% else %}
           AND (${transactions.sales_channel} IS NOT NULL AND ${transactions.site_uid} IS NOT NULL AND ${transactions.product_department} IS NOT NULL)
         {% endif %}
-          AND
-        UPPER(${transactions.extranet_status}) in case when ({% parameter transactions.select_extranet_status %}) in ("SALE", "INCOMPLETE") then ({% parameter transactions.select_extranet_status %}) else ("SALE", "INCOMPLETE") end ;;
+          --AND
+        --(UPPER(${transactions.extranet_status}) is case when ({% parameter transactions.select_extranet_status %}) in ("SALE", "INCOMPLETE") then ({% parameter transactions.select_extranet_status %}) else ("SALE", "INCOMPLETE") end
+
+        AND (UPPER(${transactions.extranet_status}) in (case when ({% parameter transactions.select_extranet_status %}) in ("SALE", "INCOMPLETE") then {% parameter transactions.select_extranet_status %} else ("INCOMPLETE") end)
+        or UPPER(${transactions.extranet_status}) in (case when ({% parameter transactions.select_extranet_status %}) in ("SALE", "INCOMPLETE") then {% parameter transactions.select_extranet_status %} else ("SALE") end));;
   }
 
   join: single_line_transactions {
