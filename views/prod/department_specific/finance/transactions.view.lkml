@@ -53,7 +53,7 @@ view: transactions {
   parameter: select_extranet_status {
     view_label: "Transactions"
     label: "Select Extranet"
-    type: unquoted
+    type: string
     allowed_value: {
       label: "Sale"
       value: "SALE"
