@@ -53,7 +53,7 @@ view: transactions {
   parameter: select_extranet_status {
     view_label: "Transactions"
     label: "Select Extranet"
-    type: string
+    type: unquoted
     allowed_value: {
       label: "Sale"
       value: "SALE"
@@ -61,6 +61,11 @@ view: transactions {
     allowed_value: {
       label: "Incomplete"
       value: "INCOMPLETE"
+    }
+
+    allowed_value: {
+      label: "ALL"
+      value: "-NULL"
     }
     default_value: "SALE"
   }
