@@ -7,7 +7,7 @@ view: incremental {
       column: spc_net_sales { field: transactions.spc_net_sales }
       column: calendar_year_month { field: calendar_completed_date.calendar_year_month2 }
       column: bdm { field: bdm_ka_customers.bdm }
-      # column: team { field: bdm_ka_customers.team }
+      column: team { field: bdm_ka_customers.team }
       # column: customer_uid { field: bdm_ka_customers.customer_uid }
 
       filters: {
@@ -46,10 +46,10 @@ view: incremental {
     hidden: yes
   }
 
-  # dimension: team {
-  #   sql: ${TABLE}.team ;;
-  #   hidden: yes
-  # }
+  dimension: team {
+    sql: ${TABLE}.team ;;
+    hidden: yes
+  }
 
   dimension: total_net_sales_dim {
     value_format_name: gbp

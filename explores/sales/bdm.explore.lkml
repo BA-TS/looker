@@ -158,11 +158,8 @@ explore: bdm {
   join: incremental {
     type:  left_outer
     relationship: many_to_one
-    # sql_on: ${calendar_completed_date.calendar_year_month2}=${incremental.calendar_year_month} and ${ledger.bdm} = ${incremental.bdm} and ${ledger.team} = ${incremental.team}
-    # ;;
-    # sql_on: ${calendar_completed_date.calendar_year_month2}=${incremental.calendar_year_month} and ${bdm_ka_customers.customer_uid} = ${incremental.customer_uid}
-    # ;;
-    sql_on: ${calendar_completed_date.calendar_year_month2}=${incremental.calendar_year_month} and ${ledger.bdm} = ${incremental.bdm}
-    ;;
+    sql_on: ${calendar_completed_date.calendar_year_month2}=${incremental.calendar_year_month} and ${ledger.bdm} = ${incremental.bdm} and ${ledger.team} = ${incremental.team} ;;
+    # sql_on: ${calendar_completed_date.calendar_year_month2}=${incremental.calendar_year_month} and ${bdm_ka_customers.customer_uid} = ${incremental.customer_uid} ;;
+    # sql_on: ${calendar_completed_date.calendar_year_month2}=${incremental.calendar_year_month} and ${ledger.bdm} = ${incremental.bdm} ;;
   }
 }
