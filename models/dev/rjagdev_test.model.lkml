@@ -61,6 +61,15 @@ explore: GA4_testy {
       ;;
   }
 
+  join: products2 {
+    from: products
+    view_label: "GA4"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${ga4_rjagdev_test.label_1} = ${products.product_code};;
+    fields: [product_code, product_name]
+  }
+
   #${ga4_transactions.OrderID} not in ("(not set)")  and ${ga4_transactions.customer} is not null and
 
   join: catalogue {
