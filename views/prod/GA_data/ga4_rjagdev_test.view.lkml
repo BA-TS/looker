@@ -816,5 +816,12 @@ and not regexp_contains(${TABLE}.filters_used, "\\@import") then ${TABLE}.filter
     sql: safe_divide(${exitPageSessions},${sessions_total}) ;;
   }
 
+  dimension: shipping_name {
+    view_label: "GA4"
+    group_label: "ATC - Shipping Name"
+    label: "Shipping product"
+    sql: ${products2.product_name} ;;
+  }
+
 
 }
