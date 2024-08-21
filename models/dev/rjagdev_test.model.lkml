@@ -63,7 +63,7 @@ explore: GA4_testy {
 
   join: products2 {
     from: products
-    view_label: "GA4"
+    view_label: ""
     type: left_outer
     relationship: many_to_one
     sql_on: ${ga4_rjagdev_test.label_1} = ${products2.product_code};;
