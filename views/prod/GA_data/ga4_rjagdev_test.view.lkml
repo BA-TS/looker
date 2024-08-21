@@ -140,7 +140,7 @@ view: ga4_rjagdev_test {
     label: "1.Event Label"
     group_label: "Event"
     type: string
-    sql: Ltrim(case when ${TABLE}.event_name in ("search", "search_actions", "blank_search") then coalesce(${TABLE}.label_1,regexp_replace(regexp_extract(${TABLE}.page_location, ".*q\\=(.*)$"), "\\+", " ")) else ${TABLE}.label_1 end) ;;
+    sql: Ltrim(case when ${TABLE}.event_name in ("search", "search_actions", "blank_search") then coalesce(${TABLE}.label_1,regexp_replace(regexp_extract(${TABLE}.page_location, ".*q\\=(.*)$"), "\\+", " ")) else (case when ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") then regexp_extract(${TABLE}.label_2, "^.*\\-(.*)$") else ${TABLE}.label_1 end) end) ;;
   }
 
   dimension: key_2 {
@@ -149,7 +149,7 @@ view: ga4_rjagdev_test {
     group_label: "Event"
     type: string
     sql: case when ${TABLE}.key_2 is null and ${label_2} is not null then "action"
-    when ${TABLE}.event_name in ("MegaMenu") then null
+    when ${TABLE}.event_name in ("MegaMenu", "add_to_cart") then null
     else ${TABLE}.key_2 end ;;
   }
 
@@ -158,7 +158,7 @@ view: ga4_rjagdev_test {
     label: "2.Event Label"
     group_label: "Event"
     type: string
-    sql: case when ${TABLE}.event_name in ("MegaMenu") then null else (case when ${TABLE}.event_name in ("add_to_cart") then regexp_extract(${TABLE}.label_2, "^.*\\-(.*)$") else ${TABLE}.label_2 end) end;;
+    sql: case when ${TABLE}.event_name in ("MegaMenu", "add_to_cart")  then null else ${TABLE}.label_2 end;;
   }
 
   measure: value {
