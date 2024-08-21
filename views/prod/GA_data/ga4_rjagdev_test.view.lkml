@@ -158,7 +158,7 @@ view: ga4_rjagdev_test {
     label: "2.Event Label"
     group_label: "Event"
     type: string
-    sql: case when ${TABLE}.event_name in ("MegaMenu") then null else ${TABLE}.label_2 end;;
+    sql: case when ${TABLE}.event_name in ("MegaMenu") then null else (case when ${TABLE}.event_name in ("add_to_cart") then regexp_extract(${TABLE}.label_2, "^.*\\-(.*)$") else ${TABLE}.label_2 end) end;;
   }
 
   measure: value {
@@ -285,6 +285,15 @@ else ${Screen_name} end ;;
     type: string
     sql: case when regexp_contains(${TABLE}.filters_used, "\\:")
 and not regexp_contains(${TABLE}.filters_used, "\\@import") then ${TABLE}.filters_used else null end;;
+
+  }
+
+  dimension: channel {
+    view_label: "GA4"
+    label: "Channel"
+    group_label: "Event"
+    type: string
+    sql: case when regexp_contains(${TABLE}.channel, "\\-") then regexp_extract(${TABLE}.channel, "^.*\\-(.*)$") else ${TABLE}.channel end;;
 
   }
 
