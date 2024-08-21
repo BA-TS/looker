@@ -62,6 +62,11 @@ view: transactions {
       label: "Incomplete"
       value: "INCOMPLETE"
     }
+
+    allowed_value: {
+      label: "ALL"
+      value: "ALL"
+    }
     default_value: "SALE"
   }
 

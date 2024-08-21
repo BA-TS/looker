@@ -131,6 +131,7 @@ view: ga4_rjagdev_test {
           when ${TABLE}.event_name = "Delivery_OOS" and ${platform} = "Web" then "Delivery"
           when ${TABLE}.event_name = "out_of_stock" and ${platform} = "Web" then null
           when ${TABLE}.event_name in ("MegaMenu") then ${TABLE}.label_2
+          when ${TABLE}.event_name in ("add_to_cart") and ${platform} in ("Web") then ${TABLE}.key_2
           when ${TABLE}.key_1 is null and ${label_1} is not null then "action"
           else ${TABLE}.key_1 end;;
   }
@@ -140,7 +141,7 @@ view: ga4_rjagdev_test {
     label: "1.Event Label"
     group_label: "Event"
     type: string
-    sql: Ltrim(case when ${TABLE}.event_name in ("search", "search_actions", "blank_search") then coalesce(${TABLE}.label_1,regexp_replace(regexp_extract(${TABLE}.page_location, ".*q\\=(.*)$"), "\\+", " ")) else ${TABLE}.label_1 end) ;;
+    sql: Ltrim(case when ${TABLE}.event_name in ("search", "search_actions", "blank_search") then coalesce(${TABLE}.label_1,regexp_replace(regexp_extract(${TABLE}.page_location, ".*q\\=(.*)$"), "\\+", " ")) else (case when ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") then regexp_extract(${TABLE}.label_2, "^.*\\-(.*)$") else ${TABLE}.label_1 end) end) ;;
   }
 
   dimension: key_2 {
@@ -149,7 +150,7 @@ view: ga4_rjagdev_test {
     group_label: "Event"
     type: string
     sql: case when ${TABLE}.key_2 is null and ${label_2} is not null then "action"
-    when ${TABLE}.event_name in ("MegaMenu") then null
+    when ${TABLE}.event_name in ("MegaMenu", "add_to_cart") then null
     else ${TABLE}.key_2 end ;;
   }
 
@@ -158,7 +159,7 @@ view: ga4_rjagdev_test {
     label: "2.Event Label"
     group_label: "Event"
     type: string
-    sql: case when ${TABLE}.event_name in ("MegaMenu") then null else ${TABLE}.label_2 end;;
+    sql: case when ${TABLE}.event_name in ("MegaMenu", "add_to_cart")  then null else ${TABLE}.label_2 end;;
   }
 
   measure: value {
@@ -285,6 +286,15 @@ else ${Screen_name} end ;;
     type: string
     sql: case when regexp_contains(${TABLE}.filters_used, "\\:")
 and not regexp_contains(${TABLE}.filters_used, "\\@import") then ${TABLE}.filters_used else null end;;
+
+  }
+
+  dimension: channel {
+    view_label: "GA4"
+    label: "Channel"
+    group_label: "Event"
+    type: string
+    sql: case when regexp_contains(${TABLE}.channel, "\\-") then regexp_extract(${TABLE}.channel, "^.*\\-(.*)$") else ${TABLE}.channel end;;
 
   }
 
@@ -804,6 +814,13 @@ and not regexp_contains(${TABLE}.filters_used, "\\@import") then ${TABLE}.filter
     type: number
     value_format_name: percent_2
     sql: safe_divide(${exitPageSessions},${sessions_total}) ;;
+  }
+
+  dimension: shipping_name {
+    view_label: "GA4"
+    group_label: "ATC - Shipping Name"
+    label: "Shipping product"
+    sql: ${products2.product_name} ;;
   }
 
 
