@@ -66,7 +66,7 @@ explore: GA4_testy {
     view_label: "GA4"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${ga4_rjagdev_test.label_1} = ${products.product_code};;
+    sql_on: ${ga4_rjagdev_test.label_1} = ${products2.product_code};;
     fields: [product_code, product_name]
   }
 
