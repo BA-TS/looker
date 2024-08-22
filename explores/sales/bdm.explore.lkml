@@ -60,7 +60,7 @@ explore: bdm {
     -catalogue*,
   ]
 
-  # sql_always_where:${period_over_period};;
+  sql_always_where:${period_over_period};;
 
   join: calendar_completed_date{
     fields: [calendar_completed_date.date,calendar_completed_date.calendar_year,calendar_completed_date.calendar_year_month,calendar_completed_date.calendar_year_month2,calendar_completed_date.calendar_year_quarter]
