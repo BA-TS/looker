@@ -18,6 +18,10 @@ view: incremental {
         field: base.select_date_range
         value: "2021/08/14 to 2024/08/14"
       }
+      filters: {
+        field: bdm_ka_customers.is_active
+        value: "Yes"
+      }
     }
   }
 
