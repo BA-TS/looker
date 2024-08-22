@@ -110,14 +110,14 @@ view: incremental {
     label: "PY - Spend Per Customer (Net sales)"
     type: number
     sql: COALESCE(SAFE_DIVIDE(${total_net_sales}, ${total_customer_number}),0) ;;
-    value_format_name: decimal_2
+    value_format_name: gbp
   }
 
   measure: incremental_spc {
     label: "Incremental SPC"
     type: number
     sql: ${transactions.spc_net_sales} - ${spc_net_sales} ;;
-    value_format_name: decimal_2
+    value_format_name: gbp
   }
 
   measure: incremental_customer_number{
