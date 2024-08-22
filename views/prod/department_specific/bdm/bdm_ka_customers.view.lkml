@@ -41,7 +41,7 @@ view: bdm_ka_customers {
 
   dimension: active_bdm {
     label: "Name"
-    type: string
+    type: yesno
     sql: ${bdm} in ("Matty","Kim","Chris","Louise","London","Rob","Rachel") ;;
   }
 
