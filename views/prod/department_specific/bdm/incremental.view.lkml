@@ -7,6 +7,7 @@ view: incremental {
       column: spc_net_sales { field: transactions.spc_net_sales }
       column: calendar_year_month { field: calendar_completed_date.calendar_year_month2 }
       column: bdm { field: bdm_ka_customers.bdm }
+      column: number_of_customers { field: bdm_ka_customers.number_of_customers }
       # column: customer_uid { field: bdm_ka_customers.customer_uid }
 
       filters: {
@@ -53,6 +54,11 @@ view: incremental {
     hidden: yes
   }
 
+  dimension: number_of_customers {
+    sql: ${TABLE}.number_of_customers ;;
+    hidden: yes
+  }
+
   dimension: total_net_sales_dim {
     value_format_name: gbp
     type: number
@@ -92,6 +98,32 @@ view: incremental {
     value_format_name: gbp
     type: sum
     sql: ${total_net_sales_dim};;
+  }
+
+  measure: total_customer_number {
+    label: "PY - Number of Customers"
+    type: sum
+    sql: ${number_of_customers};;
+  }
+
+  measure: spc_net_sales {
+    label: "PY - Spend Per Customer (Net sales)"
+    type: number
+    sql: COALESCE(SAFE_DIVIDE(${total_net_sales}, ${total_customer_number}),0) ;;
+    value_format_name: decimal_2
+  }
+
+  measure: incremental_spc {
+    label: "Incremental SPC"
+    type: number
+    sql: ${transactions.spc_net_sales} - ${spc_net_sales} ;;
+    value_format_name: decimal_2
+  }
+
+  measure: incremental_customer_number{
+    type: number
+    sql: ${bdm_ka_customers.number_of_customers}-${total_customer_number};;
+    value_format_name: decimal_0
   }
 
   measure: incremental_net_sales {
