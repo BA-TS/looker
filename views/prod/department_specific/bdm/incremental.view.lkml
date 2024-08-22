@@ -96,7 +96,7 @@ view: incremental {
 
   measure: incremental_net_sales {
     description: "Net Sale of TY - Net Sale of PY"
-    value_format_name: gbp
+    value_format_name: gbp_0
     type: number
     sql: ${transactions.total_net_sales}-${total_net_sales};;
   }
@@ -104,14 +104,14 @@ view: incremental {
   measure: total_margin_incl_funding {
     label: "PY - Margin"
     description: "PY- Margin incl Funding"
-    value_format_name: gbp
+    value_format_name: gbp_0
     type: sum
     sql: ${total_margin_incl_funding_dim} ;;
   }
 
   measure: incremental_margin {
     description: "Margin incl Funding TY - Margin incl Funding PY"
-    value_format_name: gbp
+    value_format_name: gbp_0
     type: sum
     sql: ${total_margin_incl_funding_dim} ;;
   }
