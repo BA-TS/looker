@@ -7,7 +7,6 @@ view: incremental {
       column: spc_net_sales { field: transactions.spc_net_sales }
       column: calendar_year_month { field: calendar_completed_date.calendar_year_month2 }
       column: bdm { field: bdm_ka_customers.bdm }
-      column: team { field: bdm_ka_customers.team }
       # column: customer_uid { field: bdm_ka_customers.customer_uid }
 
       filters: {
@@ -20,10 +19,6 @@ view: incremental {
       }
       filters: {
         field: bdm_ka_customers.is_active
-        value: "Yes"
-      }
-      filters: {
-        field: bdm_ka_customers.active_bdm
         value: "Yes"
       }
       filters: {
@@ -55,11 +50,6 @@ view: incremental {
 
   dimension: bdm {
     sql: ${TABLE}.bdm ;;
-    hidden: yes
-  }
-
-  dimension: team {
-    sql: ${TABLE}.team ;;
     hidden: yes
   }
 

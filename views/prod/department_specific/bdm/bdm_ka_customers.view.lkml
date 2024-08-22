@@ -39,10 +39,10 @@ view: bdm_ka_customers {
     sql: ${TABLE}.bdm ;;
   }
 
-  dimension: active_bdm {
-    type: yesno
-    sql: ${bdm} in ("Matty","Kim","Chris","Louise","London","Rob","Rachel") ;;
-  }
+  # dimension: active_bdm {
+  #   type: yesno
+  #   sql: ${bdm} in ("Matty","Kim","Chris","Louise","London","Rob","Rachel") ;;
+  # }
 
   dimension_group: start {
     view_label: "Customer Accounts"
