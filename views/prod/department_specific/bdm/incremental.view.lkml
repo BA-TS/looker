@@ -26,6 +26,10 @@ view: incremental {
         field: bdm_ka_customers.active_bdm
         value: "Yes"
       }
+      filters: {
+        field: bdm_ka_customers.team
+        value: "BDM"
+      }
     }
   }
 
