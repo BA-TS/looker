@@ -39,6 +39,12 @@ view: bdm_ka_customers {
     sql: ${TABLE}.bdm ;;
   }
 
+  dimension: active_bdm {
+    label: "Name"
+    type: string
+    sql: ${bdm} in ("Matty","Kim","Chris","Louise","London","Rob","Rachel") ;;
+  }
+
   dimension_group: start {
     view_label: "Customer Accounts"
     group_label: "Start and End Dates"
