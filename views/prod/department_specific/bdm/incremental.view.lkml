@@ -144,8 +144,8 @@ view: incremental {
   measure: incremental_margin {
     description: "Margin incl Funding TY - Margin incl Funding PY"
     value_format_name: gbp_0
-    type: sum
-    sql: ${total_margin_incl_funding_dim} ;;
+    type: number
+    sql: ${transactions.total_margin_incl_funding}-${total_margin_incl_funding} ;;
   }
 
   # measure: spc_net_sales {
