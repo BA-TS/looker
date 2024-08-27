@@ -38,6 +38,12 @@ access_grant: is_nigel_burch {
   allowed_values: ["Y"]
 }
 
+access_grant: is_bdm {
+  user_attribute: bdm_users
+  allowed_values: ["Y"]
+}
+
+
 access_grant: lz_testing {
   user_attribute: lz_testing
   allowed_values: ["Y"]

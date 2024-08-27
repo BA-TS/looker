@@ -24,7 +24,7 @@ include: "/views/**/incremental.view"
 persist_with: ts_transactions_datagroup
 
 explore: bdm {
-  required_access_grants: [lz_testing]
+  required_access_grants: [is_bdm]
   view_name: base
   label: "BDM"
   always_filter: {
