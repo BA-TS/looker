@@ -5,7 +5,8 @@ view: incremental {
       column: total_net_sales { field: transactions.total_net_sales }
       column: total_margin_incl_funding { field: transactions.total_margin_incl_funding }
       column: spc_net_sales { field: transactions.spc_net_sales }
-      column: calendar_year_month { field: calendar_completed_date.calendar_year_month2 }
+      column: py_date { field: calendar_completed_date.date }
+
       column: bdm { field: bdm_ka_customers.bdm }
       column: number_of_customers { field: bdm_ka_customers.number_of_customers }
       # column: customer_uid { field: bdm_ka_customers.customer_uid }
@@ -44,7 +45,7 @@ view: incremental {
 
   dimension: prim_key {
     type: string
-    sql: concat(${bdm},${calendar_year_month}) ;;
+    sql: concat(${bdm},${py_date}) ;;
     hidden: yes
     primary_key: yes
   }
@@ -80,17 +81,17 @@ view: incremental {
     hidden: yes
   }
 
-  dimension: PY_calendar_year_month {
-    type: number
-    sql: cast(${TABLE}.calendar_year_month as int) ;;
-    hidden: yes
+  dimension: py_date {
+    label: "PY - Date "
+    type: date
+    sql: date(${TABLE}.py_date) ;;
   }
 
-  dimension: calendar_year_month {
-    label: "PY - Date Year Month (yyyy-mm)"
-    type: string
-    sql: cast(${PY_calendar_year_month}+100 as string) ;;
-    hidden: yes
+  dimension: ty_date {
+    label: "TY - Date "
+    type: date
+    sql: date_add(${py_date}, interval 1 year) ;;
+
   }
 
   measure: total_net_sales {

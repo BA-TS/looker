@@ -3,23 +3,10 @@ include: "/views/**/calendar.view"
 include: "/views/**/transactions.view"
 include: "/views/**/sites.view"
 include: "/views/**/catalogue.view"
-include: "/views/**/customers.view"
-include: "/views/**/bdm_customers.view"
-include: "/views/**/bdm_targets.view"
-include: "/views/**/key_accounts_targets.view"
-include: "/views/**/bdm_ledger.view"
-include: "/views/**/key_accounts_ledger.view"
-include: "/views/**/key_accounts_customers.view"
-include: "/views/**/*customer_segmentation.view"
-include: "/views/**/*trade_customers.view"
 include: "/views/**/po_numbers.view"
 include: "/views/**/products.view"
-include: "/views/**/targets.view"
-include: "/views/**/bdm_ka_customers.view"
-include: "/views/**/ledger.view"
-include: "/views/**/trade_credit_details.view"
-include: "/views/**/trade_credit_ids.view"
-include: "/views/**/incremental.view"
+include: "/views/**/customer/**.view"
+include: "/views/**/bdm/**.view"
 
 persist_with: ts_transactions_datagroup
 
@@ -158,7 +145,7 @@ explore: bdm {
   join: incremental {
     type:  left_outer
     relationship: many_to_one
-    # sql_on: ${calendar_completed_date.calendar_year_month2}=${incremental.calendar_year_month} and ${bdm_ka_customers.customer_uid} = ${incremental.customer_uid} ;;
-    sql_on: ${calendar_completed_date.calendar_year_month2}=${incremental.calendar_year_month} and ${ledger.bdm} = ${incremental.bdm} ;;
+   sql_on: ${base.date_date}=${incremental.ty_date} and ${ledger.bdm} = ${incremental.bdm} ;;
+
   }
 }
