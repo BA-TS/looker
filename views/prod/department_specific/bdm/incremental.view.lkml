@@ -16,7 +16,7 @@ view: incremental {
       }
       filters: {
         field: base.select_date_range
-        value: "2021/08/14 to 2031/08/14"
+        value: "2022/01/01 to 2031/08/14"
       }
       filters: {
         field: bdm_ka_customers.is_active
