@@ -141,7 +141,11 @@ view: ga4_rjagdev_test {
     label: "1.Event Label"
     group_label: "Event"
     type: string
-    sql: Ltrim(case when ${TABLE}.event_name in ("search", "search_actions", "blank_search") then coalesce(${TABLE}.label_1,regexp_replace(regexp_extract(${TABLE}.page_location, ".*q\\=(.*)$"), "\\+", " ")) else (case when ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") then regexp_extract(${TABLE}.label_2, "^.*\\-(.*)$") else ${TABLE}.label_1 end) end) ;;
+    sql: Ltrim(
+    case when ${TABLE}.event_name in ("search", "search_actions", "blank_search") then coalesce(${TABLE}.label_1,regexp_replace(regexp_extract(${TABLE}.page_location, ".*q\\=(.*)$"), "\\+", " ")) else
+    (case when ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") then regexp_extract(${TABLE}.label_2, "^.*\\-(.*)$") else
+    (case
+          when ${TABLE}.event_name = "collection_OOS" and ${platform} = "Web" then "Collection" else ${TABLE}.label_1 end) end) end) ;;
   }
 
   dimension: key_2 {
