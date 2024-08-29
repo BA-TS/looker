@@ -130,7 +130,8 @@ view: ga4_rjagdev_test {
           when ${TABLE}.event_name = "out_of_stock" and ${platform} = "Web" then null
           when ${TABLE}.event_name = "out_of_stock" and ${platform} = "App" then "Channel"
           when ${TABLE}.event_name in ("MegaMenu") then ${TABLE}.label_2
-          when ${TABLE}.event_name in ("add_to_cart") and ${platform} in ("Web") then ${TABLE}.key_2
+          when ${TABLE}.event_name in ("add_to_cart") then "shipping_tier"
+          --and ${platform} in ("Web") then ${TABLE}.key_2
           when ${TABLE}.key_1 is null and ${label_1} is not null then "action"
           else ${TABLE}.key_1 end;;
   }
@@ -827,8 +828,8 @@ and not regexp_contains(${TABLE}.filters_used, "\\@import") then ${TABLE}.filter
 
   dimension: shipping_name {
     view_label: "GA4"
-    group_label: "ATC - Shipping Name"
-    label: "Shipping product"
+    group_label: "Add to Cart"
+    label: "Shipping Method Selected"
     sql: COALESCE(${products2.product_name},case when ${event_name} in ("add_to_cart") and ${platform} in ("App") then ${label_1} else null end) ;;
   }
 
