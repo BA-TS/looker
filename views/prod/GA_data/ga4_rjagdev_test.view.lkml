@@ -155,7 +155,7 @@ view: ga4_rjagdev_test {
     type: string
     sql: case when ${TABLE}.key_2 is null and ${label_2} is not null then "action"
     when ${TABLE}.event_name in ("MegaMenu") then null
-    else (case when ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") then ${TABLE}.key_1 else ${TABLE}.key_2 end) end ;;
+    else (case when ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") then "Channel" else ${TABLE}.key_2 end) end ;;
   }
 
   dimension: label_2 {
@@ -828,7 +828,7 @@ and not regexp_contains(${TABLE}.filters_used, "\\@import") then ${TABLE}.filter
     view_label: "GA4"
     group_label: "ATC - Shipping Name"
     label: "Shipping product"
-    sql: ${products2.product_name} ;;
+    sql: COALESCE(${products2.product_name},case when ${event_name} in ("add_to_cart") and ${platform} in ("App") then ${label_1}) ;;
   }
 
 
