@@ -145,7 +145,8 @@ view: ga4_rjagdev_test {
     (case when ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") then regexp_extract(${TABLE}.label_2, "^.*\\-(.*)$") else
     (case when ${TABLE}.event_name = "collection_OOS" and ${platform} = "Web" then "Collection" else
     (case when ${TABLE}.event_name = "dual_OOS" and ${platform} = "Web" then "Dual" else
-    (case when ${TABLE}.event_name = "Delivery_OOS" and ${platform} = "Web" then "Delivery" else ${TABLE}.label_1 end) end) end) end) end)) ;;
+    (case when ${TABLE}.event_name = "Delivery_OOS" and ${platform} = "Web" then "Delivery" else
+    (case when ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("App") and ${TABLE}.key_1 in ("page") then ${TABLE}.channel else ${TABLE}.label_1 end) end) end) end) end) end)) ;;
   }
 
   dimension: key_2 {
