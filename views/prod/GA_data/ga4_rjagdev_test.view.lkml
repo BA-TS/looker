@@ -163,7 +163,7 @@ view: ga4_rjagdev_test {
     label: "2.Event Label"
     group_label: "Event"
     type: string
-    sql: case when ${TABLE}.event_name in ("MegaMenu")  then null (case when  ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") then regexp_extract(${TABLE}.label_1, "^.*\\-(.*)$") else ${TABLE}.label_2 end ) end;;
+    sql: case when ${TABLE}.event_name in ("MegaMenu")  then null else (case when  ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") then regexp_extract(${TABLE}.label_1, "^.*\\-(.*)$") else ${TABLE}.label_2 end ) end;;
   }
 
   measure: value {
