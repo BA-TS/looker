@@ -126,9 +126,7 @@ view: ga4_rjagdev_test {
     group_label: "Event"
     type: string
     sql: case
-          when ${TABLE}.event_name = "collection_OOS" and ${platform} = "Web" then "Collection"
-          when ${TABLE}.event_name = "dual_OOS" and ${platform} = "Web" then "Dual"
-          when ${TABLE}.event_name = "Delivery_OOS" and ${platform} = "Web" then "Delivery"
+          when ${TABLE}.event_name in ("collection_OOS", "dual_OOS", "Delivery_OOS") and ${platform} = "Web" then "Channel"
           when ${TABLE}.event_name = "out_of_stock" and ${platform} = "Web" then null
           when ${TABLE}.event_name in ("MegaMenu") then ${TABLE}.label_2
           when ${TABLE}.event_name in ("add_to_cart") and ${platform} in ("Web") then ${TABLE}.key_2
@@ -144,8 +142,9 @@ view: ga4_rjagdev_test {
     sql: Ltrim(
     case when ${TABLE}.event_name in ("search", "search_actions", "blank_search") then coalesce(${TABLE}.label_1,regexp_replace(regexp_extract(${TABLE}.page_location, ".*q\\=(.*)$"), "\\+", " ")) else
     (case when ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") then regexp_extract(${TABLE}.label_2, "^.*\\-(.*)$") else
-    (case
-          when ${TABLE}.event_name = "collection_OOS" and ${platform} = "Web" then "Collection" else ${TABLE}.label_1 end) end) end) ;;
+    (case when ${TABLE}.event_name = "collection_OOS" and ${platform} = "Web" then "Collection" else
+    (case when ${TABLE}.event_name = "dual_OOS" and ${platform} = "Web" then "Dual"
+    (case when ${TABLE}.event_name = "Delivery_OOS" and ${platform} = "Web" then "Delivery" else ${TABLE}.label_1 end) end) end) end) end) ;;
   }
 
   dimension: key_2 {
