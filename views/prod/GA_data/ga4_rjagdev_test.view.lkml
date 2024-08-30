@@ -291,11 +291,11 @@ else ${Screen_name} end ;;
 
   dimension: filters_used {
     view_label: "GA4"
-    label: "Filters Used"
+    label: "Filter Key"
     group_label: "Event"
     type: string
     sql: case when regexp_contains(${TABLE}.filters_used, "\\:")
-and not regexp_contains(${TABLE}.filters_used, "\\@import") then ${TABLE}.filters_used else null end;;
+and not regexp_contains(${TABLE}.filters_used, "\\@import") then regexp_extract(${TABLE}.filters_used, "(.*)\\:.*") else null end;;
 
   }
 
