@@ -859,7 +859,8 @@ view: fu {
   }
 
   dimension: label_1 {
+    description: "filter_key"
     type: string
-    sql: ${ga4_rjagdev_test.label_1} ;;
+    sql: case when ${ga4_rjagdev_test.event_name} in ("filter_applied", "filter_removed") then ${ga4_rjagdev_test.label_1} else null end;;
   }
 }
