@@ -63,7 +63,3 @@ Without decimals:
 ```sh
 [>=1000000] [$£-en-GB] #,##0,, "M"; [>=1000] [$£-en-GB] #,##0, "K"; [<-1000000] [$£-en-GB] #,##0,, "M"; [<-1000] [$£-en-GB] #,##0, "K"; [$£-en-GB] #,##0
 ```
-
-### Who do I talk to? ###
-
-- Charles Granville
