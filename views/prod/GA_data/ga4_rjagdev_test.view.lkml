@@ -843,7 +843,12 @@ and not regexp_contains(${TABLE}.filters_used, "\\@import") then regexp_extract(
     sql: COALESCE(${products2.product_name},case when ${event_name} in ("add_to_cart") and ${platform} in ("App") then ${label_1} else null end) ;;
   }
 
-  dimension: fu {label:"FU TEST"}
+}
 
+view: fu {
 
+  dimension: fu {
+    type: string
+    sql: ${TABLE} ;;
+  }
 }
