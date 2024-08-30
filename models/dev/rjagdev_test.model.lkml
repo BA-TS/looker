@@ -62,6 +62,7 @@ explore: GA4_testy {
   }
 
   join: fu  {
+    view_label: "GA4"
     sql: left join unnest(SPLIT(${ga4_rjagdev_test.filterUSed})) as fu WITH OFFSET as test2;;
     relationship: one_to_many
   }

@@ -854,6 +854,7 @@ and not regexp_contains(${TABLE}.filters_used, "\\@import") then regexp_extract(
 view: fu {
 
   dimension: fu {
+    hidden: yes
     type: string
     sql: ${TABLE} ;;
   }
