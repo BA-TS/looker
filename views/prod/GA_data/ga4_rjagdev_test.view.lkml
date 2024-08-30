@@ -354,6 +354,16 @@ and not regexp_contains(${TABLE}.filters_used, "\\@import") then regexp_extract(
     hidden: yes
     sql: ${TABLE}.transactions ;;
   }
+
+
+
+  dimension: filterUSed {
+    description: "Is used for unnesting the transactions struct, should not be used as a standalone dimension"
+    hidden: yes
+    sql: ${TABLE}.SPLIT(filters_used, ",") ;;
+  }
+
+
 ##########Measures##########################
 ############Users#########################
   measure: Users {
