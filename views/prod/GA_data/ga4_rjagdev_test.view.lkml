@@ -858,6 +858,11 @@ view: fu {
     sql: ${TABLE} ;;
   }
 
+  dimension: web_filter_key {
+    type: string
+    sql: regexp_extract(${fu}, "(.*)\\:.*") ;;
+  }
+
   dimension: label_1 {
     description: "filter_key"
     type: string
