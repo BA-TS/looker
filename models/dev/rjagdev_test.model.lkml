@@ -47,8 +47,7 @@ explore: GA4_testy {
     view_label: "GA4"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${calendar.date} = ${ga4_rjagdev_test.date_date} and ${products.product_code} = (case when ${ga4_rjagdev_test.itemid} is null or length(${ga4_rjagdev_test.itemid}) != 5 then "null" else ${ga4_rjagdev_test.itemid} end)
-    left join unnest(SPLIT(${ga4_rjagdev_test.filterUSed})) as fu;;
+    sql_on: ${calendar.date} = ${ga4_rjagdev_test.date_date} and ${products.product_code} = (case when ${ga4_rjagdev_test.itemid} is null or length(${ga4_rjagdev_test.itemid}) != 5 then "null" else ${ga4_rjagdev_test.itemid} end);;
     sql_where: ga4_rjagdev_test._TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {% date_start calendar.filter_on_field_to_hide %}) and FORMAT_DATE('%Y%m%d', {% date_end calendar.filter_on_field_to_hide %})
           and ((${ga4_rjagdev_test.event_name} in ("search", "search_actions", "blank_search", "bloomreach_search_unknown_attribute") and not regexp_contains(${ga4_rjagdev_test.label_1}, "^(shop|SHOP)[a-zA-Z0-9]") ) or (${ga4_rjagdev_test.event_name} not in ("search", "search_actions", "blank_search", "bloomreach_search_unknown_attribute") and regexp_contains(${ga4_rjagdev_test.label_1}, "^(shop|SHOP)[a-zA-Z0-9]")) or
       (${ga4_rjagdev_test.event_name} not in ("search", "search_actions", "blank_search", "bloomreach_search_unknown_attribute") and (not regexp_contains(${ga4_rjagdev_test.label_1}, "^(shop|SHOP)[a-zA-Z0-9]") or ${ga4_rjagdev_test.label_1} is null) ))
@@ -60,6 +59,11 @@ explore: GA4_testy {
     relationship: one_to_one
     sql_where: ((${ga4_rjagdev_test.itemid}=${ga4_transactions.productCode}) or (${ga4_rjagdev_test.itemid} is not null and ${ga4_transactions.productCode} is null) or (${ga4_rjagdev_test.itemid} is null and ${ga4_transactions.productCode} is null)) and (regexp_contains(${ga4_transactions.OrderID}, "^([A-Z]*[0-9]*)$") or ${ga4_transactions.OrderID} is null or ${ga4_transactions.OrderID} in ("(not set)"))
       ;;
+  }
+
+  join: fu  {
+    sql: left join left join unnest(SPLIT(${ga4_rjagdev_test.filterUSed})) as fu WITH OFFSET as test1;;
+    relationship: one_to_many
   }
 
   join: products2 {

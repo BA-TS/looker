@@ -363,6 +363,11 @@ and not regexp_contains(${TABLE}.filters_used, "\\@import") then regexp_extract(
     sql: ${TABLE}.filters_used ;;
   }
 
+  #dimension: filterUSed2 {
+    #description: "Is used for unnesting the transactions struct, should not be used as a standalone dimension"
+    #sql: ${fu.fu} ;;
+  #}
+
 
 ##########Measures##########################
 ############Users#########################
