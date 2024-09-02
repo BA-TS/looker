@@ -11,32 +11,57 @@ case when regexp_contains(page_location,"checkout\\/confirmation") then "Checkou
       when regexp_contains(page_location,".*/c([0-9]*)$") then "product-listing-page"
       when regexp_contains(page_location, ".*/c[0-9]*[^0-9a-zA-Z]") then "product-listing-page"
       else screen_name end as screen_Type,
-      event_name,
       case
-      when event_name = "collection_OOS" and platform = "Web" then "Collection"
-      when event_name = "dual_OOS" and platform = "Web" then "Dual"
-      when event_name = "Delivery_OOS" and platform = "Web" then "Delivery"
-      when event_name = "out_of_stock" and platform = "Web" then null
-      when event_name in ("MegaMenu") then label_2
-      when key_1 is null and label_1 is not null then "action"
-      else key_1 end as key1,
-      label_1,
-      case when event_name in ("MegaMenu") then null else label_2 end as label_2,
-      case when key_2 is null and label_2 is not null then "action"
-      when event_name in ("MegaMenu") then null
-      else key_2 end as key_2,
+    when event_name = "videoly" and key_1 = "action" and label_1 not in ("videoly_progress") then label_1
+    when event_name = "videoly" and label_1 = "videoly_progress" then concat(label_1,"-",label_2,"%")
+    when event_name = "videoly_videostart" then "videoly_start"
+    when event_name = "videoly_initialize" then "videoly_box_shown"
+    when event_name = "videoly_videoclosed" then "videoly_closed"
+    when event_name = "collection_OOS" and platform = "Web" then "out_of_stock"
+    when event_name = "dual_OOS" and platform = "Web" then "out_of_stock"
+    when event_name = "Delivery_OOS" and platform = "Web" then "out_of_stock"
+    when event_name = "out_of_stock" and platform = "Web" then null
+    else event_name
+    end as event_name,
+case
+          when event_name in ("collection_OOS", "dual_OOS", "Delivery_OOS") and platform = "Web" then "Channel"
+          when event_name = "out_of_stock" and platform = "Web" then null
+          when event_name = "out_of_stock" and platform = "App" then "Channel"
+          when event_name in ("MegaMenu") then label_2
+          when event_name in ("add_to_cart") then "shipping_tier"
+          --and platform in ("Web") then key_2
+          when key_1 is null and label_1 is not null then "action"
+          else key_1 end as key1,
+       INITCAP(Ltrim(
+    case when event_name in ("search", "search_actions", "blank_search") then coalesce(label_1,regexp_replace(regexp_extract(page_location, ".*q\\=(.*)$"), "\\+", " ")) else
+    (case when event_name in ("add_to_cart") and platform in ("Web") then regexp_extract(label_2, "^.*\\-(.*)$") else
+    (case when event_name = "collection_OOS" and platform = "Web" then "Collection" else
+    (case when event_name = "dual_OOS" and platform = "Web" then "Dual" else
+    (case when event_name = "Delivery_OOS" and platform = "Web" then "Delivery" else
+    (case when event_name in ("add_to_cart") and platform in ("App") and key_1 in ("page") then channel else label_1 end) end) end) end) end) end)) as label_1,
+
+    case when key_2 is null and label_2 is not null then "action"
+    when event_name in ("MegaMenu") then null
+    else (case when event_name in ("add_to_cart") and platform in ("Web") then "Channel" else key_2 end) end as key_2,
+      case when event_name in ("MegaMenu")  then null else
+    (case when  event_name in ("add_to_cart") and platform in ("Web") and key_1 in ("method") then regexp_extract(label_1, "^.*\\-(.*)$") else
+    (case when  event_name in ("add_to_cart") and platform in ("Web") and key_1 not in ("method") then regexp_extract(key_1, "^.*\\-(.*)$") else
+    label_2 end )end) end as label_2,
+    regexp_extract(fu, "(.*)\\:.*") as filter_key,
+    regexp_extract(fu, ".*\\:(.*)") as filter_label,
       transactions.productCode,
       transactions.OrderID,
-      Filters_used,
+      #Filters_used,
       sum(transactions.net_value) as net,
       sum(transactions.Quantity) as Quantity,
       sum(events) as events,
       row_number () over (partition by session_id order by minTime asc) as landingP,
       row_number () over (partition by session_id order by minTime desc) as exitP
       FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as transactions
+      left join unnest(SPLIT(filters_used, ",")) as fu WITH OFFSET as test2
       where ((aw.item_id = transactions.productCode) or (aw.item_id is not null and transactions.productCode is null) or (aw.item_id is null and transactions.productCode is null))
 
-      and _TABLE_Suffix between format_date("%Y%m%d", date_sub(current_date(), interval 12 week)) and format_date("%Y%m%d", date_sub(current_date(), interval 1 day))
+      and _TABLE_Suffix between format_date("%Y%m%d", date_sub(current_date(), interval 5 day)) and format_date("%Y%m%d", date_sub(current_date(), interval 1 day))
       group by all),
 
       landing_P as (select distinct session_id as landing_session, page_location as landingPage, screen_name as landingScreen, screen_Type as LandingScreenType
@@ -58,7 +83,7 @@ case when regexp_contains(page_location,"checkout\\/confirmation") then "Checkou
       group by all),
 
       filters_used as (select distinct session_id as filter_session from sub1
-      where (event_name in ("search_actions") and key1 in ("Add Filter")) or (event_name in ("Filter_Used")) or (event_name in ("bloomreach_search_unknown_attribute") and screen_name in ("filters_page")) or (Filters_used is not null)),
+      where event_name in ("filter_applied", "filter_removed") or filter_label is not null),
 
       PDP as (select distinct session_id as PDP_session from sub1
       where event_name in ("view_item") and screen_Type in ("product-detail-page") ),

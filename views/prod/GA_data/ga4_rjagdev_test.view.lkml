@@ -293,6 +293,7 @@ else ${Screen_name} end ;;
     view_label: "GA4"
     label: "Filter Key"
     group_label: "Event"
+    hidden: yes
     type: string
     sql: case when regexp_contains(${TABLE}.filters_used, "\\:")
 and not regexp_contains(${TABLE}.filters_used, "\\@import") then regexp_extract(${TABLE}.filters_used, "(.*)\\:.*") else null end;;
