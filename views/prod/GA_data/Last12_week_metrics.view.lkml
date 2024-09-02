@@ -61,7 +61,7 @@ case
       left join unnest(SPLIT(filters_used, ",")) as fu WITH OFFSET as test2
       where ((aw.item_id = transactions.productCode) or (aw.item_id is not null and transactions.productCode is null) or (aw.item_id is null and transactions.productCode is null))
 
-      and _TABLE_Suffix between format_date("%Y%m%d", date_sub(current_date(), interval 5 day)) and format_date("%Y%m%d", date_sub(current_date(), interval 1 day))
+      and _TABLE_Suffix between format_date("%Y%m%d", date_sub(current_date(), interval 12 week)) and format_date("%Y%m%d", date_sub(current_date(), interval 1 day))
       group by all),
 
       landing_P as (select distinct session_id as landing_session, page_location as landingPage, screen_name as landingScreen, screen_Type as LandingScreenType
