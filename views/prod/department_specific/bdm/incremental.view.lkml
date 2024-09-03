@@ -23,10 +23,10 @@ view: incremental {
         field: bdm_ka_customers.is_active
         value: "Yes"
       }
-      filters: {
-        field: bdm_ka_customers.team
-        value: "BDM"
-      }
+      # filters: {
+      #   field: bdm_ka_customers.team
+      #   value: "BDM"
+      # }
     }
   }
 
