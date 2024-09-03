@@ -110,13 +110,13 @@ view: transactions {
     sql: ${TABLE}.status ;;
   }
 
-  filter: Order_filter {
+  filter: order_filter {
     view_label: "Transactions"
     group_label: "Incomplete Transactions"
     label: "Order Status filter"
     type: string
     default_value: "-Cancelled"
-    sql: ${order_status} ;;
+    sql: {% condition order_filter %} ${order_status} {% endcondition %};;
   }
 
   dimension: is_next_day_click_and_collect {
