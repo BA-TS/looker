@@ -19,7 +19,7 @@ when key_1 is null and label_1 is not null then "action"
 else key_1 end as key1,
 aw.item_id
 FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw
-where  _TABLE_Suffix between format_date("%Y%m%d", date_sub(current_date(), interval 3 day)) and format_date("%Y%m%d", current_date()) and event_name in ("collection_OOS", "dual_OOS", "Delivery_OOS", "out_of_stock", "view_item")
+where  _TABLE_Suffix between format_date("%Y%m%d", date_sub(current_date(), interval 12 week)) and format_date("%Y%m%d", date_sub(current_date(), interval 1 day)) and event_name in ("collection_OOS", "dual_OOS", "Delivery_OOS", "out_of_stock", "view_item")
 group by all),
 
 view_item as (select distinct Platform, date, count(distinct session_id) as sessions from sub1 where event_name in ("view_item") and screen_Type in ("product-detail-page") group by 1,2),

@@ -13,11 +13,11 @@ view: transactions {
         t.* EXCEPT (transactionDate, salesChannel, siteUID)
         FROM
         (SELECT
-        transactions.*,"SALE" AS extranet_status
+        transactions.*,"Completed" as status, "SALE" AS extranet_status
         FROM `toolstation-data-storage.sales.transactions` AS transactions
         UNION ALL
         (SELECT
-        incomplete.* EXCEPT(status, rowID),NULL, NULL, NULL, NULL,NULL,NULL,incomplete.rowID,CAST(UPPER(incomplete.status) = "CANCELLED" AS INT64),NULL,NULL,"INCOMPLETE"
+        incomplete.* EXCEPT(status, rowID),NULL, NULL, NULL, NULL,NULL,NULL,incomplete.rowID,CAST(UPPER(incomplete.status) = "CANCELLED" AS INT64),NULL,NULL,status, "INCOMPLETE"
         FROM `toolstation-data-storage.sales.transactions_incomplete` AS incomplete)) AS t
         INNER JOIN `toolstation-data-storage.range.products_current` AS products USING(productUID))
        UNION ALL
