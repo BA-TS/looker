@@ -24,7 +24,7 @@ view: transactions {
        (SELECT
         TIMESTAMP(missing_dimensions.date) AS transactionDate,missing_dimensions.salesChannel AS salesChannel,missing_dimensions.siteUID,missing_dimensions.department,
         NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
-        NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, NULL,NULL,NULL
+        NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, NULL,NULL,NULL, NULL
         FROM `toolstation-data-storage.looker_persistent_tables.missing_channel_dimensions` AS missing_dimensions
         ));;
     partition_keys: ["transactionDate"]
@@ -100,6 +100,14 @@ view: transactions {
       value: "0"
     }
     default_value: "0"
+  }
+
+  dimension: order_status {
+    view_label: "Transactions"
+    group_label: "Incomplete Transactions"
+    label: "Order Status"
+    type: string
+    sql: ${TABLE}.status ;;
   }
 
   dimension: is_next_day_click_and_collect {

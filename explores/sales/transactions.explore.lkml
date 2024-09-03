@@ -127,10 +127,10 @@ explore: base {
     relationship: one_to_many
     sql_on:
         ${base.base_date_date} = ${transactions.transaction_date_filter}
-          AND
-        (${transactions.is_cancelled} = 0
-          OR
-        ${transactions.is_cancelled} IS NULL)
+          --AND
+        --(${transactions.is_cancelled} = 0
+          --OR
+        --${transactions.is_cancelled} IS NULL)
       {% if ${transactions.charity_status} == "1" %}
         AND (${transactions.product_code} IN ('85699', '00053','44842'))
       {% else %}
