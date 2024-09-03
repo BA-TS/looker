@@ -15,7 +15,9 @@ view: transactions_incomplete {
   dimension: transactions_status {
     view_label: "Transactions"
     group_label: "Incomplete Transactions"
+    hidden: yes
     type: string
     sql: ${TABLE}.status ;;
+
   }
 }
