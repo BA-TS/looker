@@ -115,7 +115,6 @@ view: transactions {
     group_label: "Incomplete Transactions"
     label: "Order Status filter"
     type: string
-    default_value: "-Cancelled"
     sql: {% condition order_filter %} ${order_status} {% endcondition %};;
   }
 
