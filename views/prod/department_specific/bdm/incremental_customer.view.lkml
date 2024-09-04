@@ -34,9 +34,10 @@ view: incremental_customer {
   }
 
   dimension: customer_uid {
+    label: "Incremental Customer UID"
     type: string
     sql: ${TABLE}.customer_uid ;;
-    hidden: yes
+    # hidden: yes
   }
 
   dimension: bdm {
