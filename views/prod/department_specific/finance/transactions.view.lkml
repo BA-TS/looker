@@ -110,13 +110,20 @@ view: transactions {
     sql: ${TABLE}.status ;;
   }
 
-  #filter: order_filter {
-    #view_label: "Transactions"
-    #group_label: "Incomplete Transactions"
-    #label: "Order Status filter"
-    #type: string
-    #sql: {% condition order_filter %} ${order_status} {% endcondition %};;
-  #}
+  dimension: order_status_hidden {
+    type: string
+    hidden: yes
+    sql: ${TABLE}.status ;;
+  }
+
+  filter: order_filter {
+    view_label: "Transactions"
+    group_label: "Incomplete Transactions"
+    label: "Order Status filter"
+    type: string
+    sql: {% condition order_filter %} ${order_status_hidden} {% endcondition %};;
+    default_value: "Completed"
+  }
 
   dimension: is_next_day_click_and_collect {
     group_label: "Flags"
