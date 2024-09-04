@@ -15,10 +15,10 @@ view: incremental_customer {
         field: base.select_date_reference
         value: "Transaction"
       }
-      filters: {
-        field: base.select_date_range
-        value: "2022/01/01 to 2031/08/14"
-      }
+      # filters: {
+      #   field: base.select_date_range
+      #   value: "2022/01/01 to 2031/08/14"
+      # }
       filters: {
         field: bdm_ka_customers.is_active
         value: "Yes"
