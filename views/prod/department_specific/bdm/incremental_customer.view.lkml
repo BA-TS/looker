@@ -26,7 +26,7 @@ view: incremental_customer {
 
   dimension: prim_key {
     type: string
-    sql: concat(${customer_uid},${py_date}) ;;
+    sql: concat(${customer_uid},${bdm},${py_date}) ;;
     hidden: yes
     primary_key: yes
   }
