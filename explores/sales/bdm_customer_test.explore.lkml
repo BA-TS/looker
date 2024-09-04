@@ -10,10 +10,10 @@ include: "/views/**/bdm/**.view"
 
 persist_with: ts_transactions_datagroup
 
-explore: bdm_test {
+explore: bdm_test_customer {
   required_access_grants: [lz_testing]
   view_name: base
-  label: "BDM Test"
+  label: "BDM Customer Test"
   always_filter: {
     filters: [
       select_date_reference: "Transaction"
@@ -61,15 +61,8 @@ explore: bdm_test {
   join: transactions {
     type: left_outer
     relationship: one_to_many
-    fields: [transactions.has_trade_account,transactions.number_of_branches,transactions.number_of_unique_products,transactions.number_of_transactions,transactions.spc_net_sales,transactions.aov_net_sales,transactions.aov_units,transactions.total_margin_incl_funding,transactions.total_net_sales,transactions.payment_type,transactions.product_department,transactions.number_of_departments]
+    fields: [transactions.number_of_branches,transactions.number_of_unique_products,transactions.number_of_transactions,transactions.spc_net_sales,transactions.aov_net_sales,transactions.aov_units,transactions.total_margin_incl_funding,transactions.total_net_sales,transactions.payment_type,transactions.product_department,transactions.number_of_departments]
     sql_on: ${base.base_date_date} = ${transactions.transaction_date_filter};;
-  }
-
-  join: sites {
-    view_label: "Location"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${transactions.site_uid}=${sites.site_uid} ;;
   }
 
   join: catalogue {
@@ -97,55 +90,6 @@ explore: bdm_test {
     type: left_outer
     relationship: many_to_one
     sql_on: ${ledger.bdm} = ${bdm_ka_customers.bdm} and ${ledger.customer_uid} = ${bdm_ka_customers.customer_uid};;
-  }
-
-  join: po_numbers {
-    view_label: "Transactions"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${transactions.parent_order_uid} = ${po_numbers.order_id};;
-  }
-
-  join: customers {
-    view_label: "Customers"
-    fields: [customers.customer__company]
-    type :  left_outer
-    relationship: many_to_one
-    sql_on: ${transactions.customer_uid}=${customers.customer_uid} ;;
-  }
-
-  join: trade_customers {
-    type:  left_outer
-    relationship: many_to_one
-    sql_on: ${customers.customer_uid} = ${trade_customers.customer_uid} ;;
-  }
-
-  join: trade_credit_details {
-    view_label: "Customers"
-    type: left_outer
-    relationship: many_to_one
-    fields: [trade_credit_details.total_credit_limit,trade_credit_details.total_remaining_balance]
-    sql_on: ${trade_credit_ids.main_trade_credit_account_uid} = ${trade_credit_details.main_trade_credit_account_uid} ;;
-  }
-
-  join: trade_credit_ids {
-    view_label: "Customers"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${customers.customer_uid} = ${trade_credit_ids.customer_uid} ;;
-  }
-
-  join: products {
-    type:  left_outer
-    relationship: many_to_one
-    fields: [products.is_own_brand,products.product_code,products.product_name,products.subdepartment]
-    sql_on: ${transactions.product_uid}=${products.product_uid};;
-  }
-
-  join: incremental {
-    type:  left_outer
-    relationship: many_to_one
-    sql_on: ${base.date_date}=${incremental.ty_date} and ${ledger.bdm} = ${incremental.bdm} ;;
   }
 
   join: incremental_customer {
