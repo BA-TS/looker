@@ -149,6 +149,8 @@ explore: bdm {
   }
 
   join: incremental_customer {
+    view_label: "Incremental"
+    fields: [incremental_customer.total_customer_number,incremental_customer.incremental_customer_number]
     type:  left_outer
     relationship: many_to_one
     sql_on: ${base.date_date}=${incremental_customer.ty_date} and ${ledger.bdm} = ${incremental_customer.bdm} ;;
