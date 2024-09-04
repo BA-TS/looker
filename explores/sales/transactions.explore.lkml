@@ -159,7 +159,7 @@ explore: base {
         AND (UPPER(${transactions.extranet_status}) in (case when ({% parameter transactions.select_extranet_status %}) in ("SALE", "INCOMPLETE") then {% parameter transactions.select_extranet_status %} else ("INCOMPLETE") end)
         or UPPER(${transactions.extranet_status}) in (case when ({% parameter transactions.select_extranet_status %}) in ("SALE", "INCOMPLETE") then {% parameter transactions.select_extranet_status %} else ("SALE") end))
 
-        AND ${transactions.order_status} in case when ({% parameter transactions.order_cancelled %}) in ("Yes") then ("Cancelled") else ("Pending", "Completed") end;;
+        AND (${transactions.order_status} in (case when ({% parameter transactions.order_cancelled %}) in ("Yes") then ("Cancelled") else ("Completed") end) or ${transactions.order_status} in (case when ({% parameter transactions.order_cancelled %}) in ("Yes") then ("Cancelled") else ("Pending") end));;
   }
 
   join: single_line_transactions {
