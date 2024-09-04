@@ -68,12 +68,14 @@ view: incremental_customer {
     label: "PY - Date "
     type: date
     sql: date(${TABLE}.py_date) ;;
+    hidden: yes
   }
 
   dimension: ty_date {
     label: "TY - Date "
     type: date
     sql: date_add(${py_date}, interval 1 year) ;;
+    hidden: yes
 
   }
 
@@ -111,7 +113,7 @@ view: incremental_customer {
   }
 
   measure: incremental_customer_number{
-    label: "Incremental Customer Number Test"
+    label: "Incremental Customer Number"
     type: number
     sql: ${bdm_ka_customers.number_of_customers}-${total_customer_number};;
     value_format_name: decimal_0

@@ -81,13 +81,14 @@ view: incremental {
     label: "PY - Date "
     type: date
     sql: date(${TABLE}.py_date) ;;
+    hidden: yes
   }
 
   dimension: ty_date {
     label: "TY - Date "
     type: date
     sql: date_add(${py_date}, interval 1 year) ;;
-
+    hidden: yes
   }
 
   measure: total_net_sales {
