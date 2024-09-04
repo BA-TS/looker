@@ -6,9 +6,7 @@ view: incremental_customer {
       column: total_margin_incl_funding { field: transactions.total_margin_incl_funding }
       column: spc_net_sales { field: transactions.spc_net_sales }
       column: py_date { field: calendar_completed_date.date }
-
       column: bdm { field: bdm_ka_customers.bdm }
-      # column: number_of_customers { field: bdm_ka_customers.number_of_customers }
       column: customer_uid { field: bdm_ka_customers.customer_uid }
 
       filters: {
@@ -57,13 +55,6 @@ view: incremental_customer {
     hidden: yes
   }
 
-  dimension: spc_net_sales_dim {
-    value_format_name: gbp
-    type: number
-    sql: ${TABLE}.spc_net_sales ;;
-    hidden: yes
-  }
-
   dimension: py_date {
     label: "PY - Date "
     type: date
@@ -76,7 +67,6 @@ view: incremental_customer {
     type: date
     sql: date_add(${py_date}, interval 1 year) ;;
     hidden: yes
-
   }
 
   measure: total_net_sales {
@@ -85,12 +75,6 @@ view: incremental_customer {
     type: sum
     sql: ${total_net_sales_dim};;
   }
-
-  # measure: total_customer_number {
-  #   label: "PY - Number of Customers"
-  #   type: sum
-  #   sql: ${number_of_customers};;
-  # }
 
   measure: total_customer_number {
     label: "PY - Number of Customers"

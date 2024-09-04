@@ -26,13 +26,6 @@ view: incremental {
     }
   }
 
-  # dimension: prim_key {
-  #   type: string
-  #   sql: concat(${customer_uid},${calendar_year_month}) ;;
-  #   hidden: yes
-  #   primary_key: yes
-  # }
-
   # dimension: customer_uid {
   #   type: string
   #   sql: ${TABLE}.customer_uid ;;
@@ -51,11 +44,6 @@ view: incremental {
     hidden: yes
   }
 
-  dimension: number_of_customers {
-    sql: ${TABLE}.number_of_customers ;;
-    hidden: yes
-  }
-
   dimension: total_net_sales_dim {
     value_format_name: gbp
     type: number
@@ -67,13 +55,6 @@ view: incremental {
     value_format_name: gbp
     type: number
     sql: ${TABLE}.total_margin_incl_funding ;;
-    hidden: yes
-  }
-
-  dimension: spc_net_sales_dim {
-    value_format_name: gbp
-    type: number
-    sql: ${TABLE}.spc_net_sales ;;
     hidden: yes
   }
 
@@ -98,34 +79,6 @@ view: incremental {
     sql: ${total_net_sales_dim};;
   }
 
-  measure: total_customer_number {
-    label: "PY - Number of Customers"
-    type: sum
-    sql: ${number_of_customers};;
-    hidden: yes
-  }
-
-  measure: spc_net_sales {
-    label: "PY - Spend Per Customer (Net sales)"
-    type: number
-    sql: COALESCE(SAFE_DIVIDE(${total_net_sales}, ${total_customer_number}),0) ;;
-    value_format_name: gbp
-  }
-
-  measure: incremental_spc {
-    label: "Incremental SPC"
-    type: number
-    sql: ${transactions.spc_net_sales} - ${spc_net_sales} ;;
-    value_format_name: gbp
-  }
-
-  measure: incremental_customer_number{
-    hidden: yes
-    type: number
-    sql: ${bdm_ka_customers.number_of_customers}-${total_customer_number};;
-    value_format_name: decimal_0
-  }
-
   measure: incremental_net_sales {
     description: "Net Sale of TY - Net Sale of PY"
     value_format_name: gbp_0
@@ -148,10 +101,4 @@ view: incremental {
     sql: ${transactions.total_margin_incl_funding}-${total_margin_incl_funding} ;;
   }
 
-  # measure: spc_net_sales {
-  #   label: "PY - Spend Per Customer (Net sales)"
-  #   value_format_name: gbp
-  #   type: average
-  #   sql: ${spc_net_sales_dim} ;;
-  # }
 }
