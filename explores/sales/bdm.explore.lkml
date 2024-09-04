@@ -143,9 +143,14 @@ explore: bdm {
   }
 
   join: incremental {
-    view_label: "Incremental Customer"
     type:  left_outer
     relationship: many_to_one
    sql_on: ${base.date_date}=${incremental.ty_date} and ${ledger.bdm} = ${incremental.bdm} ;;
+  }
+
+  join: incremental_customer {
+    type:  left_outer
+    relationship: many_to_one
+    sql_on: ${base.date_date}=${incremental_customer.ty_date} and ${ledger.bdm} = ${incremental_customer.bdm} ;;
   }
 }

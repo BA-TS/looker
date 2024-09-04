@@ -151,6 +151,6 @@ explore: bdm_test {
   join: incremental_customer {
     type:  left_outer
     relationship: many_to_one
-    sql_on: ${base.date_date}=${incremental_customer.ty_date} and ${ledger.customer_uid} = ${incremental_customer.customer_uid} ;;
+    sql_on: ${base.date_date}=${incremental_customer.ty_date} and ${ledger.bdm} = ${incremental_customer.bdm} ;;
   }
 }

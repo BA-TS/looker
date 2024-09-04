@@ -101,6 +101,7 @@ view: incremental {
     label: "PY - Number of Customers"
     type: sum
     sql: ${number_of_customers};;
+    hidden: yes
   }
 
   measure: spc_net_sales {
@@ -118,6 +119,7 @@ view: incremental {
   }
 
   measure: incremental_customer_number{
+    hidden: yes
     type: number
     sql: ${bdm_ka_customers.number_of_customers}-${total_customer_number};;
     value_format_name: decimal_0

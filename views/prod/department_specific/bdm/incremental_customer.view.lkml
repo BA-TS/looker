@@ -8,17 +8,17 @@ view: incremental_customer {
       column: py_date { field: calendar_completed_date.date }
 
       column: bdm { field: bdm_ka_customers.bdm }
-      column: number_of_customers { field: bdm_ka_customers.number_of_customers }
+      # column: number_of_customers { field: bdm_ka_customers.number_of_customers }
       column: customer_uid { field: bdm_ka_customers.customer_uid }
 
       filters: {
         field: base.select_date_reference
         value: "Transaction"
       }
-      # filters: {
-      #   field: base.select_date_range
-      #   value: "2022/01/01 to 2031/08/14"
-      # }
+      filters: {
+        field: base.select_date_range
+        value: "2012/01/01 to 2031/08/14"
+      }
       filters: {
         field: bdm_ka_customers.is_active
         value: "Yes"
@@ -84,10 +84,16 @@ view: incremental_customer {
     sql: ${total_net_sales_dim};;
   }
 
+  # measure: total_customer_number {
+  #   label: "PY - Number of Customers"
+  #   type: sum
+  #   sql: ${number_of_customers};;
+  # }
+
   measure: total_customer_number {
     label: "PY - Number of Customers"
-    type: sum
-    sql: ${number_of_customers};;
+    type: count_distinct
+    sql: ${customer_uid};;
   }
 
   measure: spc_net_sales {
