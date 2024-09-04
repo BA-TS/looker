@@ -24,7 +24,6 @@ explore: bdm_test_customer {
     filters: [
       select_date_range: "this month",
       bdm_ka_customers.is_active: "Yes",
-      bdm_ka_customers.team: "BDM",
       bdm_ka_customers.bdm: ""
     ]
     unless: [
@@ -77,13 +76,6 @@ explore: bdm_test_customer {
     type: left_outer
     relationship: many_to_one
     sql_on:  ${bdm_ka_customers.customer_uid}=${transactions.customer_uid};;
-  }
-
-  join: targets {
-    view_label: "Targets"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${targets.bdm} = ${bdm_ka_customers.bdm} and ${targets.team} = ${bdm_ka_customers.team} and ${targets.month}=${calendar_completed_date.calendar_year_month2};;
   }
 
   join: ledger {
