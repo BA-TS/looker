@@ -200,7 +200,7 @@ explore: GA4_testy {
     view_label: "GA4"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${ga4_rjagdev_test.session_id} = ${search_purchase.search_ID} and ${calendar.date} = ${search_purchase.search_date_date};;
+    sql_on: ${calendar.date} = ${search_purchase.search_date_date};;
     #sql_where: ${ga4_exitpage.LastE} = 1;;
   }
 
