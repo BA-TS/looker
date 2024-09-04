@@ -112,7 +112,6 @@ view: transactions {
 
 parameter: order_cancelled {
   view_label: "Transactions"
-  group_label: "Incomplete Transactions"
   label: "Order Cancelled"
   allowed_value: {
     label: "Yes"
