@@ -15,7 +15,7 @@ view: incremental_customer {
       }
       filters: {
         field: base.select_date_range
-        value: "2012/01/01 to 2031/08/14"
+        value: "2019/01/01 to 2031/08/14"
       }
       filters: {
         field: bdm_ka_customers.is_active
@@ -35,7 +35,7 @@ view: incremental_customer {
     label: "Incremental Customer UID"
     type: string
     sql: ${TABLE}.customer_uid ;;
-    # hidden: yes
+    hidden: yes
   }
 
   dimension: bdm {
@@ -49,7 +49,6 @@ view: incremental_customer {
   }
 
   dimension: total_net_sales_dim {
-    value_format_name: gbp
     type: number
     sql: ${TABLE}.total_net_sales;;
     hidden: yes
@@ -71,7 +70,7 @@ view: incremental_customer {
 
   measure: total_net_sales {
     label: "PY - Net Sales"
-    value_format_name: gbp
+    value_format_name: gbp_0
     type: sum
     sql: ${total_net_sales_dim};;
   }
@@ -86,14 +85,14 @@ view: incremental_customer {
     label: "PY - Spend Per Customer (Net sales)"
     type: number
     sql: COALESCE(SAFE_DIVIDE(${total_net_sales}, ${total_customer_number}),0) ;;
-    value_format_name: gbp
+    value_format_name: gbp_0
   }
 
   measure: incremental_spc {
     label: "Incremental SPC"
     type: number
     sql: ${transactions.spc_net_sales} - ${spc_net_sales} ;;
-    value_format_name: gbp
+    value_format_name: gbp_0
   }
 
   measure: incremental_customer_number{

@@ -74,7 +74,7 @@ view: incremental {
 
   measure: total_net_sales {
     label: "PY - Net Sales"
-    value_format_name: gbp
+    value_format_name: gbp_0
     type: sum
     sql: ${total_net_sales_dim};;
   }
