@@ -22,10 +22,6 @@ view: scorecard_trade_customers_filter {
         field: transactions.has_trade_account
         value: "Yes"
       }
-      filters: {
-        field: sites.site_uid
-        value: "CA"
-      }
     }
   }
   dimension: customer_uid {
