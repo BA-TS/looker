@@ -75,6 +75,7 @@ include: "/views/**/scorecard_testing_loyalty_region_ytd.view"
 include: "/views/**/scorecard_testing_loyalty_division_ytd.view"
 include: "/views/**/return_orders.view"
 include: "/views/**/ds_assumed_trade_history_new_lake.view"
+include: "/views/**/scorecard_trade_customers_filter.view"
 
 explore: base {
   label: "Transactions"
@@ -645,6 +646,7 @@ explore: base {
 
   join: scorecard_testing_branch_mth {
     required_access_grants:[is_retail]
+    view_label: "Scorecard Testing"
     type: left_outer
     relationship: one_to_one
     sql_on:
@@ -654,6 +656,7 @@ explore: base {
 
   join: scorecard_testing_region_mth {
     required_access_grants:[is_retail]
+    view_label: "Scorecard Testing"
     type: left_outer
     relationship: one_to_one
     sql_on:
@@ -663,6 +666,7 @@ explore: base {
 
   join: scorecard_testing_division_mth {
     required_access_grants:[is_retail]
+    view_label: "Scorecard Testing"
     type: left_outer
     relationship: one_to_one
     sql_on: ${customers.customer_uid} = ${scorecard_testing_division_mth.customerUID}
@@ -671,6 +675,7 @@ explore: base {
 
   join: scorecard_testing_branch_YTD {
     required_access_grants:[is_retail]
+    view_label: "Scorecard Testing"
     type: left_outer
     relationship: one_to_one
     sql_on:
@@ -680,6 +685,7 @@ explore: base {
 
   join: scorecard_testing_region_YTD {
     required_access_grants:[is_retail]
+    view_label: "Scorecard Testing"
     type: left_outer
     relationship: one_to_one
     sql_on:
@@ -689,6 +695,7 @@ explore: base {
 
   join: scorecard_testing_division_YTD {
     required_access_grants:[is_retail]
+    view_label: "Scorecard Testing"
     type: left_outer
     relationship: one_to_one
     sql_on: ${customers.customer_uid} = ${scorecard_testing_division_YTD.customerUID}
@@ -697,6 +704,7 @@ explore: base {
 
   join: scorecard_testing_loyalty_branch_mth {
     required_access_grants:[is_retail]
+    view_label: "Scorecard Testing"
     type: left_outer
     relationship: one_to_one
     sql_on:
@@ -706,6 +714,7 @@ explore: base {
 
   join: scorecard_testing_loyalty_region_mth {
     required_access_grants:[is_retail]
+    view_label: "Scorecard Testing"
     type: left_outer
     relationship: one_to_one
     sql_on:
@@ -715,6 +724,7 @@ explore: base {
 
   join: scorecard_testing_loyalty_division_mth {
     required_access_grants:[is_retail]
+    view_label: "Scorecard Testing"
     type: left_outer
     relationship: one_to_one
     sql_on: ${customers.customer_uid} = ${scorecard_testing_loyalty_division_mth.customerUID}
@@ -723,6 +733,7 @@ explore: base {
 
   join: scorecard_testing_loyalty_branch_ytd {
     required_access_grants:[is_retail]
+    view_label: "Scorecard Testing"
     type: left_outer
     relationship: one_to_one
     sql_on:
@@ -732,6 +743,7 @@ explore: base {
 
   join: scorecard_testing_loyalty_region_ytd {
     required_access_grants:[is_retail]
+    view_label: "Scorecard Testing"
     type: left_outer
     relationship: one_to_one
     sql_on:
@@ -741,10 +753,19 @@ explore: base {
 
   join: scorecard_testing_loyalty_division_ytd {
     required_access_grants:[is_retail]
+    view_label: "Scorecard Testing"
     type: left_outer
     relationship: one_to_one
     sql_on: ${customers.customer_uid} = ${scorecard_testing_loyalty_division_ytd.customerUID}
       and ${sites.division} = ${scorecard_testing_loyalty_division_ytd.siteUID};;
+  }
+
+  join: scorecard_trade_customers_filter {
+    required_access_grants:[is_retail]
+    view_label: "Scorecard Testing"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${customers.customer_uid} = ${scorecard_trade_customers_filter.customer_uid};;
   }
 
 
