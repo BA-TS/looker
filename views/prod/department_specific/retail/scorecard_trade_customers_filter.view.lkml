@@ -32,6 +32,8 @@ view: scorecard_trade_customers_filter {
   }
 
   dimension: scorecard_trade_customers_filter {
+    group_label: "Flags"
+    label:"Trade Customers Filter"
     type: yesno
     sql: ${customer_uid} is not null ;;
   }
