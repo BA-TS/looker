@@ -15,6 +15,7 @@ view: scorecard_testing_loyalty_division_ytd {
 
   dimension: customer_flag {
     type: yesno
+    group_label: "Loyalty Flags"
     label: "Loyalty (Division YTD)"
     sql: ${customerUID} is not null ;;
   }

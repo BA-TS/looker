@@ -17,6 +17,7 @@ view: scorecard_testing_region_YTD {
 
   dimension: customer_tyly_flag {
     type: yesno
+    group_label: "Customer Retention Flags"
     label: "Customer Rentention (Region YTD)"
     sql: ${customerUID} is not null ;;
   }

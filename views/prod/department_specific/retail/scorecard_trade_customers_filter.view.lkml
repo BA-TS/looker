@@ -8,7 +8,7 @@ view: scorecard_trade_customers_filter {
       column: customer_uid { field: customers.customer_uid }
       filters: {
         field: base.select_date_range
-        value: "before 2024/08/01"
+        value: "before 1 months ago"
       }
       filters: {
         field: base.select_date_reference
@@ -32,7 +32,7 @@ view: scorecard_trade_customers_filter {
   }
 
   dimension: scorecard_trade_customers_filter {
-    group_label: "Flags"
+    group_label: "Trade Customers Flags"
     label:"Trade Customers Filter"
     type: yesno
     sql: ${customer_uid} is not null ;;

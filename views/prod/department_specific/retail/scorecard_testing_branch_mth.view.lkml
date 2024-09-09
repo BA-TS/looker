@@ -16,6 +16,7 @@ view: scorecard_testing_branch_mth {
 
   dimension: customer_tyly_flag {
     type: yesno
+    group_label: "Customer Retention Flags"
     label: "Customer Rentention (Branch MTH)"
     sql: ${customerUID} is not null ;;
   }
