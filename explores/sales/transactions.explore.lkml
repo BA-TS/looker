@@ -76,6 +76,7 @@ include: "/views/**/scorecard_testing_loyalty_division_ytd.view"
 include: "/views/**/return_orders.view"
 include: "/views/**/ds_assumed_trade_history_new_lake.view"
 include: "/views/**/scorecard_trade_customers_filter.view"
+include: "/views/**/scorecard_testing_region_11.view"
 
 explore: base {
   label: "Transactions"
@@ -767,7 +768,6 @@ explore: base {
     relationship: one_to_one
     sql_on: ${customers.customer_uid} = ${scorecard_trade_customers_filter.customer_uid};;
   }
-
 
 }
 
