@@ -263,7 +263,7 @@ view: ga4_transactions {
   measure: Sum_GA4quantity {
     view_label: "GA4"
     group_label: "Total Measures"
-    label: "Total Product Quantity"
+    label: "Total Item Quantity"
     type: sum
     sql: ${ga4_quantity} ;;
     #filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]

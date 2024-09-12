@@ -181,14 +181,6 @@ view: ga4_rjagdev_test {
     sql: ${TABLE}.value ;;
   }
 
-  measure: itemQ {
-    view_label: "GA4"
-    group_label: "Total Measures"
-    label: "Total Item Quantity"
-    type: sum
-    sql: ${ga4_transactions.ga4_quantity} ;;
-  }
-
   dimension: error {
     view_label: "GA4"
     label: "Error Message"
