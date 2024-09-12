@@ -133,7 +133,7 @@ view: ga4_transactions {
   dimension: ga4_quantity {
     type: number
     hidden: yes
-    sql: coalesce(case when ${ga4_rjagdev_test.platform} in ("Web") and  ${ga4_rjagdev_test.event_name} in ("purchase", "Purchase") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.ga4_quantity end, case when ${ga4_rjagdev_test.event_name} in ("outOfStockMessageVisible") then cast(${ga4_rjagdev_test.label_2} as int64) else null end);;
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and  ${ga4_rjagdev_test.event_name} in ("purchase", "Purchase") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.ga4_quantity end ;;
   }
 
  #case when ${ga4_rjagdev_test.event_name} in ("outOfStockMessageVisible") then cast(${ga4_rjagdev_test.label_2} as int64) else null end
