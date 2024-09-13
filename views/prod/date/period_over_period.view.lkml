@@ -817,7 +817,7 @@ view: period_over_period {
       }
       allowed_value: {
         label: "Year to Date (YTD)"
-        value: "YTD"
+        value: "testy test"
       }
 
       allowed_value: {
