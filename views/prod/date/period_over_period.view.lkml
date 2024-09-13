@@ -935,11 +935,6 @@ view: period_over_period {
         ${base_date_raw}
         {% endif %}
       {% else %}
-         {% if select_fixed_range._parameter_value == "YLM" %}
-        ${base_date_raw} - 2 day
-        {% else %}
-        ${base_date_raw}
-        {% endif %}
       {% endif %};;
       timeframes: [date]
       can_filter: no
