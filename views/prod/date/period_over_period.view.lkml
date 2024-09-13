@@ -937,10 +937,6 @@ view: period_over_period {
         {% endif %}
 
       {% else %}
-        {% if select_fixed_range._parameter_value == "YLM" %} ${__current_date__}) - 7
-        {% else %}
-         ${base_date_raw}
-        {% endif %}
       {% endif %};;
       timeframes: [date]
       can_filter: no
