@@ -917,7 +917,6 @@ view: period_over_period {
       type: time
       sql:
       {% if pivot_dimension._in_query %}
-
         {% if select_fixed_range._in_query %}
           {% if select_fixed_range._parameter_value == "PD" and (select_comparison_period._parameter_value == "Week" or select_comparison_period._parameter_value == "Month") %}
             ${__current_date__}
@@ -935,8 +934,8 @@ view: period_over_period {
         {% else %}
         ${base_date_raw}
         {% endif %}
-
       {% else %}
+        ${base_date_raw}
       {% endif %};;
       timeframes: [date]
       can_filter: no
