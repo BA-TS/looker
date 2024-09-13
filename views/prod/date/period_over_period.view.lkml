@@ -934,7 +934,7 @@ view: period_over_period {
         {% else %}
         ${base_date_raw}
         {% endif %}
-      {% elsif select_fixed_range._parameter_value == "YLM" %} ${base_date_raw} between timestamp(timestamp_trunc(${__current_date__}, year)) and  timestamp(last_day(date_sub(${__current_date__}, INTERVAL 1 month), month))
+      {% elsif select_fixed_range._parameter_value == "YLM" %} ${__current_date__} - 7
       {% else %}
         ${base_date_raw}
       {% endif %};;
