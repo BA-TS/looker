@@ -935,6 +935,7 @@ view: period_over_period {
         ${base_date_raw}
         {% endif %}
       {% else %}
+        ${base_date_raw}
       {% endif %};;
       timeframes: [date]
       can_filter: no
