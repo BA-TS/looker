@@ -822,7 +822,7 @@ view: period_over_period {
 
       allowed_value: {
         label: "Year to Last Month"
-        value: "7 days ago"
+        value: "YLM"
       }
     }
 
@@ -935,7 +935,7 @@ view: period_over_period {
         ${base_date_raw}
         {% endif %}
       {% else %}
-        ${base_date_raw}
+      ${base_date_raw}
       {% endif %};;
       timeframes: [date]
       can_filter: no
@@ -991,6 +991,8 @@ view: period_over_period {
                     ${half_to_date}
                   {% elsif select_fixed_range._parameter_value == "YTD" %}
                     ${year_to_date}
+                    {% elsif select_fixed_range._parameter_value == "YLM" %}
+                    ${year_to_LM}
                   {% else %}
                     false
                   {% endif %}
@@ -1676,4 +1678,10 @@ view: period_over_period {
       sql: ${__target_date__} BETWEEN ${__year_2LY_start__} AND ${__year_2LY_end__} ;;
       hidden: yes
     }
+
+  dimension: year_to_LM {
+    type: yesno
+    sql: ${__target_date__} BETWEEN ${__year_start__} AND last_day(date_sub(${--${__current_date__}, INTERVAL 1 month), month) ;;
+    hidden: yes
+  }
   }
