@@ -817,12 +817,12 @@ view: period_over_period {
       }
       allowed_value: {
         label: "Year to Date (YTD)"
-        value: "testy test"
+        value: "YTD"
       }
 
       allowed_value: {
         label: "Year to Last Month"
-        value: "YTD"
+        value: "testy test"
       }
     }
 
