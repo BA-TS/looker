@@ -819,6 +819,11 @@ view: period_over_period {
         label: "Year to Date (YTD)"
         value: "YTD"
       }
+
+      allowed_value: {
+        label: "Year to Last Month"
+        value: "YTD"
+      }
     }
 
     parameter: select_comparison_period {
