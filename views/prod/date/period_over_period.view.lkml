@@ -981,7 +981,7 @@ view: period_over_period {
                 WHEN
                   {% if select_fixed_range._parameter_value == "PD" %}
                     ${previous_full_day}
-                  {% elsif select_fixed_range._parameter_value == "WTD" %}
+                  {% elsif select_fixed_range._parameter_value == "WTP" %}
                     ${week_to_date}
                   {% elsif select_fixed_range._parameter_value == "MTD" %}
                     ${month_to_date}
