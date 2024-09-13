@@ -822,7 +822,7 @@ view: period_over_period {
 
       allowed_value: {
         label: "Year to Last Month"
-        value: "testy test"
+        value: "YLM"
       }
     }
 
