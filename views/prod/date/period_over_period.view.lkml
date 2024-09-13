@@ -920,6 +920,7 @@ view: period_over_period {
         {% if select_fixed_range._in_query %}
           {% if select_fixed_range._parameter_value == "PD" and (select_comparison_period._parameter_value == "Week" or select_comparison_period._parameter_value == "Month") %}
             ${__current_date__}
+            {% elsif select_fixed_range._parameter_value == "YLM" %} ${base_date_raw} between date_trunc(${__current_date__}, year) and  last_day(date_sub(${__current_date__}, INTERVAL 1 month), month)
           {% else %}
             CASE
               WHEN EXTRACT(YEAR FROM ${__target_date__}) = EXTRACT(YEAR FROM ${__current_date__}) - 1
