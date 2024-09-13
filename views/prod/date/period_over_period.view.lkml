@@ -822,7 +822,7 @@ view: period_over_period {
 
       allowed_value: {
         label: "Year to Last Month"
-        value: "YLM"
+        value: "7 days ago"
       }
     }
 
