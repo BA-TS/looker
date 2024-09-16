@@ -847,7 +847,7 @@ and not regexp_contains(${TABLE}.filters_used, "\\@import") then regexp_extract(
     group_label: "Screen"
     label: "last event"
     type: yesno
-    sql: case when ${ga4_lastevent.exit_session} is not null then true else false end ;;
+    sql: ${ga4_lastevent.LastE} = 1 ;;
   }
 
   dimension: shipping_name {
