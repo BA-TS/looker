@@ -56,6 +56,12 @@ view: ga4_exitpage {
     sql: ${TABLE}.page_location;;
   }
 
+  dimension: Mintime{
+    hidden: yes
+    type: string
+    sql: cast(${TABLE}.minTime as string) ;;
+  }
+
   filter: select_date_range {
     hidden: yes
     #view_label: "Datetime (of event)"

@@ -842,6 +842,14 @@ and not regexp_contains(${TABLE}.filters_used, "\\@import") then regexp_extract(
     sql: safe_divide(${exitPageSessions},${sessions_total}) ;;
   }
 
+  dimension: lastEvent {
+    view_label: "GA4"
+    group_label: "Screen"
+    label: "last event"
+    type: yesno
+    sql: case when ${ga4_lastevent.exit_session} is not null then true else false end ;;
+  }
+
   dimension: shipping_name {
     view_label: "GA4"
     group_label: "Add to Cart"
