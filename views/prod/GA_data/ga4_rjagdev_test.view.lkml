@@ -719,7 +719,7 @@ and not regexp_contains(${TABLE}.filters_used, "\\@import") then regexp_extract(
     group_label: "Screen"
     hidden: yes
     type: string
-    sql: case when ${ga4_landingpage.Landingscreen_type} = ${screen_type} then ${screen_type} else null end;;
+    sql: case when case when ${ga4_landingpage.firstE} = 1 then ${screen_type} else null end;;
   }
 
   dimension: landingscreenName {
@@ -728,7 +728,7 @@ and not regexp_contains(${TABLE}.filters_used, "\\@import") then regexp_extract(
     group_label: "Screen"
     hidden: yes
     type: string
-    sql: case when ${ga4_landingpage.land_screen} = ${Screen_name} then ${Screen_name} else null end;;
+    sql: case when ${ga4_landingpage.firstE} = 1  then ${Screen_name} else null end;;
   }
 
   measure: landingSessions {
@@ -755,7 +755,7 @@ and not regexp_contains(${TABLE}.filters_used, "\\@import") then regexp_extract(
     group_label: "Screen"
     hidden: yes
     type: string
-    sql: case when ${ga4_landingpage.land_page} = ${page_location} then ${page_location} else null end;;
+    sql: case when ${ga4_landingpage.firstE} = 1 then ${page_location} else null end;;
   }
 
   measure: landingPageSessions {
