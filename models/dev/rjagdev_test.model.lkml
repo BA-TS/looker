@@ -201,6 +201,7 @@ explore: GA4_testy {
     type: left_outer
     relationship: many_to_one
     sql_on: ${ga4_rjagdev_test.session_id} = ${ga4_lastevent.exit_session} and ${calendar.date} = ${ga4_lastevent.date_date} and ${ga4_rjagdev_test.Mintime} = ${ga4_lastevent.Mintime} ;;
+    fields: [ga4_lastevent.LastE]
     #sql_where: ${ga4_lastevent.LastE} = 1;;
   }
 
