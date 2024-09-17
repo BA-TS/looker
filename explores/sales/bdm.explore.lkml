@@ -7,6 +7,8 @@ include: "/views/**/po_numbers.view"
 include: "/views/**/products.view"
 include: "/views/**/customer/**.view"
 include: "/views/**/bdm/**.view"
+include: "/views/**/single_line_transactions.view"
+
 
 persist_with: ts_transactions_datagroup
 
@@ -154,5 +156,13 @@ explore: bdm {
     type:  left_outer
     relationship: many_to_many
     sql_on: ${base.date_date}=${incremental_customer.ty_date} and ${ledger.bdm} = ${incremental_customer.bdm} ;;
+  }
+
+  join: single_line_transactions {
+    view_label: "Transactions"
+    fields: [single_line_transactions.attachment_rate_percent,single_line_transactions.single_line_percent]
+    type:  left_outer
+    relationship: many_to_many
+    sql_on: ${transactions.parent_order_uid} = ${single_line_transactions.parent_order_uid} ;;
   }
 }
