@@ -57,6 +57,13 @@ view: bdm_ka_customers {
     ]
   }
 
+  dimension: customer_TY {
+    view_label: "Account Created TY"
+    group_label: "Start and End Dates"
+    type: yesno
+    sql:${start_year}=2024;;
+  }
+
   dimension_group: end {
     view_label: "Customer Accounts"
     group_label: "Start and End Dates"
