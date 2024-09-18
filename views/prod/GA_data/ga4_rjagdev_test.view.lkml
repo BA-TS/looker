@@ -719,7 +719,7 @@ and not regexp_contains(${TABLE}.filters_used, "\\@import") then regexp_extract(
     group_label: "Screen"
     hidden: yes
     type: string
-    sql: case when case when ${ga4_landingpage.firstE} = 1 then ${screen_type} else null end;;
+    sql: case when ${ga4_landingpage.firstE} = 1 then ${screen_type} else null end;;
   }
 
   dimension: landingscreenName {
