@@ -59,8 +59,7 @@ view: bdm_ka_customers {
 
   dimension: customer_TY {
     view_label: "Customer Accounts"
-    label: "Account Created TY"
-    group_label: "Start and End Dates"
+    label: "Account Created This Year"
     type: yesno
     sql:${start_year}=extract (year from current_date);;
   }
