@@ -1010,6 +1010,8 @@ view: period_over_period {
                   ${half_to_date_LH} OR ${half_to_date_LY}
                 {% elsif select_fixed_range._parameter_value == "YTD" %}
                   ${year_to_date_LY}
+                  {% elsif select_fixed_range._parameter_value == "YLM" %}
+                  ${year_to_LM_LY}
                 {% else %}
                   false
                   {% endif %}
@@ -1027,6 +1029,8 @@ view: period_over_period {
                   ${half_to_date_LH} OR ${half_to_date_LY}
                 {% elsif select_fixed_range._parameter_value == "YTD" %}
                   ${year_to_date_2LY}
+                  {% elsif select_fixed_range._parameter_value == "YLM" %}
+                  ${year_to_LM_2LY}
                 {% else %}
                   false
                 {% endif %}
@@ -1681,7 +1685,19 @@ view: period_over_period {
 
   dimension: year_to_LM {
     type: yesno
-    sql: ${__target_date__} BETWEEN ${__year_start__} AND last_day(date_sub(${--${__current_date__}, INTERVAL 1 month), month) ;;
+    sql: ${__target_date__} BETWEEN ${__year_start__} AND last_day(${__month_LM_start__}, month) ;;
+    hidden: yes
+  }
+
+  dimension: year_to_LM_LY {
+    type: yesno
+    sql: ${__target_date__} BETWEEN ${__year_LY_start__} AND last_day(date_sub(${__month_LM_start__}, interval ${__length_of_year__} day), month) ;;
+    hidden: yes
+  }
+
+  dimension: year_to_LM_2LY {
+    type: yesno
+    sql: ${__target_date__} BETWEEN ${__year_2LY_start__} AND last_day(date_sub(${__month_LM_start__}, interval (${__length_of_year__}*2) day), month) ;;
     hidden: yes
   }
   }
