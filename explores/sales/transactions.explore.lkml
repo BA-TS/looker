@@ -77,6 +77,7 @@ include: "/views/**/return_orders.view"
 include: "/views/**/ds_assumed_trade_history_new_lake.view"
 include: "/views/**/scorecard_trade_customers_filter.view"
 include: "/views/**/scorecard_testing_region_11.view"
+include: "/views/**/hyperfinity_customer_flag.view"
 
 explore: base {
   label: "Transactions"
@@ -767,6 +768,13 @@ explore: base {
     type: left_outer
     relationship: one_to_one
     sql_on: ${customers.customer_uid} = ${scorecard_trade_customers_filter.customer_uid};;
+  }
+
+  join: hyperfinity_customer_flag {
+    view_label: "Customers"
+    type :  left_outer
+    relationship: one_to_one
+    sql_on: ${customers.customer_uid}=${hyperfinity_customer_flag.customer_uid} ;;
   }
 
 }
