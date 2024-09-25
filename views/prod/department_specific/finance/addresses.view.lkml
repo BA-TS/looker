@@ -44,6 +44,13 @@ view: addresses {
     sql: ${TABLE}.addressType ;;
   }
 
+  dimension: address_type_split {
+    group_label: "Order Delivery/Collection Address"
+    label: "Is Home Delivery"
+    type: yesno
+    sql: ${address_type} IN ("DELIVERY", "CONTACT","CARD");;
+  }
+
   dimension: postcode {
     required_access_grants: [is_finance]
     group_label: "Order Delivery/Collection Address"
