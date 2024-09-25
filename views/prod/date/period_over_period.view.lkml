@@ -1694,7 +1694,7 @@ view: period_over_period {
     dimension: year_to_date {
       type: yesno
       sql: ${__target_date__} BETWEEN ${__year_start__} AND ${__year_end__} ;;
-      hidden: no
+      hidden: yes
     }
 
     dimension: year_to_date_LY {
@@ -1712,7 +1712,7 @@ view: period_over_period {
   dimension: year_to_LM {
     type: yesno
     sql: ${__target_date__} BETWEEN ${__year_start__} AND last_day(${__month_LM_start__}, month) ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: year_to_LM_LY {
