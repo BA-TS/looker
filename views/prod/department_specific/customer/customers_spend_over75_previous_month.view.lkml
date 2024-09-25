@@ -3,7 +3,9 @@ view: customers_spend_over75_previous_month {
   derived_table: {
     explore_source: base {
       column: customer_uid { field: customers.customer_uid }
-      column: date_first_day_prev_month { field: calendar_completed_date.date_first_day_prev_month }
+      column: date_first_day_month { field: calendar_completed_date.date_first_day_month }
+      column: spc_gross_sales { field: transactions.spc_gross_sales }
+      column: total_gross_sales { field: transactions.total_gross_sales }
       filters: {
         field: base.select_date_reference
         value: "Transaction"
@@ -11,10 +13,6 @@ view: customers_spend_over75_previous_month {
       filters: {
         field: base.select_date_range
         value: "2024"
-      }
-      filters: {
-        field: spc_buckets_customers.spend_per_customer_buckets75
-        value: "75 or Above"
       }
     }
   }
@@ -24,14 +22,21 @@ view: customers_spend_over75_previous_month {
     sql: ${TABLE}.customer_uid ;;
   }
 
-  dimension: date_first_day_prev_month  {
-    label: "Prev Month"
-    sql:  ${TABLE}.date_first_day_prev_month ;;
+  dimension: date_first_day_month  {
+    label: "Prev Month (test)"
+    sql:  ${TABLE}.date_first_day_month ;;
+  }
+
+  dimension: spc_gross_sales {
+    group_label: "Loyalty Club"
+    label: "SPC gross sales (test)"
+    type: number
+    sql: ${TABLE}.total_gross_sales;;
   }
 
   dimension: over_loyalty_club_threshold {
     group_label: "Loyalty Club"
     type: yesno
-    sql: ${TABLE}.customer_uid is not null;;
+    sql: ${spc_gross_sales}>=75;;
   }
 }

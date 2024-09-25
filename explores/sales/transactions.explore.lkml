@@ -790,7 +790,7 @@ explore: base {
     view_label: "Customers"
     type :  left_outer
     relationship: one_to_one
-    sql_on: ${customers_spend_over75_previous_month.customer_uid}=${customers.customer_uid} and  ${calendar_completed_date.date_first_day_month} = ${customers_spend_over75_previous_month.date_first_day_prev_month};;
+    sql_on: ${customers_spend_over75_previous_month.customer_uid}=${customers.customer_uid} and  ${calendar_completed_date.date_first_day_prev_month} = ${customers_spend_over75_previous_month.date_first_day_month};;
   }
 
 }
