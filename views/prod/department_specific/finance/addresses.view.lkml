@@ -43,6 +43,7 @@ view: addresses {
   }
 
   dimension: postcode {
+    required_access_grants: [is_finance]
     group_label: "Order Delivery/Collection Address"
     type: string
     sql: ${TABLE}.postcode ;;
