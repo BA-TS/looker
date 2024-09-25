@@ -41,6 +41,14 @@ view: calendar {
     html: {{ rendered_value | date: "%d/%m/%Y" }};;
   }
 
+  dimension: date_first_day_month{
+    required_access_grants: [lz_testing]
+    group_label: "Dates"
+    label: "Date (01/mm/yyyy)"
+    type: date
+    sql: Date_trunc(${date},MONTH);;
+  }
+
   dimension: today_date{
     group_label: "Current Date"
     label: "Today (dd/mm/yyyy)"
