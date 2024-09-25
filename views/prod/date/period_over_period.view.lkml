@@ -1668,7 +1668,7 @@ view: period_over_period {
     dimension: year_to_date {
       type: yesno
       sql: ${__target_date__} BETWEEN ${__year_start__} AND ${__year_end__} ;;
-      hidden: yes
+      hidden: no
     }
 
     dimension: year_to_date_LY {
