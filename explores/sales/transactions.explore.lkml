@@ -79,6 +79,7 @@ include: "/views/**/scorecard_trade_customers_filter.view"
 include: "/views/**/scorecard_testing_region_11.view"
 include: "/views/**/hyperfinity_customer_flag.view"
 include: "/views/**/addresses.view"
+include: "/views/**/customers_spend_over75_previous_month.view"
 
 explore: base {
   label: "Transactions"
