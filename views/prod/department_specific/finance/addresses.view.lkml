@@ -27,12 +27,14 @@ view: addresses {
   dimension: address_start_date {
     group_label: "Order Delivery/Collection Address"
     type: date
+    datatype: date
     sql: ${TABLE}.addressStartDate ;;
   }
 
   dimension: address_end_date {
     group_label: "Order Delivery/Collection Address"
     type: date
+    datatype: date
     sql: ${TABLE}.addressEndDate ;;
   }
 
