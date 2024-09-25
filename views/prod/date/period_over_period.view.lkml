@@ -993,7 +993,7 @@ view: period_over_period {
                     ${half_to_date}
                   {% elsif select_fixed_range._parameter_value == "YTD" %}
                     ${year_to_date}
-                  {% elsif select_fixed_range._parameter_value == "YTD" %}
+                  {% elsif select_fixed_range._parameter_value == "YLM" %}
                     ${year_to_LM}
                   {% else %}
                     false
@@ -1012,7 +1012,7 @@ view: period_over_period {
                   ${half_to_date_LH} OR ${half_to_date_LY}
                 {% elsif select_fixed_range._parameter_value == "YTD" %}
                   ${year_to_date_LY}
-                  {% elsif select_fixed_range._parameter_value == "YLM" %}
+                {% elsif select_fixed_range._parameter_value == "YLM" %}
                   ${year_to_LM_LY}
                 {% else %}
                   false
@@ -1031,7 +1031,7 @@ view: period_over_period {
                   ${half_to_date_LH} OR ${half_to_date_LY}
                 {% elsif select_fixed_range._parameter_value == "YTD" %}
                   ${year_to_date_2LY}
-                  {% elsif select_fixed_range._parameter_value == "YLM" %}
+                {% elsif select_fixed_range._parameter_value == "YLM" %}
                   ${year_to_LM_2LY}
                 {% else %}
                   false
@@ -1376,6 +1376,28 @@ view: period_over_period {
                 ${year_to_date} OR ${year_to_date_2LY}
               {% else %}
                 ${year_to_date}
+              {% endif %}
+
+             {% elsif select_fixed_range._parameter_value == "YLM" %}
+              {% if select_comparison_period._parameter_value == "Period" %}
+                ${year_to_LM}
+              {% elsif select_comparison_period._parameter_value == "Week" %}
+                ${year_to_LM}
+              {% elsif select_comparison_period._parameter_value == "Month" %}
+                ${year_to_LM}
+              {% elsif select_comparison_period._parameter_value == "Quarter" %}
+                ${year_to_LM}
+              {% elsif select_comparison_period._parameter_value == "Half" %}
+                ${year_to_LM}
+              {% elsif select_comparison_period._parameter_value == "Year" %}
+                ${year_to_LM} OR ${year_to_LM_LY}
+                {% if select_number_of_periods._parameter_value == "3" %}
+                  OR ${year_to_LM_2LY}
+                {% endif %}
+              {% elsif select_comparison_period._parameter_value == "2YearsAgo" %}
+                ${year_to_LM} OR ${year_to_LM_2LY}
+              {% else %}
+                ${year_to_LM}
               {% endif %}
             {% else %}
               false
