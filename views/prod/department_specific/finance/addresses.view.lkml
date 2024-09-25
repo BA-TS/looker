@@ -12,32 +12,38 @@ view: addresses {
     primary_key: yes
   }
 
-  dimension: customerUID {
+  dimension: customer_uid {
     type: string
     sql: ${TABLE}.customerUID ;;
+    hidden: yes
   }
 
-  dimension: addressUID {
+  dimension: address_uid {
     type: string
     sql: ${TABLE}.addressUID ;;
+    hidden: yes
   }
 
-  dimension: addressStartDate {
+  dimension: address_start_date {
+    group_label: "Order Delivery/Collection Address"
     type: date
     sql: ${TABLE}.addressStartDate ;;
   }
 
-  dimension: addressEndDate {
+  dimension: address_end_date {
+    group_label: "Order Delivery/Collection Address"
     type: date
     sql: ${TABLE}.addressEndDate ;;
   }
 
-  dimension: addressType {
+  dimension: address_type {
+    group_label: "Order Delivery/Collection Address"
     type: string
     sql: ${TABLE}.addressType ;;
   }
 
   dimension: postcode {
+    group_label: "Order Delivery/Collection Address"
     type: string
     sql: ${TABLE}.postcode ;;
   }

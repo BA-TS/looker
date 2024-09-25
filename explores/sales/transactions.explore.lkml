@@ -778,6 +778,13 @@ explore: base {
     sql_on: ${customers.customer_uid}=${hyperfinity_customer_flag.customer_uid} ;;
   }
 
+  join: addresses {
+    view_label: "Transactions"
+    type :  left_outer
+    relationship: one_to_one
+    sql_on: ${addresses.address_uid}=${transactions.delivery_address_uid} ;;
+  }
+
 }
 
 
