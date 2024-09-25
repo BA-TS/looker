@@ -36,6 +36,7 @@ view: customers_spend_over75_previous_month {
   }
 
   dimension: over_loyalty_club_threshold {
+    group_label: "Loyalty Club"
     type: yesno
     sql: ${TABLE}.customer_uid is not null;;
   }
