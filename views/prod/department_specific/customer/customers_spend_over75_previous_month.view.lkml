@@ -3,7 +3,7 @@ view: customers_spend_over75_previous_month {
   derived_table: {
     explore_source: base {
       column: customer_uid { field: customers.customer_uid }
-      column: calendar_year_month { field: calendar_completed_date.calendar_year_month }
+      column: date_first_day_prev_month { field: calendar_completed_date.date_first_day_prev_month }
       filters: {
         field: base.select_date_reference
         value: "Transaction"
@@ -24,15 +24,9 @@ view: customers_spend_over75_previous_month {
     sql: ${TABLE}.customer_uid ;;
   }
 
-  dimension: calendar_year_prev_month {
+  dimension: date_first_day_prev_month  {
     label: "Prev Month"
-    sql:  ${TABLE}.calendar_year_month;;
-  }
-
-  dimension: calendar_year_month {
-    type: date
-    sql:  ${TABLE}.calendar_year_month;;
-    hidden: yes
+    sql:  ${TABLE}.date_first_day_prev_month ;;
   }
 
   dimension: over_loyalty_club_threshold {
