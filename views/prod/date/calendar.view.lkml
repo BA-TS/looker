@@ -42,11 +42,11 @@ view: calendar {
   }
 
   dimension: date_first_day_month{
-    required_access_grants: [lz_testing]
     group_label: "Dates"
     label: "Date (1st day of Month)"
     type: date
     sql: Date_trunc(date(${date}),MONTH);;
+    hidden: yes
   }
 
   dimension: date_first_day_prev_month{
@@ -55,6 +55,7 @@ view: calendar {
     label: "Date (1st day of Prev Month)"
     type: date
     sql: Date_sub(date(${date_first_day_month}),INTERVAL 1 MONTH);;
+    hidden: yes
   }
 
 
