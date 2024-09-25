@@ -38,16 +38,25 @@ view: calendar {
     type: date
     primary_key: yes
     sql: timestamp(${TABLE}.fullDate) ;;
-    html: {{ rendered_value | date: "%d/%m/%Y" }};;
+    # html: {{ rendered_value | date: "%d/%m/%Y" }};;
   }
 
   dimension: date_first_day_month{
     required_access_grants: [lz_testing]
     group_label: "Dates"
-    label: "Date (01/mm/yyyy)"
+    label: "Date (1st day of Month)"
     type: date
-    sql: Date_trunc(${date},MONTH);;
+    sql: Date_trunc(date(${date}),MONTH);;
   }
+
+  dimension: date_first_day_prev_month{
+    required_access_grants: [lz_testing]
+    group_label: "Dates"
+    label: "Date (1st day of Prev Month)"
+    type: date
+    sql: Date_sub(date(${date_first_day_month}),INTERVAL 1 MONTH);;
+  }
+
 
   dimension: today_date{
     group_label: "Current Date"

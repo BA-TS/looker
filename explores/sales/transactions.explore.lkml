@@ -786,12 +786,12 @@ explore: base {
     sql_on: ${addresses.address_uid}=${transactions.delivery_address_uid} ;;
   }
 
-  join: customers_spend_over75_previous_month {
-    view_label: "Customers"
-    type :  left_outer
-    relationship: one_to_one
-    sql_on: ${customers_spend_over75_previous_month.customer_uid}=${customers.customer_uid} and  ${calendar_completed_date.calendar_year_month} and ${customers_spend_over75_previous_month.calendar_year_month};;
-  }
+  # join: customers_spend_over75_previous_month {
+  #   view_label: "Customers"
+  #   type :  left_outer
+  #   relationship: one_to_one
+  #   sql_on: ${customers_spend_over75_previous_month.customer_uid}=${customers.customer_uid} and  ${calendar_completed_date.calendar_year_month} and ${customers_spend_over75_previous_month.calendar_year_month};;
+  # }
 
 }
 

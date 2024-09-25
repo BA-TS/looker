@@ -31,7 +31,7 @@ view: customers_spend_over75_previous_month {
 
   dimension: calendar_year_month {
     type: date
-    sql: date_add(${calendar_year_prev_month}, interval 1 month) ;;
+    sql:  ${TABLE}.calendar_year_month;;
     hidden: yes
   }
 
