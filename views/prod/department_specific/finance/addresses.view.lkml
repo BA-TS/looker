@@ -2,7 +2,7 @@ view: addresses {
   derived_table: {
     sql: select distinct *, row_number() over () as P_K from
        `toolstation-data-storage.locations.addresses` ;;
-    datagroup_trigger: ts_daily_datagroup
+    # datagroup_trigger: ts_daily_datagroup
   }
 
   dimension: P_K {
@@ -41,13 +41,4 @@ view: addresses {
     type: string
     sql: ${TABLE}.postcode ;;
   }
-
-  # dimension: addressUID {
-  #   type: string
-  #   sql: ${TABLE}.addressUID ;;
-  # }
-
-
-
-
 }

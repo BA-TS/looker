@@ -78,6 +78,7 @@ include: "/views/**/ds_assumed_trade_history_new_lake.view"
 include: "/views/**/scorecard_trade_customers_filter.view"
 include: "/views/**/scorecard_testing_region_11.view"
 include: "/views/**/hyperfinity_customer_flag.view"
+include: "/views/**/addresses.view"
 
 explore: base {
   label: "Transactions"
