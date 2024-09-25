@@ -102,7 +102,7 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
     group_label: "Recommend to purchase"
     label: "(Not Recommend) Net Revenue"
     type: sum
-    sql: ${TABLE}.Allpurchase_net ;;
+    sql: ${Allpurchase_net} ;;
     filters: [purchase_ID: "NULL"]
   }
 
@@ -122,7 +122,7 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
     group_label: "Recommend to purchase"
     label: "(Not Recommend) Quantity"
     type: sum
-    sql: ${TABLE}.rec_purchaseQ ;;
+    sql: ${Allpurchase_Q} ;;
     filters: [purchase_ID: "NULL"]
   }
 
