@@ -1,7 +1,5 @@
 view: customers_spend_over75_previous_month {
 
-  required_access_grants: [lz_testing]
-
   derived_table: {
     explore_source: base {
       column: customer_uid { field: customers.customer_uid }
