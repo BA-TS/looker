@@ -993,7 +993,7 @@ view: period_over_period {
                     ${half_to_date}
                   {% elsif select_fixed_range._parameter_value == "YTD" %}
                     ${year_to_date}
-                    {% elsif select_fixed_range._parameter_value == "YLM" %}
+                    {% elsif select_fixed_range._parameter_value == "YTD" %}
                     ${year_to_LM}
                   {% else %}
                     false
