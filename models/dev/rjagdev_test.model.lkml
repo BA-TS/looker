@@ -216,8 +216,9 @@ explore: GA4_testy {
     view_label: "GA4"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${ga4_rjagdev_test.session_id} = ${recommend_purchase.recommend_ID} and ${calendar.date} = ${recommend_purchase.recommend_date_date} and ${products.product_code} = ${recommend_purchase.item_id};;
+    sql_on: ${calendar.date} = ${recommend_purchase.recommend_date_date} and ${products.product_code} = ${recommend_purchase.item_id};;
     #sql_where: ${ga4_exitpage.LastE} = 1;;
+    #${ga4_rjagdev_test.session_id} = ${recommend_purchase.recommend_ID} and
   }
 
   join: last12_week_metrics {

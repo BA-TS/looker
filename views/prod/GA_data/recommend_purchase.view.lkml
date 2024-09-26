@@ -3,7 +3,7 @@ view: recommend_purchase {
     sql:
 with sub1 as (SELECT distinct platform, event_name, session_id, item_id,t.productCode,t.orderID, min(case when date(minTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(minTime, interval 1 HOUR)) else (timestamp_add(minTime, interval 1 HOUR)) end) as Time1, round(sum(net_value),2) as net, round(sum(ga4_quantity),2) as Q
 FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` a left join unnest(transactions) as t
-where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 6 day)) and FORMAT_DATE('%Y%m%d',current_date())
+where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 12 week)) and FORMAT_DATE('%Y%m%d',current_date())
 and ((a.item_id=t.productCode) or (a.item_id is not null and t.productCode is null) or (a.item_id is null and t.productCode is null))
 and event_name in ("purchase", "Purchase", "suggested_item_click", "recommended_item_tapped")
 group by all),
