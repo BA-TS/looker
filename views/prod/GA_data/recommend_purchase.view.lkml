@@ -107,7 +107,6 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
   }
 
   measure: Quantity {
-    value_format_name: gbp
     #view_label: "GA4"
     group_label: "Recommend to purchase"
     label: "(Recommend) Quantity"
@@ -117,7 +116,6 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
   }
 
   measure: nonRecQuantity {
-    value_format_name: gbp
     #view_label: "GA4"
     group_label: "Recommend to purchase"
     label: "(Not Recommend) Quantity"
