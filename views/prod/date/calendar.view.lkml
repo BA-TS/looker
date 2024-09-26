@@ -417,6 +417,7 @@ view: calendar {
     #view_label: "Datetime (of event)"
     label: "Date"
     group_label: "Date Filter"
+    hidden: yes
 
     type: date
     sql: {% condition filter_on_field_to_hide %} timestamp(field_to_hide) {% endcondition %} ;;
