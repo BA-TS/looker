@@ -8,7 +8,7 @@ and ((a.item_id=t.productCode) or (a.item_id is not null and t.productCode is nu
 and event_name in ("purchase", "Purchase", "suggested_item_click", "recommended_item_tapped")
 group by all),
 
-#, purchase_ID, Porder,purchase_date, purchase_time, timestamp_diff(purchase_time, min(Time1), second) as recommend_purch_diff, purchase_net, purchase_q
+-- purchase_ID, Porder,purchase_date, purchase_time, timestamp_diff(purchase_time, min(Time1), second) as recommend_purch_diff, purchase_net, purchase_q
 
 rec as (select distinct Platform,session_id as recommend_ID, date(min(Time1)) as recommend_date, min(Time1) as recommend_time, item_id
 from sub1
@@ -18,7 +18,7 @@ group by all),
 purchase as (select distinct min(Time1) as purchase_time, session_id as purchase_id, item_id, productCode, orderID, net, Q from sub1 where event_name in ("purchase", "Purchase")
 group by all)
 
-SELECT distinct row_number() over() as PK, rec.recommend_ID, recommend_time, lpad(rec.item_id,5,"0") as rec_itemid, purchase.purchase_time as rec_purchaseTime, timestamp_diff( purchase.purchase_time, recommend_time, second) as recommend_purch_diff, purchase.purchase_id as Rec_purchaseID, purchase.item_id as Rec_purchase_itemID, purchase.productCode as rec_purchasePC, purchase.OrderID as rec_purchaseOrderID, purchase.net as rec_purchaseNet, purchase.Q as rec_purchaseQ, all_purch.purchase_id as all_purchaseID, all_purch.purchase_time as allPurchaseTime, all_purch.item_id as Allpurchase_itemID, all_purch.productCode as allPurch_PC, all_purch.OrderID as allPurchOrdrID, all_purch.net as allPurch_net, all_purch.Q as allPurchQ
+SELECT distinct row_number() over() as PK, rec.recommend_ID, coalesce(recommend_time,purchase.purchase_time, all_purch.purchase_time) as date, coalesce(lpad(rec.item_id,5,"0"),purchase.productCode,all_purch.item_id, all_purch.productCode, purchase.item_id) as itemid, purchase.purchase_time as rec_purchaseTime, timestamp_diff( purchase.purchase_time, recommend_time, second) as recommend_purch_diff, purchase.purchase_id as Rec_purchaseID,  purchase.OrderID as rec_purchaseOrderID, purchase.net as rec_purchaseNet, purchase.Q as rec_purchaseQ, all_purch.purchase_id as all_purchaseID,  all_purch.OrderID as allPurchOrdrID, all_purch.net as allPurch_net, all_purch.Q as allPurchQ
 from rec
 left join purchase on rec.recommend_ID = purchase.purchase_id and rec.item_id = purchase.item_id and rec.recommend_time < purchase.purchase_time
 full outer join purchase as all_purch on purchase.purchase_id = all_purch.purchase_id and purchase.item_id=all_purch.item_id ;;
@@ -44,7 +44,7 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
     hidden: yes
     type: time
     timeframes: [raw,date]
-    sql: ${TABLE}.recommend_time ;;
+    sql: ${TABLE}.date ;;
   }
 
   dimension: purchase_ID {
@@ -62,7 +62,7 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
   dimension: item_id {
     hidden: yes
     type: string
-    sql: ${TABLE}.rec_itemid ;;
+    sql: ${TABLE}.itemid ;;
   }
 
   dimension: Allpurchase_ID {
