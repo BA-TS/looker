@@ -181,7 +181,7 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
     label: "Recommend Avg Basket Size"
     type: number
     value_format_name: decimal_2
-    sql: safe_divide(${recommend_Orders}, ${Quantity}) ;;
+    sql: safe_divide( ${Quantity}, ${recommend_Orders}) ;;
   }
 
   measure:  nonrec_basket_size {
@@ -189,7 +189,7 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
     label: "Non Recommend Avg Basket Size"
     type: number
     value_format_name: decimal_2
-    sql: safe_divide(${notrecommend_Orders}, ${nonRecQuantity}) ;;
+    sql: safe_divide(${nonRecQuantity}, ${notrecommend_Orders}) ;;
   }
 
 
