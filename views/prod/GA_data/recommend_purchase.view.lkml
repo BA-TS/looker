@@ -176,6 +176,22 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
     sql: safe_divide(${purchase_sessions}, ${recommend_sessions}) ;;
   }
 
+  measure:  rec_basket_size {
+    group_label: "Recommend to purchase"
+    label: "Recommend Avg Basket Size"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide(${recommend_Orders}, ${Quantity}) ;;
+  }
+
+  measure:  nonrec_basket_size {
+    group_label: "Recommend to purchase"
+    label: "Non Recommend Avg Basket Size"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide(${notrecommend_Orders}, ${nonRecQuantity}) ;;
+  }
+
 
 
 
