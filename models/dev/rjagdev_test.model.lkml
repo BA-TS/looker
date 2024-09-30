@@ -217,7 +217,7 @@ explore: GA4_testy {
     type: left_outer
     relationship: many_to_one
     sql_on: ${calendar.date} = ${recommend_purchase.recommend_date_date} and ${products.product_code} = ${recommend_purchase.item_id};;
-    sql_where: ${recommend_purchase.item_id} not in ("00021", "00099", "00006", "00037", "00004"."00033");;
+    sql_where: ${recommend_purchase.item_id} not in ("00021", "00099", "00006", "00037", "00004","00033");;
     #${ga4_rjagdev_test.session_id} = ${recommend_purchase.recommend_ID} and
   }
 
