@@ -821,11 +821,15 @@ view: period_over_period {
         label: "Year to Date (YTD)"
         value: "YTD"
       }
-
       allowed_value: {
         label: "Year to Last Month"
         value: "YLM"
       }
+      allowed_value: {
+        label: "Year to Last Week"
+        value: "YLW"
+      }
+
     }
 
     parameter: select_comparison_period {
@@ -995,6 +999,8 @@ view: period_over_period {
                     ${year_to_date}
                   {% elsif select_fixed_range._parameter_value == "YLM" %}
                     ${year_to_LM}
+                  {% elsif select_fixed_range._parameter_value == "YLW" %}
+                    ${year_to_LW}
                   {% else %}
                     false
                   {% endif %}
@@ -1014,6 +1020,8 @@ view: period_over_period {
                   ${year_to_date_LY}
                 {% elsif select_fixed_range._parameter_value == "YLM" %}
                   ${year_to_LM_LY}
+                {% elsif select_fixed_range._parameter_value == "YLW" %}
+                  ${year_to_LW_LY}
                 {% else %}
                   false
                   {% endif %}
@@ -1033,6 +1041,8 @@ view: period_over_period {
                   ${year_to_date_2LY}
                 {% elsif select_fixed_range._parameter_value == "YLM" %}
                   ${year_to_LM_2LY}
+                {% elsif select_fixed_range._parameter_value == "YLW" %}
+                  ${year_to_LW_2LY}
                 {% else %}
                   false
                 {% endif %}
@@ -1399,6 +1409,30 @@ view: period_over_period {
               {% else %}
                 ${year_to_LM}
               {% endif %}
+
+            {% elsif select_fixed_range._parameter_value == "YLW" %}
+              {% if select_comparison_period._parameter_value == "Period" %}
+                ${year_to_LW}
+              {% elsif select_comparison_period._parameter_value == "Week" %}
+                ${year_to_LW}
+              {% elsif select_comparison_period._parameter_value == "Month" %}
+                ${year_to_LW}
+              {% elsif select_comparison_period._parameter_value == "Quarter" %}
+                ${year_to_LW}
+              {% elsif select_comparison_period._parameter_value == "Half" %}
+                ${year_to_LW}
+              {% elsif select_comparison_period._parameter_value == "Year" %}
+                ${year_to_LW} OR ${year_to_LW_LY}
+                {% if select_number_of_periods._parameter_value == "3" %}
+                  OR ${year_to_LW_2LY}
+                {% endif %}
+              {% elsif select_comparison_period._parameter_value == "2YearsAgo" %}
+                ${year_to_LW} OR ${year_to_LW_2LY}
+              {% else %}
+                ${year_to_LW}
+              {% endif %}
+
+
             {% else %}
               false
             {% endif %}
@@ -1726,4 +1760,23 @@ view: period_over_period {
     sql: ${__target_date__} BETWEEN ${__year_2LY_start__} AND last_day(date_sub(${__month_LM_start__}, interval (${__length_of_year__}*2) day), month) ;;
     hidden: yes
   }
+
+  dimension: year_to_LW {
+    type: yesno
+    sql: ${__target_date__} BETWEEN ${__year_start__} AND last_day(${__week_LW_start__}, week) ;;
+    hidden: yes
+  }
+
+  dimension: year_to_LW_LY {
+    type: yesno
+    sql: ${__target_date__} BETWEEN ${__year_LY_start__} AND last_day(date_sub(${__week_LW_start__}, interval ${__length_of_year__} day), week) ;;
+    hidden: yes
+  }
+
+  dimension: year_to_LW_2LY {
+    type: yesno
+    sql: ${__target_date__} BETWEEN ${__year_2LY_start__} AND last_day(date_sub(${__week_LW_start__}, interval (${__length_of_year__}*2) day), week) ;;
+    hidden: yes
+  }
+
   }
