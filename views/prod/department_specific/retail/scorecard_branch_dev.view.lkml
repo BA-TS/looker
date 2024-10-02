@@ -171,7 +171,7 @@ view: scorecard_branch_dev {
 
   dimension: rating  {
     type: number
-    label: "Google Rating"
+    label: "Google Rating (SC)"
     sql: ${TABLE}.rating  ;;
     value_format: "0.00"
   }

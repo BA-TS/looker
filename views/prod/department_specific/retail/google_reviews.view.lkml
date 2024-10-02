@@ -40,6 +40,7 @@ view: google_reviews {
   }
 
   dimension: rating {
+    label: "Google Rating"
     type: string
     description: "Rating"
     sql: ${TABLE}.rating ;;

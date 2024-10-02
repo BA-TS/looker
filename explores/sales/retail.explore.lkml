@@ -3,14 +3,7 @@ include: "/views/**/calendar.view"
 include: "/views/**/transactions.view"
 include: "/views/**/sites.view"
 include: "/views/**/catalogue.view"
-include: "/views/**/google_reviews.view"
-include: "/views/**/appraisals.view"
-include: "/views/**/compliance_support.view"
-include: "/views/**/paid_hours.view"
-include: "/views/**/holiday_management.view"
-include: "/views/**/profit_protection.view"
-include: "/views/**/customer_experience.view"
-include: "/views/**/customer_experience_trade.view"
+include: "/views/**/retail/**.view"
 
 persist_with: ts_transactions_datagroup
 
@@ -84,6 +77,12 @@ explore: retail {
     type:  left_outer
     relationship:  many_to_one
     sql_on: ${google_reviews.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${google_reviews.siteUID} ;;
+  }
+
+  join: scorecard_branch_dev{
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on: ${scorecard_branch_dev.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${scorecard_branch_dev.siteUID} ;;
   }
 
   join: appraisals {
