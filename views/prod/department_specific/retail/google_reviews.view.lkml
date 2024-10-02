@@ -6,7 +6,8 @@ view: google_reviews {
     type: string
     label: "Google_month"
     sql: CAST(${TABLE}.month AS string);;
-    hidden: yes
+    required_access_grants: [lz_testing]
+    # hidden: yes
   }
 
   dimension: siteUID {

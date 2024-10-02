@@ -1247,10 +1247,10 @@ parameter: order_cancelled {
   }
 
   measure: aov_units{
-    label: "Units AOV" #  (Transaction)
+    label: "Units AOV (UPT)" #  (Transaction)
     view_label: "Measures"
     group_label: "AOV"
-    description: "Average units (only retail products) per order"
+    description: "Average units (only retail products) per order or Units per Transactions"
     type: number
     sql: COALESCE(SAFE_DIVIDE(${total_units}, ${number_of_transactions}),0) ;;
     value_format: "#,##0.00;(\#,##0.00)"
