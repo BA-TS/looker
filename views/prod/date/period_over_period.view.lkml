@@ -665,6 +665,13 @@ view: period_over_period {
     hidden: yes
   }
 
+  dimension: __year_LY_start__1stJan {
+    required_access_grants: [lz_testing]
+    type: date
+    datatype: date
+    sql:  DATE_SUB(${__year_start__}, INTERVAL 1 Year) ;;
+  }
+
   dimension: __year_LY_end__ {
     type: date
     datatype: date
@@ -1778,5 +1785,11 @@ view: period_over_period {
     sql: ${__target_date__} BETWEEN ${__year_2LY_start__} AND last_day(date_sub(${__week_LW_start__}, interval (${__length_of_year__}*2) day), week) ;;
     hidden: yes
   }
+
+  # dimension: LY_to_LW {
+  #   required_access_grants: [lz_testing]
+  #   type: yesno
+  #   sql: ${__target_date__} BETWEEN ${__year_LY_start__1stJan} AND last_day(${__week_LW_start__}, week) ;;
+  # }
 
   }
