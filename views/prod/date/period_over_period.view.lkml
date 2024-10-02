@@ -1786,10 +1786,10 @@ view: period_over_period {
     hidden: yes
   }
 
-  # dimension: LY_to_LW {
-  #   required_access_grants: [lz_testing]
-  #   type: yesno
-  #   sql: ${__target_date__} BETWEEN ${__year_LY_start__1stJan} AND last_day(${__week_LW_start__}, week) ;;
-  # }
+  dimension: LY_to_LW {
+    required_access_grants: [lz_testing]
+    type: yesno
+    sql: ${__target_date__} BETWEEN ${__year_LY_start__1stJan} AND last_day(${__week_LW_start__}, week) ;;
+  }
 
   }
