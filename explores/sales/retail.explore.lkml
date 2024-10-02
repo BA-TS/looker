@@ -83,7 +83,7 @@ explore: retail {
   join: google_reviews{
     type:  left_outer
     relationship:  many_to_one
-    sql_on: ${google_reviews.month}=${calendar_completed_date.calendar_year_month2};;
+    sql_on: ${google_reviews.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${google_reviews.siteUID} ;;
   }
 
   join: appraisals {

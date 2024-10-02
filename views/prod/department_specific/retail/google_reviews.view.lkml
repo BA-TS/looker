@@ -1,6 +1,13 @@
 view: google_reviews {
 
-  sql_table_name:`toolstation-data-storage.retailReporting.SC_GOOGLE_REVIEWS`;;
+  # sql_table_name:`toolstation-data-storage.retailReporting.SC_GOOGLE_REVIEWS`;;
+
+  derived_table: {
+    sql:
+    select * from `toolstation-data-storage.retailReporting.SC_GOOGLE_REVIEWS`;;
+    # datagroup_trigger: ts_transactions_datagroup
+  }
+
 
   dimension: month {
     type: string
