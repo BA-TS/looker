@@ -1,0 +1,26 @@
+view: stock_moves {
+
+  sql_table_name:`toolstation-data-storage.retailReporting.SC_MOVES_VS_DELIVERED` ;;
+
+  dimension: month {
+    type: string
+    view_label: "Date"
+    label: "Year Month (yyyymm)"
+    sql: ${TABLE}.month ;;
+    hidden: yes
+  }
+
+  dimension: siteUID {
+    type: string
+    view_label: "Site Information"
+    label: "Site UID"
+    sql: ${TABLE}.siteUID ;;
+    hidden: yes
+  }
+
+  dimension: moves {
+    type: number
+    sql: ${TABLE}.moves ;;
+  }
+
+}

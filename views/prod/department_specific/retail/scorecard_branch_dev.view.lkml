@@ -128,6 +128,7 @@ view: scorecard_branch_dev {
   }
 
   dimension: moves  {
+    label: "Moves (SC)"
     type: number
     sql: ${TABLE}.moves  ;;
     value_format: "0.00"
