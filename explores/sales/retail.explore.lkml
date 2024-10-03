@@ -127,6 +127,12 @@ explore: retail {
     sql_on: ${sites.site_uid}=${stock_moves.siteUID} and ${calendar_completed_date.calendar_year_month2}=${stock_moves.month} ;;
   }
 
+  join: operational_compliance {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${sites.site_uid}=${operational_compliance.siteUID} and ${calendar_completed_date.calendar_year_month2}=${operational_compliance.month} ;;
+  }
+
   join: holiday_management {
     type: left_outer
     relationship: many_to_one
