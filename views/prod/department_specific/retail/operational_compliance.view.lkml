@@ -9,7 +9,7 @@ view: operational_compliance {
     dimension: month {
       type: string
       label: "Month_test"
-      sql: CAST(${TABLE}.month AS string);;
+      sql: CAST(${TABLE}.Month AS string);;
       required_access_grants: [lz_testing]
       hidden: yes
     }
@@ -18,7 +18,7 @@ view: operational_compliance {
       type: string
       view_label: "Site Information"
       label: "Site UID"
-      sql: ${TABLE}.siteUID ;;
+      sql: ${TABLE}.UID ;;
       hidden: yes
     }
 
@@ -33,13 +33,13 @@ view: operational_compliance {
     dimension: number_of_task {
       label: "OC - Number of tasks"
       type: number
-      sql: ${TABLE}.number_of_task ;;
+      sql: ${TABLE}.Number_of_task ;;
     }
 
    dimension: overdue {
     label: "OC - Overdue"
     type: number
-    sql: ${TABLE}.overdue ;;
+    sql: ${TABLE}.Overdue ;;
    }
 
   dimension: percentage_complete {
