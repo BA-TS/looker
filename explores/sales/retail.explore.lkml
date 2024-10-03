@@ -94,7 +94,7 @@ explore: retail {
   join: lto{
     type:  left_outer
     relationship:  many_to_one
-    sql_on: ${sites.site_uid}=${lto.siteUID} ;;
+    sql_on: ${sites.site_uid}=${lto.siteUID} and ${lto.month}=${calendar_completed_date.calendar_year_month2} ;;
   }
 
   join: appraisals {
