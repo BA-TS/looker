@@ -65,6 +65,13 @@ explore: retail {
     sql_on: ${transactions.site_uid}=${sites.site_uid} ;;
   }
 
+  join: scorecard_branch_dev{
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on: ${scorecard_branch_dev.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${scorecard_branch_dev.siteUID} ;;
+  }
+
+
   join: catalogue {
     view_label: "Catalogue"
     fields: [catalogue.catalogue_live_date]
@@ -79,10 +86,10 @@ explore: retail {
     sql_on: ${google_reviews.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${google_reviews.siteUID} ;;
   }
 
-  join: scorecard_branch_dev{
+  join: training{
     type:  left_outer
     relationship:  many_to_one
-    sql_on: ${scorecard_branch_dev.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${scorecard_branch_dev.siteUID} ;;
+    sql_on: ${training.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${training.siteUID} ;;
   }
 
   join: appraisals {
