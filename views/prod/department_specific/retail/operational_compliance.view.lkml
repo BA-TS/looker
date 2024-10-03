@@ -31,23 +31,20 @@ view: operational_compliance {
     }
 
     dimension: number_of_task {
-      group_label: "Operational Compliance"
       label: "OC - Number of tasks"
-      type: string
+      type: number
       sql: ${TABLE}.number_of_task ;;
     }
 
    dimension: overdue {
-    group_label: "Operational Compliance"
     label: "OC - Overdue"
-    type: string
+    type: number
     sql: ${TABLE}.overdue ;;
    }
 
   dimension: percentage_complete {
-    group_label: "Operational Compliance"
     label: "OC - % Complete"
-    type: string
-    sql: ${TABLE}.percentage_complete ;;
+    type: number
+    sql: ${TABLE}.Percentage_complete ;;
   }
 }
