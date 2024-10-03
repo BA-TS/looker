@@ -6,31 +6,16 @@ view: lto {
     # datagroup_trigger: ts_transactions_datagroup
     }
 
-    dimension: month {
-      type: string
-      label: "Month test"
-      sql: CAST(${TABLE}.month AS string);;
-      required_access_grants: [lz_testing]
-      # hidden: yes
-    }
-
     dimension: siteUID {
       type: string
       view_label: "Site Information"
       label: "Site UID"
-      sql: ${TABLE}.siteUID ;;
+      sql: ${TABLE}.Shop_code ;;
       hidden: yes
-    }
-
-    dimension: siteUID_month {
-      type: string
-      view_label: "Site Information"
-      sql: concat(${month},${siteUID}) ;;
-      hidden: yes
-      primary_key: yes
     }
 
     dimension: lto {
+      label: "LTO"
       type: string
       sql: ${TABLE}.lto ;;
     }
