@@ -272,18 +272,21 @@ view: scorecard_branch_dev {
     label: "TY Trade Sales (SC)"
     type: number
     sql: ${TABLE}.tyTradeSales  ;;
+    value_format_name: decimal_0
   }
 
   dimension: py_Trade_Sales  {
     label: "PY Trade Sales (SC)"
     type: number
     sql: ${TABLE}.pyTradeSales  ;;
+    value_format_name: decimal_0
   }
 
   dimension: yoy_Trade_Sales  {
     label: "YoY Trade Sales (SC)"
     type: number
     sql: ${TABLE}.yoyTradeSales  ;;
+    value_format_name: percent_1
   }
 
   dimension: TY_Orders  {
@@ -294,6 +297,7 @@ view: scorecard_branch_dev {
   dimension: TY_AOV  {
     type: number
     sql: ${TABLE}.tyAOV  ;;
+    value_format_name: decimal_1
   }
 
   dimension: py_Sales  {
@@ -309,11 +313,13 @@ view: scorecard_branch_dev {
   dimension: py_AOV  {
     type: number
     sql: ${TABLE}.pyAOV  ;;
+    value_format_name: decimal_1
   }
 
   dimension: target_AOV  {
     type: number
     sql: ${TABLE}.targetAOV  ;;
+    value_format_name: decimal_1
   }
 
   dimension: vs_Target_AOV  {
@@ -424,12 +430,14 @@ view: scorecard_branch_dev {
     label: "TY Trading Profit (SC)"
     type: number
     sql: ${TABLE}.tyRetailTradingProfit  ;;
+    value_format_name: decimal_0
   }
 
   dimension: aop_retail_trading_profit  {
     label: "AOP Trading Profit (SC)"
     type: number
     sql: ${TABLE}.aopRetailTradingProfit  ;;
+    value_format_name: decimal_0
   }
 
   dimension: vs_AOP_retail_trading_profit  {
