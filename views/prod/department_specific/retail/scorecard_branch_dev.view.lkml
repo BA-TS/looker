@@ -96,6 +96,7 @@ view: scorecard_branch_dev {
     label: "Operational Compliance (SC)"
     type: number
     sql: ${TABLE}.operationalCompliance ;;
+    value_format_name: percent_1
   }
 
   dimension: hs_Visit  {
@@ -149,6 +150,7 @@ view: scorecard_branch_dev {
     label: "Stock Accuracy (SC)"
     type: number
     sql: ${TABLE}.stockAccuracy  ;;
+    value_format_name: percent_1
   }
 
   dimension: branch_NPS  {
@@ -218,12 +220,14 @@ view: scorecard_branch_dev {
     label: "YOY Frequency (SC)"
     type: number
     sql: ${TABLE}.yoyFrequency  ;;
+    value_format_name: percent_1
   }
 
   dimension: customer_Retention  {
     label: "Customer Retention % (SC)"
     type: number
     sql: ${TABLE}.customerRetention  ;;
+    value_format_name: percent_1
   }
 
   dimension: trade_Account_Sales  {
@@ -247,6 +251,7 @@ view: scorecard_branch_dev {
     label: "Trade Account Participation (SC)"
     type: number
     sql: ${TABLE}.tradeAccountParticipation  ;;
+    value_format_name: percent_1
   }
 
   dimension: ty_Trade_Sales  {
@@ -289,6 +294,7 @@ view: scorecard_branch_dev {
     label: "AOV v Target (SC)"
     type: number
     sql: ${TABLE}.vsTargetAOV  ;;
+    value_format_name: percent_1
   }
 
   dimension: actual_hours  {
@@ -378,12 +384,14 @@ view: scorecard_branch_dev {
     label: "Avg Selling Price Improvement (SC)"
     type: number
     sql: ${TABLE}.AvgSellingPriceImprov  ;;
+    value_format_name: percent_1
   }
 
   dimension: Loyalty_spend_increase  {
     label: "Loyalty Spend Increase (SC)"
     type: number
     sql: ${TABLE}.Loyalty_spend_increase  ;;
+    value_format_name: percent_1
   }
 
   dimension: ty_retail_trading_profit  {
@@ -399,15 +407,17 @@ view: scorecard_branch_dev {
   }
 
   dimension: vs_AOP_retail_trading_profit  {
-    label: "vs AOP Trading Profit (SC)"
+    label: "Trading Profit vs AOP (SC)"
     type: number
     sql: ${TABLE}.vsAOPRetailTradingProfit  ;;
+    value_format_name: percent_1
   }
 
   dimension: yoy_average_items  {
     label: "YOY Average Items (SC)"
     type: number
     sql: ${TABLE}.yoyAverageItems  ;;
+    value_format_name: percent_1
   }
 
   dimension: holiday_Q1_Month_Entitlement  {
