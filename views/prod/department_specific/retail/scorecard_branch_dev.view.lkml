@@ -246,6 +246,7 @@ view: scorecard_branch_dev {
   }
 
   dimension: ty_Trade_Sales  {
+    label: "TY Trade Sales (SC)"
     type: number
     sql: ${TABLE}.tyTradeSales  ;;
   }
@@ -281,6 +282,7 @@ view: scorecard_branch_dev {
   }
 
   dimension: vs_Target_AOV  {
+    label: "AOV v Target (SC)"
     type: number
     sql: ${TABLE}.vsTargetAOV  ;;
   }
@@ -366,6 +368,7 @@ view: scorecard_branch_dev {
   }
 
   dimension: Avg_Selling_Price_Improv  {
+    label: "Avg Selling Price Improvement (SC)"
     type: number
     sql: ${TABLE}.AvgSellingPriceImprov  ;;
   }
