@@ -274,6 +274,18 @@ view: scorecard_branch_dev {
     sql: ${TABLE}.tyTradeSales  ;;
   }
 
+  dimension: py_Trade_Sales  {
+    label: "PY Trade Sales (SC)"
+    type: number
+    sql: ${TABLE}.pyTradeSales  ;;
+  }
+
+  dimension: yoy_Trade_Sales  {
+    label: "YoY Trade Sales (SC)"
+    type: number
+    sql: ${TABLE}.yoyTradeSales  ;;
+  }
+
   dimension: TY_Orders  {
     type: number
     sql: ${TABLE}.tyOrders  ;;
