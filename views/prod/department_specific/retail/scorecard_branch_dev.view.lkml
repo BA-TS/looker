@@ -471,9 +471,4 @@ view: scorecard_branch_dev {
     sql: ${TABLE}.holidayQ4TakenPercent  ;;
   }
 
-
-
-
-
-
 }
