@@ -18,5 +18,6 @@ view: lto {
       label: "LTO"
       type: string
       sql: ${TABLE}.lto ;;
+      value_format_name: percent_1
     }
   }
