@@ -216,6 +216,20 @@ view: scorecard_branch_dev {
     value_format_name: percent_1
   }
 
+  dimension: ty_Frequency {
+    label: "TY Frequency (SC)"
+    type: number
+    sql: ${TABLE}.tyFrequency  ;;
+    value_format_name: percent_1
+  }
+
+  dimension: py_Frequency {
+    label: "PY Frequency (SC)"
+    type: number
+    sql: ${TABLE}.pyFrequency  ;;
+    value_format_name: percent_1
+  }
+
   dimension: yoy_Frequency {
     label: "YOY Frequency (SC)"
     type: number
