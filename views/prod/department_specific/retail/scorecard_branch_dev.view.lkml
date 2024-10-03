@@ -397,4 +397,13 @@ view: scorecard_branch_dev {
     sql: ${TABLE}.vsAOPRetailTradingProfit  ;;
   }
 
+  dimension: yoy_average_items  {
+    label: "YOY Average Items (SC)"
+    type: number
+    sql: ${TABLE}.yoyAverageItems  ;;
+  }
+
+
+
+
 }
