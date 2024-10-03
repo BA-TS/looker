@@ -378,4 +378,23 @@ view: scorecard_branch_dev {
     type: number
     sql: ${TABLE}.Loyalty_spend_increase  ;;
   }
+
+  dimension: ty_retail_trading_profit  {
+    label: "TY Trading Profit (SC)"
+    type: number
+    sql: ${TABLE}.tyRetailTradingProfit  ;;
+  }
+
+  dimension: aop_retail_trading_profit  {
+    label: "AOP Trading Profit (SC)"
+    type: number
+    sql: ${TABLE}.aopRetailTradingProfit  ;;
+  }
+
+  dimension: vs_AOP_retail_trading_profit  {
+    label: "vs AOP Trading Profit (SC)"
+    type: number
+    sql: ${TABLE}.vsAOPRetailTradingProfit  ;;
+  }
+
 }
