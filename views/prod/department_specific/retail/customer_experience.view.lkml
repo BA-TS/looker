@@ -23,4 +23,10 @@ view: customer_experience {
     label: "NPS"
     sql: ${TABLE}.nps ;;
   }
+
+  dimension: valued {
+    type: number
+    label: "Branch Valued"
+    sql: ${TABLE}.valued ;;
+  }
 }

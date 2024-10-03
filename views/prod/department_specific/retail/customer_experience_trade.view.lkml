@@ -22,4 +22,10 @@ view: customer_experience_trade {
     label: "NPS Trade"
     sql: ${TABLE}.nps ;;
   }
+
+  dimension: valued {
+    type: number
+    label: "Branch Valued Trade"
+    sql: ${TABLE}.valued ;;
+  }
 }
