@@ -30,6 +30,7 @@ view: customer_experience {
     type: number
     label: "Valued"
     sql: ${TABLE}.valued ;;
+    value_format_name: decimal_2
   }
 
   dimension: nps_error_flag {

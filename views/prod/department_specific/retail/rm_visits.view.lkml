@@ -34,8 +34,8 @@ view: rm_visits {
 
     dimension: score {
       label: "RM Visit"
-      type: string
-      sql: ${TABLE}.score ;;
+      type: number
+      sql: cast(${TABLE}.score as decimal) ;;
     }
 
    dimension: rm_visit_error_flag {

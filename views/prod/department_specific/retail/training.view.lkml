@@ -47,6 +47,7 @@ view: training {
     type: number
     label: "Training Completed %"
     sql: safe_divide(${available},${completed}) ;;
+    value_format_name: percent_1
   }
 
   dimension: training_error_flag {
