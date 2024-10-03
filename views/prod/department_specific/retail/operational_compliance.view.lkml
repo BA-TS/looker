@@ -2,7 +2,7 @@ view: operational_compliance {
 
   derived_table: {
     sql:
-    select * from `toolstation-data-storage.retailReporting.SC_OPERATIONAL_COMPLIANCE`;;
+    select * from `toolstation-data-storage.retailReporting.SC_OPERATIONAL_COMPLIANCE_BRANCH`;;
     # datagroup_trigger: ts_transactions_datagroup
     }
 
@@ -18,7 +18,7 @@ view: operational_compliance {
       type: string
       view_label: "Site Information"
       label: "Site UID"
-      sql: ${TABLE}.UID ;;
+      sql: ${TABLE}.siteUID ;;
       hidden: yes
     }
 
@@ -30,21 +30,39 @@ view: operational_compliance {
       primary_key: yes
     }
 
-    dimension: number_of_task {
-      label: "OC - Number of tasks"
+    dimension: tasks {
+      label: "Tasks"
       type: number
-      sql: ${TABLE}.Number_of_task ;;
+      sql: ${TABLE}.Tasks ;;
     }
 
    dimension: overdue {
-    label: "OC - Overdue"
+    label: "Overdue"
     type: number
     sql: ${TABLE}.Overdue ;;
    }
 
   dimension: percentage_complete {
-    label: "OC - % Complete"
+    label: "Complete %"
     type: number
-    sql: ${TABLE}.Percentage_complete ;;
+    sql: ${TABLE}.OperationalCompliance_MTH ;;
+  }
+
+  dimension: tasks_YTD {
+    label: "Tasks YTD"
+    type: number
+    sql: ${TABLE}.Tasks_YTD ;;
+  }
+
+  dimension: overdue_YTD {
+    label: "Overdue YTD"
+    type: number
+    sql: ${TABLE}.Overdue_YTD ;;
+  }
+
+  dimension: percentage_complete_YTD {
+    label: "Complete % YTD"
+    type: number
+    sql: ${TABLE}.OperationalCompliance_YTD ;;
   }
 }
