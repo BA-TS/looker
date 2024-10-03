@@ -403,6 +403,76 @@ view: scorecard_branch_dev {
     sql: ${TABLE}.yoyAverageItems  ;;
   }
 
+  dimension: holiday_Q1_Month_Entitlement  {
+    type: number
+    sql: ${TABLE}.holidayQ1MonthEntitlement  ;;
+  }
+
+  dimension: holiday_Q1_Taken_In_Quarter  {
+    label: "Holiday Taken Q1"
+    type: number
+    sql: ${TABLE}.holidayQ1TakenInQuarter ;;
+  }
+
+  dimension: holiday_Q1_Taken_Percent  {
+    label: "Holiday Taken Q1 %"
+    type: number
+    sql: ${TABLE}.holidayQ1TakenPercent  ;;
+  }
+
+  dimension: holiday_Q2_Month_Entitlement  {
+    type: number
+    sql: ${TABLE}.holidayQ2MonthEntitlement  ;;
+  }
+
+  dimension: holiday_Q2_Taken_In_Quarter  {
+    label: "Holiday Taken Q2"
+    type: number
+    sql: ${TABLE}.holidayQ2TakenInQuarter ;;
+  }
+
+  dimension: holiday_Q2_Taken_Percent  {
+    label: "Holiday Taken Q2 %"
+    type: number
+    sql: ${TABLE}.holidayQ2TakenPercent  ;;
+  }
+
+  dimension: holiday_Q3_Month_Entitlement  {
+    type: number
+    sql: ${TABLE}.holidayQ3MonthEntitlement  ;;
+  }
+
+  dimension: holiday_Q3_Taken_In_Quarter  {
+    label: "Holiday Taken Q3"
+    type: number
+    sql: ${TABLE}.holidayQ3TakenInQuarter ;;
+  }
+
+  dimension: holiday_Q3_Taken_Percent  {
+    label: "Holiday Taken Q3 %"
+    type: number
+    sql: ${TABLE}.holidayQ3TakenPercent  ;;
+  }
+
+  dimension: holiday_Q4_Month_Entitlement  {
+    type: number
+    sql: ${TABLE}.holidayQ4MonthEntitlement  ;;
+  }
+
+  dimension: holiday_Q4_Taken_In_Quarter  {
+    label: "Holiday Taken Q4"
+    type: number
+    sql: ${TABLE}.holidayQ4TakenInQuarter ;;
+  }
+
+  dimension: holiday_Q4_Taken_Percent  {
+    label: "Holiday Taken Q4 %"
+    type: number
+    sql: ${TABLE}.holidayQ4TakenPercent  ;;
+  }
+
+
+
 
 
 
