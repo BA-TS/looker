@@ -1,3 +1,6 @@
+
+include: "/views/**/scorecard_branch_dev.view"
+
 view: paid_hours {
 
   sql_table_name:`toolstation-data-storage.retailReporting.SC_Paid_Hours`;;

@@ -153,19 +153,19 @@ view: scorecard_branch_dev {
     value_format_name: percent_1
   }
 
-  dimension: branch_NPS  {
+  dimension: nps  {
     label: "NPS (SC)"
     type: number
     sql: ${TABLE}.branchNPS  ;;
   }
 
-  dimension: branch_Valued  {
+  dimension: valued  {
     label: "Valued (SC)"
     type: number
     sql: ${TABLE}.branchValued  ;;
   }
 
-  dimension: branchTradeNPS  {
+  dimension: trade_nps  {
     label: "Trade NPS (SC)"
     type: number
     sql: ${TABLE}.branchTradeNPS  ;;

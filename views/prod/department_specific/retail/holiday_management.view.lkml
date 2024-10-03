@@ -1,3 +1,5 @@
+include: "/views/**/scorecard_branch_dev.view"
+
 view: holiday_management {
 
   sql_table_name:`toolstation-data-storage.retailReporting.SC_Holiday_Management` ;;

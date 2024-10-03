@@ -1,3 +1,5 @@
+include: "/views/**/scorecard_branch_dev.view"
+
 view: google_reviews {
 
   derived_table: {

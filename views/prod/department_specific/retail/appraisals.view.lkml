@@ -1,3 +1,5 @@
+include: "/views/**/scorecard_branch_dev.view"
+
 view: appraisals {
 
   sql_table_name:`toolstation-data-storage.retailReporting.SC_APPRAISALS` ;;

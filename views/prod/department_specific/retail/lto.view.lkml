@@ -1,3 +1,5 @@
+include: "/views/**/scorecard_branch_dev.view"
+
 view: lto {
 
   derived_table: {

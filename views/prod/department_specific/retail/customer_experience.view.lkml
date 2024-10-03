@@ -1,3 +1,5 @@
+include: "/views/**/scorecard_branch_dev.view"
+
 view: customer_experience {
 
   sql_table_name:`toolstation-data-storage.retailReporting.SC_CUSTOMER_EXPERIENCE`;;
@@ -32,7 +34,12 @@ view: customer_experience {
 
   dimension: nps_error_flag {
     type: yesno
-    sql: (${valued}-${scorecard_branch_dev.branch_NPS}>0) or (${scorecard_branch_dev.branch_NPS} is null) ;;
+    sql: (${nps}-${scorecard_branch_dev.nps}>0) or (${scorecard_branch_dev.nps} is null) ;;
+  }
+
+  dimension: valued_error_flag {
+    type: yesno
+    sql: (${valued}-${scorecard_branch_dev.valued}>0) or (${scorecard_branch_dev.valued} is null) ;;
   }
 
 }

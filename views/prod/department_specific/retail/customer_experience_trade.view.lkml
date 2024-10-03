@@ -1,3 +1,5 @@
+include: "/views/**/scorecard_branch_dev.view"
+
 view: customer_experience_trade {
 
   sql_table_name:`toolstation-data-storage.retailReporting.SC_CUSTOMER_EXPERIENCE_TRADE`;;
@@ -23,9 +25,12 @@ view: customer_experience_trade {
     sql: ${TABLE}.nps ;;
   }
 
-  dimension: valued {
-    type: number
-    label: "Branch Valued Trade"
-    sql: ${TABLE}.valued ;;
+  dimension: nps_trade_error_flag {
+    type: yesno
+    sql: (${nps}-${scorecard_branch_dev.trade_nps}>0) or (${scorecard_branch_dev.trade_nps} is null) ;;
   }
+
+
+
+
 }
