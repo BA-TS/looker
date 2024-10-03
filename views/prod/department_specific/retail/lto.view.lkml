@@ -2,7 +2,7 @@ view: lto {
 
   derived_table: {
     sql:
-    select * from `toolstation-data-storage.retailReporting.SC_LTO_BRANCH`;;
+    select * from `toolstation-data-storage.retailReporting.SC_Retention_LTO`;;
     # datagroup_trigger: ts_transactions_datagroup
     }
 
