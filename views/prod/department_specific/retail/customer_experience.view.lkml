@@ -24,9 +24,15 @@ view: customer_experience {
     sql: ${TABLE}.nps ;;
   }
 
-  dimension: valued {
+  dimension:valued  {
     type: number
-    label: "Branch Valued"
+    label: "Valued"
     sql: ${TABLE}.valued ;;
   }
+
+  dimension: nps_error_flag {
+    type: yesno
+    sql: (${valued}-${scorecard_branch_dev.branch_NPS}>0) or (${scorecard_branch_dev.branch_NPS} is null) ;;
+  }
+
 }

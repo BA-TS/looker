@@ -154,19 +154,19 @@ view: scorecard_branch_dev {
   }
 
   dimension: branch_NPS  {
-    label: "Branch NPS (SC)"
+    label: "NPS (SC)"
     type: number
     sql: ${TABLE}.branchNPS  ;;
   }
 
   dimension: branch_Valued  {
-    label: "Branch Valued (SC)"
+    label: "Valued (SC)"
     type: number
     sql: ${TABLE}.branchValued  ;;
   }
 
   dimension: branchTradeNPS  {
-    label: "Branch Trade NPS (SC)"
+    label: "Trade NPS (SC)"
     type: number
     sql: ${TABLE}.branchTradeNPS  ;;
   }
@@ -435,76 +435,76 @@ view: scorecard_branch_dev {
   }
 
   dimension: holiday_Q1_Month_Entitlement  {
-    label: "Holiday Entitlement Q1"
+    label: "Holiday Entitlement Q1 (SC)"
     type: number
     sql: ${TABLE}.holidayQ1MonthEntitlement  ;;
   }
 
   dimension: holiday_Q1_Taken_In_Quarter  {
-    label: "Holiday Taken Q1"
+    label: "Holiday Taken Q1 (SC)"
     type: number
     sql: ${TABLE}.holidayQ1TakenInQuarter ;;
   }
 
   dimension: holiday_Q1_Taken_Percent  {
-    label: "Holiday Taken% Q1"
+    label: "Holiday Taken% Q1 (SC)"
     type: number
     sql: ${TABLE}.holidayQ1TakenPercent  ;;
     value_format_name: percent_1
   }
 
   dimension: holiday_Q2_Month_Entitlement  {
-    label: "Holiday Entitlement Q2"
+    label: "Holiday Entitlement Q2 (SC)"
     type: number
     sql: ${TABLE}.holidayQ2MonthEntitlement  ;;
   }
 
   dimension: holiday_Q2_Taken_In_Quarter  {
-    label: "Holiday Taken Q2"
+    label: "Holiday Taken Q2 (SC)"
     type: number
     sql: ${TABLE}.holidayQ2TakenInQuarter ;;
   }
 
   dimension: holiday_Q2_Taken_Percent  {
-    label: "Holiday Taken% Q2"
+    label: "Holiday Taken% Q2 (SC)"
     type: number
     sql: ${TABLE}.holidayQ2TakenPercent  ;;
     value_format_name: percent_1
   }
 
   dimension: holiday_Q3_Month_Entitlement  {
-    label: "Holiday Entitlement Q3"
+    label: "Holiday Entitlement Q3 (SC)"
     type: number
     sql: ${TABLE}.holidayQ3MonthEntitlement  ;;
   }
 
   dimension: holiday_Q3_Taken_In_Quarter  {
-    label: "Holiday Taken Q3"
+    label: "Holiday Taken Q3 (SC)"
     type: number
     sql: ${TABLE}.holidayQ3TakenInQuarter ;;
   }
 
   dimension: holiday_Q3_Taken_Percent  {
-    label: "Holiday Taken% Q3"
+    label: "Holiday Taken% Q3 (SC)"
     type: number
     sql: ${TABLE}.holidayQ3TakenPercent  ;;
     value_format_name: percent_1
   }
 
   dimension: holiday_Q4_Month_Entitlement  {
-    label: "Holiday Entitlement Q4"
+    label: "Holiday Entitlement Q4 (SC)"
     type: number
     sql: ${TABLE}.holidayQ4MonthEntitlement  ;;
   }
 
   dimension: holiday_Q4_Taken_In_Quarter  {
-    label: "Holiday Taken Q4"
+    label: "Holiday Taken Q4 (SC)"
     type: number
     sql: ${TABLE}.holidayQ4TakenInQuarter ;;
   }
 
   dimension: holiday_Q4_Taken_Percent  {
-    label: "Holiday Taken% Q4"
+    label: "Holiday Taken% Q4 (SC)"
     type: number
     sql: ${TABLE}.holidayQ4TakenPercent  ;;
     value_format_name: percent_1
