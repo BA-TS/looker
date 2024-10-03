@@ -39,42 +39,36 @@ view: scorecard_branch_dev {
     label: "LTO Headcount (SC)"
     type: number
     sql: ${TABLE}.headcount_sum_12m  ;;
-    value_format: "0.0"
   }
 
   dimension: lto_Percent_sc   {
     label: "LTO % (SC)"
     type: number
     sql: ${TABLE}.ltoPercent  ;;
-    value_format: "0.0"
   }
 
   dimension: training_Available   {
     label: "Training Available (SC)"
     type: number
     sql: ${TABLE}.trainingAvailable  ;;
-    value_format: "0.0"
   }
 
   dimension: training_Completed   {
     label: "Training Completed (SC)"
     type: number
     sql: ${TABLE}.trainingCompleted ;;
-    value_format: "0.0"
   }
 
   dimension: training_Percent_Completed  {
     label: "Training Completed % (SC)"
     type: number
     sql: ${TABLE}.trainingPercentCompleted  ;;
-    value_format: "0.0"
   }
 
   dimension: appraisals   {
     label: "Appraisals (SC)"
     type: number
     sql: ${TABLE}.appraisals  ;;
-    value_format: "0.0"
   }
 
   dimension: colleagues   {
