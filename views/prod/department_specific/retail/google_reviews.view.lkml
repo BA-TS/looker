@@ -45,6 +45,11 @@ view: google_reviews {
     sql: ${TABLE}.rating ;;
   }
 
+  dimension: google_rating_error_flag {
+    type: yesno
+    sql: (${rating}-${scorecard_branch_dev.rating}>0) or (${scorecard_branch_dev.rating} is null) ;;
+  }
+
   measure: TotalReviews {
     type: sum
     label: "Total Number of Reviews"
