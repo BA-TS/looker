@@ -163,11 +163,14 @@ view: scorecard_branch_dev {
     value_format: "0.00"
   }
 
-  dimension: total_Valued  {
+  dimension: branchTradeNPS  {
     type: number
-    sql: ${TABLE}.totalValued  ;;
+    sql: ${TABLE}.branchTradeNPS  ;;
     value_format: "0.00"
   }
+
+
+
 
   dimension: rating  {
     type: number
