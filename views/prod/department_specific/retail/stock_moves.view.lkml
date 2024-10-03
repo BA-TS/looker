@@ -6,7 +6,7 @@ view: stock_moves {
     type: string
     view_label: "Date"
     label: "Year Month (yyyymm)"
-    sql: ${TABLE}.month ;;
+    sql: CAST(${TABLE}.month AS string);;
     hidden: yes
   }
 
