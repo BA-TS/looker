@@ -71,7 +71,6 @@ explore: retail {
     sql_on: ${scorecard_branch_dev.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${scorecard_branch_dev.siteUID} ;;
   }
 
-
   join: catalogue {
     view_label: "Catalogue"
     fields: [catalogue.catalogue_live_date]
@@ -90,6 +89,12 @@ explore: retail {
     type:  left_outer
     relationship:  many_to_one
     sql_on: ${training.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${training.siteUID} ;;
+  }
+
+  join: lto{
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on: ${lto.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${lto.siteUID} ;;
   }
 
   join: appraisals {
