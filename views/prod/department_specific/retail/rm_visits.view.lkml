@@ -33,8 +33,14 @@ view: rm_visits {
     }
 
     dimension: score {
-      label: "RM Visit Score"
+      label: "RM Visit"
       type: string
       sql: ${TABLE}.score ;;
     }
+
+   dimension: rm_visit_error_flag {
+    type: yesno
+    sql: (${score}-${scorecard_branch_dev.rm_Visit}>0) or (${scorecard_branch_dev.rm_Visit} is null) ;;
+  }
+
   }

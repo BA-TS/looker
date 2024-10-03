@@ -43,4 +43,15 @@ view: training {
       sql: ${TABLE}.completed ;;
     }
 
+  dimension: completed_percent{
+    type: number
+    label: "Training Completed %"
+    sql: safe_divide(${available},${completed}) ;;
+  }
+
+  dimension: training_error_flag {
+    type: yesno
+    sql: (${completed_percent}-${scorecard_branch_dev.training_Percent_Completed}>0) or (${scorecard_branch_dev.training_Percent_Completed} is null) ;;
+  }
+
   }

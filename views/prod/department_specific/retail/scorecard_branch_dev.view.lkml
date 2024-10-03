@@ -108,7 +108,7 @@ view: scorecard_branch_dev {
   dimension: rm_Visit  {
     label: "RM Visit (SC)"
     type: number
-    sql: ${TABLE}. rmVisit  ;;
+    sql: ${TABLE}.rmVisit  ;;
   }
 
   dimension: Comp_Actual  {
