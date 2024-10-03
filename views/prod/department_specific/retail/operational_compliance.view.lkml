@@ -2,7 +2,7 @@ view: operational_compliance {
 
   derived_table: {
     sql:
-    select * from `toolstation-data-storage.retailReporting.SC_GOOGLE_REVIEWS`;;
+    select * from `toolstation-data-storage.retailReporting.SC_OPERATIONAL_COMPLIANCE`;;
     # datagroup_trigger: ts_transactions_datagroup
     }
 
