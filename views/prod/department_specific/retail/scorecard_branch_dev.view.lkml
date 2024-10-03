@@ -45,6 +45,7 @@ view: scorecard_branch_dev {
     label: "LTO % (SC)"
     type: number
     sql: ${TABLE}.ltoPercent  ;;
+    value_format_name: percent_1
   }
 
   dimension: training_Available   {
@@ -63,6 +64,7 @@ view: scorecard_branch_dev {
     label: "Training Completed % (SC)"
     type: number
     sql: ${TABLE}.trainingPercentCompleted  ;;
+    value_format_name: percent_1
   }
 
   dimension: appraisals   {
@@ -81,6 +83,7 @@ view: scorecard_branch_dev {
     label: "Appraisal % (SC)"
     type: number
     sql: ${TABLE}.appraisalPercent  ;;
+    value_format_name: percent_1
   }
 
   dimension: apprenticeship  {
@@ -208,6 +211,7 @@ view: scorecard_branch_dev {
     label: "Annon % (SC)"
     type: number
     sql: ${TABLE}.anonPercent  ;;
+    value_format_name: percent_1
   }
 
   dimension: yoy_Frequency {
@@ -314,12 +318,14 @@ view: scorecard_branch_dev {
     label: "Labour T1T2% (SC)"
     type: number
     sql: ${TABLE}.labourT1T2Percent  ;;
+    value_format_name: percent_1
   }
 
   dimension: labour_T3_Percent  {
     label: "Labour T3% (SC)"
     type: number
     sql: ${TABLE}.labourT3Percent  ;;
+    value_format_name: percent_1
   }
 
   dimension: ty_EBIT  {
@@ -365,6 +371,7 @@ view: scorecard_branch_dev {
   dimension: var_PY_Sales_Percent  {
     type: number
     sql: ${TABLE}.varPYSalesPercent  ;;
+    value_format_name: percent_1
   }
 
   dimension: Avg_Selling_Price_Improv  {
@@ -404,6 +411,7 @@ view: scorecard_branch_dev {
   }
 
   dimension: holiday_Q1_Month_Entitlement  {
+    label: "Holiday Entitlement Q1"
     type: number
     sql: ${TABLE}.holidayQ1MonthEntitlement  ;;
   }
@@ -415,12 +423,14 @@ view: scorecard_branch_dev {
   }
 
   dimension: holiday_Q1_Taken_Percent  {
-    label: "Holiday Taken Q1 %"
+    label: "Holiday Taken% Q1"
     type: number
     sql: ${TABLE}.holidayQ1TakenPercent  ;;
+    value_format_name: percent_1
   }
 
   dimension: holiday_Q2_Month_Entitlement  {
+    label: "Holiday Entitlement Q2"
     type: number
     sql: ${TABLE}.holidayQ2MonthEntitlement  ;;
   }
@@ -432,12 +442,14 @@ view: scorecard_branch_dev {
   }
 
   dimension: holiday_Q2_Taken_Percent  {
-    label: "Holiday Taken Q2 %"
+    label: "Holiday Taken% Q2"
     type: number
     sql: ${TABLE}.holidayQ2TakenPercent  ;;
+    value_format_name: percent_1
   }
 
   dimension: holiday_Q3_Month_Entitlement  {
+    label: "Holiday Entitlement Q3"
     type: number
     sql: ${TABLE}.holidayQ3MonthEntitlement  ;;
   }
@@ -449,12 +461,14 @@ view: scorecard_branch_dev {
   }
 
   dimension: holiday_Q3_Taken_Percent  {
-    label: "Holiday Taken Q3 %"
+    label: "Holiday Taken% Q3"
     type: number
     sql: ${TABLE}.holidayQ3TakenPercent  ;;
+    value_format_name: percent_1
   }
 
   dimension: holiday_Q4_Month_Entitlement  {
+    label: "Holiday Entitlement Q4"
     type: number
     sql: ${TABLE}.holidayQ4MonthEntitlement  ;;
   }
@@ -466,9 +480,10 @@ view: scorecard_branch_dev {
   }
 
   dimension: holiday_Q4_Taken_Percent  {
-    label: "Holiday Taken Q4 %"
+    label: "Holiday Taken% Q4"
     type: number
     sql: ${TABLE}.holidayQ4TakenPercent  ;;
+    value_format_name: percent_1
   }
 
 }
