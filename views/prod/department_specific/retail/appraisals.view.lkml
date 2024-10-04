@@ -32,7 +32,7 @@ view: appraisals {
 
   dimension: appraisals_error_flag {
     type: yesno
-    sql: ((${scorecard_branch_dev.appraisals} is null) ;;
+    sql: (${scorecard_branch_dev.appraisals} is null) ;;
   }
 
 }
