@@ -14,9 +14,9 @@ view: scorecard_branch_dev {
   dimension: siteUID {
     type: string
     view_label: "Site Information"
-    label: "Site UID"
+    label: "Site UID (Scorecard Testing, incl Region/Division)"
     sql: ${TABLE}.siteUID ;;
-    hidden: yes
+    # hidden: yes
   }
 
   measure: siteUID_count {
