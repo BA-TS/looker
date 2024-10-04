@@ -25,9 +25,16 @@ view: lto {
     }
 
     dimension: lto {
-      label: "LTO"
+      label: "LTO %"
       type: string
       sql: ${TABLE}.lto ;;
       value_format_name: percent_1
     }
+
+  dimension: lto_error_flag {
+    type: yesno
+    sql: ((${scorecard_branch_dev.lto_Percent_sc} is null) ;;
+  }
+
+
   }

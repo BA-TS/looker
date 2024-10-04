@@ -43,9 +43,14 @@ view: operational_compliance {
    }
 
   dimension: percentage_complete {
-    label: "Complete %"
+    label: "Operational Compliance Completed %"
     type: number
     sql: ${TABLE}.OperationalCompliance_MTH ;;
+  }
+
+  dimension: operational_compliance_error_flag {
+    type: yesno
+    sql: (${percentage_complete}-${scorecard_branch_dev.operational_Compliance}>0) or (${scorecard_branch_dev.operational_Compliance} is null) ;;
   }
 
   dimension: tasks_YTD {

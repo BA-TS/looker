@@ -93,7 +93,7 @@ view: scorecard_branch_dev {
   }
 
   dimension: operational_Compliance  {
-    label: "Operational Compliance (SC)"
+    label: "Operational Compliance Completed %(SC)"
     type: number
     sql: ${TABLE}.operationalCompliance ;;
     value_format_name: percent_1
@@ -166,7 +166,7 @@ view: scorecard_branch_dev {
   }
 
   dimension: trade_nps  {
-    label: "Trade NPS (SC)"
+    label: "NPS Trade (SC)"
     type: number
     sql: ${TABLE}.branchTradeNPS  ;;
   }

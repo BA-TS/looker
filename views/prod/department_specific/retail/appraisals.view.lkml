@@ -29,4 +29,10 @@ view: appraisals {
     type: number
     sql: ${TABLE}.appraisals ;;
   }
+
+  dimension: appraisals_error_flag {
+    type: yesno
+    sql: ((${scorecard_branch_dev.appraisals} is null) ;;
+  }
+
 }
