@@ -370,6 +370,11 @@ view: scorecard_branch_dev {
     value_format_name: percent_1
   }
 
+  dimension: vs_Target_AOV_error_flag  {
+    type: yesno
+    sql: ${vs_Target_AOV} is null  ;;
+  }
+
   dimension: actual_hours  {
     label: "AOP Hours (SC)"
     type: number
@@ -400,12 +405,23 @@ view: scorecard_branch_dev {
     value_format_name: percent_1
   }
 
+  dimension: labour_T1T2_error_flag  {
+    type: yesno
+    sql: ${labour_T1T2_Percent} is null  ;;
+  }
+
   dimension: labour_T3_Percent  {
     label: "Labour T3% (SC)"
     type: number
     sql: ${TABLE}.labourT3Percent  ;;
     value_format_name: percent_1
   }
+
+  dimension: labour_T3_error_flag  {
+    type: yesno
+    sql: ${labour_T3_Percent} is null  ;;
+  }
+
 
   dimension: ty_EBIT  {
     type: number
@@ -488,11 +504,22 @@ view: scorecard_branch_dev {
     value_format_name: percent_1
   }
 
+  dimension: vs_AOP_retail_trading_profit_error_flag  {
+    label: "Trading Profit vs AOP (SC)"
+    type: yesno
+    sql: ${vs_AOP_retail_trading_profit} is null  ;;
+  }
+
   dimension: yoy_average_items  {
     label: "YOY Average Items (SC)"
     type: number
     sql: ${TABLE}.yoyAverageItems  ;;
     value_format_name: percent_1
+  }
+
+  dimension: yoy_average_items_error_flag  {
+    type: yesno
+    sql: ${yoy_average_items} is null  ;;
   }
 
   dimension: holiday_Q1_Month_Entitlement  {
