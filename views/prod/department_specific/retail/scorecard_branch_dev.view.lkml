@@ -237,6 +237,11 @@ view: scorecard_branch_dev {
     value_format_name: percent_1
   }
 
+  dimension: yoy_Frequency_error_flag {
+    type: yesno
+    sql: ${yoy_Frequency} is null;;
+  }
+
   dimension: customer_Retention  {
     label: "Customer Retention % (SC)"
     type: number
@@ -268,6 +273,11 @@ view: scorecard_branch_dev {
     value_format_name: percent_1
   }
 
+  dimension: trade_Account_Participation_error_flag  {
+    type: yesno
+    sql: ${trade_Account_Participation} is null ;;
+  }
+
   dimension: ty_Trade_Sales  {
     label: "TY Trade Sales (SC)"
     type: number
@@ -287,6 +297,37 @@ view: scorecard_branch_dev {
     type: number
     sql: ${TABLE}.yoyTradeSales  ;;
     value_format_name: percent_1
+  }
+
+  dimension: yoy_Trade_Sales_error_flag  {
+    type: yesno
+    sql: ${yoy_Trade_Sales} is null ;;
+  }
+
+  dimension: ty_trade_ACS  {
+    label: "TY Trade ACS (SC)"
+    type: number
+    sql: ${TABLE}.tyTradeACS  ;;
+    value_format_name: decimal_1
+  }
+
+  dimension: py_trade_ACS  {
+    label: "PY Trade ACS (SC)"
+    type: number
+    sql: ${TABLE}.pyTradeACS  ;;
+    value_format_name: decimal_1
+  }
+
+  dimension: yoy_trade_ACS  {
+    label: "YOY Trade ACS (SC)"
+    type: number
+    sql: ${TABLE}.yoyTradeACS  ;;
+    value_format_name: decimal_1
+  }
+
+  dimension: yoy_trade_ACS_error_flag  {
+    type: yesno
+    sql: ${yoy_trade_ACS} is null ;;
   }
 
   dimension: TY_Orders  {

@@ -25,4 +25,9 @@ view: stock_moves {
     sql: ${TABLE}.moves ;;
   }
 
+  dimension: stock_Accuracy_error_flag {
+    type: yesno
+    sql: (${scorecard_branch_dev.stock_Accuracy} is null) ;;
+  }
+
 }
