@@ -498,6 +498,14 @@ parameter: order_cancelled {
     sql: (TIME(${transaction_raw}) BETWEEN "07:00:00" AND "16:59:59.999999");;
   }
 
+  dimension: rise_and_save_hours {
+    view_label: "Date"
+    group_label: "Time"
+    type:  yesno
+    sql: (TIME(${transaction_raw}) BETWEEN "07:00:00" AND "08:59:59.999999");;
+  }
+
+
   dimension: is_working_day {
     view_label: "Date"
     group_label: "Time"
