@@ -33,7 +33,7 @@ view: lto {
 
   dimension: lto_error_flag {
     type: yesno
-    sql: ((${scorecard_branch_dev.lto_Percent_sc} is null) ;;
+    sql: (${scorecard_branch_dev.lto_Percent_sc} is null) ;;
   }
 
 
