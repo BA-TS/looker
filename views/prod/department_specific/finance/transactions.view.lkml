@@ -505,6 +505,14 @@ parameter: order_cancelled {
     sql: (TIME(${transaction_raw}) BETWEEN "07:00:00" AND "08:59:59.999999");;
   }
 
+  dimension: store_opening_hours {
+    label: "Store Opening Hours (7am - 8pm)"
+    view_label: "Date"
+    group_label: "Time"
+    type:  yesno
+    sql: (TIME(${transaction_raw}) BETWEEN "07:00:00" AND "19:59:59.999999");;
+  }
+
 
   dimension: is_working_day {
     view_label: "Date"
