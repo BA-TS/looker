@@ -18,7 +18,7 @@ view: rm_visits {
       concat(extract (year from current_date), right(concat(0, extract (month from current_date)-1),2)) as month,
       from
       `toolstation-data-storage.retailReporting.SC_RM_VISITS` s
-      left join base b
+      inner join base b
       on s.siteUID = b.siteUID and s.month = b.month
       order by 2 desc
     ;;
