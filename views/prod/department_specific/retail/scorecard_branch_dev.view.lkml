@@ -220,14 +220,14 @@ view: scorecard_branch_dev {
     label: "TY Frequency (SC)"
     type: number
     sql: ${TABLE}.tyFrequency  ;;
-    value_format_name: percent_1
+    value_format_name: decimal_2
   }
 
   dimension: py_Frequency {
     label: "PY Frequency (SC)"
     type: number
     sql: ${TABLE}.pyFrequency  ;;
-    value_format_name: percent_1
+    value_format_name: decimal_2
   }
 
   dimension: yoy_Frequency {

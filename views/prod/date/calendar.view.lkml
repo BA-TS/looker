@@ -1,3 +1,5 @@
+include: "/views/prod/date/period_over_period.view"
+
 view: calendar {
   derived_table: {
     sql:
@@ -305,15 +307,22 @@ view: calendar {
     sql: ${TABLE}.fiscalYearWeek ;;
   }
 
-
-
   dimension: today_fiscal_year_week {
     group_label: "Dates Fiscal"
     label: "Today Fiscal Year Week (yyyyww)"
-    hidden: yes
+    # hidden: yes
     type: string
     sql: ${TABLE}.todayfiscalYearWeek;;
+    required_access_grants: [lz_testing]
   }
+
+  dimension: monday_reporting_weeks_filter {
+    group_label: "Dates Fiscal"
+    type: yesno
+    sql: cast(${fiscal_year_week} as int) IN (cast(${today_fiscal_year_week} as int),cast(${today_fiscal_year_week} as int)-1,cast(${today_fiscal_year_week} as int)-100) ;;
+    required_access_grants: [lz_testing]
+  }
+
 
   dimension: holiday_name {
     group_label: "Holiday"
