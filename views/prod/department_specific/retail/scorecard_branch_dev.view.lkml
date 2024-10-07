@@ -508,7 +508,7 @@ view: scorecard_branch_dev {
   }
 
   dimension: vs_AOP_retail_trading_profit_error_flag  {
-    label: "Trading Profit vs AOP (SC)"
+    label: "Trading Profit vs AOP Error Flag(SC)"
     type: yesno
     sql: ${vs_AOP_retail_trading_profit} is null  ;;
   }

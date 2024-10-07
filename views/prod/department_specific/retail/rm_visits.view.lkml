@@ -4,7 +4,24 @@ view: rm_visits {
 
   derived_table: {
     sql:
-    select * from `toolstation-data-storage.retailReporting.SC_RM_VISITS`;;
+      with base as (
+       select siteUID, max(month) as month
+       from
+       `toolstation-data-storage.retailReporting.SC_RM_VISITS`
+       group by all
+
+      )
+
+      select s.siteUID,
+      s.month as last_visit_month,
+      s.score,
+      concat(extract (year from current_date), right(concat(0, extract (month from current_date)-1),2)) as month,
+      from
+      `toolstation-data-storage.retailReporting.SC_RM_VISITS` s
+      left join base b
+      on s.siteUID = b.siteUID and s.month = b.month
+      order by 2 desc
+    ;;
     # datagroup_trigger: ts_transactions_datagroup
     }
 
@@ -16,6 +33,13 @@ view: rm_visits {
       # hidden: yes
     }
 
+  dimension: last_visit_month {
+    type: string
+    sql: CAST(${TABLE}.last_visit_month AS string);;
+    required_access_grants: [lz_testing]
+    # hidden: yes
+  }
+
     dimension: siteUID {
       type: string
       view_label: "Site Information"
@@ -23,6 +47,7 @@ view: rm_visits {
       sql: ${TABLE}.siteUID ;;
       hidden: yes
     }
+
 
     dimension: siteUID_month {
       type: string

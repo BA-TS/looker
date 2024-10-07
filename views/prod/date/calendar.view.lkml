@@ -134,7 +134,7 @@ view: calendar {
   dimension: today_calendar_year_month {
     group_label: "Today Dates"
     label: "Year Month (yyyy-mm)"
-    hidden: yes
+    required_access_grants: [lz_testing]
     type: string
     sql: ${TABLE}.todaydaycalendarYearMonth;;
   }
