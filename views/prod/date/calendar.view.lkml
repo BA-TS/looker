@@ -316,13 +316,19 @@ view: calendar {
     required_access_grants: [lz_testing]
   }
 
-  dimension: monday_reporting_weeks_filter {
-    group_label: "Dates Fiscal"
+  dimension: ty_py_weeks_filter_1 {
+    group_label: "Flags"
+    label: "TY and PY Wk-1"
     type: yesno
-    sql: cast(${fiscal_year_week} as int) IN (cast(${today_fiscal_year_week} as int),cast(${today_fiscal_year_week} as int)-1,cast(${today_fiscal_year_week} as int)-100) ;;
-    required_access_grants: [lz_testing]
+    sql: cast(${fiscal_year_week} as int) IN (cast(${today_fiscal_year_week} as int),cast(${today_fiscal_year_week} as int)-100) ;;
   }
 
+  dimension: ty_py_weeks_filter_2 {
+    group_label: "Flags"
+    label: "TY Wk-1, Wk-2 and PY Wk-1"
+    type: yesno
+    sql: cast(${fiscal_year_week} as int) IN (cast(${today_fiscal_year_week} as int),cast(${today_fiscal_year_week} as int)-1,cast(${today_fiscal_year_week} as int)-100) ;;
+  }
 
   dimension: holiday_name {
     group_label: "Holiday"
