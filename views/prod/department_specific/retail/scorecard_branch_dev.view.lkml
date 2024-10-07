@@ -157,18 +157,21 @@ view: scorecard_branch_dev {
     label: "NPS (SC)"
     type: number
     sql: ${TABLE}.branchNPS  ;;
+    value_format_name: decimal_2
   }
 
   dimension: valued  {
     label: "Valued (SC)"
     type: number
     sql: ${TABLE}.branchValued  ;;
+    value_format_name: decimal_2
   }
 
   dimension: trade_nps  {
     label: "NPS Trade (SC)"
     type: number
     sql: ${TABLE}.branchTradeNPS  ;;
+    value_format_name: decimal_2
   }
 
   dimension: rating  {
@@ -322,7 +325,7 @@ view: scorecard_branch_dev {
     label: "YOY Trade ACS (SC)"
     type: number
     sql: ${TABLE}.yoyTradeACS  ;;
-    value_format_name: decimal_1
+    value_format_name: percent_1
   }
 
   dimension: yoy_trade_ACS_error_flag  {
