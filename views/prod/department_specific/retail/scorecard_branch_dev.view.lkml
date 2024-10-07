@@ -2,6 +2,7 @@ view: scorecard_branch_dev {
 
   sql_table_name:`toolstation-data-storage.retailReporting.SC_24_MONTHLY_DATA_DEV`;;
 
+
   dimension: month {
     type: string
     view_label: "Date"
@@ -13,9 +14,9 @@ view: scorecard_branch_dev {
   dimension: siteUID {
     type: string
     view_label: "Site Information"
-    label: "Site UID"
+    label: "Site UID (Scorecard Testing, incl Region/Division)"
     sql: ${TABLE}.siteUID ;;
-    hidden: yes
+    # hidden: yes
   }
 
   measure: siteUID_count {
@@ -35,378 +36,566 @@ view: scorecard_branch_dev {
   }
 
   dimension: headcount_sum_12m   {
+    label: "LTO Headcount (SC)"
     type: number
     sql: ${TABLE}.headcount_sum_12m  ;;
-    value_format: "0.00"
   }
 
-  dimension: lto_Percent   {
+  dimension: lto_Percent_sc   {
+    label: "LTO % (SC)"
     type: number
     sql: ${TABLE}.ltoPercent  ;;
-    value_format: "0.00"
+    value_format_name: percent_1
   }
 
   dimension: training_Available   {
+    label: "Training Available (SC)"
     type: number
     sql: ${TABLE}.trainingAvailable  ;;
-    value_format: "0.00"
   }
 
   dimension: training_Completed   {
+    label: "Training Completed (SC)"
     type: number
     sql: ${TABLE}.trainingCompleted ;;
-    value_format: "0.00"
   }
 
   dimension: training_Percent_Completed  {
+    label: "Training Completed % (SC)"
     type: number
     sql: ${TABLE}.trainingPercentCompleted  ;;
-    value_format: "0.00"
+    value_format_name: percent_1
   }
 
   dimension: appraisals   {
+    label: "Appraisals (SC)"
     type: number
     sql: ${TABLE}.appraisals  ;;
-    value_format: "0.00"
   }
 
   dimension: colleagues   {
+    label: "Colleagues (SC)"
     type: number
     sql: ${TABLE}.colleagues  ;;
-    value_format: "0.00"
   }
 
   dimension: appraisal_Percent  {
+    label: "Appraisal % (SC)"
     type: number
     sql: ${TABLE}.appraisalPercent  ;;
-    value_format: "0.00"
+    value_format_name: percent_1
   }
 
   dimension: apprenticeship  {
+    label: "Apprenticeship (SC)"
     type: number
     sql: ${TABLE}.apprenticeship   ;;
-    value_format: "0.00"
   }
 
   dimension: operational_Compliance  {
+    label: "Operational Compliance Completed %(SC)"
     type: number
     sql: ${TABLE}.operationalCompliance ;;
-    value_format: "0.00"
+    value_format_name: percent_1
   }
 
   dimension: hs_Visit  {
+    label: "HS Visit (SC)"
     type: number
     sql: ${TABLE}.hsVisit  ;;
-    value_format: "0.00"
   }
 
   dimension: rm_Visit  {
+    label: "RM Visit (SC)"
     type: number
-    sql: ${TABLE}. rmVisit  ;;
-    value_format: "0.00"
+    sql: ${TABLE}.rmVisit  ;;
   }
 
   dimension: Comp_Actual  {
+    label: "Compliance Actual (SC)"
     type: number
-    label: "Compliance"
     sql: ${TABLE}.Comp_Actual  ;;
-    value_format: "0.00"
   }
 
   measure: Comp_Actual_sum  {
     type: sum
     label: "Compliance Sum"
     sql:${Comp_Actual}  ;;
-    value_format: "0.00"
   }
 
   measure: Comp_Actual_avg  {
     type: number
     label: "Compliance Average"
     sql:safe_divide(${Comp_Actual_sum},${siteUID_count});;
-    value_format: "0.00"
   }
 
   dimension: moves  {
+    label: "Moves (SC)"
     type: number
     sql: ${TABLE}.moves  ;;
-    value_format: "0.00"
   }
 
   dimension: units  {
+    label: "Units (SC)"
     type: number
     sql: ${TABLE}.units  ;;
-    value_format: "0.00"
   }
 
   dimension: orders  {
     type: number
     sql: ${TABLE}.orders  ;;
-    value_format: "0.00"
   }
 
   dimension: stock_Accuracy  {
+    label: "Stock Accuracy (SC)"
     type: number
     sql: ${TABLE}.stockAccuracy  ;;
-    value_format: "0.00"
+    value_format_name: percent_1
   }
 
-  dimension: branch_NPS  {
+  dimension: nps  {
+    label: "NPS (SC)"
     type: number
     sql: ${TABLE}.branchNPS  ;;
-    value_format: "0.00"
   }
 
-  dimension: branch_Valued  {
+  dimension: valued  {
+    label: "Valued (SC)"
     type: number
     sql: ${TABLE}.branchValued  ;;
-    value_format: "0.00"
   }
 
-  dimension: total_Valued  {
+  dimension: trade_nps  {
+    label: "NPS Trade (SC)"
     type: number
-    sql: ${TABLE}.totalValued  ;;
-    value_format: "0.00"
+    sql: ${TABLE}.branchTradeNPS  ;;
   }
 
   dimension: rating  {
     type: number
-    label: "Google Rating"
+    label: "Google Rating (SC)"
     sql: ${TABLE}.rating  ;;
-    value_format: "0.00"
   }
 
   measure: rating_sum  {
     type: sum
     label: "Google Rating Sum"
     sql:${rating}  ;;
-    value_format: "0.00"
   }
 
   measure: rating_avg  {
     type: number
     label: "Google Rating Average"
     sql:safe_divide(${rating_sum},${siteUID_count});;
-    value_format: "0.00"
   }
-
 
   dimension: anon_Orders  {
     type: number
     sql: ${TABLE}.anonOrders  ;;
-    value_format: "0.00"
   }
 
   dimension: total_Orders  {
     type: number
     sql: ${TABLE}.totalOrders  ;;
-    value_format: "0.00"
   }
 
   dimension: EbitL_TY  {
     type: number
     sql: ${TABLE}.EbitLTY  ;;
-    value_format: "0.00"
   }
 
   dimension: EbitL_LY  {
     type: number
     sql: ${TABLE}.EbitLLY  ;;
-    value_format: "0.00"
   }
 
   dimension: anon_Percent  {
+    label: "Annon % (SC)"
     type: number
     sql: ${TABLE}.anonPercent  ;;
-    value_format: "0.00"
+    value_format_name: percent_1
+  }
+
+  dimension: ty_Frequency {
+    label: "TY Frequency (SC)"
+    type: number
+    sql: ${TABLE}.tyFrequency  ;;
+    value_format_name: percent_1
+  }
+
+  dimension: py_Frequency {
+    label: "PY Frequency (SC)"
+    type: number
+    sql: ${TABLE}.pyFrequency  ;;
+    value_format_name: percent_1
   }
 
   dimension: yoy_Frequency {
+    label: "YOY Frequency (SC)"
     type: number
     sql: ${TABLE}.yoyFrequency  ;;
-    value_format: "0.00"
+    value_format_name: percent_1
+  }
+
+  dimension: yoy_Frequency_error_flag {
+    type: yesno
+    sql: ${yoy_Frequency} is null;;
   }
 
   dimension: customer_Retention  {
+    label: "Customer Retention % (SC)"
     type: number
     sql: ${TABLE}.customerRetention  ;;
-    value_format: "0.00"
+    value_format_name: percent_1
   }
 
   dimension: trade_Account_Sales  {
+    label: "Trade Account Sales (SC)"
     type: number
     sql: ${TABLE}.tradeAccountSales  ;;
-    value_format: "0.00"
   }
 
   dimension: net_Sales  {
     type: number
     sql: ${TABLE}.netSales  ;;
-    value_format: "0.00"
   }
 
   dimension: py_Units  {
+    label: "PY Units (SC)"
     type: number
     sql: ${TABLE}.pyUnits  ;;
-    value_format: "0.00"
   }
 
   dimension: trade_Account_Participation  {
+    label: "Trade Account Participation (SC)"
     type: number
     sql: ${TABLE}.tradeAccountParticipation  ;;
-    value_format: "0.00"
+    value_format_name: percent_1
+  }
+
+  dimension: trade_Account_Participation_error_flag  {
+    type: yesno
+    sql: ${trade_Account_Participation} is null ;;
   }
 
   dimension: ty_Trade_Sales  {
+    label: "TY Trade Sales (SC)"
     type: number
     sql: ${TABLE}.tyTradeSales  ;;
-    value_format: "0.00"
+    value_format_name: decimal_0
+  }
+
+  dimension: py_Trade_Sales  {
+    label: "PY Trade Sales (SC)"
+    type: number
+    sql: ${TABLE}.pyTradeSales  ;;
+    value_format_name: decimal_0
+  }
+
+  dimension: yoy_Trade_Sales  {
+    label: "YoY Trade Sales (SC)"
+    type: number
+    sql: ${TABLE}.yoyTradeSales  ;;
+    value_format_name: percent_1
+  }
+
+  dimension: yoy_Trade_Sales_error_flag  {
+    type: yesno
+    sql: ${yoy_Trade_Sales} is null ;;
+  }
+
+  dimension: ty_trade_ACS  {
+    label: "TY Trade ACS (SC)"
+    type: number
+    sql: ${TABLE}.tyTradeACS  ;;
+    value_format_name: decimal_1
+  }
+
+  dimension: py_trade_ACS  {
+    label: "PY Trade ACS (SC)"
+    type: number
+    sql: ${TABLE}.pyTradeACS  ;;
+    value_format_name: decimal_1
+  }
+
+  dimension: yoy_trade_ACS  {
+    label: "YOY Trade ACS (SC)"
+    type: number
+    sql: ${TABLE}.yoyTradeACS  ;;
+    value_format_name: decimal_1
+  }
+
+  dimension: yoy_trade_ACS_error_flag  {
+    type: yesno
+    sql: ${yoy_trade_ACS} is null ;;
   }
 
   dimension: TY_Orders  {
     type: number
     sql: ${TABLE}.tyOrders  ;;
-    value_format: "0.00"
   }
 
   dimension: TY_AOV  {
     type: number
     sql: ${TABLE}.tyAOV  ;;
-    value_format: "0.00"
+    value_format_name: decimal_1
   }
 
   dimension: py_Sales  {
     type: number
     sql: ${TABLE}.pySales  ;;
-    value_format: "0.00"
   }
 
   dimension: py_Orders  {
     type: number
     sql: ${TABLE}.pyOrders  ;;
-    value_format: "0.00"
   }
 
   dimension: py_AOV  {
     type: number
     sql: ${TABLE}.pyAOV  ;;
-    value_format: "0.00"
+    value_format_name: decimal_1
   }
 
   dimension: target_AOV  {
     type: number
     sql: ${TABLE}.targetAOV  ;;
-    value_format: "0.00"
+    value_format_name: decimal_1
   }
 
   dimension: vs_Target_AOV  {
+    label: "AOV v Target (SC)"
     type: number
     sql: ${TABLE}.vsTargetAOV  ;;
-    value_format: "0.00"
+    value_format_name: percent_1
+  }
+
+  dimension: vs_Target_AOV_error_flag  {
+    type: yesno
+    sql: ${vs_Target_AOV} is null  ;;
   }
 
   dimension: actual_hours  {
+    label: "AOP Hours (SC)"
     type: number
     sql: ${TABLE}.actual_hours  ;;
-    value_format: "0.00"
   }
 
   dimension: aop_hours  {
+    label: "AOP Hours (SC)"
     type: number
     sql: ${TABLE}.aop_hours  ;;
-    value_format: "0.00"
   }
 
   dimension: hours_Vs_AOP  {
+    label: "Hours vs AOP (SC)"
     type: number
     sql: ${TABLE}.hoursVsAOP  ;;
-    value_format: "0.00"
   }
 
   dimension: ly_Actual_Hours  {
     type: number
     sql: ${TABLE}.vsTargetAOV  ;;
-    value_format: "0.00"
   }
 
   dimension: labour_T1T2_Percent  {
+    label: "Labour T1T2% (SC)"
     type: number
     sql: ${TABLE}.labourT1T2Percent  ;;
-    value_format: "0.00"
+    value_format_name: percent_1
+  }
+
+  dimension: labour_T1T2_error_flag  {
+    type: yesno
+    sql: ${labour_T1T2_Percent} is null  ;;
   }
 
   dimension: labour_T3_Percent  {
+    label: "Labour T3% (SC)"
     type: number
     sql: ${TABLE}.labourT3Percent  ;;
-    value_format: "0.00"
+    value_format_name: percent_1
   }
+
+  dimension: labour_T3_error_flag  {
+    type: yesno
+    sql: ${labour_T3_Percent} is null  ;;
+  }
+
 
   dimension: ty_EBIT  {
     type: number
     sql: ${TABLE}.tyEBIT  ;;
-    value_format: "0.00"
   }
 
   dimension: py_EBIT  {
     type: number
     sql: ${TABLE}.tyEBIT  ;;
-    value_format: "0.00"
   }
 
   dimension: vs_PY_EBIT  {
     type: number
     sql: ${TABLE}.vsPYEBIT  ;;
-    value_format: "0.00"
   }
 
   dimension: prophix_Sales  {
     type: number
     sql: ${TABLE}.prophixSales  ;;
-    value_format: "0.00"
   }
 
   dimension: budget  {
     type: number
     sql: ${TABLE}.budget  ;;
-    value_format: "0.00"
   }
 
   dimension: var_Budget  {
     type: number
     sql: ${TABLE}.varBudget  ;;
-    value_format: "0.00"
   }
 
   dimension: py_Prophix_Sales  {
     type: number
     sql: ${TABLE}.pyProphixSales  ;;
-    value_format: "0.00"
   }
 
   dimension: var_PY_Net_Sales  {
     type: number
     sql: ${TABLE}.varPYNetSales  ;;
-    value_format: "0.00"
   }
 
   dimension: var_PY_Sales_Percent  {
     type: number
     sql: ${TABLE}.varPYSalesPercent  ;;
-    value_format: "0.00"
+    value_format_name: percent_1
   }
 
   dimension: Avg_Selling_Price_Improv  {
+    label: "Avg Selling Price Improvement (SC)"
     type: number
     sql: ${TABLE}.AvgSellingPriceImprov  ;;
-    value_format: "0.00"
+    value_format_name: percent_1
   }
 
   dimension: Loyalty_spend_increase  {
+    label: "Loyalty Spend Increase (SC)"
     type: number
     sql: ${TABLE}.Loyalty_spend_increase  ;;
-    value_format: "0.00"
+    value_format_name: percent_1
   }
 
+  dimension: ty_retail_trading_profit  {
+    label: "TY Trading Profit (SC)"
+    type: number
+    sql: ${TABLE}.tyRetailTradingProfit  ;;
+    value_format_name: decimal_0
+  }
 
+  dimension: aop_retail_trading_profit  {
+    label: "AOP Trading Profit (SC)"
+    type: number
+    sql: ${TABLE}.aopRetailTradingProfit  ;;
+    value_format_name: decimal_0
+  }
+
+  dimension: vs_AOP_retail_trading_profit  {
+    label: "Trading Profit vs AOP (SC)"
+    type: number
+    sql: ${TABLE}.vsAOPRetailTradingProfit  ;;
+    value_format_name: percent_1
+  }
+
+  dimension: vs_AOP_retail_trading_profit_error_flag  {
+    label: "Trading Profit vs AOP (SC)"
+    type: yesno
+    sql: ${vs_AOP_retail_trading_profit} is null  ;;
+  }
+
+  dimension: yoy_average_items  {
+    label: "YOY Average Items (SC)"
+    type: number
+    sql: ${TABLE}.yoyAverageItems  ;;
+    value_format_name: percent_1
+  }
+
+  dimension: yoy_average_items_error_flag  {
+    type: yesno
+    sql: ${yoy_average_items} is null  ;;
+  }
+
+  dimension: holiday_Q1_Month_Entitlement  {
+    label: "Holiday Entitlement Q1 (SC)"
+    type: number
+    sql: ${TABLE}.holidayQ1MonthEntitlement  ;;
+  }
+
+  dimension: holiday_Q1_Taken_In_Quarter  {
+    label: "Holiday Taken Q1 (SC)"
+    type: number
+    sql: ${TABLE}.holidayQ1TakenInQuarter ;;
+  }
+
+  dimension: holiday_Q1_Taken_Percent  {
+    label: "Holiday Taken% Q1 (SC)"
+    type: number
+    sql: ${TABLE}.holidayQ1TakenPercent  ;;
+    value_format_name: percent_1
+  }
+
+  dimension: holiday_Q2_Month_Entitlement  {
+    label: "Holiday Entitlement Q2 (SC)"
+    type: number
+    sql: ${TABLE}.holidayQ2MonthEntitlement  ;;
+  }
+
+  dimension: holiday_Q2_Taken_In_Quarter  {
+    label: "Holiday Taken Q2 (SC)"
+    type: number
+    sql: ${TABLE}.holidayQ2TakenInQuarter ;;
+  }
+
+  dimension: holiday_Q2_Taken_Percent  {
+    label: "Holiday Taken% Q2 (SC)"
+    type: number
+    sql: ${TABLE}.holidayQ2TakenPercent  ;;
+    value_format_name: percent_1
+  }
+
+  dimension: holiday_Q3_Month_Entitlement  {
+    label: "Holiday Entitlement Q3 (SC)"
+    type: number
+    sql: ${TABLE}.holidayQ3MonthEntitlement  ;;
+  }
+
+  dimension: holiday_Q3_Taken_In_Quarter  {
+    label: "Holiday Taken Q3 (SC)"
+    type: number
+    sql: ${TABLE}.holidayQ3TakenInQuarter ;;
+  }
+
+  dimension: holiday_Q3_Taken_Percent  {
+    label: "Holiday Taken% Q3 (SC)"
+    type: number
+    sql: ${TABLE}.holidayQ3TakenPercent  ;;
+    value_format_name: percent_1
+  }
+
+  dimension: holiday_Q4_Month_Entitlement  {
+    label: "Holiday Entitlement Q4 (SC)"
+    type: number
+    sql: ${TABLE}.holidayQ4MonthEntitlement  ;;
+  }
+
+  dimension: holiday_Q4_Taken_In_Quarter  {
+    label: "Holiday Taken Q4 (SC)"
+    type: number
+    sql: ${TABLE}.holidayQ4TakenInQuarter ;;
+  }
+
+  dimension: holiday_Q4_Taken_Percent  {
+    label: "Holiday Taken% Q4 (SC)"
+    type: number
+    sql: ${TABLE}.holidayQ4TakenPercent  ;;
+    value_format_name: percent_1
+  }
 
 }

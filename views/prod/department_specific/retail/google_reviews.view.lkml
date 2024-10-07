@@ -1,11 +1,18 @@
+include: "/views/**/scorecard_branch_dev.view"
+
 view: google_reviews {
 
-  sql_table_name:`toolstation-data-storage.retailReporting.SC_GOOGLE_REVIEWS`;;
+  derived_table: {
+    sql:
+    select * from `toolstation-data-storage.retailReporting.SC_GOOGLE_REVIEWS`;;
+    # datagroup_trigger: ts_transactions_datagroup
+  }
 
   dimension: month {
     type: string
-    label: "Google_month"
+    label: "Month_test"
     sql: CAST(${TABLE}.month AS string);;
+    required_access_grants: [lz_testing]
     hidden: yes
   }
 
@@ -32,9 +39,15 @@ view: google_reviews {
   }
 
   dimension: rating {
+    label: "Google Rating"
     type: string
     description: "Rating"
     sql: ${TABLE}.rating ;;
+  }
+
+  dimension: google_rating_error_flag {
+    type: yesno
+    sql: (${rating}-${scorecard_branch_dev.rating}>0) or (${scorecard_branch_dev.rating} is null) ;;
   }
 
   measure: TotalReviews {

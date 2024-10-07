@@ -3,14 +3,7 @@ include: "/views/**/calendar.view"
 include: "/views/**/transactions.view"
 include: "/views/**/sites.view"
 include: "/views/**/catalogue.view"
-include: "/views/**/google_reviews.view"
-include: "/views/**/appraisals.view"
-include: "/views/**/compliance_support.view"
-include: "/views/**/paid_hours.view"
-include: "/views/**/holiday_management.view"
-include: "/views/**/profit_protection.view"
-include: "/views/**/customer_experience.view"
-include: "/views/**/customer_experience_trade.view"
+include: "/views/**/retail/**.view"
 
 persist_with: ts_transactions_datagroup
 
@@ -61,7 +54,7 @@ explore: retail {
   join: transactions {
     type: left_outer
     relationship: one_to_many
-    fields: [transactions.refurb_pre_post,transactions.number_of_branches]
+    fields: [transactions.refurb_pre_post,transactions.number_of_branches,transactions.aov_price,transactions.transaction_frequency,transactions.aov_units,transactions.total_units]
     sql_on: ${base.base_date_date} = ${transactions.transaction_date_filter};;
   }
 
@@ -70,6 +63,12 @@ explore: retail {
     type: left_outer
     relationship: many_to_one
     sql_on: ${transactions.site_uid}=${sites.site_uid} ;;
+  }
+
+  join: scorecard_branch_dev{
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on: ${scorecard_branch_dev.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${scorecard_branch_dev.siteUID} ;;
   }
 
   join: catalogue {
@@ -83,7 +82,19 @@ explore: retail {
   join: google_reviews{
     type:  left_outer
     relationship:  many_to_one
-    sql_on: ${google_reviews.month}=${calendar_completed_date.calendar_year_month2};;
+    sql_on: ${google_reviews.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${google_reviews.siteUID} ;;
+  }
+
+  join: training{
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on: ${training.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${training.siteUID} ;;
+  }
+
+  join: lto{
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on: ${sites.site_uid}=${lto.siteUID} and ${lto.month}=${calendar_completed_date.calendar_year_month2} ;;
   }
 
   join: appraisals {
@@ -102,6 +113,24 @@ explore: retail {
     type: left_outer
     relationship: many_to_one
     sql_on: ${sites.site_uid}=${paid_hours.siteUID} and ${calendar_completed_date.calendar_year_month2}=${paid_hours.month} ;;
+  }
+
+  join: rm_visits {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${sites.site_uid}=${rm_visits.siteUID} and ${calendar_completed_date.calendar_year_month2}=${rm_visits.month} ;;
+  }
+
+  join: stock_moves {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${sites.site_uid}=${stock_moves.siteUID} and ${calendar_completed_date.calendar_year_month2}=${stock_moves.month} ;;
+  }
+
+  join: operational_compliance {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${sites.site_uid}=${operational_compliance.siteUID} and ${calendar_completed_date.calendar_year_month2}=${operational_compliance.month} ;;
   }
 
   join: holiday_management {

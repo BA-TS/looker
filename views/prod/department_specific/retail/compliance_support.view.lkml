@@ -1,3 +1,5 @@
+include: "/views/**/scorecard_branch_dev.view"
+
 view: compliance_support {
 
   sql_table_name:`toolstation-data-storage.retailReporting.SC_Compliance_Support` ;;
@@ -48,4 +50,10 @@ view: compliance_support {
     label: "Target - Actual"
     sql: ${Compliance_Target}-${Compliance_Actual} ;;
   }
+
+  dimension: compliance_support_error_flag {
+    type: yesno
+    sql: (${scorecard_branch_dev.Comp_Actual} is null) ;;
+  }
+
 }

@@ -644,11 +644,10 @@ view: period_over_period {
 # ░█░ ██▄ █▀█ █▀▄
 
   dimension: __year_start__ {
-    required_access_grants: [lz_testing]
     type: date
     datatype: date
     sql: DATE_TRUNC(${__current_date__}, YEAR) ;;
-    # hidden: yes
+    hidden: yes
   }
 
   dimension: __year_end__ {
@@ -662,6 +661,13 @@ view: period_over_period {
     type: date
     datatype: date
     sql:  DATE_SUB(${__year_start__}, INTERVAL ${__length_of_year__} DAY) ;;
+    hidden: yes
+  }
+
+  dimension: __year_LY_start__1stJan {
+    type: date
+    datatype: date
+    sql:  DATE_SUB(${__year_start__}, INTERVAL 1 Year) ;;
     hidden: yes
   }
 
@@ -680,11 +686,10 @@ view: period_over_period {
   }
 
   dimension: __year_2LY_end__ {
-    required_access_grants: [lz_testing]
     type: date
     datatype: date
     sql: DATE_SUB(${__year_LY_end__}, INTERVAL ${__length_of_year__} DAY) ;;
-    # hidden: yes
+    hidden: yes
   }
 
 # ███████╗██╗██╗░░██╗███████╗██████╗░░░░█████╗░░█████╗░███╗░░██╗░██████╗████████╗░█████╗░███╗░░██╗████████╗░██████╗
@@ -828,6 +833,11 @@ view: period_over_period {
       allowed_value: {
         label: "Year to Last Week"
         value: "YLW"
+      }
+
+      allowed_value: {
+        label: "1st Jan Last Year to Last Week"
+        value: "LYLW"
       }
 
     }
@@ -1001,6 +1011,8 @@ view: period_over_period {
                     ${year_to_LM}
                   {% elsif select_fixed_range._parameter_value == "YLW" %}
                     ${year_to_LW}
+                  {% elsif select_fixed_range._parameter_value == "LYLW" %}
+                    ${LY_to_LW}
                   {% else %}
                     false
                   {% endif %}
@@ -1022,6 +1034,8 @@ view: period_over_period {
                   ${year_to_LM_LY}
                 {% elsif select_fixed_range._parameter_value == "YLW" %}
                   ${year_to_LW_LY}
+               {% elsif select_fixed_range._parameter_value == "LYLW" %}
+                  ${LY_to_LW_LY}
                 {% else %}
                   false
                   {% endif %}
@@ -1043,6 +1057,8 @@ view: period_over_period {
                   ${year_to_LM_2LY}
                 {% elsif select_fixed_range._parameter_value == "YLW" %}
                   ${year_to_LW_2LY}
+                {% elsif select_fixed_range._parameter_value == "LYLW" %}
+                  ${LY_to_LW_2LY}
                 {% else %}
                   false
                 {% endif %}
@@ -1432,6 +1448,27 @@ view: period_over_period {
                 ${year_to_LW}
               {% endif %}
 
+            {% elsif select_fixed_range._parameter_value == "LYLW" %}
+              {% if select_comparison_period._parameter_value == "Period" %}
+                ${LY_to_LW}
+              {% elsif select_comparison_period._parameter_value == "Week" %}
+                ${LY_to_LW}
+              {% elsif select_comparison_period._parameter_value == "Month" %}
+                ${LY_to_LW}
+              {% elsif select_comparison_period._parameter_value == "Quarter" %}
+                ${LY_to_LW}
+              {% elsif select_comparison_period._parameter_value == "Half" %}
+                ${LY_to_LW}
+              {% elsif select_comparison_period._parameter_value == "Year" %}
+                ${LY_to_LW} OR ${LY_to_LW_LY}
+                {% if select_number_of_periods._parameter_value == "3" %}
+                  OR ${LY_to_LW_2LY}
+                {% endif %}
+              {% elsif select_comparison_period._parameter_value == "2YearsAgo" %}
+                ${LY_to_LW} OR ${LY_to_LW_2LY}
+              {% else %}
+                ${LY_to_LW}
+              {% endif %}
 
             {% else %}
               false
@@ -1528,10 +1565,9 @@ view: period_over_period {
     }
 
     dimension: week_to_date_2LW {
-      required_access_grants: [lz_testing]
       type: yesno
       sql:  ${__target_date__} BETWEEN ${__week_2LW_start__} AND ${__week_2LW_end__}  ;;
-      # hidden: yes
+      hidden: yes
     }
 
     dimension: week_to_date_LM {
@@ -1541,9 +1577,9 @@ view: period_over_period {
     }
 
     dimension: week_to_date_2LM {
-      required_access_grants: [lz_testing]
       type: yesno
       sql:  ${__target_date__} BETWEEN ${__week_2LM_start__} AND ${__week_2LM_end__}  ;;
+      hidden: yes
     }
 
     dimension: week_to_date_LQ {
@@ -1598,10 +1634,9 @@ view: period_over_period {
     }
 
     dimension: month_to_date_2LM {
-      required_access_grants: [lz_testing]
       type: yesno
       sql: ${__target_date__} BETWEEN ${__month_2LM_start__} AND ${__month_2LM_end__} ;;
-      # hidden: yes
+      hidden: yes
     }
 
     dimension: month_to_date_LQ {
@@ -1762,9 +1797,9 @@ view: period_over_period {
   }
 
   dimension: year_to_LW {
+    required_access_grants: [lz_testing]
     type: yesno
     sql: ${__target_date__} BETWEEN ${__year_start__} AND last_day(${__week_LW_start__}, week) ;;
-    hidden: yes
   }
 
   dimension: year_to_LW_LY {
@@ -1776,6 +1811,26 @@ view: period_over_period {
   dimension: year_to_LW_2LY {
     type: yesno
     sql: ${__target_date__} BETWEEN ${__year_2LY_start__} AND last_day(date_sub(${__week_LW_start__}, interval (${__length_of_year__}*2) day), week) ;;
+    hidden: yes
+  }
+
+
+  dimension: LY_to_LW {
+    required_access_grants: [lz_testing]
+    type: yesno
+    sql: ${__target_date__} BETWEEN ${__year_LY_start__1stJan} AND last_day(${__week_LW_start__}, week) ;;
+    # hidden: yess
+  }
+
+  dimension: LY_to_LW_LY {
+    type: yesno
+    sql: ${__target_date__} BETWEEN ${__year_LY_start__1stJan} AND last_day(date_sub(${__week_LW_start__}, interval 1 Year), week) ;;
+    hidden: yes
+  }
+
+  dimension: LY_to_LW_2LY {
+    type: yesno
+    sql: ${__target_date__} BETWEEN ${__year_2LY_start__} AND last_day(date_sub(${__week_LW_start__}, interval 2 Year), week) ;;
     hidden: yes
   }
 

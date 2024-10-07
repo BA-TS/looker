@@ -498,6 +498,14 @@ parameter: order_cancelled {
     sql: (TIME(${transaction_raw}) BETWEEN "07:00:00" AND "16:59:59.999999");;
   }
 
+  dimension: rise_and_save_hours {
+    view_label: "Date"
+    group_label: "Time"
+    type:  yesno
+    sql: (TIME(${transaction_raw}) BETWEEN "07:00:00" AND "08:59:59.999999");;
+  }
+
+
   dimension: is_working_day {
     view_label: "Date"
     group_label: "Time"
@@ -1247,10 +1255,10 @@ parameter: order_cancelled {
   }
 
   measure: aov_units{
-    label: "Units AOV" #  (Transaction)
+    label: "Units AOV (Units per Transaction)" #  (Transaction)
     view_label: "Measures"
     group_label: "AOV"
-    description: "Average units (only retail products) per order"
+    description: "Average units (only retail products) per order or Units per Transactions"
     type: number
     sql: COALESCE(SAFE_DIVIDE(${total_units}, ${number_of_transactions}),0) ;;
     value_format: "#,##0.00;(\#,##0.00)"
