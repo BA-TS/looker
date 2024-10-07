@@ -33,7 +33,7 @@ view: rm_visits {
       # hidden: yes
     }
 
-  dimension: last_visit_month {
+  dimension: recent_visit_month {
     type: string
     sql: CAST(${TABLE}.last_visit_month AS string);;
     required_access_grants: [lz_testing]
