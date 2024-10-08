@@ -28,14 +28,16 @@ view: lto {
 
     dimension: lto {
       label: "LTO %"
-      type: string
+      type: number
       sql: ${TABLE}.LTO ;;
       value_format_name: percent_1
     }
 
   dimension: lto_error_flag {
     type: yesno
-    sql:  (${scorecard_branch_dev.lto_Percent_sc}!=${lto}) and (${scorecard_branch_dev.lto_Percent_sc} is null) ;;
+    sql: ${lto}=${scorecard_branch_dev.lto_Percent_sc}
+    --OR (${scorecard_branch_dev.lto_Percent_sc} is null)
+    ;;
   }
 
   }

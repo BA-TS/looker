@@ -1,5 +1,6 @@
 include: "/views/**/transactions.view"
 include: "/views/**/retail/**.view"
+include: "/views/**/rm_visits.view"
 
 view: scorecard_branch_dev {
 
@@ -111,8 +112,19 @@ view: scorecard_branch_dev {
   dimension: rm_Visit  {
     label: "RM Visit (SC)"
     type: number
-    sql: ${TABLE}.rmVisit  ;;
+    sql: cast(${TABLE}.rmVisit as decimal)  ;;
   }
+
+  # dimension: rm_Visit_error_flag {
+  #   type: number
+  #   sql:
+  #     case when
+  #   (${rm_visits.score}!=${rm_Visit}) then 1
+  #     --when ${rm_Visit} is null then 2
+  #     --when ${rm_visits.score} is null then 4
+  #     else  5
+  #     end;;
+  # }
 
   dimension: Comp_Actual  {
     label: "Compliance Actual (SC)"

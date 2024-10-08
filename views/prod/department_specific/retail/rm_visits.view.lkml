@@ -63,9 +63,25 @@ view: rm_visits {
       sql: cast(${TABLE}.score as decimal) ;;
     }
 
-   dimension: rm_visit_error_flag {
-    type: yesno
-    sql: (${score}!=${scorecard_branch_dev.rm_Visit}) or (${scorecard_branch_dev.rm_Visit} is null) ;;
-  }
+
+  # dimension: rm_visit_flag {
+  #   type: yesno
+  #   sql: (${score}!=${scorecard_branch_dev.rm_visit}) or (${scorecard_branch_dev.rm_visit} is null) ;;
+  # }
+
+  # dimension: rm_visit_error_flag {
+  #   type: yesno
+  #   sql: (${score}!=${scorecard_branch_dev.rm_Visit}) or (${scorecard_branch_dev.rm_Visit} is null) ;;
+  # }
+
+    # dimension: rm_Visit_error_flag {
+    #   type: number
+    #   sql:
+    #   case when
+    #   ${score}=${scorecard_branch_dev.rm_Visit} then 1
+    #   when (${scorecard_branch_dev.rm_Visit} is null) then 2
+    #   else 0
+    #   end;;
+    # }
 
   }

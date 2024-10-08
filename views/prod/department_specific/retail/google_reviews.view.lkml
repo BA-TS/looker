@@ -46,8 +46,13 @@ view: google_reviews {
   }
 
   dimension: google_rating_error_flag {
-    type: yesno
-    sql: (${rating}-${scorecard_branch_dev.rating}>0) or (${scorecard_branch_dev.rating} is null) ;;
+    type: number
+    sql:
+    case when
+    ${rating}<>${scorecard_branch_dev.rating} then 1
+    when (${scorecard_branch_dev.rating} is null) then 2
+    else 0
+    end;;
   }
 
   measure: TotalReviews {

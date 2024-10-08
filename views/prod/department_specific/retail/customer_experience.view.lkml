@@ -33,14 +33,34 @@ view: customer_experience {
     value_format_name: decimal_2
   }
 
+  # dimension: nps_error_flag {
+  #   type: yesno
+  #   sql: (${nps}!=${scorecard_branch_dev.nps}) or (${scorecard_branch_dev.nps} is null) ;;
+  # }
+
   dimension: nps_error_flag {
-    type: yesno
-    sql: (${nps}!=${scorecard_branch_dev.nps}) or (${scorecard_branch_dev.nps} is null) ;;
+    type: number
+    sql:
+    case when
+    ${nps}!=${scorecard_branch_dev.nps} then 1
+    when (${scorecard_branch_dev.nps} is null) then 2
+    else 0
+    end;;
   }
 
+  # dimension: valued_error_flag {
+  #   type: yesno
+  #   sql: (${valued}!=${scorecard_branch_dev.valued}) or (${scorecard_branch_dev.valued} is null) ;;
+  # }
+
   dimension: valued_error_flag {
-    type: yesno
-    sql: (${valued}!=${scorecard_branch_dev.valued}) or (${scorecard_branch_dev.valued} is null) ;;
+    type: number
+    sql:
+    case when
+    ${valued}!=${scorecard_branch_dev.valued} then 1
+    when (${scorecard_branch_dev.valued} is null) then 2
+    else 0
+    end;;
   }
 
 }
