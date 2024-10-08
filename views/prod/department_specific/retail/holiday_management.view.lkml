@@ -1,4 +1,5 @@
 include: "/views/**/scorecard_branch_dev.view"
+include: "/views/**/date/**.view"
 
 view: holiday_management {
 
@@ -42,7 +43,9 @@ view: holiday_management {
 
   dimension: holiday_Q2_error_flag {
     type: yesno
-    sql: (${scorecard_branch_dev.holiday_Q2_Taken_Percent} is null) ;;
+    sql:
+    (${scorecard_branch_dev.holiday_Q2_Taken_Percent} is null)
+    ;;
   }
 
   dimension: holiday_Q3_error_flag {
@@ -52,6 +55,7 @@ view: holiday_management {
 
   dimension: holiday_Q4_error_flag {
     type: yesno
-    sql: (${scorecard_branch_dev.holiday_Q4_Taken_Percent} is null) ;;
+    sql:
+  (${scorecard_branch_dev.holiday_Q4_Taken_Percent} is null) ;;
   }
 }

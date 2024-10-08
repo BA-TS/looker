@@ -139,6 +139,15 @@ view: calendar {
     sql: ${TABLE}.todaydaycalendarYearMonth;;
   }
 
+  dimension: today_calendar_year_month2 {
+    group_label: "Dates"
+    description: "used in the retail explore"
+    label: "Year Month (yyyy-mm) 2"
+    type: string
+    sql: replace(${today_calendar_year_month},'-','') ;;
+    required_access_grants: [lz_testing]
+  }
+
   dimension: calendar_year_quarter {
     group_label: "Dates"
     label: "Year Quarter (yyyy-qq)"
