@@ -52,7 +52,7 @@ view: training {
 
   dimension: training_error_flag {
     type: yesno
-    sql: (${completed_percent}-${scorecard_branch_dev.training_Percent_Completed}>0) or (${scorecard_branch_dev.training_Percent_Completed} is null) ;;
+    sql: (${completed_percent}!=${scorecard_branch_dev.training_Percent_Completed}) or (${scorecard_branch_dev.training_Percent_Completed} is null) ;;
   }
 
   }
