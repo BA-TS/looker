@@ -1,3 +1,6 @@
+include: "/views/**/transactions.view"
+include: "/views/**/retail/**.view"
+
 view: scorecard_branch_dev {
 
   sql_table_name:`toolstation-data-storage.retailReporting.SC_24_MONTHLY_DATA_DEV`;;
@@ -151,6 +154,12 @@ view: scorecard_branch_dev {
     type: number
     sql: ${TABLE}.stockAccuracy  ;;
     value_format_name: percent_1
+  }
+
+  dimension: stock_accuracy_error_flag {
+    type: yesno
+    sql: (${stock_Accuracy} is null)
+          and (${stock_moves.moves}=${moves});;
   }
 
   dimension: nps  {
