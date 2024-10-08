@@ -65,7 +65,7 @@ view: rm_visits {
 
    dimension: rm_visit_error_flag {
     type: yesno
-    sql: (${score}-${scorecard_branch_dev.rm_Visit}>0) or (${scorecard_branch_dev.rm_Visit} is null) ;;
+    sql: (${score}!=${scorecard_branch_dev.rm_Visit}) or (${scorecard_branch_dev.rm_Visit} is null) ;;
   }
 
   }
