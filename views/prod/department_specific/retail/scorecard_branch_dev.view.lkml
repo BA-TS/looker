@@ -419,7 +419,8 @@ view: scorecard_branch_dev {
 
   dimension: labour_T1T2_error_flag  {
     type: yesno
-    sql: ${labour_T1T2_Percent} is null  ;;
+    sql:
+    ${sites.labourTier} != "Tier 3" and ${labour_T1T2_Percent} is null ;;
   }
 
   dimension: labour_T3_Percent  {
@@ -431,7 +432,8 @@ view: scorecard_branch_dev {
 
   dimension: labour_T3_error_flag  {
     type: yesno
-    sql: ${labour_T3_Percent} is null  ;;
+    sql:
+  ${sites.labourTier} = "Tier 3" and ${labour_T3_Percent} is null;;
   }
 
 
