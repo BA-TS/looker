@@ -341,7 +341,7 @@ view: scorecard_branch_dev {
   dimension: TY_AOV  {
     type: number
     sql: ${TABLE}.tyAOV  ;;
-    value_format_name: decimal_1
+    value_format_name: decimal_2
   }
 
   dimension: py_Sales  {
@@ -357,7 +357,7 @@ view: scorecard_branch_dev {
   dimension: py_AOV  {
     type: number
     sql: ${TABLE}.pyAOV  ;;
-    value_format_name: decimal_1
+    value_format_name: decimal_2
   }
 
   dimension: target_AOV  {
