@@ -251,7 +251,7 @@ view: scorecard_branch_dev {
 
   dimension: yoy_Frequency_error_flag {
     type: yesno
-    sql: ${yoy_Frequency} is null;;
+    sql: ${sites.Is_consistent_branch} = true and ${yoy_Frequency} is null;;
   }
 
   dimension: customer_Retention  {
@@ -313,7 +313,7 @@ view: scorecard_branch_dev {
 
   dimension: yoy_Trade_Sales_error_flag  {
     type: yesno
-    sql: ${yoy_Trade_Sales} is null ;;
+    sql: ${sites.Is_consistent_branch} = true and ${yoy_Trade_Sales} is null ;;
   }
 
   dimension: ty_trade_ACS  {
@@ -339,7 +339,7 @@ view: scorecard_branch_dev {
 
   dimension: yoy_trade_ACS_error_flag  {
     type: yesno
-    sql: ${yoy_trade_ACS} is null ;;
+    sql: ${sites.Is_consistent_branch} = true and ${yoy_trade_ACS} is null ;;
   }
 
   dimension: TY_Orders  {
@@ -384,7 +384,7 @@ view: scorecard_branch_dev {
 
   dimension: vs_Target_AOV_error_flag  {
     type: yesno
-    sql: ${vs_Target_AOV} is null  ;;
+    sql:  ${sites.Is_consistent_branch} = true and ${vs_Target_AOV} is null  ;;
   }
 
   dimension: actual_hours  {
@@ -420,7 +420,7 @@ view: scorecard_branch_dev {
   dimension: labour_T1T2_error_flag  {
     type: yesno
     sql:
-    ${sites.labourTier} != "Tier 3" and ${labour_T1T2_Percent} is null ;;
+    ${sites.Is_consistent_branch} = true and ${sites.labourTier} != "Tier 3" and ${labour_T1T2_Percent} is null ;;
   }
 
   dimension: labour_T3_Percent  {
@@ -433,7 +433,7 @@ view: scorecard_branch_dev {
   dimension: labour_T3_error_flag  {
     type: yesno
     sql:
-  ${sites.labourTier} = "Tier 3" and ${labour_T3_Percent} is null;;
+    ${sites.Is_consistent_branch} = true and ${sites.labourTier} = "Tier 3" and ${labour_T3_Percent} is null;;
   }
 
 
@@ -521,7 +521,7 @@ view: scorecard_branch_dev {
   dimension: vs_AOP_retail_trading_profit_error_flag  {
     label: "Trading Profit vs AOP Error Flag(SC)"
     type: yesno
-    sql: ${vs_AOP_retail_trading_profit} is null  ;;
+    sql: ${sites.Is_consistent_branch} = true and ${vs_AOP_retail_trading_profit} is null  ;;
   }
 
   dimension: yoy_average_items  {
@@ -533,7 +533,7 @@ view: scorecard_branch_dev {
 
   dimension: yoy_average_items_error_flag  {
     type: yesno
-    sql: ${yoy_average_items} is null  ;;
+    sql: ${sites.Is_consistent_branch} = true and ${yoy_average_items} is null  ;;
   }
 
   dimension: holiday_Q1_Month_Entitlement  {
