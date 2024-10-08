@@ -48,11 +48,6 @@ view: operational_compliance {
     sql: ${TABLE}.OperationalCompliance_MTH ;;
   }
 
-  dimension: operational_compliance_error_flag {
-    type: yesno
-    sql: (${percentage_complete}!=${scorecard_branch_dev.operational_Compliance}) or (${scorecard_branch_dev.operational_Compliance} is null) ;;
-  }
-
   dimension: tasks_YTD {
     label: "Tasks YTD"
     type: number
@@ -69,5 +64,10 @@ view: operational_compliance {
     label: "Complete % YTD"
     type: number
     sql: ${TABLE}.OperationalCompliance_YTD ;;
+  }
+
+  dimension: operational_compliance_error_flag {
+    type: yesno
+    sql: (${percentage_complete}!=${scorecard_branch_dev.operational_Compliance}) or (${scorecard_branch_dev.operational_Compliance} is null) ;;
   }
 }

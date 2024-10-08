@@ -166,7 +166,7 @@ view: scorecard_branch_dev {
     label: "NPS (SC)"
     type: number
     sql: ${TABLE}.branchNPS  ;;
-    value_format_name: decimal_2
+    value_format_name: decimal_0
   }
 
   dimension: valued  {
@@ -180,7 +180,7 @@ view: scorecard_branch_dev {
     label: "NPS Trade (SC)"
     type: number
     sql: ${TABLE}.branchTradeNPS  ;;
-    value_format_name: decimal_2
+    value_format_name: decimal_0
   }
 
   dimension: rating  {

@@ -35,12 +35,12 @@ view: customer_experience {
 
   dimension: nps_error_flag {
     type: yesno
-    sql: (${nps}-${scorecard_branch_dev.nps}>0) or (${scorecard_branch_dev.nps} is null) ;;
+    sql: (${nps}!=${scorecard_branch_dev.nps}) or (${scorecard_branch_dev.nps} is null) ;;
   }
 
   dimension: valued_error_flag {
     type: yesno
-    sql: (${valued}-${scorecard_branch_dev.valued}>0) or (${scorecard_branch_dev.valued} is null) ;;
+    sql: (${valued}!=${scorecard_branch_dev.valued}) or (${scorecard_branch_dev.valued} is null) ;;
   }
 
 }
