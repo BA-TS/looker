@@ -4,7 +4,9 @@ view: lto {
 
   derived_table: {
     sql:
-    select * from `toolstation-data-storage.retailReporting.SC_Retention_LTO`;;
+    select *,
+    concat(extract (year from current_date), right(concat(0, extract (month from current_date)-1),2)) as month,
+    from `toolstation-data-storage.retailReporting.SC_LTO_BRANCH`;;
     # datagroup_trigger: ts_transactions_datagroup
     }
 
@@ -20,21 +22,20 @@ view: lto {
       type: string
       view_label: "Site Information"
       label: "Site UID"
-      sql: ${TABLE}.Shop_code ;;
+      sql: ${TABLE}.siteUID ;;
       hidden: yes
     }
 
     dimension: lto {
       label: "LTO %"
       type: string
-      sql: ${TABLE}.lto ;;
+      sql: ${TABLE}.LTO ;;
       value_format_name: percent_1
     }
 
   dimension: lto_error_flag {
     type: yesno
-    sql: (${scorecard_branch_dev.lto_Percent_sc} is null) ;;
+    sql:  (${scorecard_branch_dev.lto_Percent_sc}!=${lto}) and (${scorecard_branch_dev.lto_Percent_sc} is null) ;;
   }
-
 
   }
