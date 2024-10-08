@@ -30,6 +30,13 @@ view: appraisals {
     sql: ${TABLE}.appraisals ;;
   }
 
+  dimension: appraisal_percent {
+    label: "Appraisal %"
+    type: number
+    sql: safe_divide(${number_of_colleagues},${number_of_appraisals}) ;;
+    value_format_name: percent_2
+  }
+
   dimension: appraisals_error_flag {
     type: yesno
     sql: (${scorecard_branch_dev.appraisals} is null) ;;
