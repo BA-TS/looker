@@ -115,17 +115,6 @@ view: scorecard_branch_dev {
     sql: cast(${TABLE}.rmVisit as decimal)  ;;
   }
 
-  # dimension: rm_Visit_error_flag {
-  #   type: number
-  #   sql:
-  #     case when
-  #   (${rm_visits.score}!=${rm_Visit}) then 1
-  #     --when ${rm_Visit} is null then 2
-  #     --when ${rm_visits.score} is null then 4
-  #     else  5
-  #     end;;
-  # }
-
   dimension: Comp_Actual  {
     label: "Compliance Actual (SC)"
     type: number
@@ -168,11 +157,6 @@ view: scorecard_branch_dev {
     value_format_name: percent_1
   }
 
-  dimension: stock_accuracy_error_flag {
-    type: yesno
-    sql: (${stock_Accuracy} is null)
-          and (${stock_moves.moves}=${moves});;
-  }
 
   dimension: nps  {
     label: "NPS (SC)"
@@ -261,11 +245,6 @@ view: scorecard_branch_dev {
     value_format_name: percent_1
   }
 
-  dimension: yoy_Frequency_error_flag {
-    type: yesno
-    sql: ${sites.Is_consistent_branch} = true and ${yoy_Frequency} is null;;
-  }
-
   dimension: customer_Retention  {
     label: "Customer Retention % (SC)"
     type: number
@@ -297,11 +276,6 @@ view: scorecard_branch_dev {
     value_format_name: percent_1
   }
 
-  dimension: trade_Account_Participation_error_flag  {
-    type: yesno
-    sql: ${trade_Account_Participation} is null ;;
-  }
-
   dimension: ty_Trade_Sales  {
     label: "TY Trade Sales (SC)"
     type: number
@@ -323,11 +297,6 @@ view: scorecard_branch_dev {
     value_format_name: percent_1
   }
 
-  dimension: yoy_Trade_Sales_error_flag  {
-    type: yesno
-    sql: ${sites.Is_consistent_branch} = true and ${yoy_Trade_Sales} is null ;;
-  }
-
   dimension: ty_trade_ACS  {
     label: "TY Trade ACS (SC)"
     type: number
@@ -347,11 +316,6 @@ view: scorecard_branch_dev {
     type: number
     sql: ${TABLE}.yoyTradeACS  ;;
     value_format_name: percent_1
-  }
-
-  dimension: yoy_trade_ACS_error_flag  {
-    type: yesno
-    sql: ${sites.Is_consistent_branch} = true and ${yoy_trade_ACS} is null ;;
   }
 
   dimension: TY_Orders  {
@@ -394,11 +358,6 @@ view: scorecard_branch_dev {
     value_format_name: percent_1
   }
 
-  dimension: vs_Target_AOV_error_flag  {
-    type: yesno
-    sql:  ${sites.Is_consistent_branch} = true and ${vs_Target_AOV} is null  ;;
-  }
-
   dimension: actual_hours  {
     label: "AOP Hours (SC)"
     type: number
@@ -429,11 +388,6 @@ view: scorecard_branch_dev {
     value_format_name: percent_1
   }
 
-  dimension: labour_T1T2_error_flag  {
-    type: yesno
-    sql:
-    ${sites.Is_consistent_branch} = true and ${sites.labourTier} != "Tier 3" and ${labour_T1T2_Percent} is null ;;
-  }
 
   dimension: labour_T3_Percent  {
     label: "Labour T3% (SC)"
@@ -441,13 +395,6 @@ view: scorecard_branch_dev {
     sql: ${TABLE}.labourT3Percent  ;;
     value_format_name: percent_1
   }
-
-  dimension: labour_T3_error_flag  {
-    type: yesno
-    sql:
-    ${sites.Is_consistent_branch} = true and ${sites.labourTier} = "Tier 3" and ${labour_T3_Percent} is null;;
-  }
-
 
   dimension: ty_EBIT  {
     type: number
@@ -530,22 +477,11 @@ view: scorecard_branch_dev {
     value_format_name: percent_1
   }
 
-  dimension: vs_AOP_retail_trading_profit_error_flag  {
-    label: "Trading Profit vs AOP Error Flag(SC)"
-    type: yesno
-    sql: ${sites.Is_consistent_branch} = true and ${vs_AOP_retail_trading_profit} is null  ;;
-  }
-
   dimension: yoy_average_items  {
     label: "YOY Average Items (SC)"
     type: number
     sql: ${TABLE}.yoyAverageItems  ;;
     value_format_name: percent_1
-  }
-
-  dimension: yoy_average_items_error_flag  {
-    type: yesno
-    sql: ${sites.Is_consistent_branch} = true and ${yoy_average_items} is null  ;;
   }
 
   dimension: holiday_Q1_Month_Entitlement  {
@@ -624,4 +560,71 @@ view: scorecard_branch_dev {
     value_format_name: percent_1
   }
 
+# Error Flags  --------------------------------------------------------------------
+  dimension: stock_accuracy_error_flag {
+    type: yesno
+    sql: (${stock_Accuracy} is null)
+      and (${stock_moves.moves}=${moves});;
+  }
+
+  dimension: labour_T1T2_error_flag  {
+    type: yesno
+    sql:
+    ${sites.Is_consistent_branch} = true and ${sites.labourTier} != "Tier 3" and ${labour_T1T2_Percent} is null ;;
+  }
+
+  dimension: trade_Account_Participation_error_flag  {
+    type: yesno
+    sql: ${trade_Account_Participation} is null ;;
+  }
+
+
+  # dimension: rm_Visit_error_flag {
+  #   type: number
+  #   sql:
+  #     case when
+  #   (${rm_visits.score}!=${rm_Visit}) then 1
+  #     --when ${rm_Visit} is null then 2
+  #     --when ${rm_visits.score} is null then 4
+  #     else  5
+  #     end;;
+  # }
+
+  dimension: yoy_Trade_Sales_error_flag  {
+    type: yesno
+    sql: ${sites.Is_consistent_branch} = true and ${yoy_Trade_Sales} is null ;;
+  }
+
+  dimension: yoy_Frequency_error_flag {
+    type: yesno
+    sql: ${sites.Is_consistent_branch} = true and ${yoy_Frequency} is null;;
+  }
+
+  dimension: vs_AOP_retail_trading_profit_error_flag  {
+    label: "Trading Profit vs AOP Error Flag(SC)"
+    type: yesno
+    sql: ${sites.Is_consistent_branch} = true and ${vs_AOP_retail_trading_profit} is null  ;;
+  }
+
+  dimension: vs_Target_AOV_error_flag  {
+    type: yesno
+    sql:  ${sites.Is_consistent_branch} = true and ${vs_Target_AOV} is null  ;;
+  }
+
+  dimension: yoy_trade_ACS_error_flag  {
+    type: yesno
+    sql: ${sites.Is_consistent_branch} = true and ${yoy_trade_ACS} is null ;;
+  }
+
+
+  dimension: yoy_average_items_error_flag  {
+    type: yesno
+    sql: ${sites.Is_consistent_branch} = true and ${yoy_average_items} is null  ;;
+  }
+
+  dimension: labour_T3_error_flag  {
+    type: yesno
+    sql:
+    ${sites.Is_consistent_branch} = true and ${sites.labourTier} = "Tier 3" and ${labour_T3_Percent} is null;;
+  }
 }
