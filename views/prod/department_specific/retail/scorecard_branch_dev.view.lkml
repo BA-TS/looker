@@ -564,7 +564,8 @@ view: scorecard_branch_dev {
   dimension: stock_accuracy_error_flag {
     type: yesno
     sql: (${stock_Accuracy} is null)
-      and (${stock_moves.moves}=${moves});;
+      or (${stock_moves.moves}=${moves})
+      ;;
   }
 
   dimension: labour_T1T2_error_flag  {
