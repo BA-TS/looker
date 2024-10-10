@@ -672,4 +672,9 @@ view: scorecard_branch_dev {
     ;;
   }
 
+    dimension: rm_visit_error_flag {
+    type: yesno
+    sql: (${rm_visits.score}!=${scorecard_branch_dev.rm_Visit}) or (${scorecard_branch_dev.rm_Visit} is null) ;;
+  }
+
 }
