@@ -702,4 +702,15 @@ view: scorecard_branch_dev_ytd {
     sql: (${customer_experience_trade.nps}!=${trade_nps}) or (${trade_nps} is null) ;;
   }
 
+  dimension: google_rating_error_flag {
+    type: number
+    sql:
+    case when
+    ${google_reviews.rating}<>${rating} then 1
+    when (${rating} is null) then 2
+    else 0
+    end;;
+  }
+
+
 }
