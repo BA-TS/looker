@@ -1,6 +1,7 @@
 include: "/views/**/transactions.view"
 include: "/views/**/retail/**.view"
 include: "/views/**/rm_visits.view"
+include: "/views/**/training.view"
 
 view: scorecard_branch_dev_ytd {
 
@@ -564,9 +565,9 @@ view: scorecard_branch_dev_ytd {
   dimension: stock_accuracy_error_flag {
     type: number
     sql: case when
-          (${stock_Accuracy} is null)
-            or (${stock_moves.moves}=${moves})
-            then 1 else 0 end;;
+          (${stock_Accuracy} is null) then 1
+           when abs(coalesce(${stock_moves.moves},0)-coalesce(${moves},0))>0 then 2
+            else 0 end;;
   }
 
   dimension: labour_T1T2_error_flag  {
@@ -664,68 +665,64 @@ view: scorecard_branch_dev_ytd {
 
   dimension: training_error_flag {
     type: number
-    sql: case when (${training.completed_percent}!=${training_Percent_Completed}) or (${training_Percent_Completed} is null)
-          then 1
+    sql:
+    case when (${training_Percent_Completed} is null) then 1
+        --  when abs(coalesce(${training.completed_percent},0)-coalesce(${training_Percent_Completed},0))>0 then 2
           else 0
-          end;;
-
+          end
+          ;;
   }
 
   dimension: appraisals_error_flag {
     type: number
-    sql: case when
-          (${appraisal_Percent} is null) or  (${appraisal_Percent} != ${appraisals.appraisal_percent})
-          then 1
+    sql: case when (${appraisal_Percent} is null) then 1
+        -- when abs(coalesce(${appraisal_Percent},0)-coalesce(${appraisals.appraisal_percent},0))>0 then 2
+         else 0
+         end;;
+  }
+
+    dimension: rm_visit_error_flag {
+      type: number
+      sql:
+          case when (${rm_Visit} is null) then 1
+          when abs(coalesce(${rm_visits.score},0)-coalesce(${rm_Visit},0))>0 then 2
           else 0
           end;;
-  }
+    }
 
-  dimension: rm_visit_error_flag {
-    type: number
-    sql:
-    case when
-    (${rm_visits.score}!=${rm_Visit}) or (${rm_Visit} is null)
-    then 1
-    else 0
-    end;;
-  }
+    dimension: google_rating_error_flag {
+      type: number
+      sql:
+          case when (${rating} is null) then 1
+          when abs(coalesce(${google_reviews.rating},0)-coalesce(${rating},0))>0 then 2
+          else 0
+          end;;
+    }
 
-  dimension: google_rating_error_flag {
-    type: number
-    sql:
-    case when
-    ${google_reviews.rating}<>${rating} then 1
-    when (${rating} is null) then 1
-    else 0
-    end;;
-  }
+    dimension: nps_error_flag {
+      type: number
+      sql:
+          case when (${nps} is null) then 1
+          when abs(coalesce( ${customer_experience.nps},0)-coalesce(${nps},0))>0 then 2
+          else 0
+          end;;
+    }
 
+    dimension: valued_error_flag {
+      type: number
+      sql:
+          case (${valued} is null) then 1
+          when abs(coalesce( ${customer_experience.valued},0)-coalesce(${valued},0))>0 then 2
+          else 0
+          end;;
+    }
 
-
-  dimension: nps_error_flag {
-    type: number
-    sql:
-    case when
-    ${customer_experience.nps}!=${nps} then 1
-    when (${nps} is null) then 1
-    else 0
-    end;;
-  }
-
-  dimension: valued_error_flag {
-    type: number
-    sql:
-    case when
-    ${customer_experience.valued}!=${valued} then 1
-    when (${valued} is null) then 2
-    else 0
-    end;;
-  }
-
-  dimension: nps_trade_error_flag {
-    type: number
-    sql: case when (${customer_experience_trade.nps}!=${trade_nps}) or (${trade_nps} is null) then 1 else 0 end;;
-  }
+    dimension: nps_trade_error_flag {
+      type: number
+      sql: case when (${trade_nps} is null) then 1
+            when abs(coalesce( ${customer_experience_trade.nps},0)-coalesce(${trade_nps},0))>0 then 2
+            else 0 end;;
+    }
 
   dimension: compliance_support_error_flag {
     type: number
