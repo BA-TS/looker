@@ -711,4 +711,10 @@ view: scorecard_branch_dev {
     type: yesno
     sql: (${customer_experience_trade.nps}!=${trade_nps}) or (${trade_nps} is null) ;;
   }
+
+  dimension: compliance_support_error_flag {
+    type: yesno
+    sql: (${Comp_Actual} is null) ;;
+  }
+
 }

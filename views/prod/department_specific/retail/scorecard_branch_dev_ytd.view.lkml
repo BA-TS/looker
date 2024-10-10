@@ -71,11 +71,11 @@ view: scorecard_branch_dev_ytd {
     value_format_name: percent_1
   }
 
-  dimension: appraisals   {
-    label: "Appraisals YTD (SC)"
-    type: number
-    sql: ${TABLE}.appraisals  ;;
-  }
+  # dimension: appraisals   {
+  #   label: "Appraisals YTD (SC)"
+  #   type: number
+  #   sql: ${TABLE}.appraisals  ;;
+  # }
 
   dimension: colleagues   {
     label: "Colleagues YTD (SC)"
@@ -711,6 +711,12 @@ view: scorecard_branch_dev_ytd {
     else 0
     end;;
   }
+
+  dimension: compliance_support_error_flag {
+    type: yesno
+    sql: (${Comp_Actual} is null) ;;
+  }
+
 
 
 }

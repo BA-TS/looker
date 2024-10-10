@@ -51,9 +51,9 @@ view: compliance_support {
     sql: ${Compliance_Target}-${Compliance_Actual} ;;
   }
 
-  dimension: compliance_support_error_flag {
-    type: yesno
-    sql: (${scorecard_branch_dev.Comp_Actual} is null) ;;
-  }
+  # dimension: compliance_support_error_flag {
+  #   type: yesno
+  #   sql: (${scorecard_branch_dev.Comp_Actual} is null) ;;
+  # }
 
 }
