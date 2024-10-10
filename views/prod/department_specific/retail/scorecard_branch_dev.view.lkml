@@ -562,27 +562,28 @@ view: scorecard_branch_dev {
 
 # Error Flags  --------------------------------------------------------------------
   dimension: stock_accuracy_error_flag {
-    type: yesno
-    sql: (${stock_Accuracy} is null)
+    type: number
+    sql: case when
+    (${stock_Accuracy} is null)
       or (${stock_moves.moves}=${moves})
-      ;;
+      then 1 else 0 end;;
   }
 
   dimension: labour_T1T2_error_flag  {
-    type: yesno
-    sql:
-    ${sites.Is_consistent_branch} = true and ${sites.labourTier} != "Tier 3" and ${labour_T1T2_Percent} is null ;;
+    type: number
+    sql: case when
+    ${sites.Is_consistent_branch} = true and ${sites.labourTier} != "Tier 3" and ${labour_T1T2_Percent} is null then 1 else 0 end;;
   }
 
   dimension: trade_Account_Participation_error_flag  {
-    type: yesno
-    sql: ${trade_Account_Participation} is null ;;
+    type: number
+    sql: case when ${trade_Account_Participation} is null then 1 else 0 end;;
   }
 
 
   # dimension: rm_Visit_error_flag {
   #   type: number
-  #   sql:
+  #   sql: case when
   #     case when
   #   (${rm_visits.score}!=${rm_Visit}) then 1
   #     --when ${rm_Visit} is null then 2
@@ -592,89 +593,101 @@ view: scorecard_branch_dev {
   # }
 
   dimension: yoy_Trade_Sales_error_flag  {
-    type: yesno
-    sql: ${sites.Is_consistent_branch} = true and ${yoy_Trade_Sales} is null ;;
+    type: number
+    sql: case when ${sites.Is_consistent_branch} = true and ${yoy_Trade_Sales} is null then 1 else 0 end;;
   }
 
   dimension: yoy_Frequency_error_flag {
-    type: yesno
-    sql: ${sites.Is_consistent_branch} = true and ${yoy_Frequency} is null;;
+    type: number
+    sql: case when ${sites.Is_consistent_branch} = true and ${yoy_Frequency} is null then 1 else 0 end;;
   }
 
   dimension: vs_AOP_retail_trading_profit_error_flag  {
     label: "Trading Profit vs AOP Error Flag(SC)"
-    type: yesno
-    sql: ${sites.Is_consistent_branch} = true and ${vs_AOP_retail_trading_profit} is null  ;;
+    type: number
+    sql: case when ${sites.Is_consistent_branch} = true and ${vs_AOP_retail_trading_profit} is null  then 1 else 0 end;;
   }
 
   dimension: vs_Target_AOV_error_flag  {
-    type: yesno
-    sql:  ${sites.Is_consistent_branch} = true and ${vs_Target_AOV} is null  ;;
+    type: number
+    sql: case when  ${sites.Is_consistent_branch} = true and ${vs_Target_AOV} is null  then 1 else 0 end;;
   }
 
   dimension: yoy_trade_ACS_error_flag  {
-    type: yesno
-    sql: ${sites.Is_consistent_branch} = true and ${yoy_trade_ACS} is null ;;
+    type: number
+    sql: case when ${sites.Is_consistent_branch} = true and ${yoy_trade_ACS} is null then 1 else 0 end;;
   }
 
 
   dimension: yoy_average_items_error_flag  {
-    type: yesno
-    sql: ${sites.Is_consistent_branch} = true and ${yoy_average_items} is null  ;;
+    type: number
+    sql: case when ${sites.Is_consistent_branch} = true and ${yoy_average_items} is null  then 1 else 0 end;;
   }
 
   dimension: labour_T3_error_flag  {
-    type: yesno
-    sql:
-    ${sites.Is_consistent_branch} = true and ${sites.labourTier} = "Tier 3" and ${labour_T3_Percent} is null;;
+    type: number
+    sql: case when
+    ${sites.Is_consistent_branch} = true and ${sites.labourTier} = "Tier 3" and ${labour_T3_Percent} is null then 1 else 0 end;;
   }
 
   dimension: lto_error_flag {
-    type: yesno
-    sql: (${lto.lto}=${lto_Percent_sc})
-          OR (${lto_Percent_sc} is null);;
+    type: number
+    sql: case when (${lto.lto}=${lto_Percent_sc})
+          OR (${lto_Percent_sc} is null) then 1 else 0 end;;
   }
 
   dimension: operational_compliance_error_flag {
-    type: yesno
-    sql: (${operational_compliance.percentage_complete}!=${operational_Compliance}) or (${operational_Compliance} is null) ;;
+    type: number
+    sql: case when (${operational_compliance.percentage_complete}!=${operational_Compliance}) or (${operational_Compliance} is null) then 1 else 0 end;;
   }
 
   dimension: holiday_Q1_error_flag {
-    type: yesno
-    sql: (${holiday_Q1_Taken_Percent} is null) ;;
+    type: number
+    sql: case when (${holiday_Q1_Taken_Percent} is null) then 1 else 0 end;;
   }
 
   dimension: holiday_Q2_error_flag {
-    type: yesno
-    sql:
-    (${holiday_Q2_Taken_Percent} is null);;
+    type: number
+    sql: case when
+    (${holiday_Q2_Taken_Percent} is null) then 1 else 0 end;;
   }
 
   dimension: holiday_Q3_error_flag {
-    type: yesno
-    sql: (${holiday_Q3_Taken_Percent} is null) ;;
+    type: number
+    sql: case when (${holiday_Q3_Taken_Percent} is null) then 1 else 0 end;;
   }
 
   dimension: holiday_Q4_error_flag {
-    type: yesno
-    sql:(${holiday_Q4_Taken_Percent} is null) ;;
+    type: number
+    sql: case when (${holiday_Q4_Taken_Percent} is null) then 1 else 0 end;;
   }
 
     dimension: training_error_flag {
-    type: yesno
-    sql: (${training.completed_percent}!=${training_Percent_Completed}) or (${training_Percent_Completed} is null) ;;
+    type: number
+    sql: case when (${training.completed_percent}!=${training_Percent_Completed}) or (${training_Percent_Completed} is null)
+    then 1
+    else 0
+    end;;
+
   }
 
     dimension: appraisals_error_flag {
-    type: yesno
-    sql: (${appraisal_Percent} is null) or  (${appraisal_Percent} != ${appraisals.appraisal_percent})
-    ;;
+    type: number
+    sql: case when
+    (${appraisal_Percent} is null) or  (${appraisal_Percent} != ${appraisals.appraisal_percent})
+    then 1
+    else 0
+    end;;
   }
 
     dimension: rm_visit_error_flag {
-    type: yesno
-    sql: (${rm_visits.score}!=${rm_Visit}) or (${rm_Visit} is null) ;;
+    type: number
+    sql:
+    case when
+    (${rm_visits.score}!=${rm_Visit}) or (${rm_Visit} is null)
+    then 1
+    else 0
+    end;;
   }
 
   dimension: google_rating_error_flag {
@@ -682,17 +695,19 @@ view: scorecard_branch_dev {
     sql:
     case when
     ${google_reviews.rating}<>${rating} then 1
-    when (${rating} is null) then 2
+    when (${rating} is null) then 1
     else 0
     end;;
   }
+
+
 
   dimension: nps_error_flag {
     type: number
     sql:
     case when
     ${customer_experience.nps}!=${nps} then 1
-    when (${nps} is null) then 2
+    when (${nps} is null) then 1
     else 0
     end;;
   }
@@ -708,13 +723,13 @@ view: scorecard_branch_dev {
   }
 
   dimension: nps_trade_error_flag {
-    type: yesno
-    sql: (${customer_experience_trade.nps}!=${trade_nps}) or (${trade_nps} is null) ;;
+    type: number
+    sql: case when (${customer_experience_trade.nps}!=${trade_nps}) or (${trade_nps} is null) then 1 else 0 end;;
   }
 
   dimension: compliance_support_error_flag {
-    type: yesno
-    sql: (${Comp_Actual} is null) ;;
+    type: number
+    sql: case when (${Comp_Actual} is null) then 1 else 0 end;;
   }
 
 }
