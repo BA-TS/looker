@@ -25,12 +25,8 @@ view: customer_experience_trade {
     sql: ${TABLE}.nps ;;
   }
 
-  dimension: nps_trade_error_flag {
-    type: yesno
-    sql: (${nps}!=${scorecard_branch_dev.trade_nps}) or (${scorecard_branch_dev.trade_nps} is null) ;;
-  }
-
-
-
-
+  # dimension: nps_trade_error_flag {
+  #   type: yesno
+  #   sql: (${nps}!=${scorecard_branch_dev.trade_nps}) or (${scorecard_branch_dev.trade_nps} is null) ;;
+  # }
 }

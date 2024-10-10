@@ -45,15 +45,15 @@ view: google_reviews {
     sql: ${TABLE}.rating ;;
   }
 
-  dimension: google_rating_error_flag {
-    type: number
-    sql:
-    case when
-    ${rating}<>${scorecard_branch_dev.rating} then 1
-    when (${scorecard_branch_dev.rating} is null) then 2
-    else 0
-    end;;
-  }
+  # dimension: google_rating_error_flag {
+  #   type: number
+  #   sql:
+  #   case when
+  #   ${rating}<>${scorecard_branch_dev.rating} then 1
+  #   when (${scorecard_branch_dev.rating} is null) then 2
+  #   else 0
+  #   end;;
+  # }
 
   measure: TotalReviews {
     type: sum

@@ -631,50 +631,83 @@ view: scorecard_branch_dev {
   dimension: lto_error_flag {
     type: yesno
     sql: (${lto.lto}=${lto_Percent_sc})
-          OR (${scorecard_branch_dev.lto_Percent_sc} is null);;
+          OR (${lto_Percent_sc} is null);;
   }
 
   dimension: operational_compliance_error_flag {
     type: yesno
-    sql: (${operational_compliance.percentage_complete}!=${scorecard_branch_dev.operational_Compliance}) or (${scorecard_branch_dev.operational_Compliance} is null) ;;
+    sql: (${operational_compliance.percentage_complete}!=${operational_Compliance}) or (${operational_Compliance} is null) ;;
   }
 
   dimension: holiday_Q1_error_flag {
     type: yesno
-    sql: (${scorecard_branch_dev.holiday_Q1_Taken_Percent} is null) ;;
+    sql: (${holiday_Q1_Taken_Percent} is null) ;;
   }
 
   dimension: holiday_Q2_error_flag {
     type: yesno
     sql:
-    (${scorecard_branch_dev.holiday_Q2_Taken_Percent} is null);;
+    (${holiday_Q2_Taken_Percent} is null);;
   }
 
   dimension: holiday_Q3_error_flag {
     type: yesno
-    sql: (${scorecard_branch_dev.holiday_Q3_Taken_Percent} is null) ;;
+    sql: (${holiday_Q3_Taken_Percent} is null) ;;
   }
 
   dimension: holiday_Q4_error_flag {
     type: yesno
-    sql:(${scorecard_branch_dev.holiday_Q4_Taken_Percent} is null) ;;
+    sql:(${holiday_Q4_Taken_Percent} is null) ;;
   }
 
     dimension: training_error_flag {
     type: yesno
-    sql: (${training.completed_percent}!=${scorecard_branch_dev.training_Percent_Completed}) or (${scorecard_branch_dev.training_Percent_Completed} is null) ;;
+    sql: (${training.completed_percent}!=${training_Percent_Completed}) or (${training_Percent_Completed} is null) ;;
   }
 
     dimension: appraisals_error_flag {
     type: yesno
-    sql: (${scorecard_branch_dev.appraisal_Percent} is null)
-    or  (${scorecard_branch_dev.appraisal_Percent} != ${appraisals.appraisal_percent})
+    sql: (${appraisal_Percent} is null) or  (${appraisal_Percent} != ${appraisals.appraisal_percent})
     ;;
   }
 
     dimension: rm_visit_error_flag {
     type: yesno
-    sql: (${rm_visits.score}!=${scorecard_branch_dev.rm_Visit}) or (${scorecard_branch_dev.rm_Visit} is null) ;;
+    sql: (${rm_visits.score}!=${rm_Visit}) or (${rm_Visit} is null) ;;
   }
 
+  dimension: google_rating_error_flag {
+    type: number
+    sql:
+    case when
+    ${google_reviews.rating}<>${rating} then 1
+    when (${rating} is null) then 2
+    else 0
+    end;;
+  }
+
+  dimension: nps_error_flag {
+    type: number
+    sql:
+    case when
+    ${customer_experience.nps}!=${nps} then 1
+    when (${nps} is null) then 2
+    else 0
+    end;;
+  }
+
+  dimension: valued_error_flag {
+    type: number
+    sql:
+    case when
+    ${customer_experience.valued}!=${valued} then 1
+    when (${valued} is null) then 2
+    else 0
+    end;;
+  }
+
+  dimension: nps_trade_error_flag {
+    type: yesno
+    sql: (${customer_experience_trade.nps}!=${trade_nps}) or (${trade_nps} is null) ;;
+  }
 }
