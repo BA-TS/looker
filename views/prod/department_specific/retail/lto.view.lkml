@@ -33,11 +33,5 @@ view: lto {
       value_format_name: percent_1
     }
 
-  dimension: lto_error_flag {
-    type: yesno
-    sql: ${lto}=${scorecard_branch_dev.lto_Percent_sc}
-    --OR (${scorecard_branch_dev.lto_Percent_sc} is null)
-    ;;
-  }
 
   }

@@ -50,9 +50,9 @@ view: training {
     value_format_name: percent_1
   }
 
-  dimension: training_error_flag {
-    type: yesno
-    sql: (${completed_percent}!=${scorecard_branch_dev.training_Percent_Completed}) or (${scorecard_branch_dev.training_Percent_Completed} is null) ;;
-  }
+  # dimension: training_error_flag {
+  #   type: yesno
+  #   sql: (${completed_percent}!=${scorecard_branch_dev.training_Percent_Completed}) or (${scorecard_branch_dev.training_Percent_Completed} is null) ;;
+  # }
 
   }

@@ -36,26 +36,26 @@ view: holiday_management {
     sql: ${TABLE}.Holiday_Booked ;;
   }
 
-  dimension: holiday_Q1_error_flag {
-    type: yesno
-    sql: (${scorecard_branch_dev.holiday_Q1_Taken_Percent} is null) ;;
-  }
+  # dimension: holiday_Q1_error_flag {
+  #   type: yesno
+  #   sql: (${scorecard_branch_dev.holiday_Q1_Taken_Percent} is null) ;;
+  # }
 
-  dimension: holiday_Q2_error_flag {
-    type: yesno
-    sql:
-    (${scorecard_branch_dev.holiday_Q2_Taken_Percent} is null)
-    ;;
-  }
+  # dimension: holiday_Q2_error_flag {
+  #   type: yesno
+  #   sql:
+  #   (${scorecard_branch_dev.holiday_Q2_Taken_Percent} is null)
+  #   ;;
+  # }
 
-  dimension: holiday_Q3_error_flag {
-    type: yesno
-    sql: (${scorecard_branch_dev.holiday_Q3_Taken_Percent} is null) ;;
-  }
+  # dimension: holiday_Q3_error_flag {
+  #   type: yesno
+  #   sql: (${scorecard_branch_dev.holiday_Q3_Taken_Percent} is null) ;;
+  # }
 
-  dimension: holiday_Q4_error_flag {
-    type: yesno
-    sql:
-  (${scorecard_branch_dev.holiday_Q4_Taken_Percent} is null) ;;
-  }
+  # dimension: holiday_Q4_error_flag {
+  #   type: yesno
+  #   sql:
+  # (${scorecard_branch_dev.holiday_Q4_Taken_Percent} is null) ;;
+  # }
 }

@@ -66,8 +66,9 @@ view: operational_compliance {
     sql: ${TABLE}.OperationalCompliance_YTD ;;
   }
 
-  dimension: operational_compliance_error_flag {
-    type: yesno
-    sql: (${percentage_complete}!=${scorecard_branch_dev.operational_Compliance}) or (${scorecard_branch_dev.operational_Compliance} is null) ;;
-  }
+  # dimension: operational_compliance_error_flag {
+  #   type: yesno
+  #   sql: (${percentage_complete}!=${scorecard_branch_dev.operational_Compliance}) or (${scorecard_branch_dev.operational_Compliance} is null) ;;
+  # }
+
 }

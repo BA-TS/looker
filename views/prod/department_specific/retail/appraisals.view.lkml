@@ -37,11 +37,11 @@ view: appraisals {
     value_format_name: percent_1
   }
 
-  dimension: appraisals_error_flag {
-    type: yesno
-    sql: (${scorecard_branch_dev.appraisal_Percent} is null)
-    or  (${scorecard_branch_dev.appraisal_Percent} != ${appraisal_percent})
-    ;;
-  }
+  # dimension: appraisals_error_flag {
+  #   type: yesno
+  #   sql: (${scorecard_branch_dev.appraisal_Percent} is null)
+  #   or  (${scorecard_branch_dev.appraisal_Percent} != ${appraisal_percent})
+  #   ;;
+  # }
 
 }

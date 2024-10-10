@@ -627,4 +627,49 @@ view: scorecard_branch_dev {
     sql:
     ${sites.Is_consistent_branch} = true and ${sites.labourTier} = "Tier 3" and ${labour_T3_Percent} is null;;
   }
+
+  dimension: lto_error_flag {
+    type: yesno
+    sql: (${lto.lto}=${lto_Percent_sc})
+          OR (${scorecard_branch_dev.lto_Percent_sc} is null);;
+  }
+
+  dimension: operational_compliance_error_flag {
+    type: yesno
+    sql: (${operational_compliance.percentage_complete}!=${scorecard_branch_dev.operational_Compliance}) or (${scorecard_branch_dev.operational_Compliance} is null) ;;
+  }
+
+  dimension: holiday_Q1_error_flag {
+    type: yesno
+    sql: (${scorecard_branch_dev.holiday_Q1_Taken_Percent} is null) ;;
+  }
+
+  dimension: holiday_Q2_error_flag {
+    type: yesno
+    sql:
+    (${scorecard_branch_dev.holiday_Q2_Taken_Percent} is null);;
+  }
+
+  dimension: holiday_Q3_error_flag {
+    type: yesno
+    sql: (${scorecard_branch_dev.holiday_Q3_Taken_Percent} is null) ;;
+  }
+
+  dimension: holiday_Q4_error_flag {
+    type: yesno
+    sql:(${scorecard_branch_dev.holiday_Q4_Taken_Percent} is null) ;;
+  }
+
+    dimension: training_error_flag {
+    type: yesno
+    sql: (${training.completed_percent}!=${scorecard_branch_dev.training_Percent_Completed}) or (${scorecard_branch_dev.training_Percent_Completed} is null) ;;
+  }
+
+    dimension: appraisals_error_flag {
+    type: yesno
+    sql: (${scorecard_branch_dev.appraisal_Percent} is null)
+    or  (${scorecard_branch_dev.appraisal_Percent} != ${appraisals.appraisal_percent})
+    ;;
+  }
+
 }
