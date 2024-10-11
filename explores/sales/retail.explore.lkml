@@ -110,6 +110,12 @@ explore: retail {
     sql_on: ${sites.site_uid}=${appraisals.siteUID} and ${calendar_completed_date.calendar_year_month2}=${appraisals.month} ;;
   }
 
+  join: appraisals_ytd {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${sites.site_uid}=${appraisals_ytd.siteUID} and ${calendar_completed_date.calendar_year_month2}=${appraisals_ytd.month} ;;
+  }
+
   join: compliance_support {
     type: left_outer
     relationship: many_to_one
