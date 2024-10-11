@@ -680,7 +680,7 @@ view: scorecard_branch_dev_ytd {
   dimension: appraisals_error_flag {
     type: number
     sql: case when (${appraisal_Percent} is null) then 1
-        -- when abs(coalesce(${appraisal_Percent},0)-coalesce(${appraisals.appraisal_percent},0))>0 then 2
+         when abs(coalesce(${appraisal_Percent},0)-coalesce(${appraisals_ytd.appraisal_percent},0))>0 then 2
          else 0
          end;;
   }
