@@ -235,7 +235,7 @@ view: sites {
 
   dimension: new_branch {
     group_label: "Site Information"
-    label: "New Branch (Opened<2 months ago)"
+    label: "New Branch (<2 Months Old)"
     type: yesno
     sql: ${months_branch_age}<2;;
   }
