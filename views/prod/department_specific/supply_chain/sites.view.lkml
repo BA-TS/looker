@@ -181,6 +181,13 @@ view: sites {
     sql: ${TABLE}.costCentreID ;;
   }
 
+  dimension: opened_date{
+    required_access_grants: [lz_testing]
+    type: date
+    sql: ${TABLE}.dateOpened ;;
+    hidden: yes
+  }
+
   dimension_group: date_opened {
     group_label: "Site Information"
     label: "Opened"
@@ -222,8 +229,8 @@ view: sites {
     description: "Age of the branch since it was opened"
     type: duration
     intervals: [year,month]
-    sql_start: dateOpened ;;
-    sql_end: CURRENT_TIMESTAMP() ;;
+    sql_start: ${opened_date} ;;
+    sql_end: CURRENT_date() ;;
   }
 
   dimension: new_branch {
