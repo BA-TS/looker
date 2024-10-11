@@ -221,9 +221,16 @@ view: sites {
     label: "Branch Age"
     description: "Age of the branch since it was opened"
     type: duration
-    intervals: [year]
+    intervals: [year,month]
     sql_start: dateOpened ;;
     sql_end: CURRENT_TIMESTAMP() ;;
+  }
+
+  dimension: new_branch {
+    group_label: "Site Information"
+    label: "New Branch (Opened<2 months ago)"
+    type: yesno
+    sql: ${months_branch_age}<2;;
   }
 
   dimension: is_active {
