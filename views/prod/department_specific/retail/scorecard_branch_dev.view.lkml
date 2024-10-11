@@ -631,13 +631,16 @@ view: scorecard_branch_dev {
 
   dimension: lto_error_flag {
     type: number
-    sql: case when (${lto.lto}=${lto_Percent_sc})
-          OR (${lto_Percent_sc} is null) then 1 else 0 end;;
+    sql: case when (${lto_Percent_sc} is null) then 1
+         when abs(coalesce(${lto.lto},0)-coalesce(${lto_Percent_sc},0))>0 then 2
+         else 0 end;;
   }
 
   dimension: operational_compliance_error_flag {
     type: number
-    sql: case when (${operational_compliance.percentage_complete}!=${operational_Compliance}) or (${operational_Compliance} is null) then 1 else 0 end;;
+    sql: case when (${operational_Compliance} is null) then 1
+         when abs(coalesce(${operational_compliance.percentage_complete},0)-coalesce(${operational_Compliance},0))>0 then 2
+         else 0 end;;
   }
 
   dimension: holiday_Q1_error_flag {

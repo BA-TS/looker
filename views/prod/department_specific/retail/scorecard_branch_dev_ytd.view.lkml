@@ -631,15 +631,19 @@ view: scorecard_branch_dev_ytd {
       ${sites.Is_consistent_branch} = true and ${sites.labourTier} = "Tier 3" and ${labour_T3_Percent} is null then 1 else 0 end;;
   }
 
+
   dimension: lto_error_flag {
     type: number
-    sql: case when (${lto.lto}=${lto_Percent_sc})
-      OR (${lto_Percent_sc} is null) then 1 else 0 end;;
+    sql: case when (${lto_Percent_sc} is null) then 1
+         when abs(coalesce(${lto.lto},0)-coalesce(${lto_Percent_sc},0))>0 then 2
+         else 0 end;;
   }
 
   dimension: operational_compliance_error_flag {
     type: number
-    sql: case when (${operational_compliance.percentage_complete}!=${operational_Compliance}) or (${operational_Compliance} is null) then 1 else 0 end;;
+    sql: case when (${operational_Compliance} is null) then 1
+         when abs(coalesce(${operational_compliance.percentage_complete},0)-coalesce(${operational_Compliance},0))>0 then 2
+         else 0 end;;
   }
 
   dimension: holiday_Q1_error_flag {
@@ -708,14 +712,14 @@ view: scorecard_branch_dev_ytd {
           end;;
     }
 
-    dimension: valued_error_flag {
-      type: number
-      sql:
-          case (${valued} is null) then 1
-          when abs(coalesce( ${customer_experience.valued},0)-coalesce(${valued},0))>0 then 2
-          else 0
-          end;;
-    }
+  dimension: valued_error_flag {
+    type: number
+    sql:
+    case when (${valued} is null) then 1
+    when abs(coalesce( ${customer_experience.valued},0)-coalesce(${valued},0))>0 then 2
+    else 0
+    end;;
+  }
 
     dimension: nps_trade_error_flag {
       type: number
