@@ -115,7 +115,7 @@ view: ga4_rjagdev_test {
     when ${TABLE}.event_name = "collection_OOS" and ${platform} = "Web" then "out_of_stock"
     when ${TABLE}.event_name = "dual_OOS" and ${platform} = "Web" then "out_of_stock"
     when ${TABLE}.event_name = "Delivery_OOS" and ${platform} = "Web" then "out_of_stock"
-    when ${TABLE}.event_name = "outOfStock" and ${platform} = "Web" then "out_of_stock"
+    --when ${TABLE}.event_name = "outOfStock" and ${platform} = "Web" then "out_of_stock"
     when ${TABLE}.event_name = "out_of_stock" and ${platform} = "Web" then null
     else ${TABLE}.event_name
     end;;
