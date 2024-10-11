@@ -642,7 +642,7 @@ view: scorecard_branch_dev_ytd {
   dimension: operational_compliance_error_flag {
     type: number
     sql: case when (${operational_Compliance} is null) then 1
-         when abs(coalesce(${operational_compliance.percentage_complete},0)-coalesce(${operational_Compliance},0))>0 then 2
+         when abs(coalesce(${operational_compliance.percentage_complete_YTD},0)-coalesce(${operational_Compliance},0))>0 then 2
          else 0 end;;
   }
 

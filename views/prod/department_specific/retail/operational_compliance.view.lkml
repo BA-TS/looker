@@ -9,7 +9,7 @@ view: operational_compliance {
     dimension: month {
       type: string
       label: "Month_test"
-      sql: CAST(${TABLE}.Month AS string);;
+      sql: CAST(RIGHT(${TABLE}.Month,6) AS string);;
       required_access_grants: [lz_testing]
       hidden: yes
     }
