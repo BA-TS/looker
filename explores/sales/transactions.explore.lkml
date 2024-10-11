@@ -80,6 +80,9 @@ include: "/views/**/scorecard_testing_region_11.view"
 include: "/views/**/hyperfinity_customer_flag.view"
 include: "/views/**/addresses.view"
 include: "/views/**/customers_spend_over75_previous_month.view"
+include: "/views/**/customer/**.view"
+
+
 
 explore: base {
   label: "Transactions"
@@ -793,6 +796,12 @@ explore: base {
     sql_on: ${customers_spend_over75_previous_month.customer_uid}=${customers.customer_uid} and  ${calendar_completed_date.date_first_day_prev_month} = ${customers_spend_over75_previous_month.date_first_day_month};;
   }
 
+  join: summer_sale_skus {
+    view_label: "Products"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${products.product_code} = ${summer_sale_skus.product_code};;
+  }
 }
 
 
