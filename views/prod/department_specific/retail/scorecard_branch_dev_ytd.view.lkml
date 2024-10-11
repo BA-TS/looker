@@ -566,7 +566,7 @@ view: scorecard_branch_dev_ytd {
     type: number
     sql: case when
           (${stock_Accuracy} is null) then 1
-           when abs(coalesce(${stock_moves.moves},0)-coalesce(${moves},0))>0 then 2
+           when abs(coalesce(${stock_moves_ytd.moves},0)-coalesce(${moves},0))>0 then 2
             else 0 end;;
   }
 

@@ -140,6 +140,12 @@ explore: retail {
     sql_on: ${sites.site_uid}=${stock_moves.siteUID} and ${calendar_completed_date.calendar_year_month2}=${stock_moves.month} ;;
   }
 
+  join: stock_moves_ytd {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${sites.site_uid}=${stock_moves_ytd.siteUID} and ${calendar_completed_date.calendar_year_month2}=${stock_moves_ytd.month} ;;
+  }
+
   join: operational_compliance {
     type: left_outer
     relationship: many_to_one
