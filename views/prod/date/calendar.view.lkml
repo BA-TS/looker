@@ -329,14 +329,14 @@ view: calendar {
     group_label: "Flags"
     label: "TY and PY Wk-1"
     type: yesno
-    sql: cast(${fiscal_year_week} as int) IN (cast(${today_fiscal_year_week} as int),cast(${today_fiscal_year_week} as int)-100) ;;
+    sql: cast(${fiscal_year_week} as int) IN (cast(${today_fiscal_year_week} as int)+1,cast(${today_fiscal_year_week} as int)-99) ;;
   }
 
   dimension: ty_py_weeks_filter_2 {
     group_label: "Flags"
     label: "TY Wk-1, Wk-2 and PY Wk-1"
     type: yesno
-    sql: cast(${fiscal_year_week} as int) IN (cast(${today_fiscal_year_week} as int),cast(${today_fiscal_year_week} as int)-1,cast(${today_fiscal_year_week} as int)-100) ;;
+    sql: cast(${fiscal_year_week} as int) IN (cast(${today_fiscal_year_week} as int),cast(${today_fiscal_year_week} as int)+1,cast(${today_fiscal_year_week} as int)-99) ;;
   }
 
   dimension: holiday_name {
