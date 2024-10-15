@@ -64,7 +64,17 @@ explore: bdm {
     type: left_outer
     relationship: one_to_many
     fields: [transactions.rise_and_save_hours,transactions.has_trade_account,transactions.number_of_branches,transactions.number_of_unique_products,transactions.number_of_transactions,transactions.spc_net_sales,transactions.aov_net_sales,transactions.aov_units,transactions.total_margin_rate_incl_funding,transactions.total_margin_incl_funding,transactions.total_net_sales,transactions.payment_type,transactions.product_department,transactions.aov_gross_sales,transactions.number_of_departments]
-    sql_on: ${base.base_date_date} = ${transactions.transaction_date_filter};;
+    sql_on: ${base.base_date_date} = ${transactions.transaction_date_filter}
+          AND
+        (${transactions.is_cancelled} = 0
+          OR
+        ${transactions.is_cancelled} IS NULL)
+      {% if transactions.charity_status == "1" %}
+      AND (transactions.product_code IN ('85699', '00053','44842'))
+      {% else %}
+      AND (${transactions.product_code} NOT IN ('85699', '00053','44842') OR ${transactions.product_code} IS NULL)
+      {% endif %}
+    ;;
   }
 
   join: sites {
@@ -85,7 +95,7 @@ explore: bdm {
     view_label: "Teams"
     type: left_outer
     relationship: many_to_one
-    sql_on:  ${bdm_ka_customers.customer_uid}=${transactions.customer_uid} and ${base.base_date_date} between ${bdm_ka_customers.start_date} and ${bdm_ka_customers.end_date};;
+    sql_on:  ${bdm_ka_customers.customer_uid}=${transactions.customer_uid} and ${base.base_date_date} between ${bdm_ka_customers.start_date} and date_sub(${bdm_ka_customers.end_date},interval 0 day);;
   }
 
   join: targets {
