@@ -29,7 +29,7 @@ group by all),
 PDP as (select distinct platform, session_id as PDP_session_id, item_category,
 item_category2,
 item_category3, item_id,min(MinTime) as PDP_time
-from sub1 where screen in ("PDP") and event_name in ("view_item") group by 1,2,3),
+from sub1 where screen in ("PDP") and event_name in ("view_item") group by all),
 
 ATC as (select distinct session_id as atc_session_id, item_id,min(MinTime) as atc_time from sub1 where event_name in ("add_to_cart") group by 1,2),
 
