@@ -85,7 +85,7 @@ explore: bdm {
     view_label: "Teams"
     type: left_outer
     relationship: many_to_one
-    sql_on:  ${bdm_ka_customers.customer_uid}=${transactions.customer_uid};;
+    sql_on:  ${bdm_ka_customers.customer_uid}=${transactions.customer_uid} and ${base.base_date_date} between ${bdm_ka_customers.start_date} and ${bdm_ka_customers.end_date};;
   }
 
   join: targets {

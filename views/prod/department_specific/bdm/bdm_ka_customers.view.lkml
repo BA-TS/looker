@@ -5,7 +5,12 @@ view: bdm_ka_customers {
     sql:
     select
     DISTINCT row_number() over () AS prim_key,
-    *
+    team,
+    bdm,
+    customerUID,
+    coalesce(startDate,date_sub(current_date,interval 3 year)) as startDate,
+    coalesce(endDate,current_date) as endDate,
+    customerName
     from
     `toolstation-data-storage.retailReporting.BDM_KA_CUSTOMERS_LIST`
     where bdm is not null
