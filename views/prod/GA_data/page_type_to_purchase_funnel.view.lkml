@@ -9,8 +9,10 @@ when Screen_name in ("product-detail-page") and event_name in ("view_item") and 
 end as screen,
 platform,
 aw.item_id as item_id,
+aw.item_category as item_category,
+aw.item_category2 as item_category2,
+aw.item_category3 as item_category3,
 transactions.net_value as rev,
-transactions.MarginIncFunding as marg,
 transactions.Quantity as Qu,
 transactions.OrderID
 FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` as aw left join unnest (transactions) as transactions
@@ -24,12 +26,14 @@ group by all),
 #products as (select distinct productStartDate,activeTo,productCode from `toolstation-data-storage.range.products_current`),
 
 
-PDP as (select distinct platform, session_id as PDP_session_id, item_id,min(MinTime) as PDP_time
+PDP as (select distinct platform, session_id as PDP_session_id, item_category,
+item_category2,
+item_category3, item_id,min(MinTime) as PDP_time
 from sub1 where screen in ("PDP") and event_name in ("view_item") group by 1,2,3),
 
 ATC as (select distinct session_id as atc_session_id, item_id,min(MinTime) as atc_time from sub1 where event_name in ("add_to_cart") group by 1,2),
 
-purchase as (select distinct session_id as purchase_session_id,item_id, min(MinTime) as purchase_time, rev,marg, Qu, OrderID from sub1 where event_name in ("purchase", "Purchase") group by all),
+purchase as (select distinct session_id as purchase_session_id,item_id, min(MinTime) as purchase_time, rev, Qu, OrderID from sub1 where event_name in ("purchase", "Purchase") group by all),
 
 #3276858
 sub2 as (SELECT distinct
@@ -38,6 +42,10 @@ extract(date from coalesce(pdp.pdp_time,ATC.atc_time,purchase.purchase_time, all
 sub1.platform,
 sub1.session_id as total_sessionID,
 sub1.item_id as total_item_id,
+sub1.item_category,
+sub1.item_category2,
+sub1.item_category3,
+
 #PDP.item_id,
 PDP.pdp_session_id,
 pdp.pdp_time,
@@ -48,13 +56,11 @@ purchase.purchase_time,
 timestamp_diff(ATC.atc_time,pdp.pdp_time,second) as pdp_ATC,
 timestamp_diff(purchase.purchase_time,ATC.atc_time,second) as ATC_purchase,
 purchase.rev as Revenue,
-purchase.marg as margin,
 purchase.Qu as Quantity,
 purchase.ORderID as OrderID,
 all_purchase.purchase_session_id as all_purchase_session_id,
 all_purchase.rev as total_Revenue,
 all_purchase.Qu as total_Quantity,
-all_purchase.marg as total_Margin,
 all_purchase.ORderID as total_OrderID
 from Sub1
 left join PDP on sub1.session_id = PDP.PDP_session_id and sub1.item_id = PDP.item_id
@@ -88,6 +94,27 @@ select distinct row_number() over () as P_K, * from sub2
     view_label: "PDP to Purchase Funnel"
     label: "Web/App"
     sql: ${TABLE}.platform ;;
+  }
+
+  dimension: itemCategory {
+    type: string
+    view_label: "PDP to Purchase Funnel"
+    label: "1. Item Category"
+    sql: ${TABLE}.item_category;;
+  }
+
+  dimension: itemCategory2 {
+    type: string
+    view_label: "PDP to Purchase Funnel"
+    label: "2.Item Sub Category"
+    sql: ${TABLE}.item_category2;;
+  }
+
+  dimension: itemCategory3 {
+    type: string
+    view_label: "PDP to Purchase Funnel"
+    label: "3.Item Sub Sub Category"
+    sql: ${TABLE}.item_category3;;
   }
 
 
@@ -143,19 +170,6 @@ select distinct row_number() over () as P_K, * from sub2
     hidden: yes
     type: number
     sql: ${TABLE}.total_Revenue;;
-  }
-
-
-  dimension: Margin {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.margin;;
-  }
-
-  dimension: total_margin {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.total_margin;;
   }
 
   dimension: Quantity {
@@ -227,24 +241,6 @@ select distinct row_number() over () as P_K, * from sub2
     filters: [pdp_sessionID: "-NULL", atc_session_id: "-NULL",pdp_ATC_seconds: ">0", ATC_purchase_seconds: ">0"]
   }
 
-  measure: Margin_funnel {
-    view_label: "PDP to Purchase Funnel"
-    label: "PDP-ATC-Purchase Margin"
-    type: sum
-    sql: ${Margin};;
-    value_format_name: gbp
-    filters: [pdp_sessionID: "-NULL", atc_session_id: "-NULL",pdp_ATC_seconds: ">0", ATC_purchase_seconds: ">0"]
-  }
-
-  measure: Margin_funnel_rate {
-    view_label: "PDP to Purchase Funnel"
-    label: "PDP-ATC-Purchase Margin Rate"
-    type: number
-    sql: SAFE_DIVIDE(${Margin_funnel}, ${Revenue_funnel});;
-    value_format_name: percent_2
-    #filters: [pdp_sessionID: "-NULL", atc_session_id: "-NULL",pdp_ATC_seconds: ">0", ATC_purchase_seconds: ">0"]
-  }
-
   measure: quantity_funnel {
     view_label: "PDP to Purchase Funnel"
     label: "PDP-ATC-Purchase Quantity"
@@ -266,22 +262,6 @@ select distinct row_number() over () as P_K, * from sub2
     type: sum
     value_format_name: gbp
     sql: ${total_Revenue} ;;
-  }
-
-  measure: tota_margin {
-    view_label: "PDP to Purchase Funnel"
-    label: "Total Margin"
-    type: sum
-    value_format_name: gbp
-    sql: ${total_margin} ;;
-  }
-
-  measure: total_margin_rate {
-    view_label: "PDP to Purchase Funnel"
-    label: "Total Margin_rate"
-    #type: sum
-    value_format_name: percent_2
-    sql: SAFE_DIVIDE(${total_margin}, ${total_Revenue}) ;;
   }
 
   measure: total_quantity {
