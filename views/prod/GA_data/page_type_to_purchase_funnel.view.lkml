@@ -42,9 +42,9 @@ extract(date from coalesce(pdp.pdp_time,ATC.atc_time,purchase.purchase_time, all
 sub1.platform,
 sub1.session_id as total_sessionID,
 sub1.item_id as total_item_id,
-sub1.item_category,
-sub1.item_category2,
-sub1.item_category3,
+PDP.item_category,
+PDP.item_category2,
+PDP.item_category3,
 
 #PDP.item_id,
 PDP.pdp_session_id,
