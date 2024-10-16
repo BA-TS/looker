@@ -17,10 +17,6 @@ view: incremental_customer {
         field: base.select_date_range
         value: "2019/01/01 to 2031/08/14"
       }
-      filters: {
-        field: bdm_ka_customers.is_active
-        value: "Yes"
-      }
     }
   }
 

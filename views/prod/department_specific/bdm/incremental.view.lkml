@@ -6,7 +6,6 @@ view: incremental {
       column: total_margin_incl_funding { field: transactions.total_margin_incl_funding }
       column: spc_net_sales { field: transactions.spc_net_sales }
       column: py_date { field: calendar_completed_date.date }
-
       column: bdm { field: bdm_ka_customers.bdm }
       column: number_of_customers { field: bdm_ka_customers.number_of_customers }
       # column: customer_uid { field: bdm_ka_customers.customer_uid }
@@ -18,10 +17,6 @@ view: incremental {
       filters: {
         field: base.select_date_range
         value: "2022/01/01 to 2031/08/14"
-      }
-      filters: {
-        field: bdm_ka_customers.is_active
-        value: "Yes"
       }
     }
   }

@@ -100,7 +100,7 @@ view: bdm_ka_customers {
     view_label: "Customer Accounts"
     type: yesno
     label: "Is Account Active"
-    sql: ${end_date}>current_date() OR ${end_date} is null ;;
+    sql: ${customer_uid} is not null ;;
   }
 
   dimension: period {
