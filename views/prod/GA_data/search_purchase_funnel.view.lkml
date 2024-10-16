@@ -1,6 +1,6 @@
 view: search_purchase_funnel {
   derived_table: {
-    sql: with sub1 as (SELECT distinct dense_rank() over (partition by session_id order by minTime asc) as rowNum , platform, event_name, key_1, page_location, item_id, tra.productCode, session_id, minTime, sum(tra.ga4_quantity) as quantity, sum(value) as value , sum(tra.ga4_revenue) as ga4_value, sum(tra.net_value) as netValue, coalesce(case when regexp_contains(label_1,"^c[0-9]*$") then null else label_1 end,
+    sql: with sub1 as (SELECT distinct dense_rank() over (partition by session_id order by minTime asc) as rowNum , platform, event_name, key_1, page_location, item_id, item_category, tra.productCode, session_id, minTime, sum(tra.ga4_quantity) as quantity, sum(value) as value , sum(tra.ga4_revenue) as ga4_value, sum(tra.net_value) as netValue, coalesce(case when regexp_contains(label_1,"^c[0-9]*$") then null else label_1 end,
 regexp_replace(regexp_extract(page_location, ".*q\\=(.*)$"), "\\+", " ")) as searchTerm, tra.ORderID
 FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as tra
 where _TABLE_SUFFIX Between FORMAT_DATE('%Y%m%d', date_sub(current_date(), interval 5 day)) and FORMAT_DATE('%Y%m%d', date_sub(current_date(), interval 1 day))
@@ -15,13 +15,13 @@ where event_name in ("search_actions") and key_1 in ("Searched Term", "search_te
 VIT as (SELECT distinct rowNum, event_name,key_1,page_location, session_id, minTime, item_id, productCode, quantity from sub1
 where event_name in ("view_item_list")),
 
-ATC as (SELECT distinct rowNum, event_name,key_1,page_location, session_id, minTime, item_id, productCode, quantity from sub1
+ATC as (SELECT distinct rowNum, event_name,key_1,page_location, session_id, minTime, item_id, item_category, productCode, quantity from sub1
 where event_name in ("add_to_cart")),
 
 purchase as (SELECT distinct event_name, session_id, minTime, ORderID, item_id, productCode, quantity, ga4_value, sub1.netValue from sub1
 where event_name in ("purchase"))
 
-SELECT distinct concat( cast(row_number() over() as string), Platform) as PK, searchTime, platform, searchTerm, searchSessionID as searchSession, VITSession as VITSessions, string_agg(ATCitemID) as item_id,  string_agg(ATCSessions) as ATCSessions, string_agg(purchaseSession) as purchaseSessions,
+SELECT distinct concat( cast(row_number() over() as string), Platform) as PK, searchTime, platform, searchTerm, searchSessionID as searchSession, VITSession as VITSessions, string_agg(ATCitemID) as item_id, string_agg(item_category) as item_category, string_agg(ATCSessions) as ATCSessions, string_agg(purchaseSession) as purchaseSessions,
 string_Agg(OrderID) as ORders, sum(ga4_value) as GA4Value, sum(netValue) as netValue, sum(purchaseQuant) as productQuant from
 
 (SELECT distinct
@@ -31,9 +31,9 @@ platform,
 searchSessionID,
 searchTerm,
 VITSession,
---item_id,
 ATCSessions,
 ATCitemID,
+item_category,
 ATCQuant,
 purchaseSession,
 OrderID,
@@ -41,19 +41,16 @@ PurchaseITemID,
 purchaseQuant,
 ga4_value,
 netValue
- #652543
 
 from
 
 (
 
 SELECT distinct search.platform, search.session_id as searchSessionID, date(Search.minTime) as SearchTime, search.page_location as searchPage, search.searchTerm, VIT.session_id as VITSession,
-#VIT.minTime as vitTime,
-#VIT.item_id,  VIT.rowNum as VITrowNum,
 ATC.session_id as ATCSessions,
 ATC.minTime as ATCTIME,
-#timestamp_diff(ATC.minTime, VIT.minTime, second) as sec_diff,
 ATC.item_id as ATCitemID,
+ATC.item_category,
 ATC.quantity as ATCQuant,
 ATC.page_location as ATCPage, ATC.rowNum as ATCRowNum,
 purchase.session_id as purchaseSession, purchase.OrderID, purchase.item_id as PurchaseITemID, purchase.quantity as purchaseQuant, purchase.ga4_value, purchase.netValue, purchase.minTime as PurchaseTime
@@ -61,8 +58,6 @@ from search
 left join VIT on search.session_id = VIT.session_id and search.page_location = VIT.page_location
 LEFT join ATC on VIT.session_id = ATC.session_id and VIT.item_id = ATC.item_id and VIT.minTime < ATC.MinTime and search.rowNum = (ATC.rowNum -1)
 left join purchase on search.session_id = purchase.session_id and ATC.item_id = purchase.item_id and ATC.minTime < purchase.MinTime
-#where search.Session_ID in ("2045245690.17247728781728978542")
-order by 13 desc, 1 asc, 2 asc
 
 )
 group by all)
@@ -112,7 +107,7 @@ searchTerm,
 search_sessionID as searcSessions,
 productSID as ProsearcSessions,
 item_id,
-item_category,
+category,
 atc_sessionID as ATCsessions,
 purchase_sessionID as purchaseSessions,
 OrderID as ORders,
