@@ -152,7 +152,7 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
     group_label: "Non Blank Search"
     label: "Platform"
     type: string
-    sql: ${TABLE}.Platform ;;
+    sql: ${TABLE}.platform ;;
   }
 
   dimension_group: search_date {
@@ -181,7 +181,7 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
     description: "Purchase session ID"
     type: string
     hidden: yes
-    sql: ${TABLE}.purchaseSessionID ;;
+    sql: ${TABLE}.purchaseSessions ;;
   }
 
   #dimension_group: atcTime {
