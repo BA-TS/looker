@@ -3,7 +3,7 @@ view: search_purchase_funnel {
     sql: with sub1 as (SELECT distinct dense_rank() over (partition by session_id order by minTime asc) as rowNum , platform, event_name, key_1, page_location, item_id, item_category, tra.productCode, session_id, minTime, sum(tra.ga4_quantity) as quantity, sum(value) as value , sum(tra.ga4_revenue) as ga4_value, sum(tra.net_value) as netValue, coalesce(case when regexp_contains(label_1,"^c[0-9]*$") then null else label_1 end,
 regexp_replace(regexp_extract(page_location, ".*q\\=(.*)$"), "\\+", " ")) as searchTerm, tra.ORderID
 FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as tra
-where _TABLE_SUFFIX Between FORMAT_DATE('%Y%m%d', date_sub(current_date(), interval 5 day)) and FORMAT_DATE('%Y%m%d', date_sub(current_date(), interval 1 day))
+where _TABLE_SUFFIX Between FORMAT_DATE('%Y%m%d', date_sub(current_date(), interval 50 day)) and FORMAT_DATE('%Y%m%d', date_sub(current_date(), interval 1 day))
 
 and event_name in ("search", "search_actions", "view_item_list", "add_to_cart","purchase")
 and platform in ("Web")
@@ -81,7 +81,7 @@ t.net_value as netValue,
 coalesce(t.Quantity, t.ga4_quantity) as Quantity,
 t.OrderId
 FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` a left join unnest(transactions) as t
- where _TABLE_SUFFIX between FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 5 day)) and FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 1 day)) and
+ where _TABLE_SUFFIX between FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 50 day)) and FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 1 day)) and
  event_name in ("add_to_cart", "search", "purchase", "search_product_tapped", "view_item", "product_image_viewed")
  and platform in ("App")
  group by all),
