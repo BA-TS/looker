@@ -46,7 +46,7 @@ from
 
 (
 
-SELECT distinct search.platform, search.session_id as searchSessionID, date(Search.minTime) as SearchTime, search.page_location as searchPage, search.searchTerm, VIT.session_id as VITSession,
+SELECT distinct search.platform, search.session_id as searchSessionID, date(datetime_add(Search.minTime, interval 1 hour)) as SearchTime, search.page_location as searchPage, search.searchTerm, VIT.session_id as VITSession,
 ATC.session_id as ATCSessions,
 ATC.minTime as ATCTIME,
 ATC.item_id as ATCitemID,
@@ -100,7 +100,7 @@ purchase as (Select distinct dateTime as purchase_Time, rowNum,session_id as pur
 
 SELECT distinct
 concat( cast(row_number() over() as string), Platform) as PK,
-date(searchTime) as searchDate,
+date(datetime_add(SearchTime, interval 1 hour)) as searchDate,
 
 platform,
 searchTerm,
