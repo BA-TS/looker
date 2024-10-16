@@ -329,7 +329,7 @@ sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
     label: "Order ID"
     description: "Order ID"
     type: string
-    sql: ${TABLE}.OrderID ;;
+    sql: ${TABLE}.Orders ;;
   }
 
   measure: Orders {
