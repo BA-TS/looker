@@ -159,6 +159,12 @@ explore: bdm {
    sql_on: ${base.date_date}=${incremental.ty_date} and ${ledger.bdm} = ${incremental.bdm} ;;
   }
 
+  join: incremental2 {
+    type:  left_outer
+    relationship: many_to_one
+    sql_on: ${base.date_date}=${incremental2.ty_date} and ${customers.customer_uid} = ${incremental2.customer_uid} ;;
+  }
+
   join: incremental_customer {
     view_label: "Incremental"
     fields: [incremental_customer.total_customer_number,incremental_customer.incremental_customer_number,incremental_customer.spc_net_sales,incremental_customer.incremental_spc]
