@@ -3,7 +3,6 @@ view: incremental {
   derived_table: {
     explore_source: bdm {
       column: total_net_sales { field: transactions.total_net_sales }
-      column: total_margin_incl_funding { field: transactions.total_margin_incl_funding }
       column: spc_net_sales { field: transactions.spc_net_sales }
       column: py_date { field: calendar_completed_date.date }
       column: bdm { field: bdm_ka_customers.bdm }
