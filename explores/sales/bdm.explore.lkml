@@ -162,7 +162,7 @@ explore: bdm {
   join: incremental2 {
     type:  left_outer
     relationship: many_to_one
-    sql_on: ${base.date_date}=${incremental2.ty_date} and ${customers.customer_uid} = ${incremental2.customer_uid} ;;
+    sql_on: ${base.date_date}=${incremental2.ty_date} and ${customers.customer_uid} = ${incremental2.customer_uid} and ${ledger.bdm} = ${incremental.bdm} ;;
   }
 
   join: incremental_customer {
