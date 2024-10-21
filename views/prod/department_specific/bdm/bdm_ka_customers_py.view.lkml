@@ -2,7 +2,8 @@
 view: bdm_ka_customers_py {
   derived_table: {
     sql:
-    cast(format_timestamp('%Y%m', t.transactionDate) as int64)+100 as yearMonth,
+    select
+    cast(cast(format_timestamp('%Y%m', t.transactionDate) as int64)+100 as string)as yearMonth,
     t.customerUID,
     sum(t.netSalesValue) as pySales
 
@@ -39,8 +40,8 @@ view: bdm_ka_customers_py {
   }
 
   dimension: month{
-    type: date
-    sql: ${TABLE}.yearMonth ;;
+    type: string
+    sql: ${TABLE}.yearMonth;;
     hidden: yes
   }
 
