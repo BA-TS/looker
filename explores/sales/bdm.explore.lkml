@@ -97,6 +97,13 @@ explore: bdm {
     sql_on:  ${bdm_ka_customers.customer_uid}=${transactions.customer_uid} and ${base.base_date_date} between ${bdm_ka_customers.start_date} and date_sub(${bdm_ka_customers.end_date},interval 0 day);;
   }
 
+  join: bdm_ka_customers_py {
+    view_label: "PY"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${bdm_ka_customers_py.customer_uid}=${transactions.customer_uid} and ${bdm_ka_customers_py.month}=${calendar_completed_date.calendar_year_month2};;
+  }
+
   join: targets {
     view_label: "Targets"
     type: left_outer
@@ -157,12 +164,6 @@ explore: bdm {
     type:  left_outer
     relationship: many_to_one
    sql_on: ${base.date_date}=${incremental.ty_date} and ${ledger.bdm} = ${incremental.bdm} ;;
-  }
-
-  join: incremental2 {
-    type:  left_outer
-    relationship: many_to_one
-    sql_on: ${base.date_date}=${incremental2.ty_date} and ${customers.customer_uid} = ${incremental2.customer_uid} and ${ledger.bdm} = ${incremental.bdm} ;;
   }
 
   join: incremental_customer {
