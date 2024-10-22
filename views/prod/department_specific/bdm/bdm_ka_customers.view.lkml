@@ -3,10 +3,10 @@ include: "/views/**/transactions.view"
 view: bdm_ka_customers {
   derived_table: {
     sql:
-    select
+   select
     DISTINCT row_number() over () AS prim_key,
     team,
-    bdm,
+    replace(trim(bdm),"Craig","London") as bdm,
     customerUID,
     coalesce(startDate,date_sub(current_date,interval 3 year)) as startDate,
     coalesce(endDate,current_date) as endDate,
