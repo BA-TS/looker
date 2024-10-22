@@ -1,6 +1,12 @@
 view: tp_hire_enquiries{
   sql_table_name: `toolstation-data-storage.customer.tp_hire_enquiries`;;
 
+  dimension: referral_id {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.id ;;
+  }
+
   dimension: customerUID {
     hidden: yes
     type: string
@@ -31,11 +37,18 @@ view: tp_hire_enquiries{
   dimension: site_uid {
     type: string
     sql: ${TABLE}.branch_id ;;
+    hidden: yes
   }
 
   dimension: colleague_name {
     type: string
     sql: ${TABLE}.colleague_name ;;
+  }
+
+  measure: number_of_referrals {
+    hidden: yes
+    type: count_distinct
+    sql: ${referral_id} ;;
   }
 
   # dimension: created_at {
