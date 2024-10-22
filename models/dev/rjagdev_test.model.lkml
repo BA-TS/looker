@@ -292,6 +292,13 @@ explore: GA4_testy {
     sql_on: ${calendar.date} = ${blank_search_purchase_funnel.Blanksearch_date_date} ;;
   }
 
+  #join: suggested_byPRovider_purchase {
+    #view_label: "Suggested item to Purchase (inc provider)"
+    #type: left_outer
+    #relationship: many_to_one
+    #sql_on: ${calendar.date} = sugge ;;
+  #}
+
 
 
 }
