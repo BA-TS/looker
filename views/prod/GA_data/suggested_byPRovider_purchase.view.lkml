@@ -198,11 +198,14 @@ order by purchaseID desc;;
   dimension: Provider {
     type: string
     sql: ${TABLE}.Provider ;;
+    label: "Provider"
   }
 
   dimension: Location {
     type: string
-    sql: ${TABLE}.Location ;;
+    sql: case when ${TABLE}.Location in ("pdpSlot1") then "Related Products" else
+    (case when ${TABLE}.Location in ("pdpSlot2") then "Similar Items" else ${TABLE}.Location end) end;;
+    label: "Location"
   }
 
   dimension: show_ATC {
@@ -332,46 +335,56 @@ order by purchaseID desc;;
   measure: suggest_viewSessions {
     type: count_distinct
     sql: ${suggestView_session_id} ;;
+    label: "Suggest View Sessions"
   }
 
   measure: show_ATC_yesno {
     type: yesno
     sql: ${show_ATC} = "true" ;;
+    label: "Add to Cart option?"
   }
 
   measure: suggest_clickSessions {
     type: count_distinct
     sql: ${suggestClick_ID} ;;
+    label: "Suggest Click Sessions"
   }
 
   measure: add_toCart_sessions {
     type: count_distinct
     sql: ${ATC_sess} ;;
+    label: "Add to Cart Sessions"
   }
 
   measure: ATC_quanity {
     type: sum
     sql: ${ATC_quant} ;;
+    label: "ATC Quantity"
   }
 
   measure: purchase_sessions {
     type: count_distinct
     sql: ${purchaseID} ;;
+    label: "Purchase Sessions"
   }
 
   measure: purchase_quantity {
     type: sum
     sql: ${PurchaseQuant} ;;
+    label: "Purchase Quantity"
   }
 
   measure: purchase_revenue {
     type: sum
+    value_format_name: gbp
     sql: ${revenue} ;;
+    label: "Gross Revenue"
   }
 
   measure: ORders {
     type: count_distinct
     sql: ${transaction_id} ;;
+    label: "Orders"
   }
 
 
