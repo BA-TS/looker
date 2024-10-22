@@ -56,14 +56,10 @@ view: tp_hire_enquiries{
     sql: ${TABLE}.created_at ;;
   }
 
-  # dimension: created_at {
-  #   type: date_time
-  #   sql: ${TABLE}.created_at ;;
-  # }
-
-  # dimension: updated_at {
-  #   type: date_time
-  #   sql: ${TABLE}.updated_at ;;
-  # }
+  dimension_group: updated_at {
+    type: time
+    timeframes: [date,raw]
+    sql: ${TABLE}.updated_at ;;
+  }
 
 }
