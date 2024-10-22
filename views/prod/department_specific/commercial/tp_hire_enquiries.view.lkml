@@ -2,8 +2,15 @@ view: tp_hire_enquiries{
   sql_table_name: `toolstation-data-storage.customer.tp_hire_enquiries`;;
 
   dimension: customerUID {
+    hidden: yes
     type: string
     sql: ${TABLE}.customer_uid ;;
+  }
+
+  dimension: is_tp_hire_customer{
+    label: "Is TP Hire Customer"
+    type: string
+    sql: ${customerUID} is not null;;
   }
 
   dimension: customer_enquiry {
