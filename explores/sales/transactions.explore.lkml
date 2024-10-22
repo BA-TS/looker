@@ -81,7 +81,7 @@ include: "/views/**/hyperfinity_customer_flag.view"
 include: "/views/**/addresses.view"
 include: "/views/**/customers_spend_over75_previous_month.view"
 include: "/views/**/customer/**.view"
-
+include: "/views/**/commercial/**.view"
 
 
 explore: base {
@@ -801,6 +801,13 @@ explore: base {
     type: left_outer
     relationship: one_to_one
     sql_on: ${products.product_code} = ${summer_sale_skus.product_code};;
+  }
+
+  join: tp_hire_enquiries {
+    view_label: "TP Hire Enquiries"
+    type :  left_outer
+    relationship: one_to_one
+    sql_on: ${customers.customer_uid}=${tp_hire_enquiries.customerUID} and ${tp_hire_enquiries.site_uid}=${sites.site_uid};;
   }
 }
 
