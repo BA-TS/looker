@@ -297,7 +297,7 @@ explore: GA4_testy {
     view_label: "Suggested item to Purchase (inc provider)"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${calendar.date} = ${suggested_byprovider_purchase.suggest_viewdate_date} and ${products.product_code} = ${suggested_byprovider_purchase.suggestClick_ID} ;;
+    sql_on: ${calendar.date} = ${suggested_byprovider_purchase.suggest_viewdate_date} and ${products.product_code} = ${suggested_byprovider_purchase.sku} ;;
   }
 
 
