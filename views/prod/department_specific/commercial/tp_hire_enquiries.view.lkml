@@ -1,5 +1,19 @@
 view: tp_hire_enquiries{
-  sql_table_name: `toolstation-data-storage.customer.tp_hire_enquiries`;;
+  derived_table: {
+    sql:
+    select
+    id,
+    trim(customer_uid) as customer_uid,
+    customer_enquiry,
+    customer_enquiry_other,
+    additional_information,
+    branch_id,
+    colleague_name,
+    date(created_at) as created_at,
+    date(updated_at) as updated_at,
+    from
+    `toolstation-data-storage.customer.tp_hire_enquiries`;;
+  }
 
   dimension: referral_id {
     hidden: yes
@@ -51,14 +65,18 @@ view: tp_hire_enquiries{
   }
 
   dimension_group: created_at {
+    label: "Created At"
+    datatype: date
+    timeframes: [date, week, month, year]
     type: time
-    timeframes: [date,raw]
     sql: ${TABLE}.created_at ;;
   }
 
   dimension_group: updated_at {
+    label: "Updated At"
+    datatype: date
+    timeframes: [date, week, month, year]
     type: time
-    timeframes: [date,raw]
     sql: ${TABLE}.updated_at ;;
   }
 
