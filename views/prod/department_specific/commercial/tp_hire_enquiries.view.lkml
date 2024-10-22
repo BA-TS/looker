@@ -51,6 +51,13 @@ view: tp_hire_enquiries{
     sql: ${referral_id} ;;
   }
 
+  dimension_group: created_at {
+    type: time
+    timeframes: [date,raw]
+    hidden: yes
+    sql: ${TABLE}.created_at ;;
+  }
+
   # dimension: created_at {
   #   type: date_time
   #   sql: ${TABLE}.created_at ;;
