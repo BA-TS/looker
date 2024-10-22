@@ -6,6 +6,7 @@ include: "/views/prod/GA_data/GA4.view.lkml"
 include: "/views/prod/GA_data/Videoly_funnel_GA4.view.lkml"
 include: "/views/prod/GA_data/PDP_Purchase_funnel.view.lkml"
 include: "/views/prod/GA_data/Search_PLP_to_PDP_funnel.view.lkml"
+include: "/views/prod/GA_data/suggested_byPRovider_purchase.view.lkml"
 # include all views in the views/ folder in this project
 label: "Digital"
 
@@ -292,12 +293,12 @@ explore: GA4_testy {
     sql_on: ${calendar.date} = ${blank_search_purchase_funnel.Blanksearch_date_date} ;;
   }
 
-  #join: suggested_byPRovider_purchase {
-    #view_label: "Suggested item to Purchase (inc provider)"
-    #type: left_outer
-    #relationship: many_to_one
-    #sql_on: ${calendar.date} = sugge ;;
-  #}
+  join: suggested_byprovider_purchase {
+    view_label: "Suggested item to Purchase (inc provider)"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${calendar.date} = ${suggested_byprovider_purchase.suggest_viewdate_date} and ${products.product_code} = ${suggested_byprovider_purchase.suggestClick_ID} ;;
+  }
 
 
 
