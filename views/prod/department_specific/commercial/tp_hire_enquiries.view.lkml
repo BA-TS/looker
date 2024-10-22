@@ -15,7 +15,7 @@ view: tp_hire_enquiries{
 
   dimension: is_tp_hire_customer{
     label: "Is TP Hire Customer"
-    type: string
+    type: yesno
     sql: ${customerUID} is not null;;
   }
 
@@ -46,7 +46,6 @@ view: tp_hire_enquiries{
   }
 
   measure: number_of_referrals {
-    hidden: yes
     type: count_distinct
     sql: ${referral_id} ;;
   }
@@ -54,7 +53,6 @@ view: tp_hire_enquiries{
   dimension_group: created_at {
     type: time
     timeframes: [date,raw]
-    hidden: yes
     sql: ${TABLE}.created_at ;;
   }
 

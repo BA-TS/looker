@@ -807,7 +807,7 @@ explore: base {
     view_label: "TP Hire Enquiries"
     type :  left_outer
     relationship: one_to_one
-    sql_on: ${customers.customer_uid}=${tp_hire_enquiries.customerUID} and ${tp_hire_enquiries.site_uid}=${sites.site_uid};;
+    sql_on: ${customers.customer_uid}=${tp_hire_enquiries.customerUID} and ${tp_hire_enquiries.site_uid}=${sites.site_uid} and ${base.base_date_date}>=${tp_hire_enquiries.created_at_date};;
   }
 }
 
