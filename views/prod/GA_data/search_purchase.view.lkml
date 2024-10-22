@@ -4,7 +4,7 @@ view: search_purchase {
 FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*`
 where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 12 week)) and FORMAT_DATE('%Y%m%d',current_date())
 and (regexp_contains(event_name, "search") or event_name in ("purchase", "Purchase") ) and event_name not in ("blank_search")
-group by 1,2,3)
+group by all)
 
 select distinct row_number() over() as PK,Platform,session_id as search_ID, date(min(Time1)) as search_date, min(Time1) as search_time, purchase_ID,purchase_date, purchase_time, timestamp_diff(purchase_time, min(Time1), second) as search_purch_diff
 from sub1 left join (
@@ -14,7 +14,7 @@ where event_name in ("purchase", "Purchase")
 group by 1
 ) on session_id = purchase_ID
 where regexp_contains(event_name, "search") and event_name not in ("blank_search") and key_1 in ("Searched Term", "search_term")
-group by 2,3,6,7,8
+group by all
 ;;
 
 sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11;;
