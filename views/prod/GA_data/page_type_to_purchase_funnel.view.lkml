@@ -4,8 +4,7 @@ view: page_type_to_purchase_funnel {
 with sub1 as (SELECT distinct min(MinTime) as minTime, session_id, event_name,
 #page_location,
 case
-when (regexp_contains(page_location,".*/p([0-9]*)$") or regexp_contains(page_location, ".*/p[0-9]*[^0-9a-zA-Z]")) and event_name in ("view_item") and platform in ("Web") then "PDP"
-when Screen_name in ("product-detail-page") and event_name in ("view_item") and platform in ("App") then "PDP"
+when event_name in ("view_item") and (Screen_name in ("product-detail-page") or regexp_contains(page_location,".*/p[0-9]{5}$|.*/p[0-9]{5}[^0-9a-zA-Z]|.*/p[A-Z]{2}[0-9]{3}$|.*/p[A-Z]{2}[0-9]{3}[^0-9a-zA-Z]") ) then "PDP"
 end as screen,
 platform,
 aw.item_id as item_id,

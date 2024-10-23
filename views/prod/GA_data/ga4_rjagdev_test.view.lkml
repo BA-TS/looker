@@ -282,11 +282,11 @@ view: ga4_rjagdev_test {
     label: "Screen Type"
     group_label: "Screen"
     type: string
-    sql: CASE when regexp_contains(${page_location},".*/p([0-9]*)$") then "product-detail-page"
-when regexp_contains(${page_location}, ".*/p[0-9]*[^0-9a-zA-Z]") then "product-detail-page"
-when regexp_contains(${page_location},".*/c([0-9]*)$") then "product-listing-page"
-when regexp_contains(${page_location}, ".*/c[0-9]*[^0-9a-zA-Z]") then "product-listing-page"
-else ${Screen_name} end ;;
+    sql:
+    CASE
+    when regexp_contains(${page_location},".*/p[0-9]{5}$|.*/p[0-9]{5}[^0-9a-zA-Z]|.*/p[A-Z]{2}[0-9]{3}$|.*/p[A-Z]{2}[0-9]{3}[^0-9a-zA-Z]") then "product-detail-page" else
+    (case when regexp_contains(${page_location},".*/c([0-9]*)$|.*/c[0-9]*[^0-9a-zA-Z]") then "product-listing-page"
+else ${Screen_name} end) end ;;
 
   }
 
