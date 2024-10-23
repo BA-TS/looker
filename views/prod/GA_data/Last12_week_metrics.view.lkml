@@ -147,7 +147,7 @@ atc_session
 from sub2
       ;;
 
-    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 12;;
+    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 13;;
   }
 
   dimension: PK {

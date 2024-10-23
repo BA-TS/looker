@@ -23,7 +23,7 @@ from rec
 left join purchase on rec.recommend_ID = purchase.purchase_id and rec.item_id = purchase.item_id and rec.recommend_time < purchase.purchase_time
 full outer join purchase as all_purch on purchase.purchase_id = all_purch.purchase_id and purchase.item_id=all_purch.item_id ;;
 
-sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 12;;
+sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 13;;
 }
 
 

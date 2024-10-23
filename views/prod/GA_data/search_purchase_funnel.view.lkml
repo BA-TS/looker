@@ -135,7 +135,7 @@ order by OrderID desc
 group by all)
 ;;
 
-sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 12;;
+sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 13;;
 }
 
 
@@ -380,7 +380,7 @@ purchase as (select distinct minTime as PurchaseTime, productCode, Net_value,Qua
  from search left join atc on search_session = atc_Session and searchTime < atc_Time
  left join purchase on atc_session = purchase_session and atc_time < purchaseTime and item_id = productCode ;;
 
-    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 12;;
+    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 13;;
   }
 
   dimension: P_K {
