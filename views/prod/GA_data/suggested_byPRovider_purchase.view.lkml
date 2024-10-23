@@ -1,7 +1,7 @@
 view: suggested_byprovider_purchase {
   derived_table: {
     sql:
-    with sub1 as (SELECT distinct
+        with sub1 as (SELECT distinct
 event_name,
 concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) AS session_id,
 min(event_timestamp) as event_timestamp,
@@ -10,6 +10,7 @@ min(event_timestamp) as event_timestamp,
 (SELECT distinct (value.string_value) FROM UNNEST(event_params) WHERE key in ('location', 'rec_location')) as Location,
 (SELECT distinct (value.string_value) FROM UNNEST(event_params) WHERE key in ('show_add_to_trolley', 'add_to_cart_click')) as show_click_ATC,
 (SELECT distinct coalesce(value.string_value, cast(value.int_value as string)) FROM UNNEST(event_params) WHERE key = 'sku') as sku,
+(SELECT distinct cast(value.string_value as string) FROM UNNEST(event_params) WHERE key = 'monetate_name') as monetate_name,
 items.item_id,
 items.quantity,
 items.item_revenue,
@@ -17,8 +18,10 @@ ecommerce.transaction_id
 FROM `toolstation-data-storage.analytics_251803804.events_*` left join unnest(items) as items
 where
 _table_suffix between format_date("%Y%m%d", date_trunc(date_sub(current_date(), interval 3 week),week(sunday))) and format_date("%Y%m%d", date_sub(current_date(), INTERVAL 1 day)) and
-event_name in ("suggested_item_view", "suggested_item_click", "add_to_cart", "purchase") and concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) is not null
+event_name in ("suggested_item_view", "suggested_item_click", "add_to_cart", "purchase", "monetate_experiment_decision") and concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) is not null
 group by all),
+
+monetate_event as (select distinct session_id, min(event_timestamp) as event_timestamo from sub1 where REGEXP_CONTAINS(monetate_name, "\\[PROD\\][\t\n\f\r ]{1}\\[RECS\\].*") group by all),
 
 
 suggest_view as (SELECT distinct
@@ -150,7 +153,8 @@ Location, show_ATC order by timediff asc) as timeORder from
 purchase.session_id as purchaseID, purchase.item_id as purchaseITemID, purchase.quantity as PurchaseQuant, purchase.item_revenue as revenue, purchase.transaction_id,
 
 timestamp_diff(timestamp_MICROS(ATC.event_timestamp),timestamp_MICROS(suggest_click.event_timestamp), microsecond) as timediff
-from suggest_view
+from monetate_event
+inner join suggest_view on monetate_event.session_id = suggest_view.session_id and suggest_view.event_timestamp > monetate_event.event_timestamo
 left join suggest_click on
 suggest_view.session_id = suggest_click.session_id and suggest_view.page = suggest_click.page and suggest_view.Location = suggest_click.Location and suggest_view.event_timestamp < suggest_click.event_timestamp
 left join ATC on suggest_click.session_id = ATC.session_id and suggest_click.sku = ATC.item_id and suggest_click.event_timestamp < ATC.event_timestamp
