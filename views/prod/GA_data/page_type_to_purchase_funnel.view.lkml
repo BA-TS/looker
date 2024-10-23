@@ -1,7 +1,7 @@
 view: page_type_to_purchase_funnel {
   derived_table: {
     sql:
-with sub1 as (SELECT distinct min(timestamp_sub(MinTime, interval 1 HOUR)) as minTime, session_id, event_name,
+with sub1 as (SELECT distinct min(MinTime) as minTime, session_id, event_name,
 #page_location,
 case
 when (regexp_contains(page_location,".*/p([0-9]*)$") or regexp_contains(page_location, ".*/p[0-9]*[^0-9a-zA-Z]")) and event_name in ("view_item") and platform in ("Web") then "PDP"
@@ -38,7 +38,7 @@ purchase as (select distinct session_id as purchase_session_id,item_id, min(MinT
 #3276858
 sub2 as (SELECT distinct
 #row_number() over () as P_K,
-extract(date from coalesce(pdp.pdp_time,ATC.atc_time,purchase.purchase_time, all_purchase.purchase_time)) as date,
+coalesce(pdp.pdp_time,ATC.atc_time,purchase.purchase_time, all_purchase.purchase_time) as date,
 sub1.platform,
 sub1.session_id as total_sessionID,
 sub1.item_id as total_item_id,
@@ -86,7 +86,7 @@ select distinct row_number() over () as P_K, * from sub2
     hidden: yes
     type: time
     timeframes: [raw,date]
-    sql: ${TABLE}.date ;;
+    sql: case when date(${TABLE}.date) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(${TABLE}.date, interval 1 HOUR)) else (timestamp_add(${TABLE}.date, interval 1 HOUR)) end ;;
   }
 
   dimension: platform {
