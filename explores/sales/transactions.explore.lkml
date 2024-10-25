@@ -11,11 +11,6 @@ include: "/views/**/channel_budget.view"
 include: "/views/**/site_budget.view"
 include: "/views/**/sites.view"
 include: "/views/**/foh_master_stores.view"
-include: "/views/**/customers.view"
-include: "/views/**/customer_segmentation.view"
-include: "/views/**/trade_customers.view"
-include: "/views/**/trade_credit_details.view"
-include: "/views/**/trade_credit_ids.view"
 include: "/views/**/suppliers.view"
 include: "/views/**/supplierAddresses.view"
 include: "/views/**/promo_main_catalogue.view"
@@ -49,7 +44,6 @@ include: "/views/**/customer_spending.view"
 include: "/views/**/transactions_incomplete.view"
 include: "/views/**/rakuten_analysis_0112.view"
 include: "/views/**/ds_assumed_trade.view"
-include: "/views/**/assumed_trade_measures.view"
 include: "/views/**/costprice.view"
 include: "/views/**/app_transactions_pre_post.view"
 include: "/views/**/clickCollect.view"
@@ -155,8 +149,6 @@ explore: base {
         {% else %}
           AND (${transactions.sales_channel} IS NOT NULL AND ${transactions.site_uid} IS NOT NULL AND ${transactions.product_department} IS NOT NULL)
         {% endif %}
-          --AND
-        --(UPPER(${transactions.extranet_status}) is case when ({% parameter transactions.select_extranet_status %}) in ("SALE", "INCOMPLETE") then ({% parameter transactions.select_extranet_status %}) else ("SALE", "INCOMPLETE") end
 
         AND (UPPER(${transactions.extranet_status}) in (case when ({% parameter transactions.select_extranet_status %}) in ("SALE", "INCOMPLETE") then {% parameter transactions.select_extranet_status %} else ("INCOMPLETE") end)
         or UPPER(${transactions.extranet_status}) in (case when ({% parameter transactions.select_extranet_status %}) in ("SALE", "INCOMPLETE") then {% parameter transactions.select_extranet_status %} else ("SALE") end))
@@ -793,7 +785,6 @@ explore: base {
     view_label: "TP Hire Enquiries"
     type :  left_outer
     relationship: one_to_one
-    # sql_on: ${customers.customer_uid}=${tp_hire_enquiries.customerUID} and ${tp_hire_enquiries.site_uid}=${sites.site_uid} and ${base.base_date_date}=${tp_hire_enquiries.created_at_date};;
     sql_on: ${customers.customer_uid}=${tp_hire_enquiries.customerUID} and ${tp_hire_enquiries.site_uid}=${sites.site_uid};;
   }
 }
