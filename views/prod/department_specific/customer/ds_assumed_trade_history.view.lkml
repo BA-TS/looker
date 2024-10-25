@@ -46,7 +46,7 @@ view: ds_assumed_trade_history {
     group_label: "Prediction History"
     type: number
     sql: ${TABLE}.flag ;;
-    hidden: yes
+    # hidden: yes
   }
 
   measure: Assumed_Trade_Probability_STD {
