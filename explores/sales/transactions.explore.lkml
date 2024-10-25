@@ -11,11 +11,6 @@ include: "/views/**/channel_budget.view"
 include: "/views/**/site_budget.view"
 include: "/views/**/sites.view"
 include: "/views/**/foh_master_stores.view"
-include: "/views/**/customers.view"
-include: "/views/**/customer_segmentation.view"
-include: "/views/**/trade_customers.view"
-include: "/views/**/trade_credit_details.view"
-include: "/views/**/trade_credit_ids.view"
 include: "/views/**/suppliers.view"
 include: "/views/**/supplierAddresses.view"
 include: "/views/**/promo_main_catalogue.view"
@@ -47,14 +42,8 @@ include: "/views/**/spc_buckets_customers.view"
 include: "/views/**/bucketed_order_sales_department.view"
 include: "/views/**/customer_spending.view"
 include: "/views/**/transactions_incomplete.view"
-include: "/views/**/customers_wk_ly.view"
-include: "/views/**/customers_wk_ty.view"
-include: "/views/**/customers_2wk_ty.view"
 include: "/views/**/rakuten_analysis_0112.view"
 include: "/views/**/ds_assumed_trade.view"
-include: "/views/**/ds_assumed_trade_v2.view"
-include: "/views/**/ds_assumed_trade_history.view"
-include: "/views/**/assumed_trade_measures.view"
 include: "/views/**/costprice.view"
 include: "/views/**/app_transactions_pre_post.view"
 include: "/views/**/clickCollect.view"
@@ -74,7 +63,6 @@ include: "/views/**/scorecard_testing_loyalty_branch_ytd.view"
 include: "/views/**/scorecard_testing_loyalty_region_ytd.view"
 include: "/views/**/scorecard_testing_loyalty_division_ytd.view"
 include: "/views/**/return_orders.view"
-include: "/views/**/ds_assumed_trade_history_new_lake.view"
 include: "/views/**/scorecard_trade_customers_filter.view"
 include: "/views/**/scorecard_testing_region_11.view"
 include: "/views/**/hyperfinity_customer_flag.view"
@@ -135,10 +123,6 @@ explore: base {
     relationship: one_to_many
     sql_on:
         ${base.base_date_date} = ${transactions.transaction_date_filter}
-          --AND
-        --(${transactions.is_cancelled} = 0
-          --OR
-        --${transactions.is_cancelled} IS NULL)
       {% if ${transactions.charity_status} == "1" %}
         AND (${transactions.product_code} IN ('85699', '00053','44842'))
       {% else %}
@@ -161,8 +145,6 @@ explore: base {
         {% else %}
           AND (${transactions.sales_channel} IS NOT NULL AND ${transactions.site_uid} IS NOT NULL AND ${transactions.product_department} IS NOT NULL)
         {% endif %}
-          --AND
-        --(UPPER(${transactions.extranet_status}) is case when ({% parameter transactions.select_extranet_status %}) in ("SALE", "INCOMPLETE") then ({% parameter transactions.select_extranet_status %}) else ("SALE", "INCOMPLETE") end
 
         AND (UPPER(${transactions.extranet_status}) in (case when ({% parameter transactions.select_extranet_status %}) in ("SALE", "INCOMPLETE") then {% parameter transactions.select_extranet_status %} else ("INCOMPLETE") end)
         or UPPER(${transactions.extranet_status}) in (case when ({% parameter transactions.select_extranet_status %}) in ("SALE", "INCOMPLETE") then {% parameter transactions.select_extranet_status %} else ("SALE") end))
@@ -255,7 +237,7 @@ explore: base {
     view_label: "Location"
     type: left_outer
     relationship: many_to_one
-    sql_on:${foh_master_products_2024.siteUID} =${sites.site_uid} and ${transactions.product_code}=${foh_master_products_2024.SKU} and ${calendar_completed_date.fiscal_year_week}=${foh_master_products_2024.Week}  ;;
+    sql_on:${foh_master_products_2024.siteUID} =${sites.site_uid} and ${transactions.product_code}=${foh_master_products_2024.SKU} and ${calendar_completed_date.fiscal_year_week}=${foh_master_products_2024.Week} ;;
   }
 
   join: foh_master_stores {
@@ -314,8 +296,7 @@ explore: base {
     type: left_outer
     relationship: many_to_one
     sql_on: ${suppliers.supplier_uid}=${supplierAddresses.supplierUID}
-    and ${base.date_date} between ${supplierAddresses.addressStartDate} and ${supplierAddresses.addressEndDate}
-    ;;
+    and ${base.date_date} between ${supplierAddresses.addressStartDate} and ${supplierAddresses.addressEndDate};;
     }
 
   join: promo_main_catalogue {
@@ -509,13 +490,13 @@ explore: base {
   join: spc_buckets {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${transactions.parent_order_uid} = ${spc_buckets.parent_order_uid} ;;
+    sql_on: ${transactions.parent_order_uid} = ${spc_buckets.parent_order_uid};;
   }
 
   join: spc_buckets_customers {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${transactions.customer_uid} = ${spc_buckets_customers.customer_uid} ;;
+    sql_on: ${transactions.customer_uid} = ${spc_buckets_customers.customer_ui;;
   }
 
 
@@ -532,7 +513,7 @@ explore: base {
     sql_on: ${customers.customer_uid} = ${customer_spending.customer_uid}
     and
     ${calendar_completed_date.calendar_year_month} = ${customer_spending.year_month};;
-    sql_where: ${customer_spending.brand_rank_top_brands_bigquery_2} != "Other" ;;
+    sql_where: ${customer_spending.brand_rank_top_brands_bigquery_2} != "Other;;
   }
 
   join: transactions_incomplete {
@@ -562,14 +543,6 @@ explore: base {
     sql_on: ${customers.customer_uid} = ${customers_2wk_ty.customer_uid} ;;
   }
 
-  # join: rakuten_analysis_0112 {
-  #   view_label: "Other - Ad-hoc Analysis"
-  #   required_access_grants: [tp_testing]
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${customers.customer_uid} = ${rakuten_analysis_0112.customerUID} and ${transactions.parent_order_uid} = ${rakuten_analysis_0112.parent_order_UID};;
-  # }
-
   join: ds_assumed_trade {
     view_label: "Customer Classification"
     type: left_outer
@@ -577,30 +550,21 @@ explore: base {
     sql_on: ${customers.customer_uid} = ${ds_assumed_trade.customer_uid};;
   }
 
-  # join: ds_assumed_trade_v2 {
-  #   view_label: "Customer Classification v2"
-  #   required_access_grants: [tp_testing]
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${customers.customer_uid} = ${ds_assumed_trade_v2.customer_uid};;
-  # }
+  join: ds_assumed_trade_paul_test {
+    required_access_grants: [lz_testing]
+    view_label: "Customer Classification - Paul test"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${customers.customer_uid} = ${ds_assumed_trade_paul_test.customer_uid};;
+  }
 
-  # join: ds_assumed_trade_history {
-  #   view_label: "Customer Classification History"
-  #   type: left_outer
-  #   relationship: one_to_many
-  #   sql_on: ${customers.customer_uid} = ${ds_assumed_trade_history.customer_uid}
-  #   and ${ds_assumed_trade_history.Score_End_Date} = ${ds_assumed_trade_history_new_lake.Score_End_Date}
-  #   ;;
-  # }
-
-  # join: ds_assumed_trade_history_new_lake {
-  #   view_label: "Customer Classification History v2"
-  #   type: left_outer
-  #   relationship: one_to_many
-  #   sql_on: ${customers.customer_uid} = ${ds_assumed_trade_history_new_lake.customer_uid}
-  #   ;;
-  # }
+  join: ds_assumed_trade_history_new_lake {
+    required_access_grants: [lz_testing]
+    view_label: "Customer Classification"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${customers.customer_uid} = ${ds_assumed_trade_history_new_lake.customer_uid} ;;
+  }
 
   join: assumed_trade_measures {
     required_access_grants:[tp_testing]
@@ -807,7 +771,6 @@ explore: base {
     view_label: "TP Hire Enquiries"
     type :  left_outer
     relationship: one_to_one
-    # sql_on: ${customers.customer_uid}=${tp_hire_enquiries.customerUID} and ${tp_hire_enquiries.site_uid}=${sites.site_uid} and ${base.base_date_date}=${tp_hire_enquiries.created_at_date};;
     sql_on: ${customers.customer_uid}=${tp_hire_enquiries.customerUID} and ${tp_hire_enquiries.site_uid}=${sites.site_uid};;
   }
 }

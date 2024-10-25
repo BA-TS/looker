@@ -52,7 +52,7 @@ view: calendar {
   }
 
   dimension: date_first_day_prev_month{
-    required_access_grants: [lz_testing]
+    required_access_grants: [lz_only]
     group_label: "Dates"
     label: "Date (1st day of Prev Month)"
     type: date
@@ -119,7 +119,7 @@ view: calendar {
     description: "used in the retail explore"
     type: string
     sql: replace(${calendar_year_month},'-','') ;;
-    required_access_grants: [lz_testing]
+    hidden: yes
   }
 
   dimension: fulldate2 {
@@ -134,7 +134,7 @@ view: calendar {
   dimension: today_calendar_year_month {
     group_label: "Today Dates"
     label: "Year Month (yyyy-mm)"
-    required_access_grants: [lz_testing]
+    required_access_grants: [lz_only]
     type: string
     sql: ${TABLE}.todaydaycalendarYearMonth;;
   }
@@ -145,7 +145,7 @@ view: calendar {
     label: "Year Month (yyyy-mm) 2"
     type: string
     sql: replace(${today_calendar_year_month},'-','') ;;
-    required_access_grants: [lz_testing]
+    required_access_grants: [lz_only]
   }
 
   dimension: calendar_year_quarter {
@@ -322,7 +322,7 @@ view: calendar {
     # hidden: yes
     type: string
     sql: ${TABLE}.todayfiscalYearWeek;;
-    required_access_grants: [lz_testing]
+    required_access_grants: [lz_only]
   }
 
   dimension: ty_py_weeks_filter_1 {
