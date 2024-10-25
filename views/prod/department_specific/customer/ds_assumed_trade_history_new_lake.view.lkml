@@ -65,15 +65,15 @@ view: ds_assumed_trade_history_new_lake {
     sql: ${flag} ;;
   }
 
+  measure: total_number_of_predictions {
+    group_label: "Prediction History"
+    type: count_distinct
+    sql: ${customer_uid} ;;
+  }
+
   measure: number_of_negative_predictions {
     group_label: "Prediction History"
     type: number
-    sql: ${Assumed_Trade_Probability}-${flag} ;;
-  }
-
-  measure: total_number_of_predictions {
-    group_label: "Prediction History"
-    type: sum
-    sql: ${customer_uid } ;;
+    sql: ${total_number_of_predictions}-${number_of_positive_predictions} ;;
   }
 }
