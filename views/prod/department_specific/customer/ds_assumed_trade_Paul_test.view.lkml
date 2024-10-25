@@ -10,8 +10,7 @@ view: ds_assumed_trade_paul_test{
       from
       `toolstation-data-storage.customer.ds_assumed_trade_history_v2`
       group by all
-      order by 2 asc
-    ;;
+     ;;
     }
 
     dimension: customer_uid {
@@ -37,7 +36,6 @@ view: ds_assumed_trade_paul_test{
     dimension: final_prediction2 {
       type:  string
       label: "Customer Type (Assumed Trade/Trade/DIY)"
-      description: "Assumed Trade customers are customers who are currently DIY customerse but are predicted to be trade customers"
       sql:
           CASE
           WHEN ${customers.is_trade} = true then "Trade"
@@ -48,7 +46,4 @@ view: ds_assumed_trade_paul_test{
           END
           ;;
     }
-
-
-
-  }
+}
