@@ -123,10 +123,6 @@ explore: base {
     relationship: one_to_many
     sql_on:
         ${base.base_date_date} = ${transactions.transaction_date_filter}
-          --AND
-        --(${transactions.is_cancelled} = 0
-          --OR
-        --${transactions.is_cancelled} IS NULL)
       {% if ${transactions.charity_status} == "1" %}
         AND (${transactions.product_code} IN ('85699', '00053','44842'))
       {% else %}
@@ -241,7 +237,7 @@ explore: base {
     view_label: "Location"
     type: left_outer
     relationship: many_to_one
-    sql_on:${foh_master_products_2024.siteUID} =${sites.site_uid} and ${transactions.product_code}=${foh_master_products_2024.SKU} and ${calendar_completed_date.fiscal_year_week}=${foh_master_products_2024.Week}  ;;
+    sql_on:${foh_master_products_2024.siteUID} =${sites.site_uid} and ${transactions.product_code}=${foh_master_products_2024.SKU} and ${calendar_completed_date.fiscal_year_week}=${foh_master_products_2024.Week} ;;
   }
 
   join: foh_master_stores {
@@ -300,8 +296,7 @@ explore: base {
     type: left_outer
     relationship: many_to_one
     sql_on: ${suppliers.supplier_uid}=${supplierAddresses.supplierUID}
-    and ${base.date_date} between ${supplierAddresses.addressStartDate} and ${supplierAddresses.addressEndDate}
-    ;;
+    and ${base.date_date} between ${supplierAddresses.addressStartDate} and ${supplierAddresses.addressEndDate};;
     }
 
   join: promo_main_catalogue {
@@ -495,13 +490,13 @@ explore: base {
   join: spc_buckets {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${transactions.parent_order_uid} = ${spc_buckets.parent_order_uid} ;;
+    sql_on: ${transactions.parent_order_uid} = ${spc_buckets.parent_order_uid};;
   }
 
   join: spc_buckets_customers {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${transactions.customer_uid} = ${spc_buckets_customers.customer_uid} ;;
+    sql_on: ${transactions.customer_uid} = ${spc_buckets_customers.customer_ui;;
   }
 
 
@@ -518,7 +513,7 @@ explore: base {
     sql_on: ${customers.customer_uid} = ${customer_spending.customer_uid}
     and
     ${calendar_completed_date.calendar_year_month} = ${customer_spending.year_month};;
-    sql_where: ${customer_spending.brand_rank_top_brands_bigquery_2} != "Other" ;;
+    sql_where: ${customer_spending.brand_rank_top_brands_bigquery_2} != "Other;;
   }
 
   join: transactions_incomplete {
@@ -548,14 +543,6 @@ explore: base {
     sql_on: ${customers.customer_uid} = ${customers_2wk_ty.customer_uid} ;;
   }
 
-  # join: rakuten_analysis_0112 {
-  #   view_label: "Other - Ad-hoc Analysis"
-  #   required_access_grants: [tp_testing]
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${customers.customer_uid} = ${rakuten_analysis_0112.customerUID} and ${transactions.parent_order_uid} = ${rakuten_analysis_0112.parent_order_UID};;
-  # }
-
   join: ds_assumed_trade {
     view_label: "Customer Classification"
     type: left_outer
@@ -576,8 +563,7 @@ explore: base {
     view_label: "Customer Classification History v2"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${customers.customer_uid} = ${ds_assumed_trade_history_new_lake.customer_uid}
-    ;;
+    sql_on: ${customers.customer_uid} = ${ds_assumed_trade_history_new_lake.customer_uid} ;;
   }
 
   join: assumed_trade_measures {
