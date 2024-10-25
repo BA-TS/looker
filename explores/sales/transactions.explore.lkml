@@ -577,6 +577,15 @@ explore: base {
     sql_on: ${customers.customer_uid} = ${ds_assumed_trade.customer_uid};;
   }
 
+  join: ds_assumed_trade_paul_test {
+    view_label: "Customer Classification - Paul test"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${customers.customer_uid} = ${ds_assumed_trade_paul_test.customer_uid};;
+  }
+
+
+
   # join: ds_assumed_trade_v2 {
   #   view_label: "Customer Classification v2"
   #   required_access_grants: [tp_testing]
@@ -594,13 +603,14 @@ explore: base {
   #   ;;
   # }
 
-  # join: ds_assumed_trade_history_new_lake {
-  #   view_label: "Customer Classification History v2"
-  #   type: left_outer
-  #   relationship: one_to_many
-  #   sql_on: ${customers.customer_uid} = ${ds_assumed_trade_history_new_lake.customer_uid}
-  #   ;;
-  # }
+  join: ds_assumed_trade_history_new_lake {
+    required_access_grants: [lz_testing]
+    view_label: "Customer Classification History v2"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${customers.customer_uid} = ${ds_assumed_trade_history_new_lake.customer_uid}
+    ;;
+  }
 
   join: assumed_trade_measures {
     required_access_grants:[tp_testing]

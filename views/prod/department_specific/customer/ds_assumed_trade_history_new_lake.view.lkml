@@ -1,7 +1,5 @@
 view: ds_assumed_trade_history_new_lake {
 
-  required_access_grants: [tp_testing]
-
   derived_table: {
     sql:
     select
