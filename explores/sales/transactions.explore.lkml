@@ -47,13 +47,8 @@ include: "/views/**/spc_buckets_customers.view"
 include: "/views/**/bucketed_order_sales_department.view"
 include: "/views/**/customer_spending.view"
 include: "/views/**/transactions_incomplete.view"
-include: "/views/**/customers_wk_ly.view"
-include: "/views/**/customers_wk_ty.view"
-include: "/views/**/customers_2wk_ty.view"
 include: "/views/**/rakuten_analysis_0112.view"
 include: "/views/**/ds_assumed_trade.view"
-include: "/views/**/ds_assumed_trade_v2.view"
-include: "/views/**/ds_assumed_trade_history.view"
 include: "/views/**/assumed_trade_measures.view"
 include: "/views/**/costprice.view"
 include: "/views/**/app_transactions_pre_post.view"
@@ -74,7 +69,6 @@ include: "/views/**/scorecard_testing_loyalty_branch_ytd.view"
 include: "/views/**/scorecard_testing_loyalty_region_ytd.view"
 include: "/views/**/scorecard_testing_loyalty_division_ytd.view"
 include: "/views/**/return_orders.view"
-include: "/views/**/ds_assumed_trade_history_new_lake.view"
 include: "/views/**/scorecard_trade_customers_filter.view"
 include: "/views/**/scorecard_testing_region_11.view"
 include: "/views/**/hyperfinity_customer_flag.view"
@@ -584,25 +578,6 @@ explore: base {
     relationship: many_to_one
     sql_on: ${customers.customer_uid} = ${ds_assumed_trade_paul_test.customer_uid};;
   }
-
-
-
-  # join: ds_assumed_trade_v2 {
-  #   view_label: "Customer Classification v2"
-  #   required_access_grants: [tp_testing]
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${customers.customer_uid} = ${ds_assumed_trade_v2.customer_uid};;
-  # }
-
-  # join: ds_assumed_trade_history {
-  #   view_label: "Customer Classification History"
-  #   type: left_outer
-  #   relationship: one_to_many
-  #   sql_on: ${customers.customer_uid} = ${ds_assumed_trade_history.customer_uid}
-  #   and ${ds_assumed_trade_history.Score_End_Date} = ${ds_assumed_trade_history_new_lake.Score_End_Date}
-  #   ;;
-  # }
 
   join: ds_assumed_trade_history_new_lake {
     required_access_grants: [lz_testing]
