@@ -560,7 +560,7 @@ explore: base {
 
   join: ds_assumed_trade_history_new_lake {
     required_access_grants: [lz_testing]
-    view_label: "Customer Classification History v2"
+    view_label: "Customer Classification"
     type: left_outer
     relationship: one_to_many
     sql_on: ${customers.customer_uid} = ${ds_assumed_trade_history_new_lake.customer_uid} ;;

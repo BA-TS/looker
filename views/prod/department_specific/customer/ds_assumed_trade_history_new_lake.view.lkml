@@ -32,7 +32,7 @@ view: ds_assumed_trade_history_new_lake {
 
   dimension: Assumed_Trade_Probability {
     group_label: "Prediction History"
-    label: "Assumed Trade Probability History"
+    label: "Probability (History)"
     type: number
     value_format_name: "percent_2"
     sql: ${TABLE}.Assumed_Trade_Probability ;;
@@ -40,7 +40,7 @@ view: ds_assumed_trade_history_new_lake {
 
   measure: Assumed_Trade_Probability_STD {
     group_label: "Prediction History"
-    label: "Assumed Trade Probability Std Dev"
+    label: "Probability Std Dev"
     type: number
     value_format_name: "percent_2"
     sql: stddev_pop(${Assumed_Trade_Probability}) ;;
@@ -50,7 +50,6 @@ view: ds_assumed_trade_history_new_lake {
     group_label: "Prediction History"
     type: number
     sql: ${TABLE}.flag ;;
-    hidden: yes
   }
 
   measure: average_probability {
@@ -66,9 +65,15 @@ view: ds_assumed_trade_history_new_lake {
     sql: ${flag} ;;
   }
 
+  measure: number_of_negative_predictions {
+    group_label: "Prediction History"
+    type: number
+    sql: ${Assumed_Trade_Probability}-${flag} ;;
+  }
+
   measure: total_number_of_predictions {
     group_label: "Prediction History"
-    type: count_distinct
-    sql: ${Assumed_Trade_Probability} ;;
+    type: sum
+    sql: ${customer_uid } ;;
   }
 }

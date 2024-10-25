@@ -53,7 +53,7 @@ view: return_orders {
     label: "Number of Days - Tier"
     type: tier
     style: integer
-    tiers: [0,31,46,181,366]
+    tiers: [0,31,46,91,181,366]
     sql:  ${return_days};;
   }
 
