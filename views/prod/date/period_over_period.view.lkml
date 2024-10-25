@@ -1797,7 +1797,7 @@ view: period_over_period {
   }
 
   dimension: year_to_LW {
-    required_access_grants: [lz_testing]
+    required_access_grants: [lz_only]
     type: yesno
     sql: ${__target_date__} BETWEEN ${__year_start__} AND last_day(${__week_LW_start__}, week) ;;
   }
@@ -1816,7 +1816,7 @@ view: period_over_period {
 
 
   dimension: LY_to_LW {
-    required_access_grants: [lz_testing]
+    required_access_grants: [lz_only]
     type: yesno
     sql: ${__target_date__} BETWEEN ${__year_LY_start__1stJan} AND last_day(${__week_LW_start__}, week) ;;
     # hidden: yess
