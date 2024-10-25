@@ -578,6 +578,7 @@ explore: base {
   }
 
   join: ds_assumed_trade_paul_test {
+    required_access_grants: [lz_testing]
     view_label: "Customer Classification - Paul test"
     type: left_outer
     relationship: many_to_one
