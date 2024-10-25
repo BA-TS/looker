@@ -2,13 +2,18 @@ view: ds_assumed_trade_history_new_lake {
 
   derived_table: {
     sql:
-    select
-    DISTINCT row_number() over () AS prim_key,
-    CASE WHEN Assumed_Trade_Probability>0.55 THEN 1 ELSE 0 END AS flag,
-    *
-    from
-    `toolstation-data-storage.customer.ds_assumed_trade_history_v2`
-    ;;
+      WITH
+      customers_distinct AS (
+      SELECT DISTINCT * FROM
+      `toolstation-data-storage.customer.ds_assumed_trade_history_v2`
+      )
+
+      SELECT
+      DISTINCT row_number() over () AS prim_key,
+      CASE WHEN Assumed_Trade_Probability>0.55 THEN 1 ELSE 0 END AS flag,
+      *
+      FROM customers_distinct
+      ;;
   }
 
   dimension:  prim_key{
