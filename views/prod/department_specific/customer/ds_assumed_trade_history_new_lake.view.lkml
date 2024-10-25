@@ -32,7 +32,7 @@ view: ds_assumed_trade_history_new_lake {
 
   dimension: Assumed_Trade_Probability {
     group_label: "Prediction History"
-    label: "Probability (History)"
+    label: "Probability"
     type: number
     value_format_name: "percent_2"
     sql: ${TABLE}.Assumed_Trade_Probability ;;
@@ -61,8 +61,8 @@ view: ds_assumed_trade_history_new_lake {
 
   measure: number_of_positive_predictions {
     group_label: "Prediction History"
-    type: sum
-    sql: ${flag} ;;
+    type: count_distinct
+    sql: case when ${flag}=1 then ${prim_key} else null end  ;;
   }
 
   measure: total_number_of_predictions {
@@ -73,7 +73,7 @@ view: ds_assumed_trade_history_new_lake {
 
   measure: number_of_negative_predictions {
     group_label: "Prediction History"
-    type: number
-    sql: ${total_number_of_predictions}-${number_of_positive_predictions} ;;
+    type: count_distinct
+    sql: case when ${flag}=0 then ${prim_key} else null end  ;;
   }
 }
