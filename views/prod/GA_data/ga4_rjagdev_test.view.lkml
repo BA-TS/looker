@@ -32,7 +32,9 @@ view: ga4_rjagdev_test {
     label: ""
     type: time
     timeframes: [time_of_day]
-    sql: case when date(${TABLE}.minTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(${TABLE}.minTime, interval 1 HOUR)) else (timestamp_add(${TABLE}.minTime, interval 1 HOUR)) end ;;
+    sql: case when date(${TABLE}.minTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(${TABLE}.minTime, interval 1 HOUR)) else
+
+(case when ${TABLE}.platform in ("Web") then timestamp_add(${TABLE}.minTime, interval 1 HOUR) else ${TABLE}.minTime end ) end ;;
   }
 
   dimension_group: hour{
@@ -42,7 +44,9 @@ view: ga4_rjagdev_test {
     label: ""
     type: time
     timeframes: [hour_of_day]
-    sql: case when date(${TABLE}.minTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(${TABLE}.minTime, interval 1 HOUR)) else (timestamp_add(${TABLE}.minTime, interval 1 HOUR)) end ;;
+    sql: case when date(${TABLE}.minTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(${TABLE}.minTime, interval 1 HOUR)) else
+
+(case when ${TABLE}.platform in ("Web") then timestamp_add(${TABLE}.minTime, interval 1 HOUR) else ${TABLE}.minTime end ) end ;;
   }
 
 
