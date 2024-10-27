@@ -31,7 +31,7 @@ view: calendar {
     (select cast(fiscalYearWeek as string) from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayfiscalYearWeek
     from `toolstation-data-storage.ts_finance.dim_date`;;
 
-    datagroup_trigger: ts_monthly_datagroup
+    # datagroup_trigger: ts_monthly_datagroup
     }
 
   dimension: date{
