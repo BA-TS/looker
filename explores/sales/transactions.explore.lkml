@@ -773,6 +773,13 @@ explore: base {
     relationship: one_to_one
     sql_on: ${customers.customer_uid}=${tp_hire_enquiries.customerUID} and ${tp_hire_enquiries.site_uid}=${sites.site_uid};;
   }
+
+  join: assumed_trade_adhoc {
+    view_label: "Assumed Trade Adhoc"
+    type :  left_outer
+    relationship: one_to_one
+    sql_on: ${customers.customer_uid}=${assumed_trade_adhoc.customer_uid};;
+  }
 }
 
 
