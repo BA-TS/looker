@@ -1,69 +1,53 @@
 view: assumed_trade_rolling12 {
-  # # You can specify the table name if it's different from the view name:
-  # sql_table_name: my_schema_name.tester ;;
-  #
-  # # Define your dimensions and measures here, like this:
-  # dimension: user_id {
-  #   description: "Unique ID for each user that has ordered"
-  #   type: number
-  #   sql: ${TABLE}.user_id ;;
-  # }
-  #
-  # dimension: lifetime_orders {
-  #   description: "The total number of orders for each user"
-  #   type: number
-  #   sql: ${TABLE}.lifetime_orders ;;
-  # }
-  #
-  # dimension_group: most_recent_purchase {
-  #   description: "The date when each user last ordered"
-  #   type: time
-  #   timeframes: [date, week, month, year]
-  #   sql: ${TABLE}.most_recent_purchase_at ;;
-  # }
-  #
-  # measure: total_lifetime_orders {
-  #   description: "Use this for counting lifetime orders across many users"
-  #   type: sum
-  #   sql: ${lifetime_orders} ;;
-  # }
-}
+  derived_table: {
+    sql:
+      with base as (
+      SELECT distinct
+      c.customerUID,
+      date_trunc(date(transactionDate), MONTH) as yearMonth,
+      round(sum(coalesce(grossSalesValue,0)),2) as spend
+      FROM `toolstation-data-storage.sales.transactions` t
+      left join `toolstation-data-storage.customer.allCustomers` c
+      on t.customerUID = c.customerUID
+      where extract (year from transactionDate)>2022
+      --and t.customerUID = "CWW18325710"
+      group by all
+      )
 
-# view: assumed_trade_rolling12 {
-#   # Or, you could make this view a derived table, like this:
-#   derived_table: {
-#     sql: SELECT
-#         user_id as user_id
-#         , COUNT(*) as lifetime_orders
-#         , MAX(orders.created_at) as most_recent_purchase_at
-#       FROM orders
-#       GROUP BY user_id
-#       ;;
-#   }
-#
-#   # Define your dimensions and measures here, like this:
-#   dimension: user_id {
-#     description: "Unique ID for each user that has ordered"
-#     type: number
-#     sql: ${TABLE}.user_id ;;
-#   }
-#
-#   dimension: lifetime_orders {
-#     description: "The total number of orders for each user"
-#     type: number
-#     sql: ${TABLE}.lifetime_orders ;;
-#   }
-#
-#   dimension_group: most_recent_purchase {
-#     description: "The date when each user last ordered"
-#     type: time
-#     timeframes: [date, week, month, year]
-#     sql: ${TABLE}.most_recent_purchase_at ;;
-#   }
-#
-#   measure: total_lifetime_orders {
-#     description: "Use this for counting lifetime orders across many users"
-#     type: sum
-#     sql: ${lifetime_orders} ;;
-#   }
-# }
+      select
+      customerUID,
+      yearMonth,
+      round(AVG(spend)
+               OVER(ORDER BY yearMonth ROWS BETWEEN 11 PRECEDING AND CURRENT ROW),2)
+               AS MA_spend
+       from base
+       order by 1
+      ;;
+  }
+
+  dimension: customer_uid {
+    type: string
+    sql: ${TABLE}.customer_uid ;;
+    hidden: yes
+    primary_key: yes
+  }
+
+  # dimension: yearMonth {
+  #   type: string
+  #   sql: ${TABLE}.yearMonth ;;
+  #   hidden: yes
+  # }
+
+  dimension_group: yearMonth {
+    hidden: yes
+    type: time
+    timeframes: [raw,date]
+    sql: ${TABLE}.yearMonth ;;
+  }
+
+  dimension: MA_spend {
+    type: string
+    sql: ${TABLE}.MA_spend ;;
+  }
+
+}
