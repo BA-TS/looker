@@ -31,34 +31,57 @@ view: assumed_trade_adhoc {
     }
   }
 
-  dimension: number_of_positive_predictions {
+  dimension: number_of_AT_predictions {
     group_label: "DIY to AT Analysis"
     label: "Number of Positive Predictions"
     type: number
     sql: ${TABLE}.number_of_positive_predictions ;;
   }
 
-  dimension: number_of_positive_predictions_tier {
-    group_label: "DIY to AT Analysis"
-    type: tier
-    style: integer
-    tiers: [0,2,6,10]
-    sql: ${number_of_positive_predictions} ;;
-  }
+  # dimension: number_of_AT_predictions_tier {
+  #   group_label: "DIY to AT Analysis"
+  #   type: tier
+  #   style: integer
+  #   tiers: [0,2,6,10]
+  #   sql: ${number_of_AT_predictions} ;;
+  # }
 
-  dimension: number_of_negative_predictions {
+  dimension: number_of_DIY_predictions {
     group_label: "DIY to AT Analysis"
     label: "Number of Negative Predictions"
     type: number
     sql: ${TABLE}.number_of_negative_predictions ;;
   }
 
-  dimension: number_of_negative_predictions_tier {
+  # dimension: number_of_DIY_predictions_tier {
+  #   group_label: "DIY to AT Analysis"
+  #   type: tier
+  #   tiers: [0,2,6,10]
+  #   style: integer
+  #   sql: ${number_of_DIY_predictions} ;;
+  # }
+
+  dimension: percentage_of_AT_predictions {
     group_label: "DIY to AT Analysis"
-    type: tier
-    tiers: [0,2,6,10]
-    style: integer
-    sql: ${number_of_negative_predictions} ;;
+    label: "AT Predictions %"
+    type: number
+    value_format_name: percent_2
+    sql: ${number_of_AT_predictions}/(${number_of_AT_predictions}+${number_of_DIY_predictions}) ;;
+  }
+
+  dimension: percentage_of_AT_predictions_tier {
+    group_label: "DIY to AT Analysis"
+    label: "AT Predictions % Tier "
+    type: string
+    sql:
+    CASE
+      WHEN ${percentage_of_AT_predictions}<= 0.2 THEN "0-20%"
+      WHEN ${percentage_of_AT_predictions}> 0.2 and ${percentage_of_AT_predictions}<=0.4 THEN "20-40%"
+      WHEN ${percentage_of_AT_predictions}> 0.4 and ${percentage_of_AT_predictions}<= 0.6 THEN "40-60%"
+      WHEN ${percentage_of_AT_predictions}> 0.6 and ${percentage_of_AT_predictions}<=0.8 THEN "60-80%"
+      WHEN ${percentage_of_AT_predictions}> 0.8 THEN "80-100%"
+      ELSE "Unknown"
+      END ;;
   }
 
   dimension: customer_uid {
