@@ -27,7 +27,7 @@ view: assumed_trade_rolling12 {
 
   dimension: customer_uid {
     type: string
-    sql: ${TABLE}.customer_uid ;;
+    sql: ${TABLE}.customerUID ;;
     hidden: yes
     primary_key: yes
   }
