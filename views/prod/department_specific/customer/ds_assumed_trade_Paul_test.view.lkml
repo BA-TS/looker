@@ -35,7 +35,7 @@ view: ds_assumed_trade_paul_test{
 
     dimension: final_prediction2 {
       type:  string
-      label: "Customer Type (Assumed Trade/Trade/DIY)"
+      label: "Customer Type New (Assumed Trade/Trade/DIY)"
       sql:
           CASE
           WHEN ${customers.is_trade} = true then "Trade"

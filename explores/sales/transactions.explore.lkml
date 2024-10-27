@@ -775,7 +775,8 @@ explore: base {
   }
 
   join: assumed_trade_adhoc {
-    view_label: "Assumed Trade Adhoc"
+    view_label: "Customer Classification - Paul test"
+    required_access_grants: [lz_testing]
     type :  left_outer
     relationship: one_to_one
     sql_on: ${customers.customer_uid}=${assumed_trade_adhoc.customer_uid};;

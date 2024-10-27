@@ -30,27 +30,48 @@ view: assumed_trade_adhoc {
       }
     }
   }
+
   dimension: number_of_positive_predictions {
-    label: "Customer Classification Number of Positive Predictions"
-    description: ""
+    group_label: "DIY to AT Analysis"
+    label: "Number of Positive Predictions"
     type: number
+    sql: ${TABLE}.number_of_positive_predictions ;;
+  }
+
+  dimension: number_of_positive_predictions_tier {
+    group_label: "DIY to AT Analysis"
+    type: tier
+    style: integer
+    tiers: [0,2,6,10]
+    sql: ${number_of_positive_predictions} ;;
   }
 
   dimension: number_of_negative_predictions {
-    label: "Customer Classification Number of Negative Predictions"
-    description: ""
+    group_label: "DIY to AT Analysis"
+    label: "Number of Negative Predictions"
     type: number
+    sql: ${TABLE}.number_of_negative_predictions ;;
+  }
+
+  dimension: number_of_negative_predictions_tier {
+    group_label: "DIY to AT Analysis"
+    type: tier
+    tiers: [0,2,6,10]
+    style: integer
+    sql: ${number_of_negative_predictions} ;;
   }
 
   dimension: customer_uid {
+    group_label: "DIY to AT Analysis"
     label: "Customers Customer UID"
     sql: ${TABLE}.customer_uid ;;
-    description: ""
+    hidden: yes
   }
 
   dimension: diy_to_at {
+    group_label: "DIY to AT Analysis"
+    label: "DIY to AT Customers"
     type: yesno
     sql: ${customer_uid} is not null ;;
   }
-
 }
