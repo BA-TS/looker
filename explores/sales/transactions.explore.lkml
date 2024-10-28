@@ -782,12 +782,20 @@ explore: base {
     sql_on: ${customers.customer_uid}=${assumed_trade_adhoc.customer_uid};;
   }
 
-  join: assumed_trade_rolling12 {
+  # join: assumed_trade_rolling12 {
+  #   view_label: "Customer Classification - Paul test"
+  #   required_access_grants: [lz_testing]
+  #   type :  left_outer
+  #   relationship: one_to_one
+  #   sql_on: ${customers.customer_uid}=${assumed_trade_rolling12.customer_uid} and ${base.date_date} = ${assumed_trade_rolling12.yearMonth_date};;
+  # }
+
+  join:   assumed_trade_spend {
     view_label: "Customer Classification - Paul test"
     required_access_grants: [lz_testing]
     type :  left_outer
     relationship: one_to_one
-    sql_on: ${customers.customer_uid}=${assumed_trade_rolling12.customer_uid} and ${base.date_date} = ${assumed_trade_rolling12.yearMonth_date};;
+    sql_on: ${customers.customer_uid}=${assumed_trade_spend.customer_uid} and ${calendar_completed_date.calendar_year_month} = ${assumed_trade_spend.calendar_year_month};;
   }
 
 }

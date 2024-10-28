@@ -46,7 +46,7 @@ view: assumed_trade_rolling12 {
   }
 
   dimension: MA_spend {
-    type: string
+    type: number
     sql: ${TABLE}.MA_spend ;;
   }
 

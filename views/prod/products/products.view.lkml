@@ -236,10 +236,12 @@ view: products {
 
   dimension: trade_products_10_subdepartments {
     group_label: "Product Details"
-    type: yesno
+    type: number
     required_access_grants: [lz_testing]
     description: "These are the products that only trade customers will buy"
-    sql: ${subdepartment} IN ("John Guest Speedfit","MDPE Pipe & Fittings","110mm Underground","160mm Underground","Expanding Foam","LV transformers","Din Rail & Terminals","Conduit & Trunking","Shower Pumps") OR ${subdepartment} LIKE "%Consumer Units%" ;;
+    sql: case when
+    ${subdepartment} IN ("John Guest Speedfit","MDPE Pipe & Fittings","110mm Underground","160mm Underground","Expanding Foam","LV transformers","Din Rail & Terminals","Conduit & Trunking","Shower Pumps") OR ${subdepartment} LIKE "%Consumer Units%" then 1 else 0
+    end;;
   }
 
   dimension: product_promo {
