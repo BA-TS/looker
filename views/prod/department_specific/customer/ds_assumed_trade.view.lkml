@@ -15,6 +15,11 @@ view: ds_assumed_trade{
     hidden: yes
   }
 
+  dimension: model_run_date {
+    type: string
+    sql: ${TABLE}.Score_End_Date;;
+  }
+
   dimension: year {
     type:  number
     sql: 2023;;
