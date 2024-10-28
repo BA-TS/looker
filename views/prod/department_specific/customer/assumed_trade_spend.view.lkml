@@ -56,6 +56,7 @@ view: assumed_trade_spend {
     sql: ${TABLE}.total_net_sales_ma ;;
     type: number
     value_format_name: gbp_0
+    hidden: yes
   }
 
   measure: avg_net_sales_rolling {
@@ -72,6 +73,7 @@ view: assumed_trade_spend {
     sql: ${TABLE}.working_day_hour_ma ;;
     type: number
     value_format_name: percent_1
+    hidden: yes
   }
 
   measure:  avg_working_day_hour_rollin {
@@ -88,6 +90,7 @@ view: assumed_trade_spend {
     sql: ${TABLE}.trade_products_10_subdepartments_ma ;;
     type: number
     value_format_name: decimal_0
+    hidden: yes
   }
 
   measure: trade_products_10_subdepartments_rolling_avg {
