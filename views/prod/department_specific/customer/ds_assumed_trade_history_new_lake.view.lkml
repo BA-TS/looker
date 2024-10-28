@@ -11,6 +11,8 @@ view: ds_assumed_trade_history_new_lake {
       SELECT
       DISTINCT row_number() over () AS prim_key,
       CASE WHEN Assumed_Trade_Probability>0.55 THEN 1 ELSE 0 END AS flag,
+      Assumed_Trade_Probability,
+      Score_End_Date as Score_End_Date_raw,
       *
       FROM customers_distinct
       ;;
@@ -29,10 +31,24 @@ view: ds_assumed_trade_history_new_lake {
     sql: ${TABLE}.Customer_UID ;;
   }
 
+  dimension: Score_End_Date_raw{
+    group_label: "Prediction History"
+    type: string
+    sql: ${TABLE}.Score_End_Date_raw ;;
+  }
+
   dimension: Score_End_Date{
     group_label: "Prediction History"
     type: string
-    sql: left(cast(date(Score_End_Date)as string),7) ;;
+    sql: cast(FORMAT_DATE('%Y-%m',${Score_End_Date_raw}) as string);;
+    # sql: left(cast(${Score_End_Date_raw} as string),7) ;;
+  }
+
+  dimension: AT_monthly_run{
+    group_label: "Prediction History"
+    label: "Monthly AT run"
+    type: yesno
+    sql: ${Score_End_Date} is not null ;;
   }
 
   dimension: Assumed_Trade_Probability {
@@ -53,6 +69,7 @@ view: ds_assumed_trade_history_new_lake {
 
   dimension: flag {
     group_label: "Prediction History"
+    label: "Is Assumed Trade"
     type: number
     sql: ${TABLE}.flag ;;
   }
@@ -65,6 +82,7 @@ view: ds_assumed_trade_history_new_lake {
   }
 
   measure: number_of_positive_predictions {
+    label:"Number of AT predictions"
     group_label: "Prediction History"
     type: count_distinct
     sql: case when ${flag}=1 then ${prim_key} else null end  ;;
@@ -78,6 +96,7 @@ view: ds_assumed_trade_history_new_lake {
 
   measure: number_of_negative_predictions {
     group_label: "Prediction History"
+    label:"Number of DIY predictions"
     type: count_distinct
     sql: case when ${flag}=0 then ${prim_key} else null end  ;;
   }
