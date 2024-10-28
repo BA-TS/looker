@@ -68,7 +68,7 @@ view: assumed_trade_adhoc {
     label: "AT Predictions %"
     type: number
     value_format_name: percent_2
-    sql: ${number_of_AT_predictions}/(${number_of_AT_predictions}+${number_of_DIY_predictions}) ;;
+    sql: safe_divide(${number_of_AT_predictions},(${number_of_AT_predictions}+${number_of_DIY_predictions})) ;;
   }
 
   dimension: percentage_of_AT_predictions_tier {
