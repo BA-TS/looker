@@ -21,7 +21,7 @@ _table_suffix between format_date("%Y%m%d", date_trunc(date_sub(current_date(), 
 event_name in ("suggested_item_view", "suggested_item_click", "add_to_cart", "purchase", "monetate_experiment_decision") and concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) is not null
 group by all),
 
-monetate_event as (select distinct session_id, min(event_timestamp) as event_timestamo from sub1 where REGEXP_CONTAINS(monetate_name, "\\[PROD\\][\t\n\f\r ]{1}\\[RECS\\].*") group by all),
+monetate_event as (select distinct session_id, min(event_timestamp) as event_timestamo from sub1 where REGEXP_CONTAINS(monetate_name, "\\[PROD\\][\t\n\f\r ]{1}\\[RECS\\][\t\n\f\r ]{1}\\[GOOGLE\\/BR\\/MONETATE\\].*") group by all),
 
 
 suggest_view as (SELECT distinct
