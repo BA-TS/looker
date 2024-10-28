@@ -13,7 +13,7 @@ view: assumed_trade_spend {
         OVER(PARTITION BY customer_uid ORDER BY calendar_year_month DESC ROWS BETWEEN 1 FOLLOWING AND 12 FOLLOWING) ;;}
       derived_column: trade_products_10_subdepartments_ma{sql:AVG(has_trade_products_10_subdepartments)
         OVER(PARTITION BY customer_uid ORDER BY calendar_year_month DESC ROWS BETWEEN 1 FOLLOWING AND 12 FOLLOWING) ;;}
-      derived_column: number_of_transactions_ma{sql:AVG(has_trade_products_10_subdepartments)
+      derived_column: number_of_transactions_ma{sql:AVG(number_of_transactions)
         OVER(PARTITION BY customer_uid ORDER BY calendar_year_month DESC ROWS BETWEEN 1 FOLLOWING AND 12 FOLLOWING) ;;}
       derived_column: primary_key{sql:row_number() OVER(order by customer_uid) ;;}
       filters: {
