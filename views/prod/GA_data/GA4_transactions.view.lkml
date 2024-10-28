@@ -90,10 +90,10 @@ view: ga4_transactions {
     sql: case when ${ga4_rjagdev_test.platform} in ("Web") and  ${ga4_rjagdev_test.event_name} in ("purchase", "Purchase") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.NetSalePrice end;;
   }
 
-  dimension: net_value {
+  measure: net_value {
     type: number
     #hidden: yes
-    sql: case when ${ga4_rjagdev_test.platform} in ("Web") and  ${ga4_rjagdev_test.event_name} in ("purchase", "Purchase") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.net_value end ;;
+    sql: sum(case when ${ga4_rjagdev_test.platform} in ("Web") and  ${ga4_rjagdev_test.event_name} in ("purchase", "Purchase") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then 0 else ${TABLE}.net_value end) ;;
   }
 
   dimension: gross_value {
@@ -124,10 +124,10 @@ view: ga4_transactions {
     #value_format_name: gbp
   }
 
-  dimension: Quantity {
+  measure: Quantity {
     type: number
     hidden: yes
-    sql: case when ${ga4_rjagdev_test.platform} in ("Web")  and  ${ga4_rjagdev_test.event_name} in ("purchase", "Purchase") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.Quantity end ;;
+    sql: sum(case when ${ga4_rjagdev_test.platform} in ("Web")  and  ${ga4_rjagdev_test.event_name} in ("purchase", "Purchase") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then 0 else ${TABLE}.Quantity end) ;;
   }
 
   dimension: ga4_quantity {
@@ -251,14 +251,14 @@ view: ga4_transactions {
     #sql: COALESCE(safe_divide(${Sum_marginExcFund},${sum_net_value}),null) ;;
   #}
 
-  measure: Sum_quantity {
-    view_label: "GA4"
-    group_label: "Transactional"
-    label: "Product Quantity"
-    type: sum
-    sql: ${Quantity} ;;
+  #measure: Sum_quantity {
+    #view_label: "GA4"
+    #group_label: "Transactional"
+    #label: "Product Quantity"
+    #type: sum
+    #sql: ${Quantity} ;;
     #filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?", productCode: "-00021"]
-  }
+  #}
 
  # measure: Sum_GA4quantity {
     #view_label: "GA4"
@@ -299,14 +299,14 @@ view: ga4_transactions {
     sql: SAFE_DIVIDE(${gross_values},${Orders}) ;;
   }
 
-  measure: avg_basket_size {
-    view_label: "GA4"
-    group_label: "Transactional"
-    type: number
-    label: "Avg Basket Size"
-    value_format_name: decimal_2
-    sql: SAFE_DIVIDE(${Sum_quantity},${Orders}) ;;
-  }
+ # measure: avg_basket_size {
+    #view_label: "GA4"
+    #group_label: "Transactional"
+    #type: number
+    #label: "Avg Basket Size"
+    #value_format_name: decimal_2
+    #sql: SAFE_DIVIDE(${Sum_quantity},${Orders}) ;;
+  #}
 
   measure: collection_orders {
     view_label: "GA4"
