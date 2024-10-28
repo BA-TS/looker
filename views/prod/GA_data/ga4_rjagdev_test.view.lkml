@@ -559,15 +559,15 @@ and not regexp_contains(${TABLE}.filters_used, "\\@import") then regexp_extract(
     sql: ${TABLE}.events ;;
   }
 
-  measure: ViewCart_Quantity {
-    view_label: "GA4"
-    group_label: "View Cart"
-    label: "Product Quantity (View Cart)"
-    description: "Product quantity of cart"
-    type: sum
-    filters: [event_name: "view_cart"]
-    sql: ${ga4_transactions.ga4_quantity} ;;
-  }
+  #measure: ViewCart_Quantity {
+    #view_label: "GA4"
+    #group_label: "View Cart"
+    #label: "Product Quantity (View Cart)"
+    #description: "Product quantity of cart"
+    #type: sum
+    #filters: [event_name: "view_cart"]
+    #sql: ${ga4_transactions.ga4_quantity} ;;
+  #}
   measure: ViewCart_Value {
     view_label: "GA4"
     group_label: "View Cart"
@@ -643,15 +643,15 @@ and not regexp_contains(${TABLE}.filters_used, "\\@import") then regexp_extract(
     sql: ${TABLE}.events ;;
   }
 
-  measure: add_to_cart_Quantity {
-    view_label: "GA4"
-    group_label: "Add to Cart"
-    label: "Product Quantity (ATC)"
-    description: "Product quantity of items added cart"
-    type: sum
-    filters: [event_name: "add_to_cart"]
-    sql: ${ga4_transactions.ga4_quantity} ;;
-  }
+  #measure: add_to_cart_Quantity {
+    #view_label: "GA4"
+    #group_label: "Add to Cart"
+    #label: "Product Quantity (ATC)"
+    #description: "Product quantity of items added cart"
+    #type: sum
+    #filters: [event_name: "add_to_cart"]
+    #sql: ${ga4_transactions.ga4_quantity} ;;
+  #}
   measure: add_to_cart_Value {
     view_label: "GA4"
     group_label: "Add to Cart"

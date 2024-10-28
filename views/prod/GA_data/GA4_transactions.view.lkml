@@ -90,8 +90,8 @@ view: ga4_transactions {
     sql: case when ${ga4_rjagdev_test.platform} in ("Web") and  ${ga4_rjagdev_test.event_name} in ("purchase", "Purchase") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.NetSalePrice end;;
   }
 
-  dimension: net_value {
-    type: number
+  measure: net_value {
+    type: sum
     #hidden: yes
     sql: case when ${ga4_rjagdev_test.platform} in ("Web") and  ${ga4_rjagdev_test.event_name} in ("purchase", "Purchase") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.net_value end ;;
   }
@@ -130,8 +130,8 @@ view: ga4_transactions {
     sql: case when ${ga4_rjagdev_test.platform} in ("Web")  and  ${ga4_rjagdev_test.event_name} in ("purchase", "Purchase") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.Quantity end ;;
   }
 
-  dimension: ga4_quantity {
-    type: number
+  measure: ga4_quantity {
+    type: sum
     #hidden: yes
     sql: case when ${ga4_rjagdev_test.platform} in ("Web") and  ${ga4_rjagdev_test.event_name} in ("purchase", "Purchase") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.ga4_quantity end ;;
   }
@@ -182,15 +182,15 @@ view: ga4_transactions {
     #filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
   }
 
-  measure: sum_net_value {
-    view_label: "GA4"
-    group_label: "Transactional"
-    label: "Net Revenue"
-    type: sum
-    value_format_name: gbp
-    sql: case when ${net_value} = 0 or ${net_value} is null then safe_divide(${ga4_revenue},1.2) else ${net_value} end;;
+  #measure: sum_net_value {
+    #view_label: "GA4"
+    #group_label: "Transactional"
+    #label: "Net Revenue"
+    #type: sum
+    #value_format_name: gbp
+    #sql: case when ${net_value} = 0 or ${net_value} is null then safe_divide#(${ga4_revenue},1.2) else ${net_value} end;;
     #filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
-  }
+  #}
 
   measure: ga4_rev {
     view_label: "GA4"
@@ -233,23 +233,23 @@ view: ga4_transactions {
     #filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
   }
 
-  measure: margin_rate_inc_funding {
-    view_label: "GA4"
-    group_label: "Transactional"
-    label: "Margin Rate (Inc funding)"
-    type: number
-    value_format_name: percent_2
-    sql: COALESCE(safe_divide(${Sum_marginIncFund},${sum_net_value}),null) ;;
-  }
+  #measure: margin_rate_inc_funding {
+    #view_label: "GA4"
+    #group_label: "Transactional"
+    #label: "Margin Rate (Inc funding)"
+    #type: number
+    #value_format_name: percent_2
+    #sql: COALESCE(safe_divide(${Sum_marginIncFund},${sum_net_value}),null) ;;
+  #}
 
-  measure: margin_rate_excl_funding {
-    view_label: "GA4"
-    group_label: "Transactional"
-    label: "Margin Rate (Excl funding)"
-    type: number
-    value_format_name: percent_2
-    sql: COALESCE(safe_divide(${Sum_marginExcFund},${sum_net_value}),null) ;;
-  }
+  #measure: margin_rate_excl_funding {
+    #view_label: "GA4"
+    #group_label: "Transactional"
+    #label: "Margin Rate (Excl funding)"
+    #type: number
+    #value_format_name: percent_2
+    #sql: COALESCE(safe_divide(${Sum_marginExcFund},${sum_net_value}),null) ;;
+  #}
 
   measure: Sum_quantity {
     view_label: "GA4"
@@ -260,14 +260,14 @@ view: ga4_transactions {
     #filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?", productCode: "-00021"]
   }
 
-  measure: Sum_GA4quantity {
-    view_label: "GA4"
-    group_label: "Total Measures"
-    label: "Total Item Quantity"
-    type: sum
-    sql: ${ga4_quantity} ;;
+ # measure: Sum_GA4quantity {
+    #view_label: "GA4"
+    #group_label: "Total Measures"
+    #label: "Total Item Quantity"
+    #type: sum
+    #sql: ${ga4_quantity} ;;
     #filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
-  }
+  #}
 
 
   measure: avg_netSalePrice {
@@ -281,14 +281,14 @@ view: ga4_transactions {
     #filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
   }
 
-  measure: aov_net_rev {
-    view_label: "GA4"
-    group_label: "Transactional"
-    type: number
-    label: "AOV (Net Rev)"
-    value_format_name: gbp
-    sql: SAFE_DIVIDE(${sum_net_value},${Orders}) ;;
-  }
+  #measure: aov_net_rev {
+    #view_label: "GA4"
+    #group_label: "Transactional"
+    #type: number
+    #label: "AOV (Net Rev)"
+    #value_format_name: gbp
+    #sql: SAFE_DIVIDE(${sum_net_value},${Orders}) ;;
+  #}
 
   measure: aov_gross_rev {
     view_label: "GA4"
