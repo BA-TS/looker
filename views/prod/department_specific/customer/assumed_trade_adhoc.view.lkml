@@ -20,14 +20,6 @@ view: assumed_trade_adhoc {
         field: ds_assumed_trade.final_prediction2
         value: "DIY"
       }
-      filters: {
-        field: calendar_completed_date.calendar_year
-        value: "2023,2024"
-      }
-      filters: {
-        field: calendar_completed_date.month_in_year
-        value: "<=9"
-      }
     }
   }
 
