@@ -11,9 +11,9 @@ view: ds_assumed_trade_history_new_lake {
       SELECT
       DISTINCT row_number() over () AS prim_key,
       CASE WHEN Assumed_Trade_Probability>0.55 THEN 1 ELSE 0 END AS flag,
+      Customer_UID,
       Assumed_Trade_Probability,
       Score_End_Date as Score_End_Date_raw,
-      *
       FROM customers_distinct
       ;;
   }
