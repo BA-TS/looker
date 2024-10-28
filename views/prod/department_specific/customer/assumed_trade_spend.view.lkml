@@ -12,6 +12,7 @@ view: assumed_trade_spend {
         OVER(PARTITION BY customer_uid ORDER BY calendar_year_month DESC ROWS BETWEEN 1 FOLLOWING AND 12 FOLLOWING) ;;}
       derived_column: trade_products_10_subdepartments_ma{sql:AVG(has_trade_products_10_subdepartments)
         OVER(PARTITION BY customer_uid ORDER BY calendar_year_month DESC ROWS BETWEEN 1 FOLLOWING AND 12 FOLLOWING) ;;}
+      derived_column: primary_key{sql:row_number() OVER(order by customer_uid) ;;}
       filters: {
         field: base.select_date_reference
         value: "Transaction"
