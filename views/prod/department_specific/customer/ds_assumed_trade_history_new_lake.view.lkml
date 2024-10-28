@@ -31,8 +31,8 @@ view: ds_assumed_trade_history_new_lake {
 
   dimension: Score_End_Date{
     group_label: "Prediction History"
-    type: date
-    sql: ${TABLE}.Score_End_Date ;;
+    type: string
+    sql: left(cast(date(Score_End_Date)as string),7) ;;
   }
 
   dimension: Assumed_Trade_Probability {
