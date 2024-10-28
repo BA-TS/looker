@@ -58,7 +58,7 @@ view: assumed_trade_spend {
     label: "SPC"
     sql: ${TABLE}.total_net_sales_ma ;;
     type: number
-    value_format_name: gbp_0
+    value_format_name: decimal_3
     hidden: yes
   }
 
@@ -67,7 +67,7 @@ view: assumed_trade_spend {
     label: "AVG SPC"
     sql: ${net_sales_rolling};;
     type: average
-    value_format_name: gbp_0
+    value_format_name: decimal_3
   }
 
   dimension: working_day_hour_rolling {

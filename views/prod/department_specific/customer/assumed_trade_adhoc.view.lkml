@@ -4,6 +4,8 @@ view: assumed_trade_adhoc {
       column: number_of_positive_predictions { field: ds_assumed_trade_history_new_lake.number_of_positive_predictions }
       column: number_of_negative_predictions { field: ds_assumed_trade_history_new_lake.number_of_negative_predictions }
       column: customer_uid { field: customers.customer_uid }
+      column: Assumed_Trade_Probability_STD { field: ds_assumed_trade_history_new_lake.Assumed_Trade_Probability_STD }
+      derived_column: primary_key{sql:row_number() OVER(order by customer_uid) ;;}
       filters: {
         field: base.select_date_reference
         value: "Transaction"
@@ -23,6 +25,12 @@ view: assumed_trade_adhoc {
     }
   }
 
+  dimension: primary_key {
+    sql: ${TABLE}.primary_key ;;
+    primary_key: yes
+    hidden: yes
+  }
+
   dimension: number_of_AT_predictions {
     group_label: "DIY to AT Analysis"
     label: "Number of AT Predictions"
@@ -31,14 +39,6 @@ view: assumed_trade_adhoc {
     hidden: yes
   }
 
-  # dimension: number_of_AT_predictions_tier {
-  #   group_label: "DIY to AT Analysis"
-  #   type: tier
-  #   style: integer
-  #   tiers: [0,2,6,10]
-  #   sql: ${number_of_AT_predictions} ;;
-  # }
-
   dimension: number_of_DIY_predictions {
     group_label: "DIY to AT Analysis"
     label: "Number of DIY Predictions"
@@ -46,14 +46,6 @@ view: assumed_trade_adhoc {
     sql: ${TABLE}.number_of_negative_predictions ;;
     hidden: yes
   }
-
-  # dimension: number_of_DIY_predictions_tier {
-  #   group_label: "DIY to AT Analysis"
-  #   type: tier
-  #   tiers: [0,2,6,10]
-  #   style: integer
-  #   sql: ${number_of_DIY_predictions} ;;
-  # }
 
   dimension: percentage_of_AT_predictions {
     group_label: "DIY to AT Analysis"
@@ -83,6 +75,19 @@ view: assumed_trade_adhoc {
     label: "Customers Customer UID"
     sql: ${TABLE}.customer_uid ;;
     hidden: yes
+  }
+
+  dimension: Assumed_Trade_Probability_STD {
+    group_label: "DIY to AT Analysis"
+    sql: ${TABLE}.Assumed_Trade_Probability_STD ;;
+    hidden: yes
+  }
+
+  measure: AVG_Probability_STD {
+    group_label: "DIY to AT Analysis"
+    label: "AVG standard deviation"
+    type: average
+    sql: ${Assumed_Trade_Probability_STD} ;;
   }
 
   dimension: diy_to_at {
