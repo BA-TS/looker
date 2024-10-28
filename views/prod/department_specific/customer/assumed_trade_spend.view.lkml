@@ -37,7 +37,6 @@ view: assumed_trade_spend {
 
   dimension: total_net_sales {
     label: "Gross Sales"
-    description: "Sales value including VAT"
     sql: ${TABLE}.total_net_sales ;;
     type: number
     value_format_name: gbp_0
@@ -53,27 +52,48 @@ view: assumed_trade_spend {
   dimension: net_sales_rolling {
     group_label:"Last R12 Months"
     label: "SPC"
-    description: "Sales value including VAT"
     sql: ${TABLE}.total_net_sales_ma ;;
     type: number
+    value_format_name: gbp_0
+  }
+
+  measure: avg_net_sales_rolling {
+    group_label:"Last R12 Months"
+    label: "AVG SPC"
+    sql: ${net_sales_rolling};;
+    type: average
     value_format_name: gbp_0
   }
 
   dimension: working_day_hour_rolling {
     group_label:"Last R12 Months"
     label: "Working Day Hour %"
-    description: "Sales value including VAT"
     sql: ${TABLE}.working_day_hour_ma ;;
     type: number
+    value_format_name: percent_1
+  }
+
+  measure:  avg_working_day_hour_rollin {
+    group_label:"Last R12 Months"
+    label: "AVG Working Day Hour %"
+    sql: ${working_day_hour_rolling} ;;
+    type: average
     value_format_name: percent_1
   }
 
   dimension: trade_products_10_subdepartments_rolling {
     group_label:"Last R12 Months"
     label: "Trade Products 10 Sub"
-    description: "Sales value including VAT"
     sql: ${TABLE}.trade_products_10_subdepartments_ma ;;
     type: number
+    value_format_name: decimal_0
+  }
+
+  measure: trade_products_10_subdepartments_rolling_avg {
+    group_label:"Last R12 Months"
+    label: "AVG Trade 10 Sub"
+    sql: ${trade_products_10_subdepartments_rolling};;
+    type: average
     value_format_name: decimal_0
   }
 }
