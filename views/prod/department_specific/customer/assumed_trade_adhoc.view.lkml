@@ -33,9 +33,10 @@ view: assumed_trade_adhoc {
 
   dimension: number_of_AT_predictions {
     group_label: "DIY to AT Analysis"
-    label: "Number of Positive Predictions"
+    label: "Number of AT Predictions"
     type: number
     sql: ${TABLE}.number_of_positive_predictions ;;
+    hidden: yes
   }
 
   # dimension: number_of_AT_predictions_tier {
@@ -48,9 +49,10 @@ view: assumed_trade_adhoc {
 
   dimension: number_of_DIY_predictions {
     group_label: "DIY to AT Analysis"
-    label: "Number of Negative Predictions"
+    label: "Number of DIY Predictions"
     type: number
     sql: ${TABLE}.number_of_negative_predictions ;;
+    hidden: yes
   }
 
   # dimension: number_of_DIY_predictions_tier {

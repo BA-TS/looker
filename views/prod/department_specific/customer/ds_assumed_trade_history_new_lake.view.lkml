@@ -46,7 +46,7 @@ view: ds_assumed_trade_history_new_lake {
 
   dimension: AT_monthly_run{
     group_label: "Prediction History"
-    label: "Monthly AT run"
+    label: "Date Filter - Has a Monthly Run"
     type: yesno
     sql: ${Score_End_Date} is not null ;;
   }
