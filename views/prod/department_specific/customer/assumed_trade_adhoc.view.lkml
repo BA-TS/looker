@@ -88,6 +88,7 @@ view: assumed_trade_adhoc {
     label: "AVG standard deviation"
     type: average
     sql: ${Assumed_Trade_Probability_STD} ;;
+    value_format_name: percent_1
   }
 
   dimension: diy_to_at {
@@ -95,5 +96,6 @@ view: assumed_trade_adhoc {
     label: "DIY to AT Customers"
     type: yesno
     sql: ${customer_uid} is not null ;;
+
   }
 }
