@@ -113,6 +113,7 @@ view: assumed_trade_spend {
 
   measure: avg_number_of_transactions_rolling {
     group_label:"Last R12 Months"
+    label: "AVG Number of Transactions"
     sql: ${number_of_transactions_rolling} ;;
     type: average
     value_format_name: decimal_0
