@@ -6,11 +6,14 @@ view: assumed_trade_spend {
       column: calendar_year_month { field: calendar_completed_date.calendar_year_month }
       column: working_day_hour_percent { field: transactions.working_day_hour_percent }
       column: has_trade_products_10_subdepartments { field: products.has_trade_products_10_subdepartments }
+      column: number_of_transactions { field: transactions.number_of_transactions }
       derived_column: total_net_sales_ma{sql:AVG(total_net_sales)
                OVER(PARTITION BY customer_uid ORDER BY calendar_year_month DESC ROWS BETWEEN 1 FOLLOWING AND 12 FOLLOWING) ;;}
       derived_column: working_day_hour_ma{sql:AVG(working_day_hour_percent)
         OVER(PARTITION BY customer_uid ORDER BY calendar_year_month DESC ROWS BETWEEN 1 FOLLOWING AND 12 FOLLOWING) ;;}
       derived_column: trade_products_10_subdepartments_ma{sql:AVG(has_trade_products_10_subdepartments)
+        OVER(PARTITION BY customer_uid ORDER BY calendar_year_month DESC ROWS BETWEEN 1 FOLLOWING AND 12 FOLLOWING) ;;}
+      derived_column: number_of_transactions_ma{sql:AVG(has_trade_products_10_subdepartments)
         OVER(PARTITION BY customer_uid ORDER BY calendar_year_month DESC ROWS BETWEEN 1 FOLLOWING AND 12 FOLLOWING) ;;}
       derived_column: primary_key{sql:row_number() OVER(order by customer_uid) ;;}
       filters: {
@@ -76,6 +79,13 @@ view: assumed_trade_spend {
     hidden: yes
   }
 
+  dimension: number_of_transactions_rolling {
+    group_label:"Last R12 Months"
+    sql: ${TABLE}.number_of_transactions_ma ;;
+    type: number
+    hidden: yes
+  }
+
   measure:  avg_working_day_hour_rollin {
     group_label:"Last R12 Months"
     label: "AVG Working Day Hour %"
@@ -97,6 +107,13 @@ view: assumed_trade_spend {
     group_label:"Last R12 Months"
     label: "AVG Trade 10 Sub"
     sql: ${trade_products_10_subdepartments_rolling};;
+    type: average
+    value_format_name: decimal_0
+  }
+
+  measure: avg_number_of_transactions_rolling {
+    group_label:"Last R12 Months"
+    sql: ${number_of_transactions_rolling} ;;
     type: average
     value_format_name: decimal_0
   }
