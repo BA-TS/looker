@@ -35,13 +35,14 @@ view: ds_assumed_trade_history_new_lake {
     group_label: "Prediction History"
     type: string
     sql: ${TABLE}.Score_End_Date_raw ;;
+    hidden: yes
   }
 
   dimension: Score_End_Date{
     group_label: "Prediction History"
     type: string
-    sql: cast(FORMAT_DATE('%Y-%m',${Score_End_Date_raw}) as string);;
-    # sql: left(cast(${Score_End_Date_raw} as string),7) ;;
+    # sql: cast(FORMAT_DATE('%Y-%m',${Score_End_Date_raw}) as string);;
+    sql: left(replace((cast(date(${Score_End_Date_raw}) as string)),"-",""),6) ;;
   }
 
   dimension: AT_monthly_run{
@@ -84,20 +85,20 @@ view: ds_assumed_trade_history_new_lake {
   measure: number_of_positive_predictions {
     label:"Number of AT predictions"
     group_label: "Prediction History"
-    type: count_distinct
-    sql: case when ${flag}=1 then ${prim_key} else null end  ;;
+    type: sum
+    sql: ${flag} ;;
   }
 
   measure: total_number_of_predictions {
     group_label: "Prediction History"
     type: count_distinct
-    sql: ${customer_uid} ;;
+    sql: ${prim_key} ;;
   }
 
   measure: number_of_negative_predictions {
     group_label: "Prediction History"
     label:"Number of DIY predictions"
-    type: count_distinct
-    sql: case when ${flag}=0 then ${prim_key} else null end  ;;
+    type: number
+    sql:${total_number_of_predictions} - ${number_of_positive_predictions}  ;;
   }
 }

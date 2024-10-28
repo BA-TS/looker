@@ -562,8 +562,8 @@ explore: base {
     required_access_grants: [lz_testing]
     view_label: "Customer Classification"
     type: left_outer
-    relationship: one_to_many
-    sql_on: ${customers.customer_uid} = ${ds_assumed_trade_history_new_lake.customer_uid} and  ${ds_assumed_trade_history_new_lake.Score_End_Date}=${calendar_completed_date.calendar_year_month};;
+    relationship: many_to_one
+    sql_on: ${customers.customer_uid} = ${ds_assumed_trade_history_new_lake.customer_uid} and  ${ds_assumed_trade_history_new_lake.Score_End_Date}=${calendar_completed_date.calendar_year_month2};;
   }
 
   join: assumed_trade_measures {
