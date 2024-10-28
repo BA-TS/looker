@@ -162,6 +162,14 @@ view: customers {
     sql: ${TABLE}.customer.company ;;
   }
 
+  dimension: company_flag {
+    group_label: "Customer"
+    group_item_label: "Company"
+    required_access_grants: [lz_testing]
+    type: yesno
+    sql: ${customer__company} is not null ;;
+  }
+
   dimension: customer__email {
     group_label: "Customer"
     group_item_label: "Email"
