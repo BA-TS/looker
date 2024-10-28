@@ -5,8 +5,13 @@ view: assumed_trade_spend {
       column: total_net_sales { field: transactions.total_net_sales }
       column: calendar_year_month { field: calendar_completed_date.calendar_year_month }
       column: working_day_hour_percent { field: transactions.working_day_hour_percent }
+      column: has_trade_products_10_subdepartments { field: products.has_trade_products_10_subdepartments }
       derived_column: total_net_sales_ma{sql:AVG(total_net_sales)
-               OVER(PARTITION BY customer_uid ORDER BY calendar_year_month DESC ROWS BETWEEN CURRENT ROW AND 11 FOLLOWING) ;;}
+               OVER(PARTITION BY customer_uid ORDER BY calendar_year_month DESC ROWS BETWEEN 1 FOLLOWING AND 12 FOLLOWING) ;;}
+      derived_column: working_day_hour_ma{sql:AVG(working_day_hour_percent)
+        OVER(PARTITION BY customer_uid ORDER BY calendar_year_month DESC ROWS BETWEEN 1 FOLLOWING AND 12 FOLLOWING) ;;}
+      derived_column: trade_products_10_subdepartments_ma{sql:AVG(has_trade_products_10_subdepartments)
+        OVER(PARTITION BY customer_uid ORDER BY calendar_year_month DESC ROWS BETWEEN 1 FOLLOWING AND 12 FOLLOWING) ;;}
       filters: {
         field: base.select_date_reference
         value: "Transaction"
@@ -63,12 +68,12 @@ view: assumed_trade_spend {
     value_format_name: percent_1
   }
 
-  # dimension: trade_products_10_subdepartments_rolling {
-  #   group_label:"Last R12 Months"
-  #   label: "Trade Products 10 Sub"
-  #   description: "Sales value including VAT"
-  #   sql: ${TABLE}.trade_products_10_subdepartments ;;
-  #   type: number
-  #   value_format_name: decimal_1
-  # }
+  dimension: trade_products_10_subdepartments_rolling {
+    group_label:"Last R12 Months"
+    label: "Trade Products 10 Sub"
+    description: "Sales value including VAT"
+    sql: ${TABLE}.trade_products_10_subdepartments_ma ;;
+    type: number
+    value_format_name: decimal_0
+  }
 }
