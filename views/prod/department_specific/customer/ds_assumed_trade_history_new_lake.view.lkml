@@ -69,7 +69,7 @@ view: ds_assumed_trade_history_new_lake {
 
   dimension: flag {
     group_label: "Prediction History"
-    label: "Is Assumed Trade"
+    label: "AT Flag"
     type: number
     sql: ${TABLE}.flag ;;
   }
