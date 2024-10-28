@@ -496,7 +496,7 @@ explore: base {
   join: spc_buckets_customers {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${transactions.customer_uid} = ${spc_buckets_customers.customer_ui;;
+    sql_on: ${transactions.customer_uid} = ${spc_buckets_customers.customer_uid};;
   }
 
 
@@ -786,7 +786,7 @@ explore: base {
     view_label: "Customer Classification - Paul test"
     required_access_grants: [lz_testing]
     type :  left_outer
-    relationship: one_to_one
+    relationship: many_to_one
     sql_on: ${customers.customer_uid}=${assumed_trade_spend.customer_uid} and ${calendar_completed_date.calendar_year_month} = ${assumed_trade_spend.calendar_year_month};;
   }
 
