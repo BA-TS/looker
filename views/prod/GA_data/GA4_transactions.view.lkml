@@ -90,8 +90,8 @@ view: ga4_transactions {
     sql: case when ${ga4_rjagdev_test.platform} in ("Web") and  ${ga4_rjagdev_test.event_name} in ("purchase", "Purchase") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.NetSalePrice end;;
   }
 
-  measure: net_value {
-    type: sum
+  dimension: net_value {
+    type: number
     #hidden: yes
     sql: case when ${ga4_rjagdev_test.platform} in ("Web") and  ${ga4_rjagdev_test.event_name} in ("purchase", "Purchase") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.net_value end ;;
   }
@@ -130,8 +130,8 @@ view: ga4_transactions {
     sql: case when ${ga4_rjagdev_test.platform} in ("Web")  and  ${ga4_rjagdev_test.event_name} in ("purchase", "Purchase") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.Quantity end ;;
   }
 
-  measure: ga4_quantity {
-    type: sum
+  dimension: ga4_quantity {
+    type: number
     #hidden: yes
     sql: case when ${ga4_rjagdev_test.platform} in ("Web") and  ${ga4_rjagdev_test.event_name} in ("purchase", "Purchase") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then null else ${TABLE}.ga4_quantity end ;;
   }
