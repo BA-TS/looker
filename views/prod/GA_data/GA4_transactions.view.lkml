@@ -127,7 +127,7 @@ view: ga4_transactions {
   dimension: Quantity {
     type: number
     hidden: yes
-    sql: case when ${ga4_rjagdev_test.platform} in ("Web")  and  ${ga4_rjagdev_test.event_name} in ("purchase", "Purchase") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay", "Confirmation") then 0 else ${TABLE}.Quantity end ;;
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web")  and  ${ga4_rjagdev_test.event_name} in ("purchase", "Purchase") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then 0 else ${TABLE}.Quantity end ;;
   }
 
   dimension: ga4_quantity {
