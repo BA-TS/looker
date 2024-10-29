@@ -31,7 +31,7 @@ view: calendar {
     (select cast(fiscalYearWeek as string) from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayfiscalYearWeek
     from `toolstation-data-storage.ts_finance.dim_date`;;
 
-    # datagroup_trigger: ts_monthly_datagroup
+    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 6;;
     }
 
   dimension: date{
@@ -465,6 +465,25 @@ view: calendar {
 
     type: date
     sql: {% condition filter_on_field_to_hide %} timestamp(field_to_hide) {% endcondition %} ;;
+  }
+
+  dimension: field_to_hide2 {
+    group_label: "Dates"
+    label: "HIDE"
+    hidden: yes
+    type: date
+    sql: timestamp(${TABLE}.field_to_hide) ;;
+    #html: {{ rendered_value | date: "%d/%m/%Y" }};;
+  }
+
+  filter: filter_on_field_to_hide2 {
+    #view_label: "Datetime (of event)"
+    label: "2nd Date"
+    group_label: "Date Filter"
+    hidden: yes
+
+    type: date
+    sql: {% condition filter_on_field_to_hide2 %} timestamp(field_to_hide) {% endcondition %} ;;
   }
 
 }
