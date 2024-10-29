@@ -69,6 +69,14 @@ view: calendar {
     html: {{ rendered_value | date: "%d/%m/%Y" }};;
   }
 
+  dimension: today_day_of_week{
+    group_label: "Current Date"
+    required_access_grants: [lz_only]
+    label: "Today Day of Week"
+    type: number
+    sql: EXTRACT(DAYOFWEEK FROM current_date()) ;;
+  }
+
   dimension: calendar_quarter {
     group_label: "Dates"
     label: "Quarter (q)"
@@ -329,14 +337,26 @@ view: calendar {
     group_label: "Flags"
     label: "TY and PY Wk-1"
     type: yesno
-    sql: cast(${fiscal_year_week} as int) IN (cast(${today_fiscal_year_week} as int),cast(${today_fiscal_year_week} as int)-100) ;;
+    sql:
+    case when ${today_day_of_week}=1 then
+     cast(${fiscal_year_week} as int) IN (cast(${today_fiscal_year_week} as int),cast(${today_fiscal_year_week} as int)-100)
+    else
+         cast(${fiscal_year_week} as int) IN (cast(${today_fiscal_year_week} as int)-1,cast(${today_fiscal_year_week} as int)-101)
+    end
+    ;;
   }
 
   dimension: ty_py_weeks_filter_2 {
     group_label: "Flags"
     label: "TY Wk-1, Wk-2 and PY Wk-1"
     type: yesno
-    sql: cast(${fiscal_year_week} as int) IN (cast(${today_fiscal_year_week} as int),cast(${today_fiscal_year_week} as int)-1,cast(${today_fiscal_year_week} as int)-100) ;;
+    sql:
+    case when ${today_day_of_week}=1 then
+      cast(${fiscal_year_week} as int) IN (cast(${today_fiscal_year_week} as int),cast(${today_fiscal_year_week} as int)-1,cast(${today_fiscal_year_week} as int)-100)
+     else
+      cast(${fiscal_year_week} as int) IN (cast(${today_fiscal_year_week} as int)-1,cast(${today_fiscal_year_week} as int)-2,cast(${today_fiscal_year_week} as int)-101)
+     end
+      ;;
   }
 
   dimension: holiday_name {
