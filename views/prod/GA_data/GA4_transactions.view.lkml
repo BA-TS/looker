@@ -92,7 +92,7 @@ view: ga4_transactions {
 
   dimension: net_value {
     type: number
-    hidden: yes
+    #hidden: yes
     sql: case when ${ga4_rjagdev_test.platform} in ("Web") and  ${ga4_rjagdev_test.event_name} in ("purchase", "Purchase") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay", "Confirmation") then 0 else ${TABLE}.net_value end ;;
   }
 
