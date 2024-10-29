@@ -188,8 +188,9 @@ view: ga4_transactions {
     label: "Net Revenue"
     type: sum
     value_format_name: gbp
-    sql: case when ${net_value} = 0 or ${net_value} is null then safe_divide(${ga4_revenue},1.2) else ${net_value} end;;
+    sql: ${net_value};;
     #filters: [ga4_rjagdev_test.Screen_name: "-Already Registered?"]
+    #case when ${net_value} = 0 or ${net_value} is null then safe_divide#(${ga4_revenue},1.2) else ${net_value} end
   }
 
   measure: ga4_rev {
