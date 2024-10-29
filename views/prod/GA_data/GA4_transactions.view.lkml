@@ -92,13 +92,13 @@ view: ga4_transactions {
 
   dimension: net_value {
     type: number
-    #hidden: yes
+    hidden: yes
     sql: case when ${ga4_rjagdev_test.platform} in ("Web") and  ${ga4_rjagdev_test.event_name} in ("purchase", "Purchase") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay", "Confirmation") then 0 else ${TABLE}.net_value end ;;
   }
 
   dimension: gross_value {
     type: number
-    #hidden: yes
+    hidden: yes
     sql: case when ${ga4_rjagdev_test.platform} in ("Web") and  ${ga4_rjagdev_test.event_name} in ("purchase", "Purchase")  and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay", "Confirmation") then 0 else ${TABLE}.gross_value end;;
     #value_format_name: gbp
   }
@@ -127,7 +127,7 @@ view: ga4_transactions {
   dimension: Quantity {
     type: number
     hidden: yes
-    sql: case when ${ga4_rjagdev_test.platform} in ("Web")  and  ${ga4_rjagdev_test.event_name} in ("purchase", "Purchase") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay") then 0 else ${TABLE}.Quantity end ;;
+    sql: case when ${ga4_rjagdev_test.platform} in ("Web")  and  ${ga4_rjagdev_test.event_name} in ("purchase", "Purchase") and ${ga4_rjagdev_test.Screen_name} not in ("Review & Pay", "Confirmation") then 0 else ${TABLE}.Quantity end ;;
   }
 
   dimension: ga4_quantity {
@@ -197,6 +197,7 @@ view: ga4_transactions {
     view_label: "GA4"
     group_label: "Transactional"
     label: "Net Revenue2"
+    hidden: yes
     type: sum
     value_format_name: gbp
     sql: ${net_value};;
@@ -229,6 +230,7 @@ view: ga4_transactions {
     view_label: "GA4"
     group_label: "Transactional"
     label: "Margin Inc Funding"
+    hidden: yes
     type: sum
     value_format_name: gbp
     sql: ${MarginIncFunding} ;;
