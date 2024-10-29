@@ -17,7 +17,7 @@ explore: GA4_testy {
   view_label: "Datetime (of event)"
 
 
-  conditionally_filter: {
+  always_filter: {
     filters: [
       calendar.filter_on_field_to_hide: "7 days"
     ]
