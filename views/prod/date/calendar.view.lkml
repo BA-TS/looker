@@ -467,23 +467,23 @@ view: calendar {
     sql: {% condition filter_on_field_to_hide %} timestamp(field_to_hide) {% endcondition %} ;;
   }
 
-  dimension: field_to_hide2 {
-    group_label: "Dates"
-    label: "HIDE"
-    hidden: yes
-    type: date
-    sql: timestamp(${TABLE}.field_to_hide) ;;
+  #dimension: field_to_hide2 {
+    #group_label: "Dates"
+    #label: "HIDE"
+    #hidden: yes
+    #type: date
+    #sql: timestamp(${TABLE}.field_to_hide) ;;
     #html: {{ rendered_value | date: "%d/%m/%Y" }};;
-  }
+  #}
 
-  filter: filter_on_field_to_hide2 {
+  #filter: filter_on_field_to_hide2 {
     #view_label: "Datetime (of event)"
-    label: "2nd Date"
-    group_label: "Date Filter"
-    hidden: yes
+    #label: "2nd Date"
+    #group_label: "Date Filter"
+    #hidden: yes
 
-    type: date
-    sql: {% condition filter_on_field_to_hide2 %} timestamp(field_to_hide) {% endcondition %} ;;
-  }
+    #type: date
+    #sql: {% condition filter_on_field_to_hide2 %} timestamp(field_to_hide) #{% endcondition %} ;;
+  #}
 
 }
