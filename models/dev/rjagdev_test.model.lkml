@@ -21,7 +21,8 @@ explore: GA4_testy {
 
   always_filter: {
     filters: [
-      calendar_completed_date.filter_on_field_to_hide: "7 days"
+      calendar_completed_date.filter_on_field_to_hide: "7 days",
+      base.select_date_reference: "Placed"
     ]
   }
 
