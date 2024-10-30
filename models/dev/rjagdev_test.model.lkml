@@ -7,13 +7,14 @@ include: "/views/prod/GA_data/Videoly_funnel_GA4.view.lkml"
 include: "/views/prod/GA_data/PDP_Purchase_funnel.view.lkml"
 include: "/views/prod/GA_data/Search_PLP_to_PDP_funnel.view.lkml"
 include: "/views/prod/GA_data/suggested_byPRovider_purchase.view.lkml"
+include: "/views/prod/date/period_over_period.view"
 # include all views in the views/ folder in this project
 label: "Digital"
 
 explore: GA4_testy {
   #required_access_grants: [GA4_access_v2]
-  view_name: calendar_completed_date
-  from: calendar
+  view_name: base
+  extends: []
   label: "GA4"
   view_label: "Datetime (of event)"
 
@@ -30,16 +31,15 @@ explore: GA4_testy {
     ]
   }
 
-#sql_always_where: {% if _user_attributes['ga4_access_v2'] == 'Y' %}
-#${ga4_rjagdev_test.platform} = "App"
-#{% else %}
-#1=1
-#{% endif %} ;;
+  sql_always_where:
+  ${period_over_period};;
 
-  join: base {
-    view_label: "Date base"
+
+  join: calendar_completed_date{
+    from:  calendar
+    view_label: "Date"
     type:  inner
-    relationship: one_to_many
+    relationship:  many_to_one
     sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
   }
 
