@@ -7,13 +7,13 @@ include: "/views/prod/GA_data/Videoly_funnel_GA4.view.lkml"
 include: "/views/prod/GA_data/PDP_Purchase_funnel.view.lkml"
 include: "/views/prod/GA_data/Search_PLP_to_PDP_funnel.view.lkml"
 include: "/views/prod/GA_data/suggested_byPRovider_purchase.view.lkml"
-include: "/views/prod/date/period_over_period.view"
 # include all views in the views/ folder in this project
 label: "Digital"
 
 explore: GA4_testy {
   #required_access_grants: [GA4_access_v2]
-  view_name: base
+  view_name: calendar_completed_date
+  from: calendar
   extends: []
   label: "GA4"
   view_label: "Datetime (of event)"
@@ -21,27 +21,8 @@ explore: GA4_testy {
 
   always_filter: {
     filters: [
-      calendar_completed_date.filter_on_field_to_hide: "7 days",
-      base.select_date_reference: "Placed"
+      calendar_completed_date.filter_on_field_to_hide: "7 days"
     ]
-  }
-
-  conditionally_filter: {
-    filters: [
-       base.select_date_range: "7 days"
-    ]
-  }
-
-  sql_always_where:
-  ${period_over_period};;
-
-
-  join: calendar_completed_date{
-    from:  calendar
-    view_label: "Date"
-    type:  inner
-    relationship:  many_to_one
-    sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
   }
 
 
@@ -70,8 +51,8 @@ explore: GA4_testy {
     )
 
 
-          and ((${ga4_rjagdev_test.event_name} in ("search", "search_actions", "blank_search", "bloomreach_search_unknown_attribute") and not regexp_contains(${ga4_rjagdev_test.label_1}, "^(shop|SHOP)[a-zA-Z0-9]") ) or (${ga4_rjagdev_test.event_name} not in ("search", "search_actions", "blank_search", "bloomreach_search_unknown_attribute") and regexp_contains(${ga4_rjagdev_test.label_1}, "^(shop|SHOP)[a-zA-Z0-9]")) or
-      (${ga4_rjagdev_test.event_name} not in ("search", "search_actions", "blank_search", "bloomreach_search_unknown_attribute") and (not regexp_contains(${ga4_rjagdev_test.label_1}, "^(shop|SHOP)[a-zA-Z0-9]") or ${ga4_rjagdev_test.label_1} is null) ))
+          --and ((${ga4_rjagdev_test.event_name} in ("search", --"search_actions", "blank_search", --"bloomreach_search_unknown_attribute") and not regexp_contains--(${ga4_rjagdev_test.label_1}, "^(shop|SHOP)[a-zA-Z0-9]") ) or --(${ga4_rjagdev_test.event_name} not in ("search", --"search_actions", "blank_search", --"bloomreach_search_unknown_attribute") and regexp_contains--(${ga4_rjagdev_test.label_1}, "^(shop|SHOP)[a-zA-Z0-9]")) or
+      --(${ga4_rjagdev_test.event_name} not in ("search", "search_actions", --"blank_search", "bloomreach_search_unknown_attribute") and (not --regexp_contains(${ga4_rjagdev_test.label_1}, "^(shop|SHOP)[a-zA-Z0---9]") or ${ga4_rjagdev_test.label_1} is null) ))
             ;;
   }
 
