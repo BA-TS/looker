@@ -14,7 +14,6 @@ explore: GA4_testy {
   #required_access_grants: [GA4_access_v2]
   view_name: calendar_completed_date
   from: calendar
-  extends: []
   label: "GA4"
   view_label: "Datetime (of event)"
 
