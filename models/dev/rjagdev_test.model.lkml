@@ -24,11 +24,11 @@ explore: GA4_testy {
     ]
   }
 
-  #conditionally_filter: {
-    #filters: [
-      #calendar.filter_on_field_to_hide2: "1 days"
-    #]
-  #}
+  conditionally_filter: {
+    filters: [
+       base.select_date_range: "7 days"
+    ]
+  }
 
 #sql_always_where: {% if _user_attributes['ga4_access_v2'] == 'Y' %}
 #${ga4_rjagdev_test.platform} = "App"
