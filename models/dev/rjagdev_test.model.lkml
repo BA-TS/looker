@@ -44,14 +44,10 @@ explore: GA4_testy {
     type: left_outer
     relationship: many_to_one
     sql_on: ${calendar.date} = ${ga4_rjagdev_test.date_date} and ${products.product_code} = (case when ${ga4_rjagdev_test.itemid} is null or length(${ga4_rjagdev_test.itemid}) != 5 then "null" else ${ga4_rjagdev_test.itemid} end);;
-    sql_where: (ga4_rjagdev_test._TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {% date_start calendar.filter_on_field_to_hide %}) and FORMAT_DATE('%Y%m%d', {% date_end calendar.filter_on_field_to_hide %})
-
-    )
+    sql_where: (ga4_rjagdev_test._TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {% date_start calendar.filter_on_field_to_hide %}) and FORMAT_DATE('%Y%m%d', {% date_end calendar.filter_on_field_to_hide %});;
 
 
-          --and ((${ga4_rjagdev_test.event_name} in ("search", --"search_actions", "blank_search", --"bloomreach_search_unknown_attribute") and not regexp_contains--(${ga4_rjagdev_test.label_1}, "^(shop|SHOP)[a-zA-Z0-9]") ) or --(${ga4_rjagdev_test.event_name} not in ("search", --"search_actions", "blank_search", --"bloomreach_search_unknown_attribute") and regexp_contains--(${ga4_rjagdev_test.label_1}, "^(shop|SHOP)[a-zA-Z0-9]")) or
-      --(${ga4_rjagdev_test.event_name} not in ("search", "search_actions", --"blank_search", "bloomreach_search_unknown_attribute") and (not --regexp_contains(${ga4_rjagdev_test.label_1}, "^(shop|SHOP)[a-zA-Z0---9]") or ${ga4_rjagdev_test.label_1} is null) ))
-            ;;
+
   }
 
   join: ga4_transactions {
