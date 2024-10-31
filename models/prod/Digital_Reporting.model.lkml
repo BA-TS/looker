@@ -12,13 +12,12 @@ include: "/views/prod/GA_data/Search_PLP_to_PDP_funnel.view.lkml"
 label: "Digital"
 explore: GA4_test {
   hidden: yes
-  view_name: calendar_completed_date
-  from:  calendar
+  view_name: calendar
   label: "GA4 (Old)"
   view_label: "Datetime (of event)"
   conditionally_filter: {
     filters: [
-      calendar_completed_date.filter_on_field_to_hide: "7 days"
+      calendar.filter_on_field_to_hide: "7 days"
     ]
     unless:[basket_buy_to_detail_trends.filter_on_field_to_hide,
       ga_digital_transactions.select_date_range]
@@ -32,24 +31,24 @@ explore: GA4_test {
     view_label: "Products"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${calendar_completed_date.date} BETWEEN ${products.activeFrom_date} AND ${products.activeTo_date};;
+    sql_on: ${calendar.date} BETWEEN ${products.activeFrom_date} AND ${products.activeTo_date};;
   }
 
   join: ga_digital_transactions {
     view_label: "GA4"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${ga_digital_transactions.date_date}=${calendar_completed_date.date}
+    sql_on: ${ga_digital_transactions.date_date}=${calendar.date}
     and
     ((case when ${ga_digital_transactions.item_id} is null or length(${ga_digital_transactions.item_id}) != 5 then "null" else ${ga_digital_transactions.item_id} end) = ${products.product_code});;
-    sql_where: ${ga_digital_transactions.date_date}=${calendar_completed_date.date} ;;
+    sql_where: ${ga_digital_transactions.date_date}=${calendar.date} ;;
   }
 
   join: catalogue {
     view_label: ""
     type: left_outer
     relationship: one_to_many
-    sql_on: ${calendar_completed_date.date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
+    sql_on: ${calendar.date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
   }
 
   join: promoworking {
@@ -95,7 +94,7 @@ explore: GA4_test {
     type: left_outer
     relationship: many_to_one
     sql_on: ${products.product_code} = ${stock_cover.product_code}
-    and ${calendar_completed_date.date} = ${stock_cover.stock_date_date};;
+    and ${calendar.date} = ${stock_cover.stock_date_date};;
   }
 
   join: aac {
@@ -110,7 +109,7 @@ explore: GA4_test {
     type: left_outer
     relationship: many_to_one
     sql_on:
-    ${calendar_completed_date.date} = ${videoly_funnel_ga4.date_date}
+    ${calendar.date} = ${videoly_funnel_ga4.date_date}
     and ${products.product_code} = ${videoly_funnel_ga4.item_id};;
   }
 
@@ -118,7 +117,7 @@ explore: GA4_test {
     view_label: "GA4"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${calendar_completed_date.date} = ${page_type_to_purchase_funnel.date_date}
+    sql_on: ${calendar.date} = ${page_type_to_purchase_funnel.date_date}
     and ((case when ${page_type_to_purchase_funnel.item_id} is null or length(${page_type_to_purchase_funnel.item_id}) != 5 then "null" else ${page_type_to_purchase_funnel.item_id} end) = ${products.product_code});;
   }
 
@@ -126,16 +125,16 @@ explore: GA4_test {
     view_label: "Trends"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${basket_buy_to_detail_trends.date_date}=${calendar_completed_date.date}
+    sql_on: ${basket_buy_to_detail_trends.date_date}=${calendar.date}
     and
     ((case when ${basket_buy_to_detail_trends.item_id} is null or length(${basket_buy_to_detail_trends.item_id}) != 5 then "null" else ${basket_buy_to_detail_trends.item_id} end) = ${products.product_code});;
-    sql_where: ${basket_buy_to_detail_trends.date_date}=${calendar_completed_date.date} ;;
+    sql_where: ${basket_buy_to_detail_trends.date_date}=${calendar.date} ;;
   }
 
   join: non_pdp_atc_purchase_funnel {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${calendar_completed_date.date} = ${non_pdp_atc_purchase_funnel.date_date}
+    sql_on: ${calendar.date} = ${non_pdp_atc_purchase_funnel.date_date}
     and
     ((case when ${non_pdp_atc_purchase_funnel.item_id} is null or length(${non_pdp_atc_purchase_funnel.item_id}) != 5 then "null" else ${non_pdp_atc_purchase_funnel.item_id} end) = ${products.product_code})
       ;;
@@ -588,15 +587,14 @@ explore: digital_reporting {
 explore: GA4_testy {
   #required_access_grants: [GA4_access_v2]
   hidden: yes
-  view_name: calendar_completed_date
-  from: calendar
+  view_name: calendar
   label: "GA4"
   view_label: "Datetime (of event)"
 
 
   conditionally_filter: {
     filters: [
-      calendar_completed_date.filter_on_field_to_hide: "7 days"
+      calendar.filter_on_field_to_hide: "7 days"
     ]
   }
 
@@ -611,7 +609,7 @@ explore: GA4_testy {
     view_label: "Products"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${calendar_completed_date.date} BETWEEN ${products.activeFrom_date} AND ${products.activeTo_date};;
+    sql_on: ${calendar.date} BETWEEN ${products.activeFrom_date} AND ${products.activeTo_date};;
   }
 
   join: currentRetailPrice {
@@ -625,8 +623,8 @@ explore: GA4_testy {
     view_label: "GA4"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${calendar_completed_date.date} = ${ga4_rjagdev_test.date_date} and ${products.product_code} = (case when ${ga4_rjagdev_test.itemid} is null or length(${ga4_rjagdev_test.itemid}) != 5 then "null" else ${ga4_rjagdev_test.itemid} end);;
-    sql_where: ga4_rjagdev_test._TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {% date_start calendar_completed_date.filter_on_field_to_hide %}) and FORMAT_DATE('%Y%m%d', {% date_end calendar_completed_date.filter_on_field_to_hide %})
+    sql_on: ${calendar.date} = ${ga4_rjagdev_test.date_date} and ${products.product_code} = (case when ${ga4_rjagdev_test.itemid} is null or length(${ga4_rjagdev_test.itemid}) != 5 then "null" else ${ga4_rjagdev_test.itemid} end);;
+    sql_where: ga4_rjagdev_test._TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {% date_start calendar.filter_on_field_to_hide %}) and FORMAT_DATE('%Y%m%d', {% date_end calendar.filter_on_field_to_hide %})
     and ((${ga4_rjagdev_test.event_name} in ("search", "search_actions", "blank_search", "bloomreach_search_unknown_attribute") and not regexp_contains(${ga4_rjagdev_test.label_1}, "^(shop|SHOP)[a-zA-Z0-9]") ) or (${ga4_rjagdev_test.event_name} not in ("search", "search_actions", "blank_search", "bloomreach_search_unknown_attribute") and regexp_contains(${ga4_rjagdev_test.label_1}, "^(shop|SHOP)[a-zA-Z0-9]")) or
 (${ga4_rjagdev_test.event_name} not in ("search", "search_actions", "blank_search", "bloomreach_search_unknown_attribute") and (not regexp_contains(${ga4_rjagdev_test.label_1}, "^(shop|SHOP)[a-zA-Z0-9]") or ${ga4_rjagdev_test.label_1} is null) ))
       ;;
@@ -645,7 +643,7 @@ explore: GA4_testy {
     view_label: ""
     type: left_outer
     relationship: one_to_many
-    sql_on: ${calendar_completed_date.date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
+    sql_on: ${calendar.date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
   }
 
   join: promoworking {
@@ -700,7 +698,7 @@ explore: GA4_testy {
     view_label: "GA4"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${calendar_completed_date.date} = ${page_type_to_purchase_funnel.date_date}
+    sql_on: ${calendar.date} = ${page_type_to_purchase_funnel.date_date}
       and ((case when ${page_type_to_purchase_funnel.item_id} is null or length(${page_type_to_purchase_funnel.item_id}) != 5 then "null" else ${page_type_to_purchase_funnel.item_id} end) = ${products.product_code});;
     #sql_where: _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {% date_start calendar.filter_on_field_to_hide %}) and FORMAT_DATE('%Y%m%d', {% date_end calendar.filter_on_field_to_hide %}) ;;
   }
@@ -708,7 +706,7 @@ explore: GA4_testy {
   join: non_pdp_atc_purchase_funnel {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${calendar_completed_date.date} = ${non_pdp_atc_purchase_funnel.date_date}
+    sql_on: ${calendar.date} = ${non_pdp_atc_purchase_funnel.date_date}
           and
           ((case when ${non_pdp_atc_purchase_funnel.item_id} is null or length(${non_pdp_atc_purchase_funnel.item_id}) != 5 then "null" else ${non_pdp_atc_purchase_funnel.item_id} end) = ${products.product_code})
             ;;
@@ -719,7 +717,7 @@ explore: GA4_testy {
     type: left_outer
     relationship: many_to_one
     sql_on: ${products.product_code} = ${stock_cover.product_code}
-      and ${calendar_completed_date.date} = ${stock_cover.stock_date_date};;
+      and ${calendar.date} = ${stock_cover.stock_date_date};;
   }
 
   join: aac {
@@ -734,7 +732,7 @@ explore: GA4_testy {
     type: left_outer
     relationship: many_to_one
     sql_on:
-    ${calendar_completed_date.date} = ${videoly_funnel_ga4.date_date}
+    ${calendar.date} = ${videoly_funnel_ga4.date_date}
     and ${products.product_code} = ((case when ${videoly_funnel_ga4.item_id} is null or length(${videoly_funnel_ga4.item_id}) != 5 then "null" else ${videoly_funnel_ga4.item_id} end) = ${products.product_code});;
   }
 
@@ -756,7 +754,7 @@ explore: GA4_testy {
   join: ga4_landingpage {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${ga4_rjagdev_test.session_id} = ${ga4_landingpage.land_session} and ${calendar_completed_date.date} = ${ga4_landingpage.date_date};;
+    sql_on: ${ga4_rjagdev_test.session_id} = ${ga4_landingpage.land_session} and ${calendar.date} = ${ga4_landingpage.date_date};;
     sql_where: ${ga4_landingpage.firstE} = 1
     ;;
   }
@@ -764,7 +762,7 @@ explore: GA4_testy {
   join: ga4_exitpage {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${ga4_rjagdev_test.session_id} = ${ga4_exitpage.exit_session} and ${calendar_completed_date.date} = ${ga4_exitpage.date_date};;
+    sql_on: ${ga4_rjagdev_test.session_id} = ${ga4_exitpage.exit_session} and ${calendar.date} = ${ga4_exitpage.date_date};;
     sql_where: ${ga4_exitpage.LastE} = 1
       ;;
   }
@@ -773,7 +771,7 @@ explore: GA4_testy {
     from: ga4_exitpage
     type: left_outer
     relationship: many_to_one
-    sql_on: ${ga4_rjagdev_test.session_id} = ${ga4_lastevent.exit_session} and ${calendar_completed_date.date} = ${ga4_lastevent.date_date} and ${ga4_rjagdev_test.Mintime} = ${ga4_lastevent.Mintime} ;;
+    sql_on: ${ga4_rjagdev_test.session_id} = ${ga4_lastevent.exit_session} and ${calendar.date} = ${ga4_lastevent.date_date} and ${ga4_rjagdev_test.Mintime} = ${ga4_lastevent.Mintime} ;;
     sql_where: ${ga4_lastevent.LastE} = 1
       ;;
   }
@@ -782,7 +780,7 @@ explore: GA4_testy {
     view_label: "GA4"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${ga4_rjagdev_test.session_id} = ${search_purchase.search_ID} and ${calendar_completed_date.date} = ${search_purchase.search_date_date};;
+    sql_on: ${ga4_rjagdev_test.session_id} = ${search_purchase.search_ID} and ${calendar.date} = ${search_purchase.search_date_date};;
     #sql_where: ${ga4_exitpage.LastE} = 1;;
   }
 
@@ -790,14 +788,14 @@ explore: GA4_testy {
     view_label: "GA4"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${ga4_rjagdev_test.session_id} = ${recommend_purchase.recommend_ID} and ${calendar_completed_date.date} = ${recommend_purchase.recommend_date_date} and ${products.product_code} = ${recommend_purchase.item_id};;
+    sql_on: ${ga4_rjagdev_test.session_id} = ${recommend_purchase.recommend_ID} and ${calendar.date} = ${recommend_purchase.recommend_date_date} and ${products.product_code} = ${recommend_purchase.item_id};;
     #sql_where: ${ga4_exitpage.LastE} = 1;;
   }
 
   join: last12_week_metrics {
     type: left_outer
     relationship: one_to_many
-    sql_on: ${calendar_completed_date.date} = ${last12_week_metrics.date_date} ;;
+    sql_on: ${calendar.date} = ${last12_week_metrics.date_date} ;;
   }
 
   join: search_purchase12W {
@@ -805,7 +803,7 @@ explore: GA4_testy {
     type: left_outer
     relationship: many_to_one
     view_label: "Last12 Week Metrics"
-    sql_on: ${calendar_completed_date.date} = ${search_purchase12W.search_date_date};;
+    sql_on: ${calendar.date} = ${search_purchase12W.search_date_date};;
     #fields: [search_date_date, search_purchase_rate, search_purch_diff]
   }
 
@@ -814,7 +812,7 @@ explore: GA4_testy {
     view_label: "Last12 Week Metrics"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${calendar_completed_date.date} = ${recommend_purchase12W.recommend_date_date};;
+    sql_on: ${calendar.date} = ${recommend_purchase12W.recommend_date_date};;
     #sql_where: ${ga4_exitpage.LastE} = 1;;
   }
 
@@ -822,21 +820,21 @@ explore: GA4_testy {
     view_label: "Last12 Week Metrics"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${calendar_completed_date.date} = ${oos_items_l12weeks.date_date};;
+    sql_on: ${calendar.date} = ${oos_items_l12weeks.date_date};;
   }
 
   join: order_shippingmethod_l12weeks {
     view_label: "Last12 Week Metrics"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${calendar_completed_date.date} = ${order_shippingmethod_l12weeks.date_date};;
+    sql_on: ${calendar.date} = ${order_shippingmethod_l12weeks.date_date};;
   }
 
   join: ecrebobudget {
     view_label: "Ecrebo"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${calendar_completed_date.date} = ${ecrebobudget.date_date} and ${ecrebo.campaign_group} = ${ecrebobudget.campaign_group};;
+    sql_on: ${calendar.date} = ${ecrebobudget.date_date} and ${ecrebo.campaign_group} = ${ecrebobudget.campaign_group};;
     fields: [ecrebobudget.Budget]
 
   }
@@ -846,7 +844,7 @@ explore: GA4_testy {
     view_label: "Ecrebo"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${calendar_completed_date.date} = ${ecrebobudget_total.date_date};;
+    sql_on: ${calendar.date} = ${ecrebobudget_total.date_date};;
     fields: [ecrebobudget_total.totalBudget]
     #sql_where: ${ecrebobudget_total.campaign_group} in ("Total") ;;
   }
@@ -855,14 +853,14 @@ explore: GA4_testy {
     view_label: "Search to Purchase (inc Query)"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${calendar_completed_date.date} = ${search_purchase_funnel.search_date_date} ;;
+    sql_on: ${calendar.date} = ${search_purchase_funnel.search_date_date} ;;
   }
 
   join: blank_search_purchase_funnel {
     view_label: "Search to Purchase (inc Query)"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${calendar_completed_date.date} = ${blank_search_purchase_funnel.Blanksearch_date_date} ;;
+    sql_on: ${calendar.date} = ${blank_search_purchase_funnel.Blanksearch_date_date} ;;
   }
 
 
