@@ -364,7 +364,7 @@ and ((aw.item_id = transactions.productCode) or (aw.item_id is not null and tran
     hidden: yes
     type: time
     timeframes: [date,raw]
-    sql: ${calendar_completed_date.date} ;;
+    sql: ${calendar.date} ;;
   }
 
 
