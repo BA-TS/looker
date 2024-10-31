@@ -47,8 +47,16 @@ view: bdm_ka_customers_py {
 
   measure: total_net_sales {
     value_format_name: gbp_0
+    label: "PY Net Sales"
     type: sum
     sql: ${py_sales};;
+  }
+
+  measure: total_customer_numbers {
+    value_format_name: gbp_0
+    label: "PY Number of Customers"
+    type: count_distinct
+    sql: ${customer_uid};;
   }
 
   measure: incremental_net_sales_old {

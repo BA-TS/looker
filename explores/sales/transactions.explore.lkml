@@ -70,6 +70,7 @@ include: "/views/**/addresses.view"
 include: "/views/**/customers_spend_over75_previous_month.view"
 include: "/views/**/customer/**.view"
 include: "/views/**/commercial/**.view"
+include: "/views/**/scmatrix.view"
 
 
 explore: base {
@@ -793,6 +794,12 @@ explore: base {
     sql_on: ${customers.customer_uid}=${assumed_trade_spend.customer_uid} and ${calendar_completed_date.calendar_year_month} = ${assumed_trade_spend.calendar_year_month};;
   }
 
+  join: scmatrix {
+    view_label: "SC Matrix"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${products.product_code}  =   ${scmatrix.product_code};;
+  }
 }
 
 
