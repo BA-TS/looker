@@ -257,7 +257,7 @@ explore: base {
   }
 
   join: customer_loyalty {
-    view_label: "Customers"
+    view_label: "Customer Loyalty Test"
     required_access_grants: [lz_only]
     type :  left_outer
     relationship: many_to_one
