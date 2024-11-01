@@ -71,6 +71,7 @@ include: "/views/**/customers_spend_over75_previous_month.view"
 include: "/views/**/customer/**.view"
 include: "/views/**/commercial/**.view"
 include: "/views/**/scmatrix.view"
+include: "/views/**/customer_loyalty.view"
 
 
 explore: base {
@@ -253,6 +254,15 @@ explore: base {
     type :  left_outer
     relationship: many_to_one
     sql_on: ${transactions.customer_uid}=${customers.customer_uid} ;;
+  }
+
+  join: customer_loyalty {
+    view_label: "Customers"
+    required_access_grants: [lz_only]
+    type :  left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.customer_uid}=${customer_loyalty.customer_uid} ;;
+    # and  ${base.date_date} between ${customer_loyalty} ;;
   }
 
   join: customer_segmentation {
