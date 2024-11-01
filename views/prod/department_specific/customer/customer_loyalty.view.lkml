@@ -6,7 +6,7 @@ view: customer_loyalty {
     date(loyalty.sign_up_date) as sign_up_date,
     coalesce(date(loyalty.leave_date),current_date) as leave_date
     from `toolstation-data-storage.customer.allCustomers`
-    where loyalty.loyalty_club_member = true
+    --where loyalty.loyalty_club_member = true
     ;;
     datagroup_trigger: ts_transactions_datagroup
   }
