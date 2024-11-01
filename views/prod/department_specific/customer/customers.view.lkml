@@ -121,7 +121,7 @@ view: customers {
 
   dimension: loyalty_club_member {
     group_label: "Loyalty Club"
-    group_item_label: "Loyalty Club Member"
+    group_item_label: "Current Loyalty Club Member"
     type: string
     sql:CASE WHEN ${TABLE}.loyalty.loyalty_club_member  THEN "Yes" ELSE "No" END;;
   }

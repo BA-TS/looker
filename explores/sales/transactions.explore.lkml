@@ -257,12 +257,12 @@ explore: base {
   }
 
   join: customer_loyalty {
-    view_label: "Customer Loyalty Test"
-    required_access_grants: [lz_only]
+    view_label: "Customers"
+    required_access_grants: [can_use_customer_information2]
     type :  left_outer
     relationship: many_to_one
-    sql_on: ${transactions.customer_uid}=${customer_loyalty.customer_uid} ;;
-    # and  ${base.date_date} between ${customer_loyalty} ;;
+    sql_on: ${transactions.customer_uid}=${customer_loyalty.customer_uid}
+    and  ${base.date_date} between ${customer_loyalty.loyalty_club_start_date} and ${customer_loyalty.loyalty_club_end_date};;
   }
 
   join: customer_segmentation {
