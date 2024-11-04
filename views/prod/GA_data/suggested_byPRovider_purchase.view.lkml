@@ -162,7 +162,7 @@ left join purchase on ATC.session_id = purchase.session_id and ATC.item_id = pur
 where timeORder = 1
 order by purchaseID desc;;
 
-    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 13;;
+    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 9;;
   }
 
 
