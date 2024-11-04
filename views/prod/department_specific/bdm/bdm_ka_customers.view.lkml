@@ -8,12 +8,13 @@ view: bdm_ka_customers {
     team,
     replace(trim(bdm),"Craig","London") as bdm,
     customerUID,
-    coalesce(startDate,date_sub(current_date,interval 3 year)) as startDate,
-    coalesce(endDate,current_date) as endDate,
+    min(coalesce(startDate,date_sub(current_date,interval 3 year))) as startDate,
+    max(coalesce(endDate,current_date)) as endDate,
     customerName
     from
     `toolstation-data-storage.retailReporting.BDM_KA_CUSTOMERS_LIST`
     where bdm is not null
+    group by all
     ;;
     datagroup_trigger: ts_daily_datagroup
   }
@@ -43,11 +44,6 @@ view: bdm_ka_customers {
     type: string
     sql: ${TABLE}.bdm ;;
   }
-
-  # dimension: active_bdm {
-  #   type: yesno
-  #   sql: ${bdm} in ("Matty","Kim","Chris","Louise","London","Rob","Rachel") ;;
-  # }
 
   dimension_group: start {
     view_label: "Customer Accounts"
