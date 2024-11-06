@@ -5,7 +5,7 @@ view: bdm_ka_incremental {
     select
     DISTINCT row_number() over () AS prim_key,
     yearMonth,
-    bdm,
+    trim(bdm) as bdm,
     actualSalesTY,
     actualSalesPY,
     incrementalSales,
