@@ -2,8 +2,17 @@ view: return_orders {
 
   derived_table: {
     sql:
-    select *
+    select
+    distinct row_number() over () as prim_key,
+    *
     from  `toolstation-data-storage.ts_finance.DS_DAILY_RETURNS_ORDERS_2023`;;
+  }
+
+  dimension: prim_key {
+    type: string
+    sql: ${TABLE}.prim_key ;;
+    hidden: yes
+    primary_key: yes
   }
 
   dimension: return_ID {
@@ -18,6 +27,24 @@ view: return_orders {
     label: "Order - Is Return"
     type: yesno
     sql: ${return_ID} is not null;;
+  }
+
+  dimension: is_return_product {
+    label: "Product - Is Return"
+    type: yesno
+    sql: ${products.product_code} is not null;;
+  }
+
+  measure: number_of_return_orders {
+    label: "Number of Returns by Transactions"
+    type: count_distinct
+    sql: ${return_ID};;
+  }
+
+  measure: number_of_return_products {
+    label: "Number of Returns by Products"
+    type: count_distinct
+    sql: case when ${return_ID} is not null then ${products.product_code} else null end ;;
   }
 
   dimension: transaction_uid{
