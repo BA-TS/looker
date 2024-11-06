@@ -42,6 +42,7 @@ view: return_orders {
   }
 
   measure: number_of_return_products {
+    required_access_grants: [lz_only]
     label: "Number of Returns by Products"
     type: count_distinct
     sql: case when ${return_ID} is not null then ${products.product_code} else null end ;;
