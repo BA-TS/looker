@@ -11,6 +11,7 @@ view: bdm_ka_incremental {
     incrementalSales,
     newSales
     from `toolstation-data-storage.retailReporting.DS_DAILY_BDM_SALES_V_TARGET`
+    group by all
     ;;
     datagroup_trigger: ts_daily_datagroup
   }
@@ -57,7 +58,7 @@ view: bdm_ka_incremental {
 
   measure: incremental_sales {
     value_format_name: gbp
-    type: number
+    type: sum
     sql: ${incremental_sales_dim};;
   }
 
@@ -70,11 +71,7 @@ view: bdm_ka_incremental {
 
   measure: new_sales {
     value_format_name: gbp
-    type: number
+    type: sum
     sql: ${new_sales_dim};;
   }
-
-
-
-
 }
