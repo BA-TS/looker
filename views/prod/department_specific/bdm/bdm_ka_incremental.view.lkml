@@ -45,7 +45,7 @@ view: bdm_ka_incremental {
 
   measure: actual_sales_PY {
     value_format_name: gbp
-    type: number
+    type: sum
     sql: ${actual_sales_PY_dim};;
   }
 
