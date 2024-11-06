@@ -36,14 +36,21 @@ view: return_orders {
   }
 
   measure: number_of_return_orders {
-    label: "Number of Returns by Transactions"
+    label: "Number of Returns (Transactions)"
     type: count_distinct
     sql: ${return_ID};;
   }
 
+  measure: return_rate {
+    type: number
+    label: "Return Rate %"
+    description: "Number of returned transactions / Number of transactions"
+    sql: safe_divide(${number_of_return_orders},${transactions.number_of_transactions});;
+    value_format_name: percent_1
+  }
+
   measure: number_of_return_products {
-    required_access_grants: [lz_only]
-    label: "Number of Returns by Products"
+    label: "Number of Returns (Products)"
     type: count_distinct
     sql: case when ${return_ID} is not null then ${products.product_code} else null end ;;
   }
