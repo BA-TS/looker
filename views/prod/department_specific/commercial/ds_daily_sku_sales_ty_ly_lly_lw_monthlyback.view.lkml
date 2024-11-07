@@ -5,6 +5,7 @@ view: ds_daily_sku_sales_ty_ly_lly_lw_monthlyback {
       SELECT distinct row_number() over () as P_K,
       *
       FROM `toolstation-data-storage.financeReporting.DS_DAILY_SKU_SALES_TY_LY_LLY_LW_MonthlyBack` ;;
+    datagroup_trigger: ts_daily_datagroup
   }
 
   dimension: P_K {
