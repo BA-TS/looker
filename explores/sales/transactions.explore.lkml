@@ -73,8 +73,7 @@ include: "/views/**/commercial/**.view"
 include: "/views/**/scmatrix.view"
 include: "/views/**/customer_loyalty.view"
 include: "/views/**/ds_all_daily_department_sales.view"
-
-
+include: "/views/**/ds_daily_sku_sales_ty_ly_lly_lw.view"
 
 explore: base {
   label: "Transactions"
@@ -820,6 +819,12 @@ explore: base {
     sql_on: ${ds_all_daily_department_sales.date_date}  =  ${base.date_date} and ${ds_all_daily_department_sales.department}=${products.department};;
   }
 
+  join: ds_daily_sku_sales_ty_ly_lly_lw {
+    view_label: "Commercial Performance Report"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ds_all_daily_department_sales.date_date}  =  ${base.date_date} and ${ds_daily_sku_sales_ty_ly_lly_lw.product_code}=${products.product_code};;
+  }
 
 }
 
