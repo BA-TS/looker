@@ -72,6 +72,8 @@ include: "/views/**/customer/**.view"
 include: "/views/**/commercial/**.view"
 include: "/views/**/scmatrix.view"
 include: "/views/**/customer_loyalty.view"
+include: "/views/**/ds_all_daily_department_sales.view"
+
 
 
 explore: base {
@@ -810,6 +812,15 @@ explore: base {
     relationship: one_to_one
     sql_on: ${products.product_code}  =   ${scmatrix.product_code};;
   }
+
+  join: ds_all_daily_department_sales {
+    view_label: "Commercial Performance Report"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ds_all_daily_department_sales.date_date}  =  ${base.date_date} and ${ds_all_daily_department_sales.department}=${products.department};;
+  }
+
+
 }
 
 
