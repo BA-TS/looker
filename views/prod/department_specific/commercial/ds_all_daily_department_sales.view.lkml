@@ -3,7 +3,10 @@ view: ds_all_daily_department_sales {
     sql:
       SELECT distinct row_number() over () as P_K,
       *
-      FROM `toolstation-data-storage.digitalreporting.DS_All_Daily_Department_Sales` ;;
+      FROM `toolstation-data-storage.digitalreporting.DS_All_Daily_Department_Sales`
+      where date between date_sub(current_date(), interval 14 day) and current_date()
+      ;;
+    datagroup_trigger: ts_daily_datagroup
   }
 
   dimension: P_K {
