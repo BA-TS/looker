@@ -32,6 +32,7 @@ view: ds_daily_sku_sales_ty_ly_lly_lw {
     hidden: yes
   }
 
+  dimension: ProductDepartment { type:string sql:${TABLE}.clusterProductDepartment;;hidden:yes}
   dimension: ty_grossSales_dim { type:number sql:${TABLE}.ty.grossSales;;hidden:yes}
   dimension: ty_netSales_dim { type:number sql:${TABLE}.ty.netSales;;hidden:yes}
   dimension: ty_prodMargin_dim { type:number sql:${TABLE}.ty.prodMargin;;hidden:yes}
@@ -213,7 +214,7 @@ view: ds_daily_sku_sales_ty_ly_lly_lw {
   dimension: DepHead_DepartmentHeadCode_dim { type:string sql:${TABLE}.DepHead.DepartmentHeadCode;;hidden:yes}
 
   measure: ty_grossSales {group_label:"TY" type: sum sql:${ty_grossSales_dim};;value_format_name: decimal_1}
-  measure: ty_netSales {group_label:"TY" type: sum sql:${ty_netSales_dim};;value_format_name: decimal_1}
+  measure: ty_netSales {group_label:"TY" type: sum_distinct sql:${ty_netSales_dim};;value_format_name: decimal_1}
   measure: ty_prodMargin {group_label:"TY" type: sum sql:${ty_prodMargin_dim};;value_format_name: decimal_1}
   measure: ty_funding {group_label:"TY" type: sum sql:${ty_funding_dim};;value_format_name: decimal_1}
   measure: ty_grossMargin {group_label:"TY" type: sum sql:${ty_grossMargin_dim};;value_format_name: decimal_1}
