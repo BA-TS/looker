@@ -29,6 +29,7 @@ view: ds_daily_sku_sales_ty_ly_lly_lw {
   dimension: product_code {
     type: number
     sql: ${TABLE}.dims.productCode;;
+    hidden: yes
   }
 
   dimension: ty_grossSales_dim { type:number sql:${TABLE}.ty.grossSales;;hidden:yes}
@@ -208,192 +209,308 @@ view: ds_daily_sku_sales_ty_ly_lly_lw {
   dimension: lw_OwnBrandDIYMargin_dim { type:number sql:${TABLE}.lw.OwnBrandDIYMargin;;hidden:yes}
   dimension: lw_OwnBrandDIYUnits_dim { type:number sql:${TABLE}.lw.OwnBrandDIYUnits;;hidden:yes}
   dimension: lw_OwnBrandDIYParticipation_dim { type:number sql:${TABLE}.lw.OwnBrandDIYParticipation;;hidden:yes}
-  dimension: DepHead_DepartmentHead_dim { type:string sql:${TABLE}.DepHead.DepartmentHead;;hidden:no}
-  dimension: DepHead_DepartmentHeadCode_dim { type:string sql:${TABLE}.DepHead.DepartmentHeadCode;;hidden:no}
+  dimension: DepHead_DepartmentHead_dim { type:string sql:${TABLE}.DepHead.DepartmentHead;;hidden:yes}
+  dimension: DepHead_DepartmentHeadCode_dim { type:string sql:${TABLE}.DepHead.DepartmentHeadCode;;hidden:yes}
+
+  measure: ty_grossSales {group_label:"TY" type: sum sql:${ty_grossSales_dim};;value_format_name: decimal_1}
+  measure: ty_netSales {group_label:"TY" type: sum sql:${ty_netSales_dim};;value_format_name: decimal_1}
+  measure: ty_prodMargin {group_label:"TY" type: sum sql:${ty_prodMargin_dim};;value_format_name: decimal_1}
+  measure: ty_funding {group_label:"TY" type: sum sql:${ty_funding_dim};;value_format_name: decimal_1}
+  measure: ty_grossMargin {group_label:"TY" type: sum sql:${ty_grossMargin_dim};;value_format_name: decimal_1}
+  measure: ty_units {group_label:"TY" type: sum sql:${ty_units_dim};;value_format_name: decimal_1}
+  measure: ty_orders {group_label:"TY" type: sum sql:${ty_orders_dim};;value_format_name: decimal_1}
+  measure: ty_newProductNetSales {group_label:"TY" type: sum sql:${ty_newProductNetSales_dim};;value_format_name: decimal_1}
+  measure: ty_newProductMargin {group_label:"TY" type: sum sql:${ty_newProductMargin_dim};;value_format_name: decimal_1}
+  measure: ty_tradeCreditNetSales {group_label:"TY" type: sum sql:${ty_tradeCreditNetSales_dim};;value_format_name: decimal_1}
+  measure: ty_tradeCreditMargin {group_label:"TY" type: sum sql:${ty_tradeCreditMargin_dim};;value_format_name: decimal_1}
+  measure: ty_newCustomerNetSales {group_label:"TY" type: sum sql:${ty_newCustomerNetSales_dim};;value_format_name: decimal_1}
+  measure: ty_newCustomerMargin {group_label:"TY" type: sum sql:${ty_newCustomerMargin_dim};;value_format_name: decimal_1}
+  measure: ty_promoNetSales {group_label:"TY" type: sum sql:${ty_promoNetSales_dim};;value_format_name: decimal_1}
+  measure: ty_promoGrossMargin {group_label:"TY" type: sum sql:${ty_promoGrossMargin_dim};;value_format_name: decimal_1}
+  measure: ty_isPromo {group_label:"TY" type: sum sql:${ty_isPromo_dim};;value_format_name: decimal_1}
+  measure: ty_lflNetSales {group_label:"TY" type: sum sql:${ty_lflNetSales_dim};;value_format_name: decimal_1}
+  measure: ty_lflMargin {group_label:"TY" type: sum sql:${ty_lflMargin_dim};;value_format_name: decimal_1}
+  measure: ty_lflUnits {group_label:"TY" type: sum sql:${ty_lflUnits_dim};;value_format_name: decimal_1}
+  measure: ty_BRANCHNetSales {group_label:"TY" type: sum sql:${ty_BRANCHNetSales_dim};;value_format_name: decimal_1}
+  measure: ty_WEBNetSales {group_label:"TY" type: sum sql:${ty_WEBNetSales_dim};;value_format_name: decimal_1}
+  measure: ty_CLICKNetSales {group_label:"TY" type: sum sql:${ty_CLICKNetSales_dim};;value_format_name: decimal_1}
+  measure: ty_EPOSAVNetSales {group_label:"TY" type: sum sql:${ty_EPOSAVNetSales_dim};;value_format_name: decimal_1}
+  measure: ty_EPOSERNetSales {group_label:"TY" type: sum sql:${ty_EPOSERNetSales_dim};;value_format_name: decimal_1}
+  measure: ty_CCNetSales {group_label:"TY" type: sum sql:${ty_CCNetSales_dim};;value_format_name: decimal_1}
+  measure: ty_EBAYNetSales {group_label:"TY" type: sum sql:${ty_EBAYNetSales_dim};;value_format_name: decimal_1}
+  measure: ty_DROPSHIPNetSales {group_label:"TY" type: sum sql:${ty_DROPSHIPNetSales_dim};;value_format_name: decimal_1}
+  measure: ty_BRANCHMargin {group_label:"TY" type: sum sql:${ty_BRANCHMargin_dim};;value_format_name: decimal_1}
+  measure: ty_WEBMargin {group_label:"TY" type: sum sql:${ty_WEBMargin_dim};;value_format_name: decimal_1}
+  measure: ty_CLICKMargin {group_label:"TY" type: sum sql:${ty_CLICKMargin_dim};;value_format_name: decimal_1}
+  measure: ty_EPOSAVMargin {group_label:"TY" type: sum sql:${ty_EPOSAVMargin_dim};;value_format_name: decimal_1}
+  measure: ty_EPOSERMargin {group_label:"TY" type: sum sql:${ty_EPOSERMargin_dim};;value_format_name: decimal_1}
+  measure: ty_CCMargin {group_label:"TY" type: sum sql:${ty_CCMargin_dim};;value_format_name: decimal_1}
+  measure: ty_EBAYMargin {group_label:"TY" type: sum sql:${ty_EBAYMargin_dim};;value_format_name: decimal_1}
+  measure: ty_DROPSHIPMargin {group_label:"TY" type: sum sql:${ty_DROPSHIPMargin_dim};;value_format_name: decimal_1}
+  measure: ty_netSalesBudget {group_label:"TY" type: sum sql:${ty_netSalesBudget_dim};;value_format_name: decimal_1}
+  measure: ty_marginBudget {group_label:"TY" type: sum sql:${ty_marginBudget_dim};;value_format_name: decimal_1}
+  measure: ty_netSalesRF {group_label:"TY" type: sum sql:${ty_netSalesRF_dim};;value_format_name: decimal_1}
+  measure: ty_marginRF {group_label:"TY" type: sum sql:${ty_marginRF_dim};;value_format_name: decimal_1}
+  measure: ty_TradeNetSales {group_label:"TY" type: sum sql:${ty_TradeNetSales_dim};;value_format_name: decimal_1}
+  measure: ty_TradeMargin {group_label:"TY" type: sum sql:${ty_TradeMargin_dim};;value_format_name: decimal_1}
+  measure: ty_TradeUnits {group_label:"TY" type: sum sql:${ty_TradeUnits_dim};;value_format_name: decimal_1}
+  measure: ty_TradeParticipation {group_label:"TY" type: sum sql:${ty_TradeParticipation_dim};;value_format_name: decimal_1}
+  measure: ty_DIYNetSales {group_label:"TY" type: sum sql:${ty_DIYNetSales_dim};;value_format_name: decimal_1}
+  measure: ty_DIYMargin {group_label:"TY" type: sum sql:${ty_DIYMargin_dim};;value_format_name: decimal_1}
+  measure: ty_DIYUnits {group_label:"TY" type: sum sql:${ty_DIYUnits_dim};;value_format_name: decimal_1}
+  measure: ty_DIYParticipation {group_label:"TY" type: sum sql:${ty_DIYParticipation_dim};;value_format_name: decimal_1}
+  measure: ty_OwnBrandSales {group_label:"TY" type: sum sql:${ty_OwnBrandSales_dim};;value_format_name: decimal_1}
+  measure: ty_OwnBrandMargin {group_label:"TY" type: sum sql:${ty_OwnBrandMargin_dim};;value_format_name: decimal_1}
+  measure: ty_OwnBrandUnits {group_label:"TY" type: sum sql:${ty_OwnBrandUnits_dim};;value_format_name: decimal_1}
+  measure: ty_OwnBrandTradeNetSales {group_label:"TY" type: sum sql:${ty_OwnBrandTradeNetSales_dim};;value_format_name: decimal_1}
+  measure: ty_OwnBrandTradeMargin {group_label:"TY" type: sum sql:${ty_OwnBrandTradeMargin_dim};;value_format_name: decimal_1}
+  measure: ty_OwnBrandTradeUnits {group_label:"TY" type: sum sql:${ty_OwnBrandTradeUnits_dim};;value_format_name: decimal_1}
+  measure: ty_OwnBrandTradeParticipation {group_label:"TY" type: sum sql:${ty_OwnBrandTradeParticipation_dim};;value_format_name: decimal_1}
+  measure: ty_OwnBrandDIYNetSales {group_label:"TY" type: sum sql:${ty_OwnBrandDIYNetSales_dim};;value_format_name: decimal_1}
+  measure: ty_OwnBrandDIYMargin {group_label:"TY" type: sum sql:${ty_OwnBrandDIYMargin_dim};;value_format_name: decimal_1}
+  measure: ty_OwnBrandDIYUnits {group_label:"TY" type: sum sql:${ty_OwnBrandDIYUnits_dim};;value_format_name: decimal_1}
+  measure: ty_OwnBrandDIYParticipation {group_label:"TY" type: sum sql:${ty_OwnBrandDIYParticipation_dim};;value_format_name: decimal_1}
+  measure: ly_grossSales {group_label:"LY" type: sum sql:${ly_grossSales_dim};;value_format_name: decimal_1}
+  measure: ly_netSales {group_label:"LY" type: sum sql:${ly_netSales_dim};;value_format_name: decimal_1}
+  measure: ly_prodMargin {group_label:"LY" type: sum sql:${ly_prodMargin_dim};;value_format_name: decimal_1}
+  measure: ly_funding {group_label:"LY" type: sum sql:${ly_funding_dim};;value_format_name: decimal_1}
+  measure: ly_grossMargin {group_label:"LY" type: sum sql:${ly_grossMargin_dim};;value_format_name: decimal_1}
+  measure: ly_units {group_label:"LY" type: sum sql:${ly_units_dim};;value_format_name: decimal_1}
+  measure: ly_orders {group_label:"LY" type: sum sql:${ly_orders_dim};;value_format_name: decimal_1}
+  measure: ly_newProductNetSales {group_label:"LY" type: sum sql:${ly_newProductNetSales_dim};;value_format_name: decimal_1}
+  measure: ly_newProductMargin {group_label:"LY" type: sum sql:${ly_newProductMargin_dim};;value_format_name: decimal_1}
+  measure: ly_tradeCreditNetSales {group_label:"LY" type: sum sql:${ly_tradeCreditNetSales_dim};;value_format_name: decimal_1}
+  measure: ly_tradeCreditMargin {group_label:"LY" type: sum sql:${ly_tradeCreditMargin_dim};;value_format_name: decimal_1}
+  measure: ly_newCustomerNetSales {group_label:"LY" type: sum sql:${ly_newCustomerNetSales_dim};;value_format_name: decimal_1}
+  measure: ly_newCustomerMargin {group_label:"LY" type: sum sql:${ly_newCustomerMargin_dim};;value_format_name: decimal_1}
+  measure: ly_promoNetSales {group_label:"LY" type: sum sql:${ly_promoNetSales_dim};;value_format_name: decimal_1}
+  measure: ly_promoGrossMargin {group_label:"LY" type: sum sql:${ly_promoGrossMargin_dim};;value_format_name: decimal_1}
+  measure: ly_isPromo {group_label:"LY" type: sum sql:${ly_isPromo_dim};;value_format_name: decimal_1}
+  measure: ly_lflNetSales {group_label:"LY" type: sum sql:${ly_lflNetSales_dim};;value_format_name: decimal_1}
+  measure: ly_lflMargin {group_label:"LY" type: sum sql:${ly_lflMargin_dim};;value_format_name: decimal_1}
+  measure: ly_BRANCHNetSales {group_label:"LY" type: sum sql:${ly_BRANCHNetSales_dim};;value_format_name: decimal_1}
+  measure: ly_WEBNetSales {group_label:"LY" type: sum sql:${ly_WEBNetSales_dim};;value_format_name: decimal_1}
+  measure: ly_CLICKNetSales {group_label:"LY" type: sum sql:${ly_CLICKNetSales_dim};;value_format_name: decimal_1}
+  measure: ly_EPOSAVNetSales {group_label:"LY" type: sum sql:${ly_EPOSAVNetSales_dim};;value_format_name: decimal_1}
+  measure: ly_EPOSERNetSales {group_label:"LY" type: sum sql:${ly_EPOSERNetSales_dim};;value_format_name: decimal_1}
+  measure: ly_CCNetSales {group_label:"LY" type: sum sql:${ly_CCNetSales_dim};;value_format_name: decimal_1}
+  measure: ly_EBAYNetSales {group_label:"LY" type: sum sql:${ly_EBAYNetSales_dim};;value_format_name: decimal_1}
+  measure: ly_DROPSHIPNetSales {group_label:"LY" type: sum sql:${ly_DROPSHIPNetSales_dim};;value_format_name: decimal_1}
+  measure: ly_BRANCHMargin {group_label:"LY" type: sum sql:${ly_BRANCHMargin_dim};;value_format_name: decimal_1}
+  measure: ly_WEBMargin {group_label:"LY" type: sum sql:${ly_WEBMargin_dim};;value_format_name: decimal_1}
+  measure: ly_CLICKMargin {group_label:"LY" type: sum sql:${ly_CLICKMargin_dim};;value_format_name: decimal_1}
+  measure: ly_EPOSAVMargin {group_label:"LY" type: sum sql:${ly_EPOSAVMargin_dim};;value_format_name: decimal_1}
+  measure: ly_EPOSERMargin {group_label:"LY" type: sum sql:${ly_EPOSERMargin_dim};;value_format_name: decimal_1}
+  measure: ly_CCMargin {group_label:"LY" type: sum sql:${ly_CCMargin_dim};;value_format_name: decimal_1}
+  measure: ly_EBAYMargin {group_label:"LY" type: sum sql:${ly_EBAYMargin_dim};;value_format_name: decimal_1}
+  measure: ly_DROPSHIPMargin {group_label:"LY" type: sum sql:${ly_DROPSHIPMargin_dim};;value_format_name: decimal_1}
+  measure: ly_TradeNetSales {group_label:"LY" type: sum sql:${ly_TradeNetSales_dim};;value_format_name: decimal_1}
+  measure: ly_TradeMargin {group_label:"LY" type: sum sql:${ly_TradeMargin_dim};;value_format_name: decimal_1}
+  measure: ly_TradeUnits {group_label:"LY" type: sum sql:${ly_TradeUnits_dim};;value_format_name: decimal_1}
+  measure: ly_TradeParticipation {group_label:"LY" type: sum sql:${ly_TradeParticipation_dim};;value_format_name: decimal_1}
+  measure: ly_DIYNetSales {group_label:"LY" type: sum sql:${ly_DIYNetSales_dim};;value_format_name: decimal_1}
+  measure: ly_DIYMargin {group_label:"LY" type: sum sql:${ly_DIYMargin_dim};;value_format_name: decimal_1}
+  measure: ly_DIYUnits {group_label:"LY" type: sum sql:${ly_DIYUnits_dim};;value_format_name: decimal_1}
+  measure: ly_DIYParticipation {group_label:"LY" type: sum sql:${ly_DIYParticipation_dim};;value_format_name: decimal_1}
+  measure: ly_OwnBrandSales {group_label:"LY" type: sum sql:${ly_OwnBrandSales_dim};;value_format_name: decimal_1}
+  measure: ly_OwnBrandMargin {group_label:"LY" type: sum sql:${ly_OwnBrandMargin_dim};;value_format_name: decimal_1}
+  measure: ly_OwnBrandUnits {group_label:"LY" type: sum sql:${ly_OwnBrandUnits_dim};;value_format_name: decimal_1}
+  measure: ly_OwnBrandTradeNetSales {group_label:"LY" type: sum sql:${ly_OwnBrandTradeNetSales_dim};;value_format_name: decimal_1}
+  measure: ly_OwnBrandTradeMargin {group_label:"LY" type: sum sql:${ly_OwnBrandTradeMargin_dim};;value_format_name: decimal_1}
+  measure: ly_OwnBrandTradeUnits {group_label:"LY" type: sum sql:${ly_OwnBrandTradeUnits_dim};;value_format_name: decimal_1}
+  measure: ly_OwnBrandTradeParticipation {group_label:"LY" type: sum sql:${ly_OwnBrandTradeParticipation_dim};;value_format_name: decimal_1}
+  measure: ly_OwnBrandDIYNetSales {group_label:"LY" type: sum sql:${ly_OwnBrandDIYNetSales_dim};;value_format_name: decimal_1}
+  measure: ly_OwnBrandDIYMargin {group_label:"LY" type: sum sql:${ly_OwnBrandDIYMargin_dim};;value_format_name: decimal_1}
+  measure: ly_OwnBrandDIYUnits {group_label:"LY" type: sum sql:${ly_OwnBrandDIYUnits_dim};;value_format_name: decimal_1}
+  measure: ly_OwnBrandDIYParticipation {group_label:"LY" type: sum sql:${ly_OwnBrandDIYParticipation_dim};;value_format_name: decimal_1}
+  measure: lly_grossSales {group_label:"LLY" type: sum sql:${lly_grossSales_dim};;value_format_name: decimal_1}
+  measure: lly_netSales {group_label:"LLY" type: sum sql:${lly_netSales_dim};;value_format_name: decimal_1}
+  measure: lly_prodMargin {group_label:"LLY" type: sum sql:${lly_prodMargin_dim};;value_format_name: decimal_1}
+  measure: lly_funding {group_label:"LLY" type: sum sql:${lly_funding_dim};;value_format_name: decimal_1}
+  measure: lly_grossMargin {group_label:"LLY" type: sum sql:${lly_grossMargin_dim};;value_format_name: decimal_1}
+  measure: lly_units {group_label:"LLY" type: sum sql:${lly_units_dim};;value_format_name: decimal_1}
+  measure: lly_newProductNetSales {group_label:"LLY" type: sum sql:${lly_newProductNetSales_dim};;value_format_name: decimal_1}
+  measure: lly_newProductMargin {group_label:"LLY" type: sum sql:${lly_newProductMargin_dim};;value_format_name: decimal_1}
+  measure: lly_tradeCreditNetSales {group_label:"LLY" type: sum sql:${lly_tradeCreditNetSales_dim};;value_format_name: decimal_1}
+  measure: lly_tradeCreditMargin {group_label:"LLY" type: sum sql:${lly_tradeCreditMargin_dim};;value_format_name: decimal_1}
+  measure: lly_newCustomerNetSales {group_label:"LLY" type: sum sql:${lly_newCustomerNetSales_dim};;value_format_name: decimal_1}
+  measure: lly_newCustomerMargin {group_label:"LLY" type: sum sql:${lly_newCustomerMargin_dim};;value_format_name: decimal_1}
+  measure: lly_lflNetSales {group_label:"LLY" type: sum sql:${lly_lflNetSales_dim};;value_format_name: decimal_1}
+  measure: lly_lflMargin {group_label:"LLY" type: sum sql:${lly_lflMargin_dim};;value_format_name: decimal_1}
+  measure: lly_TradeNetSales {group_label:"LLY" type: sum sql:${lly_TradeNetSales_dim};;value_format_name: decimal_1}
+  measure: lly_TradeMargin {group_label:"LLY" type: sum sql:${lly_TradeMargin_dim};;value_format_name: decimal_1}
+  measure: lly_TradeUnits {group_label:"LLY" type: sum sql:${lly_TradeUnits_dim};;value_format_name: decimal_1}
+  measure: lly_TradeParticipation {group_label:"LLY" type: sum sql:${lly_TradeParticipation_dim};;value_format_name: decimal_1}
+  measure: lly_DIYNetSales {group_label:"LLY" type: sum sql:${lly_DIYNetSales_dim};;value_format_name: decimal_1}
+  measure: lly_DIYMargin {group_label:"LLY" type: sum sql:${lly_DIYMargin_dim};;value_format_name: decimal_1}
+  measure: lly_DIYUnits {group_label:"LLY" type: sum sql:${lly_DIYUnits_dim};;value_format_name: decimal_1}
+  measure: lly_DIYParticipation {group_label:"LLY" type: sum sql:${lly_DIYParticipation_dim};;value_format_name: decimal_1}
+  measure: lly_OwnBrandSales {group_label:"LLY" type: sum sql:${lly_OwnBrandSales_dim};;value_format_name: decimal_1}
+  measure: lly_OwnBrandMargin {group_label:"LLY" type: sum sql:${lly_OwnBrandMargin_dim};;value_format_name: decimal_1}
+  measure: lly_OwnBrandUnits {group_label:"LLY" type: sum sql:${lly_OwnBrandUnits_dim};;value_format_name: decimal_1}
+  measure: lly_OwnBrandTradeNetSales {group_label:"LLY" type: sum sql:${lly_OwnBrandTradeNetSales_dim};;value_format_name: decimal_1}
+  measure: lly_OwnBrandTradeMargin {group_label:"LLY" type: sum sql:${lly_OwnBrandTradeMargin_dim};;value_format_name: decimal_1}
+  measure: lly_OwnBrandTradeUnits {group_label:"LLY" type: sum sql:${lly_OwnBrandTradeUnits_dim};;value_format_name: decimal_1}
+  measure: lly_OwnBrandTradeParticipation {group_label:"LLY" type: sum sql:${lly_OwnBrandTradeParticipation_dim};;value_format_name: decimal_1}
+  measure: lly_OwnBrandDIYNetSales {group_label:"LLY" type: sum sql:${lly_OwnBrandDIYNetSales_dim};;value_format_name: decimal_1}
+  measure: lly_OwnBrandDIYMargin {group_label:"LLY" type: sum sql:${lly_OwnBrandDIYMargin_dim};;value_format_name: decimal_1}
+  measure: lly_OwnBrandDIYUnits {group_label:"LLY" type: sum sql:${lly_OwnBrandDIYUnits_dim};;value_format_name: decimal_1}
+  measure: lly_OwnBrandDIYParticipation {group_label:"LLY" type: sum sql:${lly_OwnBrandDIYParticipation_dim};;value_format_name: decimal_1}
+  measure: lw_grossSales {group_label:"LW" type: sum sql:${lw_grossSales_dim};;value_format_name: decimal_1}
+  measure: lw_netSales {group_label:"LW" type: sum sql:${lw_netSales_dim};;value_format_name: decimal_1}
+  measure: lw_prodMargin {group_label:"LW" type: sum sql:${lw_prodMargin_dim};;value_format_name: decimal_1}
+  measure: lw_funding {group_label:"LW" type: sum sql:${lw_funding_dim};;value_format_name: decimal_1}
+  measure: lw_grossMargin {group_label:"LW" type: sum sql:${lw_grossMargin_dim};;value_format_name: decimal_1}
+  measure: lw_units {group_label:"LW" type: sum sql:${lw_units_dim};;value_format_name: decimal_1}
+  measure: lw_newProductNetSales {group_label:"LW" type: sum sql:${lw_newProductNetSales_dim};;value_format_name: decimal_1}
+  measure: lw_newProductMargin {group_label:"LW" type: sum sql:${lw_newProductMargin_dim};;value_format_name: decimal_1}
+  measure: lw_tradeCreditNetSales {group_label:"LW" type: sum sql:${lw_tradeCreditNetSales_dim};;value_format_name: decimal_1}
+  measure: lw_tradeCreditMargin {group_label:"LW" type: sum sql:${lw_tradeCreditMargin_dim};;value_format_name: decimal_1}
+  measure: lw_newCustomerNetSales {group_label:"LW" type: sum sql:${lw_newCustomerNetSales_dim};;value_format_name: decimal_1}
+  measure: lw_newCustomerMargin {group_label:"LW" type: sum sql:${lw_newCustomerMargin_dim};;value_format_name: decimal_1}
+  measure: lw_lflNetSales {group_label:"LW" type: sum sql:${lw_lflNetSales_dim};;value_format_name: decimal_1}
+  measure: lw_lflMargin {group_label:"LW" type: sum sql:${lw_lflMargin_dim};;value_format_name: decimal_1}
+  measure: lw_TradeNetSales {group_label:"LW" type: sum sql:${lw_TradeNetSales_dim};;value_format_name: decimal_1}
+  measure: lw_TradeMargin {group_label:"LW" type: sum sql:${lw_TradeMargin_dim};;value_format_name: decimal_1}
+  measure: lw_TradeUnits {group_label:"LW" type: sum sql:${lw_TradeUnits_dim};;value_format_name: decimal_1}
+  measure: lw_TradeParticipation {group_label:"LW" type: sum sql:${lw_TradeParticipation_dim};;value_format_name: decimal_1}
+  measure: lw_DIYNetSales {group_label:"LW" type: sum sql:${lw_DIYNetSales_dim};;value_format_name: decimal_1}
+  measure: lw_DIYMargin {group_label:"LW" type: sum sql:${lw_DIYMargin_dim};;value_format_name: decimal_1}
+  measure: lw_DIYUnits {group_label:"LW" type: sum sql:${lw_DIYUnits_dim};;value_format_name: decimal_1}
+  measure: lw_DIYParticipation {group_label:"LW" type: sum sql:${lw_DIYParticipation_dim};;value_format_name: decimal_1}
+  measure: lw_OwnBrandSales {group_label:"LW" type: sum sql:${lw_OwnBrandSales_dim};;value_format_name: decimal_1}
+  measure: lw_OwnBrandMargin {group_label:"LW" type: sum sql:${lw_OwnBrandMargin_dim};;value_format_name: decimal_1}
+  measure: lw_OwnBrandUnits {group_label:"LW" type: sum sql:${lw_OwnBrandUnits_dim};;value_format_name: decimal_1}
+  measure: lw_OwnBrandTradeNetSales {group_label:"LW" type: sum sql:${lw_OwnBrandTradeNetSales_dim};;value_format_name: decimal_1}
+  measure: lw_OwnBrandTradeMargin {group_label:"LW" type: sum sql:${lw_OwnBrandTradeMargin_dim};;value_format_name: decimal_1}
+  measure: lw_OwnBrandTradeUnits {group_label:"LW" type: sum sql:${lw_OwnBrandTradeUnits_dim};;value_format_name: decimal_1}
+  measure: lw_OwnBrandTradeParticipation {group_label:"LW" type: sum sql:${lw_OwnBrandTradeParticipation_dim};;value_format_name: decimal_1}
+  measure: lw_OwnBrandDIYNetSales {group_label:"LW" type: sum sql:${lw_OwnBrandDIYNetSales_dim};;value_format_name: decimal_1}
+  measure: lw_OwnBrandDIYMargin {group_label:"LW" type: sum sql:${lw_OwnBrandDIYMargin_dim};;value_format_name: decimal_1}
+  measure: lw_OwnBrandDIYUnits {group_label:"LW" type: sum sql:${lw_OwnBrandDIYUnits_dim};;value_format_name: decimal_1}
+  measure: lw_OwnBrandDIYParticipation {group_label:"LW" type: sum sql:${lw_OwnBrandDIYParticipation_dim};;value_format_name: decimal_1}
 
 
-  measure: ty_grossSales { type:sum sql:${ty_grossSales_dim};;}
-  measure: ty_netSales { type:sum sql:${ty_netSales_dim};;}
-  measure: ty_prodMargin { type:sum sql:${ty_prodMargin_dim};;}
-  measure: ty_funding { type:sum sql:${ty_funding_dim};;}
-  measure: ty_grossMargin { type:sum sql:${ty_grossMargin_dim};;}
-  measure: ty_units { type:sum sql:${ty_units_dim};;}
-  measure: ty_orders { type:sum sql:${ty_orders_dim};;}
-  measure: ty_newProductNetSales { type:sum sql:${ty_newProductNetSales_dim};;}
-  measure: ty_newProductMargin { type:sum sql:${ty_newProductMargin_dim};;}
-  measure: ty_tradeCreditNetSales { type:sum sql:${ty_tradeCreditNetSales_dim};;}
-  measure: ty_tradeCreditMargin { type:sum sql:${ty_tradeCreditMargin_dim};;}
-  measure: ty_newCustomerNetSales { type:sum sql:${ty_newCustomerNetSales_dim};;}
-  measure: ty_newCustomerMargin { type:sum sql:${ty_newCustomerMargin_dim};;}
-  measure: ty_promoNetSales { type:sum sql:${ty_promoNetSales_dim};;}
-  measure: ty_promoGrossMargin { type:sum sql:${ty_promoGrossMargin_dim};;}
-  measure: ty_isPromo { type:sum sql:${ty_isPromo_dim};;}
-  measure: ty_lflNetSales { type:sum sql:${ty_lflNetSales_dim};;}
-  measure: ty_lflMargin { type:sum sql:${ty_lflMargin_dim};;}
-  measure: ty_lflUnits { type:sum sql:${ty_lflUnits_dim};;}
-  measure: ty_BRANCHNetSales { type:sum sql:${ty_BRANCHNetSales_dim};;}
-  measure: ty_WEBNetSales { type:sum sql:${ty_WEBNetSales_dim};;}
-  measure: ty_CLICKNetSales { type:sum sql:${ty_CLICKNetSales_dim};;}
-  measure: ty_EPOSAVNetSales { type:sum sql:${ty_EPOSAVNetSales_dim};;}
-  measure: ty_EPOSERNetSales { type:sum sql:${ty_EPOSERNetSales_dim};;}
-  measure: ty_CCNetSales { type:sum sql:${ty_CCNetSales_dim};;}
-  measure: ty_EBAYNetSales { type:sum sql:${ty_EBAYNetSales_dim};;}
-  measure: ty_DROPSHIPNetSales { type:sum sql:${ty_DROPSHIPNetSales_dim};;}
-  measure: ty_BRANCHMargin { type:sum sql:${ty_BRANCHMargin_dim};;}
-  measure: ty_WEBMargin { type:sum sql:${ty_WEBMargin_dim};;}
-  measure: ty_CLICKMargin { type:sum sql:${ty_CLICKMargin_dim};;}
-  measure: ty_EPOSAVMargin { type:sum sql:${ty_EPOSAVMargin_dim};;}
-  measure: ty_EPOSERMargin { type:sum sql:${ty_EPOSERMargin_dim};;}
-  measure: ty_CCMargin { type:sum sql:${ty_CCMargin_dim};;}
-  measure: ty_EBAYMargin { type:sum sql:${ty_EBAYMargin_dim};;}
-  measure: ty_DROPSHIPMargin { type:sum sql:${ty_DROPSHIPMargin_dim};;}
-  measure: ty_netSalesBudget { type:sum sql:${ty_netSalesBudget_dim};;}
-  measure: ty_marginBudget { type:sum sql:${ty_marginBudget_dim};;}
-  measure: ty_netSalesRF { type:sum sql:${ty_netSalesRF_dim};;}
-  measure: ty_marginRF { type:sum sql:${ty_marginRF_dim};;}
-  measure: ty_TradeNetSales { type:sum sql:${ty_TradeNetSales_dim};;}
-  measure: ty_TradeMargin { type:sum sql:${ty_TradeMargin_dim};;}
-  measure: ty_TradeUnits { type:sum sql:${ty_TradeUnits_dim};;}
-  measure: ty_TradeParticipation { type:sum sql:${ty_TradeParticipation_dim};;}
-  measure: ty_DIYNetSales { type:sum sql:${ty_DIYNetSales_dim};;}
-  measure: ty_DIYMargin { type:sum sql:${ty_DIYMargin_dim};;}
-  measure: ty_DIYUnits { type:sum sql:${ty_DIYUnits_dim};;}
-  measure: ty_DIYParticipation { type:sum sql:${ty_DIYParticipation_dim};;}
-  measure: ty_OwnBrandSales { type:sum sql:${ty_OwnBrandSales_dim};;}
-  measure: ty_OwnBrandMargin { type:sum sql:${ty_OwnBrandMargin_dim};;}
-  measure: ty_OwnBrandUnits { type:sum sql:${ty_OwnBrandUnits_dim};;}
-  measure: ty_OwnBrandTradeNetSales { type:sum sql:${ty_OwnBrandTradeNetSales_dim};;}
-  measure: ty_OwnBrandTradeMargin { type:sum sql:${ty_OwnBrandTradeMargin_dim};;}
-  measure: ty_OwnBrandTradeUnits { type:sum sql:${ty_OwnBrandTradeUnits_dim};;}
-  measure: ty_OwnBrandTradeParticipation { type:sum sql:${ty_OwnBrandTradeParticipation_dim};;}
-  measure: ty_OwnBrandDIYNetSales { type:sum sql:${ty_OwnBrandDIYNetSales_dim};;}
-  measure: ty_OwnBrandDIYMargin { type:sum sql:${ty_OwnBrandDIYMargin_dim};;}
-  measure: ty_OwnBrandDIYUnits { type:sum sql:${ty_OwnBrandDIYUnits_dim};;}
-  measure: ty_OwnBrandDIYParticipation { type:sum sql:${ty_OwnBrandDIYParticipation_dim};;}
-  measure: ly_grossSales { type:sum sql:${ly_grossSales_dim};;}
-  measure: ly_netSales { type:sum sql:${ly_netSales_dim};;}
-  measure: ly_prodMargin { type:sum sql:${ly_prodMargin_dim};;}
-  measure: ly_funding { type:sum sql:${ly_funding_dim};;}
-  measure: ly_grossMargin { type:sum sql:${ly_grossMargin_dim};;}
-  measure: ly_units { type:sum sql:${ly_units_dim};;}
-  measure: ly_orders { type:sum sql:${ly_orders_dim};;}
-  measure: ly_newProductNetSales { type:sum sql:${ly_newProductNetSales_dim};;}
-  measure: ly_newProductMargin { type:sum sql:${ly_newProductMargin_dim};;}
-  measure: ly_tradeCreditNetSales { type:sum sql:${ly_tradeCreditNetSales_dim};;}
-  measure: ly_tradeCreditMargin { type:sum sql:${ly_tradeCreditMargin_dim};;}
-  measure: ly_newCustomerNetSales { type:sum sql:${ly_newCustomerNetSales_dim};;}
-  measure: ly_newCustomerMargin { type:sum sql:${ly_newCustomerMargin_dim};;}
-  measure: ly_promoNetSales { type:sum sql:${ly_promoNetSales_dim};;}
-  measure: ly_promoGrossMargin { type:sum sql:${ly_promoGrossMargin_dim};;}
-  measure: ly_isPromo { type:sum sql:${ly_isPromo_dim};;}
-  measure: ly_lflNetSales { type:sum sql:${ly_lflNetSales_dim};;}
-  measure: ly_lflMargin { type:sum sql:${ly_lflMargin_dim};;}
-  measure: ly_BRANCHNetSales { type:sum sql:${ly_BRANCHNetSales_dim};;}
-  measure: ly_WEBNetSales { type:sum sql:${ly_WEBNetSales_dim};;}
-  measure: ly_CLICKNetSales { type:sum sql:${ly_CLICKNetSales_dim};;}
-  measure: ly_EPOSAVNetSales { type:sum sql:${ly_EPOSAVNetSales_dim};;}
-  measure: ly_EPOSERNetSales { type:sum sql:${ly_EPOSERNetSales_dim};;}
-  measure: ly_CCNetSales { type:sum sql:${ly_CCNetSales_dim};;}
-  measure: ly_EBAYNetSales { type:sum sql:${ly_EBAYNetSales_dim};;}
-  measure: ly_DROPSHIPNetSales { type:sum sql:${ly_DROPSHIPNetSales_dim};;}
-  measure: ly_BRANCHMargin { type:sum sql:${ly_BRANCHMargin_dim};;}
-  measure: ly_WEBMargin { type:sum sql:${ly_WEBMargin_dim};;}
-  measure: ly_CLICKMargin { type:sum sql:${ly_CLICKMargin_dim};;}
-  measure: ly_EPOSAVMargin { type:sum sql:${ly_EPOSAVMargin_dim};;}
-  measure: ly_EPOSERMargin { type:sum sql:${ly_EPOSERMargin_dim};;}
-  measure: ly_CCMargin { type:sum sql:${ly_CCMargin_dim};;}
-  measure: ly_EBAYMargin { type:sum sql:${ly_EBAYMargin_dim};;}
-  measure: ly_DROPSHIPMargin { type:sum sql:${ly_DROPSHIPMargin_dim};;}
-  measure: ly_TradeNetSales { type:sum sql:${ly_TradeNetSales_dim};;}
-  measure: ly_TradeMargin { type:sum sql:${ly_TradeMargin_dim};;}
-  measure: ly_TradeUnits { type:sum sql:${ly_TradeUnits_dim};;}
-  measure: ly_TradeParticipation { type:sum sql:${ly_TradeParticipation_dim};;}
-  measure: ly_DIYNetSales { type:sum sql:${ly_DIYNetSales_dim};;}
-  measure: ly_DIYMargin { type:sum sql:${ly_DIYMargin_dim};;}
-  measure: ly_DIYUnits { type:sum sql:${ly_DIYUnits_dim};;}
-  measure: ly_DIYParticipation { type:sum sql:${ly_DIYParticipation_dim};;}
-  measure: ly_OwnBrandSales { type:sum sql:${ly_OwnBrandSales_dim};;}
-  measure: ly_OwnBrandMargin { type:sum sql:${ly_OwnBrandMargin_dim};;}
-  measure: ly_OwnBrandUnits { type:sum sql:${ly_OwnBrandUnits_dim};;}
-  measure: ly_OwnBrandTradeNetSales { type:sum sql:${ly_OwnBrandTradeNetSales_dim};;}
-  measure: ly_OwnBrandTradeMargin { type:sum sql:${ly_OwnBrandTradeMargin_dim};;}
-  measure: ly_OwnBrandTradeUnits { type:sum sql:${ly_OwnBrandTradeUnits_dim};;}
-  measure: ly_OwnBrandTradeParticipation { type:sum sql:${ly_OwnBrandTradeParticipation_dim};;}
-  measure: ly_OwnBrandDIYNetSales { type:sum sql:${ly_OwnBrandDIYNetSales_dim};;}
-  measure: ly_OwnBrandDIYMargin { type:sum sql:${ly_OwnBrandDIYMargin_dim};;}
-  measure: ly_OwnBrandDIYUnits { type:sum sql:${ly_OwnBrandDIYUnits_dim};;}
-  measure: ly_OwnBrandDIYParticipation { type:sum sql:${ly_OwnBrandDIYParticipation_dim};;}
-  measure: lly_grossSales { type:sum sql:${lly_grossSales_dim};;}
-  measure: lly_netSales { type:sum sql:${lly_netSales_dim};;}
-  measure: lly_prodMargin { type:sum sql:${lly_prodMargin_dim};;}
-  measure: lly_funding { type:sum sql:${lly_funding_dim};;}
-  measure: lly_grossMargin { type:sum sql:${lly_grossMargin_dim};;}
-  measure: lly_units { type:sum sql:${lly_units_dim};;}
-  measure: lly_newProductNetSales { type:sum sql:${lly_newProductNetSales_dim};;}
-  measure: lly_newProductMargin { type:sum sql:${lly_newProductMargin_dim};;}
-  measure: lly_tradeCreditNetSales { type:sum sql:${lly_tradeCreditNetSales_dim};;}
-  measure: lly_tradeCreditMargin { type:sum sql:${lly_tradeCreditMargin_dim};;}
-  measure: lly_newCustomerNetSales { type:sum sql:${lly_newCustomerNetSales_dim};;}
-  measure: lly_newCustomerMargin { type:sum sql:${lly_newCustomerMargin_dim};;}
-  measure: lly_lflNetSales { type:sum sql:${lly_lflNetSales_dim};;}
-  measure: lly_lflMargin { type:sum sql:${lly_lflMargin_dim};;}
-  measure: lly_TradeNetSales { type:sum sql:${lly_TradeNetSales_dim};;}
-  measure: lly_TradeMargin { type:sum sql:${lly_TradeMargin_dim};;}
-  measure: lly_TradeUnits { type:sum sql:${lly_TradeUnits_dim};;}
-  measure: lly_TradeParticipation { type:sum sql:${lly_TradeParticipation_dim};;}
-  measure: lly_DIYNetSales { type:sum sql:${lly_DIYNetSales_dim};;}
-  measure: lly_DIYMargin { type:sum sql:${lly_DIYMargin_dim};;}
-  measure: lly_DIYUnits { type:sum sql:${lly_DIYUnits_dim};;}
-  measure: lly_DIYParticipation { type:sum sql:${lly_DIYParticipation_dim};;}
-  measure: lly_OwnBrandSales { type:sum sql:${lly_OwnBrandSales_dim};;}
-  measure: lly_OwnBrandMargin { type:sum sql:${lly_OwnBrandMargin_dim};;}
-  measure: lly_OwnBrandUnits { type:sum sql:${lly_OwnBrandUnits_dim};;}
-  measure: lly_OwnBrandTradeNetSales { type:sum sql:${lly_OwnBrandTradeNetSales_dim};;}
-  measure: lly_OwnBrandTradeMargin { type:sum sql:${lly_OwnBrandTradeMargin_dim};;}
-  measure: lly_OwnBrandTradeUnits { type:sum sql:${lly_OwnBrandTradeUnits_dim};;}
-  measure: lly_OwnBrandTradeParticipation { type:sum sql:${lly_OwnBrandTradeParticipation_dim};;}
-  measure: lly_OwnBrandDIYNetSales { type:sum sql:${lly_OwnBrandDIYNetSales_dim};;}
-  measure: lly_OwnBrandDIYMargin { type:sum sql:${lly_OwnBrandDIYMargin_dim};;}
-  measure: lly_OwnBrandDIYUnits { type:sum sql:${lly_OwnBrandDIYUnits_dim};;}
-  measure: lly_OwnBrandDIYParticipation { type:sum sql:${lly_OwnBrandDIYParticipation_dim};;}
-  measure: lw_grossSales { type:sum sql:${lw_grossSales_dim};;}
-  measure: lw_netSales { type:sum sql:${lw_netSales_dim};;}
-  measure: lw_prodMargin { type:sum sql:${lw_prodMargin_dim};;}
-  measure: lw_funding { type:sum sql:${lw_funding_dim};;}
-  measure: lw_grossMargin { type:sum sql:${lw_grossMargin_dim};;}
-  measure: lw_units { type:sum sql:${lw_units_dim};;}
-  measure: lw_newProductNetSales { type:sum sql:${lw_newProductNetSales_dim};;}
-  measure: lw_newProductMargin { type:sum sql:${lw_newProductMargin_dim};;}
-  measure: lw_tradeCreditNetSales { type:sum sql:${lw_tradeCreditNetSales_dim};;}
-  measure: lw_tradeCreditMargin { type:sum sql:${lw_tradeCreditMargin_dim};;}
-  measure: lw_newCustomerNetSales { type:sum sql:${lw_newCustomerNetSales_dim};;}
-  measure: lw_newCustomerMargin { type:sum sql:${lw_newCustomerMargin_dim};;}
-  measure: lw_lflNetSales { type:sum sql:${lw_lflNetSales_dim};;}
-  measure: lw_lflMargin { type:sum sql:${lw_lflMargin_dim};;}
-  measure: lw_TradeNetSales { type:sum sql:${lw_TradeNetSales_dim};;}
-  measure: lw_TradeMargin { type:sum sql:${lw_TradeMargin_dim};;}
-  measure: lw_TradeUnits { type:sum sql:${lw_TradeUnits_dim};;}
-  measure: lw_TradeParticipation { type:sum sql:${lw_TradeParticipation_dim};;}
-  measure: lw_DIYNetSales { type:sum sql:${lw_DIYNetSales_dim};;}
-  measure: lw_DIYMargin { type:sum sql:${lw_DIYMargin_dim};;}
-  measure: lw_DIYUnits { type:sum sql:${lw_DIYUnits_dim};;}
-  measure: lw_DIYParticipation { type:sum sql:${lw_DIYParticipation_dim};;}
-  measure: lw_OwnBrandSales { type:sum sql:${lw_OwnBrandSales_dim};;}
-  measure: lw_OwnBrandMargin { type:sum sql:${lw_OwnBrandMargin_dim};;}
-  measure: lw_OwnBrandUnits { type:sum sql:${lw_OwnBrandUnits_dim};;}
-  measure: lw_OwnBrandTradeNetSales { type:sum sql:${lw_OwnBrandTradeNetSales_dim};;}
-  measure: lw_OwnBrandTradeMargin { type:sum sql:${lw_OwnBrandTradeMargin_dim};;}
-  measure: lw_OwnBrandTradeUnits { type:sum sql:${lw_OwnBrandTradeUnits_dim};;}
-  measure: lw_OwnBrandTradeParticipation { type:sum sql:${lw_OwnBrandTradeParticipation_dim};;}
-  measure: lw_OwnBrandDIYNetSales { type:sum sql:${lw_OwnBrandDIYNetSales_dim};;}
-  measure: lw_OwnBrandDIYMargin { type:sum sql:${lw_OwnBrandDIYMargin_dim};;}
-  measure: lw_OwnBrandDIYUnits { type:sum sql:${lw_OwnBrandDIYUnits_dim};;}
-  measure: lw_OwnBrandDIYParticipation { type:sum sql:${lw_OwnBrandDIYParticipation_dim};;}
-  measure: DepHead_DepartmentHead { type:sum sql:${DepHead_DepartmentHead_dim};;}
-  measure: DepHead_DepartmentHeadCode { type:sum sql:${DepHead_DepartmentHeadCode_dim};;}
+  # YOY------------------------------------
 
-  # ------------------------------------
-  # measure: net_sales_YOY { type:number sql:${ty_netSales}-${ly_netSales};;}
+measure: YOY_grossSales {group_label:"YOY" type:number sql:${ty_grossSales}-${ly_grossSales};;value_format_name: decimal_1}
 
-
+measure: YOY_netSales {group_label:"YOY" type:number sql:${ty_netSales}-${ly_netSales};;value_format_name: decimal_1}
+measure: YOY_prodMargin {group_label:"YOY" type:number sql:${ty_prodMargin}-${ly_prodMargin};;value_format_name: decimal_1}
+measure: YOY_funding {group_label:"YOY" type:number sql:${ty_funding}-${ly_funding};;value_format_name: decimal_1}
+measure: YOY_grossMargin {group_label:"YOY" type:number sql:${ty_grossMargin}-${ly_grossMargin};;value_format_name: decimal_1}
+measure: YOY_units {group_label:"YOY" type:number sql:${ty_units}-${ly_units};;value_format_name: decimal_1}
+measure: YOY_orders {group_label:"YOY" type:number sql:${ty_orders}-${ly_orders};;value_format_name: decimal_1}
+measure: YOY_newProductNetSales {group_label:"YOY" type:number sql:${ty_newProductNetSales}-${ly_newProductNetSales};;value_format_name: decimal_1}
+measure: YOY_newProductMargin {group_label:"YOY" type:number sql:${ty_newProductMargin}-${ly_newProductMargin};;value_format_name: decimal_1}
+measure: YOY_tradeCreditNetSales {group_label:"YOY" type:number sql:${ty_tradeCreditNetSales}-${ly_tradeCreditNetSales};;value_format_name: decimal_1}
+measure: YOY_tradeCreditMargin {group_label:"YOY" type:number sql:${ty_tradeCreditMargin}-${ly_tradeCreditMargin};;value_format_name: decimal_1}
+measure: YOY_newCustomerNetSales {group_label:"YOY" type:number sql:${ty_newCustomerNetSales}-${ly_newCustomerNetSales};;value_format_name: decimal_1}
+measure: YOY_newCustomerMargin {group_label:"YOY" type:number sql:${ty_newCustomerMargin}-${ly_newCustomerMargin};;value_format_name: decimal_1}
+measure: YOY_promoNetSales {group_label:"YOY" type:number sql:${ty_promoNetSales}-${ly_promoNetSales};;value_format_name: decimal_1}
+measure: YOY_promoGrossMargin {group_label:"YOY" type:number sql:${ty_promoGrossMargin}-${ly_promoGrossMargin};;value_format_name: decimal_1}
+measure: YOY_isPromo {group_label:"YOY" type:number sql:${ty_isPromo}-${ly_isPromo};;value_format_name: decimal_1}
+measure: YOY_lflNetSales {group_label:"YOY" type:number sql:${ty_lflNetSales}-${ly_lflNetSales};;value_format_name: decimal_1}
+measure: YOY_lflMargin {group_label:"YOY" type:number sql:${ty_lflMargin}-${ly_lflMargin};;value_format_name: decimal_1}
+measure: YOY_BRANCHNetSales {group_label:"YOY" type:number sql:${ty_BRANCHNetSales}-${ly_BRANCHNetSales};;value_format_name: decimal_1}
+measure: YOY_WEBNetSales {group_label:"YOY" type:number sql:${ty_WEBNetSales}-${ly_WEBNetSales};;value_format_name: decimal_1}
+measure: YOY_CLICKNetSales {group_label:"YOY" type:number sql:${ty_CLICKNetSales}-${ly_CLICKNetSales};;value_format_name: decimal_1}
+measure: YOY_EPOSAVNetSales {group_label:"YOY" type:number sql:${ty_EPOSAVNetSales}-${ly_EPOSAVNetSales};;value_format_name: decimal_1}
+measure: YOY_EPOSERNetSales {group_label:"YOY" type:number sql:${ty_EPOSERNetSales}-${ly_EPOSERNetSales};;value_format_name: decimal_1}
+measure: YOY_CCNetSales {group_label:"YOY" type:number sql:${ty_CCNetSales}-${ly_CCNetSales};;value_format_name: decimal_1}
+measure: YOY_EBAYNetSales {group_label:"YOY" type:number sql:${ty_EBAYNetSales}-${ly_EBAYNetSales};;value_format_name: decimal_1}
+measure: YOY_DROPSHIPNetSales {group_label:"YOY" type:number sql:${ty_DROPSHIPNetSales}-${ly_DROPSHIPNetSales};;value_format_name: decimal_1}
+measure: YOY_BRANCHMargin {group_label:"YOY" type:number sql:${ty_BRANCHMargin}-${ly_BRANCHMargin};;value_format_name: decimal_1}
+measure: YOY_WEBMargin {group_label:"YOY" type:number sql:${ty_WEBMargin}-${ly_WEBMargin};;value_format_name: decimal_1}
+measure: YOY_CLICKMargin {group_label:"YOY" type:number sql:${ty_CLICKMargin}-${ly_CLICKMargin};;value_format_name: decimal_1}
+measure: YOY_EPOSAVMargin {group_label:"YOY" type:number sql:${ty_EPOSAVMargin}-${ly_EPOSAVMargin};;value_format_name: decimal_1}
+measure: YOY_EPOSERMargin {group_label:"YOY" type:number sql:${ty_EPOSERMargin}-${ly_EPOSERMargin};;value_format_name: decimal_1}
+measure: YOY_CCMargin {group_label:"YOY" type:number sql:${ty_CCMargin}-${ly_CCMargin};;value_format_name: decimal_1}
+measure: YOY_EBAYMargin {group_label:"YOY" type:number sql:${ty_EBAYMargin}-${ly_EBAYMargin};;value_format_name: decimal_1}
+measure: YOY_DROPSHIPMargin {group_label:"YOY" type:number sql:${ty_DROPSHIPMargin}-${ly_DROPSHIPMargin};;value_format_name: decimal_1}
+measure: YOY_TradeNetSales {group_label:"YOY" type:number sql:${ty_TradeNetSales}-${ly_TradeNetSales};;value_format_name: decimal_1}
+measure: YOY_TradeMargin {group_label:"YOY" type:number sql:${ty_TradeMargin}-${ly_TradeMargin};;value_format_name: decimal_1}
+measure: YOY_TradeUnits {group_label:"YOY" type:number sql:${ty_TradeUnits}-${ly_TradeUnits};;value_format_name: decimal_1}
+measure: YOY_TradeParticipation {group_label:"YOY" type:number sql:${ty_TradeParticipation}-${ly_TradeParticipation};;value_format_name: decimal_1}
+measure: YOY_DIYNetSales {group_label:"YOY" type:number sql:${ty_DIYNetSales}-${ly_DIYNetSales};;value_format_name: decimal_1}
+measure: YOY_DIYMargin {group_label:"YOY" type:number sql:${ty_DIYMargin}-${ly_DIYMargin};;value_format_name: decimal_1}
+measure: YOY_DIYUnits {group_label:"YOY" type:number sql:${ty_DIYUnits}-${ly_DIYUnits};;value_format_name: decimal_1}
+measure: YOY_DIYParticipation {group_label:"YOY" type:number sql:${ty_DIYParticipation}-${ly_DIYParticipation};;value_format_name: decimal_1}
+measure: YOY_OwnBrandSales {group_label:"YOY" type:number sql:${ty_OwnBrandSales}-${ly_OwnBrandSales};;value_format_name: decimal_1}
+measure: YOY_OwnBrandMargin {group_label:"YOY" type:number sql:${ty_OwnBrandMargin}-${ly_OwnBrandMargin};;value_format_name: decimal_1}
+measure: YOY_OwnBrandUnits {group_label:"YOY" type:number sql:${ty_OwnBrandUnits}-${ly_OwnBrandUnits};;value_format_name: decimal_1}
+measure: YOY_OwnBrandTradeNetSales {group_label:"YOY" type:number sql:${ty_OwnBrandTradeNetSales}-${ly_OwnBrandTradeNetSales};;value_format_name: decimal_1}
+measure: YOY_OwnBrandTradeMargin {group_label:"YOY" type:number sql:${ty_OwnBrandTradeMargin}-${ly_OwnBrandTradeMargin};;value_format_name: decimal_1}
+measure: YOY_OwnBrandTradeUnits {group_label:"YOY" type:number sql:${ty_OwnBrandTradeUnits}-${ly_OwnBrandTradeUnits};;value_format_name: decimal_1}
+measure: YOY_OwnBrandTradeParticipation {group_label:"YOY" type:number sql:${ty_OwnBrandTradeParticipation}-${ly_OwnBrandTradeParticipation};;value_format_name: decimal_1}
+measure: YOY_OwnBrandDIYNetSales {group_label:"YOY" type:number sql:${ty_OwnBrandDIYNetSales}-${ly_OwnBrandDIYNetSales};;value_format_name: decimal_1}
+measure: YOY_OwnBrandDIYMargin {group_label:"YOY" type:number sql:${ty_OwnBrandDIYMargin}-${ly_OwnBrandDIYMargin};;value_format_name: decimal_1}
+measure: YOY_OwnBrandDIYUnits {group_label:"YOY" type:number sql:${ty_OwnBrandDIYUnits}-${ly_OwnBrandDIYUnits};;value_format_name: decimal_1}
+measure: YOY_OwnBrandDIYParticipation {group_label:"YOY" type:number sql:${ty_OwnBrandDIYParticipation}-${ly_OwnBrandDIYParticipation};;value_format_name: decimal_1}
+measure: 2YOY_grossSales {group_label:"2YOY" type:number sql:${ty_grossSales}-${lly_grossSales};;value_format_name: decimal_1}
+measure: 2YOY_netSales {group_label:"2YOY" type:number sql:${ty_netSales}-${lly_netSales};;value_format_name: decimal_1}
+measure: 2YOY_prodMargin {group_label:"2YOY" type:number sql:${ty_prodMargin}-${lly_prodMargin};;value_format_name: decimal_1}
+measure: 2YOY_funding {group_label:"2YOY" type:number sql:${ty_funding}-${lly_funding};;value_format_name: decimal_1}
+measure: 2YOY_grossMargin {group_label:"2YOY" type:number sql:${ty_grossMargin}-${lly_grossMargin};;value_format_name: decimal_1}
+measure: 2YOY_units {group_label:"2YOY" type:number sql:${ty_units}-${lly_units};;value_format_name: decimal_1}
+measure: 2YOY_newProductNetSales {group_label:"2YOY" type:number sql:${ty_newProductNetSales}-${lly_newProductNetSales};;value_format_name: decimal_1}
+measure: 2YOY_newProductMargin {group_label:"2YOY" type:number sql:${ty_newProductMargin}-${lly_newProductMargin};;value_format_name: decimal_1}
+measure: 2YOY_tradeCreditNetSales {group_label:"2YOY" type:number sql:${ty_tradeCreditNetSales}-${lly_tradeCreditNetSales};;value_format_name: decimal_1}
+measure: 2YOY_tradeCreditMargin {group_label:"2YOY" type:number sql:${ty_tradeCreditMargin}-${lly_tradeCreditMargin};;value_format_name: decimal_1}
+measure: 2YOY_newCustomerNetSales {group_label:"2YOY" type:number sql:${ty_newCustomerNetSales}-${lly_newCustomerNetSales};;value_format_name: decimal_1}
+measure: 2YOY_newCustomerMargin {group_label:"2YOY" type:number sql:${ty_newCustomerMargin}-${lly_newCustomerMargin};;value_format_name: decimal_1}
+measure: 2YOY_lflNetSales {group_label:"2YOY" type:number sql:${ty_lflNetSales}-${lly_lflNetSales};;value_format_name: decimal_1}
+measure: 2YOY_lflMargin {group_label:"2YOY" type:number sql:${ty_lflMargin}-${lly_lflMargin};;value_format_name: decimal_1}
+measure: 2YOY_TradeNetSales {group_label:"2YOY" type:number sql:${ty_TradeNetSales}-${lly_TradeNetSales};;value_format_name: decimal_1}
+measure: 2YOY_TradeMargin {group_label:"2YOY" type:number sql:${ty_TradeMargin}-${lly_TradeMargin};;value_format_name: decimal_1}
+measure: 2YOY_TradeUnits {group_label:"2YOY" type:number sql:${ty_TradeUnits}-${lly_TradeUnits};;value_format_name: decimal_1}
+measure: 2YOY_TradeParticipation {group_label:"2YOY" type:number sql:${ty_TradeParticipation}-${lly_TradeParticipation};;value_format_name: decimal_1}
+measure: 2YOY_DIYNetSales {group_label:"2YOY" type:number sql:${ty_DIYNetSales}-${lly_DIYNetSales};;value_format_name: decimal_1}
+measure: 2YOY_DIYMargin {group_label:"2YOY" type:number sql:${ty_DIYMargin}-${lly_DIYMargin};;value_format_name: decimal_1}
+measure: 2YOY_DIYUnits {group_label:"2YOY" type:number sql:${ty_DIYUnits}-${lly_DIYUnits};;value_format_name: decimal_1}
+measure: 2YOY_DIYParticipation {group_label:"2YOY" type:number sql:${ty_DIYParticipation}-${lly_DIYParticipation};;value_format_name: decimal_1}
+measure: 2YOY_OwnBrandSales {group_label:"2YOY" type:number sql:${ty_OwnBrandSales}-${lly_OwnBrandSales};;value_format_name: decimal_1}
+measure: 2YOY_OwnBrandMargin {group_label:"2YOY" type:number sql:${ty_OwnBrandMargin}-${lly_OwnBrandMargin};;value_format_name: decimal_1}
+measure: 2YOY_OwnBrandUnits {group_label:"2YOY" type:number sql:${ty_OwnBrandUnits}-${lly_OwnBrandUnits};;value_format_name: decimal_1}
+measure: 2YOY_OwnBrandTradeNetSales {group_label:"2YOY" type:number sql:${ty_OwnBrandTradeNetSales}-${lly_OwnBrandTradeNetSales};;value_format_name: decimal_1}
+measure: 2YOY_OwnBrandTradeMargin {group_label:"2YOY" type:number sql:${ty_OwnBrandTradeMargin}-${lly_OwnBrandTradeMargin};;value_format_name: decimal_1}
+measure: 2YOY_OwnBrandTradeUnits {group_label:"2YOY" type:number sql:${ty_OwnBrandTradeUnits}-${lly_OwnBrandTradeUnits};;value_format_name: decimal_1}
+measure: 2YOY_OwnBrandTradeParticipation {group_label:"2YOY" type:number sql:${ty_OwnBrandTradeParticipation}-${lly_OwnBrandTradeParticipation};;value_format_name: decimal_1}
+measure: 2YOY_OwnBrandDIYNetSales {group_label:"2YOY" type:number sql:${ty_OwnBrandDIYNetSales}-${lly_OwnBrandDIYNetSales};;value_format_name: decimal_1}
+measure: 2YOY_OwnBrandDIYMargin {group_label:"2YOY" type:number sql:${ty_OwnBrandDIYMargin}-${lly_OwnBrandDIYMargin};;value_format_name: decimal_1}
+measure: 2YOY_OwnBrandDIYUnits {group_label:"2YOY" type:number sql:${ty_OwnBrandDIYUnits}-${lly_OwnBrandDIYUnits};;value_format_name: decimal_1}
+measure: 2YOY_OwnBrandDIYParticipation {group_label:"2YOY" type:number sql:${ty_OwnBrandDIYParticipation}-${lly_OwnBrandDIYParticipation};;value_format_name: decimal_1}
+measure: LW_grossSales {group_label:"LW" type:number sql:${ty_grossSales}-${lw_grossSales};;value_format_name: decimal_1}
+measure: LW_netSales {group_label:"LW" type:number sql:${ty_netSales}-${lw_netSales};;value_format_name: decimal_1}
+measure: LW_prodMargin {group_label:"LW" type:number sql:${ty_prodMargin}-${lw_prodMargin};;value_format_name: decimal_1}
+measure: LW_funding {group_label:"LW" type:number sql:${ty_funding}-${lw_funding};;value_format_name: decimal_1}
+measure: LW_grossMargin {group_label:"LW" type:number sql:${ty_grossMargin}-${lw_grossMargin};;value_format_name: decimal_1}
+measure: LW_units {group_label:"LW" type:number sql:${ty_units}-${lw_units};;value_format_name: decimal_1}
+measure: LW_newProductNetSales {group_label:"LW" type:number sql:${ty_newProductNetSales}-${lw_newProductNetSales};;value_format_name: decimal_1}
+measure: LW_newProductMargin {group_label:"LW" type:number sql:${ty_newProductMargin}-${lw_newProductMargin};;value_format_name: decimal_1}
+measure: LW_tradeCreditNetSales {group_label:"LW" type:number sql:${ty_tradeCreditNetSales}-${lw_tradeCreditNetSales};;value_format_name: decimal_1}
+measure: LW_tradeCreditMargin {group_label:"LW" type:number sql:${ty_tradeCreditMargin}-${lw_tradeCreditMargin};;value_format_name: decimal_1}
+measure: LW_newCustomerNetSales {group_label:"LW" type:number sql:${ty_newCustomerNetSales}-${lw_newCustomerNetSales};;value_format_name: decimal_1}
+measure: LW_newCustomerMargin {group_label:"LW" type:number sql:${ty_newCustomerMargin}-${lw_newCustomerMargin};;value_format_name: decimal_1}
+measure: LW_lflNetSales {group_label:"LW" type:number sql:${ty_lflNetSales}-${lw_lflNetSales};;value_format_name: decimal_1}
+measure: LW_lflMargin {group_label:"LW" type:number sql:${ty_lflMargin}-${lw_lflMargin};;value_format_name: decimal_1}
+measure: LW_TradeNetSales {group_label:"LW" type:number sql:${ty_TradeNetSales}-${lw_TradeNetSales};;value_format_name: decimal_1}
+measure: LW_TradeMargin {group_label:"LW" type:number sql:${ty_TradeMargin}-${lw_TradeMargin};;value_format_name: decimal_1}
+measure: LW_TradeUnits {group_label:"LW" type:number sql:${ty_TradeUnits}-${lw_TradeUnits};;value_format_name: decimal_1}
+measure: LW_TradeParticipation {group_label:"LW" type:number sql:${ty_TradeParticipation}-${lw_TradeParticipation};;value_format_name: decimal_1}
+measure: LW_DIYNetSales {group_label:"LW" type:number sql:${ty_DIYNetSales}-${lw_DIYNetSales};;value_format_name: decimal_1}
+measure: LW_DIYMargin {group_label:"LW" type:number sql:${ty_DIYMargin}-${lw_DIYMargin};;value_format_name: decimal_1}
+measure: LW_DIYUnits {group_label:"LW" type:number sql:${ty_DIYUnits}-${lw_DIYUnits};;value_format_name: decimal_1}
+measure: LW_DIYParticipation {group_label:"LW" type:number sql:${ty_DIYParticipation}-${lw_DIYParticipation};;value_format_name: decimal_1}
+measure: LW_OwnBrandSales {group_label:"LW" type:number sql:${ty_OwnBrandSales}-${lw_OwnBrandSales};;value_format_name: decimal_1}
+measure: LW_OwnBrandMargin {group_label:"LW" type:number sql:${ty_OwnBrandMargin}-${lw_OwnBrandMargin};;value_format_name: decimal_1}
+measure: LW_OwnBrandUnits {group_label:"LW" type:number sql:${ty_OwnBrandUnits}-${lw_OwnBrandUnits};;value_format_name: decimal_1}
+measure: LW_OwnBrandTradeNetSales {group_label:"LW" type:number sql:${ty_OwnBrandTradeNetSales}-${lw_OwnBrandTradeNetSales};;value_format_name: decimal_1}
+measure: LW_OwnBrandTradeMargin {group_label:"LW" type:number sql:${ty_OwnBrandTradeMargin}-${lw_OwnBrandTradeMargin};;value_format_name: decimal_1}
+measure: LW_OwnBrandTradeUnits {group_label:"LW" type:number sql:${ty_OwnBrandTradeUnits}-${lw_OwnBrandTradeUnits};;value_format_name: decimal_1}
+measure: LW_OwnBrandTradeParticipation {group_label:"LW" type:number sql:${ty_OwnBrandTradeParticipation}-${lw_OwnBrandTradeParticipation};;value_format_name: decimal_1}
+measure: LW_OwnBrandDIYNetSales {group_label:"LW" type:number sql:${ty_OwnBrandDIYNetSales}-${lw_OwnBrandDIYNetSales};;value_format_name: decimal_1}
+measure: LW_OwnBrandDIYMargin {group_label:"LW" type:number sql:${ty_OwnBrandDIYMargin}-${lw_OwnBrandDIYMargin};;value_format_name: decimal_1}
+measure: LW_OwnBrandDIYUnits {group_label:"LW" type:number sql:${ty_OwnBrandDIYUnits}-${lw_OwnBrandDIYUnits};;value_format_name: decimal_1}
+measure: LW_OwnBrandDIYParticipation {group_label:"LW" type:number sql:${ty_OwnBrandDIYParticipation}-${lw_OwnBrandDIYParticipation};;value_format_name: decimal_1}
 }

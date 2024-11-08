@@ -39,6 +39,7 @@ view: ds_all_daily_department_sales {
 
   measure: netSales {
     label: "Net Sales"
+    group_label: "By Department"
     type: sum
     sql: ${netSales_raw} ;;
     value_format_name: decimal_1
@@ -52,6 +53,7 @@ view: ds_all_daily_department_sales {
 
   measure: netSalesLY {
     label: "Net Sales LY"
+    group_label: "By Department"
     type: sum
     sql: ${netSalesLY_raw} ;;
     value_format_name: decimal_1
@@ -65,6 +67,7 @@ view: ds_all_daily_department_sales {
 
   measure: marginInclRetro {
     label: "Margin Inc Funding"
+    group_label: "By Department"
     type: sum
     sql: ${marginInclRetro_raw} ;;
     value_format_name: decimal_1
@@ -72,6 +75,7 @@ view: ds_all_daily_department_sales {
 
   measure: marginInclRetro_percent {
     label: "Margin Inc Funding %"
+    group_label: "By Department"
     type: number
     value_format_name: percent_1
     sql: safe_divide(${marginInclRetro},${netSales}) ;;
@@ -83,7 +87,8 @@ view: ds_all_daily_department_sales {
     hidden: yes
   }
 
-  measure: netSalesLW {
+  measure: netSalesLW {#
+    group_label: "By Department"
     label: "Net Sales LW"
     type: sum
     sql: ${netSalesLW_raw} ;;
@@ -91,6 +96,7 @@ view: ds_all_daily_department_sales {
   }
 
   measure: WOW_change {
+    group_label: "By Department"
     label: "WOW Change %"
     type: number
     sql: safe_divide(${netSales},${netSalesLW})-1 ;;
@@ -98,6 +104,7 @@ view: ds_all_daily_department_sales {
   }
 
   measure: YOY_change {
+    group_label: "By Department"
     label: "YOY Change %"
     type: number
     sql: safe_divide(${netSales},${netSalesLY})-1 ;;
