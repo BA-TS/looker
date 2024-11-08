@@ -814,6 +814,7 @@ explore: base {
 
   join: ds_all_daily_department_sales {
     view_label: "Commercial Performance Report"
+    required_access_grants: [lz_testing]
     type: left_outer
     relationship: one_to_one
     sql_on: ${ds_all_daily_department_sales.date_date}  =  ${base.date_date} and ${ds_all_daily_department_sales.department}=${products.department};;
@@ -821,6 +822,7 @@ explore: base {
 
   join: ds_daily_sku_sales_ty_ly_lly_lw {
     view_label: "Commercial Performance Report"
+    required_access_grants: [lz_testing]
     type: left_outer
     relationship: one_to_one
     sql_on: ${ds_all_daily_department_sales.date_date}  =  ${base.date_date} and ${ds_daily_sku_sales_ty_ly_lly_lw.product_code}=${products.product_code};;
