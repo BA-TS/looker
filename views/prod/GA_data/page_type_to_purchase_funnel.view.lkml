@@ -70,7 +70,9 @@ where extract(date from coalesce(pdp.pdp_time,ATC.atc_time,purchase.purchase_tim
 select distinct row_number() over () as P_K, * from sub2
 ;;
 
-    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 13
+    sql_trigger_value: SELECT EXTRACT(dayofweek FROM CURRENT_DATEtime()) between 2 and 6 and extract(hour from current_datetime()) = 13
+or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 7 and extract(hour from current_datetime()) = 16
+or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_datetime()) = 16
 ;;
 }
 

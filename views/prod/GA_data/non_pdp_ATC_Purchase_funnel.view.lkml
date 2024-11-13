@@ -88,7 +88,9 @@ where ((pageItem_ID=item_id) or (pageItem_ID is null) or (item_id is null))
   ;;
 
 
-  sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 13
+  sql_trigger_value: SELECT EXTRACT(dayofweek FROM CURRENT_DATEtime()) between 2 and 6 and extract(hour from current_datetime()) = 13
+or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 7 and extract(hour from current_datetime()) = 16
+or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_datetime()) = 16
   ;;
   }
 

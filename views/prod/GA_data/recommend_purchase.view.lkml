@@ -23,7 +23,9 @@ from rec
 left join purchase on rec.recommend_ID = purchase.purchase_id and rec.item_id = purchase.item_id and rec.recommend_time < purchase.purchase_time
 full outer join purchase as all_purch on purchase.purchase_id = all_purch.purchase_id and purchase.item_id=all_purch.item_id ;;
 
-sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 13;;
+sql_trigger_value: SELECT EXTRACT(dayofweek FROM CURRENT_DATEtime()) between 2 and 6 and extract(hour from current_datetime()) = 13
+or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 7 and extract(hour from current_datetime()) = 16
+or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_datetime()) = 16;;
 }
 
 

@@ -39,7 +39,9 @@ left join delivery_OOS on view_item.date = delivery_OOS.delivery_date and view_i
 left join dual_OOS on view_item.date = dual_OOS.dual_date and view_item.platform=dual_OOS.platform
        ;;
 
-    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 13;;
+    sql_trigger_value: SELECT EXTRACT(dayofweek FROM CURRENT_DATEtime()) between 2 and 6 and extract(hour from current_datetime()) = 13
+or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 7 and extract(hour from current_datetime()) = 16
+or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_datetime()) = 16;;
    }
 
   dimension: PK {
