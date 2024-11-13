@@ -664,6 +664,11 @@ view: scorecard_branch_dev {
     sql: case when (${holiday_Q4_Taken_Percent} is null) then 1 else 0 end;;
   }
 
+  dimension:  Loyalty_spend_increase_flag {
+    type: number
+    sql: case when (${Loyalty_spend_increase} is null) then 1 else 0 end;;
+  }
+
 
   dimension: training_error_flag {
     type: number
