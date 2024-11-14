@@ -74,6 +74,7 @@ include: "/views/**/scmatrix.view"
 include: "/views/**/customer_loyalty.view"
 include: "/views/**/ds_all_daily_department_sales.view"
 include: "/views/**/ds_daily_sku_sales_ty_ly_lly_lw.view"
+include: "/views/**/product_attributes.view"
 
 explore: base {
   label: "Transactions"
@@ -392,6 +393,13 @@ explore: base {
     view_label: "Products"
     relationship: many_to_one
     sql_on: ${products.product_uid} = ${product_dimensions.product_uid};;
+  }
+
+  join: product_attributes {
+    type: left_outer
+    view_label: "Products"
+    relationship: many_to_one
+    sql_on: ${products.product_uid} = ${product_attributes.product_uid};;
   }
 
   join: product_quantity {
