@@ -11,11 +11,18 @@ view: product_attributes {
   dimension: attribute {
     type: string
     sql: ${TABLE}.attribute ;;
+    hidden: yes
   }
 
   dimension: attribute_value {
     type: string
     sql: ${TABLE}.attributeValue ;;
+  }
+
+  dimension: attribute_weight {
+    required_access_grants: [lz_only]
+    type: string
+    sql: {% if ${attribute} == "Weight" %} ${attribute_value} {% endif %};;
   }
 
   dimension_group: date_updated {

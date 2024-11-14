@@ -736,4 +736,9 @@ view: scorecard_branch_dev {
     sql: case when (${Comp_Actual} is null) then 1 else 0 end;;
   }
 
+  dimension: apprenticeship_error_flag  {
+    type: number
+    sql: case when (${apprenticeship} is null) then 1 else 0 end ;;
+  }
+
 }
