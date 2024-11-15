@@ -99,6 +99,7 @@ explore: retail {
   }
 
   join: lto{
+    view_label: "LTO"
     type:  left_outer
     relationship:  many_to_one
     sql_on: ${sites.site_uid}=${lto.siteUID} and ${lto.month}=${calendar_completed_date.calendar_year_month2} ;;
@@ -129,6 +130,7 @@ explore: retail {
   }
 
   join: rm_visits {
+    view_label: "RM Visits"
     type: left_outer
     relationship: many_to_one
     sql_on: ${sites.site_uid}=${rm_visits.siteUID} and ${calendar_completed_date.calendar_year_month2}=${rm_visits.month} ;;
@@ -150,6 +152,12 @@ explore: retail {
     type: left_outer
     relationship: many_to_one
     sql_on: ${sites.site_uid}=${operational_compliance.siteUID} and ${calendar_completed_date.calendar_year_month2}=${operational_compliance.month} ;;
+  }
+
+  join: apprenticeship {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${sites.site_uid}=${apprenticeship.siteUID} and ${calendar_completed_date.calendar_year_month2}=${apprenticeship.month} ;;
   }
 
   join: holiday_management {
