@@ -136,6 +136,13 @@ explore: retail {
     sql_on: ${sites.site_uid}=${rm_visits.siteUID} and ${calendar_completed_date.calendar_year_month2}=${rm_visits.month} ;;
   }
 
+  join: hs_visits {
+    view_label: "Stay Safe Visits"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${sites.site_uid}=${hs_visits.siteUID} and ${calendar_completed_date.calendar_year_month2}=${hs_visits.month} ;;
+  }
+
   join: stock_moves {
     type: left_outer
     relationship: many_to_one
