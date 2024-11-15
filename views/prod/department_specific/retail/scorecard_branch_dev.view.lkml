@@ -741,4 +741,9 @@ view: scorecard_branch_dev {
     sql: case when (${apprenticeship} is null) then 1 else 0 end ;;
   }
 
+  dimension: hs_visit_error_flag  {
+    type: number
+    sql: case when (${hs_Visit} is null) then 1 else 0 end ;;
+  }
+
 }

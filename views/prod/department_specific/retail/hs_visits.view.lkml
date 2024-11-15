@@ -9,7 +9,7 @@ view: hs_visits {
     dimension: month {
       type: string
       label: "Month_test"
-      sql: CAST(RIGHT(${TABLE}.Month,6) AS string);;
+      sql: CAST(RIGHT(${TABLE}.month,6) AS string);;
       required_access_grants: [lz_testing]
       hidden: yes
     }
@@ -30,9 +30,9 @@ view: hs_visits {
       primary_key: yes
     }
 
-    dimension: stay_safe_score {
+    dimension: hs_visits_score {
+      label: "HS Visit"
       type: number
       sql: ${TABLE}.score;;
     }
-
   }
