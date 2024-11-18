@@ -55,6 +55,7 @@ view: bdm_ka_customers_py {
 
   measure: total_customer_numbers {
     value_format_name: gbp_0
+    group_label: "PY"
     label: "PY Number of Customers"
     type: count_distinct
     sql: ${customer_uid};;
