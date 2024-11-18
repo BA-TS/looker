@@ -98,7 +98,7 @@ explore: bdm {
   }
 
   join: bdm_ka_customers_py {
-    view_label: "PY"
+    view_label: "Incremental"
     type: left_outer
     relationship: many_to_one
     sql_on: ${bdm_ka_customers_py.customer_uid}=${transactions.customer_uid} and ${bdm_ka_customers_py.month}=${calendar_completed_date.calendar_year_month2};;
