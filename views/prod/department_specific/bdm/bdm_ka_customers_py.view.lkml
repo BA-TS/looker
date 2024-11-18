@@ -61,6 +61,7 @@ view: bdm_ka_customers_py {
   }
 
   measure: incremental_net_sales_old {
+    hidden: yes
     value_format_name: gbp_0
     type: number
     sql: ${transactions.total_net_sales}-${total_net_sales};;
