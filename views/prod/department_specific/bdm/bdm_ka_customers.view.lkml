@@ -27,7 +27,7 @@ view: bdm_ka_customers {
   }
 
   dimension: customer_uid {
-    view_label: "Customers"
+    view_label: "Customer"
     label: "Customer UID"
     type: string
     sql: ${TABLE}.customerUID ;;
