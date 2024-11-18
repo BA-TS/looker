@@ -27,7 +27,7 @@ view: bdm_ka_customers {
   }
 
   dimension: customer_uid {
-    view_label: "Customer"
+    view_label: "Customers"
     label: "Customer UID"
     type: string
     sql: ${TABLE}.customerUID ;;
@@ -46,7 +46,7 @@ view: bdm_ka_customers {
   }
 
   dimension_group: start {
-    view_label: "Customer"
+    view_label: "Customers"
     group_label: "Start and End Dates"
     type: time
     datatype: date
@@ -59,14 +59,14 @@ view: bdm_ka_customers {
   }
 
   dimension: customer_TY {
-    view_label: "Customer"
+    view_label: "Customers"
     label: "Account Created This Year"
     type: yesno
     sql:${start_year}=extract (year from current_date);;
   }
 
   dimension_group: end {
-    view_label: "Customer"
+    view_label: "Customers"
     group_label: "Start and End Dates"
     type: time
     datatype: date
@@ -79,13 +79,13 @@ view: bdm_ka_customers {
   }
 
   dimension: customer_name {
-    view_label: "Customer"
+    view_label: "Customers"
     type: string
     sql: ${TABLE}.customerName ;;
   }
 
   dimension: is_bdm_ka_customer {
-    view_label: "Customer"
+    view_label: "Customers"
     label: "Is BDM or KA Customer"
     type: yesno
     sql:${customer_uid} is not null;;
@@ -93,14 +93,14 @@ view: bdm_ka_customers {
   }
 
   dimension: is_active {
-    view_label: "Customer"
+    view_label: "Customers"
     type: yesno
     label: "Is Account Active"
     sql: ${customer_uid} is not null ;;
   }
 
   dimension: period {
-    view_label: "Customer"
+    view_label: "Customers"
     type: string
     label: "Period - Pre vs Managed"
     sql:
@@ -110,7 +110,7 @@ view: bdm_ka_customers {
   }
 
   dimension: classification {
-    view_label: "Customer"
+    view_label: "Customers"
     label: "Account Classification"
     type: string
     sql:
