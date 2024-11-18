@@ -1798,6 +1798,7 @@ view: period_over_period {
 
   dimension: year_to_LW {
     required_access_grants: [lz_only]
+    view_label: "Date"
     type: yesno
     sql: ${__target_date__} BETWEEN ${__year_start__} AND last_day(${__week_LW_start__}, week) ;;
   }
@@ -1809,6 +1810,7 @@ view: period_over_period {
   }
 
   dimension: year_to_LW_2LY {
+    view_label: "Date"
     type: yesno
     sql: ${__target_date__} BETWEEN ${__year_2LY_start__} AND last_day(date_sub(${__week_LW_start__}, interval (${__length_of_year__}*2) day), week) ;;
     hidden: yes
@@ -1817,6 +1819,7 @@ view: period_over_period {
 
   dimension: LY_to_LW {
     required_access_grants: [lz_only]
+    view_label: "Date"
     type: yesno
     sql: ${__target_date__} BETWEEN ${__year_LY_start__1stJan} AND last_day(${__week_LW_start__}, week) ;;
     # hidden: yess
