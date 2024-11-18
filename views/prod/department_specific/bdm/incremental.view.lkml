@@ -68,6 +68,7 @@ view: incremental {
 
   measure: total_net_sales {
     label: "PY - Net Sales"
+    group_label: "PY"
     value_format_name: gbp_0
     type: sum
     sql: ${total_net_sales_dim};;
@@ -76,6 +77,7 @@ view: incremental {
 
   measure: incremental_net_sales {
     description: "Net Sale of TY - Net Sale of PY"
+    group_label: "PY"
     hidden: yes
     value_format_name: gbp_0
     type: number
@@ -83,6 +85,7 @@ view: incremental {
   }
 
   measure: total_margin_incl_funding {
+    group_label: "PY"
     label: "PY - Margin"
     description: "PY- Margin incl Funding"
     value_format_name: gbp_0
@@ -91,6 +94,7 @@ view: incremental {
   }
 
   measure: incremental_margin {
+    group_label: "Incremental"
     description: "Margin incl Funding TY - Margin incl Funding PY"
     value_format_name: gbp_0
     type: number

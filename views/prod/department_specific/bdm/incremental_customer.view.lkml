@@ -66,6 +66,7 @@ view: incremental_customer {
 
   measure: total_net_sales {
     label: "PY - Net Sales"
+    group_label: "PY"
     value_format_name: gbp_0
     type: sum
     sql: ${total_net_sales_dim};;
@@ -73,12 +74,14 @@ view: incremental_customer {
 
   measure: total_customer_number {
     label: "PY - Number of Customers"
+    group_label: "PY"
     type: count_distinct
     sql: ${customer_uid};;
   }
 
   measure: spc_net_sales {
     label: "PY - Spend Per Customer (Net sales)"
+    group_label: "PY"
     type: number
     sql: COALESCE(SAFE_DIVIDE(${total_net_sales}, ${total_customer_number}),0) ;;
     value_format_name: gbp_0
@@ -86,6 +89,7 @@ view: incremental_customer {
 
   measure: incremental_spc {
     label: "Incremental SPC"
+    group_label: "Incremental"
     type: number
     sql: ${transactions.spc_net_sales} - ${spc_net_sales} ;;
     value_format_name: gbp_0
@@ -93,6 +97,7 @@ view: incremental_customer {
 
   measure: incremental_customer_number{
     label: "Incremental Customer Number"
+    group_label: "Incremental"
     type: number
     sql: ${bdm_ka_customers.number_of_customers}-${total_customer_number};;
     value_format_name: decimal_0
@@ -100,6 +105,7 @@ view: incremental_customer {
 
   measure: incremental_net_sales {
     description: "Net Sale of TY - Net Sale of PY"
+    group_label: "Incremental"
     value_format_name: gbp_0
     type: number
     sql: ${transactions.total_net_sales}-${total_net_sales};;
