@@ -50,6 +50,7 @@ view: bdm_ka_customers_py {
     label: "PY Net Sales"
     type: sum
     sql: ${py_sales};;
+    hidden: yes
   }
 
   measure: total_customer_numbers {

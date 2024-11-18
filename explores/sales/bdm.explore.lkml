@@ -172,8 +172,6 @@ explore: bdm {
     sql_on: ${calendar_completed_date.calendar_year_month2}=${bdm_ka_incremental.yearMonth} and ${bdm_ka_incremental.bdm} = ${bdm_ka_customers.bdm} ;;
   }
 
-
-
   join: incremental_customer {
     view_label: "Incremental"
     fields: [incremental_customer.total_customer_number,incremental_customer.incremental_customer_number,incremental_customer.spc_net_sales,incremental_customer.incremental_spc]

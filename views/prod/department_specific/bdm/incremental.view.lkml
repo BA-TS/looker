@@ -71,10 +71,12 @@ view: incremental {
     value_format_name: gbp_0
     type: sum
     sql: ${total_net_sales_dim};;
+    hidden: yes
   }
 
   measure: incremental_net_sales {
     description: "Net Sale of TY - Net Sale of PY"
+    hidden: yes
     value_format_name: gbp_0
     type: number
     sql: ${transactions.total_net_sales}-${total_net_sales};;
