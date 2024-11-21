@@ -772,7 +772,7 @@ explore: base {
   join: addresses {
     view_label: "Transactions"
     type :  left_outer
-    relationship: one_to_one
+    relationship: many_to_many
     sql_on: ${addresses.address_uid}=${transactions.delivery_address_uid} ;;
   }
 
