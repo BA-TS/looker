@@ -60,6 +60,7 @@ view: product_detail {
   }
 
   dimension: zero_vatrated {
+    label: "Zero Vat Rated"
     type: yesno
     sql: ${TABLE}.ZeroVATRated = 1 ;;
   }
