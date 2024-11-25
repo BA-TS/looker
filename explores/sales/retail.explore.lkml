@@ -195,4 +195,11 @@ explore: retail {
     sql_on: ${customer_experience_trade.siteUID}=${sites.site_uid} and ${customer_experience_trade.month}=${calendar_completed_date.calendar_year_month2} ;;
   }
 
+  join: availability_branch_ytd {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${availability_branch_ytd.site_uid}=${sites.site_uid};;
+  }
+
+
 }
