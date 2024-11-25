@@ -1,6 +1,8 @@
 include: "/views/**/*base*.view"
 # include: "/views/**/calendar.view"
 include: "/views/**/sites.view"
+include: "/views/**/customer_loyalty.view"
+
 
 view: transactions {
   derived_table: {
@@ -1290,6 +1292,25 @@ parameter: order_cancelled {
     type: number
     sql: COALESCE(SAFE_DIVIDE(${aov_net_sales}, ${aov_units})) ;;
     value_format_name: gbp
+  }
+
+  # TS Club #
+  measure: loyalty_club_net_sales {
+    group_label: "TS Club"
+    label: "Net Sales (TS Club)"
+    view_label: "Measures"
+    type: sum
+    sql: case when ${customer_loyalty.active_loyalty_club_member} ="Yes" then ${net_sales_value} else 0 end;;
+    value_format_name: gbp_0
+  }
+
+  measure: loyalty_net_sales_percent {
+    group_label: "TS Club"
+    label: "TS Net Sales %"
+    view_label: "Measures"
+    type: number
+    sql:safe_divide(${loyalty_club_net_sales}, ${total_net_sales}) ;;
+    value_format_name: percent_1
   }
 
   # LFL #
