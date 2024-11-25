@@ -197,6 +197,13 @@ view: sites {
     sql: ${TABLE}.dateOpened ;;
   }
 
+  dimension: date_opened {
+    group_label: "Site Information"
+    label: "Opened This Year"
+    type: yesno
+    sql: ${date_opened_year}=extract(year from current_date) ;;
+  }
+
   # dimension_group: date_closed {
   #   required_access_grants: [lz_testing]
   #   group_label: "Site Information"

@@ -66,12 +66,14 @@ explore: retail {
   }
 
   join: scorecard_branch_dev{
+    view_label: "Scorecard Monthly"
     type:  left_outer
     relationship:  many_to_one
     sql_on: ${scorecard_branch_dev.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${scorecard_branch_dev.siteUID} ;;
   }
 
   join: scorecard_branch_dev_ytd{
+    view_label: "Scorecard YTD"
     type:  left_outer
     relationship:  many_to_one
     sql_on: ${scorecard_branch_dev_ytd.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${scorecard_branch_dev_ytd.siteUID} ;;

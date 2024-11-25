@@ -20,7 +20,7 @@ view: scorecard_branch_dev {
     view_label: "Site Information"
     label: "Site UID (Scorecard Testing, incl Region/Division)"
     sql: ${TABLE}.siteUID ;;
-    # hidden: yes
+    hidden: yes
   }
 
   measure: siteUID_count {
@@ -208,11 +208,13 @@ view: scorecard_branch_dev {
   }
 
   dimension: EbitL_TY  {
+    label: "EBIT TY"
     type: number
     sql: ${TABLE}.EbitLTY  ;;
   }
 
   dimension: EbitL_LY  {
+    label: "EBIT LY"
     type: number
     sql: ${TABLE}.EbitLLY  ;;
   }
@@ -485,18 +487,21 @@ view: scorecard_branch_dev {
   }
 
   dimension: holiday_Q1_Month_Entitlement  {
+    group_label: "Holiday"
     label: "Holiday Entitlement Q1 (SC)"
     type: number
     sql: ${TABLE}.holidayQ1MonthEntitlement  ;;
   }
 
   dimension: holiday_Q1_Taken_In_Quarter  {
+    group_label: "Holiday"
     label: "Holiday Taken Q1 (SC)"
     type: number
     sql: ${TABLE}.holidayQ1TakenInQuarter ;;
   }
 
   dimension: holiday_Q1_Taken_Percent  {
+    group_label: "Holiday"
     label: "Holiday Taken% Q1 (SC)"
     type: number
     sql: ${TABLE}.holidayQ1TakenPercent  ;;
@@ -504,18 +509,21 @@ view: scorecard_branch_dev {
   }
 
   dimension: holiday_Q2_Month_Entitlement  {
+    group_label: "Holiday"
     label: "Holiday Entitlement Q2 (SC)"
     type: number
     sql: ${TABLE}.holidayQ2MonthEntitlement  ;;
   }
 
   dimension: holiday_Q2_Taken_In_Quarter  {
+    group_label: "Holiday"
     label: "Holiday Taken Q2 (SC)"
     type: number
     sql: ${TABLE}.holidayQ2TakenInQuarter ;;
   }
 
   dimension: holiday_Q2_Taken_Percent  {
+    group_label: "Holiday"
     label: "Holiday Taken% Q2 (SC)"
     type: number
     sql: ${TABLE}.holidayQ2TakenPercent  ;;
@@ -523,18 +531,21 @@ view: scorecard_branch_dev {
   }
 
   dimension: holiday_Q3_Month_Entitlement  {
+    group_label: "Holiday"
     label: "Holiday Entitlement Q3 (SC)"
     type: number
     sql: ${TABLE}.holidayQ3MonthEntitlement  ;;
   }
 
   dimension: holiday_Q3_Taken_In_Quarter  {
+    group_label: "Holiday"
     label: "Holiday Taken Q3 (SC)"
     type: number
     sql: ${TABLE}.holidayQ3TakenInQuarter ;;
   }
 
   dimension: holiday_Q3_Taken_Percent  {
+    group_label: "Holiday"
     label: "Holiday Taken% Q3 (SC)"
     type: number
     sql: ${TABLE}.holidayQ3TakenPercent  ;;
@@ -542,26 +553,65 @@ view: scorecard_branch_dev {
   }
 
   dimension: holiday_Q4_Month_Entitlement  {
+    group_label: "Holiday"
     label: "Holiday Entitlement Q4 (SC)"
     type: number
     sql: ${TABLE}.holidayQ4MonthEntitlement  ;;
   }
 
   dimension: holiday_Q4_Taken_In_Quarter  {
+    group_label: "Holiday"
     label: "Holiday Taken Q4 (SC)"
     type: number
     sql: ${TABLE}.holidayQ4TakenInQuarter ;;
   }
 
   dimension: holiday_Q4_Taken_Percent  {
+    group_label: "Holiday"
     label: "Holiday Taken% Q4 (SC)"
     type: number
     sql: ${TABLE}.holidayQ4TakenPercent  ;;
     value_format_name: percent_1
   }
 
+  dimension: rank_people  {
+    group_label: "Pillar Rank"
+    type: number
+    sql: ${TABLE}.pillarRankPeople ;;
+    value_format_name: decimal_0
+  }
+
+  dimension: rank_operational_stanards  {
+    group_label: "Pillar Rank"
+    type: number
+    sql: ${TABLE}.pillarRankOps ;;
+    value_format_name: decimal_0
+  }
+
+  dimension: rank_customer  {
+    group_label: "Pillar Rank"
+    type: number
+    sql: ${TABLE}.pillarRankCust ;;
+    value_format_name: decimal_0
+  }
+
+  dimension: rank_trade  {
+    group_label: "Pillar Rank"
+    type: number
+    sql: ${TABLE}.pillarRankTrade ;;
+    value_format_name: decimal_0
+  }
+
+  dimension: rank_finance  {
+    group_label: "Pillar Rank"
+    type: number
+    sql: ${TABLE}.pillarRankFin ;;
+    value_format_name: decimal_0
+  }
+
 # Error Flags  --------------------------------------------------------------------
   dimension: stock_accuracy_error_flag {
+    group_label: "Error Flag"
     type: number
     sql: case when
     (${stock_Accuracy} is null) then 1
@@ -570,17 +620,20 @@ view: scorecard_branch_dev {
   }
 
   dimension: labour_T1T2_error_flag  {
+    group_label: "Error Flag"
     type: number
     sql: case when
     ${sites.Is_consistent_branch} = true and ${sites.labourTier} != "Tier 3" and ${labour_T1T2_Percent} is null then 1 else 0 end;;
   }
 
   dimension: trade_Account_Participation_error_flag  {
+    group_label: "Error Flag"
     type: number
     sql: case when ${trade_Account_Participation} is null then 1 else 0 end;;
   }
 
   # dimension: rm_Visit_error_flag {
+  # group_label: "Error Flag"
   #   type: number
   #   sql: case when
   #     case when
@@ -592,44 +645,52 @@ view: scorecard_branch_dev {
   # }
 
   dimension: yoy_Trade_Sales_error_flag  {
+    group_label: "Error Flag"
     type: number
     sql: case when ${sites.Is_consistent_branch} = true and ${yoy_Trade_Sales} is null then 1 else 0 end;;
   }
 
   dimension: yoy_Frequency_error_flag {
+    group_label: "Error Flag"
     type: number
     sql: case when ${sites.Is_consistent_branch} = true and ${yoy_Frequency} is null then 1 else 0 end;;
   }
 
   dimension: vs_AOP_retail_trading_profit_error_flag  {
+    group_label: "Error Flag"
     label: "Trading Profit vs AOP Error Flag(SC)"
     type: number
     sql: case when ${sites.Is_consistent_branch} = true and ${vs_AOP_retail_trading_profit} is null  then 1 else 0 end;;
   }
 
   dimension: vs_Target_AOV_error_flag  {
+    group_label: "Error Flag"
     type: number
     sql: case when  ${sites.Is_consistent_branch} = true and ${vs_Target_AOV} is null  then 1 else 0 end;;
   }
 
   dimension: yoy_trade_ACS_error_flag  {
+    group_label: "Error Flag"
     type: number
     sql: case when ${sites.Is_consistent_branch} = true and ${yoy_trade_ACS} is null then 1 else 0 end;;
   }
 
 
   dimension: yoy_average_items_error_flag  {
+    group_label: "Error Flag"
     type: number
     sql: case when ${sites.Is_consistent_branch} = true and ${yoy_average_items} is null  then 1 else 0 end;;
   }
 
   dimension: labour_T3_error_flag  {
+    group_label: "Error Flag"
     type: number
     sql: case when
     ${sites.Is_consistent_branch} = true and ${sites.labourTier} = "Tier 3" and ${labour_T3_Percent} is null then 1 else 0 end;;
   }
 
   dimension: lto_error_flag {
+    group_label: "Error Flag"
     type: number
     sql: case when (${lto_Percent_sc} is null) then 1
          when abs(coalesce(${lto.lto},0)-coalesce(${lto_Percent_sc},0))>0 then 2
@@ -637,6 +698,7 @@ view: scorecard_branch_dev {
   }
 
   dimension: operational_compliance_error_flag {
+    group_label: "Error Flag"
     type: number
     sql: case when (${operational_Compliance} is null) then 1
          when abs(coalesce(${operational_compliance.percentage_complete},0)-coalesce(${operational_Compliance},0))>0 then 2
@@ -644,33 +706,39 @@ view: scorecard_branch_dev {
   }
 
   dimension: holiday_Q1_error_flag {
+    group_label: "Error Flag"
     type: number
     sql: case when (${holiday_Q1_Taken_Percent} is null) then 1 else 0 end;;
   }
 
   dimension: holiday_Q2_error_flag {
+    group_label: "Error Flag"
     type: number
     sql: case when
     (${holiday_Q2_Taken_Percent} is null) then 1 else 0 end;;
   }
 
   dimension: holiday_Q3_error_flag {
+    group_label: "Error Flag"
     type: number
     sql: case when (${holiday_Q3_Taken_Percent} is null) then 1 else 0 end;;
   }
 
   dimension: holiday_Q4_error_flag {
+    group_label: "Error Flag"
     type: number
     sql: case when (${holiday_Q4_Taken_Percent} is null) then 1 else 0 end;;
   }
 
   dimension:  Loyalty_spend_increase_flag {
+    group_label: "Error Flag"
     type: number
     sql: case when (${Loyalty_spend_increase} is null) then 1 else 0 end;;
   }
 
 
   dimension: training_error_flag {
+    group_label: "Error Flag"
     type: number
     sql:
     case when (${training_Percent_Completed} is null) then 1
@@ -681,6 +749,7 @@ view: scorecard_branch_dev {
   }
 
   dimension: appraisals_error_flag {
+    group_label: "Error Flag"
     type: number
     sql: case when (${appraisal_Percent} is null) then 1
          when abs(coalesce(${appraisal_Percent},0)-coalesce(${appraisals.appraisal_percent},0))>0 then 2
@@ -689,6 +758,7 @@ view: scorecard_branch_dev {
   }
 
     dimension: rm_visit_error_flag {
+    group_label: "Error Flag"
     type: number
     sql:
     case when (${rm_Visit} is null) then 1
@@ -698,6 +768,7 @@ view: scorecard_branch_dev {
   }
 
   dimension: google_rating_error_flag {
+    group_label: "Error Flag"
     type: number
     sql:
     case when (${rating} is null) then 1
@@ -707,6 +778,7 @@ view: scorecard_branch_dev {
   }
 
   dimension: nps_error_flag {
+    group_label: "Error Flag"
     type: number
     sql:
     case when (${nps} is null) then 1
@@ -716,6 +788,7 @@ view: scorecard_branch_dev {
   }
 
   dimension: valued_error_flag {
+    group_label: "Error Flag"
     type: number
     sql:
     case when (${valued} is null) then 1
@@ -725,6 +798,7 @@ view: scorecard_branch_dev {
   }
 
   dimension: nps_trade_error_flag {
+    group_label: "Error Flag"
     type: number
     sql: case when (${trade_nps} is null) then 1
     when abs(coalesce( ${customer_experience_trade.nps},0)-coalesce(${trade_nps},0))>0 then 2
@@ -732,16 +806,19 @@ view: scorecard_branch_dev {
   }
 
   dimension: compliance_support_error_flag {
+    group_label: "Error Flag"
     type: number
     sql: case when (${Comp_Actual} is null) then 1 else 0 end;;
   }
 
   dimension: apprenticeship_error_flag  {
+    group_label: "Error Flag"
     type: number
     sql: case when (${apprenticeship} is null) then 1 else 0 end ;;
   }
 
   dimension: hs_visit_error_flag  {
+    group_label: "Error Flag"
     type: number
     sql: case when (${hs_Visit} is null) then 1 else 0 end ;;
   }
