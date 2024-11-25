@@ -209,5 +209,11 @@ explore: retail {
     sql_on: ${availability_branch_ytd_py.site_uid}=${sites.site_uid};;
   }
 
+  join:retail_trading_profit_ytd {
+    view_label: "P&L"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${retail_trading_profit_ytd.site_uid}=${sites.site_uid};;
+  }
 
 }
