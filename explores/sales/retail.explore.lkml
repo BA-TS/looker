@@ -216,4 +216,11 @@ explore: retail {
     sql_on: ${retail_trading_profit_ytd.site_uid}=${sites.site_uid};;
   }
 
+  join:break_dates_branch {
+    view_label: "Break Dates"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${break_dates_branch.site_uid}=${sites.site_uid};;
+  }
+
 }
