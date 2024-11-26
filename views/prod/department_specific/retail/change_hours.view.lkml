@@ -18,7 +18,7 @@ view: change_hours {
 
   dimension: change_hours {
     type: string
-    sql: ${TABLE}.change_hours;;
+    sql: ${TABLE}.change;;
   }
 
 }
