@@ -115,6 +115,7 @@ explore: retail {
   }
 
   join: appraisals_ytd {
+    view_label: "Appraisals YTD"
     type: left_outer
     relationship: many_to_one
     sql_on: ${sites.site_uid}=${appraisals_ytd.siteUID} and ${calendar_completed_date.calendar_year_month2}=${appraisals_ytd.month} ;;
@@ -153,6 +154,7 @@ explore: retail {
   }
 
   join: stock_moves_ytd {
+    view_label: "Stock Moves YTD"
     type: left_outer
     relationship: many_to_one
     sql_on: ${sites.site_uid}=${stock_moves_ytd.siteUID} and ${calendar_completed_date.calendar_year_month2}=${stock_moves_ytd.month} ;;
@@ -232,7 +234,7 @@ explore: retail {
   }
 
   join:branch_market_share {
-    view_label: "Market Share %"
+    view_label: "Market Share"
     type: left_outer
     relationship: many_to_one
     sql_on: ${branch_market_share.site_uid}=${sites.site_uid};;
