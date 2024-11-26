@@ -29,5 +29,6 @@ view: availability_branch_ytd_py {
     label: "Availability YTD PY"
     type: average
     sql: ${availability_dim} ;;
+    value_format_name: percent_1
   }
 }
