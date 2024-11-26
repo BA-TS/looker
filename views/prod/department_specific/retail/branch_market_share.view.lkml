@@ -25,6 +25,7 @@ view: branch_market_share {
   dimension: urban_classification_average {
     type: number
     sql: ${TABLE}.urban_classification_average ;;
+    value_format_name: percent_1
   }
 
   dimension: distance_1km {
