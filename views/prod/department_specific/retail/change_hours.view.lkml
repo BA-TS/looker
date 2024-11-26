@@ -5,9 +5,10 @@ view: change_hours {
     SELECT
     *
     FROM
-   `toolstation-data-storage.retailReporting.change_hours`
+  `toolstation-data-storage.retailReporting.change_hours_copy`
     ;;
   }
+
 
   dimension: site_uid {
     type: string
