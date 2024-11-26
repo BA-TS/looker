@@ -220,7 +220,7 @@ view: scorecard_branch_dev_ytd {
   dimension: EbitL_LY  {
     view_label: "P&L"
     group_label: "Direct Salary Total"
-    label: "Direct Salary Total YTD TY"
+    label: "Direct Salary Total YTD PY"
     type: number
     sql: ${TABLE}.EbitLLY  ;;
     value_format_name: gbp_0
