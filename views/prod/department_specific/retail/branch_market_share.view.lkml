@@ -31,10 +31,10 @@ view: branch_market_share {
     value_format_name: percent_1
   }
 
-  dimension: distance_3km {
-    label: "Distance 3km"
+  dimension: distance_5km {
+    label: "Distance 5km"
     type: number
-    sql: ${TABLE}.distance_3km;;
+    sql: ${TABLE}.distance_5km;;
     value_format_name: percent_1
   }
 
