@@ -17,6 +17,11 @@ view: branch_market_share {
     primary_key: yes
   }
 
+  dimension: urban_classification {
+    type: string
+    sql: ${TABLE}.urban_classification ;;
+  }
+
   dimension: distance_1km {
     label: "Distance 1km"
     type: number
