@@ -427,6 +427,9 @@ view: scorecard_branch_dev_ytd {
   }
 
   dimension: vs_PY_EBIT  {
+    view_label: "P&L"
+    group_label: "EBIT"
+    label: "EBIT vsPY"
     type: number
     sql: ${TABLE}.vsPYEBIT  ;;
     value_format_name: gbp_0
