@@ -4,6 +4,7 @@ include: "/views/**/transactions.view"
 include: "/views/**/sites.view"
 include: "/views/**/catalogue.view"
 include: "/views/**/retail/**.view"
+include: "/views/**/customer/**.view"
 
 persist_with: ts_transactions_datagroup
 
@@ -229,5 +230,25 @@ explore: retail {
     relationship: many_to_one
     sql_on: ${change_hours.site_uid}=${sites.site_uid};;
   }
+
+  join: customer_loyalty {
+    view_label: "Customers"
+    required_access_grants: [can_use_customer_information2]
+    type :  left_outer
+    relationship: many_to_one
+    sql_on: ${customers.customer_uid}=${customer_loyalty.customer_uid}
+      and  ${base.date_date} between ${customer_loyalty.loyalty_club_start_date} and ${customer_loyalty.loyalty_club_end_date};;
+  }
+
+  join: customers {
+    required_access_grants: [lz_only]
+    fields: [customers.customer_uid]
+    view_label: "Customers"
+    type :  left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.customer_uid}=${customers.customer_uid} ;;
+  }
+
+
 
 }
