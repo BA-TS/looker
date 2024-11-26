@@ -231,6 +231,13 @@ explore: retail {
     sql_on: ${change_hours.site_uid}=${sites.site_uid};;
   }
 
+  join:branch_market_share {
+    view_label: "Market Share %"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${branch_market_share.site_uid}=${sites.site_uid};;
+  }
+
   join: customer_loyalty {
     view_label: "Customers"
     required_access_grants: [can_use_customer_information2]
