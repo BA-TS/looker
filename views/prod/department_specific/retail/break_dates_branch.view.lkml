@@ -17,10 +17,8 @@ view: break_dates_branch {
   }
 
   dimension: break_notice_date {
-    label: "Branch Availability YTD"
     type: string
     sql: ${TABLE}.break_notice_date;;
-    hidden: yes
   }
 
 }
