@@ -5,7 +5,7 @@ view: break_dates_branch {
     SELECT
     *
     FROM
-    `toolstation-data-storage.retailReporting.break_dates_branch`
+    `toolstation-data-storage.retailReporting.break_dates_branch_copy`
     ;;
   }
 
