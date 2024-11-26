@@ -423,7 +423,7 @@ view: scorecard_branch_dev_ytd {
     label: "EBIT/Net Sales TY%"
     value_format_name: percent_1
     type: number
-    sql: safe_divide(${ty_EBIT},${net_Sales}  ;;
+    sql: safe_divide(${ty_EBIT},${net_Sales})  ;;
   }
 
   dimension: py_EBIT  {
@@ -441,7 +441,7 @@ view: scorecard_branch_dev_ytd {
     label: "EBIT/Net Sales PY%"
     value_format_name: percent_1
     type: number
-    sql: safe_divide(${py_EBIT},${py_Sales}  ;;
+    sql: safe_divide(${py_EBIT},${py_Sales})  ;;
   }
 
   dimension: vs_PY_EBIT  {
