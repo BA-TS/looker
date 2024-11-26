@@ -208,15 +208,21 @@ view: scorecard_branch_dev {
   }
 
   dimension: EbitL_TY  {
-    label: "EBIT TY"
+    label: "Direct Salary Total TY"
+    view_label: "P&L"
+    group_label: "Direct Salary Total"
     type: number
     sql: ${TABLE}.EbitLTY  ;;
+    value_format_name: gbp_0
   }
 
   dimension: EbitL_LY  {
-    label: "EBIT LY"
+    label: "Direct Salary Total PY"
+    view_label: "P&L"
+    group_label: "Direct Salary Total"
     type: number
     sql: ${TABLE}.EbitLLY  ;;
+    value_format_name: gbp_0
   }
 
   dimension: anon_Percent  {
@@ -258,11 +264,13 @@ view: scorecard_branch_dev {
     label: "Trade Account Sales (SC)"
     type: number
     sql: ${TABLE}.tradeAccountSales  ;;
+    value_format_name: gbp_0
   }
 
   dimension: net_Sales  {
     type: number
     sql: ${TABLE}.netSales  ;;
+    value_format_name: gbp_0
   }
 
   dimension: py_Units  {
@@ -334,6 +342,7 @@ view: scorecard_branch_dev {
   dimension: py_Sales  {
     type: number
     sql: ${TABLE}.pySales  ;;
+    value_format_name: gbp_0
   }
 
   dimension: py_Orders  {
@@ -401,41 +410,49 @@ view: scorecard_branch_dev {
   dimension: ty_EBIT  {
     type: number
     sql: ${TABLE}.tyEBIT  ;;
+    value_format_name: gbp_0
   }
 
   dimension: py_EBIT  {
     type: number
-    sql: ${TABLE}.tyEBIT  ;;
+    sql: ${TABLE}.pyEBIT  ;;
+    value_format_name: gbp_0
   }
 
   dimension: vs_PY_EBIT  {
     type: number
     sql: ${TABLE}.vsPYEBIT  ;;
+    value_format_name: gbp_0
   }
 
   dimension: prophix_Sales  {
     type: number
     sql: ${TABLE}.prophixSales  ;;
+    value_format_name: gbp_0
   }
 
   dimension: budget  {
     type: number
     sql: ${TABLE}.budget  ;;
+    value_format_name: gbp_0
   }
 
   dimension: var_Budget  {
     type: number
     sql: ${TABLE}.varBudget  ;;
+    value_format_name: gbp_0
   }
 
   dimension: py_Prophix_Sales  {
     type: number
     sql: ${TABLE}.pyProphixSales  ;;
+    value_format_name: gbp_0
   }
 
   dimension: var_PY_Net_Sales  {
     type: number
     sql: ${TABLE}.varPYNetSales  ;;
+    value_format_name: gbp_0
   }
 
   dimension: var_PY_Sales_Percent  {
