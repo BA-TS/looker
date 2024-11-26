@@ -417,6 +417,15 @@ view: scorecard_branch_dev_ytd {
     sql: ${TABLE}.tyEBIT  ;;
   }
 
+  dimension: ty_EBIT_net_sales  {
+    view_label: "P&L"
+    group_label: "EBIT"
+    label: "EBIT/Net Sales TY%"
+    value_format_name: percent_1
+    type: number
+    sql: safe_divide(${ty_EBIT},${net_Sales}  ;;
+  }
+
   dimension: py_EBIT  {
     view_label: "P&L"
     group_label: "EBIT"
@@ -426,10 +435,19 @@ view: scorecard_branch_dev_ytd {
     sql: ${TABLE}.pyEBIT  ;;
   }
 
+  dimension: py_EBIT_net_sales  {
+    view_label: "P&L"
+    group_label: "EBIT"
+    label: "EBIT/Net Sales PY%"
+    value_format_name: percent_1
+    type: number
+    sql: safe_divide(${py_EBIT},${py_Sales}  ;;
+  }
+
   dimension: vs_PY_EBIT  {
     view_label: "P&L"
     group_label: "EBIT"
-    label: "EBIT vsPY"
+    label: "vs EBIT PY"
     type: number
     sql: ${TABLE}.vsPYEBIT  ;;
     value_format_name: gbp_0
