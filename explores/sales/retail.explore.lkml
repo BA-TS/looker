@@ -223,4 +223,11 @@ explore: retail {
     sql_on: ${break_dates_branch.site_uid}=${sites.site_uid};;
   }
 
+  join:change_hours {
+    view_label: "Change Hours"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${change_hours.site_uid}=${sites.site_uid};;
+  }
+
 }
