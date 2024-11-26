@@ -1306,7 +1306,7 @@ parameter: order_cancelled {
 
   measure: loyalty_net_sales_percent {
     group_label: "TS Club"
-    label: "TS Net Sales %"
+    label: "TS Club Net Sales %"
     view_label: "Measures"
     type: number
     sql:safe_divide(${loyalty_club_net_sales}, ${total_net_sales}) ;;
