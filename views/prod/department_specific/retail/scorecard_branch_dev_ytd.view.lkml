@@ -449,7 +449,7 @@ view: scorecard_branch_dev_ytd {
     group_label: "EBIT"
     label: "vs EBIT PY"
     type: number
-    sql: ${TABLE}.vsPYEBIT  ;;
+    sql: ${ty_EBIT} - ${py_EBIT}  ;;
     value_format_name: gbp_0
   }
 

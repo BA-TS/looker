@@ -21,7 +21,7 @@ view: retail_trading_profit_ytd {
     label: "Contribution YTD TY"
     type: number
     sql: ${TABLE}.TY ;;
-    value_format_name: decimal_0
+    value_format_name: gbp_0
   }
 
   dimension: retail_trading_profit_ly{
@@ -29,7 +29,7 @@ view: retail_trading_profit_ytd {
     label: "Contribution YTD PY"
     type: number
     sql: ${TABLE}.LY ;;
-    value_format_name: decimal_0
+    value_format_name: gbp_0
   }
 
 }
