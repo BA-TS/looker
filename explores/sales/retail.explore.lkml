@@ -205,6 +205,13 @@ explore: retail {
     sql_on: ${availability_branch_ytd.site_uid}=${sites.site_uid};;
   }
 
+  join: availability_branch_last_week {
+    view_label: "Availability"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${availability_branch_last_week.site_uid}=${sites.site_uid};;
+  }
+
   join: availability_branch_ytd_py {
     view_label: "Availability"
     type: left_outer
