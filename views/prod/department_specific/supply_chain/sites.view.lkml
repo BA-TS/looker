@@ -461,6 +461,12 @@ view: sites {
     sql: ${TABLE}.Refurb_start_date ;;
   }
 
+  dimension: Refurb {
+    group_label: "Site Information"
+    type: yesno
+    sql: ${Refurb_start_date} is not null ;;
+  }
+
   dimension: Refurb_end_date {
     group_label: "Site Information"
     type: date
