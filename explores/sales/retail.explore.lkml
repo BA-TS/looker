@@ -248,10 +248,10 @@ explore: retail {
   }
 
   join:cannibalisation_2024 {
-    view_label: "Cannibalisation 2024"
+    view_label: "Cannibalisation"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${branch_market_share.site_uid}=${sites.site_uid};;
+    sql_on: ${cannibalisation_2024.site_uid}=${sites.site_uid};;
   }
 
   join: customer_loyalty {

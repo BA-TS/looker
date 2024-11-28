@@ -3,6 +3,7 @@ view: cannibalisation_2024 {
   derived_table: {
     sql:
     SELECT
+    distinct
     *
     FROM `toolstation-data-storage.retailReporting.cannibalisation_2024_copy`
     ;;
@@ -10,7 +11,7 @@ view: cannibalisation_2024 {
 
   dimension: site_uid {
     type: string
-    sql: ${TABLE}.siteUID ;;
+    sql: ${TABLE}.site_uid ;;
     hidden: yes
     primary_key: yes
   }
