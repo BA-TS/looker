@@ -247,6 +247,13 @@ explore: retail {
     sql_on: ${branch_market_share.site_uid}=${sites.site_uid};;
   }
 
+  join:cannibalisation_2024 {
+    view_label: "Cannibalisation 2024"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${branch_market_share.site_uid}=${sites.site_uid};;
+  }
+
   join: customer_loyalty {
     view_label: "Customers"
     required_access_grants: [can_use_customer_information2]
