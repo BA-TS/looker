@@ -248,7 +248,7 @@ explore: retail {
   }
 
   join:cannibalisation_2024 {
-    view_label: "Cannibalisation"
+    view_label: "Cannibalisation YTD"
     type: left_outer
     relationship: many_to_one
     sql_on: ${cannibalisation_2024.site_uid}=${sites.site_uid};;
