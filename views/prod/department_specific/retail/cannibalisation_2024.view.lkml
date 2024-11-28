@@ -20,6 +20,7 @@ view: cannibalisation_2024 {
     label: "Oct 24"
     type: number
     sql: ${TABLE}.Oct24 ;;
+    value_format_name: gbp_0
   }
 
 }
