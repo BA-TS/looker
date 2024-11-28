@@ -132,6 +132,7 @@ view: scorecard_branch_dev_ytd {
     type: number
     label: "Compliance Average"
     sql:safe_divide(${Comp_Actual_sum},${siteUID_count});;
+    value_format_name: decimal_1
   }
 
   dimension: moves  {
@@ -196,6 +197,7 @@ view: scorecard_branch_dev_ytd {
     type: number
     label: "Google Rating Average"
     sql:safe_divide(${rating_sum},${siteUID_count});;
+    value_format_name: decimal_1
   }
 
   dimension: anon_Orders  {

@@ -2,8 +2,6 @@ include: "/views/**/scorecard_branch_dev.view"
 
 view: appraisals {
 
-  # sql_table_name:`toolstation-data-storage.retailReporting.SC_APPRAISALS` ;;
-
   derived_table: {
     sql:
       with base as (
@@ -28,6 +26,7 @@ view: appraisals {
   }
 
   dimension: recent_visit_month {
+    group_label: "Monthly"
     type: string
     sql: CAST(${TABLE}.last_appraisals_month AS string);;
     required_access_grants: [lz_testing]
@@ -36,42 +35,34 @@ view: appraisals {
 
   dimension: month {
     type: string
-    view_label: "Date"
-    label: "Year Month (yyyymm)"
     sql: ${TABLE}.month ;;
     hidden: yes
   }
 
   dimension: siteUID {
     type: string
-    view_label: "Site Information"
-    label: "Site UID"
     sql: ${TABLE}.siteUID ;;
     hidden: yes
   }
 
   dimension: number_of_colleagues {
+    group_label: "Monthly"
     type: number
     sql: ${TABLE}.colleagues ;;
   }
 
   dimension: number_of_appraisals {
+    group_label: "Monthly"
     type: number
     sql: ${TABLE}.appraisals ;;
   }
 
   dimension: appraisal_percent {
+    group_label: "Monthly"
     label: "Appraisal %"
     type: number
     sql: safe_divide(${number_of_colleagues},${number_of_appraisals}) ;;
     value_format_name: percent_1
   }
-
-  # dimension: appraisals_error_flag {
-  #   type: yesno
-  #   sql: (${scorecard_branch_dev.appraisal_Percent} is null)
-  #   or  (${scorecard_branch_dev.appraisal_Percent} != ${appraisal_percent})
-  #   ;;
-  # }
 
 }
