@@ -19,31 +19,30 @@ view: appraisals_ytd {
 
   dimension: month {
     type: string
-    view_label: "Date"
-    label: "Year Month (yyyymm)"
     sql: ${TABLE}.month ;;
     hidden: yes
   }
 
   dimension: siteUID {
     type: string
-    view_label: "Site Information"
-    label: "Site UID"
     sql: ${TABLE}.siteUID ;;
     hidden: yes
   }
 
   dimension: number_of_colleagues {
+    group_label: "YTD"
     type: number
     sql: ${TABLE}.colleagues ;;
   }
 
   dimension: number_of_appraisals {
+    group_label: "YTD"
     type: number
     sql: ${TABLE}.appraisals ;;
   }
 
   dimension: appraisal_percent {
+    group_label: "YTD"
     label: "Appraisal %"
     type: number
     sql: safe_divide(${number_of_colleagues},${number_of_appraisals}) ;;

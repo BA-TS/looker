@@ -15,21 +15,18 @@ view: stock_moves_ytd {
 
   dimension: month {
     type: string
-    view_label: "Date"
-    label: "Year Month (yyyymm)"
     sql: CAST(${TABLE}.month AS string);;
     hidden: yes
   }
 
   dimension: siteUID {
     type: string
-    view_label: "Site Information"
-    label: "Site UID"
     sql: ${TABLE}.siteUID ;;
     hidden: yes
   }
 
   dimension: moves {
+    label: "YTD"
     type: number
     sql: ${TABLE}.moves ;;
   }

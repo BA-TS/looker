@@ -195,6 +195,7 @@ view: scorecard_branch_dev {
     type: number
     label: "Google Rating Average"
     sql:safe_divide(${rating_sum},${siteUID_count});;
+    value_format_name: decimal_1
   }
 
   dimension: anon_Orders  {

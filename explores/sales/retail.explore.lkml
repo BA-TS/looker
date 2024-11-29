@@ -109,13 +109,14 @@ explore: retail {
   }
 
   join: appraisals {
+    view_label: "Appraisals"
     type: left_outer
     relationship: many_to_one
     sql_on: ${sites.site_uid}=${appraisals.siteUID} and ${calendar_completed_date.calendar_year_month2}=${appraisals.month} ;;
   }
 
   join: appraisals_ytd {
-    view_label: "Appraisals YTD"
+    view_label: "Appraisals"
     type: left_outer
     relationship: many_to_one
     sql_on: ${sites.site_uid}=${appraisals_ytd.siteUID} and ${calendar_completed_date.calendar_year_month2}=${appraisals_ytd.month} ;;
@@ -154,7 +155,7 @@ explore: retail {
   }
 
   join: stock_moves_ytd {
-    view_label: "Stock Moves YTD"
+    view_label: "Stock Moves"
     type: left_outer
     relationship: many_to_one
     sql_on: ${sites.site_uid}=${stock_moves_ytd.siteUID} and ${calendar_completed_date.calendar_year_month2}=${stock_moves_ytd.month} ;;
@@ -205,6 +206,13 @@ explore: retail {
     sql_on: ${availability_branch_ytd.site_uid}=${sites.site_uid};;
   }
 
+  join: availability_branch_last_week {
+    view_label: "Availability"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${availability_branch_last_week.site_uid}=${sites.site_uid};;
+  }
+
   join: availability_branch_ytd_py {
     view_label: "Availability"
     type: left_outer
@@ -238,6 +246,13 @@ explore: retail {
     type: left_outer
     relationship: many_to_one
     sql_on: ${branch_market_share.site_uid}=${sites.site_uid};;
+  }
+
+  join:cannibalisation_2024 {
+    view_label: "Cannibalisation YTD"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${cannibalisation_2024.site_uid}=${sites.site_uid};;
   }
 
   join: customer_loyalty {
