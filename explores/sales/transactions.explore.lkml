@@ -76,6 +76,8 @@ include: "/views/**/ds_all_daily_department_sales.view"
 include: "/views/**/ds_daily_sku_sales_ty_ly_lly_lw.view"
 include: "/views/**/product_attributes.view"
 include: "/views/**/product_detail.view"
+include: "/views/**/transactions_ecrebo.view"
+
 
 explore: base {
   label: "Transactions"
@@ -842,6 +844,14 @@ explore: base {
     type: left_outer
     relationship: one_to_one
     sql_on: ${ds_all_daily_department_sales.date_date}  =  ${base.date_date} and ${ds_daily_sku_sales_ty_ly_lly_lw.product_code}=${products.product_code};;
+  }
+
+  join: transactions_ecrebo {
+    view_label: "Ecrebo Transactions"
+    required_access_grants: [ecrebo]
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${products.product_code}  =  ${transactions_ecrebo.product_code} and  ${transactions.parent_order_uid}= ${transactions_ecrebo.parent_order_uid};;
   }
 
 }

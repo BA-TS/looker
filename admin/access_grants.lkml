@@ -89,6 +89,11 @@ access_grant: tp_testing {
   allowed_values: ["Y"]
 }
 
+access_grant: ecrebo {
+  user_attribute: ecrebo
+  allowed_values: ["Y"]
+}
+
 
 
 
