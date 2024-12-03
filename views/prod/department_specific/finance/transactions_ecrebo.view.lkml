@@ -24,10 +24,10 @@ view: transactions_ecrebo {
     hidden:  yes
   }
 
-  dimension: basket_discount {
+  dimension: product_code {
     type: number
-    sql: ${TABLE}.basketDiscount ;;
-    value_format_name: gbp
+    sql: ${TABLE}.productCode;;
+    hidden: yes
   }
 
   dimension: basket_promotion {
@@ -35,95 +35,156 @@ view: transactions_ecrebo {
     sql: ${TABLE}.basketPromotion ;;
   }
 
-  dimension: product_code {
-    type: number
-    sql: ${TABLE}.productCode;;
-    hidden: yes
-  }
-
-  dimension: COGS {
-    type: number
-    sql: ${TABLE}.COGS;;
-    value_format_name: gbp
-  }
-
-  dimension: gross_sales_unadjusted {
-    type: number
-    sql: ${TABLE}.grossSalesUnadjusted;;
-    value_format_name: gbp
-  }
-
-  dimension: net_sales_unadjusted {
-    type: number
-    sql: ${TABLE}.netSalesUnadjusted;;
-    value_format_name: gbp
-  }
-
-  dimension: margin_excl_funding {
-    type: number
-    sql: ${TABLE}.marginExclFunding;;
-    value_format_name: gbp
-  }
-
-  dimension: quantity {
-    type: number
-    sql: ${TABLE}.quantity;;
-    value_format_name: decimal_0
-  }
-
-  dimension: item_discount  {
-    type: number
-    sql: ${TABLE}.itemDiscount;;
-    value_format_name: gbp
-  }
-
   dimension: item_promotion_applied {
     type: number
     sql: ${TABLE}.itemPromotionApplied;;
     value_format_name: gbp
   }
+  # -------------------------------------
 
-  dimension: basket_promotion_discount {
+  dimension: basket_discount_dim {
+    type: number
+    sql: ${TABLE}.basketDiscount ;;
+    value_format_name: gbp
+    hidden: yes
+  }
+
+  dimension: COGS_dim {
+    type: number
+    sql: ${TABLE}.COGS;;
+    value_format_name: gbp
+    hidden: yes
+  }
+
+  dimension: gross_sales_unadjusted_dim {
+    type: number
+    sql: ${TABLE}.grossSalesUnadjusted;;
+    value_format_name: gbp
+    hidden: yes
+  }
+
+  dimension: net_sales_unadjusted_dim {
+    type: number
+    sql: ${TABLE}.netSalesUnadjusted;;
+    value_format_name: gbp
+    hidden: yes
+  }
+
+  dimension: margin_excl_funding_dim {
+    type: number
+    sql: ${TABLE}.marginExclFunding;;
+    value_format_name: gbp
+    hidden: yes
+  }
+
+  dimension: quantity_dim {
+    type: number
+    sql: ${TABLE}.quantity;;
+    value_format_name: decimal_0
+    hidden: yes
+  }
+
+  dimension: item_discount_dim  {
+    type: number
+    sql: ${TABLE}.itemDiscount;;
+    value_format_name: gbp
+    hidden: yes
+  }
+
+  dimension: basket_promotion_discount_dim {
     type: number
     sql: ${TABLE}.basketPromotionDiscount;;
     value_format_name: gbp
+    hidden: yes
   }
 
-  dimension:gross_sales_adjusted  {
+  dimension:gross_sales_adjusted_dim  {
     type: number
     sql: ${TABLE}.grossSalesAdjusted;;
     value_format_name: gbp
+    hidden: yes
   }
 
-  dimension: net_sales_adjusted {
+  dimension: net_sales_adjusted_dim {
     type: number
-    sql: cast(${TABLE}.netSalesAdjusted as decimal);;
+    sql: ${TABLE}.netSalesAdjusted;;
     value_format_name:gbp
+    hidden: yes
   }
 
-  dimension: margin_excl_funding_adjusted {
+  dimension: margin_excl_funding_adjusted_dim {
     type: number
     sql: ${TABLE}.marginExclFundingAdjusted;;
     value_format_name: gbp
+    hidden: yes
   }
 
-  # dimension: item_discount_dim {
-  #   type: number
-  #   sql: ${TABLE}.itemDiscount;;
-  #   hidden: yes
-  # }
+  # -------------------
+  measure: basket_discount {
+    type: sum
+    sql: ${basket_discount_dim};;
+    value_format_name: gbp
+  }
 
-  # measure: discount {
-  #   type: average
-  #   label: "Average Discount"
-  #   sql: ${discount_dim} ;;
-  #   value_format_name:  "gbp"
-  # }
+  measure: COGS {
+    type: sum
+    sql: ${COGS_dim};;
+    value_format_name: gbp
+  }
 
-  # measure: total_discount {
-  #   type: sum
-  #   label: "Total Discount"
-  #   sql: ${discount_dim} ;;
-  #   value_format_name:  "gbp"
-  # }
+  measure: gross_sales_unadjusted {
+    type: sum
+    sql: ${gross_sales_unadjusted_dim};;
+    value_format_name: gbp
+  }
+
+  measure: net_sales_unadjusted {
+    type: sum
+    sql: ${net_sales_unadjusted_dim};;
+    value_format_name: gbp
+  }
+
+  measure: margin_excl_funding {
+    type: sum
+    sql: ${margin_excl_funding_dim};;
+    value_format_name: gbp
+  }
+
+  measure: quantity {
+    type: sum
+    sql: ${quantity_dim};;
+    value_format_name: decimal_0
+  }
+
+  measure: item_discount  {
+    type: sum
+    sql: ${item_discount_dim};;
+    value_format_name: gbp
+  }
+
+  measure: basket_promotion_discount {
+    type: sum
+    sql: ${basket_promotion_discount_dim};;
+    value_format_name: gbp
+  }
+
+  measure:gross_sales_adjusted  {
+    type: sum
+    sql: ${gross_sales_adjusted_dim};;
+    value_format_name: gbp
+  }
+
+  measure: net_sales_adjusted {
+    type: sum
+    sql: ${net_sales_adjusted_dim};;
+    value_format_name:gbp
+  }
+
+  measure: margin_excl_funding_adjusted {
+    type: sum
+    sql: ${margin_excl_funding_adjusted_dim};;
+    value_format_name: gbp
+  }
+
+
 }
