@@ -136,18 +136,21 @@ view: transactions_ecrebo {
     type: sum
     sql: ${gross_sales_unadjusted_dim};;
     value_format_name: gbp
+    hidden: yes
   }
 
   measure: net_sales_unadjusted {
     type: sum
     sql: ${net_sales_unadjusted_dim};;
     value_format_name: gbp
+    hidden: yes
   }
 
   measure: margin_excl_funding {
     type: sum
     sql: ${margin_excl_funding_dim};;
     value_format_name: gbp
+    hidden: yes
   }
 
   measure: quantity {
