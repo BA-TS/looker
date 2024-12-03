@@ -8,7 +8,6 @@ view: apprenticeship {
 
     dimension: month {
       type: string
-      label: "Month_test"
       sql: CAST(RIGHT(${TABLE}.Month,6) AS string);;
       required_access_grants: [lz_testing]
       hidden: yes
@@ -16,28 +15,27 @@ view: apprenticeship {
 
     dimension: siteUID {
       type: string
-      view_label: "Site Information"
-      label: "Site UID"
       sql: ${TABLE}.siteUID ;;
       hidden: yes
     }
 
     dimension: siteUID_month {
       type: string
-      view_label: "Site Information"
       sql: concat(${month},${siteUID}) ;;
       hidden: yes
       primary_key: yes
     }
 
     dimension: Apprentices_MTH {
-      label: "Apprenticeship MTH"
+      group_label: "Monthly"
+      label: "Apprenticeship"
       type: number
       sql: ${TABLE}.Apprentices_MTH ;;
     }
 
     dimension: Apprentices_YTD {
-      label: "Apprenticeship YTD"
+      group_label: "YTD"
+      label: "Apprenticeship"
       type: number
       sql: ${TABLE}.Apprentices_YTD ;;
     }

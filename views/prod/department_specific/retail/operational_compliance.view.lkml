@@ -10,65 +10,62 @@ view: operational_compliance {
       type: string
       label: "Month_test"
       sql: CAST(RIGHT(${TABLE}.Month,6) AS string);;
-      required_access_grants: [lz_testing]
       hidden: yes
     }
 
     dimension: siteUID {
       type: string
-      view_label: "Site Information"
-      label: "Site UID"
       sql: ${TABLE}.siteUID ;;
       hidden: yes
     }
 
     dimension: siteUID_month {
       type: string
-      view_label: "Site Information"
       sql: concat(${month},${siteUID}) ;;
       hidden: yes
       primary_key: yes
     }
 
     dimension: tasks {
+      group_label: "Monthly"
       label: "Tasks"
       type: number
       sql: ${TABLE}.Tasks ;;
     }
 
    dimension: overdue {
+    group_label: "Monthly"
     label: "Overdue"
     type: number
     sql: ${TABLE}.Overdue ;;
    }
 
   dimension: percentage_complete {
-    label: "Operational Compliance Completed %"
+    group_label: "Monthly"
+    label: "Completed %"
     type: number
     sql: ${TABLE}.OperationalCompliance_MTH ;;
   }
 
   dimension: tasks_YTD {
-    label: "Tasks YTD"
+    group_label: "Monthly"
+    label: "Tasks"
     type: number
     sql: ${TABLE}.Tasks_YTD ;;
   }
 
   dimension: overdue_YTD {
-    label: "Overdue YTD"
+    group_label: "Monthly"
+    label: "Overdue"
     type: number
     sql: ${TABLE}.Overdue_YTD ;;
   }
 
   dimension: percentage_complete_YTD {
+    group_label: "Monthly"
     label: "Complete % YTD"
     type: number
     sql: ${TABLE}.OperationalCompliance_YTD ;;
   }
-
-  # dimension: operational_compliance_error_flag {
-  #   type: yesno
-  #   sql: (${percentage_complete}!=${scorecard_branch_dev.operational_Compliance}) or (${scorecard_branch_dev.operational_Compliance} is null) ;;
-  # }
 
 }

@@ -18,23 +18,17 @@ view: scorecard_branch_dev_ytd {
 
   dimension: siteUID {
     type: string
-    view_label: "Site Information"
-    label: "Site UID (Scorecard Testing, incl Region/Division)"
     sql: ${TABLE}.siteUID ;;
     hidden: yes
   }
 
   measure: siteUID_count {
     type: count_distinct
-    view_label: "Site Information"
-    label: "Number of Sites"
     sql: ${siteUID} ;;
   }
 
   dimension: siteUID_month {
     type: string
-    view_label: "Site Information"
-    label: "Site UID"
     sql: concat(${month},${siteUID});;
     hidden: yes
     primary_key: yes

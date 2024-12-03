@@ -29,8 +29,7 @@ view: rm_visits {
       type: string
       label: "Month test"
       sql: CAST(${TABLE}.month AS string);;
-      required_access_grants: [lz_testing]
-      # hidden: yes
+      hidden: yes
     }
 
   dimension: recent_visit_month {

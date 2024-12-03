@@ -26,7 +26,7 @@ view: stock_moves_ytd {
   }
 
   dimension: moves {
-    label: "YTD"
+    group_label: "YTD"
     type: number
     sql: ${TABLE}.moves ;;
   }
