@@ -25,6 +25,7 @@ view: ecrebo_product_code_flag {
     label: "Transactions Parent Order UID"
     description: "Main order ID"
     sql: ${TABLE}.parent_order_uid ;;
+    hidden: yes
   }
 
   dimension: ecrebo_order_flag {
