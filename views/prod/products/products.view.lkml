@@ -249,6 +249,7 @@ view: products {
     sql: ${promoworking.Product_Code} is not null ;;
   }
 
+
   measure: number_of_subdepartments {
     label: "Number of SubDepartments"
     view_label: "Measures"
