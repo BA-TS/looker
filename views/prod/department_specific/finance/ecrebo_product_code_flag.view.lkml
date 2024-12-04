@@ -28,7 +28,7 @@ view: ecrebo_product_code_flag {
   }
 
   dimension: ecrebo_order_flag {
-    label: "Ecrebo Order"
+    label: "Ecrebo Order (Product Code 21)"
     type: yesno
     sql: ${parent_order_uid} is not null ;;
   }
