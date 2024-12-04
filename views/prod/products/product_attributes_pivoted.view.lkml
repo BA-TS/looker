@@ -4,12 +4,13 @@ view: product_attributes_pivoted {
       with base as (
       select productUID,attribute,attributeValue from `toolstation-data-storage.range.productAttributes`)
 
-      select a.productUID,
+      select a0.productUID as productUID,
       a.attributeValue as UN_transport_number,
       b.attributeValue as safety_data_sheet,
       c.attributeValue as hazardous,
       d.attributeValue as hazard_code,
-      from base a
+      from base a0
+      left join base a using(productUID)
       left join base b using(productUID)
       left join base c using(productUID)
       left join base d using(productUID)
@@ -23,16 +24,15 @@ view: product_attributes_pivoted {
 
 
   dimension: product_uid {
-    group_label: "Product Details"
-    label: "Product UID"
+    label: "Product UID TEST"
     primary_key:  yes
     type: string
     sql: ${TABLE}.productUID ;;
-    hidden: yes
+    # hidden: yes
+    required_access_grants: [lz_only]
   }
 
   dimension: UN_transport_number {
-    group_label: "Product Details"
     label: "UN Transport Number"
     type: string
     sql: ${TABLE}.UN_transport_number ;;
@@ -57,20 +57,17 @@ view: product_attributes_pivoted {
   }
 
   dimension: safety_data_sheet {
-    group_label: "Product Details"
     type: string
     sql: ${safety_data_sheet_raw} ;;
-    html: <a href="{{ ${safety_data_sheet_raw}}"target=”_blank”>{{ ${website_label} }}</a> ;;
+    html: <a href="{{safety_data_sheet_raw}}"target=”_blank”>{{ website_label }}</a>;;
   }
 
   dimension: hazardous {
-    group_label: "Product Details"
     type: string
     sql: ${TABLE}.hazardous ;;
   }
 
   dimension: hazard_code{
-    group_label: "Product Details"
     type: string
     sql: ${TABLE}.hazard_code ;;
   }

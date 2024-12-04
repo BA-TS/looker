@@ -78,6 +78,8 @@ include: "/views/**/product_attributes.view"
 include: "/views/**/product_detail.view"
 include: "/views/**/transactions_ecrebo.view"
 include: "/views/**/ecrebo_product_code_flag.view"
+include: "/views/**/product_attributes_pivoted.view"
+
 
 explore: base {
   label: "Transactions"
@@ -393,21 +395,28 @@ explore: base {
 
   join: product_dimensions {
     type: left_outer
-    view_label: "Products"
+    view_label: "Products Attributes"
     relationship: many_to_one
     sql_on: ${products.product_uid} = ${product_dimensions.product_uid};;
   }
 
   join: product_attributes {
+    view_label: "Products Attributes"
     type: left_outer
-    view_label: "Products"
     relationship: many_to_one
     sql_on: ${products.product_uid} = ${product_attributes.product_uid};;
   }
 
+  join: product_attributes_pivoted {
+    view_label: "Products Attributes"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${products.product_uid} = ${product_attributes_pivoted.product_uid} ;;
+    }
+
   join: product_detail {
     type: left_outer
-    view_label: "Products"
+    view_label: "Products Attributes"
     relationship: many_to_one
     sql_on: ${products.product_uid} = ${product_detail.product_uid};;
   }
@@ -861,6 +870,7 @@ explore: base {
     relationship: one_to_one
     sql_on: ${transactions.parent_order_uid}= ${ecrebo_product_code_flag.parent_order_uid};;
   }
+
 }
 
 

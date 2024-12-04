@@ -17,12 +17,14 @@ view: product_attributes {
   dimension: attribute_value {
     type: string
     sql: ${TABLE}.attributeValue ;;
+    hidden: yes
   }
 
   dimension: attribute_weight {
-    required_access_grants: [lz_only]
+    group_label: "Product Dimensions"
     type: string
     sql: {% if ${attribute} == "Weight" %} ${attribute_value} {% endif %};;
+    hidden: yes
   }
 
   dimension_group: date_updated {
@@ -37,5 +39,6 @@ view: product_attributes {
       year
     ]
     sql: ${TABLE}.dateUpdated ;;
+    hidden: yes
   }
 }
