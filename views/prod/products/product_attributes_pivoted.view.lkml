@@ -38,29 +38,29 @@ view: product_attributes_pivoted {
     sql: ${TABLE}.UN_transport_number ;;
   }
 
-  # dimension:safety_data_sheet {
-  #   group_label: "Product Details"
+  dimension:safety_data_sheet {
+    group_label: "Product Details"
+    type: string
+    sql: ${TABLE}.safety_data_sheet ;;
+  }
+
+  # dimension: safety_data_sheet_raw {
   #   type: string
-  #   sql: ${TABLE}.safety_data_sheet ;;
+  #   sql: concat("https://",replace(${TABLE}.safety_data_sheet,"https://","")) ;;
+  #   hidden: yes
   # }
 
-  dimension: safety_data_sheet_raw {
-    type: string
-    sql: concat("https://",replace(${TABLE}.safety_data_sheet,"https://","")) ;;
-    hidden: yes
-  }
+  # dimension: website_label {
+  #   type: string
+  #   sql: replace(replace(replace(${TABLE}.website,"https:",""),"www.",""),"/","") ;;
+  #   hidden: yes
+  # }
 
-  dimension: website_label {
-    type: string
-    sql: replace(replace(replace(${TABLE}.website,"https:",""),"www.",""),"/","") ;;
-    hidden: yes
-  }
-
-  dimension: safety_data_sheet {
-    type: string
-    sql: ${safety_data_sheet_raw} ;;
-    html: <a href="{{safety_data_sheet_raw}}"target=”_blank”>{{ website_label }}</a>;;
-  }
+  # dimension: safety_data_sheet {
+  #   type: string
+  #   sql: ${safety_data_sheet_raw} ;;
+  #   html: <a href="{{safety_data_sheet_raw}}"target=”_blank”>{{ website_label }}</a>;;
+  # }
 
   dimension: hazardous {
     type: string
