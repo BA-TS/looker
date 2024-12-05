@@ -39,7 +39,6 @@ view: product_attributes_pivoted {
   }
 
   dimension:safety_data_sheet {
-    group_label: "Product Details"
     type: string
     sql: ${TABLE}.safety_data_sheet ;;
   }
