@@ -69,6 +69,7 @@ view: product_attributes_pivoted {
   dimension: hazard_code{
     type: string
     sql: ${TABLE}.hazard_code ;;
+    hidden: yes
   }
 
 }
