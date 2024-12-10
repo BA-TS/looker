@@ -1,23 +1,37 @@
 view: product_attributes_pivoted {
   derived_table: {
     sql:
-      with base as (
-      select productUID,attribute,attributeValue from `toolstation-data-storage.range.productAttributes`)
+        with base as (
+              select productUID,attribute,attributeValue from `toolstation-data-storage.range.productAttributes`
+              where attribute  = "UN transport number"
+        ),
 
-      select a0.productUID as productUID,
-      a.attributeValue as UN_transport_number,
-      b.attributeValue as safety_data_sheet,
-      c.attributeValue as hazardous,
-      d.attributeValue as hazard_code,
-      from base a0
-      left join base a using(productUID)
-      left join base b using(productUID)
-      left join base c using(productUID)
-      left join base d using(productUID)
-      where a.attribute  = "UN transport number"
-      and b.attribute  = "Safety Data Sheet"
-      and c.attribute  = "Hazardous"
-      and d.attribute = "Hazard code"
+        base2 as (
+              select productUID,attribute,attributeValue from `toolstation-data-storage.range.productAttributes`
+              where attribute  = "Safety Data Sheet"
+        ),
+
+        base3 as (
+              select productUID,attribute,attributeValue from `toolstation-data-storage.range.productAttributes`
+              where attribute  = "Hazardous"
+        ),
+
+        base4 as (
+              select productUID,attribute,attributeValue from `toolstation-data-storage.range.productAttributes`
+              where attribute  = "Hazard code"
+        )
+
+              select distinct
+              coalesce(
+                    a.productUID,b.productUID,c.productUID,d.productUID) as productUID,
+              a.attributeValue as UN_transport_number,
+              b.attributeValue as safety_data_sheet,
+              c.attributeValue as hazardous,
+              d.attributeValue as hazard_code,
+              from base a
+              full join base2 b using(productUID)
+              full join base3 c using(productUID)
+              full join base4 d using(productUID)
       ;;
     datagroup_trigger: ts_transactions_datagroup
   }
