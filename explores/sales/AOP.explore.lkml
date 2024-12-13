@@ -11,20 +11,7 @@ explore: aop {
 
   conditionally_filter: {
     filters: [
-      select_date_range: "Yesterday"
-    ]
-    unless: [
-      select_fixed_range,
-      dynamic_fiscal_year,
-      dynamic_fiscal_half,
-      dynamic_fiscal_quarter,
-      dynamic_fiscal_month,
-      dynamic_actual_year,
-      combined_week,
-      combined_month,
-      combined_quarter,
-      combined_year,
-      separate_month
+      calendar_completed_date.date:"2025"
     ]
   }
 
