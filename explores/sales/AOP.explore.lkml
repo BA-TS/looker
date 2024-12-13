@@ -11,7 +11,8 @@ explore: aop {
 
   conditionally_filter: {
     filters: [
-      calendar_completed_date.date:"2025"
+      calendar_completed_date.date:"2025",
+      sites.site_uid: ""
     ]
   }
 
