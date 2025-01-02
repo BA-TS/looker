@@ -3,15 +3,21 @@ include: "/views/prod/department_specific/customer/customers.view"
 view: ds_assumed_trade{
    derived_table: {
     sql:
-    select * from
-    `toolstation-data-storage.customer.ds_assumed_trade_history_Looker` ;;
-    datagroup_trigger: ts_daily_datagroup
+    select distinct * from
+    `toolstation-data-storage.customer.ds_assumed_trade_history_Looker_v2`
+    ;;
+    # datagroup_trigger: ts_daily_datagroup
    }
 
   dimension: customer_uid {
     type: string
-    sql: ${TABLE}.customers_customer_uid;;
+    sql: ${TABLE}.Customer_UID;;
     hidden: yes
+  }
+
+  dimension: model_run_date {
+    type: string
+    sql: ${TABLE}.Score_End_Date;;
   }
 
   dimension: year {

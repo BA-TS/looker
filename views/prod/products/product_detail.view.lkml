@@ -15,6 +15,7 @@ view: product_detail {
   }
 
   dimension: enrating {
+    label: "EN Rating"
     type: string
     sql: ${TABLE}.ENRating ;;
   }
@@ -40,6 +41,7 @@ view: product_detail {
   }
 
   dimension: mpc {
+    label:"MPC"
     type: string
     sql: ${TABLE}.MPC ;;
   }
@@ -60,6 +62,7 @@ view: product_detail {
   }
 
   dimension: zero_vatrated {
+    label: "Zero Vat Rated"
     type: yesno
     sql: ${TABLE}.ZeroVATRated = 1 ;;
   }

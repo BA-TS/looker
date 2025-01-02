@@ -9,19 +9,20 @@ view: product_dimensions {
   }
 
   dimension: hazardous {
-    group_label: "Product Details"
+    group_label: "Product Dimensions"
     type: string
     sql: ${TABLE}.hazardous ;;
+    hidden: yes
   }
 
   dimension: item_type {
-    group_label: "Product Details"
+    group_label: "Dimensions"
     type: string
     sql: ${TABLE}.itemType ;;
   }
 
   dimension: pack_description {
-    group_label: "Product Details"
+    group_label: "Dimensions"
     type: string
     sql: ${TABLE}.packDescription ;;
   }
@@ -54,10 +55,22 @@ view: product_dimensions {
   }
 
   dimension: sell_pack_weight_g {
+    required_access_grants: [lz_only]
     group_label: "Dimensions"
-    label: "Weight"
+    label: "Pack Weight (kg)"
     type: number
-    sql: ${TABLE}.sellPackWeightG ;;
+    sql: cast(${TABLE}.sellPackWeightG as decimal)/1000 ;;
+    value_format_name: decimal_1
+  }
+
+  dimension: sell_pack_weight_tier {
+    required_access_grants: [lz_only]
+    group_label: "Dimensions"
+    label: "Pack Weight (kg) - Tiers"
+    type: tier
+    style: integer
+    tiers: [0,20,25,30]
+    sql: ${sell_pack_weight_g}/1000 ;;
   }
 
   dimension: sell_pack_width_mm {

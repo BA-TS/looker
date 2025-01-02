@@ -121,7 +121,7 @@ view: customers {
 
   dimension: loyalty_club_member {
     group_label: "Loyalty Club"
-    group_item_label: "Loyalty Club Member"
+    group_item_label: "Current Loyalty Club Member"
     type: string
     sql:CASE WHEN ${TABLE}.loyalty.loyalty_club_member  THEN "Yes" ELSE "No" END;;
   }
@@ -160,6 +160,14 @@ view: customers {
     required_access_grants: [can_use_customer_information]
     type: string
     sql: ${TABLE}.customer.company ;;
+  }
+
+  dimension: company_flag {
+    group_label: "Customer"
+    group_item_label: "Company"
+    required_access_grants: [lz_testing]
+    type: yesno
+    sql: ${customer__company} is not null ;;
   }
 
   dimension: customer__email {

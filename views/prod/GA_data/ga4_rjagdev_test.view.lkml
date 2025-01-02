@@ -6,7 +6,8 @@ view: ga4_rjagdev_test {
     type: string
     primary_key: yes
     hidden: yes
-    sql: concat(${TABLE}.P_K,coalesce(${ga4_transactions.P_K},"NONE"),coalesce(${itemid},"NONE"), coalesce(${Mintime},"NONE"));;
+    sql: concat(${TABLE}.P_K, cast(${TABLE}.minTime as string));;
+    ##sql: concat(${TABLE}.P_K,coalesce(${ga4_transactions.P_K},"NONE"),coalesce(${itemid},"NONE"), coalesce(${Mintime},"NONE"));;
   }
 
    dimension_group: date {
@@ -14,7 +15,7 @@ view: ga4_rjagdev_test {
     hidden: yes
      type: time
     timeframes: [date,raw]
-     sql: case when date(${TABLE}.minTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(${TABLE}.minTime, interval 1 HOUR)) else (timestamp_add(${TABLE}.minTime, interval 1 HOUR)) end ;;
+     sql: case when date(${TABLE}.minTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(${TABLE}.minTime, interval 1 HOUR)) else ${TABLE}.minTime end ;;
    }
 
 
@@ -31,7 +32,9 @@ view: ga4_rjagdev_test {
     label: ""
     type: time
     timeframes: [time_of_day]
-    sql: case when date(${TABLE}.minTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(${TABLE}.minTime, interval 1 HOUR)) else (timestamp_add(${TABLE}.minTime, interval 1 HOUR)) end ;;
+    sql: case when date(${TABLE}.minTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(${TABLE}.minTime, interval 1 HOUR)) else
+
+(case when ${TABLE}.platform in ("Web") then timestamp_add(${TABLE}.minTime, interval 1 HOUR) else ${TABLE}.minTime end ) end ;;
   }
 
   dimension_group: hour{
@@ -41,7 +44,9 @@ view: ga4_rjagdev_test {
     label: ""
     type: time
     timeframes: [hour_of_day]
-    sql: case when date(${TABLE}.minTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(${TABLE}.minTime, interval 1 HOUR)) else (timestamp_add(${TABLE}.minTime, interval 1 HOUR)) end ;;
+    sql: case when date(${TABLE}.minTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(${TABLE}.minTime, interval 1 HOUR)) else
+
+(case when ${TABLE}.platform in ("Web") then timestamp_add(${TABLE}.minTime, interval 1 HOUR) else ${TABLE}.minTime end ) end ;;
   }
 
 
@@ -114,6 +119,7 @@ view: ga4_rjagdev_test {
     when ${TABLE}.event_name = "collection_OOS" and ${platform} = "Web" then "out_of_stock"
     when ${TABLE}.event_name = "dual_OOS" and ${platform} = "Web" then "out_of_stock"
     when ${TABLE}.event_name = "Delivery_OOS" and ${platform} = "Web" then "out_of_stock"
+    when ${TABLE}.event_name = "outOfStock" and ${platform} = "Web" then "out_of_stock"
     when ${TABLE}.event_name = "out_of_stock" and ${platform} = "Web" then null
     else ${TABLE}.event_name
     end;;
@@ -125,11 +131,12 @@ view: ga4_rjagdev_test {
     group_label: "Event"
     type: string
     sql: case
-          when ${TABLE}.event_name = "collection_OOS" and ${platform} = "Web" then "Collection"
-          when ${TABLE}.event_name = "dual_OOS" and ${platform} = "Web" then "Dual"
-          when ${TABLE}.event_name = "Delivery_OOS" and ${platform} = "Web" then "Delivery"
+          when ${TABLE}.event_name in ("collection_OOS", "dual_OOS", "Delivery_OOS") and ${platform} = "Web" then "Channel"
           when ${TABLE}.event_name = "out_of_stock" and ${platform} = "Web" then null
+          when ${TABLE}.event_name = "out_of_stock" and ${platform} = "App" then "Channel"
           when ${TABLE}.event_name in ("MegaMenu") then ${TABLE}.label_2
+          when ${TABLE}.event_name in ("add_to_cart") then "shipping_tier"
+          --and ${platform} in ("Web") then ${TABLE}.key_2
           when ${TABLE}.key_1 is null and ${label_1} is not null then "action"
           else ${TABLE}.key_1 end;;
   }
@@ -139,7 +146,13 @@ view: ga4_rjagdev_test {
     label: "1.Event Label"
     group_label: "Event"
     type: string
-    sql: ${TABLE}.label_1 ;;
+    sql: INITCAP(Ltrim(
+    case when ${TABLE}.event_name in ("search", "search_actions", "blank_search") then coalesce(${TABLE}.label_1,regexp_replace(regexp_extract(${TABLE}.page_location, ".*q\\=(.*)$"), "\\+", " ")) else
+    (case when ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") then regexp_extract(${TABLE}.label_2, "^.*\\-(.*)$") else
+    (case when ${TABLE}.event_name = "collection_OOS" and ${platform} = "Web" then "Collection" else
+    (case when ${TABLE}.event_name = "dual_OOS" and ${platform} = "Web" then "Dual" else
+    (case when ${TABLE}.event_name = "Delivery_OOS" and ${platform} = "Web" then "Delivery" else
+    (case when ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("App") and ${TABLE}.key_1 in ("page") then ${TABLE}.channel else ${TABLE}.label_1 end) end) end) end) end) end)) ;;
   }
 
   dimension: key_2 {
@@ -149,7 +162,7 @@ view: ga4_rjagdev_test {
     type: string
     sql: case when ${TABLE}.key_2 is null and ${label_2} is not null then "action"
     when ${TABLE}.event_name in ("MegaMenu") then null
-    else ${TABLE}.key_2 end ;;
+    else (case when ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") then "Channel" else ${TABLE}.key_2 end) end ;;
   }
 
   dimension: label_2 {
@@ -157,7 +170,11 @@ view: ga4_rjagdev_test {
     label: "2.Event Label"
     group_label: "Event"
     type: string
-    sql: case when ${TABLE}.event_name in ("MegaMenu") then null else ${TABLE}.label_2 end;;
+    sql: case when ${TABLE}.event_name in ("MegaMenu")  then null else
+    (case when  ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") and ${TABLE}.key_1 in ("method") then regexp_extract(${TABLE}.label_1, "^.*\\-(.*)$") else
+    (case when  ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") and ${TABLE}.key_1 not in ("method") then regexp_extract(${TABLE}.key_1, "^.*\\-(.*)$") else
+    ${TABLE}.label_2 end )
+    end) end;;
   }
 
   measure: value {
@@ -253,7 +270,7 @@ view: ga4_rjagdev_test {
     label: "Page"
     group_label: "Screen"
     type: string
-    sql: ${TABLE}.page_location ;;
+    sql: case when ${platform} in ("Web") then ${TABLE}.page_location else null end;;
   }
 
   dimension: Screen_name {
@@ -269,21 +286,31 @@ view: ga4_rjagdev_test {
     label: "Screen Type"
     group_label: "Screen"
     type: string
-    sql: CASE when regexp_contains(${page_location},".*/p([0-9]*)$") then "product-detail-page"
-when regexp_contains(${page_location}, ".*/p[0-9]*[^0-9a-zA-Z]") then "product-detail-page"
-when regexp_contains(${page_location},".*/c([0-9]*)$") then "product-listing-page"
-when regexp_contains(${page_location}, ".*/c[0-9]*[^0-9a-zA-Z]") then "product-listing-page"
-else ${Screen_name} end ;;
+    sql:
+    CASE
+    when regexp_contains(${page_location},".*/p[0-9]{5}$|.*/p[0-9]{5}[^0-9a-zA-Z]|.*/p[A-Z]{2}[0-9]{3}$|.*/p[A-Z]{2}[0-9]{3}[^0-9a-zA-Z]") then "product-detail-page" else
+    (case when regexp_contains(${page_location},".*/c([0-9]*)$|.*/c[0-9]*[^0-9a-zA-Z]") then "product-listing-page"
+else ${Screen_name} end) end ;;
 
   }
 
   dimension: filters_used {
     view_label: "GA4"
-    label: "Filters Used"
+    label: "Filter Key"
     group_label: "Event"
+    hidden: yes
     type: string
     sql: case when regexp_contains(${TABLE}.filters_used, "\\:")
-and not regexp_contains(${TABLE}.filters_used, "\\@import") then ${TABLE}.filters_used else null end;;
+and not regexp_contains(${TABLE}.filters_used, "\\@import") then regexp_extract(${TABLE}.filters_used, "(.*)\\:.*") else null end;;
+
+  }
+
+  dimension: channel {
+    view_label: "GA4"
+    label: "Channel"
+    group_label: "Event"
+    type: string
+    sql: case when regexp_contains(${TABLE}.channel, "\\-") then regexp_extract(${TABLE}.channel, "^.*\\-(.*)$") else ${TABLE}.channel end;;
 
   }
 
@@ -333,6 +360,21 @@ and not regexp_contains(${TABLE}.filters_used, "\\@import") then ${TABLE}.filter
     hidden: yes
     sql: ${TABLE}.transactions ;;
   }
+
+
+
+  dimension: filterUSed {
+    description: "Is used for unnesting the transactions struct, should not be used as a standalone dimension"
+    hidden: yes
+    sql: ${TABLE}.filters_used ;;
+  }
+
+  #dimension: filterUSed2 {
+    #description: "Is used for unnesting the transactions struct, should not be used as a standalone dimension"
+    #sql: ${fu.fu} ;;
+  #}
+
+
 ##########Measures##########################
 ############Users#########################
   measure: Users {
@@ -682,7 +724,7 @@ and not regexp_contains(${TABLE}.filters_used, "\\@import") then ${TABLE}.filter
     group_label: "Screen"
     hidden: yes
     type: string
-    sql: case when ${ga4_landingpage.land_page} = ${page_location} then ${screen_type} else null end;;
+    sql: case when ${ga4_landingpage.firstE} = 1 then ${screen_type} else null end;;
   }
 
   dimension: landingscreenName {
@@ -691,7 +733,7 @@ and not regexp_contains(${TABLE}.filters_used, "\\@import") then ${TABLE}.filter
     group_label: "Screen"
     hidden: yes
     type: string
-    sql: case when ${ga4_landingpage.land_page} = ${page_location} then ${Screen_name} else null end;;
+    sql: case when ${ga4_landingpage.firstE} = 1  then ${Screen_name} else null end;;
   }
 
   measure: landingSessions {
@@ -718,7 +760,7 @@ and not regexp_contains(${TABLE}.filters_used, "\\@import") then ${TABLE}.filter
     group_label: "Screen"
     hidden: yes
     type: string
-    sql: case when ${ga4_landingpage.land_page} = ${page_location} then ${page_location} else null end;;
+    sql: case when ${ga4_landingpage.firstE} = 1 then ${page_location} else null end;;
   }
 
   measure: landingPageSessions {
@@ -748,7 +790,7 @@ and not regexp_contains(${TABLE}.filters_used, "\\@import") then ${TABLE}.filter
     group_label: "Screen"
     type: string
     hidden: yes
-    sql: case when ${ga4_exitpage.exit_page} = ${page_location} then ${screen_type} else null end;;
+    sql: case when ${ga4_exitpage.LastE} = 1 then ${screen_type} else null end;;
   }
 
   dimension: exitscreenName {
@@ -757,7 +799,7 @@ and not regexp_contains(${TABLE}.filters_used, "\\@import") then ${TABLE}.filter
     group_label: "Screen"
     type: string
     hidden: yes
-    sql: case when ${ga4_exitpage.exit_page} = ${page_location} then ${Screen_name} else null end;;
+    sql: case when ${ga4_exitpage.LastE} = 1 then ${Screen_name} else null end;;
   }
 
   measure: exitSessions {
@@ -784,7 +826,7 @@ and not regexp_contains(${TABLE}.filters_used, "\\@import") then ${TABLE}.filter
     group_label: "Screen"
     hidden: yes
     type: string
-    sql: case when ${ga4_exitpage.exit_page} = ${page_location} then ${page_location} else null end;;
+    sql: case when ${ga4_exitpage.LastE} = 1 then ${page_location} else null end;;
   }
 
   measure: exitPageSessions {
@@ -805,5 +847,46 @@ and not regexp_contains(${TABLE}.filters_used, "\\@import") then ${TABLE}.filter
     sql: safe_divide(${exitPageSessions},${sessions_total}) ;;
   }
 
+  dimension: lastEvent {
+    view_label: "GA4"
+    group_label: "Screen"
+    label: "last event"
+    type: yesno
+    sql: ${ga4_lastevent.LastE} = 1 ;;
+  }
 
+  dimension: shipping_name {
+    view_label: "GA4"
+    group_label: "Add to Cart"
+    label: "Shipping Method Selected"
+    sql: COALESCE(${products2.product_name},case when ${event_name} in ("add_to_cart") and ${platform} in ("App") then ${label_1} else null end) ;;
+  }
+
+
+}
+
+view: fu {
+
+  dimension: fu {
+    hidden: yes
+    type: string
+    sql: ${TABLE} ;;
+  }
+
+
+  dimension: key_1 {
+    group_label: "Filters Used"
+    label: "Filter Key"
+    description: "filter_key"
+    type: string
+    sql: coalesce(case when ${ga4_rjagdev_test.event_name} in ("filter_applied", "filter_removed") then ${ga4_rjagdev_test.label_1} else null end, regexp_extract(${fu}, "(.*)\\:.*"));;
+  }
+
+  dimension: label_1 {
+    group_label: "Filters Used"
+    label: "Filter Label"
+    description: "filter_label"
+    type: string
+    sql: coalesce(case when ${ga4_rjagdev_test.event_name} in ("filter_applied", "filter_removed") then ${ga4_rjagdev_test.label_2} else null end, regexp_extract(${fu}, ".*\\:(.*)"));;
+  }
 }

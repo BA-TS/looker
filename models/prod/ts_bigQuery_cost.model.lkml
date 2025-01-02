@@ -1,8 +1,10 @@
 include: "/models/backend/config.model"
 include: "/views/prod/department_specific/data/ran_queries.view.lkml"
 
+label: "Ts BigQuery Cost"
 explore: ran_queries{
   label: "BigQuery Cost"
+  required_access_grants: [is_advanced_super]
 }
 
 explore: +ran_queries {

@@ -3,21 +3,19 @@ view: scorecard_testing_loyalty_division_ytd {
 
   dimension: siteUID {
     type: string
-    view_label: "Scorecard testing"
     sql: ${TABLE}.Division ;;
     hidden: yes
   }
 
   dimension: customerUID {
     type: string
-    view_label: "Scorecard testing"
     sql: ${TABLE}.customerUID ;;
     hidden: yes
   }
 
   dimension: customer_flag {
     type: yesno
-    view_label: "Scorecard testing"
+    group_label: "Loyalty Flags"
     label: "Loyalty (Division YTD)"
     sql: ${customerUID} is not null ;;
   }

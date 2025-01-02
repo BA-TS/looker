@@ -1,6 +1,6 @@
 view: oos_items_l12weeks {
    derived_table: {
-     sql: with sub1 as (SELECT distinct date,session_id, screen_name,
+     sql: with sub1 as (SELECT distinct platform,date,session_id, screen_name,
 
 CASE when regexp_contains(page_location,".*/p([0-9]*)$") then "product-detail-page"
 when regexp_contains(page_location, ".*/p[0-9]*[^0-9a-zA-Z]") then "product-detail-page"
@@ -13,33 +13,36 @@ when event_name = "collection_OOS" and platform = "Web" then "Collection"
 when event_name = "dual_OOS" and platform = "Web" then "Dual"
 when event_name = "Delivery_OOS" and platform = "Web" then "Delivery"
 when event_name = "out_of_stock" and platform = "Web" then null
+when event_name = "out_of_stock" and platform = "App" then initCap(label_1)
+when event_name = "outOfStock" and platform = "Web" then initcap(label_1)
 when event_name in ("MegaMenu") then label_2
 when key_1 is null and label_1 is not null then "action"
 else key_1 end as key1,
-label_1,
 aw.item_id
 FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw
-where  _TABLE_Suffix between format_date("%Y%m%d", date_sub(current_date(), interval 12 week)) and format_date("%Y%m%d", current_date()) and event_name in ("collection_OOS", "dual_OOS", "Delivery_OOS", "out_of_stock", "view_item")
+where  _TABLE_Suffix between format_date("%Y%m%d", date_sub(current_date(), interval 12 week)) and format_date("%Y%m%d", date_sub(current_date(), interval 1 day)) and event_name in ("collection_OOS", "dual_OOS", "Delivery_OOS", "out_of_stock", "view_item", "outOfStock")
 group by all),
 
-view_item as (select distinct date, count(distinct session_id) as sessions from sub1 where event_name in ("view_item") and screen_Type in ("product-detail-page") group by 1),
+view_item as (select distinct Platform, date, count(distinct session_id) as sessions from sub1 where event_name in ("view_item") and screen_Type in ("product-detail-page") group by 1,2),
 
-collection_OOS as (select distinct date as collect_date, count(distinct session_id) as COOS_sessions from sub1 where event_name in ("collection_OOS") and screen_Type in ("product-detail-page")
-group by 1),
+collection_OOS as (select distinct Platform, date as collect_date, count(distinct session_id) as COOS_sessions from sub1 where key1 in ("Collection", "collection") and screen_Type in ("product-detail-page")
+group by 1,2),
 
-delivery_OOS as (select distinct date as delivery_date, count(distinct session_id) as delOOS_sessions from sub1 where event_name in ("Delivery_OOS") and screen_Type in ("product-detail-page")
-group by 1),
+delivery_OOS as (select distinct Platform, date as delivery_date, count(distinct session_id) as delOOS_sessions from sub1 where key1 in ("Delivery", "delivery") and screen_Type in ("product-detail-page")
+group by 1,2),
 
-dual_OOS as (select distinct date as dual_date, count(distinct session_id) as dual_sessions from sub1 where event_name in ("dual_OOS") and screen_Type in ("product-detail-page") group by 1)
+dual_OOS as (select distinct platform, date as dual_date, count(distinct session_id) as dual_sessions from sub1 where key1 in ("dual", "Dual") and screen_Type in ("product-detail-page") group by 1,2)
 
 select distinct row_number() over () as P_K, view_item.*, COOS_sessions,  delOOS_sessions, dual_sessions
 from view_item
-left join collection_OOS on view_item.date = collection_OOS.collect_date
-left join delivery_OOS on view_item.date = delivery_OOS.delivery_date
-left join dual_OOS on view_item.date = dual_OOS.dual_date
+left join collection_OOS on view_item.date = collection_OOS.collect_date and view_item.platform=collection_OOS.platform
+left join delivery_OOS on view_item.date = delivery_OOS.delivery_date and view_item.platform=delivery_OOS.platform
+left join dual_OOS on view_item.date = dual_OOS.dual_date and view_item.platform=dual_OOS.platform
        ;;
 
-    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 10;;
+    sql_trigger_value: SELECT EXTRACT(dayofweek FROM CURRENT_DATEtime()) between 2 and 6 and extract(hour from current_datetime()) = 13
+or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 7 and extract(hour from current_datetime()) = 16
+or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_datetime()) = 16;;
    }
 
   dimension: PK {

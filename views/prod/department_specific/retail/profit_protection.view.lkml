@@ -4,11 +4,12 @@ view: profit_protection {
 
   dimension: month {
     type: string
-    view_label: "Date"
-    label: "Year Month (yyyymm)"
-    sql: ${TABLE}.month ;;
+    label: "Month_test"
+    sql: CAST(${TABLE}.month AS string);;
+    required_access_grants: [lz_testing]
     hidden: yes
   }
+
 
   dimension: siteUID {
     type: string

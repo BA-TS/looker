@@ -16,6 +16,7 @@ Case
 when userUID like 'APP' then 'App'
 end as App_Web,
 "Completed" as status,
+transactionLineType,
 sum(netsalePrice) as NetSalePrice,
 sum(quantity) as Quantity,
 sum(netSalesValue) as NetSaleValue,
@@ -30,7 +31,7 @@ where
 productCode not in ('85699','00053','44842') and
 isCancelled = 0  and
 (userUID  = 'APP')
-group by 1,2,3,4,5,6,7,8,9
+group by 1,2,3,4,5,6,7,8,9,10
 union distinct
 
 select distinct
@@ -45,6 +46,7 @@ Case
 when userUID like 'WWW' then 'Web'
 end as App_Web,
 "Completed" as status,
+transactionLineType,
 sum(netsalePrice) as NetSalePrice,
 sum(quantity) as Quantity,
 sum(netSalesValue) as NetSaleValue,
@@ -59,7 +61,7 @@ where
 productCode not in ('85699','00053','44842') and
 isCancelled = 0 and
 (userUID  = 'WWW')
-group by 1,2,3,4,5,6,7,8,9
+group by 1,2,3,4,5,6,7,8,9,10
  union distinct
 SELECT distinct
 customerUID as customerID,
@@ -73,6 +75,7 @@ Case
 when userUID like 'APP' then 'App'
 end as App_Web,
 status,
+transactionLineType,
 sum(netsalePrice) as NetSalePrice,
 sum(quantity) as Quantity,
 sum(netSalesValue) as NetSaleValue,
@@ -85,7 +88,7 @@ where
 --transactionLineType = "Sale" and
 productCode not in ('85699','00053','44842') and
 (userUID  = 'APP')
-group by 1,2,3,4,5,6,7,8,9
+group by 1,2,3,4,5,6,7,8,9,10
 union distinct
 SELECT distinct
 customerUID as customerID,
@@ -99,6 +102,7 @@ Case
 when userUID like 'WWW' then 'Web'
 end as App_Web,
 status,
+transactionLineType,
 sum(netsalePrice) as NetSalePrice,
 sum(quantity) as Quantity,
 sum(netSalesValue) as NetSaleValue,
@@ -111,7 +115,7 @@ where
 --transactionLineType = "Sale" and
 productCode not in ('85699','00053','44842') and
 (userUID  = 'WWW')
-group by 1,2,3,4,5,6,7,8,9
+group by 1,2,3,4,5,6,7,8,9,10
 ) )
 select distinct row_number() over (order by (Placed)) as P_K, customerID,
 OrderID,
@@ -122,6 +126,7 @@ max(Transaction) as Transaction,
 Placed,
 App_Web,
 status,
+transactionLineType,
 NetSalePrice,
 Quantity,
 NetSaleValue,
@@ -129,7 +134,7 @@ revenue,
 revenue2,
 MarginIncFunding,
 marginExclFunding from sub1
-group by 2,3,4,5,6,8,9,10,11,12,13,14,15,16,17;;
+group by 2,3,4,5,6,8,9,10,11,12,13,14,15,16,17,18;;
 
 
     sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 7;;
@@ -187,6 +192,13 @@ group by 2,3,4,5,6,8,9,10,11,12,13,14,15,16,17;;
     description: "status of order"
     type:string
     sql: ${TABLE}.status;;
+  }
+
+  dimension: transactionLineType {
+    label: "Transaction Line Type"
+    description: "transaction Line Type"
+    type:string
+    sql: ${TABLE}.transactionLineType;;
   }
 
       dimension_group: transaction  {
@@ -295,6 +307,7 @@ group by 2,3,4,5,6,8,9,10,11,12,13,14,15,16,17;;
         type: sum
         value_format_name: decimal_0
         sql: ${TABLE}.Quantity;;
+        filters: [transactionLineType: "-Marketing, -Inter-Company VAT Adjustment, -System Discounts, -Delivery Charges"]
 
         #sql:  (${TABLE}.Quantity * 0.9973) ;;
       }

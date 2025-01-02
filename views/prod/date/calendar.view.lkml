@@ -1,3 +1,5 @@
+include: "/views/prod/date/period_over_period.view"
+
 view: calendar {
   derived_table: {
     sql:
@@ -29,7 +31,7 @@ view: calendar {
     (select cast(fiscalYearWeek as string) from `toolstation-data-storage.ts_finance.dim_date` where fullDate = current_date()) as todayfiscalYearWeek
     from `toolstation-data-storage.ts_finance.dim_date`;;
 
-    datagroup_trigger: ts_monthly_datagroup
+    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 6;;
     }
 
   dimension: date{
@@ -38,8 +40,26 @@ view: calendar {
     type: date
     primary_key: yes
     sql: timestamp(${TABLE}.fullDate) ;;
-    html: {{ rendered_value | date: "%d/%m/%Y" }};;
+    # html: {{ rendered_value | date: "%d/%m/%Y" }};;
   }
+
+  dimension: date_first_day_month{
+    group_label: "Dates"
+    label: "Date (1st day of Month)"
+    type: date
+    sql: Date_trunc(date(${date}),MONTH);;
+    hidden: yes
+  }
+
+  dimension: date_first_day_prev_month{
+    required_access_grants: [lz_only]
+    group_label: "Dates"
+    label: "Date (1st day of Prev Month)"
+    type: date
+    sql: Date_sub(date(${date_first_day_month}),INTERVAL 1 MONTH);;
+    hidden: yes
+  }
+
 
   dimension: today_date{
     group_label: "Current Date"
@@ -47,6 +67,14 @@ view: calendar {
     type: date
     sql: current_timestamp() ;;
     html: {{ rendered_value | date: "%d/%m/%Y" }};;
+  }
+
+  dimension: today_day_of_week{
+    group_label: "Current Date"
+    required_access_grants: [lz_only]
+    label: "Today Day of Week"
+    type: number
+    sql: EXTRACT(DAYOFWEEK FROM current_date()) ;;
   }
 
   dimension: calendar_quarter {
@@ -114,9 +142,18 @@ view: calendar {
   dimension: today_calendar_year_month {
     group_label: "Today Dates"
     label: "Year Month (yyyy-mm)"
-    hidden: yes
+    required_access_grants: [lz_only]
     type: string
     sql: ${TABLE}.todaydaycalendarYearMonth;;
+  }
+
+  dimension: today_calendar_year_month2 {
+    group_label: "Dates"
+    description: "used in the retail explore"
+    label: "Year Month (yyyy-mm) 2"
+    type: string
+    sql: replace(${today_calendar_year_month},'-','') ;;
+    required_access_grants: [lz_only]
   }
 
   dimension: calendar_year_quarter {
@@ -287,14 +324,39 @@ view: calendar {
     sql: ${TABLE}.fiscalYearWeek ;;
   }
 
-
-
   dimension: today_fiscal_year_week {
     group_label: "Dates Fiscal"
     label: "Today Fiscal Year Week (yyyyww)"
-    hidden: yes
+    # hidden: yes
     type: string
     sql: ${TABLE}.todayfiscalYearWeek;;
+    required_access_grants: [lz_only]
+  }
+
+  dimension: ty_py_weeks_filter_1 {
+    group_label: "Flags"
+    label: "TY and PY Wk-1"
+    type: yesno
+    sql:
+    case when ${today_day_of_week}=1 then
+     cast(${fiscal_year_week} as int) IN (cast(${today_fiscal_year_week} as int),cast(${today_fiscal_year_week} as int)-100)
+    else
+         cast(${fiscal_year_week} as int) IN (cast(${today_fiscal_year_week} as int)-1,cast(${today_fiscal_year_week} as int)-101)
+    end
+    ;;
+  }
+
+  dimension: ty_py_weeks_filter_2 {
+    group_label: "Flags"
+    label: "TY Wk-1, Wk-2 and PY Wk-1"
+    type: yesno
+    sql:
+    case when ${today_day_of_week}=1 then
+      cast(${fiscal_year_week} as int) IN (cast(${today_fiscal_year_week} as int),cast(${today_fiscal_year_week} as int)-1,cast(${today_fiscal_year_week} as int)-100)
+     else
+      cast(${fiscal_year_week} as int) IN (cast(${today_fiscal_year_week} as int)-1,cast(${today_fiscal_year_week} as int)-2,cast(${today_fiscal_year_week} as int)-101)
+     end
+      ;;
   }
 
   dimension: holiday_name {
@@ -354,7 +416,7 @@ view: calendar {
     view_label: "Measures"
     group_label: "Other Metrics"
     label: "Number of Distinct Years"
-    required_access_grants: [lz_testing]
+    hidden: yes
     type: count_distinct
     sql: ${calendar_year} ;;
   }
@@ -363,7 +425,7 @@ view: calendar {
     view_label: "Measures"
     group_label: "Other Metrics"
     label: "Number of Distinct Year Months"
-    required_access_grants: [is_retail]
+    hidden: yes
     type: count_distinct
     sql: ${calendar_year_month} ;;
   }
@@ -372,7 +434,7 @@ view: calendar {
     view_label: "Measures"
     group_label: "Other Metrics"
     label: "Number of Distinct Months"
-    required_access_grants: [lz_testing]
+    hidden: yes
     type: count_distinct
     sql: ${calendar_year_month} ;;
   }
@@ -381,7 +443,7 @@ view: calendar {
     view_label: "Measures"
     group_label: "Other Metrics"
     label: "Number of Distinct Weeks"
-    required_access_grants: [lz_testing]
+    hidden: yes
     type: count_distinct
     sql: ${week_in_year} ;;
   }
@@ -399,9 +461,29 @@ view: calendar {
     #view_label: "Datetime (of event)"
     label: "Date"
     group_label: "Date Filter"
+    hidden: yes
 
     type: date
     sql: {% condition filter_on_field_to_hide %} timestamp(field_to_hide) {% endcondition %} ;;
   }
+
+  #dimension: field_to_hide2 {
+    #group_label: "Dates"
+    #label: "HIDE"
+    #hidden: yes
+    #type: date
+    #sql: timestamp(${TABLE}.field_to_hide) ;;
+    #html: {{ rendered_value | date: "%d/%m/%Y" }};;
+  #}
+
+  #filter: filter_on_field_to_hide2 {
+    #view_label: "Datetime (of event)"
+    #label: "2nd Date"
+    #group_label: "Date Filter"
+    #hidden: yes
+
+    #type: date
+    #sql: {% condition filter_on_field_to_hide2 %} timestamp(field_to_hide) #{% endcondition %} ;;
+  #}
 
 }

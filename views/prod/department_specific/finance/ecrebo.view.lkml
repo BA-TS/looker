@@ -5,6 +5,7 @@ view: ecrebo {
     SELECT
     DISTINCT row_number() over () AS prim_key,
     parentOrderUID,
+    et.datetime,
     et.storeid,
     issuanceRedemption,
     campaignUuid,
@@ -18,6 +19,8 @@ view: ecrebo {
     LEFT JOIN `toolstation-data-storage.ecrebo.ecreboHeirarchy` AS eh
     using (campaignName)
     ;;
+
+    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 7;;
   }
 
   dimension: prim_key {
@@ -30,6 +33,13 @@ view: ecrebo {
   dimension: parent_order_uid {
     type: string
     sql: ${TABLE}.parentOrderUID ;;
+    hidden:  yes
+  }
+
+  dimension_group: datetime {
+    type: time
+    timeframes: [raw, date]
+    sql: ${TABLE}.datetime;;
     hidden:  yes
   }
 

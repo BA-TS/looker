@@ -4,7 +4,7 @@ view: trade_customers {
     sql:
     select * from
     `toolstation-data-storage.customer.dbs_trade_customers`;;
-     datagroup_trigger: ts_weekly_datagroup
+    datagroup_trigger: ts_daily_datagroup
   }
 
   required_access_grants: [can_use_customer_information]

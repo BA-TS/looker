@@ -1,14 +1,16 @@
 view: page_type_to_purchase_funnel {
   derived_table: {
     sql:
-        with sub1 as (SELECT distinct min(timestamp_sub(MinTime, interval 1 HOUR)) as minTime, session_id, event_name,
+with sub1 as (SELECT distinct min(MinTime) as minTime, session_id, event_name,
 #page_location,
 case
-when (regexp_contains(page_location,".*/p([0-9]*)$") or regexp_contains(page_location, ".*/p[0-9]*[^0-9a-zA-Z]")) and event_name in ("view_item") and platform in ("Web") then "PDP"
-when Screen_name in ("product-detail-page") and event_name in ("view_item") and platform in ("App") then "PDP"
+when event_name in ("view_item") and (Screen_name in ("product-detail-page") or regexp_contains(page_location,".*/p[0-9]{5}$|.*/p[0-9]{5}[^0-9a-zA-Z]|.*/p[A-Z]{2}[0-9]{3}$|.*/p[A-Z]{2}[0-9]{3}[^0-9a-zA-Z]") ) then "PDP"
 end as screen,
 platform,
 aw.item_id as item_id,
+aw.item_category as item_category,
+aw.item_category2 as item_category2,
+aw.item_category3 as item_category3,
 transactions.net_value as rev,
 transactions.Quantity as Qu,
 transactions.OrderID
@@ -18,25 +20,31 @@ and _table_suffix between format_date("%Y%m%d", date_sub(current_date(), INTERVA
 and
       ((aw.item_id = transactions.productCode) or (aw.item_id is not null and transactions.productCode is null) or (aw.item_id is null and transactions.
       productCode is null))
-group by 2,3,4,5,6,7,8,9),
+group by all),
 
 #products as (select distinct productStartDate,activeTo,productCode from `toolstation-data-storage.range.products_current`),
 
 
-PDP as (select distinct platform, session_id as PDP_session_id, item_id,min(MinTime) as PDP_time
-from sub1 where screen in ("PDP") and event_name in ("view_item") group by 1,2,3),
+PDP as (select distinct platform, session_id as PDP_session_id, item_category,
+item_category2,
+item_category3, item_id,min(MinTime) as PDP_time
+from sub1 where screen in ("PDP") and event_name in ("view_item") group by all),
 
 ATC as (select distinct session_id as atc_session_id, item_id,min(MinTime) as atc_time from sub1 where event_name in ("add_to_cart") group by 1,2),
 
-purchase as (select distinct session_id as purchase_session_id,item_id, min(MinTime) as purchase_time, rev, Qu, OrderID from sub1 where event_name in ("purchase", "Purchase") group by 1,2,4,5,6),
+purchase as (select distinct session_id as purchase_session_id,item_id, min(MinTime) as purchase_time, rev, Qu, OrderID from sub1 where event_name in ("purchase", "Purchase") group by all),
 
 #3276858
 sub2 as (SELECT distinct
 #row_number() over () as P_K,
-extract(date from coalesce(pdp.pdp_time,ATC.atc_time,purchase.purchase_time, all_purchase.purchase_time)) as date,
+coalesce(pdp.pdp_time,ATC.atc_time,purchase.purchase_time, all_purchase.purchase_time) as date,
 sub1.platform,
 sub1.session_id as total_sessionID,
 sub1.item_id as total_item_id,
+PDP.item_category,
+PDP.item_category2,
+PDP.item_category3,
+
 #PDP.item_id,
 PDP.pdp_session_id,
 pdp.pdp_time,
@@ -62,7 +70,9 @@ where extract(date from coalesce(pdp.pdp_time,ATC.atc_time,purchase.purchase_tim
 select distinct row_number() over () as P_K, * from sub2
 ;;
 
-    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 11
+    sql_trigger_value: SELECT EXTRACT(dayofweek FROM CURRENT_DATEtime()) between 2 and 6 and extract(hour from current_datetime()) = 13
+or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 7 and extract(hour from current_datetime()) = 16
+or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_datetime()) = 16
 ;;
 }
 
@@ -77,7 +87,7 @@ select distinct row_number() over () as P_K, * from sub2
     hidden: yes
     type: time
     timeframes: [raw,date]
-    sql: ${TABLE}.date ;;
+    sql: case when date(${TABLE}.date) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(${TABLE}.date, interval 1 HOUR)) else (timestamp_add(${TABLE}.date, interval 1 HOUR)) end ;;
   }
 
   dimension: platform {
@@ -85,6 +95,27 @@ select distinct row_number() over () as P_K, * from sub2
     view_label: "PDP to Purchase Funnel"
     label: "Web/App"
     sql: ${TABLE}.platform ;;
+  }
+
+  dimension: itemCategory {
+    type: string
+    view_label: "PDP to Purchase Funnel"
+    label: "1. Item Category"
+    sql: ${TABLE}.item_category;;
+  }
+
+  dimension: itemCategory2 {
+    type: string
+    view_label: "PDP to Purchase Funnel"
+    label: "2.Item Sub Category"
+    sql: ${TABLE}.item_category2;;
+  }
+
+  dimension: itemCategory3 {
+    type: string
+    view_label: "PDP to Purchase Funnel"
+    label: "3.Item Sub Sub Category"
+    sql: ${TABLE}.item_category3;;
   }
 
 

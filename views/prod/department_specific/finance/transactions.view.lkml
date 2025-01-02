@@ -1,6 +1,8 @@
 include: "/views/**/*base*.view"
 # include: "/views/**/calendar.view"
 include: "/views/**/sites.view"
+include: "/views/**/customer_loyalty.view"
+
 
 view: transactions {
   derived_table: {
@@ -13,23 +15,23 @@ view: transactions {
         t.* EXCEPT (transactionDate, salesChannel, siteUID)
         FROM
         (SELECT
-        transactions.*,"SALE" AS extranet_status
+        transactions.*,"Completed" as status, "SALE" AS extranet_status
         FROM `toolstation-data-storage.sales.transactions` AS transactions
         UNION ALL
         (SELECT
-        incomplete.* EXCEPT(status, rowID),NULL, NULL, NULL, NULL,NULL,NULL,incomplete.rowID,CAST(UPPER(incomplete.status) = "CANCELLED" AS INT64),NULL,NULL,"INCOMPLETE"
+        incomplete.* EXCEPT(status, rowID),NULL, NULL, NULL, NULL,NULL,NULL,incomplete.rowID,CAST(UPPER(incomplete.status) = "CANCELLED" AS INT64),NULL,NULL,status, "INCOMPLETE"
         FROM `toolstation-data-storage.sales.transactions_incomplete` AS incomplete)) AS t
         INNER JOIN `toolstation-data-storage.range.products_current` AS products USING(productUID))
        UNION ALL
        (SELECT
         TIMESTAMP(missing_dimensions.date) AS transactionDate,missing_dimensions.salesChannel AS salesChannel,missing_dimensions.siteUID,missing_dimensions.department,
         NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
-        NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, NULL,NULL,NULL
+        NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, NULL,NULL,NULL, NULL
         FROM `toolstation-data-storage.looker_persistent_tables.missing_channel_dimensions` AS missing_dimensions
         ));;
-    partition_keys: ["transactionDate"]
-    cluster_keys: ["salesChannel", "productDepartment", "productCode"]
-    datagroup_trigger: ts_transactions_datagroup
+    # partition_keys: ["transactionDate"]
+    # cluster_keys: ["salesChannel", "productDepartment", "productCode"]
+    # datagroup_trigger: ts_transactions_datagroup
   }
 
   dimension: prim_key {
@@ -61,6 +63,11 @@ view: transactions {
     allowed_value: {
       label: "Incomplete"
       value: "INCOMPLETE"
+    }
+
+    allowed_value: {
+      label: "ALL"
+      value: "ALL"
     }
     default_value: "SALE"
   }
@@ -97,12 +104,43 @@ view: transactions {
     default_value: "0"
   }
 
+  dimension: order_status {
+    view_label: "Transactions"
+    group_label: "Incomplete Transactions"
+    label: "Order Status"
+    type: string
+    sql: ${TABLE}.status ;;
+  }
+
+parameter: order_cancelled {
+  view_label: "Transactions"
+  label: "Order Cancelled"
+  allowed_value: {
+    label: "Yes"
+    value: "Yes"
+  }
+  allowed_value: {
+    label: "No"
+    value: "No"
+  }
+  default_value: "No"
+}
+
+
   dimension: is_next_day_click_and_collect {
     group_label: "Flags"
     label: "Next Day Click and Collect"
     description: "Selecting 'Yes' will show only Next Day Click & Collect transactions"
     type: yesno
     sql: UPPER(${originating_site_uid}) = "XN" ;;
+  }
+
+  dimension: is_click_and_collect {
+    group_label: "Flags"
+    label: "Click and Collect"
+    description: "Selecting 'Yes' will show only Click & Collect transactions"
+    type: yesno
+    sql: UPPER(${originating_site_uid}) = "XC" or (UPPER(${sales_channel}) = "CLICK & COLLECT" and UPPER(${originating_site_uid}) != "XN" ) ;;
   }
 
   dimension: transaction_date_filter {
@@ -380,6 +418,7 @@ view: transactions {
     description: "Date and time the order was completed"
     type: time
     timeframes: [
+      raw,
       time,
       date
     ]
@@ -436,14 +475,15 @@ view: transactions {
   }
 
   dimension: order_reason {
-    required_access_grants: [is_developer]
+    required_access_grants: [is_super]
     group_label: "Order Details"
-    label: "Reason for Order"
+    label: "Reason for Order/Return"
     type: string
-    sql: ${TABLE}.orderReason ;;
+    sql: replace(${TABLE}.orderReason,"Customer service:","") ;;
   }
 
   dimension: order_special_requests {
+    required_access_grants: [is_super]
     group_label: "Order Details"
     label: "Special Requests"
     description: "Any special requests made by the customer when ordering"
@@ -459,6 +499,22 @@ view: transactions {
     type:  yesno
     sql: (TIME(${transaction_raw}) BETWEEN "07:00:00" AND "16:59:59.999999");;
   }
+
+  dimension: rise_and_save_hours {
+    view_label: "Date"
+    group_label: "Time"
+    type:  yesno
+    sql: (TIME(${transaction_raw}) BETWEEN "07:00:00" AND "08:59:59.999999");;
+  }
+
+  dimension: store_opening_hours {
+    label: "Store Opening Hours (7am - 8pm)"
+    view_label: "Date"
+    group_label: "Time"
+    type:  yesno
+    sql: (TIME(${transaction_raw}) BETWEEN "07:00:00" AND "19:59:59.999999");;
+  }
+
 
   dimension: is_working_day {
     view_label: "Date"
@@ -722,7 +778,7 @@ view: transactions {
     group_label: "Flags"
     type: yesno
     description: "True when an order is a return, do NOT use the false flag as false can include multiple categories"
-    sql: ${transaction_line_type} = "Return" ;;
+    sql: ${transaction_line_type} = "Return" and ${product_code} not like "0%";;
   }
 
   # ORDER DETAILS #
@@ -1209,10 +1265,10 @@ view: transactions {
   }
 
   measure: aov_units{
-    label: "Units AOV" #  (Transaction)
+    label: "Units AOV (Units per Transaction)" #  (Transaction)
     view_label: "Measures"
     group_label: "AOV"
-    description: "Average units (only retail products) per order"
+    description: "Average units (only retail products) per order or Units per Transactions"
     type: number
     sql: COALESCE(SAFE_DIVIDE(${total_units}, ${number_of_transactions}),0) ;;
     value_format: "#,##0.00;(\#,##0.00)"
@@ -1236,6 +1292,25 @@ view: transactions {
     type: number
     sql: COALESCE(SAFE_DIVIDE(${aov_net_sales}, ${aov_units})) ;;
     value_format_name: gbp
+  }
+
+  # TS Club #
+  measure: loyalty_club_net_sales {
+    group_label: "TS Club"
+    label: "Net Sales (TS Club)"
+    view_label: "Measures"
+    type: sum
+    sql: case when ${customer_loyalty.active_loyalty_club_member} ="Yes" then ${net_sales_value} else 0 end;;
+    value_format_name: gbp_0
+  }
+
+  measure: loyalty_net_sales_percent {
+    group_label: "TS Club"
+    label: "TS Club Net Sales %"
+    view_label: "Measures"
+    type: number
+    sql:safe_divide(${loyalty_club_net_sales}, ${total_net_sales}) ;;
+    value_format_name: percent_1
   }
 
   # LFL #

@@ -4,21 +4,19 @@ view: scorecard_testing_region_mth {
   dimension: siteUID {
     type: string
     label: "siteUID"
-    view_label: "Scorecard testing"
     sql: ${TABLE}.siteUID ;;
     hidden: yes
   }
 
   dimension: customerUID {
     type: string
-    view_label: "Scorecard testing"
     sql: ${TABLE}.customerUID ;;
     hidden: yes
   }
 
   dimension: customer_tyly_flag {
     type: yesno
-    view_label: "Scorecard testing"
+    group_label: "Customer Retention Flags"
     label: "Customer Rentention (Region MTH)"
     sql: ${customerUID} is not null ;;
   }

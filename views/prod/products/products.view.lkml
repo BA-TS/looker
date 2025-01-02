@@ -77,6 +77,7 @@ view: products {
 
   dimension: product_code {
     group_label: "Product Details"
+    label: "Product Code (SKU)"
     type: string
     sql: ${TABLE}.productCode ;;
   }
@@ -238,7 +239,7 @@ view: products {
     type: yesno
     required_access_grants: [lz_testing]
     description: "These are the products that only trade customers will buy"
-    sql: ${subdepartment} IN ("John Guest Speedfit","MDPE Pipe & Fittings","110mm Underground","160mm Underground","Expanding Foam","LV transformers","Din Rail & Terminals","Conduit & Trunking","Shower Pumps") OR ${subdepartment} LIKE "%Consumer Units%" ;;
+    sql: ${subdepartment} IN ("John Guest Speedfit","MDPE Pipe & Fittings","110mm Underground","160mm Underground","Expanding Foam","LV transformers","Din Rail & Terminals","Conduit & Trunking","Shower Pumps") OR ${subdepartment} LIKE "%Consumer Units%";;
   }
 
   dimension: product_promo {
@@ -247,6 +248,7 @@ view: products {
     type: yesno
     sql: ${promoworking.Product_Code} is not null ;;
   }
+
 
   measure: number_of_subdepartments {
     label: "Number of SubDepartments"
@@ -264,7 +266,7 @@ view: products {
     group_label: "Other Metrics"
     type: count_distinct
     required_access_grants: [lz_testing]
-    sql: case when ${trade_products_10_subdepartments} = true THEN ${trade_products_10_subdepartments} ELSE NULL END ;;
+    sql: ${trade_products_10_subdepartments} = true ;;
     value_format: "#,##0;(#,##0)"
   }
 

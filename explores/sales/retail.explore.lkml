@@ -1,16 +1,10 @@
 include: "/views/**/base.view"
-include: "/views/**/calendar.view"
+include: "/views/**/date/**.view"
 include: "/views/**/transactions.view"
 include: "/views/**/sites.view"
 include: "/views/**/catalogue.view"
-include: "/views/**/google_reviews.view"
-include: "/views/**/appraisals.view"
-include: "/views/**/compliance_support.view"
-include: "/views/**/paid_hours.view"
-include: "/views/**/holiday_management.view"
-include: "/views/**/profit_protection.view"
-include: "/views/**/customer_experience.view"
-include: "/views/**/customer_experience_trade.view"
+include: "/views/**/retail/**.view"
+include: "/views/**/customer/**.view"
 
 persist_with: ts_transactions_datagroup
 
@@ -61,7 +55,7 @@ explore: retail {
   join: transactions {
     type: left_outer
     relationship: one_to_many
-    fields: [transactions.refurb_pre_post,transactions.number_of_branches]
+    fields: [transactions.total_units,transactions.refurb_pre_post,transactions.number_of_branches,transactions.aov_price,transactions.transaction_frequency,transactions.aov_units,transactions.total_units,transactions.loyalty_net_sales_percent]
     sql_on: ${base.base_date_date} = ${transactions.transaction_date_filter};;
   }
 
@@ -71,6 +65,21 @@ explore: retail {
     relationship: many_to_one
     sql_on: ${transactions.site_uid}=${sites.site_uid} ;;
   }
+
+  join: scorecard_branch_dev{
+    view_label: "Scorecard Monthly"
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on: ${scorecard_branch_dev.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${scorecard_branch_dev.siteUID} ;;
+  }
+
+  join: scorecard_branch_dev_ytd{
+    view_label: "Scorecard YTD"
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on: ${scorecard_branch_dev_ytd.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${scorecard_branch_dev_ytd.siteUID} ;;
+  }
+
 
   join: catalogue {
     view_label: "Catalogue"
@@ -83,13 +92,34 @@ explore: retail {
   join: google_reviews{
     type:  left_outer
     relationship:  many_to_one
-    sql_on: ${google_reviews.month}=${calendar_completed_date.calendar_year_month2};;
+    sql_on: ${google_reviews.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${google_reviews.siteUID} ;;
+  }
+
+  join: training{
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on: ${training.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${training.siteUID} ;;
+  }
+
+  join: lto{
+    view_label: "LTO"
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on: ${sites.site_uid}=${lto.siteUID} and ${lto.month}=${calendar_completed_date.calendar_year_month2} ;;
   }
 
   join: appraisals {
+    view_label: "Appraisals"
     type: left_outer
     relationship: many_to_one
     sql_on: ${sites.site_uid}=${appraisals.siteUID} and ${calendar_completed_date.calendar_year_month2}=${appraisals.month} ;;
+  }
+
+  join: appraisals_ytd {
+    view_label: "Appraisals"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${sites.site_uid}=${appraisals_ytd.siteUID} and ${calendar_completed_date.calendar_year_month2}=${appraisals_ytd.month} ;;
   }
 
   join: compliance_support {
@@ -102,6 +132,45 @@ explore: retail {
     type: left_outer
     relationship: many_to_one
     sql_on: ${sites.site_uid}=${paid_hours.siteUID} and ${calendar_completed_date.calendar_year_month2}=${paid_hours.month} ;;
+  }
+
+  join: rm_visits {
+    view_label: "RM Visits"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${sites.site_uid}=${rm_visits.siteUID} and ${calendar_completed_date.calendar_year_month2}=${rm_visits.month} ;;
+  }
+
+  join: hs_visits {
+    view_label: "Stay Safe Visits"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${sites.site_uid}=${hs_visits.siteUID} and ${calendar_completed_date.calendar_year_month2}=${hs_visits.month} ;;
+  }
+
+  join: stock_moves {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${sites.site_uid}=${stock_moves.siteUID} and ${calendar_completed_date.calendar_year_month2}=${stock_moves.month} ;;
+  }
+
+  join: stock_moves_ytd {
+    view_label: "Stock Moves"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${sites.site_uid}=${stock_moves_ytd.siteUID} and ${calendar_completed_date.calendar_year_month2}=${stock_moves_ytd.month} ;;
+  }
+
+  join: operational_compliance {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${sites.site_uid}=${operational_compliance.siteUID} and ${calendar_completed_date.calendar_year_month2}=${operational_compliance.month} ;;
+  }
+
+  join: apprenticeship {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${sites.site_uid}=${apprenticeship.siteUID} and ${calendar_completed_date.calendar_year_month2}=${apprenticeship.month} ;;
   }
 
   join: holiday_management {
@@ -130,125 +199,79 @@ explore: retail {
     sql_on: ${customer_experience_trade.siteUID}=${sites.site_uid} and ${customer_experience_trade.month}=${calendar_completed_date.calendar_year_month2} ;;
   }
 
-  # join: foh_master_products_2024 {
-  #   view_label: "FOH Location"
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on:${foh_master_products_2024.siteUID} =${sites.site_uid} and ${calendar_completed_date.fiscal_year_week}=${foh_master_products_2024.Week}  ;;
-  # }
+  join: availability_branch_ytd {
+    view_label: "Availability"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${availability_branch_ytd.site_uid}=${sites.site_uid};;
+  }
 
-  # join: scorecard_branch_dev {
-  #   view_label: "Scorecard Development (2024)"
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on:${scorecard_branch_dev.siteUID} =${sites.site_uid} and ${google_reviews.month}=${scorecard_branch_dev.month}  ;;
-  # }
+  join: availability_branch_last_week {
+    view_label: "Availability"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${availability_branch_last_week.site_uid}=${sites.site_uid};;
+  }
 
+  join: availability_branch_ytd_py {
+    view_label: "Availability"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${availability_branch_ytd_py.site_uid}=${sites.site_uid};;
+  }
 
-  # join: scorecard_testing_branch_mth {
-  #   required_access_grants:[is_retail]
-  #   type: left_outer
-  #   relationship: one_to_one
-  #   sql_on:
-  #   ${sites.site_uid} = ${scorecard_testing_branch_mth.siteUID} and
-  #   ${customers.customer_uid} = ${scorecard_testing_branch_mth.customerUID};;
-  # }
+  join:retail_trading_profit_ytd {
+    view_label: "P&L"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${retail_trading_profit_ytd.site_uid}=${sites.site_uid};;
+  }
 
-  # join: scorecard_testing_region_mth {
-  #   required_access_grants:[is_retail]
-  #   type: left_outer
-  #   relationship: one_to_one
-  #   sql_on:
-  #     ${customers.customer_uid} = ${scorecard_testing_region_mth.customerUID}
-  #     and ${sites.region_name} = ${scorecard_testing_region_mth.siteUID};;
-  # }
+  join:break_dates_branch {
+    view_label: "Break Dates"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${break_dates_branch.site_uid}=${sites.site_uid};;
+  }
 
-  # join: scorecard_testing_division_mth {
-  #   required_access_grants:[is_retail]
-  #   type: left_outer
-  #   relationship: one_to_one
-  #   sql_on: ${customers.customer_uid} = ${scorecard_testing_division_mth.customerUID}
-  #     and ${sites.division} = ${scorecard_testing_division_mth.siteUID};;
-  # }
+  join:change_hours {
+    view_label: "Change Hours"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${change_hours.site_uid}=${sites.site_uid};;
+  }
 
-  # join: scorecard_testing_branch_YTD {
-  #   required_access_grants:[is_retail]
-  #   type: left_outer
-  #   relationship: one_to_one
-  #   sql_on:
-  #   ${sites.site_uid} = ${scorecard_testing_branch_YTD.siteUID} and
-  #   ${customers.customer_uid} = ${scorecard_testing_branch_YTD.customerUID};;
-  # }
+  join:branch_market_share {
+    view_label: "Market Share"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${branch_market_share.site_uid}=${sites.site_uid};;
+  }
 
-  # join: scorecard_testing_region_YTD {
-  #   required_access_grants:[is_retail]
-  #   type: left_outer
-  #   relationship: one_to_one
-  #   sql_on:
-  #     ${customers.customer_uid} = ${scorecard_testing_region_YTD.customerUID}
-  #     and ${sites.region_name} = ${scorecard_testing_region_YTD.siteUID};;
-  # }
+  join:cannibalisation_2024 {
+    view_label: "Cannibalisation YTD"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${cannibalisation_2024.site_uid}=${sites.site_uid};;
+  }
 
-  # join: scorecard_testing_division_YTD {
-  #   required_access_grants:[is_retail]
-  #   type: left_outer
-  #   relationship: one_to_one
-  #   sql_on: ${customers.customer_uid} = ${scorecard_testing_division_YTD.customerUID}
-  #     and ${sites.division} = ${scorecard_testing_division_YTD.siteUID};;
-  # }
+  join: customer_loyalty {
+    view_label: "Customers"
+    required_access_grants: [can_use_customer_information2]
+    type :  left_outer
+    relationship: many_to_one
+    sql_on: ${customers.customer_uid}=${customer_loyalty.customer_uid}
+      and  ${base.date_date} between ${customer_loyalty.loyalty_club_start_date} and ${customer_loyalty.loyalty_club_end_date};;
+  }
 
-  # join: scorecard_testing_loyalty_branch_mth {
-  #   required_access_grants:[is_retail]
-  #   type: left_outer
-  #   relationship: one_to_one
-  #   sql_on:
-  #   ${sites.site_uid} = ${scorecard_testing_loyalty_branch_mth.siteUID} and
-  #   ${customers.customer_uid} = ${scorecard_testing_loyalty_branch_mth.customerUID};;
-  # }
-
-  # join: scorecard_testing_loyalty_region_mth {
-  #   required_access_grants:[is_retail]
-  #   type: left_outer
-  #   relationship: one_to_one
-  #   sql_on:
-  #     ${customers.customer_uid} = ${scorecard_testing_loyalty_region_mth.customerUID}
-  #     and ${sites.region_name} = ${scorecard_testing_loyalty_region_mth.siteUID};;
-  # }
-
-  # join: scorecard_testing_loyalty_division_mth {
-  #   required_access_grants:[is_retail]
-  #   type: left_outer
-  #   relationship: one_to_one
-  #   sql_on: ${customers.customer_uid} = ${scorecard_testing_loyalty_division_mth.customerUID}
-  #     and ${sites.division} = ${scorecard_testing_loyalty_division_mth.siteUID};;
-  # }
-
-  # join: scorecard_testing_loyalty_branch_ytd {
-  #   required_access_grants:[is_retail]
-  #   type: left_outer
-  #   relationship: one_to_one
-  #   sql_on:
-  #   ${sites.site_uid} = ${scorecard_testing_loyalty_branch_ytd.siteUID} and
-  #   ${customers.customer_uid} = ${scorecard_testing_loyalty_branch_ytd.customerUID};;
-  # }
-
-  # join: scorecard_testing_loyalty_region_ytd {
-  #   required_access_grants:[is_retail]
-  #   type: left_outer
-  #   relationship: one_to_one
-  #   sql_on:
-  #     ${customers.customer_uid} = ${scorecard_testing_loyalty_region_ytd.customerUID}
-  #     and ${sites.region_name} = ${scorecard_testing_loyalty_region_ytd.siteUID};;
-  # }
-
-  # join: scorecard_testing_loyalty_division_ytd {
-  #   required_access_grants:[is_retail]
-  #   type: left_outer
-  #   relationship: one_to_one
-  #   sql_on: ${customers.customer_uid} = ${scorecard_testing_loyalty_division_ytd.customerUID}
-  #     and ${sites.division} = ${scorecard_testing_loyalty_division_ytd.siteUID};;
-  # }
-
+  join: customers {
+    required_access_grants: [lz_only]
+    fields: [customers.customer_uid]
+    view_label: "Customers"
+    type :  left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.customer_uid}=${customers.customer_uid} ;;
+  }
 
 
 

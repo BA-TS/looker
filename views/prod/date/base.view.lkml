@@ -4,8 +4,8 @@ view: base {
   derived_table: {
     sql:
     select date
-    from UNNEST(GENERATE_DATE_ARRAY('2015-01-01', date(extract(year from current_date), 12, 31))) date;;
-    datagroup_trigger: ts_weekly_datagroup
+    from UNNEST(GENERATE_DATE_ARRAY('2015-01-01', date(extract(year from current_date)+1, 12, 31))) date;;
+    datagroup_trigger: ts_monthly_datagroup
   }
 
   extends: [period_over_period]

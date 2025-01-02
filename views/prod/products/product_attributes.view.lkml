@@ -11,11 +11,20 @@ view: product_attributes {
   dimension: attribute {
     type: string
     sql: ${TABLE}.attribute ;;
+    hidden: yes
   }
 
   dimension: attribute_value {
     type: string
     sql: ${TABLE}.attributeValue ;;
+    hidden: yes
+  }
+
+  dimension: attribute_weight {
+    group_label: "Product Dimensions"
+    type: string
+    sql: {% if ${attribute} == "Weight" %} ${attribute_value} {% endif %};;
+    hidden: yes
   }
 
   dimension_group: date_updated {
@@ -30,5 +39,6 @@ view: product_attributes {
       year
     ]
     sql: ${TABLE}.dateUpdated ;;
+    hidden: yes
   }
 }

@@ -62,7 +62,7 @@ view: sites {
       LEFT JOIN
         `toolstation-data-storage.locations.sites` AS sites
       USING(siteUID);;
-    datagroup_trigger: ts_weekly_datagroup
+    # datagroup_trigger: ts_weekly_datagroup
   }
 
   dimension: site_uid {
@@ -181,6 +181,13 @@ view: sites {
     sql: ${TABLE}.costCentreID ;;
   }
 
+  dimension: opened_date{
+    required_access_grants: [lz_testing]
+    type: date
+    sql: ${TABLE}.dateOpened ;;
+    hidden: yes
+  }
+
   dimension_group: date_opened {
     group_label: "Site Information"
     label: "Opened"
@@ -188,6 +195,13 @@ view: sites {
     type: time
     timeframes: [year]
     sql: ${TABLE}.dateOpened ;;
+  }
+
+  dimension: date_opened {
+    group_label: "Site Information"
+    label: "Opened This Year"
+    type: yesno
+    sql: ${date_opened_year}=extract(year from current_date) ;;
   }
 
   # dimension_group: date_closed {
@@ -221,9 +235,16 @@ view: sites {
     label: "Branch Age"
     description: "Age of the branch since it was opened"
     type: duration
-    intervals: [year]
-    sql_start: dateOpened ;;
-    sql_end: CURRENT_TIMESTAMP() ;;
+    intervals: [year,month]
+    sql_start: ${opened_date} ;;
+    sql_end: CURRENT_date() ;;
+  }
+
+  dimension: new_branch {
+    group_label: "Site Information"
+    label: "New Branch (<2 Months Old)"
+    type: yesno
+    sql: ${months_branch_age}<2;;
   }
 
   dimension: is_active {
@@ -285,6 +306,13 @@ view: sites {
     sql: ${TABLE}.regionName ;;
   }
 
+  dimension: old_region_name {
+    group_label: "Division and Region"
+    type: string
+    sql: ${TABLE}.Old_regionName ;;
+    hidden: yes
+  }
+
   dimension: site_type {
     group_label: "Site Information"
     type: string
@@ -307,14 +335,14 @@ view: sites {
     group_label: "Flags"
     label: "Is Distribution Centre?"
     type: yesno
-    sql: ${TABLE}.dc_flag = 1 ;;
+    sql: ${TABLE}.dc_flag = TRUE ;;
   }
 
   dimension: is_store {
     group_label: "Flags"
     label: "Is Store?"
     type: yesno
-    sql: ${TABLE}.store_flag = 1 ;;
+    sql: ${TABLE}.store_flag = TRUE ;;
   }
 
   dimension: servicing_dc_id {
@@ -332,6 +360,7 @@ view: sites {
     description: "Number of DCs"
     type: count_distinct
     sql: ${servicing_dc_name} ;;
+    hidden: yes
   }
 
   dimension: servicing_dc_name {
@@ -432,9 +461,22 @@ view: sites {
     sql: ${TABLE}.Refurb_start_date ;;
   }
 
+  dimension: Refurb {
+    group_label: "Site Information"
+    type: yesno
+    sql: ${Refurb_start_date} is not null ;;
+  }
+
   dimension: Refurb_end_date {
     group_label: "Site Information"
     type: date
     sql: ${TABLE}.Refurb_end_date ;;
+  }
+
+  measure: number_of_regions {
+    view_label: "Measures"
+    group_label: "Other Metrics"
+    type: count_distinct
+    sql: ${region_name} ;;
   }
 }

@@ -38,8 +38,19 @@ access_grant: is_nigel_burch {
   allowed_values: ["Y"]
 }
 
+access_grant: is_bdm {
+  user_attribute: bdm_users
+  allowed_values: ["Y"]
+}
+
+
 access_grant: lz_testing {
   user_attribute: lz_testing
+  allowed_values: ["Y"]
+}
+
+access_grant: lz_only {
+  user_attribute: lz_only
   allowed_values: ["Y"]
 }
 
@@ -53,16 +64,6 @@ access_grant: is_retail {
   allowed_values: ["Y"]
 }
 
-access_grant: GA4_access {
-  user_attribute: ga4_ranjit_test
-  allowed_values: ["Y"]
-}
-
-access_grant: GA4_access_v2 {
-  user_attribute: ga4_access_v2
-  allowed_values: ["Y"]
-}
-
 access_grant: sales_by_brand {
   user_attribute: sales_by_brand
   allowed_values: ["Y"]
@@ -73,9 +74,23 @@ access_grant: user_lauren_england {
   allowed_values: ["Y"]
 }
 
-
 access_grant: adhoc_rakuten {
   user_attribute: adhoc_rakuten
+  allowed_values: ["Y"]
+}
+
+access_grant: is_advanced_super {
+  user_attribute: advanced_super
+  allowed_values: ["Y"]
+}
+
+access_grant: tp_testing {
+  user_attribute: tp_testing
+  allowed_values: ["Y"]
+}
+
+access_grant: ecrebo {
+  user_attribute: ecrebo
   allowed_values: ["Y"]
 }
 
