@@ -2,17 +2,17 @@ view: ecrebo_discounts {
 
   derived_table: {
     sql:
-    SELECT
-    DISTINCT row_number() over () AS prim_key,
-    parentOrderUID,
-    productCode,
-    grossSalesAdjusted,
-    netSalesAdjusted,
-    marginExclFundingAdjusted
-    FROM `toolstation-data-storage.sales.ecreboDiscounts`
+       select
+        t.productCode,
+        t.parentOrderUID,
+        sum(coalesce(grossSalesAdjusted, t.grossSalesValue)) grossSalesAdjusted,
+        sum(coalesce(netSalesAdjusted, netSalesValue)) netSalesAdjusted,
+        sum(coalesce(marginExclFundingAdjusted, t.marginExclFunding)) marginExclFundingAdjusted
+       from `toolstation-data-storage.sales.transactions`  t
+       left join `toolstation-data-storage.sales.ecreboDiscounts` ED
+        on t.parentOrderUID = ED.parentOrderUID AND t.transactionUID = ED.transactionUID and t.productCode = ED.productCode
+        group by all
     ;;
-
-    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 7;;
   }
 
   dimension: prim_key {
@@ -95,43 +95,5 @@ view: ecrebo_discounts {
     hidden: yes
   }
 
-  # measure: gross_sales_adjusted_raw {
-  #   type: sum
-  #   sql: ${gross_sales_adjusted_dim};;
-  #   value_format_name: gbp
-  #   hidden: yes
-  # }
-
-  # measure: gross_sales_adjusted {
-  #   type: number
-  #   sql: coalesce(${gross_sales_adjusted_raw},${transactions.total_gross_sales});;
-  #   value_format_name: gbp
-  # }
-
-  # measure: net_sales_adjusted_raw {
-  #   type: sum
-  #   sql: ${net_sales_adjusted_dim};;
-  #   value_format_name: gbp
-  #   required_access_grants: [lz_only]
-  # }
-
-  # measure: net_sales_adjusted {
-  #   type: number
-  #   sql: coalesce(${net_sales_adjusted_raw},${transactions.total_net_sales});;
-  #   value_format_name: gbp
-  # }
-
-  # measure: margin_excl_funding_raw {
-  #   type: sum
-  #   sql: ${margin_excl_funding_adjusted_dim};;
-  #   value_format_name: gbp
-  #   hidden: yes
-  # }
-
-  # measure: margin_excl_funding {
-  #   type: number
-  #   sql: coalesce(${margin_excl_funding_raw},${transactions.total_margin_excl_funding});;
-  #   value_format_name: gbp
-  # }
 
 }
