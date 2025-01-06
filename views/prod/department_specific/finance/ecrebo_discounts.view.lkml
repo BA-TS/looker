@@ -41,6 +41,32 @@ view: ecrebo_discounts {
     hidden: yes
   }
 
+  dimension: gross_sales_adjusted_dim2 {
+    type: number
+    sql: coalesce(${gross_sales_adjusted_dim},${transactions.gross_sales_value});;
+    value_format_name: gbp
+    hidden: yes
+  }
+
+  measure: gross_sales_adjusted {
+    type: sum
+    sql: ${gross_sales_adjusted_dim2};;
+    value_format_name: gbp
+  }
+
+  dimension: net_sales_adjusted_dim2 {
+    type: number
+    sql: coalesce(${net_sales_adjusted_dim},${transactions.net_sales_value});;
+    value_format_name: gbp
+    hidden: yes
+  }
+
+  measure: net_sales_adjusted {
+    type: sum
+    sql: ${net_sales_adjusted_dim2};;
+    value_format_name: gbp
+  }
+
   dimension: net_sales_adjusted_dim {
     type: number
     sql: ${TABLE}.netSalesAdjusted;;
@@ -55,31 +81,31 @@ view: ecrebo_discounts {
     hidden: yes
   }
 
-  measure: gross_sales_adjusted_raw {
-    type: sum
-    sql: ${gross_sales_adjusted_dim};;
-    value_format_name: gbp
-    hidden: yes
-  }
+  # measure: gross_sales_adjusted_raw {
+  #   type: sum
+  #   sql: ${gross_sales_adjusted_dim};;
+  #   value_format_name: gbp
+  #   hidden: yes
+  # }
 
-  measure: gross_sales_adjusted {
-    type: number
-    sql: coalesce(${gross_sales_adjusted_raw},${transactions.total_gross_sales});;
-    value_format_name: gbp
-  }
+  # measure: gross_sales_adjusted {
+  #   type: number
+  #   sql: coalesce(${gross_sales_adjusted_raw},${transactions.total_gross_sales});;
+  #   value_format_name: gbp
+  # }
 
-  measure: net_sales_adjusted_raw {
-    type: sum
-    sql: ${net_sales_adjusted_dim};;
-    value_format_name: gbp
-    hidden: yes
-  }
+  # measure: net_sales_adjusted_raw {
+  #   type: sum
+  #   sql: ${net_sales_adjusted_dim};;
+  #   value_format_name: gbp
+  #   required_access_grants: [lz_only]
+  # }
 
-  measure: net_sales_adjusted {
-    type: number
-    sql: coalesce(${net_sales_adjusted_raw},${transactions.total_net_sales});;
-    value_format_name: gbp
-  }
+  # measure: net_sales_adjusted {
+  #   type: number
+  #   sql: coalesce(${net_sales_adjusted_raw},${transactions.total_net_sales});;
+  #   value_format_name: gbp
+  # }
 
   measure: margin_excl_funding_raw {
     type: sum
