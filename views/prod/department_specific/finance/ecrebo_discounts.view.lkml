@@ -6,9 +6,9 @@ view: ecrebo_discounts {
     DISTINCT row_number() over () AS prim_key,
     parentOrderUID,
     productCode,
-    grossSalesUnadjusted,
-    netSalesUnadjusted,
-    marginExclFunding
+    grossSalesAdjusted,
+    netSalesAdjusted,
+    marginExclFundingAdjusted
     FROM `toolstation-data-storage.sales.ecreboDiscounts`
     ;;
 
@@ -34,63 +34,58 @@ view: ecrebo_discounts {
     hidden:  yes
   }
 
-  dimension: gross_sales_unadjusted_dim {
+  dimension: gross_sales_adjusted_dim {
     type: number
-    sql: ${TABLE}.grossSalesUnadjusted;;
+    sql: ${TABLE}.grossSalesAdjusted;;
     value_format_name: gbp
     hidden: yes
   }
 
-  # dimension: gross_sales_unadjusted_dim_combined {
-  #   type: number
-  #   sql: coalesce(${gross_sales_unadjusted_dim},${transactions.total_gross_sales});;
-  #   value_format_name: gbp
-  #   hidden: yes
-  # }
-
-  dimension: net_sales_unadjusted_dim {
+  dimension: net_sales_adjusted_dim {
     type: number
-    sql: ${TABLE}.netSalesUnadjusted;;
+    sql: ${TABLE}.netSalesAdjusted;;
     value_format_name: gbp
     hidden: yes
   }
 
-  dimension: margin_excl_funding_dim {
+  dimension: margin_excl_funding_adjusted_dim {
     type: number
-    sql: ${TABLE}.marginExclFunding;;
+    sql: ${TABLE}.marginExclFundingAdjusted;;
     value_format_name: gbp
     hidden: yes
   }
 
-  measure: gross_sales_unadjusted_raw {
+  measure: gross_sales_adjusted_raw {
     type: sum
-    sql: ${gross_sales_unadjusted_dim};;
+    sql: ${gross_sales_adjusted_dim};;
     value_format_name: gbp
     hidden: yes
   }
 
-  measure: gross_sales_unadjusted {
+  measure: gross_sales_adjusted {
     type: number
-    sql: coalesce(${gross_sales_unadjusted_raw},${transactions.total_gross_sales});;
+    sql: coalesce(${gross_sales_adjusted_raw},${transactions.total_gross_sales});;
     value_format_name: gbp
   }
 
-  measure: net_sales_unadjusted_raw {
+  measure: net_sales_adjusted_raw {
     type: sum
-    sql: ${net_sales_unadjusted_dim};;
+    sql: ${net_sales_adjusted_dim};;
     value_format_name: gbp
+    hidden: yes
   }
 
-  measure: net_sales_unadjusted {
+  measure: net_sales_adjusted {
     type: number
-    sql: coalesce(${net_sales_unadjusted_raw},${transactions.total_net_sales});;
+    sql: coalesce(${net_sales_adjusted_raw},${transactions.total_net_sales});;
     value_format_name: gbp
   }
 
   measure: margin_excl_funding_raw {
     type: sum
-    sql: ${margin_excl_funding_dim};;
+    sql: ${margin_excl_funding_adjusted_dim};;
     value_format_name: gbp
+    hidden: yes
   }
 
   measure: margin_excl_funding {
