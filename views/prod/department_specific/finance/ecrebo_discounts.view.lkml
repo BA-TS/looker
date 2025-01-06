@@ -5,8 +5,10 @@ view: ecrebo_discounts {
     SELECT
     DISTINCT row_number() over () AS prim_key,
     parentOrderUID,
-    transactionUID,
-    grossSalesUnadjusted
+    productCode,
+    grossSalesUnadjusted,
+    netSalesUnadjusted,
+    marginExclFunding
     FROM `toolstation-data-storage.sales.ecreboDiscounts`
     ;;
 
@@ -20,12 +22,31 @@ view: ecrebo_discounts {
     hidden:  yes
   }
 
-   dimension: gross_sales_unadjusted_dim {
+  dimension: parent_order_uid {
+    type: string
+    sql: ${TABLE}.parentOrderUID ;;
+    hidden:  yes
+  }
+
+  dimension: product_code {
+    type: string
+    sql: ${TABLE}.productCode ;;
+    hidden:  yes
+  }
+
+  dimension: gross_sales_unadjusted_dim {
     type: number
     sql: ${TABLE}.grossSalesUnadjusted;;
     value_format_name: gbp
     hidden: yes
   }
+
+  # dimension: gross_sales_unadjusted_dim_combined {
+  #   type: number
+  #   sql: coalesce(${gross_sales_unadjusted_dim},${transactions.total_gross_sales});;
+  #   value_format_name: gbp
+  #   hidden: yes
+  # }
 
   dimension: net_sales_unadjusted_dim {
     type: number
@@ -41,26 +62,41 @@ view: ecrebo_discounts {
     hidden: yes
   }
 
-  measure: gross_sales_unadjusted {
+  measure: gross_sales_unadjusted_raw {
     type: sum
     sql: ${gross_sales_unadjusted_dim};;
     value_format_name: gbp
     hidden: yes
   }
 
-  measure: net_sales_unadjusted {
+  measure: gross_sales_unadjusted {
+    type: number
+    sql: coalesce(${gross_sales_unadjusted_raw},${transactions.total_gross_sales});;
+    value_format_name: gbp
+  }
+
+  measure: net_sales_unadjusted_raw {
     type: sum
     sql: ${net_sales_unadjusted_dim};;
     value_format_name: gbp
-    hidden: yes
   }
 
-  measure: margin_excl_funding {
+  measure: net_sales_unadjusted {
+    type: number
+    sql: coalesce(${net_sales_unadjusted_raw},${transactions.total_net_sales});;
+    value_format_name: gbp
+  }
+
+  measure: margin_excl_funding_raw {
     type: sum
     sql: ${margin_excl_funding_dim};;
     value_format_name: gbp
-    hidden: yes
   }
 
+  measure: margin_excl_funding {
+    type: number
+    sql: coalesce(${margin_excl_funding_raw},${transactions.total_margin_excl_funding});;
+    value_format_name: gbp
+  }
 
 }

@@ -79,6 +79,7 @@ include: "/views/**/product_detail.view"
 include: "/views/**/transactions_ecrebo.view"
 include: "/views/**/ecrebo_product_code_flag.view"
 include: "/views/**/product_attributes_pivoted.view"
+include: "/views/**/ecrebo_discounts.view"
 
 
 explore: base {
@@ -861,6 +862,14 @@ explore: base {
     type: left_outer
     relationship: one_to_one
     sql_on: ${products.product_code}  =  ${transactions_ecrebo.product_code} and  ${transactions.parent_order_uid}= ${transactions_ecrebo.parent_order_uid};;
+  }
+
+  join: ecrebo_discounts {
+    view_label: "Ecrebo Discounts"
+    required_access_grants: [ecrebo]
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${products.product_code}  =  ${ecrebo_discounts.product_code} and  ${transactions.parent_order_uid}= ${ecrebo_discounts.parent_order_uid};;
   }
 
   join: ecrebo_product_code_flag {
