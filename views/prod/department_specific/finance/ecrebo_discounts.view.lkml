@@ -92,7 +92,6 @@ view: ecrebo_discounts {
     type: sum
     sql: ${margin_excl_funding_adjusted_dim2};;
     value_format_name: gbp
-    hidden: yes
   }
 
 
