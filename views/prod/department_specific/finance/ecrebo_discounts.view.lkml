@@ -16,6 +16,8 @@ view: ecrebo_discounts {
        from `toolstation-data-storage.sales.transactions`  t
        left join `toolstation-data-storage.sales.ecreboDiscounts` ED
         on t.parentOrderUID = ED.parentOrderUID AND t.transactionUID = ED.transactionUID and t.productCode = ED.productCode
+        and t.transactionLineType = ED.transactionLineType
+        where t.productCode NOT IN ('85699', '00053','44842')
         group by all
     ;;
   }
