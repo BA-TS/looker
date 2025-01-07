@@ -5,6 +5,7 @@ view: ecrebo_discounts {
        select
         t.productCode,
         t.parentOrderUID,
+        t.transactionLineType,
         sum(coalesce(grossSalesAdjusted, t.grossSalesValue)) grossSalesAdjusted,
         sum(coalesce(netSalesAdjusted, netSalesValue)) netSalesAdjusted,
         sum(coalesce(marginExclFundingAdjusted, t.marginExclFunding)) marginExclFundingAdjusted,
@@ -35,6 +36,12 @@ view: ecrebo_discounts {
   dimension: product_code {
     type: string
     sql: ${TABLE}.productCode ;;
+    hidden:  yes
+  }
+
+  dimension: transaction_line_type {
+    type: string
+    sql: ${TABLE}.transactionLineType ;;
     hidden:  yes
   }
 

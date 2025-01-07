@@ -869,7 +869,10 @@ explore: base {
     required_access_grants: [ecrebo]
     type: left_outer
     relationship: one_to_one
-    sql_on: ${products.product_code}  =  ${ecrebo_discounts.product_code} and  ${transactions.parent_order_uid}= ${ecrebo_discounts.parent_order_uid};;
+    sql_on: ${products.product_code}  =  ${ecrebo_discounts.product_code} and  ${transactions.parent_order_uid}= ${ecrebo_discounts.parent_order_uid} and
+    ${transactions.transaction_line_type}= ${ecrebo_discounts.transaction_line_type}
+
+    ;;
   }
 
   join: ecrebo_product_code_flag {
