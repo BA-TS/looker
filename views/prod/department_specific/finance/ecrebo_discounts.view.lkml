@@ -3,6 +3,7 @@ view: ecrebo_discounts {
   derived_table: {
     sql:
        select
+      DISTINCT row_number() over () AS prim_key,
         t.productCode,
         t.parentOrderUID,
         t.transactionLineType,
