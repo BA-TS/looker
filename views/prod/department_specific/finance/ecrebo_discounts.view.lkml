@@ -7,7 +7,11 @@ view: ecrebo_discounts {
         t.parentOrderUID,
         sum(coalesce(grossSalesAdjusted, t.grossSalesValue)) grossSalesAdjusted,
         sum(coalesce(netSalesAdjusted, netSalesValue)) netSalesAdjusted,
-        sum(coalesce(marginExclFundingAdjusted, t.marginExclFunding)) marginExclFundingAdjusted
+        sum(coalesce(marginExclFundingAdjusted, t.marginExclFunding)) marginExclFundingAdjusted,
+        sum(itemDiscount) itemDiscount,
+        sum(ED.COGS) COGS,
+        sum(total_basket_discount) basketDiscount,
+        sum(`basketPromotionDiscounts`[SAFE_OFFSET(0)].discount_amount) basketPromotionDiscount
        from `toolstation-data-storage.sales.transactions`  t
        left join `toolstation-data-storage.sales.ecreboDiscounts` ED
         on t.parentOrderUID = ED.parentOrderUID AND t.transactionUID = ED.transactionUID and t.productCode = ED.productCode
@@ -48,12 +52,6 @@ view: ecrebo_discounts {
     hidden: yes
   }
 
-  measure: gross_sales_adjusted {
-    type: sum
-    sql: ${gross_sales_adjusted_dim2};;
-    value_format_name: gbp
-  }
-
   dimension: net_sales_adjusted_dim {
     type: number
     sql: ${TABLE}.netSalesAdjusted;;
@@ -68,10 +66,11 @@ view: ecrebo_discounts {
     hidden: yes
   }
 
-  measure: net_sales_adjusted {
-    type: sum
-    sql: ${net_sales_adjusted_dim2};;
+  dimension: item_discount_dim  {
+    type: number
+    sql: ${TABLE}.itemDiscount;;
     value_format_name: gbp
+    hidden: yes
   }
 
   dimension: margin_excl_funding_adjusted_dim {
@@ -88,11 +87,68 @@ view: ecrebo_discounts {
     hidden: yes
   }
 
+  dimension: COGS_dim {
+    type: number
+    sql: ${TABLE}.COGS;;
+    value_format_name: gbp
+    hidden: yes
+  }
+
+  dimension: basket_discount_dim {
+    type: number
+    sql: ${TABLE}.basketDiscount ;;
+    value_format_name: gbp
+    hidden: yes
+  }
+
+  dimension: basket_promotion_discount_dim {
+    type: number
+    sql: ${TABLE}.basketPromotionDiscount;;
+    value_format_name: gbp
+    hidden: yes
+  }
+
+  # --------------------------
+  measure: gross_sales_adjusted {
+    type: sum
+    sql: ${gross_sales_adjusted_dim2};;
+    value_format_name: gbp
+  }
+
+  measure: net_sales_adjusted {
+    type: sum
+    sql: ${net_sales_adjusted_dim2};;
+    value_format_name: gbp
+  }
+
   measure: margin_excl_funding {
     type: sum
     sql: ${margin_excl_funding_adjusted_dim2};;
     value_format_name: gbp
   }
 
+  measure: item_discount  {
+    type: sum
+    sql: ${item_discount_dim};;
+    value_format_name: gbp
+  }
 
+  measure: COGS {
+    type: sum
+    sql: ${COGS_dim};;
+    value_format_name: gbp
+  }
+
+  measure: basket_discount {
+    type: sum
+    sql: ${basket_discount_dim};;
+    value_format_name: gbp
+    hidden: yes
+  }
+
+  measure: basket_promotion_discount {
+    type: sum
+    sql: ${basket_promotion_discount_dim};;
+    value_format_name: gbp
+  }
 }
