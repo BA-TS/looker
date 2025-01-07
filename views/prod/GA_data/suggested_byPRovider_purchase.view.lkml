@@ -162,7 +162,7 @@ left join purchase on ATC.session_id = purchase.session_id and ATC.item_id = pur
 where timeORder = 1
 order by purchaseID desc;;
 
-    sql_trigger_value: SELECT 1;;
+    sql_trigger_value: SELECT EXTRACT(dayofyear FROM CURRENT_DATE()) = 0;;
   }
 
 
