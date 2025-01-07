@@ -7,6 +7,7 @@ view: ecrebo_discounts {
         t.productCode,
         t.parentOrderUID,
         t.transactionLineType,
+        t.transactionDate,
         sum(coalesce(grossSalesAdjusted, t.grossSalesValue)) grossSalesAdjusted,
         sum(coalesce(netSalesAdjusted, netSalesValue)) netSalesAdjusted,
         sum(coalesce(marginExclFundingAdjusted, t.marginExclFunding)) marginExclFundingAdjusted,
@@ -28,6 +29,18 @@ view: ecrebo_discounts {
     primary_key: yes
     sql: ${TABLE}.prim_key ;;
     hidden:  yes
+  }
+
+
+  dimension_group: transaction {
+    hidden: yes
+    type: time
+    timeframes: [
+      raw,
+      date,
+    ]
+    # datatype: date
+    sql: ${TABLE}.transactionDate ;;
   }
 
   dimension: parent_order_uid {
