@@ -7,10 +7,11 @@ view: ecrebo_discounts {
         t.productCode,
         t.parentOrderUID,
         t.transactionLineType,
-        t.transactionDate,
+        --t.transactionDate,
         sum(coalesce(grossSalesAdjusted, t.grossSalesValue)) grossSalesAdjusted,
         sum(coalesce(netSalesAdjusted, netSalesValue)) netSalesAdjusted,
         sum(coalesce(marginExclFundingAdjusted, t.marginExclFunding)) marginExclFundingAdjusted,
+        sum(coalesce(marginInclFundingAdjusted, t.marginInclFunding)) marginInclFundingAdjusted,
         sum(itemDiscount) itemDiscount,
         sum(ED.COGS) COGS,
         sum(total_basket_discount) basketDiscount,
@@ -110,6 +111,20 @@ view: ecrebo_discounts {
     hidden: yes
   }
 
+  dimension: margin_incl_funding_adjusted_dim {
+    type: number
+    sql: ${TABLE}.marginInclFundingAdjusted;;
+    value_format_name: gbp
+    hidden: yes
+  }
+
+  dimension: margin_incl_funding_adjusted_dim2 {
+    type: number
+    sql: coalesce(${margin_incl_funding_adjusted_dim},${transactions.margin_incl_funding});;
+    value_format_name: gbp
+    hidden: yes
+  }
+
   dimension: COGS_dim {
     type: number
     sql: ${TABLE}.COGS;;
@@ -147,6 +162,12 @@ view: ecrebo_discounts {
   measure: margin_excl_funding {
     type: sum
     sql: ${margin_excl_funding_adjusted_dim2};;
+    value_format_name: gbp
+  }
+
+  measure: margin_incl_funding {
+    type: sum
+    sql: ${margin_incl_funding_adjusted_dim2};;
     value_format_name: gbp
   }
 
