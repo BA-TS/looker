@@ -98,6 +98,7 @@ view: transactions_ecrebo {
     type: sum
     sql: ${item_discount_dim};;
     value_format_name: gbp
+    hidden: yes
   }
 
   # measure: basket_promotion_discount {

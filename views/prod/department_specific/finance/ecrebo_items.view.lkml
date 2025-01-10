@@ -56,6 +56,7 @@ view: ecrebo_items {
   }
 
   measure: item_discount {
+    hidden: yes
     type: average
     label: "Item Discount"
     sql: ${item_discount_dim} ;;

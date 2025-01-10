@@ -172,6 +172,7 @@ view: ecrebo_discounts {
   }
 
   measure: item_discount  {
+    label: "Item Discount (Gross)"
     type: sum
     sql: ${item_discount_dim};;
     value_format_name: gbp
@@ -191,6 +192,7 @@ view: ecrebo_discounts {
   }
 
   measure: basket_promotion_discount {
+    label: "Basket Promotion Discount (Gross)"
     type: sum
     sql: ${basket_promotion_discount_dim};;
     value_format_name: gbp
