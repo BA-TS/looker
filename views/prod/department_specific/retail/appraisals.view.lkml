@@ -15,7 +15,8 @@ view: appraisals {
       s.month as last_appraisals_month,
       s.colleagues,
       s.appraisals,
-      concat(extract (year from current_date), right(concat(0, extract (month from current_date)-1),2)) as month,
+      --concat(extract (year from current_date), right(concat(0, extract (month from current_date)-1),2)) as month,
+            202412 as month,
       from
       `toolstation-data-storage.retailReporting.SC_APPRAISALS` s
       inner join base b

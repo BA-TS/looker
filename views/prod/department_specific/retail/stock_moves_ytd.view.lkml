@@ -6,7 +6,8 @@ view: stock_moves_ytd {
     select
     siteUID,
     sum(moves) as moves,
-        concat(extract (year from current_date), right(concat(0, extract (month from current_date)-1),2)) as month,
+        --concat(extract (year from current_date), right(concat(0, extract (month from current_date)-1),2)) as month,
+              202412 as month,
     from `toolstation-data-storage.retailReporting.SC_MOVES_VS_DELIVERED`
     where left(cast(month as string),4) = cast(extract (year from current_date) as string)
     group by all

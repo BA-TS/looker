@@ -5,7 +5,8 @@ view: lto {
   derived_table: {
     sql:
     select *,
-    concat(extract (year from current_date), right(concat(0, extract (month from current_date)-1),2)) as month,
+    --concat(extract (year from current_date), right(concat(0, extract (month from current_date)-1),2)) as month,
+          202412 as month,
     from `toolstation-data-storage.retailReporting.SC_LTO_BRANCH`;;
     # datagroup_trigger: ts_transactions_datagroup
     }

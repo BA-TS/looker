@@ -15,7 +15,8 @@ view: rm_visits {
       select s.siteUID,
       s.month as last_visit_month,
       s.score,
-      concat(extract (year from current_date), right(concat(0, extract (month from current_date)-1),2)) as month,
+      --concat(extract (year from current_date), right(concat(0, extract (month from current_date)-1),2)) as month,
+      202412 as month,
       from
       `toolstation-data-storage.retailReporting.SC_RM_VISITS` s
       inner join base b
