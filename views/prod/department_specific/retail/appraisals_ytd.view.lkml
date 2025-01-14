@@ -10,19 +10,17 @@ view: appraisals_ytd {
       avg(appraisals) as appraisals,
       case when extract (month from current_date)=1 then concat(extract (year from current_date)-1,12) else concat(extract (year from current_date)-1,right(concat(0, extract (month from current_date)-1),2)) end as month
      -- concat(extract (year from current_date), right(concat(0, extract (month from current_date)-1),2)) as month,
-      "202412 as month,
       FROM `toolstation-data-storage.retailReporting.SC_APPRAISALS`
-      where left(month,4) = cast(extract(year from current_date) as string)
+      where left(month,4) = cast(extract(year from current_date)-1 as string)
       group by all
       ;;
-    # datagroup_trigger: ts_transactions_datagroup
   }
 
 
   dimension: month {
     type: string
-    # sql: ${TABLE}.month ;;
-    sql: "202412" ;;
+    sql: cast(${TABLE}.month as string) ;;
+    # sql: "202412" ;;
     hidden: yes
   }
 
