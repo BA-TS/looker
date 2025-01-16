@@ -67,10 +67,17 @@ explore: retail {
   }
 
   join: scorecard_branch_dev{
-    view_label: "Scorecard Monthly"
+    view_label: "Scorecard 24 - Monthly"
     type:  left_outer
     relationship:  many_to_one
     sql_on: ${scorecard_branch_dev.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${scorecard_branch_dev.siteUID} ;;
+  }
+
+  join: scorecard_branch_dev25{
+    view_label: "Scorecard 25 - Monthly"
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on: ${scorecard_branch_dev25.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${scorecard_branch_dev25.siteUID} ;;
   }
 
   join: scorecard_branch_dev_ytd{
