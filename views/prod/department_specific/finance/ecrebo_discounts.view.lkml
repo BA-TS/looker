@@ -106,20 +106,6 @@ view: ecrebo_discounts {
     hidden: yes
   }
 
-  dimension: margin_excl_funding_adjusted_dim {
-    type: number
-    sql: ${TABLE}.marginExclFundingAdjusted;;
-    value_format_name: gbp
-    hidden: yes
-  }
-
-  dimension: margin_excl_funding_adjusted_dim2 {
-    type: number
-    sql: coalesce(${margin_excl_funding_adjusted_dim},${transactions.margin_incl_funding});;
-    value_format_name: gbp
-    hidden: yes
-  }
-
   dimension: margin_incl_funding_adjusted_dim {
     type: number
     sql: ${TABLE}.marginInclFundingAdjusted;;
@@ -174,13 +160,6 @@ view: ecrebo_discounts {
     label: "Net Sales (inc. Discount)"
     type: sum
     sql: ${net_sales_adjusted_dim2};;
-    value_format_name: gbp
-  }
-
-  measure: margin_excl_funding {
-    label: "Margin Excl Funding (inc. Discount)"
-    type: sum
-    sql: ${margin_excl_funding_adjusted_dim2};;
     value_format_name: gbp
   }
 
