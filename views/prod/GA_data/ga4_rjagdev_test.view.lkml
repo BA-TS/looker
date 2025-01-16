@@ -147,7 +147,7 @@ view: ga4_rjagdev_test {
     type: string
     sql: INITCAP(Ltrim(
     case when ${TABLE}.event_name in ("search", "search_actions", "blank_search") then coalesce(${TABLE}.label_1,regexp_replace(regexp_extract(${TABLE}.page_location, ".*q\\=(.*)$"), "\\+", " ")) else
-    (case when ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") then regexp_extract(${TABLE}.label_2, "^.*\\-(.*)$") else
+    (case when ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") then regexp_extract(${TABLE}.label_1, "^.*\\-(.*)$") else
     (case when ${TABLE}.event_name = "collection_OOS" and ${platform} = "Web" then "Collection" else
     (case when ${TABLE}.event_name = "dual_OOS" and ${platform} = "Web" then "Dual" else
     (case when ${TABLE}.event_name = "Delivery_OOS" and ${platform} = "Web" then "Delivery" else
