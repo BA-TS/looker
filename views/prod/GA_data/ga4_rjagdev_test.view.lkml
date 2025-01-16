@@ -901,7 +901,7 @@ view: fu {
   dimension: fu {
     hidden: yes
     type: string
-    sql: ${TABLE} ;;
+    sql:case when regexp_contains(${TABLE}, r"\s-\s") then regexp_replace(${TABLE}, r"\s-\s", ":") else ${TABLE} end ;;
   }
 
 
