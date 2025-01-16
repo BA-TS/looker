@@ -886,7 +886,7 @@ view: fu {
     label: "Filter Key"
     description: "filter_key"
     type: string
-    sql: coalesce(case when ${ga4_rjagdev_test.event_name} in ("filter_applied", "filter_removed") then ${ga4_rjagdev_test.label_1} else null end, regexp_extract(${fu}, "(.*)\\:.*"));;
+    sql: regexp_extract(${fu}, "(.*)\\:.*");;
   }
 
   dimension: label_1 {
@@ -894,6 +894,6 @@ view: fu {
     label: "Filter Label"
     description: "filter_label"
     type: string
-    sql: coalesce(case when ${ga4_rjagdev_test.event_name} in ("filter_applied", "filter_removed") then ${ga4_rjagdev_test.label_2} else null end, regexp_extract(${fu}, ".*\\:(.*)"));;
+    sql: regexp_extract(${fu}, ".*\\:(.*)");;
   }
 }
