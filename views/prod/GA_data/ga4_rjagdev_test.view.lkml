@@ -160,7 +160,7 @@ view: ga4_rjagdev_test {
     group_label: "Event"
     type: string
     sql: case when ${TABLE}.key_2 is null and ${label_2} is not null then "action"
-    else (case when ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") then "Channel" (case when ${TABLE}.event_name in ("navigation") and ${TABLE}.label_1 is null and ${TABLE}.key_2 is not null then null else ${TABLE}.key_2 end) end) end ;;
+    else (case when ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") then "Channel" else (case when ${TABLE}.event_name in ("navigation") and ${TABLE}.label_1 is null and ${TABLE}.key_2 is not null then null else ${TABLE}.key_2 end) end) end ;;
   }
 
   dimension: label_2 {
