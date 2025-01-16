@@ -159,20 +159,29 @@ view: ga4_rjagdev_test {
     label: "2.Event Key"
     group_label: "Event"
     type: string
-    sql: case when ${TABLE}.key_2 is null and ${label_2} is not null then "action"
-    else (case when ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") then "Channel" else (case when ${TABLE}.event_name in ("navigation") and ${TABLE}.label_1 is null and ${TABLE}.key_2 is not null then null else ${TABLE}.key_2 end) end) end ;;
+    sql: case when ${TABLE}.key_2 is null and ${label_2} is not null then "action" else
+    (case when ${TABLE}.event_name in ("navigation") and ${TABLE}.label_1 is null and ${TABLE}.key_2 is not null then null else ${TABLE}.key_2 end) end ;;
   }
 
-  dimension: label_2 {
+  ##dimension: label_2 {
+    ##view_label: "GA4"
+    ##label: "2.Event Label"
+    ##group_label: "Event"
+    ##type: string
+    ##sql: case when ${TABLE}.event_name in ("MegaMenu")  then null else
+    ##(case when  ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") and ${TABLE}.key_1 in ("method") then regexp_extract(${TABLE}.label_1, "^.*\\##-(.*)$") else
+    ##(case when  ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") and ${TABLE}.key_1 not in ("method") then regexp_extract(${TABLE}.key_1, "^.*\\##-(.*)$") else
+    ##${TABLE}.label_2 end )
+    ##end) end;;
+  ##}
+
+
+    dimension: label_2 {
     view_label: "GA4"
     label: "2.Event Label"
     group_label: "Event"
     type: string
-    sql: case when ${TABLE}.event_name in ("MegaMenu")  then null else
-    (case when  ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") and ${TABLE}.key_1 in ("method") then regexp_extract(${TABLE}.label_1, "^.*\\-(.*)$") else
-    (case when  ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") and ${TABLE}.key_1 not in ("method") then regexp_extract(${TABLE}.key_1, "^.*\\-(.*)$") else
-    ${TABLE}.label_2 end )
-    end) end;;
+    sql: ${TABLE}.label_2;;
   }
 
   measure: value {
