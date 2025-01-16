@@ -135,7 +135,6 @@ view: ga4_rjagdev_test {
           when ${TABLE}.event_name = "out_of_stock" and ${platform} = "Web" then null
           when ${TABLE}.event_name = "out_of_stock" and ${platform} = "App" then "Channel"
           when ${TABLE}.event_name in ("MegaMenu") then ${TABLE}.label_2
-          when ${TABLE}.event_name in ("add_to_cart") then "shipping_tier"
           --and ${platform} in ("Web") then ${TABLE}.key_2
           when ${TABLE}.key_1 is null and ${label_1} is not null then "action"
           else ${TABLE}.key_1 end;;
@@ -152,7 +151,7 @@ view: ga4_rjagdev_test {
     (case when ${TABLE}.event_name = "collection_OOS" and ${platform} = "Web" then "Collection" else
     (case when ${TABLE}.event_name = "dual_OOS" and ${platform} = "Web" then "Dual" else
     (case when ${TABLE}.event_name = "Delivery_OOS" and ${platform} = "Web" then "Delivery" else
-    (case when ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("App") and ${TABLE}.key_1 in ("page") then ${TABLE}.channel else ${TABLE}.label_1 end) end) end) end) end) end)) ;;
+    (case when ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("App") and ${TABLE}.key_1 in ("page") then ${TABLE}.channel (case when ${TABLE}.event_name in ("navigation") then coalesce(${TABLE}.key_2,${TABLE}.label_1) else ${TABLE}.label_1 end) ${TABLE}.label_1 end) end) end) end) end) end)) ;;
   }
 
   dimension: key_2 {
@@ -161,8 +160,7 @@ view: ga4_rjagdev_test {
     group_label: "Event"
     type: string
     sql: case when ${TABLE}.key_2 is null and ${label_2} is not null then "action"
-    when ${TABLE}.event_name in ("MegaMenu") then null
-    else (case when ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") then "Channel" else ${TABLE}.key_2 end) end ;;
+    else (case when ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") then "Channel" (case when ${TABLE}.event_name in ("navigation") and ${TABLE}.label_1 is null and ${TABLE}.key_2 is not null then null else ${TABLE}.key_2 end) end) end ;;
   }
 
   dimension: label_2 {
