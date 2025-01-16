@@ -12,10 +12,12 @@ view: ecrebo_discounts {
         sum(coalesce(netSalesAdjusted, netSalesValue)) netSalesAdjusted,
         sum(coalesce(marginExclFundingAdjusted, t.marginExclFunding)) marginExclFundingAdjusted,
         sum(coalesce(marginInclFundingAdjusted, t.marginInclFunding)) marginInclFundingAdjusted,
-        sum(itemDiscount) itemDiscount,
+        sum(itemDiscountGross) itemDiscountGross,
+        sum(itemDiscountNet) itemDiscountNet,
         sum(ED.COGS) COGS,
-        sum(total_basket_discount) basketDiscount,
-        sum(`basketPromotionDiscounts`[SAFE_OFFSET(0)].discount_amount) basketPromotionDiscount
+        sum(total_basket_discountGross) basketDiscountGross,
+        sum(total_basket_discountNet) basketDiscountNet,
+        sum(`basketPromotionDiscounts`[SAFE_OFFSET(0)].discount_amount) basketPromotionDiscount,
        from `toolstation-data-storage.sales.transactions`  t
        left join `toolstation-data-storage.sales.ecreboDiscounts` ED
         on t.parentOrderUID = ED.parentOrderUID AND t.transactionUID = ED.transactionUID and t.productCode = ED.productCode
@@ -90,9 +92,16 @@ view: ecrebo_discounts {
     hidden: yes
   }
 
-  dimension: item_discount_dim  {
+  dimension: item_discount_gross_dim  {
     type: number
-    sql: ${TABLE}.itemDiscount;;
+    sql: ${TABLE}.itemDiscountGross;;
+    value_format_name: gbp
+    hidden: yes
+  }
+
+  dimension: item_discount_net_dim  {
+    type: number
+    sql: ${TABLE}.itemDiscountNet;;
     value_format_name: gbp
     hidden: yes
   }
@@ -132,9 +141,16 @@ view: ecrebo_discounts {
     hidden: yes
   }
 
-  dimension: basket_discount_dim {
+  dimension: basket_discount_gross_dim {
     type: number
-    sql: ${TABLE}.basketDiscount ;;
+    sql: ${TABLE}.basketDiscountGross ;;
+    value_format_name: gbp
+    hidden: yes
+  }
+
+  dimension: basket_discount_net_dim {
+    type: number
+    sql: ${TABLE}.basketDiscountNet ;;
     value_format_name: gbp
     hidden: yes
   }
@@ -175,10 +191,17 @@ view: ecrebo_discounts {
     value_format_name: gbp
   }
 
-  measure: item_discount  {
+  measure: item_discount_gross  {
     label: "Item Discount (Gross)"
     type: sum
-    sql: ${item_discount_dim};;
+    sql: ${item_discount_gross_dim};;
+    value_format_name: gbp
+  }
+
+  measure: item_discount_net  {
+    label: "Item Discount (Net)"
+    type: sum
+    sql: ${item_discount_net_dim};;
     value_format_name: gbp
   }
 
@@ -188,11 +211,16 @@ view: ecrebo_discounts {
     value_format_name: gbp
   }
 
-  measure: basket_discount {
+  measure: basket_discount_gross {
     type: sum
-    sql: ${basket_discount_dim};;
+    sql: ${basket_discount_gross_dim};;
     value_format_name: gbp
-    hidden: yes
+  }
+
+  measure: basket_discount_net {
+    type: sum
+    sql: ${basket_discount_net_dim};;
+    value_format_name: gbp
   }
 
   measure: basket_promotion_discount {

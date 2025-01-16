@@ -521,40 +521,6 @@ view: scorecard_branch_dev25 {
     value_format_name: percent_1
   }
 
-  dimension: rank_people  {
-    group_label: "Pillar Rank"
-    type: number
-    sql: ${TABLE}.pillarRankPeople ;;
-    value_format_name: decimal_0
-  }
-
-  dimension: rank_operational_stanards  {
-    group_label: "Pillar Rank"
-    type: number
-    sql: ${TABLE}.pillarRankOps ;;
-    value_format_name: decimal_0
-  }
-
-  dimension: rank_customer  {
-    group_label: "Pillar Rank"
-    type: number
-    sql: ${TABLE}.pillarRankCust ;;
-    value_format_name: decimal_0
-  }
-
-  dimension: rank_trade  {
-    group_label: "Pillar Rank"
-    type: number
-    sql: ${TABLE}.pillarRankTrade ;;
-    value_format_name: decimal_0
-  }
-
-  dimension: rank_finance  {
-    group_label: "Pillar Rank"
-    type: number
-    sql: ${TABLE}.pillarRankFin ;;
-    value_format_name: decimal_0
-  }
 
 # Scores  --------------------------------------------------------------------
   dimension: ltoScore_dim { type:string sql:${TABLE}.ltoScore;;hidden:no}
@@ -595,43 +561,43 @@ view: scorecard_branch_dev25 {
   dimension: CustRag_dim { type:number sql:${TABLE}.CustRag;;hidden:yes}
   dimension: OverallRag_dim { type:number sql:${TABLE}.OverallRag;;hidden:yes}
 
-  measure: ltoScore {group_label:"" type: sum sql:${ltoScore_dim};;value_format_name: decimal_1}
-  measure: trainingScore {group_label:"" type: sum sql:${trainingScore_dim};;value_format_name: decimal_1}
-  measure: q1HolidayScore {group_label:"" type: sum sql:${q1HolidayScore_dim};;value_format_name: decimal_1}
-  measure: q2HolidayScore {group_label:"" type: sum sql:${q2HolidayScore_dim};;value_format_name: decimal_1}
-  measure: q3HolidayScore {group_label:"" type: sum sql:${q3HolidayScore_dim};;value_format_name: decimal_1}
-  measure: q4HolidayScore {group_label:"" type: sum sql:${q4HolidayScore_dim};;value_format_name: decimal_1}
-  measure: apprenticeshipScore {group_label:"" type: sum sql:${apprenticeshipScore_dim};;value_format_name: decimal_1}
-  measure: operationalComplianceScore {group_label:"" type: sum sql:${operationalComplianceScore_dim};;value_format_name: decimal_1}
-  measure: hsScore {group_label:"" type: sum sql:${hsScore_dim};;value_format_name: decimal_1}
-  measure: compScore {group_label:"" type: sum sql:${compScore_dim};;value_format_name: decimal_1}
-  measure: accuracyScore {group_label:"" type: sum sql:${accuracyScore_dim};;value_format_name: decimal_1}
-  measure: npsBranchScore {group_label:"" type: sum sql:${npsBranchScore_dim};;value_format_name: decimal_1}
-  measure: anonScore {group_label:"" type: sum sql:${anonScore_dim};;value_format_name: decimal_1}
-  measure: yoyFrequencyScore {group_label:"" type: sum sql:${yoyFrequencyScore_dim};;value_format_name: decimal_1}
-  measure: Loyalty_spend_increase_Score {group_label:"" type: sum sql:${Loyalty_spend_increase_Score_dim};;value_format_name: decimal_1}
-  measure: tradeParticipationScore {group_label:"" type: sum sql:${tradeParticipationScore_dim};;value_format_name: decimal_1}
-  measure: yoyTradeSalesScore {group_label:"" type: sum sql:${yoyTradeSalesScore_dim};;value_format_name: decimal_1}
-  measure: yoyTradeACSScore {group_label:"" type: sum sql:${yoyTradeACSScore_dim};;value_format_name: decimal_1}
-  measure: averageItemsScore {group_label:"" type: sum sql:${averageItemsScore_dim};;value_format_name: decimal_1}
-  measure: retailTradingProfitScore {group_label:"" type: sum sql:${retailTradingProfitScore_dim};;value_format_name: decimal_1}
-  measure: yoyAOVScore {group_label:"" type: sum sql:${yoyAOVScore_dim};;value_format_name: decimal_1}
-  measure: labourT1T2Score {group_label:"" type: sum sql:${labourT1T2Score_dim};;value_format_name: decimal_1}
-  measure: labourT3Score {group_label:"" type: sum sql:${labourT3Score_dim};;value_format_name: decimal_1}
-  measure: ebitScore {group_label:"" type: sum sql:${ebitScore_dim};;value_format_name: decimal_1}
-  measure: salesVarPyScore {group_label:"" type: sum sql:${salesVarPyScore_dim};;value_format_name: decimal_1}
-  measure: AvgSellingPriceImprovScore {group_label:"" type: sum sql:${AvgSellingPriceImprovScore_dim};;value_format_name: decimal_1}
-  measure: pillarTotalColleague {group_label:"" type: sum sql:${pillarTotalColleague_dim};;value_format_name: decimal_1}
-  measure: pillarTotalSimplicity {group_label:"" type: sum sql:${pillarTotalSimplicity_dim};;value_format_name: decimal_1}
-  measure: pillarTotalCust {group_label:"" type: sum sql:${pillarTotalCust_dim};;value_format_name: decimal_1}
-  measure: pillarRankColleague {group_label:"" type: sum sql:${pillarRankColleague_dim};;value_format_name: decimal_1}
-  measure: pillarRankSimplicity {group_label:"" type: sum sql:${pillarRankSimplicity_dim};;value_format_name: decimal_1}
-  measure: pillarRankCust {group_label:"" type: sum sql:${pillarRankCust_dim};;value_format_name: decimal_1}
-  measure: overallRank {group_label:"" type: sum sql:${overallRank_dim};;value_format_name: decimal_1}
-  measure: ColleagueRag {group_label:"" type: sum sql:${ColleagueRag_dim};;value_format_name: decimal_1}
-  measure: SimplicityRag {group_label:"" type: sum sql:${SimplicityRag_dim};;value_format_name: decimal_1}
-  measure: CustRag {group_label:"" type: sum sql:${CustRag_dim};;value_format_name: decimal_1}
-  measure: OverallRag {group_label:"" type: sum sql:${OverallRag_dim};;value_format_name: decimal_1}
+  # measure: ltoScore {group_label:"" type: sum sql:${ltoScore_dim};;value_format_name: decimal_1}
+  # measure: trainingScore {group_label:"" type: sum sql:${trainingScore_dim};;value_format_name: decimal_1}
+  # measure: q1HolidayScore {group_label:"" type: sum sql:${q1HolidayScore_dim};;value_format_name: decimal_1}
+  # measure: q2HolidayScore {group_label:"" type: sum sql:${q2HolidayScore_dim};;value_format_name: decimal_1}
+  # measure: q3HolidayScore {group_label:"" type: sum sql:${q3HolidayScore_dim};;value_format_name: decimal_1}
+  # measure: q4HolidayScore {group_label:"" type: sum sql:${q4HolidayScore_dim};;value_format_name: decimal_1}
+  # measure: apprenticeshipScore {group_label:"" type: sum sql:${apprenticeshipScore_dim};;value_format_name: decimal_1}
+  # measure: operationalComplianceScore {group_label:"" type: sum sql:${operationalComplianceScore_dim};;value_format_name: decimal_1}
+  # measure: hsScore {group_label:"" type: sum sql:${hsScore_dim};;value_format_name: decimal_1}
+  # measure: compScore {group_label:"" type: sum sql:${compScore_dim};;value_format_name: decimal_1}
+  # measure: accuracyScore {group_label:"" type: sum sql:${accuracyScore_dim};;value_format_name: decimal_1}
+  # measure: npsBranchScore {group_label:"" type: sum sql:${npsBranchScore_dim};;value_format_name: decimal_1}
+  # measure: anonScore {group_label:"" type: sum sql:${anonScore_dim};;value_format_name: decimal_1}
+  # measure: yoyFrequencyScore {group_label:"" type: sum sql:${yoyFrequencyScore_dim};;value_format_name: decimal_1}
+  # measure: Loyalty_spend_increase_Score {group_label:"" type: sum sql:${Loyalty_spend_increase_Score_dim};;value_format_name: decimal_1}
+  # measure: tradeParticipationScore {group_label:"" type: sum sql:${tradeParticipationScore_dim};;value_format_name: decimal_1}
+  # measure: yoyTradeSalesScore {group_label:"" type: sum sql:${yoyTradeSalesScore_dim};;value_format_name: decimal_1}
+  # measure: yoyTradeACSScore {group_label:"" type: sum sql:${yoyTradeACSScore_dim};;value_format_name: decimal_1}
+  # measure: averageItemsScore {group_label:"" type: sum sql:${averageItemsScore_dim};;value_format_name: decimal_1}
+  # measure: retailTradingProfitScore {group_label:"" type: sum sql:${retailTradingProfitScore_dim};;value_format_name: decimal_1}
+  # measure: yoyAOVScore {group_label:"" type: sum sql:${yoyAOVScore_dim};;value_format_name: decimal_1}
+  # measure: labourT1T2Score {group_label:"" type: sum sql:${labourT1T2Score_dim};;value_format_name: decimal_1}
+  # measure: labourT3Score {group_label:"" type: sum sql:${labourT3Score_dim};;value_format_name: decimal_1}
+  # measure: ebitScore {group_label:"" type: sum sql:${ebitScore_dim};;value_format_name: decimal_1}
+  # measure: salesVarPyScore {group_label:"" type: sum sql:${salesVarPyScore_dim};;value_format_name: decimal_1}
+  # measure: AvgSellingPriceImprovScore {group_label:"" type: sum sql:${AvgSellingPriceImprovScore_dim};;value_format_name: decimal_1}
+  # measure: pillarTotalColleague {group_label:"" type: sum sql:${pillarTotalColleague_dim};;value_format_name: decimal_1}
+  # measure: pillarTotalSimplicity {group_label:"" type: sum sql:${pillarTotalSimplicity_dim};;value_format_name: decimal_1}
+  # measure: pillarTotalCust {group_label:"" type: sum sql:${pillarTotalCust_dim};;value_format_name: decimal_1}
+  # measure: pillarRankColleague {group_label:"" type: sum sql:${pillarRankColleague_dim};;value_format_name: decimal_1}
+  # measure: pillarRankSimplicity {group_label:"" type: sum sql:${pillarRankSimplicity_dim};;value_format_name: decimal_1}
+  # measure: pillarRankCust {group_label:"" type: sum sql:${pillarRankCust_dim};;value_format_name: decimal_1}
+  # measure: overallRank {group_label:"" type: sum sql:${overallRank_dim};;value_format_name: decimal_1}
+  # measure: ColleagueRag {group_label:"" type: sum sql:${ColleagueRag_dim};;value_format_name: decimal_1}
+  # measure: SimplicityRag {group_label:"" type: sum sql:${SimplicityRag_dim};;value_format_name: decimal_1}
+  # measure: CustRag {group_label:"" type: sum sql:${CustRag_dim};;value_format_name: decimal_1}
+  # measure: OverallRag {group_label:"" type: sum sql:${OverallRag_dim};;value_format_name: decimal_1}
 
 # Error Flags  --------------------------------------------------------------------
   dimension: stock_accuracy_error_flag {
