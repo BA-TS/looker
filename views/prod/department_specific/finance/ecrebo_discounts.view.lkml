@@ -148,24 +148,28 @@ view: ecrebo_discounts {
 
   # --------------------------
   measure: gross_sales_adjusted {
+    label: "Gross Sales (inc. Discount)"
     type: sum
     sql: ${gross_sales_adjusted_dim2};;
     value_format_name: gbp
   }
 
   measure: net_sales_adjusted {
+    label: "Net Sales (inc. Discount)"
     type: sum
     sql: ${net_sales_adjusted_dim2};;
     value_format_name: gbp
   }
 
   measure: margin_excl_funding {
+    label: "Margin Excl Funding (inc. Discount)"
     type: sum
     sql: ${margin_excl_funding_adjusted_dim2};;
     value_format_name: gbp
   }
 
   measure: margin_incl_funding {
+    label: "Margin Incl Funding (inc. Discount)"
     type: sum
     sql: ${margin_incl_funding_adjusted_dim2};;
     value_format_name: gbp
