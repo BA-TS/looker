@@ -258,6 +258,30 @@ view: ga4_rjagdev_test {
     sql: ${TABLE}.item_Category3 ;;
   }
 
+  dimension: page_Category {
+    type: string
+    view_label: "GA4"
+    group_label: "Screen"
+    label: "Page Category 1"
+    sql: ${TABLE}.page_category ;;
+  }
+
+  dimension: page_Category2 {
+    type: string
+    view_label: "GA4"
+    group_label: "Screen"
+    label: "Page Category 2"
+    sql: ${TABLE}.page_category2 ;;
+  }
+
+  dimension: page_Category3 {
+    type: string
+    view_label: "GA4"
+    group_label: "Screen"
+    label: "Page Category 3"
+    sql: ${TABLE}.page_category3 ;;
+  }
+
   dimension: User {
     hidden: yes
     description: "User"
