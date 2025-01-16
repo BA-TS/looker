@@ -7,7 +7,6 @@ view: ecrebo_discounts {
         t.productCode,
         t.parentOrderUID,
         t.transactionLineType,
-        --t.transactionDate,
         sum(coalesce(grossSalesAdjusted, t.grossSalesValue)) grossSalesAdjusted,
         sum(coalesce(netSalesAdjusted, netSalesValue)) netSalesAdjusted,
         sum(coalesce(marginExclFundingAdjusted, t.marginExclFunding)) marginExclFundingAdjusted,
@@ -220,7 +219,7 @@ view: ecrebo_discounts {
   }
 
   measure: basket_promotion_discount_amount_net {
-    label: "Basket Promotion Discount Amount Net (Gross)"
+    label: "Basket Promotion Discount Amount (Net)"
     type: sum
     sql: ${basket_promotion_discount_amount_net_dim};;
     value_format_name: gbp
