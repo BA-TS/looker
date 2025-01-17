@@ -237,7 +237,6 @@ view: ecrebo_discounts {
     type: sum
     sql: ${basket_discount_gross_dim};;
     value_format_name: gbp
-    hidden: yes
   }
 
   measure: basket_discount_net {
