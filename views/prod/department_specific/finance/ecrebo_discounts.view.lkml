@@ -202,14 +202,14 @@ view: ecrebo_discounts {
     label: "Margin Rate Incl Funding (inc. Discount)"
     type: number
     sql: safe_divide(${margin_incl_funding},${net_sales_adjusted});;
-    value_format_name: decimal_1
+    value_format_name: percent_1
   }
 
   measure: margin_rate_excl_funding {
     label: "Margin Rate Excl Funding (inc. Discount)"
     type: number
     sql: safe_divide(${margin_excl_funding},${net_sales_adjusted});;
-    value_format_name: decimal_1
+    value_format_name: percent_1
   }
 
   measure: item_discount_gross  {
