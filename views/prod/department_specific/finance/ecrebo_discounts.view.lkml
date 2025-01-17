@@ -233,14 +233,15 @@ view: ecrebo_discounts {
   }
 
   measure: basket_discount_gross {
-    label: "Total Basket Discount (Gross)"
+    label: "Basket Discount (Gross)"
     type: sum
     sql: ${basket_discount_gross_dim};;
     value_format_name: gbp
+    hidden: yes
   }
 
   measure: basket_discount_net {
-    label: "Total Basket Discount (Net)"
+    label: "Basket Discount (Net)"
     type: sum
     sql: ${basket_discount_net_dim};;
     value_format_name: gbp
@@ -251,6 +252,7 @@ view: ecrebo_discounts {
     type: sum
     sql: ${basket_promotion_discount_amount_dim};;
     value_format_name: gbp
+    hidden: yes
   }
 
   measure: basket_promotion_discount_amount_net {
@@ -258,6 +260,7 @@ view: ecrebo_discounts {
     type: sum
     sql: ${basket_promotion_discount_amount_net_dim};;
     value_format_name: gbp
+    hidden: yes
   }
 
 }
