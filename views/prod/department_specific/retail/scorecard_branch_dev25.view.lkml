@@ -544,22 +544,23 @@ view: scorecard_branch_dev25 {
   dimension: averageItemsScore { type:string sql:${TABLE}.averageItemsScore;;hidden:no}
   dimension: retailTradingProfitScore { type:string sql:${TABLE}.retailTradingProfitScore;;hidden:no}
   dimension: yoyAOVScore { type:string sql:${TABLE}.yoyAOVScore;;hidden:no}
-  dimension: labourT1T2Score { type:number sql:${TABLE}.labourT1T2Score;;hidden:yes}
-  dimension: labourT3Score { type:number sql:${TABLE}.labourT3Score;;hidden:yes}
-  dimension: ebitScore { type:number sql:${TABLE}.ebitScore;;hidden:yes}
-  dimension: salesVarPyScore { type:number sql:${TABLE}.salesVarPyScore;;hidden:yes}
-  dimension: AvgSellingPriceImprovScore { type:number sql:${TABLE}.AvgSellingPriceImprovScore;;hidden:yes}
-  dimension: pillarTotalColleague { type:number sql:${TABLE}.pillarTotalColleague;;hidden:yes}
-  dimension: pillarTotalSimplicity { type:number sql:${TABLE}.pillarTotalSimplicity;;hidden:yes}
-  dimension: pillarTotalCust { type:number sql:${TABLE}.pillarTotalCust;;hidden:yes}
-  dimension: pillarRankColleague { type:number sql:${TABLE}.pillarRankColleague;;hidden:yes}
-  dimension: pillarRankSimplicity { type:number sql:${TABLE}.pillarRankSimplicity;;hidden:yes}
-  dimension: pillarRankCust { type:number sql:${TABLE}.pillarRankCust;;hidden:yes}
-  dimension: overallRank { type:number sql:${TABLE}.overallRank;;hidden:yes}
-  dimension: ColleagueRag { type:number sql:${TABLE}.ColleagueRag;;hidden:yes}
-  dimension: SimplicityRag { type:number sql:${TABLE}.SimplicityRag;;hidden:yes}
-  dimension: CustRag { type:number sql:${TABLE}.CustRag;;hidden:yes}
-  dimension: OverallRag { type:number sql:${TABLE}.OverallRag;;hidden:yes}
+  dimension: labourT1T2Score { type:number sql:${TABLE}.labourT1T2Score;;hidden:no}
+  dimension: labourT3Score { type:number sql:${TABLE}.labourT3Score;;hidden:no}
+  dimension: ebitScore { type:number sql:${TABLE}.ebitScore;;hidden:no}
+  dimension: salesVarPyScore { type:number sql:${TABLE}.salesVarPyScore;;hidden:no}
+  dimension: AvgSellingPriceImprovScore { type:number sql:${TABLE}.AvgSellingPriceImprovScore;;hidden:no}
+  dimension: pillarTotalColleague { type:number sql:${TABLE}.pillarTotalColleague;;hidden:no}
+  dimension: pillarTotalSimplicity { type:number sql:${TABLE}.pillarTotalSimplicity;;hidden:no}
+  dimension: pillarTotalCust { type:number sql:${TABLE}.pillarTotalCust;;hidden:no}
+  dimension: pillarRankColleague { type:number sql:${TABLE}.pillarRankColleague;;hidden:no}
+  dimension: pillarRankSimplicity { type:number sql:${TABLE}.pillarRankSimplicity;;hidden:no}
+  dimension: pillarRankCust { type:number sql:${TABLE}.pillarRankCust;;hidden:no}
+  dimension: overallRank { type:number sql:${TABLE}.overallRank;;hidden:no}
+  dimension: ColleagueRag { type:number sql:${TABLE}.ColleagueRag;;hidden:no}
+  dimension: SimplicityRag { type:number sql:${TABLE}.SimplicityRag;;hidden:no}
+  dimension: CustRag { type:number sql:${TABLE}.CustRag;;hidden:no}
+  dimension: OverallRag { type:number sql:${TABLE}.OverallRag;;hidden:no}
+
 
 # Error Flags  --------------------------------------------------------------------
   dimension: stock_accuracy_error_flag {
