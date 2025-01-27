@@ -296,12 +296,18 @@ view: ga4_rjagdev_test {
     sql: ${TABLE}.session_id ;;
   }
 
+  dimension: page_locationHidden {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.page_location ;;
+  }
+
   dimension: page_location {
     view_label: "GA4"
     label: "Page"
     group_label: "Screen"
     type: string
-    sql: ${TABLE}.page_location ;;
+    sql: case when ${platform} in ("Web", "web") then ${TABLE}.page_location else null end ;;
   }
 
   dimension: Screen_name {

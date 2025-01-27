@@ -194,7 +194,7 @@ explore: GA4_testy {
   join: ga4_exitpage {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${ga4_rjagdev_test.session_id} = ${ga4_exitpage.exit_session} and ${calendar.date} = ${ga4_exitpage.date_date} and ${ga4_rjagdev_test.page_location} = ${ga4_exitpage.exit_page};;
+    sql_on: ${ga4_rjagdev_test.session_id} = ${ga4_exitpage.exit_session} and ${calendar.date} = ${ga4_exitpage.date_date} and ${ga4_rjagdev_test.page_locationHidden} = ${ga4_exitpage.exit_page};;
     #sql_where: ${ga4_exitpage.LastE} = 1;;
   }
 
