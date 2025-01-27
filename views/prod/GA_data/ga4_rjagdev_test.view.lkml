@@ -301,7 +301,7 @@ view: ga4_rjagdev_test {
     label: "Page"
     group_label: "Screen"
     type: string
-    sql: case when ${platform} in ("Web") then ${TABLE}.page_location else null end;;
+    sql: ${TABLE}.page_location ;;
   }
 
   dimension: Screen_name {
