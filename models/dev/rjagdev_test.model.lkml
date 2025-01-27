@@ -187,7 +187,7 @@ explore: GA4_testy {
   join: ga4_landingpage {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${ga4_rjagdev_test.session_id} = ${ga4_landingpage.land_session} and ${calendar.date} = ${ga4_landingpage.date_date} and ${ga4_rjagdev_test.page_location} = ${ga4_landingpage.land_page};;
+    sql_on: ${ga4_rjagdev_test.session_id} = ${ga4_landingpage.land_session} and ${calendar.date} = ${ga4_landingpage.date_date} and ${ga4_rjagdev_test.page_locationHidden} = ${ga4_landingpage.land_page};;
     #sql_where: ${ga4_landingpage.firstE} = 1;;
   }
 
