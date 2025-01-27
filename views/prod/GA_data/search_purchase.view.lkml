@@ -13,7 +13,7 @@ from sub1
 where event_name in ("purchase", "Purchase")
 group by 1
 ) on session_id = purchase_ID
-where regexp_contains(event_name, "search") and event_name not in ("blank_search") and key_1 in ("Searched Term", "search_term")
+where regexp_contains(event_name, "search") and event_name not in ("blank_search") and key_1 in ("Searched Term", "search_term", "Search_term")
 group by all
 ;;
 
