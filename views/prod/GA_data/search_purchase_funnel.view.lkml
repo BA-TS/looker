@@ -10,7 +10,7 @@ and platform in ("Web")
 group by all),
 
 search as (SELECT distinct rowNum, platform, event_name,key_1,page_location, session_id, minTime, searchTerm from sub1
-where event_name in ("search_actions") and key_1 in ("Searched Term", "search_term")),
+where event_name in ("search_actions") and key_1 in ("Searched Term", "search_term", "Search_term")),
 
 VIT as (SELECT distinct rowNum, event_name,key_1,page_location, session_id, minTime, item_id, productCode, quantity from sub1
 where event_name in ("view_item_list")),
@@ -356,7 +356,7 @@ view: blank_search_purchase_funnel {
   derived_table: {
     sql: with sub1 as (SELECT distinct P_K, session_id,minTime, event_name,
 
-coalesce(case when event_name in ("search_actions") and key_1 in ("Searched Term") then label_1 else null end,
+coalesce(case when event_name in ("search_actions") and key_1 in ("Searched Term", "search_term", "Search_term") then label_1 else null end,
 case when regexp_contains(page_location, "\\&") then
 regexp_replace(regexp_extract(page_location, ".*q\\=(.*)\\&.*"), "\\+", " ") else regexp_replace(regexp_extract(page_location, ".*q\\=(.*)$"), "\\+", " ") end) as searchTerm,
 label_1,
