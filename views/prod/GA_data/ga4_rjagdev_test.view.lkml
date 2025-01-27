@@ -863,7 +863,7 @@ and not regexp_contains(${TABLE}.filters_used, "\\@import") then regexp_extract(
     group_label: "Screen"
     hidden: yes
     type: string
-    sql: case when ${ga4_exitpage.LastE} = 1 then ${page_location} else null end;;
+    sql: case when ${ga4_exitpage.LastE} = 1 then ${page_locationHidden} else null end;;
   }
 
   measure: exitPageSessions {
