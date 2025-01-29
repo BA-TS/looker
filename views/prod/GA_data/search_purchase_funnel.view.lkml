@@ -239,7 +239,7 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     group_label: "Non Blank Search"
     label: "Search Term"
     type: string
-    sql: ${TABLE}.searchTerm ;;
+    sql: initcap(${TABLE}.searchTerm) ;;
   }
 
   dimension: Rev {
@@ -415,7 +415,7 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     group_label: "Blank Search"
     label: "Search Term"
     type: string
-    sql: ${TABLE}.searchTerm ;;
+    sql: initcap(${TABLE}.searchTerm) ;;
   }
 
   dimension: ATC_sessionID {
