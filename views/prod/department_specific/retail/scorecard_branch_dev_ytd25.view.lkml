@@ -41,10 +41,11 @@ view: scorecard_branch_dev_ytd25 {
   dimension: holidayTaken { type:string value_format_name:decimal_1 sql:${TABLE}.holidayTaken;;hidden:no}
   dimension: holidayTakenPercent { type:string value_format_name:decimal_1 sql:${TABLE}.holidayTakenPercent;;hidden:no}
   dimension: apprenticeship { type:string value_format_name:decimal_1 sql:${TABLE}.apprenticeship;;hidden:no}
-  dimension: operationalCompliance { type:string value_format_name:decimal_1 sql:${TABLE}.operationalCompliance;;hidden:no}
+  dimension: safetyCompliance { type:string value_format_name:decimal_1 sql:${TABLE}.safetyCompliance;;hidden:no}
   dimension: processCompPercent { type:string value_format_name:decimal_1 sql:${TABLE}.processCompPercent;;hidden:no}
   dimension: orders { type:string value_format_name:decimal_1 sql:${TABLE}.orders;;hidden:no}
-  dimension: stockAccuracy { type:string value_format_name:decimal_1 sql:${TABLE}.stockAccuracy;;hidden:no}
+  dimension: shrinkage { type:string value_format_name:decimal_1 sql:${TABLE}.shrinkage;;hidden:no}
+  dimension: shrinkagePercent { type:string value_format_name:decimal_1 sql:${TABLE}.shrinkagePercent;;hidden:no}
   dimension: branchNPS { type:string value_format_name:decimal_1 sql:${TABLE}.branchNPS;;hidden:no}
   dimension: anonOrders { type:string value_format_name:decimal_1 sql:${TABLE}.anonOrders;;hidden:no}
   dimension: totalOrders { type:string value_format_name:decimal_1 sql:${TABLE}.totalOrders;;hidden:no}
@@ -71,9 +72,9 @@ view: scorecard_branch_dev_ytd25 {
   dimension: trainingScore { type:string value_format_name:decimal_1 sql:${TABLE}.trainingScore;;hidden:no}
   dimension: HolidayScore { type:string value_format_name:decimal_1 sql:${TABLE}.HolidayScore;;hidden:no}
   dimension: apprenticeshipScore { type:string value_format_name:decimal_1 sql:${TABLE}.apprenticeshipScore;;hidden:no}
-  dimension: operationalComplianceScore { type:string value_format_name:decimal_1 sql:${TABLE}.operationalComplianceScore;;hidden:no}
+  dimension: safetyComplianceScore { type:string value_format_name:decimal_1 sql:${TABLE}.safetyComplianceScore;;hidden:no}
   dimension: compScore { type:string value_format_name:decimal_1 sql:${TABLE}.compScore;;hidden:no}
-  dimension: accuracyScore { type:string value_format_name:decimal_1 sql:${TABLE}.accuracyScore;;hidden:no}
+  dimension: shrinkageScore { type:string value_format_name:decimal_1 sql:${TABLE}.shrinkageScore;;hidden:no}
   dimension: npsBranchScore { type:string value_format_name:decimal_1 sql:${TABLE}.npsBranchScore;;hidden:no}
   dimension: anonScore { type:string value_format_name:decimal_1 sql:${TABLE}.anonScore;;hidden:no}
   dimension: yoyFrequencyScore { type:string value_format_name:decimal_1 sql:${TABLE}.yoyFrequencyScore;;hidden:no}
