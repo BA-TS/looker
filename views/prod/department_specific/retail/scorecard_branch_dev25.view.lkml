@@ -59,7 +59,7 @@ view: scorecard_branch_dev25 {
   dimension: tyTradeSales { type:string value_format_name:decimal_1 sql:${TABLE}.tyTradeSales;;hidden:no}
   dimension: pyTradeSales { type:string value_format_name:decimal_1 sql:${TABLE}.pyTradeSales;;hidden:no}
   dimension: yoyTradeSales { type:string value_format_name:decimal_1 sql:${TABLE}.yoyTradeSales;;hidden:no}
-  dimension: yoyAverageItems { type:string value_format_name:decimal_1 sql:${TABLE}.yoyAverageItems;;hidden:no}
+  dimension: yoyUPT { type:string value_format_name:decimal_1 sql:${TABLE}.yoyUPT;;hidden:no}
   dimension: tySales { type:string value_format_name:decimal_1 sql:${TABLE}.tySales;;hidden:no}
   dimension: tyOrders { type:string value_format_name:decimal_1 sql:${TABLE}.tyOrders;;hidden:no}
   dimension: tyAOV { type:string value_format_name:decimal_1 sql:${TABLE}.tyAOV;;hidden:no}
@@ -71,16 +71,16 @@ view: scorecard_branch_dev25 {
   dimension: labourBudgetPercent { type:string value_format_name:decimal_1 sql:${TABLE}.labourBudgetPercent;;hidden:no}
   dimension: ltoScore { type:string value_format_name:decimal_1 sql:${TABLE}.ltoScore;;hidden:no}
   dimension: trainingScore { type:string value_format_name:decimal_1 sql:${TABLE}.trainingScore;;hidden:no}
-  dimension: HolidayScore { type:string value_format_name:decimal_1 sql:${TABLE}.HolidayScore;;hidden:no}
+  dimension: holidayScore { type:string value_format_name:decimal_1 sql:${TABLE}.holidayScore;;hidden:no}
   dimension: apprenticeshipScore { type:string value_format_name:decimal_1 sql:${TABLE}.apprenticeshipScore;;hidden:no}
   dimension: safetyComplianceScore { type:string value_format_name:decimal_1 sql:${TABLE}.safetyComplianceScore;;hidden:no}
-  dimension: compScore { type:string value_format_name:decimal_1 sql:${TABLE}.compScore;;hidden:no}
+  dimension: processCompScore { type:string value_format_name:decimal_1 sql:${TABLE}.processCompScore;;hidden:no}
   dimension: shrinkageScore { type:string value_format_name:decimal_1 sql:${TABLE}.shrinkageScore;;hidden:no}
   dimension: npsBranchScore { type:string value_format_name:decimal_1 sql:${TABLE}.npsBranchScore;;hidden:no}
   dimension: anonScore { type:string value_format_name:decimal_1 sql:${TABLE}.anonScore;;hidden:no}
   dimension: yoyFrequencyScore { type:string value_format_name:decimal_1 sql:${TABLE}.yoyFrequencyScore;;hidden:no}
   dimension: yoyTradeSalesScore { type:string value_format_name:decimal_1 sql:${TABLE}.yoyTradeSalesScore;;hidden:no}
-  dimension: averageItemsScore { type:string value_format_name:decimal_1 sql:${TABLE}.averageItemsScore;;hidden:no}
+  dimension: unitsPerTransactionScore { type:string value_format_name:decimal_1 sql:${TABLE}.unitsPerTransactionScore;;hidden:no}
   dimension: labourBudgetScore { type:string value_format_name:decimal_1 sql:${TABLE}.labourBudgetScore;;hidden:no}
   dimension: pillarTotalColleague { type:string value_format_name:decimal_1 sql:${TABLE}.pillarTotalColleague;;hidden:no}
   dimension: pillarTotalSimplicityEfficiency { type:string value_format_name:decimal_1 sql:${TABLE}.pillarTotalSimplicityEfficiency;;hidden:no}
@@ -93,11 +93,12 @@ view: scorecard_branch_dev25 {
   dimension: SimplicityEfficiencyRag { type:string value_format_name:decimal_1 sql:${TABLE}.SimplicityEfficiencyRag;;hidden:no}
   dimension: CustRag { type:string value_format_name:decimal_1 sql:${TABLE}.CustRag;;hidden:no}
   dimension: OverallRag { type:string value_format_name:decimal_1 sql:${TABLE}.OverallRag;;hidden:no}
-  dimension: vsPYEBIT { type:string value_format_name:decimal_1 sql:${TABLE}.vsPYEBIT;;hidden:no}
-  dimension: ebitScore { type:string value_format_name:decimal_1 sql:${TABLE}.ebitScore;;hidden:no}
+  dimension: contributionVsBudget { type:string value_format_name:decimal_1 sql:${TABLE}.contributionVsBudget;;hidden:no}
+  dimension: contributionVsBudgetScore { type:string value_format_name:decimal_1 sql:${TABLE}.contributionVsBudgetScore;;hidden:no}
   dimension: tsClubScore { type:string value_format_name:decimal_1 sql:${TABLE}.tsClubScore;;hidden:no}
   dimension: tsClubSales { type:string value_format_name:decimal_1 sql:${TABLE}.tsClubSales;;hidden:no}
   dimension: tsClubSalesPercent { type:string value_format_name:decimal_1 sql:${TABLE}.tsClubSalesPercent;;hidden:no}
+
 
 
 # Error Flags  --------------------------------------------------------------------
