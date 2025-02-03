@@ -81,7 +81,7 @@ explore: retail {
   }
 
   join: scorecard_branch_dev_ytd{
-    view_label: "Scorecard YTD"
+    view_label: "Scorecard YTD 24"
     type:  left_outer
     relationship:  many_to_one
     sql_on: ${scorecard_branch_dev_ytd.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${scorecard_branch_dev_ytd.siteUID} ;;
