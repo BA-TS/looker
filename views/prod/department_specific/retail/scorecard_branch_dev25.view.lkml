@@ -73,21 +73,10 @@ view: scorecard_branch_dev25 {
 
 
   dimension: ltoScore {group_label: "Scores" type:string value_format_name:decimal_1 sql:${TABLE}.ltoScore;;hidden:no}
-  dimension: ltoScore_tier {group_label: "Testing" type:tier   tiers: [0,4,8,10] sql:${ltoScore};;}
-
   dimension: trainingScore {group_label: "Scores" type:string value_format_name:decimal_1 sql:${TABLE}.trainingScore;;hidden:no}
   dimension: holidayScore {group_label: "Scores" type:string value_format_name:decimal_1 sql:${TABLE}.holidayScore;;hidden:no}
   dimension: apprenticeshipScore {group_label: "Scores" type:string value_format_name:decimal_1 sql:${TABLE}.apprenticeshipScore;;hidden:no}
   dimension: safetyComplianceScore {group_label: "Scores" type:string value_format_name:decimal_1 sql:${TABLE}.safetyComplianceScore;;hidden:no}
-
-
-
-
-
-
-
-
-
   dimension: processCompScore {group_label: "Scores" type:string value_format_name:decimal_1 sql:${TABLE}.processCompScore;;hidden:no}
   dimension: shrinkageScore {group_label: "Scores" type:string value_format_name:decimal_1 sql:${TABLE}.shrinkageScore;;hidden:no}
   dimension: npsScore {group_label: "Scores" type:string value_format_name:decimal_1 sql:${TABLE}.npsScore;;hidden:no}
@@ -115,5 +104,19 @@ view: scorecard_branch_dev25 {
 
 
 # Error Flags  --------------------------------------------------------------------
+  dimension: trainingScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${trainingScore};;}
+  dimension: holidayScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${holidayScore};;}
+  dimension: apprenticeshipScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${apprenticeshipScore};;}
+  dimension: safetyComplianceScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${safetyComplianceScore};;}
+  dimension: processCompScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${processCompScore};;}
+  dimension: shrinkageScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${shrinkageScore};;}
+  dimension: npsScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${npsScore};;}
+  dimension: anonScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${anonScore};;}
+  dimension: yoyFrequencyScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${yoyFrequencyScore};;}
+  dimension: yoyTradeSalesScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${yoyTradeSalesScore};;}
+  dimension: unitsPerTransactionScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${unitsPerTransactionScore};;}
+  dimension: labourBudgetScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${labourBudgetScore};;}
+  dimension: contributionVsBudgetScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${contributionVsBudgetScore};;}
+  dimension: tsClubScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${tsClubScore};;}
 
 }
