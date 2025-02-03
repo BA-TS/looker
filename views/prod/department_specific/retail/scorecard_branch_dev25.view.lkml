@@ -21,9 +21,10 @@ view: scorecard_branch_dev25 {
   }
 
   measure: siteUID_count {
+    label: "Number of Sites"
     type: count_distinct
     sql: ${siteUID} ;;
-    hidden: yes
+    # hidden: yes
   }
 
   dimension: siteUID_month {
@@ -69,11 +70,24 @@ view: scorecard_branch_dev25 {
   dimension: aop_hours {group_label: "Measures" type:string value_format_name:decimal_1 sql:${TABLE}.aop_hours;;hidden:no}
   dimension: hoursVsAOP {group_label: "Measures" type:string value_format_name:decimal_1 sql:${TABLE}.hoursVsAOP;;hidden:no}
   dimension: labourBudgetPercent {group_label: "Measures" type:string value_format_name:decimal_1 sql:${TABLE}.labourBudgetPercent;;hidden:no}
+
+
   dimension: ltoScore {group_label: "Scores" type:string value_format_name:decimal_1 sql:${TABLE}.ltoScore;;hidden:no}
+  dimension: ltoScore_tier {group_label: "Testing" type:tier   tiers: [0,4,8,10] sql:${ltoScore};;}
+
   dimension: trainingScore {group_label: "Scores" type:string value_format_name:decimal_1 sql:${TABLE}.trainingScore;;hidden:no}
   dimension: holidayScore {group_label: "Scores" type:string value_format_name:decimal_1 sql:${TABLE}.holidayScore;;hidden:no}
   dimension: apprenticeshipScore {group_label: "Scores" type:string value_format_name:decimal_1 sql:${TABLE}.apprenticeshipScore;;hidden:no}
   dimension: safetyComplianceScore {group_label: "Scores" type:string value_format_name:decimal_1 sql:${TABLE}.safetyComplianceScore;;hidden:no}
+
+
+
+
+
+
+
+
+
   dimension: processCompScore {group_label: "Scores" type:string value_format_name:decimal_1 sql:${TABLE}.processCompScore;;hidden:no}
   dimension: shrinkageScore {group_label: "Scores" type:string value_format_name:decimal_1 sql:${TABLE}.shrinkageScore;;hidden:no}
   dimension: npsScore {group_label: "Scores" type:string value_format_name:decimal_1 sql:${TABLE}.npsScore;;hidden:no}

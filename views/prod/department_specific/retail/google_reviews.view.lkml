@@ -67,10 +67,4 @@ view: google_reviews {
     sql: ${rating} ;;
   }
 
-  measure: siteUID_count {
-    type: count_distinct
-    view_label: "Site Information"
-    label: "Number of sites (Google Reviews)"
-    sql: ${siteUID} ;;
-  }
 }

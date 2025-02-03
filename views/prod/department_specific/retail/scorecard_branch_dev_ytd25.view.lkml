@@ -24,6 +24,7 @@ view: scorecard_branch_dev_ytd25 {
   measure: siteUID_count {
     type: count_distinct
     sql: ${siteUID} ;;
+    label: "Number of Sites"
   }
 
   dimension: siteUID_month {
