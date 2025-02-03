@@ -119,4 +119,16 @@ view: scorecard_branch_dev25 {
   dimension: contributionVsBudgetScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${contributionVsBudgetScore};;}
   dimension: tsClubScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${tsClubScore};;}
 
+  dimension: pillarTotalColleague_tier {group_label:"Testing" type:tier tiers:[0,30,40,50] sql:${pillarTotalColleague};;}
+  dimension: pillarTotalSimplicityEfficiency_tier {group_label:"Testing" type:tier tiers:[0,30,40,50] sql:${pillarTotalSimplicityEfficiency};;}
+  dimension: pillarTotalCust_tier {group_label:"Testing" type:tier tiers:[0,30,40,50] sql:${pillarTotalCust};;}
+  dimension: pillarRankColleague_tier {group_label:"Testing" type:tier tiers:[0,100,200,300,400,500,600] sql:${pillarRankColleague};;}
+  dimension: pillarRankSimplicityEfficiency_tier {group_label:"Testing" type:tier tiers:[0,100,200,300,400,500,600] sql:${pillarRankSimplicityEfficiency};;}
+  dimension: pillarRankCust_tier {group_label:"Testing" type:tier tiers:[0,100,200,300,400,500,600] sql:${pillarRankCust};;}
+  dimension: overallRank_tier {group_label:"Testing" type:tier tiers:[0,100,200,300,400,500,600] sql:${overallRank};;}
+  dimension: ColleagueRag_tier {group_label:"Testing" type:tier tiers:[0,1,2,3] sql:${ColleagueRag};;}
+  dimension: SimplicityEfficiencyRag_tier {group_label:"Testing" type:tier tiers:[0,1,2,3] sql:${SimplicityEfficiencyRag};;}
+  dimension: CustRag_tier {group_label:"Testing" type:tier tiers:[0,1,2,3] sql:${CustRag};;}
+  dimension: OverallRag_tier {group_label:"Testing" type:tier tiers:[0,1,2,3] sql:${OverallRag};;}
+
 }
