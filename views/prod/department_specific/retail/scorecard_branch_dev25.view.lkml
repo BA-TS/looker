@@ -103,7 +103,7 @@ view: scorecard_branch_dev25 {
   dimension: tsClubSalesPercent {group_label: "Measures" type:string value_format_name:decimal_1 sql:${TABLE}.tsClubSalesPercent;;hidden:no}
 
 
-# Error Flags  --------------------------------------------------------------------
+
   dimension: trainingScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${trainingScore};;}
   dimension: holidayScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${holidayScore};;}
   dimension: apprenticeshipScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${apprenticeshipScore};;}
@@ -130,5 +130,74 @@ view: scorecard_branch_dev25 {
   dimension: SimplicityEfficiencyRag_tier {group_label:"Testing" type:tier tiers:[0,1,2,3] sql:${SimplicityEfficiencyRag};;}
   dimension: CustRag_tier {group_label:"Testing" type:tier tiers:[0,1,2,3] sql:${CustRag};;}
   dimension: OverallRag_tier {group_label:"Testing" type:tier tiers:[0,1,2,3] sql:${OverallRag};;}
+
+
+  # Error Flags  --------------------------------------------------------------------
+
+  dimension: ltoPercent_error_flag {group_label:"Error Flags" type:number sql:case when (${ltoPercent} is null) then 1 else 0 end;;}
+  dimension: trainingAvailable_error_flag {group_label:"Error Flags" type:number sql:case when (${trainingAvailable} is null) then 1 else 0 end;;}
+  dimension: trainingCompleted_error_flag {group_label:"Error Flags" type:number sql:case when (${trainingCompleted} is null) then 1 else 0 end;;}
+  dimension: trainingPercentCompleted_error_flag {group_label:"Error Flags" type:number sql:case when (${trainingPercentCompleted} is null) then 1 else 0 end;;}
+  dimension: holidayMonthEntitlement_error_flag {group_label:"Error Flags" type:number sql:case when (${holidayMonthEntitlement} is null) then 1 else 0 end;;}
+  dimension: holidayTaken_error_flag {group_label:"Error Flags" type:number sql:case when (${holidayTaken} is null) then 1 else 0 end;;}
+  dimension: holidayTakenPercent_error_flag {group_label:"Error Flags" type:number sql:case when (${holidayTakenPercent} is null) then 1 else 0 end;;}
+  dimension: apprenticeship_error_flag {group_label:"Error Flags" type:number sql:case when (${apprenticeship} is null) then 1 else 0 end;;}
+  dimension: safetyCompliance_error_flag {group_label:"Error Flags" type:number sql:case when (${safetyCompliance} is null) then 1 else 0 end;;}
+  dimension: processCompPercent_error_flag {group_label:"Error Flags" type:number sql:case when (${processCompPercent} is null) then 1 else 0 end;;}
+  dimension: orders_error_flag {group_label:"Error Flags" type:number sql:case when (${orders} is null) then 1 else 0 end;;}
+  dimension: shrinkage_error_flag {group_label:"Error Flags" type:number sql:case when (${shrinkage} is null) then 1 else 0 end;;}
+  dimension: shrinkagePercent_error_flag {group_label:"Error Flags" type:number sql:case when (${shrinkagePercent} is null) then 1 else 0 end;;}
+  dimension: NPS_error_flag {group_label:"Error Flags" type:number sql:case when (${NPS} is null) then 1 else 0 end;;}
+  dimension: anonOrders_error_flag {group_label:"Error Flags" type:number sql:case when (${anonOrders} is null) then 1 else 0 end;;}
+  dimension: totalOrders_error_flag {group_label:"Error Flags" type:number sql:case when (${totalOrders} is null) then 1 else 0 end;;}
+  dimension: anonPercent_error_flag {group_label:"Error Flags" type:number sql:case when (${anonPercent} is null) then 1 else 0 end;;}
+  dimension: tyFrequency_error_flag {group_label:"Error Flags" type:number sql:case when (${tyFrequency} is null) then 1 else 0 end;;}
+  dimension: pyFrequency_error_flag {group_label:"Error Flags" type:number sql:case when (${pyFrequency} is null) then 1 else 0 end;;}
+  dimension: yoyFrequency_error_flag {group_label:"Error Flags" type:number sql:case when (${yoyFrequency} is null) then 1 else 0 end;;}
+  dimension: netSales_error_flag {group_label:"Error Flags" type:number sql:case when (${netSales} is null) then 1 else 0 end;;}
+  dimension: pyUnits_error_flag {group_label:"Error Flags" type:number sql:case when (${pyUnits} is null) then 1 else 0 end;;}
+  dimension: tyTradeSales_error_flag {group_label:"Error Flags" type:number sql:case when (${tyTradeSales} is null) then 1 else 0 end;;}
+  dimension: pyTradeSales_error_flag {group_label:"Error Flags" type:number sql:case when (${pyTradeSales} is null) then 1 else 0 end;;}
+  dimension: yoyTradeSales_error_flag {group_label:"Error Flags" type:number sql:case when (${yoyTradeSales} is null) then 1 else 0 end;;}
+  dimension: yoyUPT_error_flag {group_label:"Error Flags" type:number sql:case when (${yoyUPT} is null) then 1 else 0 end;;}
+  dimension: tySales_error_flag {group_label:"Error Flags" type:number sql:case when (${tySales} is null) then 1 else 0 end;;}
+  dimension: tyOrders_error_flag {group_label:"Error Flags" type:number sql:case when (${tyOrders} is null) then 1 else 0 end;;}
+  dimension: tyAOV_error_flag {group_label:"Error Flags" type:number sql:case when (${tyAOV} is null) then 1 else 0 end;;}
+  dimension: pySales_error_flag {group_label:"Error Flags" type:number sql:case when (${pySales} is null) then 1 else 0 end;;}
+  dimension: pyOrders_error_flag {group_label:"Error Flags" type:number sql:case when (${pyOrders} is null) then 1 else 0 end;;}
+  dimension: actual_hours_error_flag {group_label:"Error Flags" type:number sql:case when (${actual_hours} is null) then 1 else 0 end;;}
+  dimension: aop_hours_error_flag {group_label:"Error Flags" type:number sql:case when (${aop_hours} is null) then 1 else 0 end;;}
+  dimension: hoursVsAOP_error_flag {group_label:"Error Flags" type:number sql:case when (${hoursVsAOP} is null) then 1 else 0 end;;}
+  dimension: labourBudgetPercent_error_flag {group_label:"Error Flags" type:number sql:case when (${labourBudgetPercent} is null) then 1 else 0 end;;}
+  dimension: ltoScore_error_flag {group_label:"Error Flags" type:number sql:case when (${ltoScore} is null) then 1 else 0 end;;}
+  dimension: trainingScore_error_flag {group_label:"Error Flags" type:number sql:case when (${trainingScore} is null) then 1 else 0 end;;}
+  dimension: holidayScore_error_flag {group_label:"Error Flags" type:number sql:case when (${holidayScore} is null) then 1 else 0 end;;}
+  dimension: apprenticeshipScore_error_flag {group_label:"Error Flags" type:number sql:case when (${apprenticeshipScore} is null) then 1 else 0 end;;}
+  dimension: safetyComplianceScore_error_flag {group_label:"Error Flags" type:number sql:case when (${safetyComplianceScore} is null) then 1 else 0 end;;}
+  dimension: processCompScore_error_flag {group_label:"Error Flags" type:number sql:case when (${processCompScore} is null) then 1 else 0 end;;}
+  dimension: shrinkageScore_error_flag {group_label:"Error Flags" type:number sql:case when (${shrinkageScore} is null) then 1 else 0 end;;}
+  dimension: npsScore_error_flag {group_label:"Error Flags" type:number sql:case when (${npsScore} is null) then 1 else 0 end;;}
+  dimension: anonScore_error_flag {group_label:"Error Flags" type:number sql:case when (${anonScore} is null) then 1 else 0 end;;}
+  dimension: yoyFrequencyScore_error_flag {group_label:"Error Flags" type:number sql:case when (${yoyFrequencyScore} is null) then 1 else 0 end;;}
+  dimension: yoyTradeSalesScore_error_flag {group_label:"Error Flags" type:number sql:case when (${yoyTradeSalesScore} is null) then 1 else 0 end;;}
+  dimension: unitsPerTransactionScore_error_flag {group_label:"Error Flags" type:number sql:case when (${unitsPerTransactionScore} is null) then 1 else 0 end;;}
+  dimension: labourBudgetScore_error_flag {group_label:"Error Flags" type:number sql:case when (${labourBudgetScore} is null) then 1 else 0 end;;}
+  dimension: pillarTotalColleague_error_flag {group_label:"Error Flags" type:number sql:case when (${pillarTotalColleague} is null) then 1 else 0 end;;}
+  dimension: pillarTotalSimplicityEfficiency_error_flag {group_label:"Error Flags" type:number sql:case when (${pillarTotalSimplicityEfficiency} is null) then 1 else 0 end;;}
+  dimension: pillarTotalCust_error_flag {group_label:"Error Flags" type:number sql:case when (${pillarTotalCust} is null) then 1 else 0 end;;}
+  dimension: pillarRankColleague_error_flag {group_label:"Error Flags" type:number sql:case when (${pillarRankColleague} is null) then 1 else 0 end;;}
+  dimension: pillarRankSimplicityEfficiency_error_flag {group_label:"Error Flags" type:number sql:case when (${pillarRankSimplicityEfficiency} is null) then 1 else 0 end;;}
+  dimension: pillarRankCust_error_flag {group_label:"Error Flags" type:number sql:case when (${pillarRankCust} is null) then 1 else 0 end;;}
+  dimension: overallRank_error_flag {group_label:"Error Flags" type:number sql:case when (${overallRank} is null) then 1 else 0 end;;}
+  dimension: ColleagueRag_error_flag {group_label:"Error Flags" type:number sql:case when (${ColleagueRag} is null) then 1 else 0 end;;}
+  dimension: SimplicityEfficiencyRag_error_flag {group_label:"Error Flags" type:number sql:case when (${SimplicityEfficiencyRag} is null) then 1 else 0 end;;}
+  dimension: CustRag_error_flag {group_label:"Error Flags" type:number sql:case when (${CustRag} is null) then 1 else 0 end;;}
+  dimension: OverallRag_error_flag {group_label:"Error Flags" type:number sql:case when (${OverallRag} is null) then 1 else 0 end;;}
+  dimension: contributionVsBudget_error_flag {group_label:"Error Flags" type:number sql:case when (${contributionVsBudget} is null) then 1 else 0 end;;}
+  dimension: contributionVsBudgetScore_error_flag {group_label:"Error Flags" type:number sql:case when (${contributionVsBudgetScore} is null) then 1 else 0 end;;}
+  dimension: tsClubScore_error_flag {group_label:"Error Flags" type:number sql:case when (${tsClubScore} is null) then 1 else 0 end;;}
+  dimension: tsClubSales_error_flag {group_label:"Error Flags" type:number sql:case when (${tsClubSales} is null) then 1 else 0 end;;}
+  dimension: tsClubSalesPercent_error_flag {group_label:"Error Flags" type:number sql:case when (${tsClubSalesPercent} is null) then 1 else 0 end;;}
+
 
 }
