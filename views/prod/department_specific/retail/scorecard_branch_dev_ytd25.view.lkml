@@ -18,7 +18,7 @@ view: scorecard_branch_dev_ytd25 {
   dimension: siteUID {
     type: string
     sql: ${TABLE}.siteUID ;;
-    hidden: yes
+    # hidden: yes
   }
 
   measure: siteUID_count {
