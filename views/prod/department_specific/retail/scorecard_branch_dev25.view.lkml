@@ -70,6 +70,12 @@ view: scorecard_branch_dev25 {
   dimension: aop_hours {group_label: "Measures" type:string value_format_name:decimal_1 sql:${TABLE}.aop_hours;;hidden:no}
   dimension: hoursVsAOP {group_label: "Measures" type:string value_format_name:decimal_1 sql:${TABLE}.hoursVsAOP;;hidden:no}
   dimension: labourBudgetPercent {group_label: "Measures" type:string value_format_name:decimal_1 sql:${TABLE}.labourBudgetPercent;;hidden:no}
+  dimension: anonBandingL {group_label: "Measures" type:string value_format_name:decimal_2 sql:${TABLE}.anonBandingL;;hidden:no}
+  dimension: anonBandingM {group_label: "Measures" type:string value_format_name:decimal_2 sql:${TABLE}.anonBandingM;;hidden:no}
+  dimension: anonBandingU {group_label: "Measures" type:string value_format_name:decimal_2 sql:${TABLE}.anonBandingU;;hidden:no}
+  dimension: anonPercentVsTarget {group_label: "Measures" type:string value_format_name:decimal_2 sql:${TABLE}.anonPercentVsTarget;;hidden:no}
+  dimension: tsClubSales {group_label: "Measures" type:string value_format_name:decimal_1 sql:${TABLE}.tsClubSales;;hidden:no}
+  dimension: tsClubSalesPercent {group_label: "Measures" type:string value_format_name:decimal_1 sql:${TABLE}.tsClubSalesPercent;;hidden:no}
 
 
   dimension: ltoScore {group_label: "Scores" type:string value_format_name:decimal_1 sql:${TABLE}.ltoScore;;hidden:no}
@@ -99,11 +105,43 @@ view: scorecard_branch_dev25 {
   dimension: contributionVsBudget {group_label: "Measures" type:string value_format_name:decimal_1 sql:${TABLE}.contributionVsBudget;;hidden:no}
   dimension: contributionVsBudgetScore {group_label: "Scores" type:string value_format_name:decimal_1 sql:${TABLE}.contributionVsBudgetScore;;hidden:no}
   dimension: tsClubScore {group_label: "Scores" type:string value_format_name:decimal_1 sql:${TABLE}.tsClubScore;;hidden:no}
-  dimension: tsClubSales {group_label: "Measures" type:string value_format_name:decimal_1 sql:${TABLE}.tsClubSales;;hidden:no}
-  dimension: tsClubSalesPercent {group_label: "Measures" type:string value_format_name:decimal_1 sql:${TABLE}.tsClubSalesPercent;;hidden:no}
 
 
-
+  dimension: ltoPercent_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${ltoPercent};;}
+  dimension: trainingAvailable_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${trainingAvailable};;}
+  dimension: trainingCompleted_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${trainingCompleted};;}
+  dimension: trainingPercentCompleted_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${trainingPercentCompleted};;}
+  dimension: holidayMonthEntitlement_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${holidayMonthEntitlement};;}
+  dimension: holidayTaken_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${holidayTaken};;}
+  dimension: holidayTakenPercent_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${holidayTakenPercent};;}
+  dimension: apprenticeship_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${apprenticeship};;}
+  dimension: safetyCompliance_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${safetyCompliance};;}
+  dimension: processCompPercent_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${processCompPercent};;}
+  dimension: orders_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${orders};;}
+  dimension: shrinkage_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${shrinkage};;}
+  dimension: shrinkagePercent_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${shrinkagePercent};;}
+  dimension: NPS_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${NPS};;}
+  dimension: anonOrders_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${anonOrders};;}
+  dimension: totalOrders_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${totalOrders};;}
+  dimension: anonPercent_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${anonPercent};;}
+  dimension: tyFrequency_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${tyFrequency};;}
+  dimension: pyFrequency_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${pyFrequency};;}
+  dimension: yoyFrequency_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${yoyFrequency};;}
+  dimension: netSales_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${netSales};;}
+  dimension: pyUnits_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${pyUnits};;}
+  dimension: tyTradeSales_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${tyTradeSales};;}
+  dimension: pyTradeSales_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${pyTradeSales};;}
+  dimension: yoyTradeSales_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${yoyTradeSales};;}
+  dimension: yoyUPT_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${yoyUPT};;}
+  dimension: tySales_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${tySales};;}
+  dimension: tyOrders_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${tyOrders};;}
+  dimension: tyAOV_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${tyAOV};;}
+  dimension: pySales_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${pySales};;}
+  dimension: pyOrders_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${pyOrders};;}
+  dimension: actual_hours_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${actual_hours};;}
+  dimension: aop_hours_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${aop_hours};;}
+  dimension: hoursVsAOP_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${hoursVsAOP};;}
+  dimension: labourBudgetPercent_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${labourBudgetPercent};;}
   dimension: ltoScore_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${ltoScore};;}
   dimension: trainingScore_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${trainingScore};;}
   dimension: holidayScore_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${holidayScore};;}
@@ -117,20 +155,26 @@ view: scorecard_branch_dev25 {
   dimension: yoyTradeSalesScore_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${yoyTradeSalesScore};;}
   dimension: unitsPerTransactionScore_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${unitsPerTransactionScore};;}
   dimension: labourBudgetScore_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${labourBudgetScore};;}
-  dimension: pillarTotalColleague_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${pillarTotalColleague};;}
-  dimension: pillarTotalSimplicityEfficiency_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${pillarTotalSimplicityEfficiency};;}
-  dimension: pillarTotalCust_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${pillarTotalCust};;}
-  dimension: pillarRankColleague_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${pillarRankColleague};;}
-  dimension: pillarRankSimplicityEfficiency_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${pillarRankSimplicityEfficiency};;}
-  dimension: pillarRankCust_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${pillarRankCust};;}
-  dimension: overallRank_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${overallRank};;}
-  dimension: ColleagueRag_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${ColleagueRag};;}
-  dimension: SimplicityEfficiencyRag_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${SimplicityEfficiencyRag};;}
-  dimension: CustRag_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${CustRag};;}
-  dimension: OverallRag_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${OverallRag};;}
-  dimension: contributionVsBudgetScore_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${contributionVsBudgetScore};;}
   dimension: tsClubScore_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${tsClubScore};;}
-
+  dimension: tsClubSales_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${tsClubSales};;}
+  dimension: tsClubSalesPercent_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${tsClubSalesPercent};;}
+  dimension: contributionVsBudget_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${contributionVsBudget};;}
+  dimension: contributionVsBudgetScore_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${contributionVsBudgetScore};;}
+  dimension: pillarTotalColleague_tier {group_label:"Testing" type:tier tiers:[0,10,20,30,40,50] sql:${pillarTotalColleague};;}
+  dimension: pillarTotalSimplicityEfficiency_tier {group_label:"Testing" type:tier tiers:[0,10,20,30,40,50]  sql:${pillarTotalSimplicityEfficiency};;}
+  dimension: pillarTotalCust_tier {group_label:"Testing" type:tier tiers:[0,10,20,30,40,50]  sql:${pillarTotalCust};;}
+  dimension: pillarRankColleague_tier {group_label:"Testing" type:tier tiers:[0,100,200,300,400,500,600] sql:${pillarRankColleague};;}
+  dimension: pillarRankSimplicityEfficiency_tier {group_label:"Testing" type:tier tiers:[0,100,200,300,400,500,600] sql:${pillarRankSimplicityEfficiency};;}
+  dimension: pillarRankCust_tier {group_label:"Testing" type:tier tiers:[0,100,200,300,400,500,600] sql:${pillarRankCust};;}
+  dimension: overallRank_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${overallRank};;}
+  dimension: ColleagueRag_tier {group_label:"Testing" type:tier tiers:[0,1,2,3] sql:${ColleagueRag};;}
+  dimension: SimplicityEfficiencyRag_tier {group_label:"Testing" type:tier tiers:[0,1,2,3] sql:${SimplicityEfficiencyRag};;}
+  dimension: CustRag_tier {group_label:"Testing" type:tier tiers:[0,1,2,3] sql:${CustRag};;}
+  dimension: OverallRag_tier {group_label:"Testing" type:tier tiers:[0,1,2,3] sql:${OverallRag};;}
+  dimension: anonBandingL_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${anonBandingL};;}
+  dimension: anonBandingM_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${anonBandingM};;}
+  dimension: anonBandingU_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${anonBandingU};;}
+  dimension: anonPercentVsTarget_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${anonPercentVsTarget};;}
 
   # Error Flags  --------------------------------------------------------------------
 
