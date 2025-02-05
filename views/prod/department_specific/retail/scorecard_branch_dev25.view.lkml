@@ -104,32 +104,32 @@ view: scorecard_branch_dev25 {
 
 
 
-  dimension: trainingScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${trainingScore};;}
-  dimension: holidayScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${holidayScore};;}
-  dimension: apprenticeshipScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${apprenticeshipScore};;}
-  dimension: safetyComplianceScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${safetyComplianceScore};;}
-  dimension: processCompScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${processCompScore};;}
-  dimension: shrinkageScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${shrinkageScore};;}
-  dimension: npsScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${npsScore};;}
-  dimension: anonScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${anonScore};;}
-  dimension: yoyFrequencyScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${yoyFrequencyScore};;}
-  dimension: yoyTradeSalesScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${yoyTradeSalesScore};;}
-  dimension: unitsPerTransactionScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${unitsPerTransactionScore};;}
-  dimension: labourBudgetScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${labourBudgetScore};;}
-  dimension: contributionVsBudgetScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${contributionVsBudgetScore};;}
-  dimension: tsClubScore_tier {group_label:"Testing" type:tier tiers:[0,4,8,10] sql:${tsClubScore};;}
-
-  dimension: pillarTotalColleague_tier {group_label:"Testing" type:tier tiers:[0,30,40,50] sql:${pillarTotalColleague};;}
-  dimension: pillarTotalSimplicityEfficiency_tier {group_label:"Testing" type:tier tiers:[0,30,40,50] sql:${pillarTotalSimplicityEfficiency};;}
-  dimension: pillarTotalCust_tier {group_label:"Testing" type:tier tiers:[0,30,40,50] sql:${pillarTotalCust};;}
-  dimension: pillarRankColleague_tier {group_label:"Testing" type:tier tiers:[0,100,200,300,400,500,600] sql:${pillarRankColleague};;}
-  dimension: pillarRankSimplicityEfficiency_tier {group_label:"Testing" type:tier tiers:[0,100,200,300,400,500,600] sql:${pillarRankSimplicityEfficiency};;}
-  dimension: pillarRankCust_tier {group_label:"Testing" type:tier tiers:[0,100,200,300,400,500,600] sql:${pillarRankCust};;}
-  dimension: overallRank_tier {group_label:"Testing" type:tier tiers:[0,100,200,300,400,500,600] sql:${overallRank};;}
-  dimension: ColleagueRag_tier {group_label:"Testing" type:tier tiers:[0,1,2,3] sql:${ColleagueRag};;}
-  dimension: SimplicityEfficiencyRag_tier {group_label:"Testing" type:tier tiers:[0,1,2,3] sql:${SimplicityEfficiencyRag};;}
-  dimension: CustRag_tier {group_label:"Testing" type:tier tiers:[0,1,2,3] sql:${CustRag};;}
-  dimension: OverallRag_tier {group_label:"Testing" type:tier tiers:[0,1,2,3] sql:${OverallRag};;}
+  dimension: ltoScore_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${ltoScore};;}
+  dimension: trainingScore_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${trainingScore};;}
+  dimension: holidayScore_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${holidayScore};;}
+  dimension: apprenticeshipScore_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${apprenticeshipScore};;}
+  dimension: safetyComplianceScore_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${safetyComplianceScore};;}
+  dimension: processCompScore_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${processCompScore};;}
+  dimension: shrinkageScore_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${shrinkageScore};;}
+  dimension: npsScore_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${npsScore};;}
+  dimension: anonScore_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${anonScore};;}
+  dimension: yoyFrequencyScore_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${yoyFrequencyScore};;}
+  dimension: yoyTradeSalesScore_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${yoyTradeSalesScore};;}
+  dimension: unitsPerTransactionScore_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${unitsPerTransactionScore};;}
+  dimension: labourBudgetScore_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${labourBudgetScore};;}
+  dimension: pillarTotalColleague_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${pillarTotalColleague};;}
+  dimension: pillarTotalSimplicityEfficiency_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${pillarTotalSimplicityEfficiency};;}
+  dimension: pillarTotalCust_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${pillarTotalCust};;}
+  dimension: pillarRankColleague_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${pillarRankColleague};;}
+  dimension: pillarRankSimplicityEfficiency_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${pillarRankSimplicityEfficiency};;}
+  dimension: pillarRankCust_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${pillarRankCust};;}
+  dimension: overallRank_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${overallRank};;}
+  dimension: ColleagueRag_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${ColleagueRag};;}
+  dimension: SimplicityEfficiencyRag_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${SimplicityEfficiencyRag};;}
+  dimension: CustRag_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${CustRag};;}
+  dimension: OverallRag_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${OverallRag};;}
+  dimension: contributionVsBudgetScore_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${contributionVsBudgetScore};;}
+  dimension: tsClubScore_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${tsClubScore};;}
 
 
   # Error Flags  --------------------------------------------------------------------
