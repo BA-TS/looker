@@ -128,7 +128,7 @@ parameter: order_cancelled {
     label: "All"
     value: "Any"
   }
-  default_value: "Any"
+  default_value: "No"
 }
 
 
