@@ -28,13 +28,6 @@ view: compliance_support {
     primary_key: yes
   }
 
-  measure: siteUID_count {
-    type: count_distinct
-    view_label: "Site Information"
-    label: "Number of sites (Compliance)"
-    sql: ${siteUID} ;;
-  }
-
   dimension: Compliance_Actual {
     type: number
     sql: ${TABLE}.Comp_Actual ;;

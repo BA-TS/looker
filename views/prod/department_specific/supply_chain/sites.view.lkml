@@ -306,6 +306,14 @@ view: sites {
     sql: ${TABLE}.regionName ;;
   }
 
+  dimension: north_south_london {
+    group_label: "Division and Region"
+    label: "Is North or South London"
+    type: yesno
+    sql: ${region_name} IN ("Region 1 - North London","Region 2 - South London");;
+  }
+
+
   dimension: old_region_name {
     group_label: "Division and Region"
     type: string
