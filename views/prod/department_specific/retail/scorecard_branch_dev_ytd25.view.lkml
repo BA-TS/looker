@@ -74,8 +74,8 @@ view: scorecard_branch_dev_ytd25 {
   dimension: hoursVsAOP { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.hoursVsAOP;;hidden:no}
   dimension: labourBudgetPercent { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.labourBudgetPercent;;hidden:no}
   dimension: contributionVsBudget { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.contributionVsBudget;;hidden:no}
-  dimension: AOP { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.AOP;;hidden:no}
-  dimension: vsAOP { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.vsAOP;;hidden:no}
+  dimension: AOP { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.AOP;;hidden:no}
+  dimension: vsAOP { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.vsAOP;;hidden:no}
   dimension: tyEBIT { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.tyEBIT;;hidden:no}
   dimension: pyEBIT { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.pyEBIT;;hidden:no}
   dimension: tsClubSales { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.tsClubSales;;hidden:no}
