@@ -36,8 +36,7 @@ view: scorecard_branch_dev25 {
   }
 
 # Scores  --------------------------------------------------------------------
-dimension: ltoPercent {group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.ltoPercent;;hidden:no}
-
+  dimension: ltoPercent {group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.ltoPercent;;hidden:no}
   dimension: trainingAvailable {group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.trainingAvailable;;hidden:no}
   dimension: trainingCompleted {group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.trainingCompleted;;hidden:no}
   dimension: trainingPercentCompleted {group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.trainingPercentCompleted;;hidden:no}
@@ -77,8 +76,8 @@ dimension: ltoPercent {group_label: "Measures" type:string value_format_name:dec
   dimension: hoursVsAOP {group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.hoursVsAOP;;hidden:no}
   dimension: labourBudgetPercent {group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.labourBudgetPercent;;hidden:no}
   dimension: contributionVsBudget {group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.contributionVsBudget;;hidden:no}
-  dimension: contributionVsBudget1 {group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.contributionVsBudget1;;hidden:no}
-  dimension: contributionVsBudget2 {group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.contributionVsBudget2;;hidden:no}
+  dimension: AOP {group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.AOP;;hidden:no}
+  dimension: vsAOP {group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.vsAOP;;hidden:no}
   dimension: tyEBIT {group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.tyEBIT;;hidden:no}
   dimension: pyEBIT {group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.pyEBIT;;hidden:no}
   dimension: tsClubSales {group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.tsClubSales;;hidden:no}
