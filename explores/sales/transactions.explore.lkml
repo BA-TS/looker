@@ -884,6 +884,7 @@ explore: base {
   }
 
   join: bdm_ka_customers {
+    required_access_grants: [is_bdm]
     view_label: "BDM"
     type: left_outer
     relationship: many_to_one
