@@ -60,6 +60,10 @@ view: scorecard_branch_dev_ytd25 {
   dimension: yoyFrequency { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.yoyFrequency;;hidden:no}
   dimension: netSales { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.netSales;;hidden:no}
   dimension: pyUnits { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.pyUnits;;hidden:no}
+  dimension: unitsExCC { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.unitsExCC;;hidden:no}
+  dimension: ordersExCC { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.ordersExCC;;hidden:no}
+  dimension: pyUnitsExCC { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.pyUnitsExCC;;hidden:no}
+  dimension: pyOrdersExCC { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.pyOrdersExCC;;hidden:no}
   dimension: tyTradeSales { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.tyTradeSales;;hidden:no}
   dimension: pyTradeSales { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.pyTradeSales;;hidden:no}
   dimension: yoyTradeSales { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.yoyTradeSales;;hidden:no}
@@ -69,44 +73,44 @@ view: scorecard_branch_dev_ytd25 {
   dimension: tyAOV { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.tyAOV;;hidden:no}
   dimension: pySales { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.pySales;;hidden:no}
   dimension: pyOrders { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.pyOrders;;hidden:no}
-  dimension: actual_hours { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.actual_hours;;hidden:no}
-  dimension: aop_hours { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.aop_hours;;hidden:no}
-  dimension: hoursVsAOP { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.hoursVsAOP;;hidden:no}
-  dimension: labourBudgetPercent { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.labourBudgetPercent;;hidden:no}
-  dimension: contributionVsBudget { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.contributionVsBudget;;hidden:no}
+  dimension: actual_hours { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.actual_hours;;hidden:no}
+  dimension: aop_hours { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.aop_hours;;hidden:no}
+  dimension: hoursVsAOP { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.hoursVsAOP;;hidden:no}
+  dimension: labourBudgetPercent { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.labourBudgetPercent;;hidden:no}
+  dimension: contributionVsBudget { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.contributionVsBudget;;hidden:no}
   dimension: AOP { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.AOP;;hidden:no}
   dimension: vsAOP { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.vsAOP;;hidden:no}
-  dimension: tyEBIT { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.tyEBIT;;hidden:no}
-  dimension: pyEBIT { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.pyEBIT;;hidden:no}
-  dimension: tsClubSales { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.tsClubSales;;hidden:no}
-  dimension: tsClubSalesPercent { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.tsClubSalesPercent;;hidden:no}
+  dimension: tyEBIT { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.tyEBIT;;hidden:no}
+  dimension: pyEBIT { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.pyEBIT;;hidden:no}
+  dimension: tsClubSales { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.tsClubSales;;hidden:no}
+  dimension: tsClubSalesPercent { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.tsClubSalesPercent;;hidden:no}
   dimension: ltoScore { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.ltoScore;;hidden:no}
   dimension: trainingScore { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.trainingScore;;hidden:no}
-  dimension: holidayScore { group_label: "Ranking" type:string value_format_name:decimal_3 sql:${TABLE}.holidayScore;;hidden:no}
-  dimension: apprenticeshipScore { group_label: "Ranking" type:string value_format_name:decimal_3 sql:${TABLE}.apprenticeshipScore;;hidden:no}
-  dimension: safetyComplianceScore { group_label: "Ranking" type:string value_format_name:decimal_3 sql:${TABLE}.safetyComplianceScore;;hidden:no}
-  dimension: processCompScore { group_label: "Ranking" type:string value_format_name:decimal_3 sql:${TABLE}.processCompScore;;hidden:no}
-  dimension: shrinkageScore { group_label: "Ranking" type:string value_format_name:decimal_3 sql:${TABLE}.shrinkageScore;;hidden:no}
-  dimension: npsScore { group_label: "Ranking" type:string value_format_name:decimal_3 sql:${TABLE}.npsScore;;hidden:no}
-  dimension: anonScore { group_label: "Ranking" type:string value_format_name:decimal_3 sql:${TABLE}.anonScore;;hidden:no}
-  dimension: yoyFrequencyScore { group_label: "Ranking" type:string value_format_name:decimal_3 sql:${TABLE}.yoyFrequencyScore;;hidden:no}
-  dimension: yoyTradeSalesScore { group_label: "Ranking" type:string value_format_name:decimal_3 sql:${TABLE}.yoyTradeSalesScore;;hidden:no}
-  dimension: unitsPerTransactionScore { group_label: "Ranking" type:string value_format_name:decimal_3 sql:${TABLE}.unitsPerTransactionScore;;hidden:no}
-  dimension: labourBudgetScore { group_label: "Ranking" type:string value_format_name:decimal_3 sql:${TABLE}.labourBudgetScore;;hidden:no}
-  dimension: tsClubScore { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.tsClubScore;;hidden:no}
+  dimension: holidayScore { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.holidayScore;;hidden:no}
+  dimension: apprenticeshipScore { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.apprenticeshipScore;;hidden:no}
+  dimension: safetyComplianceScore { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.safetyComplianceScore;;hidden:no}
+  dimension: processCompScore { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.processCompScore;;hidden:no}
+  dimension: shrinkageScore { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.shrinkageScore;;hidden:no}
+  dimension: npsScore { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.npsScore;;hidden:no}
+  dimension: anonScore { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.anonScore;;hidden:no}
+  dimension: yoyFrequencyScore { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.yoyFrequencyScore;;hidden:no}
+  dimension: yoyTradeSalesScore { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.yoyTradeSalesScore;;hidden:no}
+  dimension: unitsPerTransactionScore { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.unitsPerTransactionScore;;hidden:no}
+  dimension: labourBudgetScore { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.labourBudgetScore;;hidden:no}
+  dimension: tsClubScore { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.tsClubScore;;hidden:no}
   dimension: contributionVsBudgetScore { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.contributionVsBudgetScore;;hidden:no}
-  dimension: pillarTotalColleague { group_label: "Scores" type:string value_format_name:decimal_3 sql:${TABLE}.pillarTotalColleague;;hidden:no}
+  dimension: pillarTotalColleague { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.pillarTotalColleague;;hidden:no}
   dimension: pillarTotalSimplicityEfficiency { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.pillarTotalSimplicityEfficiency;;hidden:no}
   dimension: pillarTotalCust { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.pillarTotalCust;;hidden:no}
   dimension: pillarTotalOverall { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.pillarTotalOverall;;hidden:no}
-  dimension: pillarRankColleague { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.pillarRankColleague;;hidden:no}
-  dimension: pillarRankSimplicityEfficiency { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.pillarRankSimplicityEfficiency;;hidden:no}
-  dimension: pillarRankCust { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.pillarRankCust;;hidden:no}
-  dimension: overallRank { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.overallRank;;hidden:no}
-  dimension: ColleagueRag { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.ColleagueRag;;hidden:no}
-  dimension: SimplicityEfficiencyRag { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.SimplicityEfficiencyRag;;hidden:no}
-  dimension: CustRag { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.CustRag;;hidden:no}
-  dimension: OverallRag { group_label: "Measures" type:string value_format_name:decimal_3 sql:${TABLE}.OverallRag;;hidden:no}
+  dimension: pillarRankColleague { group_label: "Ranking" type:string value_format_name:decimal_3 sql:${TABLE}.pillarRankColleague;;hidden:no}
+  dimension: pillarRankSimplicityEfficiency { group_label: "Ranking" type:string value_format_name:decimal_3 sql:${TABLE}.pillarRankSimplicityEfficiency;;hidden:no}
+  dimension: pillarRankCust { group_label: "Ranking" type:string value_format_name:decimal_3 sql:${TABLE}.pillarRankCust;;hidden:no}
+  dimension: overallRank { group_label: "Ranking" type:string value_format_name:decimal_3 sql:${TABLE}.overallRank;;hidden:no}
+  dimension: ColleagueRag { group_label: "Ranking" type:string value_format_name:decimal_3 sql:${TABLE}.ColleagueRag;;hidden:no}
+  dimension: SimplicityEfficiencyRag { group_label: "Ranking" type:string value_format_name:decimal_3 sql:${TABLE}.SimplicityEfficiencyRag;;hidden:no}
+  dimension: CustRag { group_label: "Ranking" type:string value_format_name:decimal_3 sql:${TABLE}.CustRag;;hidden:no}
+  dimension: OverallRag { group_label: "Ranking" type:string value_format_name:decimal_3 sql:${TABLE}.OverallRag;;hidden:no}
 
   dimension: ltoPercent_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${ltoPercent};;}
   dimension: trainingAvailable_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${trainingAvailable};;}
