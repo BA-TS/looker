@@ -80,6 +80,7 @@ include: "/views/**/transactions_ecrebo.view"
 include: "/views/**/ecrebo_product_code_flag.view"
 include: "/views/**/product_attributes_pivoted.view"
 include: "/views/**/ecrebo_discounts.view"
+include: "/views/**/bdm_ka_customers.view"
 
 
 explore: base {
@@ -880,6 +881,13 @@ explore: base {
     type: left_outer
     relationship: one_to_one
     sql_on: ${transactions.parent_order_uid}= ${ecrebo_product_code_flag.parent_order_uid};;
+  }
+
+  join: bdm_ka_customers {
+    view_label: "BDM"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:  ${bdm_ka_customers.customer_uid}=${transactions.customer_uid} and ${base.base_date_date} between ${bdm_ka_customers.start_date} and date_sub(${bdm_ka_customers.end_date},interval 0 day);;
   }
 
 }
