@@ -105,18 +105,18 @@ view: scorecard_branch_dev25 {
   dimension: pillarTotalSimplicityEfficiency {group_label: "Ranking" type:number value_format_name:decimal_3 sql:${TABLE}.pillarTotalSimplicityEfficiency;;hidden:no}
   dimension: pillarTotalCust {group_label: "Ranking" type:number value_format_name:decimal_3 sql:${TABLE}.pillarTotalCust;;hidden:no}
   dimension: pillarTotalOverall {group_label: "Ranking" type:number value_format_name:decimal_3 sql:${TABLE}.pillarTotalOverall;;hidden:no}
-  dimension: pillarRankColleague {group_label: "Ranking" type:number value_format_name:decimal_3 sql:${TABLE}.pillarRankColleague;;hidden:no}
-  dimension: pillarRankSimplicityEfficiency {group_label: "Ranking" type:number value_format_name:decimal_3 sql:${TABLE}.pillarRankSimplicityEfficiency;;hidden:no}
-  dimension: pillarRankCust {group_label: "Ranking" type:number value_format_name:decimal_3 sql:${TABLE}.pillarRankCust;;hidden:no}
-  dimension: overallRank {group_label: "Ranking" type:number value_format_name:decimal_3 sql:${TABLE}.overallRank;;hidden:no}
+  dimension: pillarRankColleague {group_label: "Ranking" type:number value_format_name:decimal_0 sql:${TABLE}.pillarRankColleague;;hidden:no}
+  dimension: pillarRankSimplicityEfficiency {group_label: "Ranking" type:number value_format_name:decimal_0 sql:${TABLE}.pillarRankSimplicityEfficiency;;hidden:no}
+  dimension: pillarRankCust {group_label: "Ranking" type:number value_format_name:decimal_0 sql:${TABLE}.pillarRankCust;;hidden:no}
+  dimension: overallRank {group_label: "Ranking" type:number value_format_name:decimal_0 sql:${TABLE}.overallRank;;hidden:no}
   dimension: ColleagueRag {group_label: "Ranking" type:number value_format_name:decimal_3 sql:${TABLE}.ColleagueRag;;hidden:no}
   dimension: SimplicityEfficiencyRag {group_label: "Ranking" type:number value_format_name:decimal_3 sql:${TABLE}.SimplicityEfficiencyRag;;hidden:no}
   dimension: CustRag {group_label: "Ranking" type:number value_format_name:decimal_3 sql:${TABLE}.CustRag;;hidden:no}
   dimension: OverallRag {group_label: "Ranking" type:number value_format_name:decimal_3 sql:${TABLE}.OverallRag;;hidden:no}
-  dimension: pillarRankColleagueNew {group_label: "Ranking" type:number value_format_name:decimal_3 sql:${TABLE}.pillarRankColleagueNew;;hidden:no}
-  dimension: pillarRankSimplicityEfficiencyNew {group_label: "Ranking" type:number value_format_name:decimal_3 sql:${TABLE}.pillarRankSimplicityEfficiencyNew;;hidden:no}
-  dimension: pillarRankCustNew {group_label: "Ranking" type:number value_format_name:decimal_3 sql:${TABLE}.pillarRankCustNew;;hidden:no}
-  dimension: overallRankNew {group_label: "Ranking" type:number value_format_name:decimal_3 sql:${TABLE}.overallRankNew;;hidden:no}
+  dimension: pillarRankColleagueNew {group_label: "Ranking" type:number value_format_name:decimal_0 sql:${TABLE}.pillarRankColleagueNew;;hidden:no}
+  dimension: pillarRankSimplicityEfficiencyNew {group_label: "Ranking" type:number value_format_name:decimal_0 sql:${TABLE}.pillarRankSimplicityEfficiencyNew;;hidden:no}
+  dimension: pillarRankCustNew {group_label: "Ranking" type:number value_format_name:decimal_0 sql:${TABLE}.pillarRankCustNew;;hidden:no}
+  dimension: overallRankNew {group_label: "Ranking" type:number value_format_name:decimal_0 sql:${TABLE}.overallRankNew;;hidden:no}
 
   dimension: ltoPercent_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${ltoPercent};;}
   dimension: trainingAvailable_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${trainingAvailable};;}
