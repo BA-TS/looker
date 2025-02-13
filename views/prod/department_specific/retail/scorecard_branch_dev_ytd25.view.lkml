@@ -111,6 +111,10 @@ view: scorecard_branch_dev_ytd25 {
   dimension: SimplicityEfficiencyRag { group_label: "Ranking" type:string value_format_name:decimal_3 sql:${TABLE}.SimplicityEfficiencyRag;;hidden:no}
   dimension: CustRag { group_label: "Ranking" type:string value_format_name:decimal_3 sql:${TABLE}.CustRag;;hidden:no}
   dimension: OverallRag { group_label: "Ranking" type:string value_format_name:decimal_3 sql:${TABLE}.OverallRag;;hidden:no}
+  dimension: pillarRankColleagueNew { group_label: "Ranking" type:string value_format_name:decimal_3 sql:${TABLE}.pillarRankColleagueNew;;hidden:no}
+  dimension: pillarRankSimplicityEfficiencyNew { group_label: "Ranking" type:string value_format_name:decimal_3 sql:${TABLE}.pillarRankSimplicityEfficiencyNew;;hidden:no}
+  dimension: pillarRankCustNew { group_label: "Ranking" type:string value_format_name:decimal_3 sql:${TABLE}.pillarRankCustNew;;hidden:no}
+  dimension: overallRankNew { group_label: "Ranking" type:string value_format_name:decimal_3 sql:${TABLE}.overallRankNew;;hidden:no}
 
   dimension: ltoPercent_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${ltoPercent};;}
   dimension: trainingAvailable_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${trainingAvailable};;}
