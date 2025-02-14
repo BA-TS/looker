@@ -81,7 +81,7 @@ include: "/views/**/ecrebo_product_code_flag.view"
 include: "/views/**/product_attributes_pivoted.view"
 include: "/views/**/ecrebo_discounts.view"
 include: "/views/**/bdm_ka_customers.view"
-
+include: "/views/**/bdm_ka_customers2.view"
 
 explore: base {
   label: "Transactions"
@@ -889,6 +889,14 @@ explore: base {
     type: left_outer
     relationship: many_to_many
     sql_on:  ${bdm_ka_customers.customer_uid}=${transactions.customer_uid} and ${base.base_date_date} between ${bdm_ka_customers.start_date} and date_sub(${bdm_ka_customers.end_date},interval 0 day);;
+  }
+
+  join: bdm_ka_customers2 {
+    required_access_grants: [is_bdm]
+    view_label: "BDM"
+    type: left_outer
+    relationship: many_to_many
+    sql_on:  ${bdm_ka_customers2.customer_uid}=${transactions.customer_uid} and ${base.base_date_date} between ${bdm_ka_customers2.start_date} and date_sub(${bdm_ka_customers2.end_date},interval 0 day);;
   }
 
 }
