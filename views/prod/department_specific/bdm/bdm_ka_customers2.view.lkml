@@ -27,7 +27,7 @@ view: bdm_ka_customers2 {
   }
 
   dimension: customer_uid {
-    view_label: "Customers"
+    # view_label: "Customers"
     label: "Customer UID"
     type: string
     sql: ${TABLE}.customerUID ;;
@@ -46,7 +46,7 @@ view: bdm_ka_customers2 {
   }
 
   dimension_group: start {
-    view_label: "Customers"
+    # view_label: "Customers"
     group_label: "Start and End Dates"
     type: time
     datatype: date
@@ -59,7 +59,7 @@ view: bdm_ka_customers2 {
   }
 
   dimension_group: end {
-    view_label: "Customers"
+    # view_label: "Customers"
     group_label: "Start and End Dates"
     type: time
     datatype: date

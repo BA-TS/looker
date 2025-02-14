@@ -883,13 +883,13 @@ explore: base {
     sql_on: ${transactions.parent_order_uid}= ${ecrebo_product_code_flag.parent_order_uid};;
   }
 
-  join: bdm_ka_customers {
-    required_access_grants: [is_bdm]
-    view_label: "BDM"
-    type: left_outer
-    relationship: many_to_many
-    sql_on:  ${bdm_ka_customers.customer_uid}=${transactions.customer_uid} and ${base.base_date_date} between ${bdm_ka_customers.start_date} and date_sub(${bdm_ka_customers.end_date},interval 0 day);;
-  }
+  # join: bdm_ka_customers {
+  #   required_access_grants: [is_bdm]
+  #   view_label: "BDM"
+  #   type: left_outer
+  #   relationship: many_to_many
+  #   sql_on:  ${bdm_ka_customers.customer_uid}=${transactions.customer_uid} and ${base.base_date_date} between ${bdm_ka_customers.start_date} and date_sub(${bdm_ka_customers.end_date},interval 0 day);;
+  # }
 
   join: bdm_ka_customers2 {
     required_access_grants: [is_bdm]
