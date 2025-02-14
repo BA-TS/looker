@@ -31,6 +31,7 @@ view: bdm_ka_customers2 {
     label: "Customer UID"
     type: string
     sql: ${TABLE}.customerUID ;;
+    hidden: yes
   }
 
   dimension: team {

@@ -27,6 +27,7 @@ view: bdm_ka_customers_combined {
     label: "Customer UID"
     type: string
     sql: ${TABLE}.customerUID ;;
+    hidden: yes
   }
 
   dimension: combined_bdm_ka {
@@ -47,6 +48,7 @@ view: bdm_ka_customers_combined {
       month,
       year
     ]
+    hidden: yes
   }
 
   dimension_group: end {
@@ -60,6 +62,7 @@ view: bdm_ka_customers_combined {
       month,
       year
     ]
+    hidden: yes
   }
 
 }
