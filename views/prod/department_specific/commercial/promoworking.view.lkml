@@ -1,15 +1,28 @@
 view: promoworking {
    derived_table: {
-     sql:
+    # sql:
+    #   SELECT distinct row_number() over () as P_K,
+    #   publication.catalogue.publicationName,
+    #   productCode,
+    #   cycleID,
+    #   financial.costPrice,
+    #   financial.regularPrice,
+    #   financial.promoPrice,
+    #   offer.type as offer_type
+    #   FROM `toolstation-data-storage.promotions.promoHistory`
+    #   ;;
+    sql:
       SELECT distinct row_number() over () as P_K,
-      publication.catalogue.publicationName,
       productCode,
-      cycleID,
-      financial.costPrice,
-      financial.regularPrice,
-      financial.promoPrice,
-      offer.type as offer_type
-      FROM `toolstation-data-storage.promotions.promoHistory` ;;
+      catalogueID as cycleID,
+      costPrice,
+      listPrice as regularPrice,
+      promoPrice,
+      offerType as offer_type
+      FROM `toolstation-data-storage.promotions.cataloguePromo`
+      group by all
+    ;;
+
    }
 
    dimension: P_K {
@@ -20,13 +33,13 @@ view: promoworking {
     sql: ${TABLE}.P_K ;;
    }
 
-   dimension: publicationName {
-    label: "Catalogue"
-    description: "Catalogue"
-    hidden: yes
-    type: string
-    sql: ${TABLE}.publicationName ;;
-   }
+  # dimension: publicationName {
+  #   label: "Catalogue"
+  #   description: "Catalogue"
+  #   hidden: yes
+  #   type: string
+  #   sql: ${TABLE}.publicationName ;;
+  # }
 
   dimension: Product_Code {
     label: "Product Code"

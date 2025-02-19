@@ -512,7 +512,8 @@ explore: base {
     view_label: "Products"
     type: left_outer
     relationship: one_to_one
-    sql_on: ${products.product_code} = ${promoworking.Product_Code} and ${catalogue.catalogue_name}=${promoworking.publicationName};;
+    # sql_on: ${products.product_code} = ${promoworking.Product_Code} and ${catalogue.catalogue_name}=${promoworking.publicationName};;
+    sql_on: ${products.product_code} = ${promoworking.Product_Code} and ${catalogue.catalogue_id}=${promoworking.cycleID};;
   }
 
   join: brand_test {
