@@ -420,11 +420,11 @@ view: sites {
     sql: ${TABLE}.Opening_times_Sun ;;
   }
 
-  dimension: Is_trading_branch_end_FY23 {
+  dimension: Is_trading_branch_end_FY24 {
     group_label: "Site Information"
     label: "Is Trading Branch End 2024"
     type: yesno
-    sql: ${TABLE}.Is_trading_branch_end_FY23 ;;
+    sql: ${TABLE}.Is_trading_branch_end_FY24 ;;
   }
 
   dimension: Is_consistent_branch {
@@ -443,6 +443,13 @@ view: sites {
     group_label: "Site Information"
     type: yesno
     sql: ${TABLE}.Is_div1_top_25_FY23_branch_contribution ;;
+  }
+
+  dimension: Is_top_50_FY24_maturesales {
+    group_label: "Site Information"
+    label: "Is Top 50 FY24 Mature Sales"
+    type: yesno
+    sql: ${TABLE}.Is_top_50_FY24_maturesales ;;
   }
 
   dimension: Is_London {
