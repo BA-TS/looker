@@ -90,7 +90,7 @@ view: catalogue {
     -- USING(catalogue_id)
     -- WHERE extra.extra_name IS NOT NULL
     ;;
-    datagroup_trigger: ts_daily_datagroup
+    # datagroup_trigger: ts_daily_datagroup
   }
 
   dimension: P_K {
