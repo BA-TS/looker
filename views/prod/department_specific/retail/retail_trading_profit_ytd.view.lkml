@@ -3,7 +3,7 @@ view: retail_trading_profit_ytd {
   derived_table: {
     sql:
     select siteUID,TY,LY
-     from `toolstation-data-storage.retailReporting.PL_DATA_YTD_BUDGET_Final06022024`
+     from `toolstation-data-storage.retailReporting.PL_DATA_YTD_BUDGET_Final_2025`
     where yearMonth-extract(year from current_date)*100 =extract (month from current_date)-1
     and type = "Retail Trading Profit"
     ;;
