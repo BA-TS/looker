@@ -99,10 +99,10 @@ view: scorecard_branch_dev_ytd25 {
   dimension: labourBudgetScore { group_label: "Scores" type:number value_format_name:decimal_3 sql:${TABLE}.labourBudgetScore;;hidden:no}
   dimension: tsClubScore { group_label: "Scores" type:number value_format_name:decimal_3 sql:${TABLE}.tsClubScore;;hidden:no}
   dimension: contributionVsBudgetScore { group_label: "Scores" type:number value_format_name:decimal_3 sql:${TABLE}.contributionVsBudgetScore;;hidden:no}
-  dimension: pillarTotalColleague { group_label: "Measures" type:number value_format_name:decimal_3 sql:${TABLE}.pillarTotalColleague;;hidden:no}
-  dimension: pillarTotalSimplicityEfficiency { group_label: "Measures" type:number value_format_name:decimal_3 sql:${TABLE}.pillarTotalSimplicityEfficiency;;hidden:no}
-  dimension: pillarTotalCust { group_label: "Measures" type:number value_format_name:decimal_3 sql:${TABLE}.pillarTotalCust;;hidden:no}
-  dimension: pillarTotalOverall { group_label: "Measures" type:number value_format_name:decimal_3 sql:${TABLE}.pillarTotalOverall;;hidden:no}
+  dimension: pillarTotalColleague { group_label: "Measures" type:number value_format_name:decimal_0 sql:${TABLE}.pillarTotalColleague;;hidden:no}
+  dimension: pillarTotalSimplicityEfficiency { group_label: "Measures" type:number value_format_name:decimal_0 sql:${TABLE}.pillarTotalSimplicityEfficiency;;hidden:no}
+  dimension: pillarTotalCust { group_label: "Measures" type:number value_format_name:decimal_0 sql:${TABLE}.pillarTotalCust;;hidden:no}
+  dimension: pillarTotalOverall { group_label: "Measures" type:number value_format_name:decimal_0 sql:${TABLE}.pillarTotalOverall;;hidden:no}
   dimension: pillarRankColleague { group_label: "Ranking" type:number value_format_name:decimal_3 sql:${TABLE}.pillarRankColleague;;hidden:no}
   dimension: pillarRankSimplicityEfficiency { group_label: "Ranking" type:number value_format_name:decimal_3 sql:${TABLE}.pillarRankSimplicityEfficiency;;hidden:no}
   dimension: pillarRankCust { group_label: "Ranking" type:number value_format_name:decimal_3 sql:${TABLE}.pillarRankCust;;hidden:no}
