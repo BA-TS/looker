@@ -1318,6 +1318,24 @@ parameter: order_cancelled {
     value_format_name: percent_1
   }
 
+  measure: trade_account_net_sales {
+    group_label: "Trade Accounts"
+    label: "Net Sales (Trade Accounts)"
+    view_label: "Measures"
+    type: sum
+    sql: case when ${transactions.has_trade_account} =true then ${net_sales_value} else 0 end;;
+    value_format_name: gbp_0
+  }
+
+  measure: trade_account_net_sales_percent {
+    group_label: "Trade Accounts"
+    label: "Trade Account Net Sales %"
+    view_label: "Measures"
+    type: number
+    sql:safe_divide(${trade_account_net_sales}, ${total_net_sales}) ;;
+    value_format_name: percent_1
+  }
+
   # LFL #
   measure: lfl_gross_sales {
     label: "Gross Sales (LFL)"
