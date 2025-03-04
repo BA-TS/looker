@@ -91,7 +91,7 @@ explore: retail {
     view_label: "Scorecard YTD 25"
     type:  left_outer
     relationship:  many_to_one
-    sql_on: ${scorecard_branch_dev_ytd25.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${scorecard_branch_dev_ytd25.siteUID} ;;
+    sql_on: ${sites.site_uid}=${scorecard_branch_dev_ytd25.siteUID} ;;
   }
 
   join: catalogue {
