@@ -247,5 +247,33 @@ view: scorecard_branch_dev_ytd25 {
   dimension: anonBandingU_error_flag {group_label:"Error Flags" type:number sql:case when (${anonBandingU} is null) then 1 else 0 end;;}
   dimension: anonPercentVsTarget_error_flag {group_label:"Error Flags" type:number sql:case when (${anonPercentVsTarget} is null) then 1 else 0 end;;}
 
+  dimension: ty_EBIT_net_sales  {
+    view_label: "P&L"
+    group_label: "EBIT"
+    label: "EBIT/Net Sales TY%"
+    value_format_name: percent_1
+    type: number
+    sql: safe_divide(${tyEBIT},${netSales})  ;;
+  }
+
+
+  dimension: py_EBIT_net_sales  {
+    view_label: "P&L"
+    group_label: "EBIT"
+    label: "EBIT/Net Sales PY%"
+    value_format_name: percent_1
+    type: number
+    sql: safe_divide(${pyEBIT},${pySales})  ;;
+  }
+
+  dimension: vs_PY_EBIT  {
+    view_label: "P&L"
+    group_label: "EBIT"
+    label: "vs EBIT PY"
+    type: number
+    sql: ${tyEBIT} - ${pyEBIT}  ;;
+    value_format_name: gbp_0
+  }
+
 
 }
