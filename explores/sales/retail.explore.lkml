@@ -5,6 +5,9 @@ include: "/views/**/sites.view"
 include: "/views/**/catalogue.view"
 include: "/views/**/retail/**.view"
 include: "/views/**/customer/**.view"
+include: "/views/**/retail/**.view"
+include: "/views/**/trade_credit_details.view"
+include: "/views/**/trade_credit_ids.view"
 
 persist_with: ts_transactions_datagroup
 
@@ -55,9 +58,24 @@ explore: retail {
   join: transactions {
     type: left_outer
     relationship: one_to_many
-    fields: [transactions.total_units,transactions.refurb_pre_post,transactions.number_of_branches,transactions.aov_price,transactions.transaction_frequency,transactions.aov_units,transactions.total_units,transactions.loyalty_net_sales_percent]
+    fields: [transactions.total_units,transactions.refurb_pre_post,transactions.number_of_branches,transactions.aov_price,transactions.transaction_frequency,transactions.aov_units,transactions.total_units,transactions.loyalty_net_sales_percent,transactions.trade_account_net_sales,transactions.trade_account_net_sales_percent]
     sql_on: ${base.base_date_date} = ${transactions.transaction_date_filter};;
   }
+
+  join: trade_credit_details {
+    view_label: "Customers"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${trade_credit_ids.main_trade_credit_account_uid} = ${trade_credit_details.main_trade_credit_account_uid} ;;
+  }
+
+  join: trade_credit_ids {
+    view_label: "Customers"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${customers.customer_uid} = ${trade_credit_ids.customer_uid} ;;
+  }
+
 
   join: sites {
     view_label: "Location"
