@@ -275,5 +275,17 @@ view: scorecard_branch_dev_ytd25 {
     value_format_name: gbp_0
   }
 
+  dimension: var_PY_Net_Sales  {
+    type: number
+    sql: ${netSales} - ${pySales}  ;;
+    value_format_name: gbp_0
+  }
+
+  dimension: var_PY_Sales_Percent  {
+    type: number
+    sql: safe_divide(${var_PY_Net_Sales},${netSales})  ;;
+    value_format_name: percent_1
+  }
+
 
 }
