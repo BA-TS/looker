@@ -5,7 +5,7 @@ view: retail_trading_profit_ytd {
     select siteUID,TY,LY
      from `toolstation-data-storage.retailReporting.PL_DATA_YTD_BUDGET_Final_2025`
     where yearMonth-extract(year from current_date)*100 =extract (month from current_date)-1
-    and type = "Retail Trading Profit"
+    and type = "Retail Contribution"
     ;;
   }
 
