@@ -6,16 +6,6 @@ view: ledger {
     *
     from
     `toolstation-data-storage.retailReporting.BDM_KA_LEDGER`
-    /*(
-    select
-    "BDM" as team,
-    *
-    from `toolstation-data-storage.retailReporting.BDM_LEDGER_LOOKER`
-    union all
-    select
-    "KA" as team,
-    * from
-    `toolstation-data-storage.retailReporting.KEY_ACCOUNTS_LEDGER_LOOKER`*/
     ) ;;
 
     datagroup_trigger: ts_daily_datagroup
