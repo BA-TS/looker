@@ -6,7 +6,7 @@ view: ledger {
     *
     from
     `toolstation-data-storage.retailReporting.BDM_KA_LEDGER`
-    ) ;;
+     ;;
 
     datagroup_trigger: ts_daily_datagroup
   }
