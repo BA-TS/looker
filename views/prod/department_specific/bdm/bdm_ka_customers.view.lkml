@@ -9,7 +9,7 @@ view: bdm_ka_customers {
     replace(replace(trim(bdm),"Craig","London"),"London","Damien") as bdm,
     customerUID,
     min(coalesce(startDate,date_sub(current_date,interval 3 year))) as startDate,
-    max(coalesce(endDate,current_date)) as endDate,
+    max(coalesce(removeDate,current_date)) as endDate,
     customerName
     from
     `toolstation-data-storage.retailReporting.BDM_KA_CUSTOMERS_LIST`
