@@ -82,6 +82,8 @@ view: bdm_ka_customers {
     view_label: "Customers"
     type: string
     sql: ${TABLE}.customerName ;;
+    hidden: yes
+
   }
 
   dimension: is_bdm_ka_customer {
