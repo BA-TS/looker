@@ -10,9 +10,9 @@ view: bdm_ka_customers {
     customerUID,
     min(coalesce(startDate,date_sub(current_date,interval 3 year))) as startDate,
     max(coalesce(removeDate,current_date)) as endDate,
-    customerName
+    company as customerName
     from
-    `toolstation-data-storage.retailReporting.BDM_KA_CUSTOMERS_LIST`
+    `toolstation-data-storage.retailReporting.BDM_KA_LEDGER`
     where bdm is not null
     group by all
     ;;
