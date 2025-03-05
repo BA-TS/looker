@@ -3,18 +3,18 @@ include: "/views/**/transactions.view"
 view: bdm_ka_customers2 {
   derived_table: {
     sql:
-       select
-        DISTINCT row_number() over () AS prim_key,
-        team,
-        replace(replace(trim(bdm),"Craig","London"),"London","Damien") as bdm,
-        customerUID,
-        min(coalesce(startDate,date_sub(current_date,interval 3 year))) as startDate,
-        max(coalesce(endDate,current_date)) as endDate,
-        customerName
-        from
-        `toolstation-data-storage.retailReporting.BDM_KA_CUSTOMERS_LIST`
-        where bdm is not null
-        group by all
+   select
+    DISTINCT row_number() over () AS prim_key,
+    team,
+    bdm,
+    customerUID,
+    min(coalesce(startDate,date_sub(current_date,interval 3 year))) as startDate,
+    max(coalesce(removeDate,current_date)) as endDate,
+    company as customerName
+    from
+    `toolstation-data-storage.retailReporting.BDM_KA_LEDGER`
+    where bdm is not null
+    group by all
         ;;
     datagroup_trigger: ts_daily_datagroup
   }

@@ -6,7 +6,7 @@ view: bdm_ka_customers {
    select
     DISTINCT row_number() over () AS prim_key,
     team,
-    replace(replace(trim(bdm),"Craig","London"),"London","Damien") as bdm,
+    bdm,
     customerUID,
     min(coalesce(startDate,date_sub(current_date,interval 3 year))) as startDate,
     max(coalesce(removeDate,current_date)) as endDate,
