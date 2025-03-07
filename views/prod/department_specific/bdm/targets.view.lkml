@@ -5,7 +5,6 @@ view: targets {
     select
     DISTINCT row_number() over () AS prim_key,
     *
-    --from `toolstation-data-storage.retailReporting.BDM_KA_TARGETS_LOOKER`
     from `toolstation-data-storage.retailReporting.BDM_RUNNING_TARGET_2025`
     ;;
     # datagroup_trigger: ts_weekly_datagroup
@@ -42,18 +41,17 @@ view: targets {
     hidden: yes
   }
 
-  measure: monthly_target {
+  measure: target_monthly {
     # type: sum_distinct
     type: sum
     sql: ${target};;
     value_format_name: gbp_0
   }
 
-  measure: target_running_total {
+  measure: target_YTD {
     # type: sum_distinct
     type: sum
     sql: ${target_running};;
     value_format_name: gbp_0
   }
-
 }
