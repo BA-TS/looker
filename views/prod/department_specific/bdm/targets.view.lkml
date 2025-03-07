@@ -8,7 +8,7 @@ view: targets {
     --from `toolstation-data-storage.retailReporting.BDM_KA_TARGETS_LOOKER`
     from `toolstation-data-storage.retailReporting.BDM_RUNNING_TARGET_2025`
     ;;
-    datagroup_trigger: ts_weekly_datagroup
+    # datagroup_trigger: ts_weekly_datagroup
   }
 
   dimension: prim_key {
@@ -43,13 +43,15 @@ view: targets {
   }
 
   measure: monthly_target {
-    type: sum_distinct
+    # type: sum_distinct
+    type: sum
     sql: ${target};;
     value_format_name: gbp_0
   }
 
   measure: target_running_total {
-    type: sum_distinct
+    # type: sum_distinct
+    type: sum
     sql: ${target_running};;
     value_format_name: gbp_0
   }
