@@ -108,7 +108,7 @@ explore: bdm {
     view_label: "Targets"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${targets.bdm} = ${bdm_ka_customers.bdm} and ${targets.team} = ${bdm_ka_customers.team} and ${targets.month}=${calendar_completed_date.calendar_year_month2};;
+    sql_on: ${targets.bdm} = ${bdm_ka_customers.bdm} and ${targets.month}=${calendar_completed_date.calendar_year_month2};;
   }
 
   join: ledger {
