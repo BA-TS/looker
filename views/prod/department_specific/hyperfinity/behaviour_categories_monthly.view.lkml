@@ -12,56 +12,56 @@ view: behaviour_categories_monthly {
     hidden:yes
   }
 
-  dimension: RUN_DATE {
+  dimension: run_date {
     group_label:"Hyperfinity"
     type:string
     sql:${TABLE}.RUN_DATE;;
     hidden:no
     }
 
-  dimension: CLUSTER_HIGH_LEVEL {
+  dimension: cluster_high_level {
     group_label:"Hyperfinity"
     type:string
     sql:${TABLE}.CLUSTER_HIGHLEVEL;;
     hidden:no
     }
 
-  dimension: CLUSTER_LOW_LEVEL {
+  dimension: cluster_low_level {
     group_label:"Hyperfinity"
     type:string
     sql:${TABLE}.CLUSTER_LOWLEVEL;;
     hidden:no
   }
 
-  dimension: PERIOD_CODE {
+  dimension: period_code {
     group_label:"Hyperfinity"
     type:string
     sql:${TABLE}.PERIOD_CODE;;
     hidden:no
   }
 
-  dimension: FINAL_SEGMENT {
+  dimension: final_segment{
     group_label:"Hyperfinity"
     type:string
     sql:${TABLE}.FINAL_SEGMENT;;
     hidden:no
   }
 
-  dimension: FINAL_SEGMENT_HIGH_LEVEL {
+  dimension: final_segment_high_level {
     group_label:"Hyperfinity"
     type:string
     sql:${TABLE}.FINAL_SEGMENT_HIGHLEVEL;;
     hidden:no
   }
 
-  dimension: MOST_RECENT_RUN_DATE {
+  dimension: most_recent_run_date {
     group_label:"Hyperfinity"
     type:string
     sql:${TABLE}.MOST_RECENT_RUN_DATE;;
     hidden:no
   }
 
-  dimension: MOST_RECENT_PERIOD_CODE {
+  dimension: most_recent_period_code {
     group_label:"Hyperfinity"
     type:string
     sql:${TABLE}.MOST_RECENT_PERIOD_CODE;;
