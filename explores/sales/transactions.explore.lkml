@@ -83,6 +83,7 @@ include: "/views/**/ecrebo_discounts.view"
 include: "/views/**/bdm_ka_customers.view"
 include: "/views/**/bdm_ka_customers2.view"
 include: "/views/**/bdm_ka_customers_combined.view"
+include: "/views/**/behaviour_categories_monthly.view"
 
 explore: base {
   label: "Transactions"
@@ -661,122 +662,6 @@ explore: base {
     #sql_where: ${ecrebobudget_total.campaign_group} in ("Total") ;;
   }
 
-  join: scorecard_testing_branch_mth {
-    required_access_grants:[is_retail]
-    view_label: "Scorecard Testing"
-    type: left_outer
-    relationship: one_to_one
-    sql_on:
-    ${sites.site_uid} = ${scorecard_testing_branch_mth.siteUID} and
-    ${customers.customer_uid} = ${scorecard_testing_branch_mth.customerUID};;
-  }
-
-  join: scorecard_testing_region_mth {
-    required_access_grants:[is_retail]
-    view_label: "Scorecard Testing"
-    type: left_outer
-    relationship: one_to_one
-    sql_on:
-      ${customers.customer_uid} = ${scorecard_testing_region_mth.customerUID}
-      and ${sites.region_name} = ${scorecard_testing_region_mth.siteUID};;
-  }
-
-  join: scorecard_testing_division_mth {
-    required_access_grants:[is_retail]
-    view_label: "Scorecard Testing"
-    type: left_outer
-    relationship: one_to_one
-    sql_on: ${customers.customer_uid} = ${scorecard_testing_division_mth.customerUID}
-      and ${sites.division} = ${scorecard_testing_division_mth.siteUID};;
-  }
-
-  join: scorecard_testing_branch_YTD {
-    required_access_grants:[is_retail]
-    view_label: "Scorecard Testing"
-    type: left_outer
-    relationship: one_to_one
-    sql_on:
-    ${sites.site_uid} = ${scorecard_testing_branch_YTD.siteUID} and
-    ${customers.customer_uid} = ${scorecard_testing_branch_YTD.customerUID};;
-  }
-
-  join: scorecard_testing_region_YTD {
-    required_access_grants:[is_retail]
-    view_label: "Scorecard Testing"
-    type: left_outer
-    relationship: one_to_one
-    sql_on:
-      ${customers.customer_uid} = ${scorecard_testing_region_YTD.customerUID}
-      and ${sites.region_name} = ${scorecard_testing_region_YTD.siteUID};;
-  }
-
-  join: scorecard_testing_division_YTD {
-    required_access_grants:[is_retail]
-    view_label: "Scorecard Testing"
-    type: left_outer
-    relationship: one_to_one
-    sql_on: ${customers.customer_uid} = ${scorecard_testing_division_YTD.customerUID}
-      and ${sites.division} = ${scorecard_testing_division_YTD.siteUID};;
-  }
-
-  join: scorecard_testing_loyalty_branch_mth {
-    required_access_grants:[is_retail]
-    view_label: "Scorecard Testing"
-    type: left_outer
-    relationship: one_to_one
-    sql_on:
-    ${sites.site_uid} = ${scorecard_testing_loyalty_branch_mth.siteUID} and
-    ${customers.customer_uid} = ${scorecard_testing_loyalty_branch_mth.customerUID};;
-  }
-
-  join: scorecard_testing_loyalty_region_mth {
-    required_access_grants:[is_retail]
-    view_label: "Scorecard Testing"
-    type: left_outer
-    relationship: one_to_one
-    sql_on:
-      ${customers.customer_uid} = ${scorecard_testing_loyalty_region_mth.customerUID}
-      and ${sites.region_name} = ${scorecard_testing_loyalty_region_mth.siteUID};;
-  }
-
-  join: scorecard_testing_loyalty_division_mth {
-    required_access_grants:[is_retail]
-    view_label: "Scorecard Testing"
-    type: left_outer
-    relationship: one_to_one
-    sql_on: ${customers.customer_uid} = ${scorecard_testing_loyalty_division_mth.customerUID}
-      and ${sites.division} = ${scorecard_testing_loyalty_division_mth.siteUID};;
-  }
-
-  join: scorecard_testing_loyalty_branch_ytd {
-    required_access_grants:[is_retail]
-    view_label: "Scorecard Testing"
-    type: left_outer
-    relationship: one_to_one
-    sql_on:
-    ${sites.site_uid} = ${scorecard_testing_loyalty_branch_ytd.siteUID} and
-    ${customers.customer_uid} = ${scorecard_testing_loyalty_branch_ytd.customerUID};;
-  }
-
-  join: scorecard_testing_loyalty_region_ytd {
-    required_access_grants:[is_retail]
-    view_label: "Scorecard Testing"
-    type: left_outer
-    relationship: one_to_one
-    sql_on:
-      ${customers.customer_uid} = ${scorecard_testing_loyalty_region_ytd.customerUID}
-      and ${sites.region_name} = ${scorecard_testing_loyalty_region_ytd.siteUID};;
-  }
-
-  join: scorecard_testing_loyalty_division_ytd {
-    required_access_grants:[is_retail]
-    view_label: "Scorecard Testing"
-    type: left_outer
-    relationship: one_to_one
-    sql_on: ${customers.customer_uid} = ${scorecard_testing_loyalty_division_ytd.customerUID}
-      and ${sites.division} = ${scorecard_testing_loyalty_division_ytd.siteUID};;
-  }
-
   join: scorecard_trade_customers_filter {
     required_access_grants:[is_retail]
     view_label: "Scorecard Testing"
@@ -790,6 +675,13 @@ explore: base {
     type :  left_outer
     relationship: one_to_one
     sql_on: ${customers.customer_uid}=${hyperfinity_customer_flag.customer_uid} ;;
+  }
+
+  join: behaviour_categories_monthly {
+    view_label: "Customers"
+    type :  left_outer
+    relationship: one_to_one
+    sql_on: ${customers.customer_uid}=${behaviour_categories_monthly.customerUID} ;;
   }
 
   join: addresses {
@@ -885,13 +777,6 @@ explore: base {
     sql_on: ${transactions.parent_order_uid}= ${ecrebo_product_code_flag.parent_order_uid};;
   }
 
-  # join: bdm_ka_customers {
-  #   required_access_grants: [is_bdm]
-  #   view_label: "BDM"
-  #   type: left_outer
-  #   relationship: many_to_many
-  #   sql_on:  ${bdm_ka_customers.customer_uid}=${transactions.customer_uid} and ${base.base_date_date} between ${bdm_ka_customers.start_date} and date_sub(${bdm_ka_customers.end_date},interval 0 day);;
-  # }
 
   join: bdm_ka_customers2 {
     required_access_grants: [is_bdm]
@@ -908,6 +793,8 @@ explore: base {
     relationship: many_to_many
     sql_on:  ${bdm_ka_customers_combined.customer_uid}=${transactions.customer_uid} and ${base.base_date_date} between ${bdm_ka_customers_combined.start_date} and date_sub(${bdm_ka_customers_combined.end_date},interval 0 day);;
   }
+
+
 
 
 }
