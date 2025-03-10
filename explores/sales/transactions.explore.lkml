@@ -680,7 +680,7 @@ explore: base {
   join: behaviour_categories_monthly {
     view_label: "Customers"
     type :  left_outer
-    relationship: one_to_one
+    relationship: many_to_one
     sql_on: ${customers.customer_uid}=${behaviour_categories_monthly.customerUID} ;;
   }
 
