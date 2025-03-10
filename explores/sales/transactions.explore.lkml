@@ -679,6 +679,7 @@ explore: base {
 
   join: behaviour_categories_monthly {
     view_label: "Customers"
+    required_access_grants: [can_use_customer_information]
     type :  left_outer
     relationship: many_to_one
     sql_on: ${customers.customer_uid}=${behaviour_categories_monthly.customerUID} ;;
@@ -777,7 +778,6 @@ explore: base {
     sql_on: ${transactions.parent_order_uid}= ${ecrebo_product_code_flag.parent_order_uid};;
   }
 
-
   join: bdm_ka_customers2 {
     required_access_grants: [is_bdm]
     view_label: "BDM"
@@ -793,9 +793,6 @@ explore: base {
     relationship: many_to_many
     sql_on:  ${bdm_ka_customers_combined.customer_uid}=${transactions.customer_uid} and ${base.base_date_date} between ${bdm_ka_customers_combined.start_date} and date_sub(${bdm_ka_customers_combined.end_date},interval 0 day);;
   }
-
-
-
 
 }
 
