@@ -23,14 +23,14 @@ view: behaviour_categories_monthly {
     group_label:"Hyperfinity"
     type:string
     sql:${TABLE}.CLUSTER_HIGHLEVEL;;
-    hidden:no
+    hidden:yes
     }
 
   dimension: cluster_low_level {
     group_label:"Hyperfinity"
     type:string
     sql:${TABLE}.CLUSTER_LOWLEVEL;;
-    hidden:no
+    hidden:yes
   }
 
   dimension: period_code {
@@ -43,14 +43,14 @@ view: behaviour_categories_monthly {
   dimension: final_segment{
     group_label:"Hyperfinity"
     type:string
-    sql:${TABLE}.FINAL_SEGMENT;;
+    sql:coalesce(${TABLE}.FINAL_SEGMENT,"Unknown");;
     hidden:no
   }
 
   dimension: final_segment_high_level {
     group_label:"Hyperfinity"
     type:string
-    sql:${TABLE}.FINAL_SEGMENT_HIGHLEVEL;;
+    sql:coalesce(${TABLE}.FINAL_SEGMENT_HIGHLEVEL,"Unknown");;
     hidden:no
   }
 
