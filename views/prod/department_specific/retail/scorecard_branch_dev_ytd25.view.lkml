@@ -54,7 +54,7 @@ view: scorecard_branch_dev_ytd25 {
   dimension: anonBandingL { group_label: "Measures" type:number value_format_name:decimal_3 sql:${TABLE}.anonBandingL;;hidden:no}
   dimension: anonBandingM { group_label: "Measures" type:number value_format_name:decimal_3 sql:${TABLE}.anonBandingM;;hidden:no}
   dimension: anonBandingU { group_label: "Measures" type:number value_format_name:decimal_3 sql:${TABLE}.anonBandingU;;hidden:no}
-  dimension: anonPercentVsTarget { group_label: "Measures" type:number value_format_name:decimal_3 sql:${TABLE}.anonPercentVsTarget;;hidden:no}
+
   dimension: tyFrequency { group_label: "Measures" type:number value_format_name:decimal_3 sql:${TABLE}.tyFrequency;;hidden:no}
   dimension: pyFrequency { group_label: "Measures" type:number value_format_name:decimal_3 sql:${TABLE}.pyFrequency;;hidden:no}
   dimension: yoyFrequency { group_label: "Measures" type:number value_format_name:decimal_3 sql:${TABLE}.yoyFrequency;;hidden:no}
@@ -241,7 +241,6 @@ view: scorecard_branch_dev_ytd25 {
   dimension: anonBandingL_error_flag {group_label:"Error Flags" type:number sql:case when (${anonBandingL} is null) then 1 else 0 end;;}
   dimension: anonBandingM_error_flag {group_label:"Error Flags" type:number sql:case when (${anonBandingM} is null) then 1 else 0 end;;}
   dimension: anonBandingU_error_flag {group_label:"Error Flags" type:number sql:case when (${anonBandingU} is null) then 1 else 0 end;;}
-  dimension: anonPercentVsTarget_error_flag {group_label:"Error Flags" type:number sql:case when (${anonPercentVsTarget} is null) then 1 else 0 end;;}
 
   dimension: ty_EBIT_net_sales  {
     view_label: "P&L"

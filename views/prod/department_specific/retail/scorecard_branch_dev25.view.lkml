@@ -56,7 +56,7 @@ view: scorecard_branch_dev25 {
   dimension: anonBandingL {group_label: "Measures" type:number value_format_name:decimal_3 sql:${TABLE}.anonBandingL;;hidden:no}
   dimension: anonBandingM {group_label: "Measures" type:number value_format_name:decimal_3 sql:${TABLE}.anonBandingM;;hidden:no}
   dimension: anonBandingU {group_label: "Measures" type:number value_format_name:decimal_3 sql:${TABLE}.anonBandingU;;hidden:no}
-  dimension: anonPercentVsTarget {group_label: "Measures" type:number value_format_name:decimal_3 sql:${TABLE}.anonPercentVsTarget;;hidden:no}
+
   dimension: tyFrequency {group_label: "Measures" type:number value_format_name:decimal_3 sql:${TABLE}.tyFrequency;;hidden:no}
   dimension: pyFrequency {group_label: "Measures" type:number value_format_name:decimal_3 sql:${TABLE}.pyFrequency;;hidden:no}
   dimension: yoyFrequency {group_label: "Measures" type:number value_format_name:decimal_3 sql:${TABLE}.yoyFrequency;;hidden:no}
@@ -185,7 +185,6 @@ view: scorecard_branch_dev25 {
   dimension: anonBandingL_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${anonBandingL};;}
   dimension: anonBandingM_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${anonBandingM};;}
   dimension: anonBandingU_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${anonBandingU};;}
-  dimension: anonPercentVsTarget_tier {group_label:"Testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${anonPercentVsTarget};;}
 
   # Error Flags  --------------------------------------------------------------------
 
