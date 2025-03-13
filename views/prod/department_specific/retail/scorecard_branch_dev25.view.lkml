@@ -52,7 +52,7 @@ view: scorecard_branch_dev25 {
   dimension: NPS {group_label: "Measures" type:number value_format_name:decimal_3 sql:${TABLE}.NPS;;hidden:no}
   dimension: anonOrders {group_label: "Measures" type:number value_format_name:decimal_3 sql:${TABLE}.anonOrders;;hidden:no}
   dimension: totalOrders {group_label: "Measures" type:number value_format_name:decimal_3 sql:${TABLE}.totalOrders;;hidden:no}
-  dimension: anonPercent {group_label: "Measures" type:number value_format_name:decimal_3 sql:${TABLE}.anonPercent;;hidden:no}
+  dimension: anonPercent {group_label: "Measures" type:number value_format_name:percent_1 sql:${TABLE}.anonPercent;;hidden:no}
   dimension: anonBandingL {group_label: "Measures" type:number value_format_name:decimal_3 sql:${TABLE}.anonBandingL;;hidden:no}
   dimension: anonBandingM {group_label: "Measures" type:number value_format_name:decimal_3 sql:${TABLE}.anonBandingM;;hidden:no}
   dimension: anonBandingU {group_label: "Measures" type:number value_format_name:decimal_3 sql:${TABLE}.anonBandingU;;hidden:no}
