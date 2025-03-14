@@ -246,7 +246,7 @@ view: products {
     group_label: "Flags"
     label: "Product on Promotion?"
     type: yesno
-    sql: ${promoworking.Product_Code} is not null ;;
+    sql: ${catPromo.Product_Code} is not null ;;
   }
 
 

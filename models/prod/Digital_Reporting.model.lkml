@@ -51,11 +51,11 @@ explore: GA4_test {
     sql_on: ${calendar.date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
   }
 
-  join: promoworking {
+  join: catPromo {
     view_label: "Products"
     type: left_outer
     relationship: many_to_many
-    sql_on: ${products.product_code} = ${promoworking.Product_Code}  and ${calendar.date} between ${promoworking.live_date} and ${promoworking.end_date};;
+    sql_on: ${products.product_code} = ${catPromo.Product_Code}  and ${calendar.date} between ${catPromo.live_date} and ${catPromo.end_date};;
   }
 
   join: calendar_completed_datev2{
@@ -260,12 +260,12 @@ explore: GA4_test {
 #     sql_on: ${stock_cover.stock_date_date} = ${aac.date} and ${products.product_uid} = ${aac.product_uid} ;;
 #   }
 
-#   join: promoworking {
+#   join: catPromo {
 #     view_label: "Products"
 #     type: left_outer
 #     relationship: one_to_one
-#     sql_on: ${products.product_code} = ${promoworking.Product_Code}
-#     and cast(${catalogue.catalogue_id} as string) = cast(${promoworking.cycleID} as string);;
+#     sql_on: ${products.product_code} = ${catPromo.Product_Code}
+#     and cast(${catalogue.catalogue_id} as string) = cast(${catPromo.cycleID} as string);;
 #   }
 
 #   join: total_sessions_ga4 {
@@ -520,11 +520,11 @@ explore: digital_reporting {
     sql_on: ${stock_cover.stock_date_date} = ${aac.date} and ${productv2.product_uid} = ${aac.product_uid} ;;
   }
 
-  join: promoworking {
+  join: catPromo {
     view_label: ""
     type: left_outer
     relationship: one_to_one
-    sql_on: ${productv2.product_code} = ${promoworking.Product_Code} ;;
+    sql_on: ${productv2.product_code} = ${catPromo.Product_Code} ;;
   }
 
   join: ga_orderids_yesterday {
@@ -645,11 +645,11 @@ explore: GA4_testy {
     sql_on: ${calendar.date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
   }
 
-  join: promoworking {
+  join: catPromo {
     view_label: "Products"
     type: left_outer
     relationship: many_to_many
-    sql_on: ${products.product_code} = ${promoworking.Product_Code}  and ${calendar.date} between ${promoworking.live_date} and ${promoworking.end_date};;
+    sql_on: ${products.product_code} = ${catPromo.Product_Code}  and ${calendar.date} between ${catPromo.live_date} and ${catPromo.end_date};;
   }
 
   join: calendar_completed_datev2{

@@ -18,11 +18,11 @@ explore: stock_soq {
     sql_on: ${stock_soq.site_uid} = ${sites.site_uid} ;;
   }
 
-  join: promoworking {
+  join: catPromo {
     view_label: ""
     type: left_outer
     relationship: one_to_one
-    sql_on: ${products.product_code} = ${promoworking.Product_Code} ;;
+    sql_on: ${products.product_code} = ${catPromo.Product_Code} ;;
   }
 
   # join: dc_to_shop_mapping {

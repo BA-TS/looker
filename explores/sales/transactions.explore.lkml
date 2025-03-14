@@ -34,7 +34,7 @@ include: "/views/**/top_subdepartment_net_sales.view"
 include: "/views/**/top_trade_types_sales.view"
 include: "/views/**/top_trade_types_customers.view"
 include: "/views/**/promo_orders.view"
-include: "/views/**/promoworking.view"
+include: "/views/**/catPromo.view"
 include: "/views/**/brand_test.view"
 include: "/views/**/bucketed_order_sales.view"
 include: "/views/**/spc_buckets.view"
@@ -336,11 +336,11 @@ explore: base {
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
   }
 
-  join: promoworking {
+  join: catPromo {
     view_label: "Products"
     type: left_outer
     relationship: many_to_many
-    sql_on: ${products.product_code} = ${promoworking.Product_Code}  and ${base.date_date} between ${promoworking.live_date} and ${promoworking.end_date};;
+    sql_on: ${products.product_code} = ${catPromo.Product_Code}  and ${base.date_date} between ${catPromo.live_date} and ${catPromo.end_date};;
   }
 
   join: promo_extra {

@@ -89,11 +89,11 @@ explore: GA4_testy {
     sql_on: ${calendar.date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
   }
 
-  join: promoworking {
+  join: catPromo {
     view_label: "Products"
     type: left_outer
     relationship: many_to_many
-    sql_on: ${products.product_code} = ${promoworking.Product_Code}  and ${calendar.date} between ${promoworking.live_date} and ${promoworking.end_date};;
+    sql_on: ${products.product_code} = ${catPromo.Product_Code}  and ${calendar.date} between ${catPromo.live_date} and ${catPromo.end_date};;
   }
 
 
