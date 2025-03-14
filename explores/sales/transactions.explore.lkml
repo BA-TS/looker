@@ -14,7 +14,7 @@ include: "/views/**/foh_master_stores.view"
 include: "/views/**/suppliers.view"
 include: "/views/**/supplierAddresses.view"
 include: "/views/**/promo_main_catalogue.view"
-include: "/views/**/promo_extra.view"
+include: "/views/**/extraPromo.view"
 include: "/views/**/catalogue.view"
 include: "/views/**/spi_cpi.view"
 include: "/views/**/spi_cpi_weekly.view"
@@ -343,11 +343,11 @@ explore: base {
     sql_on: ${products.product_code} = ${catPromo.Product_Code}  and ${base.date_date} between ${catPromo.live_date} and ${catPromo.end_date};;
   }
 
-  join: promo_extra {
+  join: extraPromo {
     view_label: "Catalogue"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${transactions.product_code} = ${promo_extra.product_code} and ${base.date_date} between ${promo_extra.live_date} and ${promo_extra.end_date} ;;
+    sql_on: ${transactions.product_code} = ${extraPromo.product_code} and ${base.date_date} between ${extraPromo.live_date} and ${extraPromo.end_date} ;;
   }
 
   join: promoHistory_Current {

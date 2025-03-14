@@ -823,7 +823,7 @@ parameter: order_cancelled {
     # required_access_grants: [is_developer]
     description: "Flags if a product is in the extra publication"
     type: yesno
-    sql: case when ${promo_extra.product_code} is null then false else true end ;;
+    sql: case when ${extraPromo.product_code} is null then false else true end ;;
   }
 
   dimension: promo_in_any {
@@ -833,7 +833,7 @@ parameter: order_cancelled {
     # required_access_grants: [is_developer]
     description: "Flags is a product in the main catalogue or extra publication"
     type: yesno
-    sql: case when ${promo_main_catalogue.product_code} is null and ${promo_extra.product_code} is null then false else true end ;;
+    sql: case when ${promo_main_catalogue.product_code} is null and ${extraPromo.product_code} is null then false else true end ;;
   }
 
   # Sites
