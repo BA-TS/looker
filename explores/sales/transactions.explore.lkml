@@ -321,11 +321,26 @@ explore: base {
     and ${base.date_date} between ${supplierAddresses.addressStartDate} and ${supplierAddresses.addressEndDate};;
     }
 
+# -----------------------------------------------
   join: promo_main_catalogue {
     view_label: "Catalogue"
     type: left_outer
     relationship: many_to_one
     sql_on: ${transactions.product_code} = ${promo_main_catalogue.product_code} and ${base.date_date} between ${promo_main_catalogue.live_date} and ${promo_main_catalogue.end_date} ;;
+  }
+
+  join: catalogue {
+    view_label: "Catalogue"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
+  }
+
+  join: promoworking {
+    view_label: "Products"
+    type: left_outer
+    relationship: many_to_many
+    sql_on: ${products.product_code} = ${promoworking.Product_Code}  and ${base.date_date} between ${promoworking.live_date} and ${promoworking.end_date};;
   }
 
   join: promo_extra {
@@ -335,12 +350,22 @@ explore: base {
     sql_on: ${transactions.product_code} = ${promo_extra.product_code} and ${base.date_date} between ${promo_extra.live_date} and ${promo_extra.end_date} ;;
   }
 
-  join: catalogue {
-    view_label: "Catalogue"
+  join: promoHistory_Current {
+    type: left_outer
+    view_label: ""
+    relationship: many_to_one
+    sql_on: ${products.product_code} = ${promoHistory_Current.product_code} and ${catalogue.catalogue_name}=${promoHistory_Current.catalogueName} ;;
+  }
+
+  join: promo_orders {
+    view_label: "Orders using Promo"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
+    sql_on: ${transactions.transaction_uid} = ${promo_orders.order_id} and ${base.date_date} = ${promo_orders.date_date} ;;
   }
+
+  # -----------------------------------------------
+
 
   join: digital_transaction_mapping {
     view_label: "Digital"
@@ -388,13 +413,6 @@ explore: base {
     type: left_outer
     relationship: many_to_one
     sql_on: ${return_orders.return_ID} = ${transactions.transaction_uid} ;;
-  }
-
-  join: promoHistory_Current {
-    type: left_outer
-    view_label: ""
-    relationship: many_to_one
-    sql_on: ${products.product_code} = ${promoHistory_Current.product_code} and ${catalogue.catalogue_name}=${promoHistory_Current.catalogueName} ;;
   }
 
   join: product_dimensions {
@@ -502,20 +520,7 @@ explore: base {
     sql_where: ${top_trade_types_customers.brand_rank_top_brands_bigquery_4} != "Other" ;;
   }
 
-  join: promo_orders {
-    view_label: "Orders using Promo"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${transactions.transaction_uid} = ${promo_orders.order_id} and ${base.date_date} = ${promo_orders.date_date} ;;
-  }
 
-  join: promoworking {
-    view_label: "Products"
-    type: left_outer
-    relationship: many_to_many
-    # sql_on: ${products.product_code} = ${promoworking.Product_Code} and ${catalogue.catalogue_name}=${promoworking.publicationName};;
-    sql_on: ${products.product_code} = ${promoworking.Product_Code} and ${catalogue.catalogue_id}=${promoworking.cycleID};;
-  }
 
   join: brand_test {
     view_label: "Sales by Brand"

@@ -14,9 +14,10 @@ view: promoworking {
     sql:
       SELECT distinct row_number() over () as P_K,
       productCode,
-      catalogueID as cycleID,
       costPrice,
       listPrice as regularPrice,
+      startDate as liveDate,
+      endDate,
       promoPrice,
       offerType as offer_type
       FROM `toolstation-data-storage.promotions.cataloguePromo`
@@ -33,14 +34,6 @@ view: promoworking {
     sql: ${TABLE}.P_K ;;
    }
 
-  # dimension: publicationName {
-  #   label: "Catalogue"
-  #   description: "Catalogue"
-  #   hidden: yes
-  #   type: string
-  #   sql: ${TABLE}.publicationName ;;
-  # }
-
   dimension: Product_Code {
     label: "Product Code"
     description: "Product Code"
@@ -49,12 +42,23 @@ view: promoworking {
     sql: ${TABLE}.productCode ;;
   }
 
-  dimension: cycleID {
-    label: "cycleID"
-    description: "cycleID"
-    type: string
+  dimension: live_date {
+    type: date
     hidden: yes
-    sql: ${TABLE}.cycleID ;;
+    sql: date(${TABLE}.liveDate) ;;
+  }
+
+  # dimension_group: live{
+  #   type: time
+  #   timeframes: [raw, date, year, month_num]
+  #   sql:timestamp(${TABLE}.date);;
+  #   hidden: yes
+  # }
+
+  dimension: end_date {
+    type: date
+    hidden: yes
+    sql: date(${TABLE}.endDate) ;;
   }
 
   dimension: costPrice {

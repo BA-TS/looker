@@ -90,12 +90,12 @@ explore: GA4_testy {
   }
 
   join: promoworking {
-    view_label: ""
+    view_label: "Products"
     type: left_outer
-    relationship: one_to_one
-    sql_on: ${products.product_code} = ${promoworking.Product_Code}
-      and cast(${catalogue.catalogue_id} as string) = ${promoworking.cycleID};;
+    relationship: many_to_many
+    sql_on: ${products.product_code} = ${promoworking.Product_Code}  and ${calendar.date} between ${promoworking.live_date} and ${promoworking.end_date};;
   }
+
 
   #join: calendar_completed_datev2{
     #from:  calendar
