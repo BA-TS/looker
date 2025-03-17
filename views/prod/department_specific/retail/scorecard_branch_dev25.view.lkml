@@ -18,15 +18,14 @@ view: scorecard_branch_dev25 {
   dimension: siteUID {
     type: string
     sql: ${TABLE}.siteUID ;;
-    # hidden: yes
-    # label: ""
+    hidden: yes
   }
 
   measure: siteUID_count {
     label: "Number of Sites"
     type: count_distinct
     sql: ${siteUID} ;;
-    # hidden: yes
+    required_access_grants: [lz_only]
   }
 
   dimension: siteUID_month {

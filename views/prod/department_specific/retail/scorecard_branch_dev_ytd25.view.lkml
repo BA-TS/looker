@@ -18,10 +18,11 @@ view: scorecard_branch_dev_ytd25 {
   dimension: siteUID {
     type: string
     sql: ${TABLE}.siteUID ;;
-    # hidden: yes
+    hidden: yes
   }
 
   measure: siteUID_count {
+    required_access_grants: [lz_only]
     type: count_distinct
     sql: ${siteUID} ;;
     label: "Number of Sites"
