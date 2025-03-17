@@ -85,28 +85,28 @@ explore: retail {
   }
 
   join: scorecard_branch_dev{
-    view_label: "Scorecard Monthly 24"
+    view_label: "2024 Scorecard Monthly"
     type:  left_outer
     relationship:  many_to_one
     sql_on: ${scorecard_branch_dev.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${scorecard_branch_dev.siteUID} ;;
   }
 
   join: scorecard_branch_dev25{
-    view_label: "Scorecard Monthly 25"
+    view_label: "2025 Scorecard Monthly"
     type:  left_outer
     relationship:  many_to_one
     sql_on: ${scorecard_branch_dev25.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${scorecard_branch_dev25.siteUID} ;;
   }
 
   join: scorecard_branch_dev_ytd{
-    view_label: "Scorecard YTD 24"
+    view_label: "2024 Scorecard YTD"
     type:  left_outer
     relationship:  many_to_one
     sql_on: ${scorecard_branch_dev_ytd.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${scorecard_branch_dev_ytd.siteUID} ;;
   }
 
   join: scorecard_branch_dev_ytd25{
-    view_label: "Scorecard YTD 25"
+    view_label: "2025 Scorecard YTD"
     type:  left_outer
     relationship:  many_to_one
     sql_on: ${sites.site_uid}=${scorecard_branch_dev_ytd25.siteUID} ;;
