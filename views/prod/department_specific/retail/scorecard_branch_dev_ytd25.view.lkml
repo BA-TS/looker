@@ -34,149 +34,231 @@ view: scorecard_branch_dev_ytd25 {
     primary_key: yes
   }
 
-  dimension: ltoPercent {group_label: "Measures" label: "LTO Percent" type:number value_format_name:"percent_1" sql:${TABLE}.ltoPercent;;hidden:no}
-  dimension: trainingAvailable {group_label: "Measures" label: "Training Available" type:number value_format_name:"percent_1" sql:${TABLE}.trainingAvailable;;hidden:no}
-  dimension: trainingCompleted {group_label: "Measures" label: "Training Completed" type:number value_format_name:"percent_1" sql:${TABLE}.trainingCompleted;;hidden:no}
-  dimension: trainingPercentCompleted {group_label: "Measures" label: "Training Percent Completed" type:number value_format_name:"percent_1" sql:${TABLE}.trainingPercentCompleted;;hidden:no}
-  dimension: holidayMonthEntitlement {group_label: "Measures" label: "Holiday Month Entitlement" type:number value_format_name:"decimal_1" sql:${TABLE}.holidayMonthEntitlement;;hidden:no}
-  dimension: holidayTaken {group_label: "Measures" label: "Holiday Taken" type:number value_format_name:"decimal_1" sql:${TABLE}.holidayTaken;;hidden:no}
-  dimension: holidayTakenPercent {group_label: "Measures" label: "Holiday Taken Percent" type:number value_format_name:"decimal_1" sql:${TABLE}.holidayTakenPercent;;hidden:no}
-  dimension: apprenticeship {group_label: "Measures" label: "Apprenticeship" type:number value_format_name:"decimal_2" sql:${TABLE}.apprenticeship;;hidden:no}
-  dimension: safetyCompliance {group_label: "Measures" label: "Safety Compliance" type:number value_format_name:"decimal_1" sql:${TABLE}.safetyCompliance;;hidden:no}
-  dimension: processCompPercent {group_label: "Measures" label: "Process Comp Percent" type:number value_format_name:"percent_1" sql:${TABLE}.processCompPercent;;hidden:no}
-  dimension: orders {group_label: "Measures" label: "Orders" type:number value_format_name:"decimal_1" sql:${TABLE}.orders;;hidden:no}
-  dimension: shrinkage {group_label: "Measures" label: "Shrinkage" type:number value_format_name:"decimal_1" sql:${TABLE}.shrinkage;;hidden:no}
-  dimension: shrinkagePercent {group_label: "Measures" label: "Shrinkage Percent" type:number value_format_name:"percent_1" sql:${TABLE}.shrinkagePercent;;hidden:no}
-  dimension: NPS {group_label: "Measures" label: "NPS" type:number value_format_name:"decimal_1" sql:${TABLE}.NPS;;hidden:no}
-  dimension: anonOrders {group_label: "Measures" label: "Anon Orders" type:number value_format_name:"decimal_1" sql:${TABLE}.anonOrders;;hidden:no}
-  dimension: totalOrders {group_label: "Measures" label: "Total Orders" type:number value_format_name:"decimal_1" sql:${TABLE}.totalOrders;;hidden:no}
-  dimension: anonPercent {group_label: "Measures" label: "Anon Percent" type:number value_format_name:"percent_1" sql:${TABLE}.anonPercent;;hidden:no}
-  dimension: anonBandingL {group_label: "Measures" label: "Anon Banding L" type:number value_format_name:"decimal_1" sql:${TABLE}.anonBandingL;;hidden:no}
-  dimension: anonBandingM {group_label: "Measures" label: "Anon Banding M" type:number value_format_name:"decimal_1" sql:${TABLE}.anonBandingM;;hidden:no}
-  dimension: anonBandingU {group_label: "Measures" label: "Anon Banding U" type:number value_format_name:"decimal_1" sql:${TABLE}.anonBandingU;;hidden:no}
-  dimension: tyFrequency {group_label: "Measures" label: "Ty Frequency" type:number value_format_name:"decimal_1" sql:${TABLE}.tyFrequency;;hidden:no}
-  dimension: pyFrequency {group_label: "Measures" label: "Py Frequency" type:number value_format_name:"decimal_1" sql:${TABLE}.pyFrequency;;hidden:no}
-  dimension: yoyFrequency {group_label: "Measures" label: "YOY Frequency" type:number value_format_name:"decimal_1" sql:${TABLE}.yoyFrequency;;hidden:no}
-  dimension: netSales {group_label: "Measures" label: "Net Sales" type:number value_format_name:"gbp_0" sql:${TABLE}.netSales;;hidden:no}
-  dimension: pyUnits {group_label: "Measures" label: "Py Units" type:number value_format_name:"decimal_1" sql:${TABLE}.pyUnits;;hidden:no}
-  dimension: unitsExCC {group_label: "Measures"  type:number value_format_name:"decimal_1" sql:${TABLE}.unitsExCC;;hidden:no}
-  dimension: ordersExCC {group_label: "Measures"  type:number value_format_name:"decimal_1" sql:${TABLE}.ordersExCC;;hidden:no}
-  dimension: pyUnitsExCC {group_label: "Measures"  type:number value_format_name:"decimal_1" sql:${TABLE}.pyUnitsExCC;;hidden:no}
-  dimension: pyOrdersExCC {group_label: "Measures"  type:number value_format_name:"decimal_1" sql:${TABLE}.pyOrdersExCC;;hidden:no}
-  dimension: tyTradeSales {group_label: "Measures" label: "Ty Trade Sales" type:number value_format_name:"gbp_0" sql:${TABLE}.tyTradeSales;;hidden:no}
-  dimension: pyTradeSales {group_label: "Measures" label: "Py Trade Sales" type:number value_format_name:"gbp_0" sql:${TABLE}.pyTradeSales;;hidden:no}
-  dimension: yoyTradeSales {group_label: "Measures" label: "YOY Trade Sales" type:number value_format_name:"gbp_0" sql:${TABLE}.yoyTradeSales;;hidden:no}
-  dimension: yoyUPT {group_label: "Measures" label: "YOY UPT" type:number value_format_name:"decimal_1" sql:${TABLE}.yoyUPT;;hidden:no}
-  dimension: tySales {group_label: "Measures" label: "Ty Sales" type:number value_format_name:"gbp_0" sql:${TABLE}.tySales;;hidden:no}
-  dimension: tyOrders {group_label: "Measures" label: "Ty Orders" type:number value_format_name:"decimal_1" sql:${TABLE}.tyOrders;;hidden:no}
-  dimension: tyAOV {group_label: "Measures" label: "Ty AOV" type:number value_format_name:"gbp_0" sql:${TABLE}.tyAOV;;hidden:no}
-  dimension: pySales {group_label: "Measures" label: "Py Sales" type:number value_format_name:"gbp_0" sql:${TABLE}.pySales;;hidden:no}
-  dimension: pyOrders {group_label: "Measures" label: "Py Orders" type:number value_format_name:"decimal_1" sql:${TABLE}.pyOrders;;hidden:no}
-  dimension: actual_hours {group_label: "Measures" label: "Actual Hours" type:number value_format_name:"decimal_1" sql:${TABLE}.actual_hours;;hidden:no}
-  dimension: aop_hours {group_label: "Measures" label: "AOP Hours" type:number value_format_name:"decimal_1" sql:${TABLE}.aop_hours;;hidden:no}
-  dimension: hoursVsAOP {group_label: "Measures" label: "Hours Vs AOP" type:number value_format_name:"decimal_1" sql:${TABLE}.hoursVsAOP;;hidden:no}
-  dimension: labourBudgetPercent {group_label: "Measures" label: "Labour Budget Percent" type:number value_format_name:"percent_1" sql:${TABLE}.labourBudgetPercent;;hidden:no}
-  dimension: contributionVsBudget {group_label: "Measures" label: "Contribution Vs Budget" type:number value_format_name:"decimal_1" sql:${TABLE}.contributionVsBudget;;hidden:no}
-  dimension: AOP {group_label: "Measures" label: "AOP" type:number value_format_name:"gbp_0" sql:${TABLE}.AOP;;hidden:no}
-  dimension: vsAOP {group_label: "Measures" label: "Vs AOP" type:number value_format_name:"decimal_1" sql:${TABLE}.vsAOP;;hidden:no}
-  dimension: EbitLTY {group_label: "Measures" label: "EbitL Ty" type:number value_format_name:"gbp_0" sql:${TABLE}.EbitLTY;;hidden:no}
-  dimension: EbitLLY {group_label: "Measures" label: "EbitL Ly" type:number value_format_name:"gbp_0" sql:${TABLE}.EbitLLY;;hidden:no}
-  dimension: tyEBIT {group_label: "Measures" label: "Ty EBIT" type:number value_format_name:"gbp_0" sql:${TABLE}.tyEBIT;;hidden:no}
-  dimension: pyEBIT {group_label: "Measures" label: "Py EBIT" type:number value_format_name:"gbp_0" sql:${TABLE}.pyEBIT;;hidden:no}
-  dimension: tsClubSales {group_label: "Measures" label: "TS Club Sales" type:number value_format_name:"decimal_1" sql:${TABLE}.tsClubSales;;hidden:no}
-  dimension: tsClubSalesPercent {group_label: "Scores" label: "TS Club Sales Percent" type:number value_format_name:"decimal_1" sql:${TABLE}.tsClubSalesPercent;;hidden:no}
-  dimension: ltoScore {group_label: "Scores" label: "LTO Score" type:number value_format_name:"decimal_1" sql:${TABLE}.ltoScore;;hidden:no}
-  dimension: trainingScore {group_label: "Scores" label: "Training Score" type:number value_format_name:"decimal_1" sql:${TABLE}.trainingScore;;hidden:no}
-  dimension: holidayScore {group_label: "Scores" label: "Holiday Score" type:number value_format_name:"decimal_1" sql:${TABLE}.holidayScore;;hidden:no}
-  dimension: apprenticeshipScore {group_label: "Scores" label: "Apprenticeship Score" type:number value_format_name:"decimal_1" sql:${TABLE}.apprenticeshipScore;;hidden:no}
-  dimension: safetyComplianceScore {group_label: "Scores" label: "Safety Compliance Score" type:number value_format_name:"decimal_1" sql:${TABLE}.safetyComplianceScore;;hidden:no}
-  dimension: processCompScore {group_label: "Scores" label: "Process Comp Score" type:number value_format_name:"decimal_1" sql:${TABLE}.processCompScore;;hidden:no}
-  dimension: shrinkageScore {group_label: "Scores" label: "Shrinkage Score" type:number value_format_name:"decimal_1" sql:${TABLE}.shrinkageScore;;hidden:no}
-  dimension: npsScore {group_label: "Scores" label: "NPS Score" type:number value_format_name:"decimal_1" sql:${TABLE}.npsScore;;hidden:no}
-  dimension: anonScore {group_label: "Scores" label: "Anon Score" type:number value_format_name:"decimal_1" sql:${TABLE}.anonScore;;hidden:no}
-  dimension: yoyFrequencyScore {group_label: "Scores" label: "Yoy Frequency Score" type:number value_format_name:"decimal_1" sql:${TABLE}.yoyFrequencyScore;;hidden:no}
-  dimension: yoyTradeSalesScore {group_label: "Scores" label: "Yoy Trade Sales Score" type:number value_format_name:"decimal_1" sql:${TABLE}.yoyTradeSalesScore;;hidden:no}
-  dimension: unitsPerTransactionScore {group_label: "Scores" label: "UPT score" type:number value_format_name:"decimal_1" sql:${TABLE}.unitsPerTransactionScore;;hidden:no}
-  dimension: labourBudgetScore {group_label: "Scores" label: "Labour Budget Score" type:number value_format_name:"decimal_1" sql:${TABLE}.labourBudgetScore;;hidden:no}
-  dimension: tsClubScore {group_label: "Scores" label: "TS Club Score" type:number value_format_name:"decimal_1" sql:${TABLE}.tsClubScore;;hidden:no}
-  dimension: contributionVsBudgetScore {group_label: "Ranking" label: "Contribution Vs Budget Score" type:number value_format_name:"decimal_1" sql:${TABLE}.contributionVsBudgetScore;;hidden:no}
-  dimension: pillarTotalColleague {group_label: "Ranking" label: "Pillar Total Colleague" type:number value_format_name:"decimal_1" sql:${TABLE}.pillarTotalColleague;;hidden:no}
-  dimension: pillarTotalSimplicityEfficiency {group_label: "Ranking" label: "Pillar Total Simplicity Efficiency" type:number value_format_name:"decimal_1" sql:${TABLE}.pillarTotalSimplicityEfficiency;;hidden:no}
-  dimension: pillarTotalCust {group_label: "Ranking" label: "Pillar Total Customer" type:number value_format_name:"decimal_1" sql:${TABLE}.pillarTotalCust;;hidden:no}
-  dimension: pillarTotalOverall {group_label: "Ranking" label: "Pillar Total Overall" type:number value_format_name:"decimal_1" sql:${TABLE}.pillarTotalOverall;;hidden:no}
-  dimension: pillarRankColleague {group_label: "Ranking" label: "Pillar Rank Colleague" type:number value_format_name:"decimal_0" sql:${TABLE}.pillarRankColleague;;hidden:no}
-  dimension: pillarRankSimplicityEfficiency {group_label: "Ranking" label: "Pillar Rank Simplicity Efficiency" type:number value_format_name:"decimal_0" sql:${TABLE}.pillarRankSimplicityEfficiency;;hidden:no}
-  dimension: pillarRankCust {group_label: "Ranking" label: "Pillar Rank Customer" type:number value_format_name:"decimal_0" sql:${TABLE}.pillarRankCust;;hidden:no}
-  dimension: overallRank {group_label: "Ranking" label: "Overall Rank" type:number value_format_name:"decimal_1" sql:${TABLE}.overallRank;;hidden:no}
-  dimension: ColleagueRag {group_label: "Ranking" label: "Colleague Rag" type:number value_format_name:"decimal_0" sql:${TABLE}.ColleagueRag;;hidden:no}
-  dimension: SimplicityEfficiencyRag {group_label: "Ranking" label: "Simplicity Efficiency Rag" type:number value_format_name:"decimal_0" sql:${TABLE}.SimplicityEfficiencyRag;;hidden:no}
-  dimension: CustRag {group_label: "Ranking" label: "Customer Rag" type:number value_format_name:"decimal_0" sql:${TABLE}.CustRag;;hidden:no}
-  dimension: OverallRag {group_label: "Ranking" label: "Overall Rag" type:number value_format_name:"decimal_0" sql:${TABLE}.OverallRag;;hidden:no}
-  # --Error Flags----------------------
-  dimension: ltoPercent_error_flag {group_label:"Error Flags" type:number sql:case when (${ltoPercent} is null) then 1 else 0 end;;}
-  dimension: trainingAvailable_error_flag {group_label:"Error Flags" type:number sql:case when (${trainingAvailable} is null) then 1 else 0 end;;}
-  dimension: trainingCompleted_error_flag {group_label:"Error Flags" type:number sql:case when (${trainingCompleted} is null) then 1 else 0 end;;}
-  dimension: trainingPercentCompleted_error_flag {group_label:"Error Flags" type:number sql:case when (${trainingPercentCompleted} is null) then 1 else 0 end;;}
-  dimension: holidayMonthEntitlement_error_flag {group_label:"Error Flags" type:number sql:case when (${holidayMonthEntitlement} is null) then 1 else 0 end;;}
-  dimension: holidayTaken_error_flag {group_label:"Error Flags" type:number sql:case when (${holidayTaken} is null) then 1 else 0 end;;}
-  dimension: holidayTakenPercent_error_flag {group_label:"Error Flags" type:number sql:case when (${holidayTakenPercent} is null) then 1 else 0 end;;}
-  dimension: apprenticeship_error_flag {group_label:"Error Flags" type:number sql:case when (${apprenticeship} is null) then 1 else 0 end;;}
-  dimension: safetyCompliance_error_flag {group_label:"Error Flags" type:number sql:case when (${safetyCompliance} is null) then 1 else 0 end;;}
-  dimension: processCompPercent_error_flag {group_label:"Error Flags" type:number sql:case when (${processCompPercent} is null) then 1 else 0 end;;}
-  dimension: orders_error_flag {group_label:"Error Flags" type:number sql:case when (${orders} is null) then 1 else 0 end;;}
-  dimension: shrinkage_error_flag {group_label:"Error Flags" type:number sql:case when (${shrinkage} is null) then 1 else 0 end;;}
-  dimension: shrinkagePercent_error_flag {group_label:"Error Flags" type:number sql:case when (${shrinkagePercent} is null) then 1 else 0 end;;}
-  dimension: NPS_error_flag {group_label:"Error Flags" type:number sql:case when (${NPS} is null) then 1 else 0 end;;}
-  dimension: anonOrders_error_flag {group_label:"Error Flags" type:number sql:case when (${anonOrders} is null) then 1 else 0 end;;}
-  dimension: totalOrders_error_flag {group_label:"Error Flags" type:number sql:case when (${totalOrders} is null) then 1 else 0 end;;}
-  dimension: anonPercent_error_flag {group_label:"Error Flags" type:number sql:case when (${anonPercent} is null) then 1 else 0 end;;}
-  dimension: tyFrequency_error_flag {group_label:"Error Flags" type:number sql:case when (${tyFrequency} is null) then 1 else 0 end;;}
-  dimension: pyFrequency_error_flag {group_label:"Error Flags" type:number sql:case when (${pyFrequency} is null) then 1 else 0 end;;}
-  dimension: yoyFrequency_error_flag {group_label:"Error Flags" type:number sql:case when (${yoyFrequency} is null) then 1 else 0 end;;}
-  dimension: netSales_error_flag {group_label:"Error Flags" type:number sql:case when (${netSales} is null) then 1 else 0 end;;}
-  dimension: pyUnits_error_flag {group_label:"Error Flags" type:number sql:case when (${pyUnits} is null) then 1 else 0 end;;}
-  dimension: tyTradeSales_error_flag {group_label:"Error Flags" type:number sql:case when (${tyTradeSales} is null) then 1 else 0 end;;}
-  dimension: pyTradeSales_error_flag {group_label:"Error Flags" type:number sql:case when (${pyTradeSales} is null) then 1 else 0 end;;}
-  dimension: yoyTradeSales_error_flag {group_label:"Error Flags" type:number sql:case when (${yoyTradeSales} is null) then 1 else 0 end;;}
-  dimension: yoyUPT_error_flag {group_label:"Error Flags" type:number sql:case when (${yoyUPT} is null) then 1 else 0 end;;}
-  dimension: tySales_error_flag {group_label:"Error Flags" type:number sql:case when (${tySales} is null) then 1 else 0 end;;}
-  dimension: tyOrders_error_flag {group_label:"Error Flags" type:number sql:case when (${tyOrders} is null) then 1 else 0 end;;}
-  dimension: tyAOV_error_flag {group_label:"Error Flags" type:number sql:case when (${tyAOV} is null) then 1 else 0 end;;}
-  dimension: pySales_error_flag {group_label:"Error Flags" type:number sql:case when (${pySales} is null) then 1 else 0 end;;}
-  dimension: pyOrders_error_flag {group_label:"Error Flags" type:number sql:case when (${pyOrders} is null) then 1 else 0 end;;}
-  dimension: actual_hours_error_flag {group_label:"Error Flags" type:number sql:case when (${actual_hours} is null) then 1 else 0 end;;}
-  dimension: aop_hours_error_flag {group_label:"Error Flags" type:number sql:case when (${aop_hours} is null) then 1 else 0 end;;}
-  dimension: hoursVsAOP_error_flag {group_label:"Error Flags" type:number sql:case when (${hoursVsAOP} is null) then 1 else 0 end;;}
-  dimension: labourBudgetPercent_error_flag {group_label:"Error Flags" type:number sql:case when (${labourBudgetPercent} is null) then 1 else 0 end;;}
-  dimension: ltoScore_error_flag {group_label:"Error Flags" type:number sql:case when (${ltoScore} is null) then 1 else 0 end;;}
-  dimension: trainingScore_error_flag {group_label:"Error Flags" type:number sql:case when (${trainingScore} is null) then 1 else 0 end;;}
-  dimension: holidayScore_error_flag {group_label:"Error Flags" type:number sql:case when (${holidayScore} is null) then 1 else 0 end;;}
-  dimension: apprenticeshipScore_error_flag {group_label:"Error Flags" type:number sql:case when (${apprenticeshipScore} is null) then 1 else 0 end;;}
-  dimension: safetyComplianceScore_error_flag {group_label:"Error Flags" type:number sql:case when (${safetyComplianceScore} is null) then 1 else 0 end;;}
-  dimension: processCompScore_error_flag {group_label:"Error Flags" type:number sql:case when (${processCompScore} is null) then 1 else 0 end;;}
-  dimension: shrinkageScore_error_flag {group_label:"Error Flags" type:number sql:case when (${shrinkageScore} is null) then 1 else 0 end;;}
-  dimension: npsScore_error_flag {group_label:"Error Flags" type:number sql:case when (${npsScore} is null) then 1 else 0 end;;}
-  dimension: anonScore_error_flag {group_label:"Error Flags" type:number sql:case when (${anonScore} is null) then 1 else 0 end;;}
-  dimension: yoyFrequencyScore_error_flag {group_label:"Error Flags" type:number sql:case when (${yoyFrequencyScore} is null) then 1 else 0 end;;}
-  dimension: yoyTradeSalesScore_error_flag {group_label:"Error Flags" type:number sql:case when (${yoyTradeSalesScore} is null) then 1 else 0 end;;}
-  dimension: unitsPerTransactionScore_error_flag {group_label:"Error Flags" type:number sql:case when (${unitsPerTransactionScore} is null) then 1 else 0 end;;}
-  dimension: labourBudgetScore_error_flag {group_label:"Error Flags" type:number sql:case when (${labourBudgetScore} is null) then 1 else 0 end;;}
-  dimension: tsClubScore_error_flag {group_label:"Error Flags" type:number sql:case when (${tsClubScore} is null) then 1 else 0 end;;}
-  dimension: tsClubSales_error_flag {group_label:"Error Flags" type:number sql:case when (${tsClubSales} is null) then 1 else 0 end;;}
-  dimension: tsClubSalesPercent_error_flag {group_label:"Error Flags" type:number sql:case when (${tsClubSalesPercent} is null) then 1 else 0 end;;}
-  dimension: contributionVsBudget_error_flag {group_label:"Error Flags" type:number sql:case when (${contributionVsBudget} is null) then 1 else 0 end;;}
-  dimension: contributionVsBudgetScore_error_flag {group_label:"Error Flags" type:number sql:case when (${contributionVsBudgetScore} is null) then 1 else 0 end;;}
-  dimension: pillarTotalColleague_error_flag {group_label:"Error Flags" type:number sql:case when (${pillarTotalColleague} is null) then 1 else 0 end;;}
-  dimension: pillarTotalSimplicityEfficiency_error_flag {group_label:"Error Flags" type:number sql:case when (${pillarTotalSimplicityEfficiency} is null) then 1 else 0 end;;}
-  dimension: pillarTotalCust_error_flag {group_label:"Error Flags" type:number sql:case when (${pillarTotalCust} is null) then 1 else 0 end;;}
-  dimension: pillarRankColleague_error_flag {group_label:"Error Flags" type:number sql:case when (${pillarRankColleague} is null) then 1 else 0 end;;}
-  dimension: pillarRankSimplicityEfficiency_error_flag {group_label:"Error Flags" type:number sql:case when (${pillarRankSimplicityEfficiency} is null) then 1 else 0 end;;}
-  dimension: pillarRankCust_error_flag {group_label:"Error Flags" type:number sql:case when (${pillarRankCust} is null) then 1 else 0 end;;}
-  dimension: anonBandingL_error_flag {group_label:"Error Flags" type:number sql:case when (${anonBandingL} is null) then 1 else 0 end;;}
-  dimension: anonBandingM_error_flag {group_label:"Error Flags" type:number sql:case when (${anonBandingM} is null) then 1 else 0 end;;}
-  dimension: anonBandingU_error_flag {group_label:"Error Flags" type:number sql:case when (${anonBandingU} is null) then 1 else 0 end;;}
+  dimension: ltoPercent_dim {group_label: "Measures" label: "LTO %" type:number value_format_name:percent_1 sql:${TABLE}.ltoPercent;;hidden:yes}
+  dimension: trainingAvailable_dim {group_label: "Measures" label: "Training Available" type:number value_format_name:percent_1 sql:${TABLE}.trainingAvailable;;hidden:yes}
+  dimension: trainingCompleted_dim {group_label: "Measures" label: "Training Completed" type:number value_format_name:percent_1 sql:${TABLE}.trainingCompleted;;hidden:yes}
+  dimension: trainingPercentCompleted_dim {group_label: "Measures" label: "Training % Completed" type:number value_format_name:percent_1 sql:${TABLE}.trainingPercentCompleted;;hidden:yes}
+  dimension: holidayMonthEntitlement_dim {group_label: "Measures" label: "Holiday Month Entitlement" type:number value_format_name:decimal_1 sql:${TABLE}.holidayMonthEntitlement;;hidden:yes}
+  dimension: holidayTaken_dim {group_label: "Measures" label: "Holiday Taken" type:number value_format_name:decimal_1 sql:${TABLE}.holidayTaken;;hidden:yes}
+  dimension: holidayTakenPercent_dim {group_label: "Measures" label: "Holiday Taken %" type:number value_format_name:decimal_1 sql:${TABLE}.holidayTakenPercent;;hidden:yes}
+  dimension: apprenticeship_dim {group_label: "Measures" label: "Apprenticeship" type:number value_format_name:decimal_2 sql:${TABLE}.apprenticeship;;hidden:yes}
+  dimension: safetyCompliance_dim {group_label: "Measures" label: "Safety Compliance" type:number value_format_name:decimal_1 sql:${TABLE}.safetyCompliance;;hidden:yes}
+  dimension: processCompPercent_dim {group_label: "Measures" label: "Process Comp %" type:number value_format_name:percent_1 sql:${TABLE}.processCompPercent;;hidden:yes}
+  dimension: orders_dim {group_label: "Measures" label: "Orders" type:number value_format_name:decimal_1 sql:${TABLE}.orders;;hidden:yes}
+  dimension: shrinkage_dim {group_label: "Measures" label: "Shrinkage" type:number value_format_name:decimal_1 sql:${TABLE}.shrinkage;;hidden:yes}
+  dimension: shrinkagePercent_dim {group_label: "Measures" label: "Shrinkage %" type:number value_format_name:percent_1 sql:${TABLE}.shrinkagePercent;;hidden:yes}
+  dimension: NPS_dim {group_label: "Measures" label: "NPS" type:number value_format_name:decimal_1 sql:${TABLE}.NPS;;hidden:yes}
+  dimension: anonOrders_dim {group_label: "Measures" label: "Anon Orders" type:number value_format_name:decimal_1 sql:${TABLE}.anonOrders;;hidden:yes}
+  dimension: totalOrders_dim {group_label: "Measures" label: "Total Orders" type:number value_format_name:decimal_1 sql:${TABLE}.totalOrders;;hidden:yes}
+  dimension: anonPercent_dim {group_label: "Measures" label: "Anon %" type:number value_format_name:percent_1 sql:${TABLE}.anonPercent;;hidden:yes}
+  dimension: anonBandingL_dim {group_label: "Measures" label: "Anon Banding L" type:number value_format_name:decimal_1 sql:${TABLE}.anonBandingL;;hidden:yes}
+  dimension: anonBandingM_dim {group_label: "Measures" label: "Anon Banding M" type:number value_format_name:decimal_1 sql:${TABLE}.anonBandingM;;hidden:yes}
+  dimension: anonBandingU_dim {group_label: "Measures" label: "Anon Banding U" type:number value_format_name:decimal_1 sql:${TABLE}.anonBandingU;;hidden:yes}
+  dimension: tyFrequency_dim {group_label: "Measures" label: "Ty Frequency" type:number value_format_name:decimal_1 sql:${TABLE}.tyFrequency;;hidden:yes}
+  dimension: pyFrequency_dim {group_label: "Measures" label: "Py Frequency" type:number value_format_name:decimal_1 sql:${TABLE}.pyFrequency;;hidden:yes}
+  dimension: yoyFrequency_dim {group_label: "Measures" label: "YOY Frequency" type:number value_format_name:decimal_1 sql:${TABLE}.yoyFrequency;;hidden:yes}
+  dimension: netSales_dim {group_label: "Measures" label: "Net Sales" type:number value_format_name:gbp_0 sql:${TABLE}.netSales;;hidden:yes}
+  dimension: pyUnits_dim {group_label: "Measures" label: "Py Units" type:number value_format_name:decimal_1 sql:${TABLE}.pyUnits;;hidden:yes}
+  dimension: unitsExCC_dim {group_label: "Measures"  type:number value_format_name:decimal_1 sql:${TABLE}.unitsExCC;;hidden:yes}
+  dimension: ordersExCC_dim {group_label: "Measures"  type:number value_format_name:decimal_1 sql:${TABLE}.ordersExCC;;hidden:yes}
+  dimension: pyUnitsExCC_dim {group_label: "Measures"  type:number value_format_name:decimal_1 sql:${TABLE}.pyUnitsExCC;;hidden:yes}
+  dimension: pyOrdersExCC_dim {group_label: "Measures"  type:number value_format_name:decimal_1 sql:${TABLE}.pyOrdersExCC;;hidden:yes}
+  dimension: tyTradeSales_dim {group_label: "Measures" label: "Ty Trade Sales" type:number value_format_name:gbp_0 sql:${TABLE}.tyTradeSales;;hidden:yes}
+  dimension: pyTradeSales_dim {group_label: "Measures" label: "Py Trade Sales" type:number value_format_name:gbp_0 sql:${TABLE}.pyTradeSales;;hidden:yes}
+  dimension: yoyTradeSales_dim {group_label: "Measures" label: "YOY Trade Sales" type:number value_format_name:gbp_0 sql:${TABLE}.yoyTradeSales;;hidden:yes}
+  dimension: yoyUPT_dim {group_label: "Measures" label: "YOY UPT" type:number value_format_name:decimal_1 sql:${TABLE}.yoyUPT;;hidden:yes}
+  dimension: tySales_dim {group_label: "Measures" label: "Ty Sales" type:number value_format_name:gbp_0 sql:${TABLE}.tySales;;hidden:yes}
+  dimension: tyOrders_dim {group_label: "Measures" label: "Ty Orders" type:number value_format_name:decimal_1 sql:${TABLE}.tyOrders;;hidden:yes}
+  dimension: tyAOV_dim {group_label: "Measures" label: "Ty AOV" type:number value_format_name:gbp_0 sql:${TABLE}.tyAOV;;hidden:yes}
+  dimension: pySales_dim {group_label: "Measures" label: "Py Sales" type:number value_format_name:gbp_0 sql:${TABLE}.pySales;;hidden:yes}
+  dimension: pyOrders_dim {group_label: "Measures" label: "Py Orders" type:number value_format_name:decimal_1 sql:${TABLE}.pyOrders;;hidden:yes}
+  dimension: actual_hours_dim {group_label: "Measures" label: "Actual Hours" type:number value_format_name:decimal_1 sql:${TABLE}.actual_hours;;hidden:yes}
+  dimension: aop_hours_dim {group_label: "Measures" label: "AOP Hours" type:number value_format_name:decimal_1 sql:${TABLE}.aop_hours;;hidden:yes}
+  dimension: hoursVsAOP_dim {group_label: "Measures" label: "Hours Vs AOP" type:number value_format_name:decimal_1 sql:${TABLE}.hoursVsAOP;;hidden:yes}
+  dimension: labourBudgetPercent_dim {group_label: "Measures" label: "Labour Budget %" type:number value_format_name:percent_1 sql:${TABLE}.labourBudgetPercent;;hidden:yes}
+  dimension: contributionVsBudget_dim {group_label: "Measures" label: "Contribution vs Budget" type:number value_format_name:decimal_1 sql:${TABLE}.contributionVsBudget;;hidden:yes}
+  dimension: AOP_dim {group_label: "Measures" label: "AOP" type:number value_format_name:gbp_0 sql:${TABLE}.AOP;;hidden:yes}
+  dimension: vsAOP_dim {group_label: "Measures" label: "vs AOP" type:number value_format_name:decimal_1 sql:${TABLE}.vsAOP;;hidden:yes}
+  dimension: EbitLTY_dim {group_label: "Measures" label: "EbitL Ty" type:number value_format_name:gbp_0 sql:${TABLE}.EbitLTY;;hidden:yes}
+  dimension: EbitLLY_dim {group_label: "Measures" label: "EbitL Ly" type:number value_format_name:gbp_0 sql:${TABLE}.EbitLLY;;hidden:yes}
+  dimension: tyEBIT_dim {group_label: "Measures" label: "Ty EBIT" type:number value_format_name:gbp_0 sql:${TABLE}.tyEBIT;;hidden:yes}
+  dimension: pyEBIT_dim {group_label: "Measures" label: "Py EBIT" type:number value_format_name:gbp_0 sql:${TABLE}.pyEBIT;;hidden:yes}
+  dimension: tsClubSales_dim {group_label: "Measures" label: "TS Club Sales" type:number value_format_name:decimal_1 sql:${TABLE}.tsClubSales;;hidden:yes}
+  dimension: tsClubSalesPercent_dim {group_label: "Scores" label: "TS Club Sales %" type:number value_format_name:decimal_1 sql:${TABLE}.tsClubSalesPercent;;hidden:yes}
+  dimension: ltoScore_dim {group_label: "Scores" label: "LTO Score" type:number value_format_name:decimal_1 sql:${TABLE}.ltoScore;;hidden:yes}
+  dimension: trainingScore_dim {group_label: "Scores" label: "Training Score" type:number value_format_name:decimal_1 sql:${TABLE}.trainingScore;;hidden:yes}
+  dimension: holidayScore_dim {group_label: "Scores" label: "Holiday Score" type:number value_format_name:decimal_1 sql:${TABLE}.holidayScore;;hidden:yes}
+  dimension: apprenticeshipScore_dim {group_label: "Scores" label: "Apprenticeship Score" type:number value_format_name:decimal_1 sql:${TABLE}.apprenticeshipScore;;hidden:yes}
+  dimension: safetyComplianceScore_dim {group_label: "Scores" label: "Safety Compliance Score" type:number value_format_name:decimal_1 sql:${TABLE}.safetyComplianceScore;;hidden:yes}
+  dimension: processCompScore_dim {group_label: "Scores" label: "Process Compliance Score" type:number value_format_name:decimal_1 sql:${TABLE}.processCompScore;;hidden:yes}
+  dimension: shrinkageScore_dim {group_label: "Scores" label: "Shrinkage Score" type:number value_format_name:decimal_1 sql:${TABLE}.shrinkageScore;;hidden:yes}
+  dimension: npsScore_dim {group_label: "Scores" label: "NPS Score" type:number value_format_name:decimal_1 sql:${TABLE}.npsScore;;hidden:yes}
+  dimension: anonScore_dim {group_label: "Scores" label: "Anon Score" type:number value_format_name:decimal_1 sql:${TABLE}.anonScore;;hidden:yes}
+  dimension: yoyFrequencyScore_dim {group_label: "Scores" label: "YOY Frequency Score" type:number value_format_name:decimal_1 sql:${TABLE}.yoyFrequencyScore;;hidden:yes}
+  dimension: yoyTradeSalesScore_dim {group_label: "Scores" label: "YOY Trade Sales Score" type:number value_format_name:decimal_1 sql:${TABLE}.yoyTradeSalesScore;;hidden:yes}
+  dimension: unitsPerTransactionScore_dim {group_label: "Scores" label: "UPT Score" type:number value_format_name:decimal_1 sql:${TABLE}.unitsPerTransactionScore;;hidden:yes}
+  dimension: labourBudgetScore_dim {group_label: "Scores" label: "Labour Budget Score" type:number value_format_name:decimal_1 sql:${TABLE}.labourBudgetScore;;hidden:yes}
+  dimension: tsClubScore_dim {group_label: "Scores" label: "TS Club Score" type:number value_format_name:decimal_1 sql:${TABLE}.tsClubScore;;hidden:yes}
+  dimension: contributionVsBudgetScore_dim {group_label: "Ranking" label: "Contribution vs Budget Score" type:number value_format_name:decimal_1 sql:${TABLE}.contributionVsBudgetScore;;hidden:yes}
+  dimension: pillarTotalColleague_dim {group_label: "Ranking" label: "Pillar Total Colleague" type:number value_format_name:decimal_1 sql:${TABLE}.pillarTotalColleague;;hidden:yes}
+  dimension: pillarTotalSimplicityEfficiency_dim {group_label: "Ranking" label: "Pillar Total Simplicity Efficiency" type:number value_format_name:decimal_1 sql:${TABLE}.pillarTotalSimplicityEfficiency;;hidden:yes}
+  dimension: pillarTotalCust_dim {group_label: "Ranking" label: "Pillar Total Customer" type:number value_format_name:decimal_1 sql:${TABLE}.pillarTotalCust;;hidden:yes}
+  dimension: pillarTotalOverall_dim {group_label: "Ranking" label: "Pillar Total Overall" type:number value_format_name:decimal_1 sql:${TABLE}.pillarTotalOverall;;hidden:yes}
+  dimension: pillarRankColleague_dim {group_label: "Ranking" label: "Pillar Rank Colleague" type:number value_format_name:decimal_0 sql:${TABLE}.pillarRankColleague;;hidden:yes}
+  dimension: pillarRankSimplicityEfficiency_dim {group_label: "Ranking" label: "Pillar Rank Simplicity Efficiency" type:number value_format_name:decimal_0 sql:${TABLE}.pillarRankSimplicityEfficiency;;hidden:yes}
+  dimension: pillarRankCust_dim {group_label: "Ranking" label: "Pillar Rank Customer" type:number value_format_name:decimal_0 sql:${TABLE}.pillarRankCust;;hidden:yes}
+  dimension: overallRank_dim {group_label: "Ranking" label: "Overall Rank" type:number value_format_name:decimal_1 sql:${TABLE}.overallRank;;hidden:yes}
+  dimension: ColleagueRag_dim {group_label: "Ranking" label: "Colleague Rag" type:number value_format_name:decimal_0 sql:${TABLE}.ColleagueRag;;hidden:yes}
+  dimension: SimplicityEfficiencyRag_dim {group_label: "Ranking" label: "Simplicity Efficiency Rag" type:number value_format_name:decimal_0 sql:${TABLE}.SimplicityEfficiencyRag;;hidden:yes}
+  dimension: CustRag_dim {group_label: "Ranking" label: "Customer Rag" type:number value_format_name:decimal_0 sql:${TABLE}.CustRag;;hidden:yes}
+  dimension: OverallRag_dim {group_label: "Ranking" label: "Overall Rag" type:number value_format_name:decimal_0 sql:${TABLE}.OverallRag;;hidden:yes}
 
-  dimension: ty_EBIT_net_sales  {
+  measure: ltoPercent {group_label: "Measures" label: "LTO %" type: average value_format_name:percent_1 sql:${ltoPercent_dim};;}
+  measure: trainingAvailable {group_label: "Measures" label: "Training Available" type: average value_format_name:percent_1 sql:${trainingAvailable_dim};;}
+  measure: trainingCompleted {group_label: "Measures" label: "Training Completed" type: average value_format_name:percent_1 sql:${trainingCompleted_dim};;}
+  measure: trainingPercentCompleted {group_label: "Measures" label: "Training % Completed" type: average value_format_name:percent_1 sql:${trainingPercentCompleted_dim};;}
+  measure: holidayMonthEntitlement {group_label: "Measures" label: "Holiday Month Entitlement" type: average value_format_name:decimal_1 sql:${holidayMonthEntitlement_dim};;}
+  measure: holidayTaken {group_label: "Measures" label: "Holiday Taken" type: average value_format_name:decimal_1 sql:${holidayTaken_dim};;}
+  measure: holidayTakenPercent {group_label: "Measures" label: "Holiday Taken %" type: average value_format_name:decimal_1 sql:${holidayTakenPercent_dim};;}
+  measure: apprenticeship {group_label: "Measures" label: "Apprenticeship" type: average value_format_name:decimal_2 sql:${apprenticeship_dim};;}
+  measure: safetyCompliance {group_label: "Measures" label: "Safety Compliance" type: average value_format_name:decimal_1 sql:${safetyCompliance_dim};;}
+  measure: processCompPercent {group_label: "Measures" label: "Process Comp %" type: average value_format_name:percent_1 sql:${processCompPercent_dim};;}
+  measure: orders {group_label: "Measures" label: "Orders" type: average value_format_name:decimal_1 sql:${orders_dim};;}
+  measure: shrinkage {group_label: "Measures" label: "Shrinkage" type: average value_format_name:decimal_1 sql:${shrinkage_dim};;}
+  measure: shrinkagePercent {group_label: "Measures" label: "Shrinkage %" type: average value_format_name:percent_1 sql:${shrinkagePercent_dim};;}
+  measure: NPS {group_label: "Measures" label: "NPS" type: average value_format_name:decimal_1 sql:${NPS_dim};;}
+  measure: anonOrders {group_label: "Measures" label: "Anon Orders" type: average value_format_name:decimal_1 sql:${anonOrders_dim};;}
+  measure: totalOrders {group_label: "Measures" label: "Total Orders" type: average value_format_name:decimal_1 sql:${totalOrders_dim};;}
+  measure: anonPercent {group_label: "Measures" label: "Anon %" type: average value_format_name:percent_1 sql:${anonPercent_dim};;}
+  measure: anonBandingL {group_label: "Measures" label: "Anon Banding L" type: average value_format_name:decimal_1 sql:${anonBandingL_dim};;}
+  measure: anonBandingM {group_label: "Measures" label: "Anon Banding M" type: average value_format_name:decimal_1 sql:${anonBandingM_dim};;}
+  measure: anonBandingU {group_label: "Measures" label: "Anon Banding U" type: average value_format_name:decimal_1 sql:${anonBandingU_dim};;}
+  measure: tyFrequency {group_label: "Measures" label: "Ty Frequency" type: average value_format_name:decimal_1 sql:${tyFrequency_dim};;}
+  measure: pyFrequency {group_label: "Measures" label: "Py Frequency" type: average value_format_name:decimal_1 sql:${pyFrequency_dim};;}
+  measure: yoyFrequency {group_label: "Measures" label: "YOY Frequency" type: average value_format_name:decimal_1 sql:${yoyFrequency_dim};;}
+  measure: netSales {group_label: "Measures" label: "Net Sales" type: average value_format_name:gbp_0 sql:${netSales_dim};;}
+  measure: pyUnits {group_label: "Measures" label: "Py Units" type: average value_format_name:decimal_1 sql:${pyUnits_dim};;}
+  measure: unitsExCC {group_label: "Measures"  type: average value_format_name:decimal_1 sql:${unitsExCC_dim};;}
+  measure: ordersExCC {group_label: "Measures"  type: average value_format_name:decimal_1 sql:${ordersExCC_dim};;}
+  measure: pyUnitsExCC {group_label: "Measures"  type: average value_format_name:decimal_1 sql:${pyUnitsExCC_dim};;}
+  measure: pyOrdersExCC {group_label: "Measures"  type: average value_format_name:decimal_1 sql:${pyOrdersExCC_dim};;}
+  measure: tyTradeSales {group_label: "Measures" label: "Ty Trade Sales" type: average value_format_name:gbp_0 sql:${tyTradeSales_dim};;}
+  measure: pyTradeSales {group_label: "Measures" label: "Py Trade Sales" type: average value_format_name:gbp_0 sql:${pyTradeSales_dim};;}
+  measure: yoyTradeSales {group_label: "Measures" label: "YOY Trade Sales" type: average value_format_name:gbp_0 sql:${yoyTradeSales_dim};;}
+  measure: yoyUPT {group_label: "Measures" label: "YOY UPT" type: average value_format_name:decimal_1 sql:${yoyUPT_dim};;}
+  measure: tySales {group_label: "Measures" label: "Ty Sales" type: average value_format_name:gbp_0 sql:${tySales_dim};;}
+  measure: tyOrders {group_label: "Measures" label: "Ty Orders" type: average value_format_name:decimal_1 sql:${tyOrders_dim};;}
+  measure: tyAOV {group_label: "Measures" label: "Ty AOV" type: average value_format_name:gbp_0 sql:${tyAOV_dim};;}
+  measure: pySales {group_label: "Measures" label: "Py Sales" type: average value_format_name:gbp_0 sql:${pySales_dim};;}
+  measure: pyOrders {group_label: "Measures" label: "Py Orders" type: average value_format_name:decimal_1 sql:${pyOrders_dim};;}
+  measure: actual_hours {group_label: "Measures" label: "Actual Hours" type: average value_format_name:decimal_1 sql:${actual_hours_dim};;}
+  measure: aop_hours {group_label: "Measures" label: "AOP Hours" type: average value_format_name:decimal_1 sql:${aop_hours_dim};;}
+  measure: hoursVsAOP {group_label: "Measures" label: "Hours Vs AOP" type: average value_format_name:decimal_1 sql:${hoursVsAOP_dim};;}
+  measure: labourBudgetPercent {group_label: "Measures" label: "Labour Budget %" type: average value_format_name:percent_1 sql:${labourBudgetPercent_dim};;}
+  measure: contributionVsBudget {group_label: "Measures" label: "Contribution vs Budget" type: average value_format_name:decimal_1 sql:${contributionVsBudget_dim};;}
+  measure: AOP {group_label: "Measures" label: "AOP" type: average value_format_name:gbp_0 sql:${AOP_dim};;}
+  measure: vsAOP {group_label: "Measures" label: "vs AOP" type: average value_format_name:decimal_1 sql:${vsAOP_dim};;}
+  measure: EbitLTY {group_label: "Measures" label: "EbitL Ty" type: average value_format_name:gbp_0 sql:${EbitLTY_dim};;}
+  measure: EbitLLY {group_label: "Measures" label: "EbitL Ly" type: average value_format_name:gbp_0 sql:${EbitLLY_dim};;}
+  measure: tyEBIT {group_label: "Measures" label: "Ty EBIT" type: average value_format_name:gbp_0 sql:${tyEBIT_dim};;}
+  measure: pyEBIT {group_label: "Measures" label: "Py EBIT" type: average value_format_name:gbp_0 sql:${pyEBIT_dim};;}
+  measure: tsClubSales {group_label: "Measures" label: "TS Club Sales" type: average value_format_name:decimal_1 sql:${tsClubSales_dim};;}
+  measure: tsClubSalesPercent {group_label: "Scores" label: "TS Club Sales %" type: average value_format_name:decimal_1 sql:${tsClubSalesPercent_dim};;}
+  measure: ltoScore {group_label: "Scores" label: "LTO Score" type: average value_format_name:decimal_1 sql:${ltoScore_dim};;}
+  measure: trainingScore {group_label: "Scores" label: "Training Score" type: average value_format_name:decimal_1 sql:${trainingScore_dim};;}
+  measure: holidayScore {group_label: "Scores" label: "Holiday Score" type: average value_format_name:decimal_1 sql:${holidayScore_dim};;}
+  measure: apprenticeshipScore {group_label: "Scores" label: "Apprenticeship Score" type: average value_format_name:decimal_1 sql:${apprenticeshipScore_dim};;}
+  measure: safetyComplianceScore {group_label: "Scores" label: "Safety Compliance Score" type: average value_format_name:decimal_1 sql:${safetyComplianceScore_dim};;}
+  measure: processCompScore {group_label: "Scores" label: "Process Compliance Score" type: average value_format_name:decimal_1 sql:${processCompScore_dim};;}
+  measure: shrinkageScore {group_label: "Scores" label: "Shrinkage Score" type: average value_format_name:decimal_1 sql:${shrinkageScore_dim};;}
+  measure: npsScore {group_label: "Scores" label: "NPS Score" type: average value_format_name:decimal_1 sql:${npsScore_dim};;}
+  measure: anonScore {group_label: "Scores" label: "Anon Score" type: average value_format_name:decimal_1 sql:${anonScore_dim};;}
+  measure: yoyFrequencyScore {group_label: "Scores" label: "YOY Frequency Score" type: average value_format_name:decimal_1 sql:${yoyFrequencyScore_dim};;}
+  measure: yoyTradeSalesScore {group_label: "Scores" label: "YOY Trade Sales Score" type: average value_format_name:decimal_1 sql:${yoyTradeSalesScore_dim};;}
+  measure: unitsPerTransactionScore {group_label: "Scores" label: "UPT Score" type: average value_format_name:decimal_1 sql:${unitsPerTransactionScore_dim};;}
+  measure: labourBudgetScore {group_label: "Scores" label: "Labour Budget Score" type: average value_format_name:decimal_1 sql:${labourBudgetScore_dim};;}
+  measure: tsClubScore {group_label: "Scores" label: "TS Club Score" type: average value_format_name:decimal_1 sql:${tsClubScore_dim};;}
+  measure: contributionVsBudgetScore {group_label: "Ranking" label: "Contribution vs Budget Score" type: average value_format_name:decimal_1 sql:${contributionVsBudgetScore_dim};;}
+  measure: pillarTotalColleague {group_label: "Ranking" label: "Pillar Total Colleague" type: average value_format_name:decimal_1 sql:${pillarTotalColleague_dim};;}
+  measure: pillarTotalSimplicityEfficiency {group_label: "Ranking" label: "Pillar Total Simplicity Efficiency" type: average value_format_name:decimal_1 sql:${pillarTotalSimplicityEfficiency_dim};;}
+  measure: pillarTotalCust {group_label: "Ranking" label: "Pillar Total Customer" type: average value_format_name:decimal_1 sql:${pillarTotalCust_dim};;}
+  measure: pillarTotalOverall {group_label: "Ranking" label: "Pillar Total Overall" type: average value_format_name:decimal_1 sql:${pillarTotalOverall_dim};;}
+  measure: pillarRankColleague {group_label: "Ranking" label: "Pillar Rank Colleague" type: average value_format_name:decimal_0 sql:${pillarRankColleague_dim};;}
+  measure: pillarRankSimplicityEfficiency {group_label: "Ranking" label: "Pillar Rank Simplicity Efficiency" type: average value_format_name:decimal_0 sql:${pillarRankSimplicityEfficiency_dim};;}
+  measure: pillarRankCust {group_label: "Ranking" label: "Pillar Rank Customer" type: average value_format_name:decimal_0 sql:${pillarRankCust_dim};;}
+  measure: overallRank {group_label: "Ranking" label: "Overall Rank" type: average value_format_name:decimal_1 sql:${overallRank_dim};;}
+  measure: ColleagueRag {group_label: "Ranking" label: "Colleague Rag" type: average value_format_name:decimal_0 sql:${ColleagueRag_dim};;}
+  measure: SimplicityEfficiencyRag {group_label: "Ranking" label: "Simplicity Efficiency Rag" type: average value_format_name:decimal_0 sql:${SimplicityEfficiencyRag_dim};;}
+  measure: CustRag {group_label: "Ranking" label: "Customer Rag" type: average value_format_name:decimal_0 sql:${CustRag_dim};;}
+  measure: OverallRag {group_label: "Ranking" label: "Overall Rag" type: average value_format_name:decimal_0 sql:${OverallRag_dim};;}
+
+
+
+  # # --Error Flags----------------------
+  # dimension: ltoPercent_error_flag {group_label:"Error Flags" type:number sql:case when (${ltoPercent} is null) then 1 else 0 end;;}
+  # dimension: trainingAvailable_error_flag {group_label:"Error Flags" type:number sql:case when (${trainingAvailable} is null) then 1 else 0 end;;}
+  # dimension: trainingCompleted_error_flag {group_label:"Error Flags" type:number sql:case when (${trainingCompleted} is null) then 1 else 0 end;;}
+  # dimension: trainingPercentCompleted_error_flag {group_label:"Error Flags" type:number sql:case when (${trainingPercentCompleted} is null) then 1 else 0 end;;}
+  # dimension: holidayMonthEntitlement_error_flag {group_label:"Error Flags" type:number sql:case when (${holidayMonthEntitlement} is null) then 1 else 0 end;;}
+  # dimension: holidayTaken_error_flag {group_label:"Error Flags" type:number sql:case when (${holidayTaken} is null) then 1 else 0 end;;}
+  # dimension: holidayTakenPercent_error_flag {group_label:"Error Flags" type:number sql:case when (${holidayTakenPercent} is null) then 1 else 0 end;;}
+  # dimension: apprenticeship_error_flag {group_label:"Error Flags" type:number sql:case when (${apprenticeship} is null) then 1 else 0 end;;}
+  # dimension: safetyCompliance_error_flag {group_label:"Error Flags" type:number sql:case when (${safetyCompliance} is null) then 1 else 0 end;;}
+  # dimension: processCompPercent_error_flag {group_label:"Error Flags" type:number sql:case when (${processCompPercent} is null) then 1 else 0 end;;}
+  # dimension: orders_error_flag {group_label:"Error Flags" type:number sql:case when (${orders} is null) then 1 else 0 end;;}
+  # dimension: shrinkage_error_flag {group_label:"Error Flags" type:number sql:case when (${shrinkage} is null) then 1 else 0 end;;}
+  # dimension: shrinkagePercent_error_flag {group_label:"Error Flags" type:number sql:case when (${shrinkagePercent} is null) then 1 else 0 end;;}
+  # dimension: NPS_error_flag {group_label:"Error Flags" type:number sql:case when (${NPS} is null) then 1 else 0 end;;}
+  # dimension: anonOrders_error_flag {group_label:"Error Flags" type:number sql:case when (${anonOrders} is null) then 1 else 0 end;;}
+  # dimension: totalOrders_error_flag {group_label:"Error Flags" type:number sql:case when (${totalOrders} is null) then 1 else 0 end;;}
+  # dimension: anonPercent_error_flag {group_label:"Error Flags" type:number sql:case when (${anonPercent} is null) then 1 else 0 end;;}
+  # dimension: tyFrequency_error_flag {group_label:"Error Flags" type:number sql:case when (${tyFrequency} is null) then 1 else 0 end;;}
+  # dimension: pyFrequency_error_flag {group_label:"Error Flags" type:number sql:case when (${pyFrequency} is null) then 1 else 0 end;;}
+  # dimension: yoyFrequency_error_flag {group_label:"Error Flags" type:number sql:case when (${yoyFrequency} is null) then 1 else 0 end;;}
+  # dimension: netSales_error_flag {group_label:"Error Flags" type:number sql:case when (${netSales} is null) then 1 else 0 end;;}
+  # dimension: pyUnits_error_flag {group_label:"Error Flags" type:number sql:case when (${pyUnits} is null) then 1 else 0 end;;}
+  # dimension: tyTradeSales_error_flag {group_label:"Error Flags" type:number sql:case when (${tyTradeSales} is null) then 1 else 0 end;;}
+  # dimension: pyTradeSales_error_flag {group_label:"Error Flags" type:number sql:case when (${pyTradeSales} is null) then 1 else 0 end;;}
+  # dimension: yoyTradeSales_error_flag {group_label:"Error Flags" type:number sql:case when (${yoyTradeSales} is null) then 1 else 0 end;;}
+  # dimension: yoyUPT_error_flag {group_label:"Error Flags" type:number sql:case when (${yoyUPT} is null) then 1 else 0 end;;}
+  # dimension: tySales_error_flag {group_label:"Error Flags" type:number sql:case when (${tySales} is null) then 1 else 0 end;;}
+  # dimension: tyOrders_error_flag {group_label:"Error Flags" type:number sql:case when (${tyOrders} is null) then 1 else 0 end;;}
+  # dimension: tyAOV_error_flag {group_label:"Error Flags" type:number sql:case when (${tyAOV} is null) then 1 else 0 end;;}
+  # dimension: pySales_error_flag {group_label:"Error Flags" type:number sql:case when (${pySales} is null) then 1 else 0 end;;}
+  # dimension: pyOrders_error_flag {group_label:"Error Flags" type:number sql:case when (${pyOrders} is null) then 1 else 0 end;;}
+  # dimension: actual_hours_error_flag {group_label:"Error Flags" type:number sql:case when (${actual_hours} is null) then 1 else 0 end;;}
+  # dimension: aop_hours_error_flag {group_label:"Error Flags" type:number sql:case when (${aop_hours} is null) then 1 else 0 end;;}
+  # dimension: hoursVsAOP_error_flag {group_label:"Error Flags" type:number sql:case when (${hoursVsAOP} is null) then 1 else 0 end;;}
+  # dimension: labourBudgetPercent_error_flag {group_label:"Error Flags" type:number sql:case when (${labourBudgetPercent} is null) then 1 else 0 end;;}
+  # dimension: ltoScore_error_flag {group_label:"Error Flags" type:number sql:case when (${ltoScore} is null) then 1 else 0 end;;}
+  # dimension: trainingScore_error_flag {group_label:"Error Flags" type:number sql:case when (${trainingScore} is null) then 1 else 0 end;;}
+  # dimension: holidayScore_error_flag {group_label:"Error Flags" type:number sql:case when (${holidayScore} is null) then 1 else 0 end;;}
+  # dimension: apprenticeshipScore_error_flag {group_label:"Error Flags" type:number sql:case when (${apprenticeshipScore} is null) then 1 else 0 end;;}
+  # dimension: safetyComplianceScore_error_flag {group_label:"Error Flags" type:number sql:case when (${safetyComplianceScore} is null) then 1 else 0 end;;}
+  # dimension: processCompScore_error_flag {group_label:"Error Flags" type:number sql:case when (${processCompScore} is null) then 1 else 0 end;;}
+  # dimension: shrinkageScore_error_flag {group_label:"Error Flags" type:number sql:case when (${shrinkageScore} is null) then 1 else 0 end;;}
+  # dimension: npsScore_error_flag {group_label:"Error Flags" type:number sql:case when (${npsScore} is null) then 1 else 0 end;;}
+  # dimension: anonScore_error_flag {group_label:"Error Flags" type:number sql:case when (${anonScore} is null) then 1 else 0 end;;}
+  # dimension: yoyFrequencyScore_error_flag {group_label:"Error Flags" type:number sql:case when (${yoyFrequencyScore} is null) then 1 else 0 end;;}
+  # dimension: yoyTradeSalesScore_error_flag {group_label:"Error Flags" type:number sql:case when (${yoyTradeSalesScore} is null) then 1 else 0 end;;}
+  # dimension: unitsPerTransactionScore_error_flag {group_label:"Error Flags" type:number sql:case when (${unitsPerTransactionScore} is null) then 1 else 0 end;;}
+  # dimension: labourBudgetScore_error_flag {group_label:"Error Flags" type:number sql:case when (${labourBudgetScore} is null) then 1 else 0 end;;}
+  # dimension: tsClubScore_error_flag {group_label:"Error Flags" type:number sql:case when (${tsClubScore} is null) then 1 else 0 end;;}
+  # dimension: tsClubSales_error_flag {group_label:"Error Flags" type:number sql:case when (${tsClubSales} is null) then 1 else 0 end;;}
+  # dimension: tsClubSalesPercent_error_flag {group_label:"Error Flags" type:number sql:case when (${tsClubSalesPercent} is null) then 1 else 0 end;;}
+  # dimension: contributionVsBudget_error_flag {group_label:"Error Flags" type:number sql:case when (${contributionVsBudget} is null) then 1 else 0 end;;}
+  # dimension: contributionVsBudgetScore_error_flag {group_label:"Error Flags" type:number sql:case when (${contributionVsBudgetScore} is null) then 1 else 0 end;;}
+  # dimension: pillarTotalColleague_error_flag {group_label:"Error Flags" type:number sql:case when (${pillarTotalColleague} is null) then 1 else 0 end;;}
+  # dimension: pillarTotalSimplicityEfficiency_error_flag {group_label:"Error Flags" type:number sql:case when (${pillarTotalSimplicityEfficiency} is null) then 1 else 0 end;;}
+  # dimension: pillarTotalCust_error_flag {group_label:"Error Flags" type:number sql:case when (${pillarTotalCust} is null) then 1 else 0 end;;}
+  # dimension: pillarRankColleague_error_flag {group_label:"Error Flags" type:number sql:case when (${pillarRankColleague} is null) then 1 else 0 end;;}
+  # dimension: pillarRankSimplicityEfficiency_error_flag {group_label:"Error Flags" type:number sql:case when (${pillarRankSimplicityEfficiency} is null) then 1 else 0 end;;}
+  # dimension: pillarRankCust_error_flag {group_label:"Error Flags" type:number sql:case when (${pillarRankCust} is null) then 1 else 0 end;;}
+  # dimension: anonBandingL_error_flag {group_label:"Error Flags" type:number sql:case when (${anonBandingL} is null) then 1 else 0 end;;}
+  # dimension: anonBandingM_error_flag {group_label:"Error Flags" type:number sql:case when (${anonBandingM} is null) then 1 else 0 end;;}
+  # dimension: anonBandingU_error_flag {group_label:"Error Flags" type:number sql:case when (${anonBandingU} is null) then 1 else 0 end;;}
+
+  measure: ty_EBIT_net_sales  {
     view_label: "P&L"
     group_label: "EBIT"
     label: "EBIT/Net Sales TY%"
@@ -185,7 +267,7 @@ view: scorecard_branch_dev_ytd25 {
     sql: safe_divide(${tyEBIT},${netSales})  ;;
   }
 
-  dimension: py_EBIT_net_sales  {
+  measure: py_EBIT_net_sales  {
     view_label: "P&L"
     group_label: "EBIT"
     label: "EBIT/Net Sales PY%"
@@ -194,7 +276,7 @@ view: scorecard_branch_dev_ytd25 {
     sql: safe_divide(${pyEBIT},${pySales})  ;;
   }
 
-  dimension: vs_PY_EBIT  {
+  measure: vs_PY_EBIT  {
     view_label: "P&L"
     group_label: "EBIT"
     label: "vs EBIT PY"
@@ -203,13 +285,13 @@ view: scorecard_branch_dev_ytd25 {
     value_format_name: gbp_0
   }
 
-  dimension: var_PY_Net_Sales  {
+  measure: var_PY_Net_Sales  {
     type: number
     sql: ${netSales} - ${pySales}  ;;
     value_format_name: gbp_0
   }
 
-  dimension: var_PY_Sales_Percent  {
+  measure: var_PY_Sales_Percent  {
     type: number
     sql: safe_divide(${var_PY_Net_Sales},${netSales})  ;;
     value_format_name: percent_1

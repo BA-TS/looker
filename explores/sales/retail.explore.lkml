@@ -304,6 +304,21 @@ explore: retail {
     sql_on: ${transactions.customer_uid}=${customers.customer_uid} ;;
   }
 
+}
 
+explore: +retail {
+  aggregate_table: rollup__scorecard_branch_dev_ytd25_siteUID {
+    query: {
+      dimensions: [scorecard_branch_dev_ytd25.siteUID]
+      measures: [scorecard_branch_dev_ytd25.AOP, scorecard_branch_dev_ytd25.EbitLLY, scorecard_branch_dev_ytd25.EbitLTY, scorecard_branch_dev_ytd25.NPS, scorecard_branch_dev_ytd25.actual_hours, scorecard_branch_dev_ytd25.anonBandingL, scorecard_branch_dev_ytd25.anonBandingM, scorecard_branch_dev_ytd25.anonBandingU, scorecard_branch_dev_ytd25.anonOrders, scorecard_branch_dev_ytd25.anonPercent, scorecard_branch_dev_ytd25.aop_hours, scorecard_branch_dev_ytd25.apprenticeship, scorecard_branch_dev_ytd25.contributionVsBudget, scorecard_branch_dev_ytd25.holidayMonthEntitlement, scorecard_branch_dev_ytd25.holidayTaken, scorecard_branch_dev_ytd25.holidayTakenPercent, scorecard_branch_dev_ytd25.hoursVsAOP, scorecard_branch_dev_ytd25.labourBudgetPercent, scorecard_branch_dev_ytd25.ltoPercent, scorecard_branch_dev_ytd25.netSales, scorecard_branch_dev_ytd25.orders, scorecard_branch_dev_ytd25.ordersExCC, scorecard_branch_dev_ytd25.processCompPercent, scorecard_branch_dev_ytd25.pyEBIT, scorecard_branch_dev_ytd25.pyFrequency, scorecard_branch_dev_ytd25.pyOrders, scorecard_branch_dev_ytd25.pyOrdersExCC, scorecard_branch_dev_ytd25.pySales, scorecard_branch_dev_ytd25.pyTradeSales, scorecard_branch_dev_ytd25.pyUnits, scorecard_branch_dev_ytd25.pyUnitsExCC, scorecard_branch_dev_ytd25.safetyCompliance, scorecard_branch_dev_ytd25.shrinkage, scorecard_branch_dev_ytd25.shrinkagePercent, scorecard_branch_dev_ytd25.totalOrders, scorecard_branch_dev_ytd25.trainingAvailable, scorecard_branch_dev_ytd25.trainingCompleted, scorecard_branch_dev_ytd25.trainingPercentCompleted, scorecard_branch_dev_ytd25.tsClubSales, scorecard_branch_dev_ytd25.tyAOV, scorecard_branch_dev_ytd25.tyEBIT, scorecard_branch_dev_ytd25.tyFrequency, scorecard_branch_dev_ytd25.tyOrders, scorecard_branch_dev_ytd25.tySales]
+      filters: [
+        base.select_date_range: "1 month ago for 1 month",
+        base.select_date_reference: "Transaction"
+      ]
+    }
 
+    materialization: {
+      datagroup_trigger: ts_transactions_datagroup
+    }
+  }
 }
