@@ -385,20 +385,6 @@ view: sites {
     sql: ${TABLE}.salesTier ;;
   }
 
-  dimension: labourTier {
-    group_label: "Site Information"
-    label: "Labour Tier"
-    type: string
-    sql: ${TABLE}.labourTier ;;
-  }
-
-  dimension: Tier2plus_above {
-    group_label: "Site Information"
-    label: "Tier 2+ and Above"
-    type: yesno
-    sql: ${labourTier} in ("Tier 2+", "Tier 3");;
-  }
-
   dimension: Opening_times_Mon_Fri {
     group_label: "Site Information"
     label: "Opening Times Mon - Fri"
@@ -437,12 +423,6 @@ view: sites {
     group_label: "Site Information"
     type: yesno
     sql: ${TABLE}.Is_mature_branch ;;
-  }
-
-  dimension: Is_div1_top_25_FY23_branch_contribution {
-    group_label: "Site Information"
-    type: yesno
-    sql: ${TABLE}.Is_div1_top_25_FY23_branch_contribution ;;
   }
 
   dimension: Is_top_50_FY24_maturesales {

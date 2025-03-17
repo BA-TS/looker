@@ -6,6 +6,7 @@ include: "/views/**/training.view"
 view: scorecard_branch_dev_ytd {
 
   sql_table_name:`toolstation-data-storage.retailReporting.SC_24_YTD_DATA_FINAL_DEV`;;
+  fields_hidden_by_default: yes
 
 
   dimension: month {
@@ -656,13 +657,6 @@ view: scorecard_branch_dev_ytd {
             else 0 end;;
   }
 
-  dimension: labour_T1T2_error_flag  {
-    group_label: "Error Flag"
-    type: number
-    sql: case when
-      ${sites.Is_consistent_branch} = true and ${sites.labourTier} != "Tier 3" and ${labour_T1T2_Percent} is null then 1 else 0 end;;
-  }
-
   dimension: trade_Account_Participation_error_flag  {
     group_label: "Error Flag"
     type: number
@@ -719,14 +713,6 @@ view: scorecard_branch_dev_ytd {
     type: number
     sql: case when ${sites.Is_consistent_branch} = true and ${yoy_average_items} is null  then 1 else 0 end;;
   }
-
-  dimension: labour_T3_error_flag  {
-    group_label: "Error Flag"
-    type: number
-    sql: case when
-      ${sites.Is_consistent_branch} = true and ${sites.labourTier} = "Tier 3" and ${labour_T3_Percent} is null then 1 else 0 end;;
-  }
-
 
   dimension: lto_error_flag {
     group_label: "Error Flag"

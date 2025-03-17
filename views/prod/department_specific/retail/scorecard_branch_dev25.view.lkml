@@ -4,6 +4,7 @@ include: "/views/**/retail/**.view"
 view: scorecard_branch_dev25 {
 
   sql_table_name:`toolstation-data-storage.retailReporting.SC_25_MONTHLY_DATA_DEV`;;
+  fields_hidden_by_default: yes
 
 
   dimension: month {
