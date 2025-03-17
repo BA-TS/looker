@@ -3,8 +3,14 @@ include: "/views/**/retail/**.view"
 
 view: scorecard_branch_dev25 {
 
-  sql_table_name:`toolstation-data-storage.retailReporting.SC_25_MONTHLY_DATA_DEV`;;
-
+  derived_table: {
+    sql:
+      SELECT
+      *
+      FROM `toolstation-data-storage.retailReporting.SC_25_MONTHLY_DATA_DEV`
+      ;;
+    datagroup_trigger: ts_daily_datagroup
+  }
 
   dimension: month {
     type: string

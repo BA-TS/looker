@@ -342,8 +342,6 @@ explore: +retail {
 }
 
 
-# Place in `ts_sales` model
-
 explore: +retail {
   aggregate_table: rollup__scorecard {
     query: {
