@@ -341,7 +341,6 @@ explore: +retail {
   }
 }
 
-
 explore: +retail {
   aggregate_table: rollup__scorecard {
     query: {
@@ -349,7 +348,8 @@ explore: +retail {
       measures: [scorecard_branch_dev25.NPS, scorecard_branch_dev25.anonPercent, scorecard_branch_dev25.apprenticeship, scorecard_branch_dev25.contributionVsBudget, scorecard_branch_dev25.holidayTakenPercent, scorecard_branch_dev25.labourBudgetPercent, scorecard_branch_dev25.ltoPercent, scorecard_branch_dev25.processCompPercent, scorecard_branch_dev25.safetyCompliance, scorecard_branch_dev25.shrinkagePercent, scorecard_branch_dev25.trainingPercentCompleted, scorecard_branch_dev25.tsClubSales, scorecard_branch_dev25.yoyFrequency, scorecard_branch_dev25.yoyTradeSales, scorecard_branch_dev25.yoyUPT, scorecard_branch_dev_ytd25.NPS, scorecard_branch_dev_ytd25.anonPercent, scorecard_branch_dev_ytd25.apprenticeship, scorecard_branch_dev_ytd25.contributionVsBudget, scorecard_branch_dev_ytd25.holidayTakenPercent, scorecard_branch_dev_ytd25.labourBudgetPercent, scorecard_branch_dev_ytd25.ltoPercent, scorecard_branch_dev_ytd25.processCompPercent, scorecard_branch_dev_ytd25.safetyCompliance, scorecard_branch_dev_ytd25.shrinkagePercent, scorecard_branch_dev_ytd25.trainingPercentCompleted, scorecard_branch_dev_ytd25.tsClubSales, scorecard_branch_dev_ytd25.yoyFrequency, scorecard_branch_dev_ytd25.yoyTradeSales, scorecard_branch_dev_ytd25.yoyUPT]
       filters: [
         base.select_date_range: "1 month ago for 1 month",
-        base.select_date_reference: "Transaction"
+        base.select_date_reference: "Transaction",
+        sites.Is_top_50_FY24_maturesales: "Yes"
       ]
     }
 
