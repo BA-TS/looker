@@ -337,7 +337,7 @@ explore: base {
   }
 
   join: catPromo {
-    view_label: "Products"
+    view_label: "Catalogue"
     type: left_outer
     relationship: many_to_many
     sql_on: ${products.product_code} = ${catPromo.Product_Code}  and ${base.date_date} between ${catPromo.live_date} and ${catPromo.end_date};;

@@ -22,6 +22,7 @@ view: extraPromo{
   dimension: product_code {
     type: string
     sql: ${TABLE}.productCode ;;
+    hidden: yes
   }
 
   dimension: end_date {
