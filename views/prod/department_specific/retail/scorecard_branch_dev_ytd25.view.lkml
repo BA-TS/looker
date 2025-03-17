@@ -22,10 +22,11 @@ view: scorecard_branch_dev_ytd25 {
   }
 
   measure: siteUID_count {
-    required_access_grants: [lz_only]
+    # required_access_grants: [lz_only]
     type: count_distinct
     sql: ${siteUID} ;;
     label: "Number of Sites"
+    group_label: "Measures"
   }
 
   dimension: siteUID_month {
@@ -222,12 +223,16 @@ view: scorecard_branch_dev_ytd25 {
 
   measure: var_PY_Net_Sales  {
     type: number
+    view_label: "P&L"
+    group_label: "EBIT"
     sql: ${netSales} - ${pySales}  ;;
     value_format_name: gbp_0
   }
 
   measure: var_PY_Sales_Percent  {
     type: number
+    view_label: "P&L"
+    group_label: "EBIT"
     sql: safe_divide(${var_PY_Net_Sales},${netSales})  ;;
     value_format_name: percent_1
   }

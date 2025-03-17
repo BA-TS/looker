@@ -4,7 +4,6 @@ include: "/views/**/retail/**.view"
 view: scorecard_branch_dev25 {
 
   sql_table_name:`toolstation-data-storage.retailReporting.SC_25_MONTHLY_DATA_DEV`;;
-  fields_hidden_by_default: yes
 
 
   dimension: month {
@@ -22,10 +21,12 @@ view: scorecard_branch_dev25 {
   }
 
   measure: siteUID_count {
+    group_label: "Measures"
     label: "Number of Sites"
     type: count_distinct
     sql: ${siteUID} ;;
-    required_access_grants: [lz_only]
+    # required_access_grants: [lz_only]
+    hidden: yes
   }
 
   dimension: siteUID_month {
