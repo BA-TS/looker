@@ -307,7 +307,6 @@ explore: retail {
 }
 
 explore: +retail {
-  # aggregate_table: rollup__branch_market_share_distance_1km__branch_market_share_distance_2km__branch_market_share_distance_5km__branch_market_share_urban_classification__branch_market_share_urban_classification_average__break_dates_branch_break_notice_date__change_ {
     aggregate_table: rollup__branch_performance {
     query: {
       dimensions: [
@@ -330,6 +329,24 @@ explore: +retail {
         sites.site_uid
       ]
       measures: [availability_branch_ytd.availability, availability_branch_ytd_py.availability, scorecard_branch_dev_ytd25.NPS, scorecard_branch_dev_ytd25.ltoPercent, scorecard_branch_dev_ytd25.netSales, scorecard_branch_dev_ytd25.overallRank, scorecard_branch_dev_ytd25.pillarRankColleague, scorecard_branch_dev_ytd25.pillarRankCust, scorecard_branch_dev_ytd25.pillarRankSimplicityEfficiency, scorecard_branch_dev_ytd25.pyEBIT, scorecard_branch_dev_ytd25.pySales, scorecard_branch_dev_ytd25.py_EBIT_net_sales, scorecard_branch_dev_ytd25.tyEBIT, scorecard_branch_dev_ytd25.ty_EBIT_net_sales, scorecard_branch_dev_ytd25.var_PY_Net_Sales, scorecard_branch_dev_ytd25.var_PY_Sales_Percent, scorecard_branch_dev_ytd25.vs_PY_EBIT, transactions.loyalty_net_sales_percent, transactions.trade_account_net_sales_percent]
+      filters: [
+        base.select_date_range: "1 month ago for 1 month",
+        base.select_date_reference: "Transaction"
+      ]
+    }
+
+    materialization: {
+      datagroup_trigger: ts_transactions_datagroup
+    }
+  }
+}
+
+
+explore: +retail {
+  aggregate_table: rollup_scorecard {
+    query: {
+      dimensions: [apprenticeship.Apprentices_MTH, sites.site_uid]
+      measures: [scorecard_branch_dev25.NPS, scorecard_branch_dev25.anonPercent, scorecard_branch_dev25.contributionVsBudget, scorecard_branch_dev25.holidayTakenPercent, scorecard_branch_dev25.labourBudgetPercent, scorecard_branch_dev25.ltoPercent, scorecard_branch_dev25.processCompPercent, scorecard_branch_dev25.safetyCompliance, scorecard_branch_dev25.shrinkagePercent, scorecard_branch_dev25.trainingPercentCompleted, scorecard_branch_dev25.tsClubSales, scorecard_branch_dev25.yoyFrequency, scorecard_branch_dev25.yoyTradeSales, scorecard_branch_dev25.yoyUPT, scorecard_branch_dev_ytd25.NPS, scorecard_branch_dev_ytd25.anonPercent, scorecard_branch_dev_ytd25.apprenticeship, scorecard_branch_dev_ytd25.contributionVsBudget, scorecard_branch_dev_ytd25.holidayTakenPercent, scorecard_branch_dev_ytd25.labourBudgetPercent, scorecard_branch_dev_ytd25.ltoPercent, scorecard_branch_dev_ytd25.processCompPercent, scorecard_branch_dev_ytd25.safetyCompliance, scorecard_branch_dev_ytd25.shrinkagePercent, scorecard_branch_dev_ytd25.trainingPercentCompleted, scorecard_branch_dev_ytd25.tsClubSales, scorecard_branch_dev_ytd25.yoyFrequency, scorecard_branch_dev_ytd25.yoyTradeSales, scorecard_branch_dev_ytd25.yoyUPT]
       filters: [
         base.select_date_range: "1 month ago for 1 month",
         base.select_date_reference: "Transaction"
