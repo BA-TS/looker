@@ -5,7 +5,7 @@ view: bdm_cumulative_sales {
       column: total_net_sales { field: transactions.total_net_sales }
       column: bdm { field: bdm_ka_customers.bdm }
       derived_column: ytd_net_sales {
-        sql: sum(total_net_sales)over partition by bdm order by calendar_year_month) ;;
+        sql: sum(total_net_sales) over (partition by bdm order by calendar_year_month) ;;
       }
       filters: {
         field: base.select_date_reference
