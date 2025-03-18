@@ -65,7 +65,7 @@ view: scorecard_branch_dev25 {
   dimension: anonBandingU_dim {group_label: "Measures" label: "Anon Banding U" type:number value_format_name:decimal_1 sql:${TABLE}.anonBandingU;;hidden:yes}
   dimension: tyFrequency_dim {group_label: "Measures" label: "Ty Frequency" type:number value_format_name:decimal_1 sql:${TABLE}.tyFrequency;;hidden:yes}
   dimension: pyFrequency_dim {group_label: "Measures" label: "Py Frequency" type:number value_format_name:decimal_1 sql:${TABLE}.pyFrequency;;hidden:yes}
-  dimension: yoyFrequency_dim {group_label: "Measures" label: "YOY Frequency" type:number value_format_name:decimal_1 sql:${TABLE}.yoyFrequency;;hidden:yes}
+  dimension: yoyFrequency_dim {group_label: "Measures" label: "YOY Frequency" type:number value_format_name:percent_1 sql:${TABLE}.yoyFrequency;;hidden:yes}
   dimension: netSales_dim {group_label: "Measures" label: "Net Sales" type:number value_format_name:gbp_0 sql:${TABLE}.netSales;;hidden:yes}
   dimension: pyUnits_dim {group_label: "Measures" label: "Py Units" type:number value_format_name:decimal_1 sql:${TABLE}.pyUnits;;hidden:yes}
   dimension: unitsExCC_dim {group_label: "Measures"  type:number value_format_name:decimal_1 sql:${TABLE}.unitsExCC;;hidden:yes}
@@ -144,7 +144,7 @@ view: scorecard_branch_dev25 {
   measure: anonBandingU {group_label: "Measures" label: "Anon Banding U" type: average value_format_name:decimal_1 sql:${anonBandingU_dim};;}
   measure: tyFrequency {group_label: "Measures" label: "Ty Frequency" type: average value_format_name:decimal_1 sql:${tyFrequency_dim};;}
   measure: pyFrequency {group_label: "Measures" label: "Py Frequency" type: average value_format_name:decimal_1 sql:${pyFrequency_dim};;}
-  measure: yoyFrequency {group_label: "Measures" label: "Frequency" type: average value_format_name:decimal_1 sql:${yoyFrequency_dim};;}
+  measure: yoyFrequency {group_label: "Measures" label: "Frequency" type: average value_format_name:percent_1 sql:${yoyFrequency_dim};;}
   measure: netSales {group_label: "Measures" label: "Net Sales" type: average value_format_name:gbp_0 sql:${netSales_dim};;}
   measure: pyUnits {group_label: "Measures" label: "Py Units" type: average value_format_name:decimal_1 sql:${pyUnits_dim};;}
   measure: unitsExCC {group_label: "Measures"  type: average value_format_name:decimal_1 sql:${unitsExCC_dim};;}
