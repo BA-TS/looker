@@ -53,10 +53,10 @@ view: targets {
     value_format_name: gbp_0
   }
 
-  measure: sales_vs_target_YTD {
-    label: "Sales vs Target (YTD)"
+  measure: sales_vs_target_monthly {
+    label: "Sales vs Target (Monthly)"
     type: number
-    sql: ${transactions.total_net_sales}-${target_YTD};;
+    sql: ${transactions.total_net_sales}-${target_monthly};;
     value_format_name: gbp_0
   }
 }
