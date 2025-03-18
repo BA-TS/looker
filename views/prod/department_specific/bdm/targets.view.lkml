@@ -42,16 +42,21 @@ view: targets {
   }
 
   measure: target_monthly {
-    # type: sum_distinct
     type: sum
     sql: ${target};;
     value_format_name: gbp_0
   }
 
   measure: target_YTD {
-    # type: sum_distinct
     type: sum
     sql: ${target_running};;
+    value_format_name: gbp_0
+  }
+
+  measure: sales_vs_target_YTD {
+    label: "Sales vs Target (YTD)"
+    type: number
+    sql: ${transactions.total_net_sales}-${target_YTD};;
     value_format_name: gbp_0
   }
 }
