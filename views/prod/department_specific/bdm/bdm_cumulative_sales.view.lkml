@@ -27,7 +27,8 @@ view: bdm_cumulative_sales {
   }
 
   dimension: yearMonth {
-    hidden: yes
+    type: string
+    # hidden: yes
     sql: ${TABLE}.calendar_year_month ;;
   }
 
@@ -40,7 +41,7 @@ view: bdm_cumulative_sales {
   dimension: bdm {
     type: string
     sql: ${TABLE}.bdm ;;
-    hidden: yes
+    # hidden: yes
   }
 
   dimension: ytd_net_sales {
