@@ -13,7 +13,7 @@ view: bdm_cumulative_sales {
       }
       filters: {
         field: base.select_date_range
-        value: "2025"
+        value: "this year"
       }
       filters: {
         field: bdm_ka_customers.team
@@ -26,22 +26,27 @@ view: bdm_cumulative_sales {
     }
   }
 
-  dimension: calendar_year_month {
-    label: "Date Year Month (yyyy-mm)"
-    description: ""
+  dimension: yearMonth {
+    hidden: yes
+    sql: ${TABLE}.calendar_year_month ;;
   }
 
   dimension: total_net_sales {
-    label: "Measures Net Sales"
-    description: "Sales value excluding VAT"
     value_format_name: gbp
     type: number
+    sql: ${TABLE}.total_net_sales ;;
   }
 
   dimension: bdm {
-    label: "Teams Name"
-    description: ""
+    type: string
     sql: ${TABLE}.bdm ;;
+    hidden: yes
   }
 
+  dimension: ytd_net_sales {
+    label: "YTD Net Sales"
+    type: number
+    value_format_name: gbp
+    sql: ${TABLE}.bdm ;;
+  }
 }

@@ -181,11 +181,21 @@ explore: bdm {
     sql_on: ${base.date_date}=${incremental_customer.ty_date} and ${ledger.bdm} = ${incremental_customer.bdm} ;;
   }
 
-  join: single_line_transactions {
+  # join: single_line_transactions {
+  #   view_label: "Transactions"
+  #   fields: [single_line_transactions.attachment_rate_percent,single_line_transactions.single_line_percent]
+  #   type:  left_outer
+  #   relationship: many_to_many
+  #   sql_on: ${transactions.parent_order_uid} = ${single_line_transactions.parent_order_uid} ;;
+  # }
+
+  join: bdm_cumulative_sales {
     view_label: "Transactions"
-    fields: [single_line_transactions.attachment_rate_percent,single_line_transactions.single_line_percent]
     type:  left_outer
-    relationship: many_to_many
-    sql_on: ${transactions.parent_order_uid} = ${single_line_transactions.parent_order_uid} ;;
+    relationship: many_to_one
+    sql_on: ${calendar_completed_date.calendar_year_month2}=${bdm_cumulative_sales.yearMonth} and ${bdm_cumulative_sales.bdm} = ${bdm_ka_customers.bdm} ;;
   }
+
+
+
 }
