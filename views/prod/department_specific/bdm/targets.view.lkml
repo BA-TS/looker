@@ -69,8 +69,8 @@ view: targets {
     value_format_name: gbp_0
   }
 
-    measure: total_net_sales_vs_target {
-    label: "Net Sales vs Target"
+  measure: total_net_sales_vs_target {
+    label: "Sales vs Target (YTD)"
     type: sum
     sql: coalesce(${net_sales_vs_target_dim},null) ;;
     value_format_name: gbp_0
