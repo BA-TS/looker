@@ -297,7 +297,7 @@ explore: retail {
 
   join: customers {
     required_access_grants: [lz_only]
-    fields: [customers.customer_uid]
+    fields: [customers.customer_uid,customers.number_of_customers]
     view_label: "Customers"
     type :  left_outer
     relationship: many_to_one
