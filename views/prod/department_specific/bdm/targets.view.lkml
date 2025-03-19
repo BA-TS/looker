@@ -7,7 +7,7 @@ view: targets {
     *
     from `toolstation-data-storage.retailReporting.BDM_RUNNING_TARGET_2025`
     ;;
-    # datagroup_trigger: ts_weekly_datagroup
+    datagroup_trigger: ts_weekly_datagroup
   }
 
   dimension: prim_key {
