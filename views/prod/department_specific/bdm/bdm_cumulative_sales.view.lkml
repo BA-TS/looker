@@ -1,12 +1,16 @@
+# include: "bdm.explore.lkml"
+
 view: bdm_cumulative_sales {
+
   derived_table: {
     explore_source: bdm {
-      column: calendar_year_month { field: calendar_completed_date.calendar_year_month }
+      # bind_all_filters: yes
+      column: ty_date { field: calendar_completed_date.date }
       column: total_net_sales { field: transactions.total_net_sales }
       column: bdm { field: bdm_ka_customers.bdm }
-      derived_column: ytd_net_sales {
-        sql: sum(total_net_sales) over (partition by bdm order by calendar_year_month) ;;
-      }
+      # derived_column: ytd_net_sales {
+      #   sql: sum(total_net_sales) over (partition by bdm order by calendar_year_month) ;;
+      # }
       filters: {
         field: base.select_date_reference
         value: "Transaction"
@@ -15,27 +19,26 @@ view: bdm_cumulative_sales {
         field: base.select_date_range
         value: "this year"
       }
-      filters: {
-        field: bdm_ka_customers.team
-        value: ""
-      }
-      filters: {
-        field: bdm_ka_customers.bdm
-        value: "-NULL"
-      }
     }
   }
 
-  dimension: yearMonth {
+  dimension: prim_key {
+    type: string
+    sql: concat(${bdm},${ty_date}) ;;
+    hidden: yes
+    primary_key: yes
+  }
+
+  dimension: ty_date {
     type: string
     # hidden: yes
-    sql: ${TABLE}.calendar_year_month ;;
+    sql: ${TABLE}.ty_date ;;
   }
 
   dimension: total_net_sales {
     value_format_name: gbp
-    type: number
-    sql: ${TABLE}.total_net_sales ;;
+    type: date
+    sql: ${TABLE}.ty_date ;;
   }
 
   dimension: bdm {
