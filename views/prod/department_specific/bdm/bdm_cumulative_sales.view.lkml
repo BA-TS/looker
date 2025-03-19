@@ -5,6 +5,7 @@ view: bdm_cumulative_sales {
       column: calendar_year_month { field: calendar_completed_date.calendar_year_month }
       column: total_net_sales { field: transactions.total_net_sales }
       column: bdm { field: bdm_ka_customers.bdm }
+      column: target_YTD { field: targets.target_YTD }
       derived_column: ytd_net_sales {
         sql: sum(total_net_sales) over (partition by bdm order by calendar_year_month) ;;
       }
@@ -38,6 +39,12 @@ view: bdm_cumulative_sales {
     type: string
     sql: ${TABLE}.bdm ;;
     hidden: yes
+  }
+
+  dimension: target_YTD {
+    value_format_name: gbp_0
+    sql: ${TABLE}.target_YTD ;;
+    type: number
   }
 
   dimension: ytd_net_sales {

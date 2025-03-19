@@ -41,7 +41,7 @@ view: targets {
     hidden: yes
   }
 
-  dimension: target_vs_net_sales_dim {
+  dimension: net_sales_vs_target_dim {
     type: number
     value_format_name: gbp
     hidden: yes
@@ -58,6 +58,8 @@ view: targets {
     type: sum
     sql: ${target_running};;
     value_format_name: gbp_0
+    hidden: yes
+
   }
 
   measure: sales_vs_target_monthly {
@@ -67,10 +69,10 @@ view: targets {
     value_format_name: gbp_0
   }
 
-    measure: total_target_vs_net_sales {
+    measure: total_net_sales_vs_target {
     label: "Net Sales vs Target"
     type: sum
-    sql: coalesce(${target_vs_net_sales_dim},null) ;;
+    sql: coalesce(${net_sales_vs_target_dim},null) ;;
     value_format_name: gbp_0
   }
 
