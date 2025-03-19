@@ -1,16 +1,15 @@
-# include: "bdm.explore.lkml"
-
 view: bdm_cumulative_sales {
 
   derived_table: {
     explore_source: bdm {
       # bind_all_filters: yes
-      column: ty_date { field: calendar_completed_date.date }
+      # column: ty_date { field: calendar_completed_date.date }
+      column: calendar_year_month { field: calendar_completed_date.calendar_year_month }
       column: total_net_sales { field: transactions.total_net_sales }
       column: bdm { field: bdm_ka_customers.bdm }
-      # derived_column: ytd_net_sales {
-      #   sql: sum(total_net_sales) over (partition by bdm order by calendar_year_month) ;;
-      # }
+      derived_column: ytd_net_sales {
+        sql: sum(total_net_sales) over (partition by bdm order by calendar_year_month) ;;
+      }
       filters: {
         field: base.select_date_reference
         value: "Transaction"
@@ -22,23 +21,30 @@ view: bdm_cumulative_sales {
     }
   }
 
-  dimension: prim_key {
-    type: string
-    sql: concat(${bdm},${ty_date}) ;;
-    hidden: yes
-    primary_key: yes
-  }
+  # dimension: prim_key {
+  #   type: string
+  #   sql: concat(${bdm},cast(${ty_date} as string)) ;;
+  #   hidden: yes
+  #   primary_key: yes
+  # }
 
-  dimension: ty_date {
+  # dimension: ty_date {
+  #   type: date
+  #   # hidden: yes
+  #   sql: ${TABLE}.ty_date ;;
+  # }
+
+  dimension: ty_calendar_year_month {
+    label: "Date Year Month (yyyy-mm)"
+    description: ""
     type: string
-    # hidden: yes
-    sql: ${TABLE}.ty_date ;;
+    sql: ${TABLE}.calendar_year_month ;;
   }
 
   dimension: total_net_sales {
     value_format_name: gbp
-    type: date
-    sql: ${TABLE}.ty_date ;;
+    type: number
+    sql: ${TABLE}.total_net_sales ;;
   }
 
   dimension: bdm {
@@ -51,6 +57,6 @@ view: bdm_cumulative_sales {
     label: "YTD Net Sales"
     type: number
     value_format_name: gbp
-    sql: ${TABLE}.bdm ;;
+    sql: ${TABLE}.ytd_net_sales ;;
   }
 }

@@ -193,6 +193,6 @@ explore: bdm {
     view_label: "Transactions"
     type:  left_outer
     relationship: many_to_one
-    sql_on: ${base.date_date}=${bdm_cumulative_sales.ty_date} and ${bdm_cumulative_sales.bdm} = ${bdm_ka_customers.bdm} ;;
+    sql_on: ${base.date_date}=${bdm_cumulative_sales.ty_calendar_year_month} and ${bdm_cumulative_sales.bdm} = ${bdm_ka_customers.bdm} ;;
   }
 }
