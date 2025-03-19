@@ -2,8 +2,6 @@ view: bdm_cumulative_sales {
 
   derived_table: {
     explore_source: bdm {
-      # bind_all_filters: yes
-      # column: ty_date { field: calendar_completed_date.date }
       column: calendar_year_month { field: calendar_completed_date.calendar_year_month }
       column: total_net_sales { field: transactions.total_net_sales }
       column: bdm { field: bdm_ka_customers.bdm }
@@ -21,36 +19,25 @@ view: bdm_cumulative_sales {
     }
   }
 
-  # dimension: prim_key {
-  #   type: string
-  #   sql: concat(${bdm},cast(${ty_date} as string)) ;;
-  #   hidden: yes
-  #   primary_key: yes
-  # }
-
-  # dimension: ty_date {
-  #   type: date
-  #   # hidden: yes
-  #   sql: ${TABLE}.ty_date ;;
-  # }
-
   dimension: ty_calendar_year_month {
     label: "Date Year Month (yyyy-mm)"
     description: ""
     type: string
-    sql: ${TABLE}.calendar_year_month ;;
+    sql: cast(${TABLE}.calendar_year_month as string);;
+    hidden: yes
   }
 
   dimension: total_net_sales {
     value_format_name: gbp
     type: number
     sql: ${TABLE}.total_net_sales ;;
+    hidden: yes
   }
 
   dimension: bdm {
     type: string
     sql: ${TABLE}.bdm ;;
-    # hidden: yes
+    hidden: yes
   }
 
   dimension: ytd_net_sales {
