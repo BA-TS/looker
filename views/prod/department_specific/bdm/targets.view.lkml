@@ -41,6 +41,13 @@ view: targets {
     hidden: yes
   }
 
+  dimension: target_vs_net_sales_dim {
+    type: number
+    value_format_name: gbp
+    hidden: yes
+    sql: ${bdm_cumulative_sales.ytd_net_sales} - ${target_running} ;;
+  }
+
   measure: target_monthly {
     type: sum
     sql: ${target};;
@@ -59,4 +66,12 @@ view: targets {
     sql: ${transactions.total_net_sales}-${target_monthly};;
     value_format_name: gbp_0
   }
+
+    measure: total_target_vs_net_sales {
+    label: "Net Sales vs Target"
+    type: sum
+    sql: coalesce(${target_vs_net_sales_dim},null) ;;
+    value_format_name: gbp_0
+  }
+
 }
