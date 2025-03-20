@@ -11,9 +11,16 @@ view: yoy_comparison {
       }
       filters: {
         field: base.select_date_range
-        value: ""
+        value: "2019/01/01 to 2031/08/14"
       }
     }
+  }
+
+  dimension: prim_key {
+    type: string
+    sql: concat(${site_uid},${py_date}) ;;
+    hidden: yes
+    primary_key: yes
   }
 
   dimension: site_uid {
@@ -32,6 +39,7 @@ view: yoy_comparison {
     label: "Net ASP (PY)"
     type: number
     sql: ${TABLE}.aov_price ;;
+    value_format_name: gbp
   }
 
   dimension: py_date {
