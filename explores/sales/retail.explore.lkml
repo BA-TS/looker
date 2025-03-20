@@ -309,9 +309,13 @@ explore: retail {
     view_label: "YOY Comparison"
     type :  left_outer
     relationship: many_to_one
+    # sql_on: ${yoy_comparison.site_uid}=${sites.site_uid}
+    # and  ${base.base_date_date}=${yoy_comparison.ty_date}
+    # ;;
     sql_on: ${yoy_comparison.site_uid}=${sites.site_uid}
-    and  ${base.base_date_date}=${yoy_comparison.ty_date}
+    and  ${yoy_comparison.calendar_year_month2}=${calendar_completed_date.calendar_year_month2}
     ;;
+
   }
 
   join: yoy_comparison_py {
@@ -319,9 +323,11 @@ explore: retail {
     view_label: "YOY Comparison PY"
     type :  left_outer
     relationship: many_to_one
+    # sql_on: ${yoy_comparison_py.site_uid}=${sites.site_uid}
+    #       and  ${base.base_date_date}=${yoy_comparison_py.ty_date}
+    #       ;;
     sql_on: ${yoy_comparison_py.site_uid}=${sites.site_uid}
-          and  ${base.base_date_date}=${yoy_comparison_py.ty_date}
-          ;;
+    and  ${yoy_comparison_py.calendar_year_month2}=${calendar_completed_date.calendar_year_month2};;
   }
 
 }

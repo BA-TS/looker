@@ -5,6 +5,7 @@ view: yoy_comparison_py {
       column: number_of_customers { field: customers.number_of_customers }
       column: aov_price { field: transactions.aov_price }
       column: py_date { field: calendar_completed_date.date }
+      column: py_calendar_year_month2 { field: calendar_completed_date.today_calendar_year_month2 }
       filters: {
         field: base.select_date_reference
         value: "Transaction"
@@ -18,7 +19,7 @@ view: yoy_comparison_py {
 
   dimension: prim_key {
     type: string
-    sql: concat(${site_uid},${py_date}) ;;
+    sql: concat(${site_uid},${py_calendar_year_month2}) ;;
     hidden: yes
     primary_key: yes
   }
@@ -47,17 +48,28 @@ view: yoy_comparison_py {
     value_format_name: gbp
   }
 
-  dimension: py_date {
-    label: "PY - Date "
-    type: date
-    sql: date(${TABLE}.py_date) ;;
-    # hidden: yes
+  dimension: py_calendar_year_month2 {
+    type: number
+    sql: ${TABLE}.py_calendar_year_month2 ;;
   }
 
-  dimension: ty_date {
-    label: "TY - Date "
-    type: date
-    sql: date_add(${py_date}, interval 1 year) ;;
-    # hidden: yes
+  dimension: calendar_year_month2 {
+    type: number
+    sql: ${py_calendar_year_month2}+100 ;;
   }
+
+
+  # dimension: py_date {
+  #   label: "PY - Date "
+  #   type: date
+  #   sql: date(${TABLE}.py_date) ;;
+  #   # hidden: yes
+  # }
+
+  # dimension: ty_date {
+  #   label: "TY - Date "
+  #   type: date
+  #   sql: date_add(${py_date}, interval 1 year) ;;
+  #   # hidden: yes
+  # }
 }
