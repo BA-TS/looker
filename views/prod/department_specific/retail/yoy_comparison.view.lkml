@@ -27,6 +27,7 @@ view: yoy_comparison {
   dimension: number_of_customers {
     type: number
     sql: ${TABLE}.number_of_customers ;;
+    hidden: yes
   }
 
   dimension: site_uid {
@@ -59,6 +60,7 @@ view: yoy_comparison {
     type: number
     sql: ${TABLE}.aov_price ;;
     value_format_name: gbp
+    hidden: yes
   }
 
   dimension: aov_price_yoy {
