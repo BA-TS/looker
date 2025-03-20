@@ -316,7 +316,7 @@ explore: retail {
 
   join: yoy_comparison_py {
     required_access_grants: [lz_only]
-    view_label: "YOY Comparison"
+    view_label: "YOY Comparison PY"
     type :  left_outer
     relationship: many_to_one
     sql_on: ${yoy_comparison_py.site_uid}=${sites.site_uid}
