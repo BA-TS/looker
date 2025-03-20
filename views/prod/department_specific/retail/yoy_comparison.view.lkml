@@ -67,6 +67,6 @@ view: yoy_comparison {
     type: number
     value_format_name: percent_1
     label: "ASP YOY"
-    sql: safe_divide((${aov_price}-${yoy_comparison_py.aov_price},${yoy_comparison_py.aov_price}) ;;
+    sql: safe_divide(${aov_price}-${yoy_comparison_py.aov_price},${yoy_comparison_py.aov_price}) ;;
   }
 }
