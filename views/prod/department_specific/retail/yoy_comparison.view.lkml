@@ -4,8 +4,8 @@ view: yoy_comparison {
       column: site_uid { field: sites.site_uid }
       column: number_of_customers { field: customers.number_of_customers }
       column: aov_price { field: transactions.aov_price }
-      # column: py_date { field: calendar_completed_date.date }
-      column: calendar_year_month2 { field: calendar_completed_date.today_calendar_year_month2 }
+      column: calendar_year { field: calendar_completed_date.calendar_year }
+      column: month_in_year { field: calendar_completed_date.month_in_year }
       filters: {
         field: base.select_date_reference
         value: "Transaction"
@@ -19,17 +19,10 @@ view: yoy_comparison {
 
   dimension: prim_key {
     type: string
-    sql: concat(${site_uid},${calendar_year_month2}) ;;
+    sql: concat(${site_uid},${month_in_year},${calendar_year}) ;;
     hidden: yes
     primary_key: yes
   }
-
-  # dimension: ty_date {
-  #   label: "TY - Date "
-  #   type: date
-  #   sql: date(${TABLE}.py_date) ;;
-  #   # hidden: yes
-  # }
 
   dimension: number_of_customers {
     type: number
@@ -42,15 +35,23 @@ view: yoy_comparison {
     hidden: yes
   }
 
-  dimension: calendar_year_month2 {
+  dimension: calendar_year {
     type: number
-    sql: ${TABLE}.calendar_year_month2 ;;
+    sql: ${TABLE}.calendar_year ;;
+    hidden: yes
+  }
+
+  dimension: month_in_year {
+    type: number
+    sql: ${TABLE}.month_in_year ;;
+    hidden: yes
   }
 
   dimension: number_of_customers_yoy {
     type: number
     value_format_name: percent_1
-    sql: safe_divide((${number_of_customers}-${yoy_comparison_py.number_of_customers},${yoy_comparison_py.number_of_customers}) ;;
+    label: "Number of Customers YOY"
+    sql: safe_divide(${number_of_customers}-${yoy_comparison_py.number_of_customers},${yoy_comparison_py.number_of_customers}) ;;
   }
 
   dimension: aov_price {
@@ -63,7 +64,7 @@ view: yoy_comparison {
   dimension: aov_price_yoy {
     type: number
     value_format_name: percent_1
+    label: "ASP YOY"
     sql: safe_divide((${aov_price}-${yoy_comparison_py.aov_price},${yoy_comparison_py.aov_price}) ;;
   }
-
 }

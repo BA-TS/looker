@@ -1,11 +1,14 @@
 view: yoy_comparison_py {
+  fields_hidden_by_default: yes
+
   derived_table: {
     explore_source: retail {
       column: site_uid { field: sites.site_uid }
       column: number_of_customers { field: customers.number_of_customers }
       column: aov_price { field: transactions.aov_price }
-      column: py_date { field: calendar_completed_date.date }
-      column: py_calendar_year_month2 { field: calendar_completed_date.today_calendar_year_month2 }
+      column: py_calendar_year { field: calendar_completed_date.calendar_year }
+      column: month_in_year { field: calendar_completed_date.month_in_year }
+
       filters: {
         field: base.select_date_reference
         value: "Transaction"
@@ -19,7 +22,7 @@ view: yoy_comparison_py {
 
   dimension: prim_key {
     type: string
-    sql: concat(${site_uid},${py_calendar_year_month2}) ;;
+    sql: concat(${site_uid},${month_in_year},${calendar_year}) ;;
     hidden: yes
     primary_key: yes
   }
@@ -48,28 +51,19 @@ view: yoy_comparison_py {
     value_format_name: gbp
   }
 
-  dimension: py_calendar_year_month2 {
+  dimension: py_calendar_year {
     type: number
-    sql: ${TABLE}.py_calendar_year_month2 ;;
+    sql: ${TABLE}.py_calendar_year ;;
   }
 
-  dimension: calendar_year_month2 {
+  dimension: calendar_year {
     type: number
-    sql: ${py_calendar_year_month2}+100 ;;
+    sql: ${py_calendar_year}+1;;
   }
 
+  dimension: month_in_year {
+    type: number
+    sql: ${TABLE}.month_in_year ;;
+  }
 
-  # dimension: py_date {
-  #   label: "PY - Date "
-  #   type: date
-  #   sql: date(${TABLE}.py_date) ;;
-  #   # hidden: yes
-  # }
-
-  # dimension: ty_date {
-  #   label: "TY - Date "
-  #   type: date
-  #   sql: date_add(${py_date}, interval 1 year) ;;
-  #   # hidden: yes
-  # }
 }
