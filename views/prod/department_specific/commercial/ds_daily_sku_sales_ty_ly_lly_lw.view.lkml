@@ -10,6 +10,8 @@ view: ds_daily_sku_sales_ty_ly_lly_lw {
      datagroup_trigger: ts_daily_datagroup
   }
 
+  fields_hidden_by_default: yes
+
   dimension: P_K {
     description: "Primary Key"
     type: string
