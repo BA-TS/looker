@@ -258,6 +258,13 @@ explore: retail {
     sql_on: ${retail_trading_profit_ytd.site_uid}=${sites.site_uid};;
   }
 
+  join:pl_sales_total_ytd {
+    view_label: "P&L"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${pl_sales_total_ytd.site_uid}=${sites.site_uid};;
+  }
+
   join:break_dates_branch {
     view_label: "Break Dates"
     type: left_outer
@@ -303,6 +310,8 @@ explore: retail {
     relationship: many_to_one
     sql_on: ${transactions.customer_uid}=${customers.customer_uid} ;;
   }
+
+
 
   join: yoy_comparison {
     required_access_grants: [lz_only]
