@@ -458,6 +458,14 @@ explore: base {
     and ${base.base_date_date} BETWEEN ${retail_price_history.price_start_date} AND ${retail_price_history.price_end_date};;
   }
 
+  join: price_change_history {
+    type: left_outer
+    view_label: "Products"
+    relationship: many_to_one
+    sql_on: ${products.product_code} = ${price_change_history.product_code}
+      and ${base.base_date_date} BETWEEN ${price_change_history.new_start_date} AND ${price_change_history.new_end_date};;
+  }
+
   join: currentRetailPrice {
     type: left_outer
     view_label: "Products"
@@ -519,8 +527,6 @@ explore: base {
     sql_on: ${trade_customers.trade_type} = ${top_trade_types_customers.Trade_type};;
     sql_where: ${top_trade_types_customers.brand_rank_top_brands_bigquery_4} != "Other" ;;
   }
-
-
 
   join: brand_test {
     view_label: "Sales by Brand"
@@ -614,9 +620,6 @@ explore: base {
     relationship: many_to_one
     sql_on: ${customers.customer_uid} = ${ds_assumed_trade_history_new_lake.customer_uid} ;;
   }
-
-  # sql_on: ${customers.customer_uid} = ${ds_assumed_trade_history_new_lake.customer_uid}
-  # and  ${ds_assumed_trade_history_new_lake.Score_End_Date}=${calendar_completed_date.calendar_year_month2};;
 
   join: assumed_trade_measures {
     required_access_grants:[tp_testing]
