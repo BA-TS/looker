@@ -36,17 +36,20 @@ view: price_change_history {
     sql: ${TABLE}.productcode ;;
   }
 
-  dimension: price_flag_level1 {
+  dimension: price_flag_level_1 {
+    group_label: "Price Change History"
     type: string
     sql: ${TABLE}.PriceFlagLevel1;;
   }
 
-  dimension: price_flag_level2 {
+  dimension: price_flag_level_2 {
+    group_label: "Price Change History"
     type: string
     sql: ${TABLE}.PriceFlagLevel2;;
   }
 
   dimension: KVIFlag {
+    group_label: "Price Change History"
     label: "KVI Flag"
     type: string
     sql: ${TABLE}.KVIFlag;;

@@ -462,6 +462,7 @@ explore: base {
     type: left_outer
     view_label: "Products"
     relationship: many_to_one
+    required_access_grants: [pricing]
     sql_on: ${products.product_code} = ${price_change_history.product_code}
       and ${base.base_date_date} BETWEEN ${price_change_history.new_start_date} AND ${price_change_history.new_end_date};;
   }
@@ -667,7 +668,6 @@ explore: base {
     relationship: many_to_one
     sql_on: ${base.date_date} = ${ecrebobudget_total.date_date};;
     fields: [ecrebobudget_total.totalBudget]
-    #sql_where: ${ecrebobudget_total.campaign_group} in ("Total") ;;
   }
 
   join: scorecard_trade_customers_filter {

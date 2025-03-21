@@ -94,6 +94,11 @@ access_grant: ecrebo {
   allowed_values: ["Y"]
 }
 
+access_grant: pricing {
+  user_attribute: pricing
+  allowed_values: ["Y"]
+}
+
 
 
 
