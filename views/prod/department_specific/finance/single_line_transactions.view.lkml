@@ -51,6 +51,7 @@ view: single_line_transactions {
 
   dimension: attached_product_count {
     label: "Number of Attached Products"
+    group_label: "Attachment"
     view_label: "Products"
     type: number
     sql: ${TABLE}.attached_product_count ;;
@@ -58,6 +59,7 @@ view: single_line_transactions {
 
   dimension: attached_product_count_tier {
     label: "Number of Attached Products Tier"
+    group_label: "Attachment"
     view_label: "Products"
     type: tier
     style: integer
