@@ -7,7 +7,7 @@ view: rfv_monthly_final {
   dimension: prim_key {
     group_label:"RFV Monthly Final History"
     type:string
-    sql:${customerUID}||${run_date});;
+    sql:${customerUID}||${run_date};;
     primary_key: yes
     hidden:yes
   }
