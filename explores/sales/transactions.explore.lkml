@@ -84,6 +84,7 @@ include: "/views/**/bdm_ka_customers.view"
 include: "/views/**/bdm_ka_customers2.view"
 include: "/views/**/bdm_ka_customers_combined.view"
 include: "/views/**/behaviour_categories_monthly.view"
+include: "/views/**/rfv_monthly_final.view"
 
 explore: base {
   label: "Transactions"
@@ -685,12 +686,21 @@ explore: base {
     sql_on: ${customers.customer_uid}=${hyperfinity_customer_flag.customer_uid} ;;
   }
 
+# Hyperfinity------------
   join: behaviour_categories_monthly {
     view_label: "Customers"
     required_access_grants: [can_use_customer_information]
     type :  left_outer
     relationship: many_to_one
     sql_on: ${customers.customer_uid}=${behaviour_categories_monthly.customerUID} ;;
+  }
+
+  join: rfv_monthly_final {
+    view_label: "Customers"
+    required_access_grants: [can_use_customer_information]
+    type :  left_outer
+    relationship: many_to_one
+    sql_on: ${customers.customer_uid}=${rfv_monthly_final.customerUID} ;;
   }
 
   join: addresses {
