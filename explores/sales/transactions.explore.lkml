@@ -699,7 +699,9 @@ explore: base {
     required_access_grants: [can_use_customer_information]
     type :  left_outer
     relationship: one_to_one
-    sql_on: ${behaviour_categories_monthly_most_recent.prim_key}=${behaviour_categories_monthly.prim_key} ;;
+    sql_on: ${behaviour_categories_monthly_most_recent.prim_key}=${behaviour_categories_monthly.prim_key}
+    and  ${customers.customer_uid}=${behaviour_categories_monthly_most_recent.customerUID}
+    ;;
   }
 
   join: rfv_monthly_final {
@@ -708,6 +710,7 @@ explore: base {
     type :  left_outer
     relationship: one_to_one
     sql_on:${behaviour_categories_monthly.prim_key} = ${rfv_monthly_final.prim_key}
+    and ${customers.customer_uid}=${rfv_monthly_final.customerUID}
       ;;
   }
 
@@ -717,6 +720,7 @@ explore: base {
     type :  left_outer
     relationship: one_to_one
     sql_on:${rfv_monthly_final_most_recent.prim_key} = ${rfv_monthly_final.prim_key}
+    and ${customers.customer_uid}=${rfv_monthly_final_most_recent.customerUID}
     ;;
   }
 

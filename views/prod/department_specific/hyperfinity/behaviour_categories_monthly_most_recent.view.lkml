@@ -7,7 +7,7 @@ view: behaviour_categories_monthly_most_recent {
         group by all
       )
 
-      select h.*
+      select distinct h.*
       from `toolstation-data-storage.Hyperfinity.BEHAVIOUR_CATEGORIES_MONTHLY` h
       inner join most_recent_run r
       on h.UCU_UID = r.UCU_UID
