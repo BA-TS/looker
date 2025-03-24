@@ -690,7 +690,7 @@ explore: base {
     view_label: "Hyperfinity"
     required_access_grants: [can_use_customer_information]
     type :  left_outer
-    relationship: many_to_many
+    relationship: one_to_many
     sql_on: ${customers.customer_uid}=${behaviour_categories_monthly.customerUID} ;;
   }
 
@@ -699,8 +699,7 @@ explore: base {
     required_access_grants: [can_use_customer_information]
     type :  left_outer
     relationship: one_to_one
-    sql_on: ${behaviour_categories_monthly_most_recent.prim_key}=${behaviour_categories_monthly.prim_key}
-    and  ${customers.customer_uid}=${behaviour_categories_monthly_most_recent.customerUID}
+    sql_on: ${customers.customer_uid}=${behaviour_categories_monthly_most_recent.customerUID}
     ;;
   }
 
@@ -719,7 +718,7 @@ explore: base {
     required_access_grants: [can_use_customer_information]
     type :  left_outer
     relationship: one_to_one
-    sql_on:${rfv_monthly_final_most_recent.prim_key} = ${rfv_monthly_final.prim_key}
+    sql_on:  ${customers.customer_uid}=${rfv_monthly_final_most_recent.customerUID}
     and ${customers.customer_uid}=${rfv_monthly_final_most_recent.customerUID}
     ;;
   }
