@@ -4,6 +4,14 @@ view: rfv_monthly_final {
       select * from `toolstation-data-storage.Hyperfinity.RFV_MONTHLY_FINAL`;;
   }
 
+  dimension: prim_key {
+    group_label:"RFV Monthly Final"
+    type:string
+    sql:concatenate(${customerUID},${run_date};;
+    primary_key: yes
+    hidden:yes
+  }
+
   dimension: customerUID {
     group_label:"RFV Monthly Final"
     type:string
