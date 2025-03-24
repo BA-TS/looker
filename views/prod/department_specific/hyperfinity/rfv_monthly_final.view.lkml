@@ -23,6 +23,7 @@ view: rfv_monthly_final {
     group_label:"RFV Monthly Final History"
     type:string
     sql:${TABLE}.TRADE_FLAG;;
+    hidden: yes
   }
 
   dimension: n_orders {
