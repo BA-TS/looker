@@ -7,7 +7,7 @@ view: rfv_monthly_final {
   dimension: prim_key {
     group_label:"RFV Monthly Final History"
     type:string
-    sql:${customerUID}||${run_date};;
+    sql:${customerUID}||${run_date});;
     primary_key: yes
     hidden:yes
   }
@@ -30,12 +30,14 @@ view: rfv_monthly_final {
     group_label:"RFV Monthly Final History"
     type:number
     sql:${TABLE}.N_ORDERS;;
+    hidden: yes
   }
 
   dimension: units {
     group_label:"RFV Monthly Final History"
     type:number
     sql:${TABLE}.UNITS;;
+    hidden: yes
   }
 
   dimension: net_sales {
@@ -43,12 +45,14 @@ view: rfv_monthly_final {
     type:number
     sql:${TABLE}.NETSALES;;
     value_format_name: gbp_0
+    hidden: yes
   }
 
   dimension: days_since_last_order {
     group_label:"RFV Monthly Final History"
     type:number
     sql:${TABLE}.DAYS_SINCE_LAST_ORDER;;
+    hidden: yes
   }
 
   dimension: spend_per_order {
@@ -56,6 +60,7 @@ view: rfv_monthly_final {
     type:number
     sql:${TABLE}.SPEND_PER_ORDER;;
     value_format_name: gbp_0
+    hidden: yes
   }
 
   dimension: rfv_group {
