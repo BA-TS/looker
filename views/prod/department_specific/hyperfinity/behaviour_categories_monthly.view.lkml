@@ -8,7 +8,7 @@ view: behaviour_categories_monthly {
   dimension: prim_key {
     group_label:"RFV Monthly Final"
     type:string
-    sql:concatenate(${customerUID},${run_date};;
+    sql:${customerUID}||${run_date};;
     primary_key: yes
     hidden:yes
   }
