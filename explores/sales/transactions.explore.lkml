@@ -83,8 +83,7 @@ include: "/views/**/ecrebo_discounts.view"
 include: "/views/**/bdm_ka_customers.view"
 include: "/views/**/bdm_ka_customers2.view"
 include: "/views/**/bdm_ka_customers_combined.view"
-include: "/views/**/behaviour_categories_monthly.view"
-include: "/views/**/rfv_monthly_final.view"
+include:"/views/prod/department_specific/hyperfinity/*"
 
 explore: base {
   label: "Transactions"
@@ -695,12 +694,29 @@ explore: base {
     sql_on: ${customers.customer_uid}=${behaviour_categories_monthly.customerUID} ;;
   }
 
+  join: behaviour_categories_monthly_most_recent {
+    view_label: "Hyperfinity"
+    required_access_grants: [can_use_customer_information]
+    type :  left_outer
+    relationship: one_to_one
+    sql_on: ${behaviour_categories_monthly_most_recent.prim_key}=${behaviour_categories_monthly.prim_key} ;;
+  }
+
   join: rfv_monthly_final {
     view_label: "Hyperfinity"
     required_access_grants: [can_use_customer_information]
     type :  left_outer
     relationship: one_to_one
     sql_on:${behaviour_categories_monthly.prim_key} = ${rfv_monthly_final.prim_key}
+      ;;
+  }
+
+  join: rfv_monthly_final_most_recent {
+    view_label: "Hyperfinity"
+    required_access_grants: [can_use_customer_information]
+    type :  left_outer
+    relationship: one_to_one
+    sql_on:${rfv_monthly_final_most_recent.prim_key} = ${rfv_monthly_final.prim_key}
     ;;
   }
 
