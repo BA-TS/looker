@@ -700,7 +700,9 @@ explore: base {
     required_access_grants: [can_use_customer_information]
     type :  left_outer
     relationship: many_to_one
-    sql_on: ${customers.customer_uid}=${rfv_monthly_final.customerUID} ;;
+    sql_on: ${customers.customer_uid}=${rfv_monthly_final.customerUID}
+    and ${behaviour_categories_monthly.prim_key} = ${rfv_monthly_final.prim_key}
+    ;;
   }
 
   join: addresses {
