@@ -688,7 +688,7 @@ explore: base {
 
 # Hyperfinity------------
   join: behaviour_categories_monthly {
-    view_label: "Customers"
+    view_label: "Hyperfinity"
     required_access_grants: [can_use_customer_information]
     type :  left_outer
     relationship: many_to_one
@@ -696,7 +696,7 @@ explore: base {
   }
 
   join: rfv_monthly_final {
-    view_label: "Customers"
+    view_label: "Hyperfinity"
     required_access_grants: [can_use_customer_information]
     type :  left_outer
     relationship: many_to_one
