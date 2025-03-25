@@ -83,6 +83,7 @@ include: "/views/**/ecrebo_discounts.view"
 include: "/views/**/bdm_ka_customers.view"
 include: "/views/**/bdm_ka_customers2.view"
 include: "/views/**/bdm_ka_customers_combined.view"
+include: "/views/**/department_group.view"
 include:"/views/prod/department_specific/hyperfinity/*"
 
 explore: base {
@@ -209,6 +210,13 @@ explore: base {
         {% else %}
           ${transactions.product_uid}=${products.product_uid}
         {% endif %};;
+  }
+
+  join: department_group {
+    view_label: "Products"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${products.department}=${department_group.department} ;;
   }
 
   join: product_first_sale_date {
