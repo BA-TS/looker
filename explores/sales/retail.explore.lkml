@@ -293,6 +293,20 @@ explore: retail {
     sql_on: ${cannibalisation_2024.site_uid}=${sites.site_uid};;
   }
 
+  join:sfx_impact {
+    view_label: "TS SFX Impact"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${sfx_impact.site_uid}=${sites.site_uid};;
+  }
+
+  join:ts_impact {
+    view_label: "TS SFX Impact"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${ts_impact.site_uid}=${sites.site_uid};;
+  }
+
   join: customer_loyalty {
     view_label: "Customers"
     required_access_grants: [can_use_customer_information2]
