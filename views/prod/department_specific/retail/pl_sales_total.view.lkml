@@ -1,14 +1,14 @@
-view: retail_trading_profit_ytd {
+view: pl_sales_total_ytd {
 
   derived_table: {
     sql:
     select
-    siteUID,TY,LY
+    siteUID,TY,LY,AOP,vsAOP
      from `toolstation-data-storage.retailReporting.PL_DATA_YTD_BUDGET_Final_2025`
     where yearMonth = (select max (yearMonth)
      from `toolstation-data-storage.retailReporting.PL_DATA_YTD_BUDGET_Final_2025`
     )
-    and type = "Retail Contribution"
+    and type = "Sales Total"
     ;;
   }
 
@@ -19,20 +19,19 @@ view: retail_trading_profit_ytd {
     primary_key: yes
   }
 
-  dimension: retail_trading_profit_ty{
-    group_label: "Contribution YTD"
-    label: "Contribution YTD TY"
+  dimension: sales_total_AOP{
+    group_label: "Sales Total YTD"
+    label: "Sales Total AOP"
     type: number
-    sql: ${TABLE}.TY ;;
+    sql: ${TABLE}.AOP ;;
     value_format_name: gbp_0
   }
 
-  dimension: retail_trading_profit_ly{
-    group_label: "Contribution YTD"
-    label: "Contribution YTD PY"
+  dimension: sales_total_vs_AOP{
+    group_label: "Sales Total YTD"
+    label: "Sales Total vs AOP"
     type: number
-    sql: ${TABLE}.LY ;;
+    sql: ${TABLE}.AOP ;;
     value_format_name: gbp_0
   }
-
 }

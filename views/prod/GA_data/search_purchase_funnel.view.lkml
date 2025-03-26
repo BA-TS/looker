@@ -10,7 +10,7 @@ and platform in ("Web")
 group by all),
 
 search as (SELECT distinct rowNum, platform, event_name,key_1,page_location, session_id, minTime, searchTerm from sub1
-where event_name in ("search_actions") and key_1 in ("Searched Term", "search_term")),
+where event_name in ("search_actions") and key_1 in ("Searched Term", "search_term", "Search_term")),
 
 VIT as (SELECT distinct rowNum, event_name,key_1,page_location, session_id, minTime, item_id, productCode, quantity from sub1
 where event_name in ("view_item_list")),
@@ -47,17 +47,25 @@ from
 (
 
 SELECT distinct search.platform, search.session_id as searchSessionID, date(datetime_add(Search.minTime, interval 1 hour)) as SearchTime, search.page_location as searchPage, search.searchTerm, VIT.session_id as VITSession,
-ATC.session_id as ATCSessions,
-ATC.minTime as ATCTIME,
-ATC.item_id as ATCitemID,
-ATC.item_category,
-ATC.quantity as ATCQuant,
-ATC.page_location as ATCPage, ATC.rowNum as ATCRowNum,
-purchase.session_id as purchaseSession, purchase.OrderID, purchase.item_id as PurchaseITemID, purchase.quantity as purchaseQuant, purchase.ga4_value, purchase.netValue, purchase.minTime as PurchaseTime
+coalesce(ATC.session_id, atc2.session_id) as ATCSessions,
+coalesce(ATC.minTime, atc2.minTime) as ATCTIME,
+coalesce(ATC.item_id, atc2.item_id) as ATCitemID,
+coalesce(ATC.item_category, atc2.item_category) as item_category,
+coalesce(ATC.quantity, atc2.Quantity) as ATCQuant,
+coalesce(ATC.page_location, atc2.page_location) as ATCPage, coalesce(ATC.rowNum, atc2.rowNum) as ATCRowNum,
+coalesce(purchase.session_id, p2.session_id) as purchaseSession,
+coalesce(purchase.OrderID, p2.OrderID) as ORderID,
+coalesce(purchase.item_id, p2.item_id) as PurchaseITemID,
+coalesce(purchase.quantity, p2.quantity) as purchaseQuant,
+coalesce(purchase.ga4_value, p2.ga4_value) as ga4_value,
+coalesce(purchase.netValue,p2.netValue) as netValue,
+coalesce(purchase.minTime, p2.minTime) as PurchaseTime
 from search
 left join VIT on search.session_id = VIT.session_id and search.page_location = VIT.page_location
 LEFT join ATC on VIT.session_id = ATC.session_id and VIT.item_id = ATC.item_id and VIT.minTime < ATC.MinTime and search.rowNum = (ATC.rowNum -1)
+LEFT join ATC as atc2 on VIT.session_id = ATC2.session_id and VIT.page_location = ATC2.page_location and VIT.minTime < ATC2.MinTime and search.rowNum = (ATC2.rowNum -1)
 left join purchase on search.session_id = purchase.session_id and ATC.item_id = purchase.item_id and ATC.minTime < purchase.MinTime
+left join purchase as p2 on search.session_id = p2.session_id and ATC2.item_id = p2.item_id and ATC2.minTime < p2.MinTime
 
 )
 group by all)
@@ -239,7 +247,7 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     group_label: "Non Blank Search"
     label: "Search Term"
     type: string
-    sql: ${TABLE}.searchTerm ;;
+    sql: initcap(${TABLE}.searchTerm) ;;
   }
 
   dimension: Rev {
@@ -356,7 +364,7 @@ view: blank_search_purchase_funnel {
   derived_table: {
     sql: with sub1 as (SELECT distinct P_K, session_id,minTime, event_name,
 
-coalesce(case when event_name in ("search_actions") and key_1 in ("Searched Term") then label_1 else null end,
+coalesce(case when event_name in ("search_actions") and key_1 in ("Searched Term", "search_term", "Search_term") then label_1 else null end,
 case when regexp_contains(page_location, "\\&") then
 regexp_replace(regexp_extract(page_location, ".*q\\=(.*)\\&.*"), "\\+", " ") else regexp_replace(regexp_extract(page_location, ".*q\\=(.*)$"), "\\+", " ") end) as searchTerm,
 label_1,
@@ -415,7 +423,7 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     group_label: "Blank Search"
     label: "Search Term"
     type: string
-    sql: ${TABLE}.searchTerm ;;
+    sql: initcap(${TABLE}.searchTerm) ;;
   }
 
   dimension: ATC_sessionID {

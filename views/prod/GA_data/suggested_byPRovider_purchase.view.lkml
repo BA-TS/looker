@@ -17,7 +17,7 @@ items.item_revenue,
 ecommerce.transaction_id
 FROM `toolstation-data-storage.analytics_251803804.events_*` left join unnest(items) as items
 where
-_table_suffix between format_date("%Y%m%d", date_trunc(date_sub(current_date(), interval 1 month),month)) and format_date("%Y%m%d", date_sub(current_date(), INTERVAL 1 day)) and
+_table_suffix between format_date("%Y%m%d", date("2024-10-01")) and format_date("%Y%m%d", date("2024-11-14")) and
 event_name in ("suggested_item_view", "suggested_item_click", "add_to_cart", "purchase", "monetate_experiment_decision") and concat(user_pseudo_id,(SELECT distinct cast(value.int_value as string) FROM UNNEST(event_params) WHERE key = 'ga_session_id')) is not null
 group by all),
 
@@ -162,7 +162,7 @@ left join purchase on ATC.session_id = purchase.session_id and ATC.item_id = pur
 where timeORder = 1
 order by purchaseID desc;;
 
-    sql_trigger_value: SELECT EXTRACT(hour FROM CURRENT_DATEtime()) = 9;;
+    sql_trigger_value: SELECT EXTRACT(dayofyear FROM CURRENT_DATE()) = 0;;
   }
 
 

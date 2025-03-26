@@ -1,6 +1,8 @@
 view: hyperfinity_customer_flag {
   required_access_grants: [can_use_customer_information]
 
+  fields_hidden_by_default: yes
+
   derived_table: {
     sql:
     select * from `toolstation-data-storage.crm_reporting.zzHYPERFINITYCUSTOMERFLAG_Dan`;;

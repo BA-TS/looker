@@ -3,7 +3,7 @@ include: "/views/**/products.view"
 include: "/views/**/suppliers.view"
 include: "/views/**/aac.view"
 include: "/views/**/catalogue.view"
-include: "/views/**/promoworking.view"
+include: "/views/**/catPromo.view"
 
 explore: stock_cover {
   required_access_grants: [is_super]
@@ -50,11 +50,11 @@ explore: stock_cover {
     sql_on: ${stock_cover.stock_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
   }
 
-  join: promoworking {
+  join: catPromo {
     view_label: "Active Promotions"
     type: left_outer
     relationship: one_to_one
-    sql_on: ${products.product_code} = ${promoworking.Product_Code} ;;
+    sql_on: ${products.product_code} = ${catPromo.Product_Code} ;;
   }
 
   #join: new_products {

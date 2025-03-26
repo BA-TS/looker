@@ -14,7 +14,7 @@ include: "/views/**/foh_master_stores.view"
 include: "/views/**/suppliers.view"
 include: "/views/**/supplierAddresses.view"
 include: "/views/**/promo_main_catalogue.view"
-include: "/views/**/promo_extra.view"
+include: "/views/**/extraPromo.view"
 include: "/views/**/catalogue.view"
 include: "/views/**/spi_cpi.view"
 include: "/views/**/spi_cpi_weekly.view"
@@ -34,7 +34,7 @@ include: "/views/**/top_subdepartment_net_sales.view"
 include: "/views/**/top_trade_types_sales.view"
 include: "/views/**/top_trade_types_customers.view"
 include: "/views/**/promo_orders.view"
-include: "/views/**/promoworking.view"
+include: "/views/**/catPromo.view"
 include: "/views/**/brand_test.view"
 include: "/views/**/bucketed_order_sales.view"
 include: "/views/**/spc_buckets.view"
@@ -79,7 +79,12 @@ include: "/views/**/product_detail.view"
 include: "/views/**/transactions_ecrebo.view"
 include: "/views/**/ecrebo_product_code_flag.view"
 include: "/views/**/product_attributes_pivoted.view"
-
+include: "/views/**/ecrebo_discounts.view"
+include: "/views/**/bdm_ka_customers.view"
+include: "/views/**/bdm_ka_customers2.view"
+include: "/views/**/bdm_ka_customers_combined.view"
+include: "/views/**/department_group.view"
+include:"/views/prod/department_specific/hyperfinity/*"
 
 explore: base {
   label: "Transactions"
@@ -158,7 +163,7 @@ explore: base {
         AND (UPPER(${transactions.extranet_status}) in (case when ({% parameter transactions.select_extranet_status %}) in ("SALE", "INCOMPLETE") then {% parameter transactions.select_extranet_status %} else ("INCOMPLETE") end)
         or UPPER(${transactions.extranet_status}) in (case when ({% parameter transactions.select_extranet_status %}) in ("SALE", "INCOMPLETE") then {% parameter transactions.select_extranet_status %} else ("SALE") end))
 
-        AND (${transactions.order_status} in (case when ({% parameter transactions.order_cancelled %}) in ("Yes") then ("Cancelled") else ("Completed") end) or ${transactions.order_status} in (case when ({% parameter transactions.order_cancelled %}) in ("Yes") then ("Cancelled") else ("Pending") end));;
+        AND case when ({% parameter transactions.order_cancelled %}) in ("No") then ${transactions.order_status} in ("Completed", "Pending")  and ${transactions.is_cancelled} = 0 else (case when ({% parameter transactions.order_cancelled %}) in ("Yes") then ${transactions.order_status} in ("Cancelled") and ${transactions.is_cancelled} = 1 else (case when ({% parameter transactions.order_cancelled %}) in ("Any") then ${transactions.order_status} in ("Completed", "Pending", "Cancelled") else null end) end) end;;
   }
 
   join: single_line_transactions {
@@ -205,6 +210,13 @@ explore: base {
         {% else %}
           ${transactions.product_uid}=${products.product_uid}
         {% endif %};;
+  }
+
+  join: department_group {
+    view_label: "Products"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${products.department}=${department_group.department} ;;
   }
 
   join: product_first_sale_date {
@@ -317,18 +329,12 @@ explore: base {
     and ${base.date_date} between ${supplierAddresses.addressStartDate} and ${supplierAddresses.addressEndDate};;
     }
 
+# -----------------------------------------------
   join: promo_main_catalogue {
     view_label: "Catalogue"
     type: left_outer
     relationship: many_to_one
     sql_on: ${transactions.product_code} = ${promo_main_catalogue.product_code} and ${base.date_date} between ${promo_main_catalogue.live_date} and ${promo_main_catalogue.end_date} ;;
-  }
-
-  join: promo_extra {
-    view_label: "Catalogue"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${transactions.product_code} = ${promo_extra.product_code} and ${base.date_date} between ${promo_extra.live_date} and ${promo_extra.end_date} ;;
   }
 
   join: catalogue {
@@ -337,6 +343,37 @@ explore: base {
     relationship: many_to_one
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
   }
+
+  join: catPromo {
+    view_label: "Catalogue"
+    type: left_outer
+    relationship: many_to_many
+    sql_on: ${products.product_code} = ${catPromo.Product_Code}  and ${base.date_date} between ${catPromo.live_date} and ${catPromo.end_date};;
+  }
+
+  join: extraPromo {
+    view_label: "Catalogue"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.product_code} = ${extraPromo.product_code} and ${base.date_date} between ${extraPromo.live_date} and ${extraPromo.end_date} ;;
+  }
+
+  join: promoHistory_Current {
+    type: left_outer
+    view_label: ""
+    relationship: many_to_one
+    sql_on: ${products.product_code} = ${promoHistory_Current.product_code} and ${catalogue.catalogue_name}=${promoHistory_Current.catalogueName} ;;
+  }
+
+  join: promo_orders {
+    view_label: "Orders using Promo"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.transaction_uid} = ${promo_orders.order_id} and ${base.date_date} = ${promo_orders.date_date} ;;
+  }
+
+  # -----------------------------------------------
+
 
   join: digital_transaction_mapping {
     view_label: "Digital"
@@ -386,13 +423,6 @@ explore: base {
     sql_on: ${return_orders.return_ID} = ${transactions.transaction_uid} ;;
   }
 
-  join: promoHistory_Current {
-    type: left_outer
-    view_label: ""
-    relationship: many_to_one
-    sql_on: ${products.product_code} = ${promoHistory_Current.product_code} and ${catalogue.catalogue_name}=${promoHistory_Current.catalogueName} ;;
-  }
-
   join: product_dimensions {
     type: left_outer
     view_label: "Products Attributes"
@@ -434,6 +464,15 @@ explore: base {
     relationship: many_to_one
     sql_on: ${products.product_uid} = ${retail_price_history.product_uid}
     and ${base.base_date_date} BETWEEN ${retail_price_history.price_start_date} AND ${retail_price_history.price_end_date};;
+  }
+
+  join: price_change_history {
+    type: left_outer
+    view_label: "Products"
+    relationship: many_to_one
+    required_access_grants: [pricing]
+    sql_on: ${products.product_code} = ${price_change_history.product_code}
+      and ${base.base_date_date} BETWEEN ${price_change_history.new_start_date} AND ${price_change_history.new_end_date};;
   }
 
   join: currentRetailPrice {
@@ -496,20 +535,6 @@ explore: base {
     fields: [top_trade_types_customers.top_rank_limit_4,top_trade_types_customers.brand_rank_top_brands_bigquery_4]
     sql_on: ${trade_customers.trade_type} = ${top_trade_types_customers.Trade_type};;
     sql_where: ${top_trade_types_customers.brand_rank_top_brands_bigquery_4} != "Other" ;;
-  }
-
-  join: promo_orders {
-    view_label: "Orders using Promo"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${transactions.transaction_uid} = ${promo_orders.order_id} and ${base.date_date} = ${promo_orders.date_date} ;;
-  }
-
-  join: promoworking {
-    view_label: "Products"
-    type: left_outer
-    relationship: one_to_one
-    sql_on: ${products.product_code} = ${promoworking.Product_Code} and ${catalogue.catalogue_name}=${promoworking.publicationName};;
   }
 
   join: brand_test {
@@ -605,9 +630,6 @@ explore: base {
     sql_on: ${customers.customer_uid} = ${ds_assumed_trade_history_new_lake.customer_uid} ;;
   }
 
-  # sql_on: ${customers.customer_uid} = ${ds_assumed_trade_history_new_lake.customer_uid}
-  # and  ${ds_assumed_trade_history_new_lake.Score_End_Date}=${calendar_completed_date.calendar_year_month2};;
-
   join: assumed_trade_measures {
     required_access_grants:[tp_testing]
     view_label: "Customer Classification"
@@ -654,123 +676,6 @@ explore: base {
     relationship: many_to_one
     sql_on: ${base.date_date} = ${ecrebobudget_total.date_date};;
     fields: [ecrebobudget_total.totalBudget]
-    #sql_where: ${ecrebobudget_total.campaign_group} in ("Total") ;;
-  }
-
-  join: scorecard_testing_branch_mth {
-    required_access_grants:[is_retail]
-    view_label: "Scorecard Testing"
-    type: left_outer
-    relationship: one_to_one
-    sql_on:
-    ${sites.site_uid} = ${scorecard_testing_branch_mth.siteUID} and
-    ${customers.customer_uid} = ${scorecard_testing_branch_mth.customerUID};;
-  }
-
-  join: scorecard_testing_region_mth {
-    required_access_grants:[is_retail]
-    view_label: "Scorecard Testing"
-    type: left_outer
-    relationship: one_to_one
-    sql_on:
-      ${customers.customer_uid} = ${scorecard_testing_region_mth.customerUID}
-      and ${sites.region_name} = ${scorecard_testing_region_mth.siteUID};;
-  }
-
-  join: scorecard_testing_division_mth {
-    required_access_grants:[is_retail]
-    view_label: "Scorecard Testing"
-    type: left_outer
-    relationship: one_to_one
-    sql_on: ${customers.customer_uid} = ${scorecard_testing_division_mth.customerUID}
-      and ${sites.division} = ${scorecard_testing_division_mth.siteUID};;
-  }
-
-  join: scorecard_testing_branch_YTD {
-    required_access_grants:[is_retail]
-    view_label: "Scorecard Testing"
-    type: left_outer
-    relationship: one_to_one
-    sql_on:
-    ${sites.site_uid} = ${scorecard_testing_branch_YTD.siteUID} and
-    ${customers.customer_uid} = ${scorecard_testing_branch_YTD.customerUID};;
-  }
-
-  join: scorecard_testing_region_YTD {
-    required_access_grants:[is_retail]
-    view_label: "Scorecard Testing"
-    type: left_outer
-    relationship: one_to_one
-    sql_on:
-      ${customers.customer_uid} = ${scorecard_testing_region_YTD.customerUID}
-      and ${sites.region_name} = ${scorecard_testing_region_YTD.siteUID};;
-  }
-
-  join: scorecard_testing_division_YTD {
-    required_access_grants:[is_retail]
-    view_label: "Scorecard Testing"
-    type: left_outer
-    relationship: one_to_one
-    sql_on: ${customers.customer_uid} = ${scorecard_testing_division_YTD.customerUID}
-      and ${sites.division} = ${scorecard_testing_division_YTD.siteUID};;
-  }
-
-  join: scorecard_testing_loyalty_branch_mth {
-    required_access_grants:[is_retail]
-    view_label: "Scorecard Testing"
-    type: left_outer
-    relationship: one_to_one
-    sql_on:
-    ${sites.site_uid} = ${scorecard_testing_loyalty_branch_mth.siteUID} and
-    ${customers.customer_uid} = ${scorecard_testing_loyalty_branch_mth.customerUID};;
-  }
-
-  join: scorecard_testing_loyalty_region_mth {
-    required_access_grants:[is_retail]
-    view_label: "Scorecard Testing"
-    type: left_outer
-    relationship: one_to_one
-    sql_on:
-      ${customers.customer_uid} = ${scorecard_testing_loyalty_region_mth.customerUID}
-      and ${sites.region_name} = ${scorecard_testing_loyalty_region_mth.siteUID};;
-  }
-
-  join: scorecard_testing_loyalty_division_mth {
-    required_access_grants:[is_retail]
-    view_label: "Scorecard Testing"
-    type: left_outer
-    relationship: one_to_one
-    sql_on: ${customers.customer_uid} = ${scorecard_testing_loyalty_division_mth.customerUID}
-      and ${sites.division} = ${scorecard_testing_loyalty_division_mth.siteUID};;
-  }
-
-  join: scorecard_testing_loyalty_branch_ytd {
-    required_access_grants:[is_retail]
-    view_label: "Scorecard Testing"
-    type: left_outer
-    relationship: one_to_one
-    sql_on:
-    ${sites.site_uid} = ${scorecard_testing_loyalty_branch_ytd.siteUID} and
-    ${customers.customer_uid} = ${scorecard_testing_loyalty_branch_ytd.customerUID};;
-  }
-
-  join: scorecard_testing_loyalty_region_ytd {
-    required_access_grants:[is_retail]
-    view_label: "Scorecard Testing"
-    type: left_outer
-    relationship: one_to_one
-    sql_on:
-      ${customers.customer_uid} = ${scorecard_testing_loyalty_region_ytd.customerUID}
-      and ${sites.region_name} = ${scorecard_testing_loyalty_region_ytd.siteUID};;
-  }
-
-  join: scorecard_testing_loyalty_division_ytd {
-    required_access_grants:[is_retail]
-    view_label: "Scorecard Testing"
-    type: left_outer
-    relationship: one_to_one
-    sql_on: ${customers.customer_uid} = ${scorecard_testing_loyalty_division_ytd.customerUID}
-      and ${sites.division} = ${scorecard_testing_loyalty_division_ytd.siteUID};;
   }
 
   join: scorecard_trade_customers_filter {
@@ -786,6 +691,44 @@ explore: base {
     type :  left_outer
     relationship: one_to_one
     sql_on: ${customers.customer_uid}=${hyperfinity_customer_flag.customer_uid} ;;
+  }
+
+# Hyperfinity------------
+  join: behaviour_categories_monthly {
+    view_label: "Hyperfinity"
+    required_access_grants: [can_use_customer_information]
+    type :  left_outer
+    relationship: one_to_many
+    sql_on: ${customers.customer_uid}=${behaviour_categories_monthly.customerUID} ;;
+  }
+
+  join: behaviour_categories_monthly_most_recent {
+    view_label: "Hyperfinity"
+    required_access_grants: [can_use_customer_information]
+    type :  left_outer
+    relationship: one_to_one
+    sql_on: ${customers.customer_uid}=${behaviour_categories_monthly_most_recent.customerUID}
+    ;;
+  }
+
+  join: rfv_monthly_final {
+    view_label: "Hyperfinity"
+    required_access_grants: [can_use_customer_information]
+    type :  left_outer
+    relationship: one_to_one
+    sql_on:${behaviour_categories_monthly.prim_key} = ${rfv_monthly_final.prim_key}
+    and ${customers.customer_uid}=${rfv_monthly_final.customerUID}
+      ;;
+  }
+
+  join: rfv_monthly_final_most_recent {
+    view_label: "Hyperfinity"
+    required_access_grants: [can_use_customer_information]
+    type :  left_outer
+    relationship: one_to_one
+    sql_on:  ${customers.customer_uid}=${rfv_monthly_final_most_recent.customerUID}
+    and ${customers.customer_uid}=${rfv_monthly_final_most_recent.customerUID}
+    ;;
   }
 
   join: addresses {
@@ -863,12 +806,38 @@ explore: base {
     sql_on: ${products.product_code}  =  ${transactions_ecrebo.product_code} and  ${transactions.parent_order_uid}= ${transactions_ecrebo.parent_order_uid};;
   }
 
+  join: ecrebo_discounts {
+    view_label: "Ecrebo Discounts"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${products.product_code}  =  ${ecrebo_discounts.product_code} and  ${transactions.parent_order_uid}= ${ecrebo_discounts.parent_order_uid}
+    and
+    ${transactions.transaction_line_type}= ${ecrebo_discounts.transaction_line_type}
+    ;;
+  }
+
   join: ecrebo_product_code_flag {
     view_label: "Ecrebo Transactions"
     required_access_grants: [ecrebo]
     type: left_outer
     relationship: one_to_one
     sql_on: ${transactions.parent_order_uid}= ${ecrebo_product_code_flag.parent_order_uid};;
+  }
+
+  join: bdm_ka_customers2 {
+    required_access_grants: [is_bdm]
+    view_label: "BDM"
+    type: left_outer
+    relationship: many_to_many
+    sql_on:  ${bdm_ka_customers2.customer_uid}=${transactions.customer_uid} and ${base.base_date_date} between ${bdm_ka_customers2.start_date} and date_sub(${bdm_ka_customers2.end_date},interval 0 day);;
+  }
+
+  join: bdm_ka_customers_combined {
+    required_access_grants: [is_bdm]
+    view_label: "BDM"
+    type: left_outer
+    relationship: many_to_many
+    sql_on:  ${bdm_ka_customers_combined.customer_uid}=${transactions.customer_uid} and ${base.base_date_date} between ${bdm_ka_customers_combined.start_date} and date_sub(${bdm_ka_customers_combined.end_date},interval 0 day);;
   }
 
 }

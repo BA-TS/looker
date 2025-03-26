@@ -135,7 +135,6 @@ view: ga4_rjagdev_test {
           when ${TABLE}.event_name = "out_of_stock" and ${platform} = "Web" then null
           when ${TABLE}.event_name = "out_of_stock" and ${platform} = "App" then "Channel"
           when ${TABLE}.event_name in ("MegaMenu") then ${TABLE}.label_2
-          when ${TABLE}.event_name in ("add_to_cart") then "shipping_tier"
           --and ${platform} in ("Web") then ${TABLE}.key_2
           when ${TABLE}.key_1 is null and ${label_1} is not null then "action"
           else ${TABLE}.key_1 end;;
@@ -148,11 +147,11 @@ view: ga4_rjagdev_test {
     type: string
     sql: INITCAP(Ltrim(
     case when ${TABLE}.event_name in ("search", "search_actions", "blank_search") then coalesce(${TABLE}.label_1,regexp_replace(regexp_extract(${TABLE}.page_location, ".*q\\=(.*)$"), "\\+", " ")) else
-    (case when ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") then regexp_extract(${TABLE}.label_2, "^.*\\-(.*)$") else
+    (case when ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") then regexp_extract(${TABLE}.label_1, "^.*\\-(.*)$") else
     (case when ${TABLE}.event_name = "collection_OOS" and ${platform} = "Web" then "Collection" else
     (case when ${TABLE}.event_name = "dual_OOS" and ${platform} = "Web" then "Dual" else
     (case when ${TABLE}.event_name = "Delivery_OOS" and ${platform} = "Web" then "Delivery" else
-    (case when ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("App") and ${TABLE}.key_1 in ("page") then ${TABLE}.channel else ${TABLE}.label_1 end) end) end) end) end) end)) ;;
+    (case when ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("App") and ${TABLE}.key_1 in ("page") then ${TABLE}.channel else (case when ${TABLE}.event_name in ("navigation") then coalesce(${TABLE}.key_2,${TABLE}.label_1) else ${TABLE}.label_1 end) end) end) end) end) end) end)) ;;
   }
 
   dimension: key_2 {
@@ -160,21 +159,29 @@ view: ga4_rjagdev_test {
     label: "2.Event Key"
     group_label: "Event"
     type: string
-    sql: case when ${TABLE}.key_2 is null and ${label_2} is not null then "action"
-    when ${TABLE}.event_name in ("MegaMenu") then null
-    else (case when ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") then "Channel" else ${TABLE}.key_2 end) end ;;
+    sql: case when ${TABLE}.key_2 is null and ${label_2} is not null then "action" else
+    (case when ${TABLE}.event_name in ("navigation") and ${TABLE}.label_1 is null and ${TABLE}.key_2 is not null then null else ${TABLE}.key_2 end) end ;;
   }
 
-  dimension: label_2 {
+  ##dimension: label_2 {
+    ##view_label: "GA4"
+    ##label: "2.Event Label"
+    ##group_label: "Event"
+    ##type: string
+    ##sql: case when ${TABLE}.event_name in ("MegaMenu")  then null else
+    ##(case when  ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") and ${TABLE}.key_1 in ("method") then regexp_extract(${TABLE}.label_1, "^.*\\##-(.*)$") else
+    ##(case when  ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") and ${TABLE}.key_1 not in ("method") then regexp_extract(${TABLE}.key_1, "^.*\\##-(.*)$") else
+    ##${TABLE}.label_2 end )
+    ##end) end;;
+  ##}
+
+
+    dimension: label_2 {
     view_label: "GA4"
     label: "2.Event Label"
     group_label: "Event"
     type: string
-    sql: case when ${TABLE}.event_name in ("MegaMenu")  then null else
-    (case when  ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") and ${TABLE}.key_1 in ("method") then regexp_extract(${TABLE}.label_1, "^.*\\-(.*)$") else
-    (case when  ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") and ${TABLE}.key_1 not in ("method") then regexp_extract(${TABLE}.key_1, "^.*\\-(.*)$") else
-    ${TABLE}.label_2 end )
-    end) end;;
+    sql: case when ${TABLE}.event_name in ("add_to_cart") and ${TABLE}.platform in ("Web") then regexp_extract(${TABLE}.label_2, "^.*\\-(.*)$") else ${TABLE}.label_2 end;;
   }
 
   measure: value {
@@ -251,6 +258,30 @@ view: ga4_rjagdev_test {
     sql: ${TABLE}.item_Category3 ;;
   }
 
+  dimension: page_Category {
+    type: string
+    view_label: "GA4"
+    group_label: "Screen"
+    label: "Page Category 1"
+    sql: ${TABLE}.page_category ;;
+  }
+
+  dimension: page_Category2 {
+    type: string
+    view_label: "GA4"
+    group_label: "Screen"
+    label: "Page Category 2"
+    sql: ${TABLE}.page_category2 ;;
+  }
+
+  dimension: page_Category3 {
+    type: string
+    view_label: "GA4"
+    group_label: "Screen"
+    label: "Page Category 3"
+    sql: ${TABLE}.page_category3 ;;
+  }
+
   dimension: User {
     hidden: yes
     description: "User"
@@ -265,12 +296,18 @@ view: ga4_rjagdev_test {
     sql: ${TABLE}.session_id ;;
   }
 
+  dimension: page_locationHidden {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.page_location ;;
+  }
+
   dimension: page_location {
     view_label: "GA4"
     label: "Page"
     group_label: "Screen"
     type: string
-    sql: case when ${platform} in ("Web") then ${TABLE}.page_location else null end;;
+    sql: case when ${platform} in ("Web", "web") then ${TABLE}.page_location else null end ;;
   }
 
   dimension: Screen_name {
@@ -826,7 +863,7 @@ and not regexp_contains(${TABLE}.filters_used, "\\@import") then regexp_extract(
     group_label: "Screen"
     hidden: yes
     type: string
-    sql: case when ${ga4_exitpage.LastE} = 1 then ${page_location} else null end;;
+    sql: case when ${ga4_exitpage.exit_session} is not null then ${page_locationHidden} else null end;;
   }
 
   measure: exitPageSessions {
@@ -870,7 +907,7 @@ view: fu {
   dimension: fu {
     hidden: yes
     type: string
-    sql: ${TABLE} ;;
+    sql:case when regexp_contains(${TABLE}, r"\s-\s") then regexp_replace(${TABLE}, r"\s-\s", ":") else ${TABLE} end ;;
   }
 
 
@@ -879,7 +916,7 @@ view: fu {
     label: "Filter Key"
     description: "filter_key"
     type: string
-    sql: coalesce(case when ${ga4_rjagdev_test.event_name} in ("filter_applied", "filter_removed") then ${ga4_rjagdev_test.label_1} else null end, regexp_extract(${fu}, "(.*)\\:.*"));;
+    sql: regexp_extract(${fu}, "(.*)\\:.*");;
   }
 
   dimension: label_1 {
@@ -887,6 +924,6 @@ view: fu {
     label: "Filter Label"
     description: "filter_label"
     type: string
-    sql: coalesce(case when ${ga4_rjagdev_test.event_name} in ("filter_applied", "filter_removed") then ${ga4_rjagdev_test.label_2} else null end, regexp_extract(${fu}, ".*\\:(.*)"));;
+    sql: regexp_extract(${fu}, ".*\\:(.*)");;
   }
 }

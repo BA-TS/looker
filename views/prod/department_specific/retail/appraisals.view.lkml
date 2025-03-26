@@ -15,14 +15,13 @@ view: appraisals {
       s.month as last_appraisals_month,
       s.colleagues,
       s.appraisals,
-      concat(extract (year from current_date), right(concat(0, extract (month from current_date)-1),2)) as month,
+ case when extract (month from current_date)=1 then concat(extract (year from current_date)-1,12) else concat(extract (year from current_date)-1,right(concat(0, extract (month from current_date)-1),2)) end as month
       from
       `toolstation-data-storage.retailReporting.SC_APPRAISALS` s
       inner join base b
       on s.siteUID = b.siteUID and s.month = b.month
       order by 2 desc
       ;;
-    # datagroup_trigger: ts_transactions_datagroup
   }
 
   dimension: recent_visit_month {
@@ -35,7 +34,7 @@ view: appraisals {
 
   dimension: month {
     type: string
-    sql: ${TABLE}.month ;;
+    sql: cast(${TABLE}.month as string);;
     hidden: yes
   }
 

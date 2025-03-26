@@ -4,7 +4,7 @@ include: "/views/**/products.view"
 include: "/views/**/scmatrix.view"
 include: "/views/**/suppliers.view"
 include: "/views/**/sites.view"
-include: "/views/**/promoworking.view"
+include: "/views/**/catPromo.view"
 include: "/views/**/sku_cover_dc_wrong_stock.view"
 include: "/views/**/stocklocation.view"
 
@@ -57,11 +57,11 @@ explore: stock_level_date_site_product {
       sql_on: ${stock_level_date_site_product.site_uid} = ${sites.site_uid} ;;
     }
 
-  join: promoworking {
+  join: catPromo {
     view_label: ""
     type: left_outer
     relationship: one_to_one
-    sql_on: ${products.product_code} = ${promoworking.Product_Code} ;;
+    sql_on: ${products.product_code} = ${catPromo.Product_Code} ;;
   }
 
   join: sku_cover_dc_wrong_stock {

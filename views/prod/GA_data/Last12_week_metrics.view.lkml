@@ -6,47 +6,45 @@ view: last12_week_metrics {
 with sub1 as (SELECT distinct date, minTime, platform, deviceCategory, session_id, page_location,
 case when regexp_contains(page_location,"checkout\\/confirmation") then "Checkout Confirmation" else screen_name end as screen_name,
 
-      CASE when regexp_contains(page_location,".*/p([0-9]*)$") then "product-detail-page"
-      when regexp_contains(page_location, ".*/p[0-9]*[^0-9a-zA-Z]") then "product-detail-page"
-      when regexp_contains(page_location,".*/c([0-9]*)$") then "product-listing-page"
-      when regexp_contains(page_location, ".*/c[0-9]*[^0-9a-zA-Z]") then "product-listing-page"
-      else screen_name end as screen_Type,
-      case
-    when event_name = "videoly" and key_1 = "action" and label_1 not in ("videoly_progress") then label_1
-    when event_name = "videoly" and label_1 = "videoly_progress" then concat(label_1,"-",label_2,"%")
-    when event_name = "videoly_videostart" then "videoly_start"
-    when event_name = "videoly_initialize" then "videoly_box_shown"
-    when event_name = "videoly_videoclosed" then "videoly_closed"
-    when event_name = "collection_OOS" and platform = "Web" then "out_of_stock"
-    when event_name = "dual_OOS" and platform = "Web" then "out_of_stock"
-    when event_name = "Delivery_OOS" and platform = "Web" then "out_of_stock"
-    when event_name = "out_of_stock" and platform = "Web" then null
-    else event_name
-    end as event_name,
-case
-          when event_name in ("collection_OOS", "dual_OOS", "Delivery_OOS") and platform = "Web" then "Channel"
-          when event_name = "out_of_stock" and platform = "Web" then null
-          when event_name = "out_of_stock" and platform = "App" then "Channel"
-          when event_name in ("MegaMenu") then label_2
-          when event_name in ("add_to_cart") then "shipping_tier"
-          --and platform in ("Web") then key_2
-          when key_1 is null and label_1 is not null then "action"
-          else key_1 end as key1,
-       INITCAP(Ltrim(
-    case when event_name in ("search", "search_actions", "blank_search") then coalesce(label_1,regexp_replace(regexp_extract(page_location, ".*q\\=(.*)$"), "\\+", " ")) else
-    (case when event_name in ("add_to_cart") and platform in ("Web") then regexp_extract(label_2, "^.*\\-(.*)$") else
-    (case when event_name = "collection_OOS" and platform = "Web" then "Collection" else
-    (case when event_name = "dual_OOS" and platform = "Web" then "Dual" else
-    (case when event_name = "Delivery_OOS" and platform = "Web" then "Delivery" else
-    (case when event_name in ("add_to_cart") and platform in ("App") and key_1 in ("page") then channel else label_1 end) end) end) end) end) end)) as label_1,
+CASE when regexp_contains(page_location,".*/p[0-9]{5}$|.*/p[0-9]{5}[^0-9a-zA-Z]|.*/p[A-Z]{2}[0-9]{3}$|.*/p[A-Z]{2}[0-9]{3}[^0-9a-zA-Z]") then "product-detail-page"
+else (case when regexp_contains(page_location,".*/c([0-9]*)$|.*/c[0-9]*[^0-9a-zA-Z]") then "product-listing-page"
+else screen_name end) end as screen_Type,
 
-    case when key_2 is null and label_2 is not null then "action"
-    when event_name in ("MegaMenu") then null
-    else (case when event_name in ("add_to_cart") and platform in ("Web") then "Channel" else key_2 end) end as key_2,
-      case when event_name in ("MegaMenu")  then null else
-    (case when  event_name in ("add_to_cart") and platform in ("Web") and key_1 in ("method") then regexp_extract(label_1, "^.*\\-(.*)$") else
-    (case when  event_name in ("add_to_cart") and platform in ("Web") and key_1 not in ("method") then regexp_extract(key_1, "^.*\\-(.*)$") else
-    label_2 end )end) end as label_2,
+case
+when event_name = "videoly" and key_1 = "action" and label_1 not in ("videoly_progress") then label_1
+when event_name = "videoly" and label_1 = "videoly_progress" then concat(label_1,"-",label_2,"%")
+when event_name = "videoly_videostart" then "videoly_start"
+when event_name = "videoly_initialize" then "videoly_box_shown"
+when event_name = "videoly_videoclosed" then "videoly_closed"
+when event_name = "collection_OOS" and platform = "Web" then "out_of_stock"
+when event_name = "dual_OOS" and platform = "Web" then "out_of_stock"
+when event_name = "Delivery_OOS" and platform = "Web" then "out_of_stock"
+when event_name = "outOfStock" and platform = "Web" then "out_of_stock"
+when event_name = "out_of_stock" and platform = "Web" then null
+else event_name
+end as event_name,
+
+case
+when event_name in ("collection_OOS", "dual_OOS", "Delivery_OOS") and platform = "Web" then "Channel"
+when event_name = "out_of_stock" and platform = "Web" then null
+when event_name = "out_of_stock" and platform = "App" then "Channel"
+when event_name in ("MegaMenu") then label_2
+--and platform in ("Web") then key_2
+when key_1 is null and label_1 is not null then "action"
+else key_1 end key1,
+
+INITCAP(Ltrim(
+case when event_name in ("search", "search_actions", "blank_search") then coalesce(label_1,regexp_replace(regexp_extract(page_location, ".*q\\=(.*)$"), "\\+", " ")) else
+(case when event_name in ("add_to_cart") and platform in ("Web") then regexp_extract(label_1, "^.*\\-(.*)$") else
+(case when event_name = "collection_OOS" and platform = "Web" then "Collection" else
+(case when event_name = "dual_OOS" and platform = "Web" then "Dual" else
+(case when event_name = "Delivery_OOS" and platform = "Web" then "Delivery" else
+(case when event_name in ("add_to_cart") and platform in ("App") and key_1 in ("page") then channel else (case when event_name in ("navigation") then coalesce(key_2,label_1) else label_1 end) end) end) end) end) end) end)) as label_1,
+
+case when key_2 is null and label_2 is not null then "action" else
+(case when event_name in ("navigation") and label_1 is null and key_2 is not null then null else key_2 end) end as key_2,
+
+case when event_name in ("add_to_cart") and platform in ("Web") then regexp_extract(label_2, "^.*\\-(.*)$") else label_2 end as label_2,
     regexp_extract(fu, "(.*)\\:.*") as filter_key,
     regexp_extract(fu, ".*\\:(.*)") as filter_label,
       transactions.productCode,
@@ -89,7 +87,7 @@ case
       where event_name in ("view_item") and screen_Type in ("product-detail-page") ),
 
       megamenu as (select distinct session_id as megamenu_session from sub1
-      where event_name in ("MegaMenu") ),
+      where event_name in ("MegaMenu", "navigation") ),
 
       ATC as (select distinct session_id as atc_session from sub1
       where event_name in ("add_to_cart") ),

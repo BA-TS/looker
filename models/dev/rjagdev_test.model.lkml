@@ -89,13 +89,13 @@ explore: GA4_testy {
     sql_on: ${calendar.date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
   }
 
-  join: promoworking {
-    view_label: ""
+  join: catPromo {
+    view_label: "Products"
     type: left_outer
-    relationship: one_to_one
-    sql_on: ${products.product_code} = ${promoworking.Product_Code}
-      and cast(${catalogue.catalogue_id} as string) = ${promoworking.cycleID};;
+    relationship: many_to_many
+    sql_on: ${products.product_code} = ${catPromo.Product_Code}  and ${calendar.date} between ${catPromo.live_date} and ${catPromo.end_date};;
   }
+
 
   #join: calendar_completed_datev2{
     #from:  calendar
@@ -187,14 +187,14 @@ explore: GA4_testy {
   join: ga4_landingpage {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${ga4_rjagdev_test.session_id} = ${ga4_landingpage.land_session} and ${calendar.date} = ${ga4_landingpage.date_date} and ${ga4_rjagdev_test.page_location} = ${ga4_landingpage.land_page};;
+    sql_on: ${ga4_rjagdev_test.session_id} = ${ga4_landingpage.land_session} and ${calendar.date} = ${ga4_landingpage.date_date} and ${ga4_rjagdev_test.page_locationHidden} = ${ga4_landingpage.land_page};;
     #sql_where: ${ga4_landingpage.firstE} = 1;;
   }
 
   join: ga4_exitpage {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${ga4_rjagdev_test.session_id} = ${ga4_exitpage.exit_session} and ${calendar.date} = ${ga4_exitpage.date_date} and ${ga4_rjagdev_test.page_location} = ${ga4_exitpage.exit_page};;
+    sql_on: ${ga4_rjagdev_test.session_id} = ${ga4_exitpage.exit_session} and ${calendar.date} = ${ga4_exitpage.date_date} and ${ga4_rjagdev_test.page_locationHidden} = ${ga4_exitpage.exit_page};;
     #sql_where: ${ga4_exitpage.LastE} = 1;;
   }
 

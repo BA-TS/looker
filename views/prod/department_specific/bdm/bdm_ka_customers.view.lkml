@@ -6,13 +6,13 @@ view: bdm_ka_customers {
    select
     DISTINCT row_number() over () AS prim_key,
     team,
-    replace(trim(bdm),"Craig","London") as bdm,
+    bdm,
     customerUID,
     min(coalesce(startDate,date_sub(current_date,interval 3 year))) as startDate,
     max(coalesce(endDate,current_date)) as endDate,
-    customerName
+    company as customerName
     from
-    `toolstation-data-storage.retailReporting.BDM_KA_CUSTOMERS_LIST`
+    `toolstation-data-storage.retailReporting.BDM_KA_LEDGER`
     where bdm is not null
     group by all
     ;;
@@ -82,6 +82,8 @@ view: bdm_ka_customers {
     view_label: "Customers"
     type: string
     sql: ${TABLE}.customerName ;;
+    hidden: yes
+
   }
 
   dimension: is_bdm_ka_customer {
