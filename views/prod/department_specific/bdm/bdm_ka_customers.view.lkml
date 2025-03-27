@@ -124,6 +124,83 @@ view: bdm_ka_customers {
       else 'Time Traveler' end;;
   }
 
+  dimension: credit_limit {
+    type: number
+    sql: ${TABLE}.creditLimit ;;
+    value_format_name: gbp_0
+  }
+
+  dimension: website_raw {
+    type: string
+    sql: concat("https://",replace(${TABLE}.website,"https://","")) ;;
+    hidden: yes
+  }
+
+  dimension: website_label {
+    type: string
+    sql: replace(replace(replace(${TABLE}.website,"https:",""),"www.",""),"/","") ;;
+    hidden: yes
+  }
+
+  dimension: website {
+    type: string
+    sql: ${website_raw} ;;
+    html: <a href="{{ website_raw}}"target=”_blank”>{{ website_label }}</a> ;;
+  }
+
+  dimension: email_raw {
+    type: string
+    sql: ${TABLE}.email ;;
+    hidden: yes
+  }
+
+  dimension: email {
+    type: string
+    sql: ${email_raw} ;;
+    html: <a href="mail:to {{ email_raw}}">{{ email_raw }}</a> ;;
+  }
+
+  dimension: address {
+    type: string
+    sql: ${TABLE}.address ;;
+  }
+
+  dimension: notes {
+    type: string
+    sql: ${TABLE}.notes ;;
+  }
+
+  dimension: contact {
+    type: string
+    sql: ${TABLE}.contact ;;
+  }
+
+  dimension: job_title {
+    type: string
+    sql: ${TABLE}.jobTitle ;;
+  }
+
+  dimension: office_number {
+    type: string
+    sql: ${TABLE}.officeNumber ;;
+  }
+
+  dimension: phone_number {
+    type: string
+    sql: ${TABLE}.phoneNumber ;;
+  }
+
+  dimension: account_number {
+    type: string
+    sql: ${TABLE}.accountNumber ;;
+  }
+
+  measure: average_credit_limit {
+    type: average
+    sql: ${credit_limit} ;;
+    value_format_name: gbp_0
+  }
+
   measure: number_of_bdm {
     view_label: "Measures"
     label: "Number of BDMs"

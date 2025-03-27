@@ -91,7 +91,7 @@ explore: bdm {
   }
 
   join: bdm_ka_customers {
-    view_label: "Teams"
+    view_label: "Ledger"
     type: left_outer
     relationship: many_to_many
     sql_on:  ${bdm_ka_customers.customer_uid}=${transactions.customer_uid} and ${base.base_date_date} between ${bdm_ka_customers.start_date} and date_sub(${bdm_ka_customers.end_date},interval 0 day);;
@@ -111,11 +111,6 @@ explore: bdm {
     sql_on: ${targets.bdm} = ${bdm_ka_customers.bdm} and ${targets.month}=${calendar_completed_date.calendar_year_month2};;
   }
 
-  join: ledger {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${ledger.bdm} = ${bdm_ka_customers.bdm} and ${ledger.customer_uid} = ${bdm_ka_customers.customer_uid};;
-  }
 
   join: po_numbers {
     view_label: "Transactions"
@@ -163,7 +158,7 @@ explore: bdm {
   join: incremental {
     type:  left_outer
     relationship: many_to_one
-   sql_on: ${base.date_date}=${incremental.ty_date} and ${ledger.bdm} = ${incremental.bdm} ;;
+   sql_on: ${base.date_date}=${incremental.ty_date} and ${bdm_ka_customers.bdm} = ${incremental.bdm} ;;
   }
 
   join: bdm_ka_incremental {
@@ -178,7 +173,7 @@ explore: bdm {
     fields: [incremental_customer.total_customer_number,incremental_customer.incremental_customer_number,incremental_customer.spc_net_sales,incremental_customer.incremental_spc]
     type:  left_outer
     relationship: many_to_many
-    sql_on: ${base.date_date}=${incremental_customer.ty_date} and ${ledger.bdm} = ${incremental_customer.bdm} ;;
+    sql_on: ${base.date_date}=${incremental_customer.ty_date} and ${bdm_ka_customers.bdm} = ${incremental_customer.bdm} ;;
   }
 
   join: bdm_cumulative_sales {
@@ -186,269 +181,5 @@ explore: bdm {
     type:  left_outer
     relationship: many_to_one
     sql_on: ${calendar_completed_date.calendar_year_month}=${bdm_cumulative_sales.ty_calendar_year_month} and ${bdm_cumulative_sales.bdm} = ${bdm_ka_customers.bdm} ;;
-  }
-}
-
-explore: +bdm {
-  aggregate_table: rollup__bdm_ka_customers_bdm__bdm_ka_customers_customer_name__bdm_ka_customers_customer_uid__bdm_ka_customers_end_date__bdm_ka_customers_start_date__bdm_ka_customers_team__ledger_account_number__ledger_credit_limit__0 {
-    query: {
-      dimensions: [
-        bdm_ka_customers.bdm,
-        bdm_ka_customers.customer_name,
-        bdm_ka_customers.customer_uid,
-        bdm_ka_customers.end_date,
-        bdm_ka_customers.start_date,
-        bdm_ka_customers.team,
-        ledger.account_number,
-        ledger.credit_limit
-      ]
-      filters: [
-        base.select_date_range: "2 month ago for 2 month",
-        base.select_date_reference: "Transaction",
-        bdm_ka_customers.customer_uid: "-NULL"
-      ]
-    }
-
-    materialization: {
-      datagroup_trigger: ts_transactions_datagroup
-    }
-  }
-
-  aggregate_table: rollup__transactions_total_net_sales__1 {
-    query: {
-      measures: [transactions.total_net_sales]
-      filters: [
-        # "base.select_date_range" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        base.select_date_range: "2 month ago for 2 month",
-        base.select_date_reference: "Transaction",
-        # "bdm_ka_customers.bdm" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        bdm_ka_customers.bdm: "Rob,Louise,Matty,Rachel,Damien,Gary,Central BDM,Elena",
-        bdm_ka_customers.is_bdm_ka_customer: "Yes",
-        # "bdm_ka_customers.team" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        bdm_ka_customers.team: "BDM"
-      ]
-    }
-
-    materialization: {
-      datagroup_trigger: ts_transactions_datagroup
-    }
-  }
-
-  aggregate_table: rollup__transactions_spc_net_sales__2 {
-    query: {
-      measures: [transactions.spc_net_sales]
-      filters: [
-        # "base.select_date_range" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        base.select_date_range: "2 month ago for 2 month",
-        base.select_date_reference: "Transaction",
-        # "bdm_ka_customers.bdm" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        bdm_ka_customers.bdm: "Rob,Louise,Matty,Rachel,Damien,Gary,Central BDM,Elena",
-        bdm_ka_customers.is_active: "Yes",
-        bdm_ka_customers.is_bdm_ka_customer: "Yes",
-        # "bdm_ka_customers.team" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        bdm_ka_customers.team: "BDM"
-      ]
-    }
-
-    materialization: {
-      datagroup_trigger: ts_transactions_datagroup
-    }
-  }
-
-  aggregate_table: rollup__bdm_ka_customers_bdm__3 {
-    query: {
-      dimensions: [bdm_ka_customers.bdm]
-      measures: [incremental.incremental_net_sales, incremental.total_net_sales, transactions.total_net_sales]
-      filters: [
-        # "base.select_date_range" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        base.select_date_range: "2 month ago for 2 month",
-        base.select_date_reference: "Transaction",
-        # "bdm_ka_customers.bdm" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        bdm_ka_customers.bdm: "Rob,Louise,Matty,Rachel,Damien,Gary,Central BDM,Elena",
-        # "bdm_ka_customers.team" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        bdm_ka_customers.team: "BDM"
-      ]
-    }
-
-    materialization: {
-      datagroup_trigger: ts_transactions_datagroup
-    }
-  }
-
-  aggregate_table: rollup__bdm_ka_customers_bdm__4 {
-    query: {
-      dimensions: [bdm_ka_customers.bdm]
-      measures: [incremental_customer.incremental_spc, incremental_customer.spc_net_sales, transactions.spc_net_sales]
-      filters: [
-        # "base.select_date_range" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        base.select_date_range: "2 month ago for 2 month",
-        base.select_date_reference: "Transaction",
-        # "bdm_ka_customers.bdm" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        bdm_ka_customers.bdm: "Rob,Louise,Matty,Rachel,Damien,Gary,Central BDM,Elena",
-        bdm_ka_customers.is_active: "Yes",
-        # "bdm_ka_customers.team" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        bdm_ka_customers.team: "BDM"
-      ]
-    }
-
-    materialization: {
-      datagroup_trigger: ts_transactions_datagroup
-    }
-  }
-
-  aggregate_table: rollup__incremental_customer_incremental_customer_number__5 {
-    query: {
-      measures: [incremental_customer.incremental_customer_number]
-      filters: [
-        # "base.select_date_range" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        base.select_date_range: "2 month ago for 2 month",
-        base.select_date_reference: "Transaction",
-        # "bdm_ka_customers.bdm" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        bdm_ka_customers.bdm: "Rob,Louise,Matty,Rachel,Damien,Gary,Central BDM,Elena",
-        bdm_ka_customers.is_active: "Yes",
-        # "bdm_ka_customers.team" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        bdm_ka_customers.team: "BDM"
-      ]
-    }
-
-    materialization: {
-      datagroup_trigger: ts_transactions_datagroup
-    }
-  }
-
-  aggregate_table: rollup__transactions_total_margin_rate_incl_funding__6 {
-    query: {
-      measures: [transactions.total_margin_rate_incl_funding]
-      filters: [
-        # "base.select_date_range" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        base.select_date_range: "2 month ago for 2 month",
-        base.select_date_reference: "Transaction",
-        # "bdm_ka_customers.bdm" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        bdm_ka_customers.bdm: "Rob,Louise,Matty,Rachel,Damien,Gary,Central BDM,Elena",
-        bdm_ka_customers.is_active: "Yes",
-        # "bdm_ka_customers.team" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        bdm_ka_customers.team: "BDM"
-      ]
-    }
-
-    materialization: {
-      datagroup_trigger: ts_transactions_datagroup
-    }
-  }
-
-  aggregate_table: rollup__transactions_aov_net_sales__7 {
-    query: {
-      measures: [transactions.aov_net_sales]
-      filters: [
-        # "base.select_date_range" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        base.select_date_range: "2 month ago for 2 month",
-        base.select_date_reference: "Transaction",
-        # "bdm_ka_customers.bdm" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        bdm_ka_customers.bdm: "Rob,Louise,Matty,Rachel,Damien,Gary,Central BDM,Elena",
-        bdm_ka_customers.is_bdm_ka_customer: "Yes",
-        # "bdm_ka_customers.team" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        bdm_ka_customers.team: "BDM"
-      ]
-    }
-
-    materialization: {
-      datagroup_trigger: ts_transactions_datagroup
-    }
-  }
-
-  aggregate_table: rollup__bdm_ka_incremental_incremental_sales_existing__8 {
-    query: {
-      measures: [bdm_ka_incremental.incremental_sales_existing]
-      filters: [
-        # "base.select_date_range" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        base.select_date_range: "2 month ago for 2 month",
-        base.select_date_reference: "Transaction",
-        # "bdm_ka_customers.bdm" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        bdm_ka_customers.bdm: "Rob,Louise,Matty,Rachel,Damien,Gary,Central BDM,Elena",
-        bdm_ka_customers.customer_TY: "No",
-        # "bdm_ka_customers.team" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        bdm_ka_customers.team: "BDM"
-      ]
-    }
-
-    materialization: {
-      datagroup_trigger: ts_transactions_datagroup
-    }
-  }
-
-  aggregate_table: rollup__bdm_ka_incremental_incremental_sales_total__9 {
-    query: {
-      measures: [bdm_ka_incremental.incremental_sales_total]
-      filters: [
-        # "base.select_date_range" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        base.select_date_range: "2 month ago for 2 month",
-        base.select_date_reference: "Transaction",
-        # "bdm_ka_customers.bdm" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        bdm_ka_customers.bdm: "Rob,Louise,Matty,Rachel,Damien,Gary,Central BDM,Elena",
-        # "bdm_ka_customers.team" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        bdm_ka_customers.team: "BDM"
-      ]
-    }
-
-    materialization: {
-      datagroup_trigger: ts_transactions_datagroup
-    }
-  }
-
-  aggregate_table: rollup__bdm_ka_incremental_incremental_sales_new__10 {
-    query: {
-      measures: [bdm_ka_incremental.incremental_sales_new]
-      filters: [
-        # "base.select_date_range" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        base.select_date_range: "2 month ago for 2 month",
-        base.select_date_reference: "Transaction",
-        # "bdm_ka_customers.bdm" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        bdm_ka_customers.bdm: "Rob,Louise,Matty,Rachel,Damien,Gary,Central BDM,Elena",
-        bdm_ka_customers.customer_TY: "Yes",
-        # "bdm_ka_customers.team" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        bdm_ka_customers.team: "BDM"
-      ]
-    }
-
-    materialization: {
-      datagroup_trigger: ts_transactions_datagroup
-    }
-  }
-
-  aggregate_table: rollup__targets_sales_vs_target_monthly__11 {
-    query: {
-      measures: [targets.sales_vs_target_monthly]
-      filters: [
-        # "base.select_date_range" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        base.select_date_range: "2 month ago for 2 month",
-        base.select_date_reference: "Transaction",
-        # "bdm_ka_customers.bdm" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        bdm_ka_customers.bdm: "Rob,Louise,Matty,Rachel,Damien,Gary,Central BDM,Elena",
-        # "bdm_ka_customers.team" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        bdm_ka_customers.team: "BDM"
-      ]
-    }
-
-    materialization: {
-      datagroup_trigger: ts_transactions_datagroup
-    }
-  }
-
-  aggregate_table: rollup__targets_total_net_sales_vs_target__12 {
-    query: {
-      measures: [targets.total_net_sales_vs_target]
-      filters: [
-        base.select_date_range: "this month",
-        base.select_date_reference: "Transaction",
-        # "bdm_ka_customers.bdm" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        bdm_ka_customers.bdm: "Rob,Louise,Matty,Rachel,Damien,Gary,Central BDM,Elena",
-        # "bdm_ka_customers.team" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        bdm_ka_customers.team: "BDM"
-      ]
-    }
-
-    materialization: {
-      datagroup_trigger: ts_transactions_datagroup
-    }
   }
 }
