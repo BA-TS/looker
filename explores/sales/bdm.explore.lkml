@@ -121,14 +121,6 @@ explore: bdm {
   }
 
 # Incremental------------------------------------------
-  join: bdm_ka_customers_py {
-    view_label: "Incremental"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${bdm_ka_customers_py.customer_uid}=${transactions.customer_uid} and ${bdm_ka_customers_py.month}=${calendar_completed_date.calendar_year_month2};;
-  }
-
-
   # join: incremental {
   #   type:  left_outer
   #   relationship: many_to_one
@@ -142,6 +134,14 @@ explore: bdm {
     relationship: many_to_one
     sql_on: ${calendar_completed_date.calendar_year_month2}=${bdm_ka_incremental.yearMonth} and ${bdm_ka_incremental.bdm} = ${bdm_ka_customers.bdm} ;;
   }
+
+  join: bdm_ka_customers_py {
+    view_label: "Incremental (Month)"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${bdm_ka_customers_py.customer_uid}=${transactions.customer_uid} and ${bdm_ka_customers_py.month}=${calendar_completed_date.calendar_year_month2};;
+  }
+
 
   # join: incremental_customer {
   #   view_label: "Incremental (Month)"
