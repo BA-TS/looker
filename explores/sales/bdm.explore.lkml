@@ -83,34 +83,19 @@ explore: bdm {
     sql_on: ${transactions.site_uid}=${sites.site_uid} ;;
   }
 
+  join: products {
+    type:  left_outer
+    relationship: many_to_one
+    fields: [products.is_own_brand,products.product_code,products.product_name,products.subdepartment]
+    sql_on: ${transactions.product_uid}=${products.product_uid};;
+  }
+
   join: catalogue {
     view_label: "Catalogue"
     type: left_outer
     relationship: many_to_one
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
   }
-
-  join: bdm_ka_customers {
-    view_label: "Ledger"
-    type: left_outer
-    relationship: many_to_many
-    sql_on:  ${bdm_ka_customers.customer_uid}=${transactions.customer_uid} and ${base.base_date_date} between ${bdm_ka_customers.start_date} and date_sub(${bdm_ka_customers.end_date},interval 0 day);;
-  }
-
-  join: bdm_ka_customers_py {
-    view_label: "Incremental"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${bdm_ka_customers_py.customer_uid}=${transactions.customer_uid} and ${bdm_ka_customers_py.month}=${calendar_completed_date.calendar_year_month2};;
-}
-
-  join: targets {
-    view_label: "Targets"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${targets.bdm} = ${bdm_ka_customers.bdm} and ${targets.month}=${calendar_completed_date.calendar_year_month2};;
-  }
-
 
   join: po_numbers {
     view_label: "Transactions"
@@ -119,6 +104,63 @@ explore: bdm {
     sql_on: ${transactions.parent_order_uid} = ${po_numbers.order_id};;
   }
 
+
+  join: bdm_cumulative_sales {
+    view_label: "Transactions"
+    type:  left_outer
+    relationship: many_to_one
+    sql_on: ${calendar_completed_date.calendar_year_month}=${bdm_cumulative_sales.ty_calendar_year_month} and ${bdm_cumulative_sales.bdm} = ${bdm_ka_customers.bdm} ;;
+  }
+
+# Ledger------------------------------------------
+  join: bdm_ka_customers {
+    view_label: "Ledger"
+    type: left_outer
+    relationship: many_to_many
+    sql_on:  ${bdm_ka_customers.customer_uid}=${transactions.customer_uid} and ${base.base_date_date} between ${bdm_ka_customers.start_date} and date_sub(${bdm_ka_customers.end_date},interval 0 day);;
+  }
+
+# Incremental------------------------------------------
+  join: bdm_ka_customers_py {
+    view_label: "Incremental"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${bdm_ka_customers_py.customer_uid}=${transactions.customer_uid} and ${bdm_ka_customers_py.month}=${calendar_completed_date.calendar_year_month2};;
+  }
+
+
+  join: incremental {
+    type:  left_outer
+    relationship: many_to_one
+    sql_on: ${base.date_date}=${incremental.ty_date} and ${bdm_ka_customers.bdm} = ${incremental.bdm} ;;
+  }
+
+  # By BDM
+  join: bdm_ka_incremental {
+    view_label: "Incremental"
+    type:  left_outer
+    relationship: many_to_one
+    sql_on: ${calendar_completed_date.calendar_year_month2}=${bdm_ka_incremental.yearMonth} and ${bdm_ka_incremental.bdm} = ${bdm_ka_customers.bdm} ;;
+  }
+
+  join: incremental_customer {
+    view_label: "Incremental"
+    fields: [incremental_customer.total_customer_number,incremental_customer.incremental_customer_number,incremental_customer.spc_net_sales,incremental_customer.incremental_spc]
+    type:  left_outer
+    relationship: many_to_many
+    sql_on: ${base.date_date}=${incremental_customer.ty_date} and ${bdm_ka_customers.bdm} = ${incremental_customer.bdm} ;;
+  }
+
+  # Targets------------------------------------------
+  join: targets {
+    view_label: "Targets"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${targets.bdm} = ${bdm_ka_customers.bdm} and ${targets.month}=${calendar_completed_date.calendar_year_month2};;
+  }
+
+
+  # Customer & Trade Customers------------------------------------------
   join: customers {
     view_label: "Customers"
     fields: [customers.customer__company]
@@ -146,40 +188,5 @@ explore: bdm {
     type: left_outer
     relationship: many_to_one
     sql_on: ${customers.customer_uid} = ${trade_credit_ids.customer_uid} ;;
-  }
-
-  join: products {
-    type:  left_outer
-    relationship: many_to_one
-    fields: [products.is_own_brand,products.product_code,products.product_name,products.subdepartment]
-    sql_on: ${transactions.product_uid}=${products.product_uid};;
-  }
-
-  join: incremental {
-    type:  left_outer
-    relationship: many_to_one
-   sql_on: ${base.date_date}=${incremental.ty_date} and ${bdm_ka_customers.bdm} = ${incremental.bdm} ;;
-  }
-
-  join: bdm_ka_incremental {
-    view_label: "Incremental"
-    type:  left_outer
-    relationship: many_to_one
-    sql_on: ${calendar_completed_date.calendar_year_month2}=${bdm_ka_incremental.yearMonth} and ${bdm_ka_incremental.bdm} = ${bdm_ka_customers.bdm} ;;
-  }
-
-  join: incremental_customer {
-    view_label: "Incremental"
-    fields: [incremental_customer.total_customer_number,incremental_customer.incremental_customer_number,incremental_customer.spc_net_sales,incremental_customer.incremental_spc]
-    type:  left_outer
-    relationship: many_to_many
-    sql_on: ${base.date_date}=${incremental_customer.ty_date} and ${bdm_ka_customers.bdm} = ${incremental_customer.bdm} ;;
-  }
-
-  join: bdm_cumulative_sales {
-    view_label: "Transactions"
-    type:  left_outer
-    relationship: many_to_one
-    sql_on: ${calendar_completed_date.calendar_year_month}=${bdm_cumulative_sales.ty_calendar_year_month} and ${bdm_cumulative_sales.bdm} = ${bdm_ka_customers.bdm} ;;
   }
 }
