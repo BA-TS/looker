@@ -143,13 +143,13 @@ explore: bdm {
   }
 
 
-  # join: incremental_customer {
-  #   view_label: "Incremental (Month)"
-  #   fields: [incremental_customer.total_customer_number,incremental_customer.incremental_customer_number,incremental_customer.spc_net_sales,incremental_customer.incremental_spc]
-  #   type:  left_outer
-  #   relationship: many_to_many
-  #   sql_on: ${base.date_date}=${incremental_customer.ty_date} and ${bdm_ka_customers.bdm} = ${incremental_customer.bdm} ;;
-  # }
+  join: incremental_customer {
+    view_label: "Incremental"
+    fields: [incremental_customer.total_customer_number,incremental_customer.incremental_customer_number,incremental_customer.spc_net_sales,incremental_customer.incremental_spc]
+    type:  left_outer
+    relationship: many_to_many
+    sql_on: ${base.date_date}=${incremental_customer.ty_date} and ${bdm_ka_customers.bdm} = ${incremental_customer.bdm} ;;
+  }
 
   # Targets------------------------------------------
   join: targets {
