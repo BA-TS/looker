@@ -10,11 +10,11 @@ explore: digital_product_conversion {
     sql_on: ${digital_product_conversion.ga_sku}=${products.product_code} ;;
   }
 
-  join: promoworking {
+  join: catPromo {
     view_label: ""
     type: left_outer
     relationship: one_to_one
-    sql_on: ${products.product_code} = ${promoworking.Product_Code} ;;
+    sql_on: ${products.product_code} = ${catPromo.Product_Code} ;;
   }
 
 }

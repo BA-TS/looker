@@ -823,7 +823,7 @@ parameter: order_cancelled {
     # required_access_grants: [is_developer]
     description: "Flags if a product is in the extra publication"
     type: yesno
-    sql: case when ${promo_extra.product_code} is null then false else true end ;;
+    sql: case when ${extraPromo.product_code} is null then false else true end ;;
   }
 
   dimension: promo_in_any {
@@ -833,7 +833,7 @@ parameter: order_cancelled {
     # required_access_grants: [is_developer]
     description: "Flags is a product in the main catalogue or extra publication"
     type: yesno
-    sql: case when ${promo_main_catalogue.product_code} is null and ${promo_extra.product_code} is null then false else true end ;;
+    sql: case when ${promo_main_catalogue.product_code} is null and ${extraPromo.product_code} is null then false else true end ;;
   }
 
   # Sites
@@ -1315,6 +1315,24 @@ parameter: order_cancelled {
     view_label: "Measures"
     type: number
     sql:safe_divide(${loyalty_club_net_sales}, ${total_net_sales}) ;;
+    value_format_name: percent_1
+  }
+
+  measure: trade_account_net_sales {
+    group_label: "Trade Accounts"
+    label: "Net Sales (Trade Accounts)"
+    view_label: "Measures"
+    type: sum
+    sql: case when ${transactions.has_trade_account} =true then ${net_sales_value} else 0 end;;
+    value_format_name: gbp_0
+  }
+
+  measure: trade_account_net_sales_percent {
+    group_label: "Trade Accounts"
+    label: "Trade Account Net Sales %"
+    view_label: "Measures"
+    type: number
+    sql:safe_divide(${trade_account_net_sales}, ${total_net_sales}) ;;
     value_format_name: percent_1
   }
 

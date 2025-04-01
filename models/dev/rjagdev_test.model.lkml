@@ -90,13 +90,13 @@ explore: GA4_testy {
     sql_on: ${calendar.date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
   }
 
-  join: promoworking {
-    view_label: ""
+  join: catPromo {
+    view_label: "Products"
     type: left_outer
-    relationship: one_to_one
-    sql_on: ${products.product_code} = ${promoworking.Product_Code}
-      and cast(${catalogue.catalogue_id} as string) = ${promoworking.cycleID};;
+    relationship: many_to_many
+    sql_on: ${products.product_code} = ${catPromo.Product_Code}  and ${calendar.date} between ${catPromo.live_date} and ${catPromo.end_date};;
   }
+
 
   #join: calendar_completed_datev2{
     #from:  calendar

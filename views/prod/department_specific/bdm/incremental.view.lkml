@@ -7,7 +7,6 @@ view: incremental {
       column: py_date { field: calendar_completed_date.date }
       column: bdm { field: bdm_ka_customers.bdm }
       column: number_of_customers { field: bdm_ka_customers.number_of_customers }
-      # column: customer_uid { field: bdm_ka_customers.customer_uid }
 
       filters: {
         field: base.select_date_reference
@@ -20,11 +19,6 @@ view: incremental {
     }
   }
 
-  # dimension: customer_uid {
-  #   type: string
-  #   sql: ${TABLE}.customer_uid ;;
-  #   hidden: yes
-  # }
 
   dimension: prim_key {
     type: string

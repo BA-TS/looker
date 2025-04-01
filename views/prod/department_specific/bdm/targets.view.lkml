@@ -5,7 +5,7 @@ view: targets {
     select
     DISTINCT row_number() over () AS prim_key,
     *
-    from `toolstation-data-storage.retailReporting.BDM_KA_TARGETS_LOOKER`
+    from `toolstation-data-storage.retailReporting.BDM_RUNNING_TARGET_2025`
     ;;
     datagroup_trigger: ts_weekly_datagroup
   }
@@ -23,54 +23,56 @@ view: targets {
     hidden: yes
   }
 
-  dimension: team {
-    type: string
-    sql: ${TABLE}.team ;;
-    hidden: yes
-  }
-
   dimension: month {
     type: string
     sql: CAST(${TABLE}.month AS string);;
     hidden: yes
   }
 
-  dimension: net_new {
+  dimension: target {
     type: number
-    sql: ${TABLE}.netNew ;;
+    sql: ${TABLE}.target ;;
     hidden: yes
   }
 
-  dimension: existing_incremental {
+  dimension: target_running {
     type: number
-    sql: ${TABLE}.existingIncremental ;;
+    sql: ${TABLE}.targetRunningTotal ;;
     hidden: yes
   }
 
-  dimension: overall {
+  dimension: net_sales_vs_target_dim {
     type: number
-    sql: ${TABLE}.overall ;;
+    value_format_name: gbp
     hidden: yes
+    sql: ${bdm_cumulative_sales.ytd_net_sales} - ${target_running} ;;
   }
 
-  measure: net_new_total {
-    label: "Net New"
-    type: sum_distinct
-    sql: ${net_new};;
+  measure: target_monthly {
+    type: sum
+    sql: ${target};;
     value_format_name: gbp_0
   }
 
-  measure: total_existing_incremental {
-    label: "Existing Incremental"
-    type: sum_distinct
-    sql: ${existing_incremental};;
+  measure: target_YTD {
+    type: sum
+    sql: ${target_running};;
+    value_format_name: gbp_0
+    hidden: yes
+
+  }
+
+  measure: sales_vs_target_monthly {
+    label: "Sales vs Target (Monthly)"
+    type: number
+    sql: ${transactions.total_net_sales}-${target_monthly};;
     value_format_name: gbp_0
   }
 
-  measure: total_overall {
-    label: "Overall"
-    type: sum_distinct
-    sql: ${overall};;
+  measure: total_net_sales_vs_target {
+    label: "Sales vs Target (YTD)"
+    type: sum
+    sql: coalesce(${net_sales_vs_target_dim},null) ;;
     value_format_name: gbp_0
   }
 

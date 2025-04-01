@@ -385,20 +385,6 @@ view: sites {
     sql: ${TABLE}.salesTier ;;
   }
 
-  dimension: labourTier {
-    group_label: "Site Information"
-    label: "Labour Tier"
-    type: string
-    sql: ${TABLE}.labourTier ;;
-  }
-
-  dimension: Tier2plus_above {
-    group_label: "Site Information"
-    label: "Tier 2+ and Above"
-    type: yesno
-    sql: ${labourTier} in ("Tier 2+", "Tier 3");;
-  }
-
   dimension: Opening_times_Mon_Fri {
     group_label: "Site Information"
     label: "Opening Times Mon - Fri"
@@ -420,10 +406,11 @@ view: sites {
     sql: ${TABLE}.Opening_times_Sun ;;
   }
 
-  dimension: Is_trading_branch_end_FY23 {
+  dimension: Is_trading_branch_end_FY24 {
     group_label: "Site Information"
+    label: "Is Trading Branch End 2024"
     type: yesno
-    sql: ${TABLE}.Is_trading_branch_end_FY23 ;;
+    sql: ${TABLE}.Is_trading_branch_end_FY24 ;;
   }
 
   dimension: Is_consistent_branch {
@@ -438,27 +425,16 @@ view: sites {
     sql: ${TABLE}.Is_mature_branch ;;
   }
 
-  dimension: Is_top_50_FY23_branch_contribution {
+  dimension: Is_top_50_FY24_maturesales {
     group_label: "Site Information"
+    label: "Is Top 50 FY24 Mature Sales"
     type: yesno
-    sql: ${TABLE}.Is_top_50_FY23_branch_contribution ;;
-  }
-
-  dimension: Is_div1_top_25_FY23_branch_contribution {
-    group_label: "Site Information"
-    type: yesno
-    sql: ${TABLE}.Is_div1_top_25_FY23_branch_contribution ;;
-  }
-
-  dimension: Is_div2_top_25_FY23_branch_contribution {
-    group_label: "Site Information"
-    type: yesno
-    sql: ${TABLE}.Is_div2_top_25_FY23_branch_contribution ;;
+    sql: ${TABLE}.Is_top_50_FY24_maturesales ;;
   }
 
   dimension: Is_London {
     group_label: "Site Information"
-    label: "Is London Site"
+    label: "Is London"
     type: yesno
     sql: ${TABLE}.Is_London ;;
   }

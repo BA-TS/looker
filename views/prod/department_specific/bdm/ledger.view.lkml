@@ -5,18 +5,8 @@ view: ledger {
     DISTINCT row_number() over () AS prim_key,
     *
     from
-    (
-    select
-    "BDM" as team,
-    *
-    from `toolstation-data-storage.retailReporting.BDM_LEDGER_LOOKER`
-    union all
-    select
-    "KA" as team,
-    * from
-    `toolstation-data-storage.retailReporting.KEY_ACCOUNTS_LEDGER_LOOKER`
-    )
-    ;;
+    `toolstation-data-storage.retailReporting.BDM_KA_LEDGER`
+     ;;
 
     datagroup_trigger: ts_daily_datagroup
   }

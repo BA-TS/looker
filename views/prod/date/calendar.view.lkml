@@ -127,7 +127,7 @@ view: calendar {
     description: "used in the retail explore"
     type: string
     sql: replace(${calendar_year_month},'-','') ;;
-    hidden: yes
+    required_access_grants: [lz_only]
   }
 
   dimension: fulldate2 {

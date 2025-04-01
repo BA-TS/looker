@@ -5,6 +5,9 @@ include: "/views/**/sites.view"
 include: "/views/**/catalogue.view"
 include: "/views/**/retail/**.view"
 include: "/views/**/customer/**.view"
+include: "/views/**/retail/**.view"
+include: "/views/**/trade_credit_details.view"
+include: "/views/**/trade_credit_ids.view"
 
 persist_with: ts_transactions_datagroup
 
@@ -55,9 +58,24 @@ explore: retail {
   join: transactions {
     type: left_outer
     relationship: one_to_many
-    fields: [transactions.total_units,transactions.refurb_pre_post,transactions.number_of_branches,transactions.aov_price,transactions.transaction_frequency,transactions.aov_units,transactions.total_units,transactions.loyalty_net_sales_percent]
+    fields: [transactions.total_units,transactions.refurb_pre_post,transactions.number_of_branches,transactions.aov_price,transactions.transaction_frequency,transactions.aov_units,transactions.total_units,transactions.loyalty_net_sales_percent,transactions.trade_account_net_sales,transactions.trade_account_net_sales_percent]
     sql_on: ${base.base_date_date} = ${transactions.transaction_date_filter};;
   }
+
+  join: trade_credit_details {
+    view_label: "Customers"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${trade_credit_ids.main_trade_credit_account_uid} = ${trade_credit_details.main_trade_credit_account_uid} ;;
+  }
+
+  join: trade_credit_ids {
+    view_label: "Customers"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${customers.customer_uid} = ${trade_credit_ids.customer_uid} ;;
+  }
+
 
   join: sites {
     view_label: "Location"
@@ -67,31 +85,31 @@ explore: retail {
   }
 
   join: scorecard_branch_dev{
-    view_label: "Scorecard 24 - Monthly"
+    view_label: "2024 Scorecard Monthly"
     type:  left_outer
     relationship:  many_to_one
     sql_on: ${scorecard_branch_dev.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${scorecard_branch_dev.siteUID} ;;
   }
 
   join: scorecard_branch_dev25{
-    view_label: "Scorecard 25 - Monthly"
+    view_label: "2025 Scorecard Monthly"
     type:  left_outer
     relationship:  many_to_one
     sql_on: ${scorecard_branch_dev25.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${scorecard_branch_dev25.siteUID} ;;
   }
 
   join: scorecard_branch_dev_ytd{
-    view_label: "Scorecard YTD 24"
+    view_label: "2024 Scorecard YTD"
     type:  left_outer
     relationship:  many_to_one
     sql_on: ${scorecard_branch_dev_ytd.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${scorecard_branch_dev_ytd.siteUID} ;;
   }
 
   join: scorecard_branch_dev_ytd25{
-    view_label: "Scorecard YTD 25"
+    view_label: "2025 Scorecard YTD"
     type:  left_outer
     relationship:  many_to_one
-    sql_on: ${scorecard_branch_dev_ytd25.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${scorecard_branch_dev_ytd25.siteUID} ;;
+    sql_on: ${sites.site_uid}=${scorecard_branch_dev_ytd25.siteUID} ;;
   }
 
   join: catalogue {
@@ -240,6 +258,13 @@ explore: retail {
     sql_on: ${retail_trading_profit_ytd.site_uid}=${sites.site_uid};;
   }
 
+  join:pl_sales_total_ytd {
+    view_label: "P&L"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${pl_sales_total_ytd.site_uid}=${sites.site_uid};;
+  }
+
   join:break_dates_branch {
     view_label: "Break Dates"
     type: left_outer
@@ -268,6 +293,20 @@ explore: retail {
     sql_on: ${cannibalisation_2024.site_uid}=${sites.site_uid};;
   }
 
+  join:sfx_impact {
+    view_label: "TS SFX Impact"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${sfx_impact.site_uid}=${sites.site_uid};;
+  }
+
+  join:ts_impact {
+    view_label: "TS SFX Impact"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${ts_impact.site_uid}=${sites.site_uid};;
+  }
+
   join: customer_loyalty {
     view_label: "Customers"
     required_access_grants: [can_use_customer_information2]
@@ -279,7 +318,7 @@ explore: retail {
 
   join: customers {
     required_access_grants: [lz_only]
-    fields: [customers.customer_uid]
+    fields: [customers.customer_uid,customers.number_of_customers]
     view_label: "Customers"
     type :  left_outer
     relationship: many_to_one
@@ -288,4 +327,78 @@ explore: retail {
 
 
 
+  join: yoy_comparison {
+    required_access_grants: [lz_only]
+    view_label: "YOY Comparison"
+    type :  left_outer
+    relationship: many_to_one
+    sql_on: ${yoy_comparison.site_uid}=${sites.site_uid}
+    and  ${yoy_comparison.calendar_year}=${calendar_completed_date.calendar_year}
+    and  ${yoy_comparison.month_in_year}=${calendar_completed_date.month_in_year};;
+  }
+
+  join: yoy_comparison_py {
+    required_access_grants: [lz_only]
+    view_label: "YOY Comparison PY"
+    type :  left_outer
+    relationship: many_to_one
+    sql_on: ${yoy_comparison_py.site_uid}=${sites.site_uid}
+    and  ${yoy_comparison_py.calendar_year}=${calendar_completed_date.calendar_year}
+    and  ${yoy_comparison_py.month_in_year}=${calendar_completed_date.month_in_year};;
+  }
+
+}
+
+explore: +retail {
+    aggregate_table: rollup__branch_performance {
+    query: {
+      dimensions: [
+        branch_market_share.distance_1km,
+        branch_market_share.distance_2km,
+        branch_market_share.distance_5km,
+        branch_market_share.urban_classification,
+        branch_market_share.urban_classification_average,
+        break_dates_branch.break_notice_date,
+        change_hours.change_hours,
+        retail_trading_profit_ytd.retail_trading_profit_ly,
+        retail_trading_profit_ytd.retail_trading_profit_ty,
+        sites.Is_mature_branch,
+        sites.Refurb_start_date,
+        sites.date_opened_year,
+        sites.division,
+        sites.region_name,
+        sites.salesTier,
+        sites.site_name,
+        sites.site_uid
+      ]
+      measures: [availability_branch_ytd.availability, availability_branch_ytd_py.availability, scorecard_branch_dev_ytd25.NPS, scorecard_branch_dev_ytd25.ltoPercent, scorecard_branch_dev_ytd25.netSales, scorecard_branch_dev_ytd25.overallRank, scorecard_branch_dev_ytd25.pillarRankColleague, scorecard_branch_dev_ytd25.pillarRankCust, scorecard_branch_dev_ytd25.pillarRankSimplicityEfficiency, scorecard_branch_dev_ytd25.pyEBIT, scorecard_branch_dev_ytd25.pySales, scorecard_branch_dev_ytd25.py_EBIT_net_sales, scorecard_branch_dev_ytd25.tyEBIT, scorecard_branch_dev_ytd25.ty_EBIT_net_sales, scorecard_branch_dev_ytd25.var_PY_Net_Sales, scorecard_branch_dev_ytd25.var_PY_Sales_Percent, scorecard_branch_dev_ytd25.vs_PY_EBIT, transactions.loyalty_net_sales_percent, transactions.trade_account_net_sales_percent]
+      filters: [
+        base.select_date_range: "1 month ago for 1 month",
+        base.select_date_reference: "Transaction"
+      ]
+    }
+
+    materialization: {
+      datagroup_trigger: ts_transactions_datagroup
+    }
+  }
+}
+
+
+explore: +retail {
+  aggregate_table: rollup__scorecard {
+    query: {
+      dimensions: [sites.site_uid]
+      measures: [scorecard_branch_dev25.NPS, scorecard_branch_dev25.anonPercent, scorecard_branch_dev25.apprenticeship, scorecard_branch_dev25.contributionVsBudget, scorecard_branch_dev25.holidayTakenPercent, scorecard_branch_dev25.labourBudgetPercent, scorecard_branch_dev25.ltoPercent, scorecard_branch_dev25.overallRank, scorecard_branch_dev25.processCompPercent, scorecard_branch_dev25.safetyCompliance, scorecard_branch_dev25.shrinkagePercent, scorecard_branch_dev25.trainingPercentCompleted, scorecard_branch_dev25.tsClubSales, scorecard_branch_dev25.tsClubSalesPercent, scorecard_branch_dev25.yoyFrequency, scorecard_branch_dev25.yoyTradeSales, scorecard_branch_dev25.yoyUPT, scorecard_branch_dev_ytd25.NPS, scorecard_branch_dev_ytd25.anonPercent, scorecard_branch_dev_ytd25.apprenticeship, scorecard_branch_dev_ytd25.contributionVsBudget, scorecard_branch_dev_ytd25.holidayTakenPercent, scorecard_branch_dev_ytd25.labourBudgetPercent, scorecard_branch_dev_ytd25.ltoPercent, scorecard_branch_dev_ytd25.processCompPercent, scorecard_branch_dev_ytd25.safetyCompliance, scorecard_branch_dev_ytd25.shrinkagePercent, scorecard_branch_dev_ytd25.trainingPercentCompleted, scorecard_branch_dev_ytd25.tsClubSales, scorecard_branch_dev_ytd25.yoyFrequency, scorecard_branch_dev_ytd25.yoyTradeSales, scorecard_branch_dev_ytd25.yoyUPT]
+      filters: [
+        base.select_date_range: "1 month ago for 1 month",
+        base.select_date_reference: "Transaction",
+        sites.Is_top_50_FY24_maturesales: "Yes"
+      ]
+    }
+
+    materialization: {
+      datagroup_trigger: ts_transactions_datagroup
+    }
+  }
 }

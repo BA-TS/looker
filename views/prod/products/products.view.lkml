@@ -246,7 +246,7 @@ view: products {
     group_label: "Flags"
     label: "Product on Promotion?"
     type: yesno
-    sql: ${promoworking.Product_Code} is not null ;;
+    sql: ${catPromo.Product_Code} is not null ;;
   }
 
 
@@ -277,15 +277,15 @@ view: products {
     sql: ${TABLE}.isActive = 1 ;;
   }
 
-  dimension: Department_type{
-    label: "Department Type"
-    group_label: "Product Details"
-    type: string
-    sql:case
-    when ${department} in ('Painting & Decorating', 'Workwear & Safety', 'Ventilation & Heating', 'Smart Technology & Consumer Electrical', 'Plumbing', 'Lighting', 'Kitchens', 'Electrical', 'Central Heating', 'Bathrooms') THEN 'Trade'
-    WHEN ${department}  IN ('Hand Tools', 'Power Tools', 'Power Tool Accessories', 'Screws & Fixings', 'Ladders & Storage', 'Landscaping', 'Ironmongery & Security', 'Cleaning & Pest Control', 'Building & Joinery', 'Automotive', 'Adhesives & Sealants') THEN 'Hardware'
-    ELSE 'Other (Uncatalogued, Deleted, Vouchers)'
-    END;;
-  }
+  # dimension: Department_type{
+  #   label: "Department Type"
+  #   group_label: "Product Details"
+  #   type: string
+  #   sql:case
+  #   when ${department} in ('Painting & Decorating', 'Workwear & Safety', 'Ventilation & Heating', 'Smart Technology & Consumer Electrical', 'Plumbing', 'Lighting', 'Kitchens', 'Electrical', 'Central Heating', 'Bathrooms') THEN 'Trade'
+  #   WHEN ${department}  IN ('Hand Tools', 'Power Tools', 'Power Tool Accessories', 'Screws & Fixings', 'Ladders & Storage', 'Landscaping', 'Ironmongery & Security', 'Cleaning & Pest Control', 'Building & Joinery', 'Automotive', 'Adhesives & Sealants') THEN 'Hardware'
+  #   ELSE 'Other (Uncatalogued, Deleted, Vouchers)'
+  #   END;;
+  # }
 
 }

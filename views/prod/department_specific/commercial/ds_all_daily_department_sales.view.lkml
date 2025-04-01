@@ -9,6 +9,8 @@ view: ds_all_daily_department_sales {
     datagroup_trigger: ts_daily_datagroup
   }
 
+  fields_hidden_by_default: yes
+
   dimension: P_K {
     description: "Primary Key"
     type: string

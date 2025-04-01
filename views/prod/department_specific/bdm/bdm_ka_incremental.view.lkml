@@ -60,7 +60,7 @@ view: bdm_ka_incremental {
 
   measure: incremental_sales_existing {
     value_format_name: gbp
-    group_label: "Incremental"
+    group_label: "Incremental (Month)"
     label: "Incremental Sales - Existing"
     type: sum
     sql: ${incremental_sales_dim};;
@@ -75,7 +75,7 @@ view: bdm_ka_incremental {
 
   measure: incremental_sales_new {
     value_format_name: gbp
-    group_label: "Incremental"
+    group_label: "Incremental (Month)"
     label: "Incremental Sales - New"
     type: sum
     sql: ${new_sales_dim};;
@@ -83,7 +83,7 @@ view: bdm_ka_incremental {
 
   measure: incremental_sales_total {
     value_format_name: gbp
-    group_label: "Incremental"
+    group_label: "Incremental (Month)"
     label: "Incremental Sales - Total"
     type: number
     sql: ${incremental_sales_existing}+${incremental_sales_new};;

@@ -5,6 +5,7 @@ include: "/views/**/rm_visits.view"
 view: scorecard_branch_dev {
 
   sql_table_name:`toolstation-data-storage.retailReporting.SC_24_MONTHLY_DATA_DEV`;;
+  fields_hidden_by_default: yes
 
 
   dimension: month {
@@ -388,13 +389,6 @@ view: scorecard_branch_dev {
     sql: ${TABLE}.vsTargetAOV  ;;
   }
 
-  dimension: labour_T1T2_Percent  {
-    label: "Labour T1T2% (SC)"
-    type: number
-    sql: ${TABLE}.labourT1T2Percent  ;;
-    value_format_name: percent_1
-  }
-
 
   dimension: labour_T3_Percent  {
     label: "Labour T3% (SC)"
@@ -632,13 +626,6 @@ view: scorecard_branch_dev {
       else 0 end;;
   }
 
-  dimension: labour_T1T2_error_flag  {
-    group_label: "Error Flag"
-    type: number
-    sql: case when
-    ${sites.Is_consistent_branch} = true and ${sites.labourTier} != "Tier 3" and ${labour_T1T2_Percent} is null then 1 else 0 end;;
-  }
-
   dimension: trade_Account_Participation_error_flag  {
     group_label: "Error Flag"
     type: number
@@ -693,13 +680,6 @@ view: scorecard_branch_dev {
     group_label: "Error Flag"
     type: number
     sql: case when ${sites.Is_consistent_branch} = true and ${yoy_average_items} is null  then 1 else 0 end;;
-  }
-
-  dimension: labour_T3_error_flag  {
-    group_label: "Error Flag"
-    type: number
-    sql: case when
-    ${sites.Is_consistent_branch} = true and ${sites.labourTier} = "Tier 3" and ${labour_T3_Percent} is null then 1 else 0 end;;
   }
 
   dimension: lto_error_flag {

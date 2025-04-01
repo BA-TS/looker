@@ -6,13 +6,13 @@ view: bdm_ka_customers {
    select
     DISTINCT row_number() over () AS prim_key,
     team,
-    replace(replace(trim(bdm),"Craig","London"),"London","Damien") as bdm,
+    bdm,
     customerUID,
     min(coalesce(startDate,date_sub(current_date,interval 3 year))) as startDate,
     max(coalesce(endDate,current_date)) as endDate,
-    customerName
+    company as customerName
     from
-    `toolstation-data-storage.retailReporting.BDM_KA_CUSTOMERS_LIST`
+    `toolstation-data-storage.retailReporting.BDM_KA_LEDGER`
     where bdm is not null
     group by all
     ;;
@@ -40,7 +40,7 @@ view: bdm_ka_customers {
   }
 
   dimension: bdm {
-    label: "Name"
+    label: "Name of BDM"
     type: string
     sql: ${TABLE}.bdm ;;
   }
@@ -82,6 +82,8 @@ view: bdm_ka_customers {
     view_label: "Customers"
     type: string
     sql: ${TABLE}.customerName ;;
+    hidden: yes
+
   }
 
   dimension: is_bdm_ka_customer {
@@ -120,6 +122,83 @@ view: bdm_ka_customers {
       when (date_diff(${start_date}, ${transactions.order_completed_date}, day)) is null then 'New'
       when (date_diff(${start_date}, ${transactions.order_completed_date}, day)) > 364 then 'New'
       else 'Time Traveler' end;;
+  }
+
+  dimension: credit_limit {
+    type: number
+    sql: ${TABLE}.creditLimit ;;
+    value_format_name: gbp_0
+  }
+
+  dimension: website_raw {
+    type: string
+    sql: concat("https://",replace(${TABLE}.website,"https://","")) ;;
+    hidden: yes
+  }
+
+  dimension: website_label {
+    type: string
+    sql: replace(replace(replace(${TABLE}.website,"https:",""),"www.",""),"/","") ;;
+    hidden: yes
+  }
+
+  dimension: website {
+    type: string
+    sql: ${website_raw} ;;
+    html: <a href="{{ website_raw}}"target=”_blank”>{{ website_label }}</a> ;;
+  }
+
+  dimension: email_raw {
+    type: string
+    sql: ${TABLE}.email ;;
+    hidden: yes
+  }
+
+  dimension: email {
+    type: string
+    sql: ${email_raw} ;;
+    html: <a href="mail:to {{ email_raw}}">{{ email_raw }}</a> ;;
+  }
+
+  dimension: address {
+    type: string
+    sql: ${TABLE}.address ;;
+  }
+
+  dimension: notes {
+    type: string
+    sql: ${TABLE}.notes ;;
+  }
+
+  dimension: contact {
+    type: string
+    sql: ${TABLE}.contact ;;
+  }
+
+  dimension: job_title {
+    type: string
+    sql: ${TABLE}.jobTitle ;;
+  }
+
+  dimension: office_number {
+    type: string
+    sql: ${TABLE}.officeNumber ;;
+  }
+
+  dimension: phone_number {
+    type: string
+    sql: ${TABLE}.phoneNumber ;;
+  }
+
+  dimension: account_number {
+    type: string
+    sql: ${TABLE}.accountNumber ;;
+  }
+
+  measure: average_credit_limit {
+    type: average
+    sql: ${credit_limit} ;;
+    value_format_name: gbp_0
   }
 
   measure: number_of_bdm {
