@@ -218,8 +218,11 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
   }
 
   dimension: cookie_consent {
-    type: string
-    sql: ${TABLE}.cookie_consent;;
+    group_label: "Last 12 Weeks"
+    label: "Accepted Cookies"
+    description: "if session_id is populated then user did not accept cookies"
+    type: yesno
+    sql: case when ${TABLE}.cookie_consent in ("session id") then true else false end;;
   }
 
   dimension: pagesSessions {
