@@ -26,7 +26,7 @@ productCode,
 OrderID,
 net,
 Quantity,
-events,
+--events,
 row_number () over (partition by session_id order by minTime asc) as landingP,
 row_number () over (partition by session_id order by minTime desc) as exitP
 
@@ -85,7 +85,7 @@ case when event_name in ("add_to_cart") and platform in ("Web") then regexp_extr
       #Filters_used,
       sum(transactions.net_value) as net,
       sum(transactions.Quantity) as Quantity,
-      count(distinct events) as events,
+      --count(distinct events) as events,
       FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as transactions
       left join unnest(SPLIT(filters_used, ",")) as fu WITH OFFSET as test2
       where ((aw.item_id = transactions.productCode) or (aw.item_id is not null and transactions.productCode is null) or (aw.item_id is null and transactions.productCode is null))
