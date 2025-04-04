@@ -1270,7 +1270,7 @@ parameter: order_cancelled {
   }
 
   measure: aov_units{
-    label: "Units AOV (Units per Transaction)" #  (Transaction)
+    label: "UPT (Units per Transaction)" #  (Transaction)
     view_label: "Measures"
     group_label: "AOV"
     description: "Average units (only retail products) per order or Units per Transactions"
