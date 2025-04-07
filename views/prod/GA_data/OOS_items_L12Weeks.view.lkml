@@ -1,6 +1,6 @@
 view: oos_items_l12weeks {
    derived_table: {
-     sql: with sub1 as (SELECT distinct platform,date,session_id, screen_name,
+     sql: with sub1 as (SELECT distinct platform,date,case when session_id is null then cast(user_first_touch_timestamp as string) else session_id end as session_id, screen_name,
 
 CASE when regexp_contains(page_location,".*/p([0-9]*)$") then "product-detail-page"
 when regexp_contains(page_location, ".*/p[0-9]*[^0-9a-zA-Z]") then "product-detail-page"
@@ -23,7 +23,7 @@ FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw
 where  _TABLE_Suffix between format_date("%Y%m%d", date_sub(current_date(), interval 12 week)) and format_date("%Y%m%d", date_sub(current_date(), interval 1 day)) and event_name in ("collection_OOS", "dual_OOS", "Delivery_OOS", "out_of_stock", "view_item", "outOfStock")
 group by all),
 
-view_item as (select distinct Platform, date, count(distinct session_id) as sessions from sub1 where event_name in ("view_item") and screen_Type in ("product-detail-page") group by 1,2),
+view_item as (select distinct Platform, date, count(distinct session_id) as sessions, case when session_id is null then "no session id" else "session id" end as cookie_consent from sub1 where event_name in ("view_item") and screen_Type in ("product-detail-page") group by 1,2),
 
 collection_OOS as (select distinct Platform, date as collect_date, count(distinct session_id) as COOS_sessions from sub1 where key1 in ("Collection", "collection") and screen_Type in ("product-detail-page")
 group by 1,2),
@@ -57,6 +57,14 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     type: time
     timeframes: [raw,date]
     sql: ${TABLE}.date ;;
+  }
+
+  dimension: cookie_consent {
+    group_label: "Product Unavailability"
+    label: "Accepted Cookies"
+    description: "if session_id is populated then user did not accept cookies"
+    type: yesno
+    sql: case when ${TABLE}.cookie_consent in ("session id") then true else false end;;
   }
 
   measure: PDP_items {

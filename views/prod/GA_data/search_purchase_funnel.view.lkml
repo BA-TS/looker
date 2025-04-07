@@ -1,15 +1,19 @@
 view: search_purchase_funnel {
   derived_table: {
-    sql: with sub1 as (SELECT distinct dense_rank() over (partition by session_id order by minTime asc) as rowNum , platform, event_name, key_1, page_location, item_id, item_category, tra.productCode, session_id, minTime, sum(tra.ga4_quantity) as quantity, sum(value) as value , sum(tra.ga4_revenue) as ga4_value, sum(tra.net_value) as netValue, coalesce(case when regexp_contains(label_1,"^c[0-9]*$") then null else label_1 end,
+    sql: with sub1 as (select distinct dense_rank() over (partition by session_id order by minTime asc) as rowNum ,platform, event_name, key_1, page_location, item_id, item_category, productCode, session_id, cookie_consent, minTime, quantity, value, ga4_value, netValue, searchTerm, OrderID
+
+from
+
+(SELECT distinct  platform, event_name, key_1, page_location, item_id, item_category, tra.productCode, case when session_id is null then cast(user_first_touch_timestamp as string) else session_id end as session_id, cookie_consent, minTime, sum(tra.ga4_quantity) as quantity, sum(value) as value , sum(tra.ga4_revenue) as ga4_value, sum(tra.net_value) as netValue, coalesce(case when regexp_contains(label_1,"^c[0-9]*$") then null else label_1 end,
 regexp_replace(regexp_extract(page_location, ".*q\\=(.*)$"), "\\+", " ")) as searchTerm, tra.ORderID
 FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as tra
 where _TABLE_SUFFIX Between FORMAT_DATE('%Y%m%d', date_sub(current_date(), interval 50 day)) and FORMAT_DATE('%Y%m%d', date_sub(current_date(), interval 1 day))
 
 and event_name in ("search", "search_actions", "view_item_list", "add_to_cart","purchase")
 and platform in ("Web")
-group by all),
+group by all)),
 
-search as (SELECT distinct rowNum, platform, event_name,key_1,page_location, session_id, minTime, searchTerm from sub1
+search as (SELECT distinct rowNum, platform, event_name,key_1,page_location, session_id,cookie_consent, minTime, searchTerm from sub1
 where event_name in ("search_actions") and key_1 in ("Searched Term", "search_term", "Search_term")),
 
 VIT as (SELECT distinct rowNum, event_name,key_1,page_location, session_id, minTime, item_id, productCode, quantity from sub1
@@ -21,7 +25,7 @@ where event_name in ("add_to_cart")),
 purchase as (SELECT distinct event_name, session_id, minTime, ORderID, item_id, productCode, quantity, ga4_value, sub1.netValue from sub1
 where event_name in ("purchase"))
 
-SELECT distinct concat( cast(row_number() over() as string), Platform) as PK, searchTime, platform, searchTerm, searchSessionID as searchSession, VITSession as VITSessions, string_agg(ATCitemID) as item_id, string_agg(item_category) as item_category, string_agg(ATCSessions) as ATCSessions, string_agg(purchaseSession) as purchaseSessions,
+SELECT distinct concat( cast(row_number() over() as string), Platform) as PK, searchTime, platform, searchTerm, searchSessionID as searchSession, cookie_consent, VITSession as VITSessions, string_agg(ATCitemID) as item_id, string_agg(item_category) as item_category, string_agg(ATCSessions) as ATCSessions, string_agg(purchaseSession) as purchaseSessions,
 string_Agg(OrderID) as ORders, sum(ga4_value) as GA4Value, sum(netValue) as netValue, sum(purchaseQuant) as productQuant from
 
 (SELECT distinct
@@ -29,6 +33,7 @@ string_Agg(OrderID) as ORders, sum(ga4_value) as GA4Value, sum(netValue) as netV
 SearchTime,
 platform,
 searchSessionID,
+cookie_consent,
 searchTerm,
 VITSession,
 ATCSessions,
@@ -46,7 +51,7 @@ from
 
 (
 
-SELECT distinct search.platform, search.session_id as searchSessionID, date(datetime_add(Search.minTime, interval 1 hour)) as SearchTime, search.page_location as searchPage, search.searchTerm, VIT.session_id as VITSession,
+SELECT distinct search.platform, search.session_id as searchSessionID, search.cookie_consent, date(datetime_add(Search.minTime, interval 1 hour)) as SearchTime, search.page_location as searchPage, search.searchTerm, VIT.session_id as VITSession,
 coalesce(ATC.session_id, atc2.session_id) as ATCSessions,
 coalesce(ATC.minTime, atc2.minTime) as ATCTIME,
 coalesce(ATC.item_id, atc2.item_id) as ATCitemID,
@@ -78,6 +83,7 @@ MinTime as dateTime,
 platform,
 event_name,
 session_id,
+cookie_consent,
 screen_name,
 page_location,
 coalesce(case when event_name in ("search") and key_1 in ("search_term") then label_1 else null end, case when event_name in ("search") then item_id else null end
@@ -96,7 +102,7 @@ FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` a lef
 
 search as (
 
- Select distinct min(dateTime) as searchTime, platform, rowNum, event_name, screen_name as search_screen, page_location as search_screenID, searchTerm as query, session_id as Search_sessionID from sub1 where event_name in ("search")
+ Select distinct min(dateTime) as searchTime, platform, rowNum, event_name, screen_name as search_screen, page_location as search_screenID, cookie_consent, searchTerm as query, session_id as Search_sessionID from sub1 where event_name in ("search")
 group by all),
 
 PCS as (Select distinct min(dateTime) as productSTime, rowNum,event_name, screen_name as productS_screen, page_location as productS_screenID, item_id as itemIDv2, session_id as productSID from sub1 where screen_name in ("search-page") and event_name in ("search_product_tapped", "view_item", "product_image_viewed")
@@ -113,6 +119,7 @@ date(datetime_add(SearchTime, interval 1 hour)) as searchDate,
 platform,
 searchTerm,
 search_sessionID as searcSessions,
+cookie_consent,
 productSID as ProsearcSessions,
 item_id,
 category,
@@ -126,7 +133,7 @@ from
 
 (
 
-SELECT distinct concat("APP",cast(row_number() over () as string)) as PK, Platform, search_sessionID, searchTime, search_screen as search_page, cast(search_screenID as int64) as screenID,   query as searchTerm,
+SELECT distinct concat("APP",cast(row_number() over () as string)) as PK, Platform, search_sessionID, search.cookie_consent, searchTime, search_screen as search_page, cast(search_screenID as int64) as screenID,   query as searchTerm,
 PCS.event_name,PCS.productS_screen, PCS.productSID, pcs.productSTime,itemIDv2,
 coalesce(atc.atc_sessionID,atc2.atc_sessionID) as ATC_sessionID, coalesce(atc.atc_time,atc2.atc_time) as ATC_Time, coalesce(atc.atc_screen,atc2.atc_screen) as ATC_screen, coalesce(cast(atc.atc_screenID as int64),cast(atc2.atc_screenID as int64)) as atcScreenID, coalesce(atc.item_id,atc2.item_id) as item_id, coalesce(atc.item_category,atc2.item_category) as category,
 
@@ -163,6 +170,14 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     label: "Platform"
     type: string
     sql: ${TABLE}.platform ;;
+  }
+
+  dimension: cookie_consent {
+    group_label: "Non Blank Search"
+    label: "Accepted Cookies"
+    description: "if session_id is populated then user did not accept cookies"
+    type: yesno
+    sql: case when ${TABLE}.cookie_consent in ("session id") then true else false end;;
   }
 
   dimension_group: search_date {
@@ -362,7 +377,7 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
 
 view: blank_search_purchase_funnel {
   derived_table: {
-    sql: with sub1 as (SELECT distinct P_K, session_id,minTime, event_name,
+    sql: with sub1 as (SELECT distinct P_K, case when session_id is null then cast(user_first_touch_timestamp as string) else session_id end as session_id,cookie_consent, minTime, event_name,
 
 coalesce(case when event_name in ("search_actions") and key_1 in ("Searched Term", "search_term", "Search_term") then label_1 else null end,
 case when regexp_contains(page_location, "\\&") then
@@ -375,7 +390,7 @@ where _TABLE_SUFFIX between FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTER
  and ((a.item_id=t.productCode) or (a.item_id is not null and t.productCode is null) or (a.item_id is null and t.productCode is null))
  and event_name in ("blank_search", "purchase", "add_to_cart")),
 
- search as (select distinct minTime as searchTime, searchTerm, session_id as Search_session from sub1 where event_name in ("blank_search")
+ search as (select distinct minTime as searchTime, searchTerm, session_id as Search_session, cookie_consent from sub1 where event_name in ("blank_search")
  group by all),
 
  atc as (select distinct minTime as atc_Time, item_id, session_id as atc_session from sub1 where event_name in ("add_to_cart")
@@ -384,7 +399,7 @@ where _TABLE_SUFFIX between FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTER
 purchase as (select distinct minTime as PurchaseTime, productCode, Net_value,Quantity, OrderID, session_id as purchase_session from sub1 where event_name in ("purchase")
  group by all)
 
- select distinct row_number() over () as PK, search_session, searchTime, searchTerm,
+ select distinct row_number() over () as PK, search_session, cookie_consent, searchTime, searchTerm,
  atc_session, atc_time, item_id,
  purchase_session, purchaseTime, productCode, Net_value,Quantity, OrderID
  from search left join atc on search_session = atc_Session and searchTime < atc_Time
@@ -416,6 +431,14 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     type: string
     hidden: yes
     sql: ${TABLE}.search_session ;;
+  }
+
+  dimension: cookie_consent {
+    group_label: "Blank Search"
+    label: "Accepted Cookies"
+    description: "if session_id is populated then user did not accept cookies"
+    type: yesno
+    sql: case when ${TABLE}.cookie_consent in ("session id") then true else false end;;
   }
 
   dimension: blank_searchTerm {
