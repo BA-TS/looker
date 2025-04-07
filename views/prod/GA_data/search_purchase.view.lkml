@@ -1,12 +1,12 @@
 view: search_purchase {
   derived_table: {
-    sql: with sub1 as (SELECT distinct platform, event_name, key_1, case when session_id is null then cast(user_first_touch_timestamp as string) else session_id end as session_id, min(case when date(minTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(minTime, interval 1 HOUR)) else (timestamp_add(minTime, interval 1 HOUR)) end) as Time1
+    sql: with sub1 as (SELECT distinct platform, event_name, key_1, case when session_id is null then cast(user_first_touch_timestamp as string) else session_id end as session_id, cookie_consent, min(case when date(minTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(minTime, interval 1 HOUR)) else (timestamp_add(minTime, interval 1 HOUR)) end) as Time1
 FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*`
 where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 12 week)) and FORMAT_DATE('%Y%m%d',current_date())
 and (regexp_contains(event_name, "search") or event_name in ("purchase", "Purchase") ) and event_name not in ("blank_search")
 group by all)
 
-select distinct row_number() over() as PK,Platform,session_id as search_ID, case when session_id is null then "no session id" else "session id" end as cookie_consent, date(min(Time1)) as search_date, min(Time1) as search_time, purchase_ID,purchase_date, purchase_time, timestamp_diff(purchase_time, min(Time1), second) as search_purch_diff
+select distinct row_number() over() as PK,Platform,session_id as search_ID, cookie_consent, date(min(Time1)) as search_date, min(Time1) as search_time, purchase_ID,purchase_date, purchase_time, timestamp_diff(purchase_time, min(Time1), second) as search_purch_diff
 from sub1 left join (
   select distinct session_id as purchase_ID, date(min(Time1)) as purchase_date,  min(Time1) as purchase_time
 from sub1

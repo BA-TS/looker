@@ -35,7 +35,7 @@ row_number () over (partition by session_id order by minTime desc) as exitP
 from
 (SELECT distinct date, minTime, platform, deviceCategory,
 case when session_id is null then cast(user_first_touch_timestamp as string) else session_id end as session_id,
-case when session_id is null then "no session id" else "session id" end as cookie_consent,
+cookie_consent,
  page_location,
 case when regexp_contains(page_location,"checkout\\/confirmation") then "Checkout Confirmation" else screen_name end as screen_name,
 

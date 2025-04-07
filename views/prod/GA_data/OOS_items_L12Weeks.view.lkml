@@ -1,6 +1,7 @@
 view: oos_items_l12weeks {
    derived_table: {
-     sql: with sub1 as (SELECT distinct platform,date,case when session_id is null then cast(user_first_touch_timestamp as string) else session_id end as session_id, screen_name,
+     sql: with sub1 as (SELECT distinct platform,date,case when session_id is null then cast(user_first_touch_timestamp as string) else session_id end as session_id,
+    cookie_consent, screen_name,
 
 CASE when regexp_contains(page_location,".*/p([0-9]*)$") then "product-detail-page"
 when regexp_contains(page_location, ".*/p[0-9]*[^0-9a-zA-Z]") then "product-detail-page"
@@ -23,7 +24,7 @@ FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw
 where  _TABLE_Suffix between format_date("%Y%m%d", date_sub(current_date(), interval 12 week)) and format_date("%Y%m%d", date_sub(current_date(), interval 1 day)) and event_name in ("collection_OOS", "dual_OOS", "Delivery_OOS", "out_of_stock", "view_item", "outOfStock")
 group by all),
 
-view_item as (select distinct Platform, date, count(distinct session_id) as sessions, case when session_id is null then "no session id" else "session id" end as cookie_consent from sub1 where event_name in ("view_item") and screen_Type in ("product-detail-page") group by 1,2),
+view_item as (select distinct Platform, date, count(distinct session_id) as sessions,  cookie_consent from sub1 where event_name in ("view_item") and screen_Type in ("product-detail-page") group by all),
 
 collection_OOS as (select distinct Platform, date as collect_date, count(distinct session_id) as COOS_sessions from sub1 where key1 in ("Collection", "collection") and screen_Type in ("product-detail-page")
 group by 1,2),

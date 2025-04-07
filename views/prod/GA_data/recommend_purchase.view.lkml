@@ -1,7 +1,7 @@
 view: recommend_purchase {
   derived_table: {
     sql:
-with sub1 as (SELECT distinct platform, event_name, case when session_id is null then cast(user_first_touch_timestamp as string) else session_id end as session_id , item_id,t.productCode,t.orderID, min(case when date(minTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(minTime, interval 1 HOUR)) else (timestamp_add(minTime, interval 1 HOUR)) end) as Time1, round(sum(net_value),2) as net, round(sum(ga4_quantity),2) as Q
+with sub1 as (SELECT distinct platform, event_name, case when session_id is null then cast(user_first_touch_timestamp as string) else session_id end as session_id , cookie_consent,  item_id,t.productCode,t.orderID, min(case when date(minTime) Between date("2023-10-29") and ("2024-02-15") then (timestamp_sub(minTime, interval 1 HOUR)) else (timestamp_add(minTime, interval 1 HOUR)) end) as Time1, round(sum(net_value),2) as net, round(sum(ga4_quantity),2) as Q
 FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` a left join unnest(transactions) as t
 where _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 12 week)) and FORMAT_DATE('%Y%m%d',current_date())
 and ((a.item_id=t.productCode) or (a.item_id is not null and t.productCode is null) or (a.item_id is null and t.productCode is null))
@@ -10,7 +10,7 @@ group by all),
 
 -- purchase_ID, Porder,purchase_date, purchase_time, timestamp_diff(purchase_time, min(Time1), second) as recommend_purch_diff, purchase_net, purchase_q
 
-rec as (select distinct Platform,session_id as recommend_ID, case when session_id is null then "no session id" else "session id" end as cookie_consent, date(min(Time1)) as recommend_date, min(Time1) as recommend_time, item_id
+rec as (select distinct Platform,session_id as recommend_ID, cookie_consent, date(min(Time1)) as recommend_date, min(Time1) as recommend_time, item_id
 from sub1
 where event_name in ("suggested_item_click", "recommended_item_tapped")
 group by all),
