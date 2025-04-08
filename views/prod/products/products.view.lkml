@@ -1,10 +1,15 @@
 view: products {
   derived_table: {
   sql:
-  SELECT distinct product.*
+  /*SELECT distinct product.*
   FROM `toolstation-data-storage.range.products_current`as product
   union all
-  SELECT "null", "null", "null", "null","null", "null",timestamp("2000-05-23 00:00:00"), "null", "null", "null","null", "null",cast(null as int),"null",cast(null as int),"null",cast(null as int),"null", "null", "null", "null",cast(null as int),cast(null as int),"null", "null", "null", "null",timestamp("2021-04-15 00:00:00 UTC"), timestamp("3000-01-01 00:00:00"), cast(null as int)
+  SELECT "null", "null", "null", "null","null", "null",timestamp("2000-05-23 00:00:00"), "null", "null", "null","null", "null",cast(null as int),"null",cast(null as int),"null",cast(null as int),"null", "null", "null", "null",cast(null as int),cast(null as int),"null", "null", "null", "null",timestamp("2021-04-15 00:00:00 UTC"), timestamp("3000-01-01 00:00:00"), cast(null as int)*/
+
+  SELECT distinct product.*,
+  case when own.productBrand is not null then 1 else 0 end as is_own_brand
+  FROM `toolstation-data-storage.range.products_current`as product
+  left join `toolstation-data-storage.range.own_brand_list` own using (productBrand)
   ;;
   datagroup_trigger: ts_transactions_datagroup
   }
@@ -47,20 +52,10 @@ view: products {
   dimension: is_own_brand {
     group_label: "Product Details"
     label: "Own Brand (Y/N/Unknown)"
-    type: string
+    type: yesno
     description: "If brand is Toolstation's own brand, then Y, otherwise N, or Unknown for products which have no brands"
-    case: {
-      when: {
-        sql: ${brand} IN ("Minotaur", "Pinnacle", "Wessex Electrical", "Made4Trade", "Hawksmoor", "Ebb and Flo", "Bauker","Maverick Safety","Lockworks") ;;
-        label: "Y"
-        }
-      when: {
-        sql: ${brand} IS NULL OR ${brand} = "Unbranded";;
-        label: "Unknown"
-      }
-      else: "N"
+    sql: ${TABLE}.is_own_brand = 1 ;;
   }
- }
 
   dimension: description {
     group_label: "Product Details"
