@@ -122,29 +122,29 @@ view: scorecard_branch_dev25 {
   dimension: CustRag_dim {group_label: "Ranking" label: "Customer Rag" type:number value_format_name:decimal_0 sql:${TABLE}.CustRag;;hidden:yes}
   dimension: OverallRag_dim {group_label: "Ranking" label: "Overall Rag" type:number value_format_name:decimal_0 sql:${TABLE}.OverallRag;;hidden:yes}
 
-  measure: ltoPercent {group_label: "Measures" label: "LTO %" type: average value_format_name:percent_1 sql:${ltoPercent_dim};;}
+  measure: ltoPercent {group_label: "Measures" label: "LTO %" type: average value_format_name:percent_2 sql:${ltoPercent_dim};;}
   measure: trainingAvailable {group_label: "Measures" label: "Training Available" type: average value_format_name:decimal_1 sql:${trainingAvailable_dim};;}
   measure: trainingCompleted {group_label: "Measures" label: "Training Completed" type: average value_format_name:decimal_1 sql:${trainingCompleted_dim};;}
-  measure: trainingPercentCompleted {group_label: "Measures" label: "Training Completed % " type: average value_format_name:percent_1 sql:${trainingPercentCompleted_dim};;}
+  measure: trainingPercentCompleted {group_label: "Measures" label: "Training Completed % " type: average value_format_name:percent_2 sql:${trainingPercentCompleted_dim};;}
   measure: holidayMonthEntitlement {group_label: "Measures" label: "Holiday Month Entitlement" type: average value_format_name:decimal_1 sql:${holidayMonthEntitlement_dim};;}
   measure: holidayTaken {group_label: "Measures" label: "Holiday Taken" type: average value_format_name:decimal_1 sql:${holidayTaken_dim};;}
-  measure: holidayTakenPercent {group_label: "Measures" label: "Holiday Taken %" type: average value_format_name:percent_1 sql:${holidayTakenPercent_dim};;}
+  measure: holidayTakenPercent {group_label: "Measures" label: "Holiday Taken %" type: average value_format_name:percent_2 sql:${holidayTakenPercent_dim};;}
   measure: apprenticeship {group_label: "Measures" label: "Number of Apprenticeship" type: average value_format_name:decimal_2 sql:${apprenticeship_dim};;}
-  measure: safetyCompliance {group_label: "Measures" label: "Safety Compliance" type: average value_format_name:percent_1 sql:${safetyCompliance_dim};;}
-  measure: processCompPercent {group_label: "Measures" label: "Process Compliance %" type: average value_format_name:percent_1 sql:${processCompPercent_dim};;}
+  measure: safetyCompliance {group_label: "Measures" label: "Safety Compliance" type: average value_format_name:percent_2 sql:${safetyCompliance_dim};;}
+  measure: processCompPercent {group_label: "Measures" label: "Process Compliance %" type: average value_format_name:percent_2 sql:${processCompPercent_dim};;}
   measure: orders {group_label: "Measures" label: "Orders" type: average value_format_name:decimal_1 sql:${orders_dim};;}
   measure: shrinkage {group_label: "Measures" label: "Shrinkage" type: average value_format_name:decimal_1 sql:${shrinkage_dim};;}
-  measure: shrinkagePercent {group_label: "Measures" label: "Shrinkage %" type: average value_format_name:percent_1 sql:${shrinkagePercent_dim};;}
+  measure: shrinkagePercent {group_label: "Measures" label: "Shrinkage %" type: average value_format_name:percent_2 sql:${shrinkagePercent_dim};;}
   measure: NPS {group_label: "Measures" label: "NPS" type: average value_format_name:decimal_1 sql:${NPS_dim};;}
   measure: anonOrders {group_label: "Measures" label: "Anon Orders" type: average value_format_name:decimal_1 sql:${anonOrders_dim};;}
   measure: totalOrders {group_label: "Measures" label: "Total Orders" type: average value_format_name:decimal_1 sql:${totalOrders_dim};;}
-  measure: anonPercent {group_label: "Measures" label: "Anonymous %" type: average value_format_name:percent_1 sql:${anonPercent_dim};;}
+  measure: anonPercent {group_label: "Measures" label: "Anonymous %" type: average value_format_name:percent_2 sql:${anonPercent_dim};;}
   measure: anonBandingL {group_label: "Measures" label: "Anon Banding L" type: average value_format_name:decimal_1 sql:${anonBandingL_dim};;}
   measure: anonBandingM {group_label: "Measures" label: "Anon Banding M" type: average value_format_name:decimal_1 sql:${anonBandingM_dim};;}
   measure: anonBandingU {group_label: "Measures" label: "Anon Banding U" type: average value_format_name:decimal_1 sql:${anonBandingU_dim};;}
   measure: tyFrequency {group_label: "Measures" label: "Ty Frequency" type: average value_format_name:decimal_1 sql:${tyFrequency_dim};;}
   measure: pyFrequency {group_label: "Measures" label: "Py Frequency" type: average value_format_name:decimal_1 sql:${pyFrequency_dim};;}
-  measure: yoyFrequency {group_label: "Measures" label: "Frequency" type: average value_format_name:percent_1 sql:${yoyFrequency_dim};;}
+  measure: yoyFrequency {group_label: "Measures" label: "Frequency" type: average value_format_name:percent_2 sql:${yoyFrequency_dim};;}
   measure: netSales {group_label: "Measures" label: "Net Sales" type: average value_format_name:gbp_0 sql:${netSales_dim};;}
   measure: pyUnits {group_label: "Measures" label: "Py Units" type: average value_format_name:decimal_1 sql:${pyUnits_dim};;}
   measure: unitsExCC {group_label: "Measures"  type: average value_format_name:decimal_1 sql:${unitsExCC_dim};;}
@@ -153,8 +153,8 @@ view: scorecard_branch_dev25 {
   measure: pyOrdersExCC {group_label: "Measures"  type: average value_format_name:decimal_1 sql:${pyOrdersExCC_dim};;}
   measure: tyTradeSales {group_label: "Measures" label: "Ty Trade Sales" type: average value_format_name:gbp_0 sql:${tyTradeSales_dim};;}
   measure: pyTradeSales {group_label: "Measures" label: "Py Trade Sales" type: average value_format_name:gbp_0 sql:${pyTradeSales_dim};;}
-  measure: yoyTradeSales {group_label: "Measures" label: "Trade Sales YOY " type: average value_format_name:percent_1 sql:${yoyTradeSales_dim};;}
-  measure: yoyUPT {group_label: "Measures" label: "UPT" type: average value_format_name:percent_1 sql:${yoyUPT_dim};;}
+  measure: yoyTradeSales {group_label: "Measures" label: "Trade Sales YOY " type: average value_format_name:percent_2 sql:${yoyTradeSales_dim};;}
+  measure: yoyUPT {group_label: "Measures" label: "UPT" type: average value_format_name:percent_2 sql:${yoyUPT_dim};;}
   measure: tySales {group_label: "Measures" label: "Ty Sales" type: average value_format_name:gbp_0 sql:${tySales_dim};;}
   measure: tyOrders {group_label: "Measures" label: "Ty Orders" type: average value_format_name:decimal_1 sql:${tyOrders_dim};;}
   measure: tyAOV {group_label: "Measures" label: "Ty AOV" type: average value_format_name:gbp sql:${tyAOV_dim};;}
@@ -163,8 +163,8 @@ view: scorecard_branch_dev25 {
   measure: actual_hours {group_label: "Measures" label: "Actual Hours" type: average value_format_name:decimal_1 sql:${actual_hours_dim};;}
   measure: aop_hours {group_label: "Measures" label: "AOP Hours" type: average value_format_name:decimal_1 sql:${aop_hours_dim};;}
   measure: hoursVsAOP {group_label: "Measures" label: "Hours Vs AOP" type: average value_format_name:decimal_1 sql:${hoursVsAOP_dim};;}
-  measure: labourBudgetPercent {group_label: "Measures" label: "Labour Hour vs Budget %" type: average value_format_name:percent_1 sql:${labourBudgetPercent_dim};;}
-  measure: contributionVsBudget {group_label: "Measures" label: "Contribution vs Budget" type: average value_format_name:percent_1 sql:${contributionVsBudget_dim};;}
+  measure: labourBudgetPercent {group_label: "Measures" label: "Labour Hour vs Budget %" type: average value_format_name:percent_2 sql:${labourBudgetPercent_dim};;}
+  measure: contributionVsBudget {group_label: "Measures" label: "Contribution vs Budget" type: average value_format_name:percent_2 sql:${contributionVsBudget_dim};;}
   measure: AOP {group_label: "Measures" label: "AOP" type: average value_format_name:gbp_0 sql:${AOP_dim};;}
   measure: vsAOP {group_label: "Measures" label: "vs AOP" type: average value_format_name:decimal_1 sql:${vsAOP_dim};;}
   measure: EbitLTY {group_label: "Measures" label: "EbitL Ty" type: average value_format_name:gbp_0 sql:${EbitLTY_dim};;}
@@ -172,7 +172,7 @@ view: scorecard_branch_dev25 {
   measure: tyEBIT {group_label: "Measures" label: "Ty EBIT" type: average value_format_name:gbp_0 sql:${tyEBIT_dim};;}
   measure: pyEBIT {group_label: "Measures" label: "Py EBIT" type: average value_format_name:gbp_0 sql:${pyEBIT_dim};;}
   measure: tsClubSales {group_label: "Measures" label: "TS Club Sales" type: average value_format_name:gbp sql:${tsClubSales_dim};;}
-  measure: tsClubSalesPercent {group_label: "Scores" label: "TS Club Sales %" type: average value_format_name:percent_1 sql:${tsClubSalesPercent_dim};;}
+  measure: tsClubSalesPercent {group_label: "Scores" label: "TS Club Sales %" type: average value_format_name:percent_2 sql:${tsClubSalesPercent_dim};;}
   measure: ltoScore {group_label: "Scores" label: "LTO Score" type: average value_format_name:decimal_1 sql:${ltoScore_dim};;}
   measure: trainingScore {group_label: "Scores" label: "Training Score" type: average value_format_name:decimal_1 sql:${trainingScore_dim};;}
   measure: holidayScore {group_label: "Scores" label: "Holiday Score" type: average value_format_name:decimal_1 sql:${holidayScore_dim};;}
