@@ -317,7 +317,6 @@ explore: retail {
   }
 
   join: customers {
-    required_access_grants: [lz_only]
     fields: [customers.customer_uid,customers.number_of_customers]
     view_label: "Customers"
     type :  left_outer
@@ -325,10 +324,7 @@ explore: retail {
     sql_on: ${transactions.customer_uid}=${customers.customer_uid} ;;
   }
 
-
-
   join: yoy_comparison {
-    required_access_grants: [lz_only]
     view_label: "YOY Comparison"
     type :  left_outer
     relationship: many_to_one
@@ -338,7 +334,6 @@ explore: retail {
   }
 
   join: yoy_comparison_py {
-    required_access_grants: [lz_only]
     view_label: "YOY Comparison PY"
     type :  left_outer
     relationship: many_to_one
