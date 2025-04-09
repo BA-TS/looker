@@ -58,7 +58,7 @@ explore: retail {
   join: transactions {
     type: left_outer
     relationship: one_to_many
-    fields: [transactions.total_units,transactions.refurb_pre_post,transactions.number_of_branches,transactions.aov_price,transactions.transaction_frequency,transactions.aov_units,transactions.total_units,transactions.loyalty_net_sales_percent,transactions.trade_account_net_sales,transactions.trade_account_net_sales_percent]
+    fields: [transactions.total_units,transactions.number_of_transactions,transactions.refurb_pre_post,transactions.number_of_branches,transactions.aov_price,transactions.total_net_sales,transactions.transaction_frequency,transactions.aov_units,transactions.total_units,transactions.loyalty_net_sales_percent,transactions.trade_account_net_sales,transactions.trade_account_net_sales_percent]
     sql_on: ${base.base_date_date} = ${transactions.transaction_date_filter};;
   }
 
