@@ -8,7 +8,8 @@ view: scorecard_branch_dev_ytd25 {
   derived_table: {
     sql:
       SELECT
-      *
+      *,
+      row_number() over () as P_K,
       FROM `toolstation-data-storage.retailReporting.SC_25_YTD_DATA_FINAL_DEV`
       ;;
     datagroup_trigger: ts_daily_datagroup
@@ -28,6 +29,13 @@ view: scorecard_branch_dev_ytd25 {
     hidden: yes
   }
 
+  dimension: P_K {
+    type: number
+    sql: ${TABLE}.P_K;;
+    hidden: yes
+    primary_key: yes
+  }
+
   measure: siteUID_count {
     # required_access_grants: [lz_only]
     type: count_distinct
@@ -36,12 +44,7 @@ view: scorecard_branch_dev_ytd25 {
     group_label: "Measures"
   }
 
-  dimension: siteUID_month {
-    type: string
-    sql: concat(${month},${siteUID});;
-    hidden: yes
-    primary_key: yes
-  }
+
 
   dimension: ltoPercent_dim {group_label: "Measures" label: "LTO %" type:number value_format_name:percent_2 sql:${TABLE}.ltoPercent;;hidden:yes}
   dimension: trainingAvailable_dim {group_label: "Measures" label: "Training Available" type:number value_format_name:decimal_1 sql:${TABLE}.trainingAvailable;;hidden:yes}
