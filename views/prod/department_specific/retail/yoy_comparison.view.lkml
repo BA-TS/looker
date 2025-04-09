@@ -50,7 +50,7 @@ view: yoy_comparison {
 
   dimension: number_of_customers_yoy {
     type: number
-    value_format_name: percent_1
+    value_format_name: percent_2
     label: "Number of Customers YOY"
     sql: safe_divide(${number_of_customers}-${yoy_comparison_py.number_of_customers},${yoy_comparison_py.number_of_customers}) ;;
   }
@@ -65,7 +65,7 @@ view: yoy_comparison {
 
   dimension: aov_price_yoy {
     type: number
-    value_format_name: percent_1
+    value_format_name: percent_2
     label: "ASP YOY"
     sql: safe_divide(${aov_price}-${yoy_comparison_py.aov_price},${yoy_comparison_py.aov_price}) ;;
   }

@@ -43,7 +43,7 @@ view: scorecard_branch_dev_ytd25 {
     primary_key: yes
   }
 
-  dimension: ltoPercent_dim {group_label: "Measures" label: "LTO %" type:number value_format_name:percent_1 sql:${TABLE}.ltoPercent;;hidden:yes}
+  dimension: ltoPercent_dim {group_label: "Measures" label: "LTO %" type:number value_format_name:percent_2 sql:${TABLE}.ltoPercent;;hidden:yes}
   dimension: trainingAvailable_dim {group_label: "Measures" label: "Training Available" type:number value_format_name:decimal_1 sql:${TABLE}.trainingAvailable;;hidden:yes}
   dimension: trainingCompleted_dim {group_label: "Measures" label: "Training Completed" type:number value_format_name:decimal_1 sql:${TABLE}.trainingCompleted;;hidden:yes}
   dimension: trainingPercentCompleted_dim {group_label: "Measures" label: "Training % Completed" type:number value_format_name:decimal_1 sql:${TABLE}.trainingPercentCompleted;;hidden:yes}
@@ -52,20 +52,20 @@ view: scorecard_branch_dev_ytd25 {
   dimension: holidayTakenPercent_dim {group_label: "Measures" label: "Holiday Taken %" type:number value_format_name:decimal_1 sql:${TABLE}.holidayTakenPercent;;hidden:yes}
   dimension: apprenticeship_dim {group_label: "Measures" label: "Apprenticeship" type:number value_format_name:decimal_2 sql:${TABLE}.apprenticeship;;hidden:yes}
   dimension: safetyCompliance_dim {group_label: "Measures" label: "Safety Compliance" type:number value_format_name:decimal_1 sql:${TABLE}.safetyCompliance;;hidden:yes}
-  dimension: processCompPercent_dim {group_label: "Measures" label: "Process Comp %" type:number value_format_name:percent_1 sql:${TABLE}.processCompPercent;;hidden:yes}
+  dimension: processCompPercent_dim {group_label: "Measures" label: "Process Comp %" type:number value_format_name:percent_2 sql:${TABLE}.processCompPercent;;hidden:yes}
   dimension: orders_dim {group_label: "Measures" label: "Orders" type:number value_format_name:decimal_1 sql:${TABLE}.orders;;hidden:yes}
   dimension: shrinkage_dim {group_label: "Measures" label: "Shrinkage" type:number value_format_name:decimal_1 sql:${TABLE}.shrinkage;;hidden:yes}
-  dimension: shrinkagePercent_dim {group_label: "Measures" label: "Shrinkage %" type:number value_format_name:percent_1 sql:${TABLE}.shrinkagePercent;;hidden:yes}
+  dimension: shrinkagePercent_dim {group_label: "Measures" label: "Shrinkage %" type:number value_format_name:percent_2 sql:${TABLE}.shrinkagePercent;;hidden:yes}
   dimension: NPS_dim {group_label: "Measures" label: "NPS" type:number value_format_name:decimal_1 sql:${TABLE}.NPS;;hidden:yes}
   dimension: anonOrders_dim {group_label: "Measures" label: "Anon Orders" type:number value_format_name:decimal_1 sql:${TABLE}.anonOrders;;hidden:yes}
   dimension: totalOrders_dim {group_label: "Measures" label: "Total Orders" type:number value_format_name:decimal_1 sql:${TABLE}.totalOrders;;hidden:yes}
-  dimension: anonPercent_dim {group_label: "Measures" label: "Anon %" type:number value_format_name:percent_1 sql:${TABLE}.anonPercent;;hidden:yes}
+  dimension: anonPercent_dim {group_label: "Measures" label: "Anon %" type:number value_format_name:percent_2 sql:${TABLE}.anonPercent;;hidden:yes}
   dimension: anonBandingL_dim {group_label: "Measures" label: "Anon Banding L" type:number value_format_name:decimal_1 sql:${TABLE}.anonBandingL;;hidden:yes}
   dimension: anonBandingM_dim {group_label: "Measures" label: "Anon Banding M" type:number value_format_name:decimal_1 sql:${TABLE}.anonBandingM;;hidden:yes}
   dimension: anonBandingU_dim {group_label: "Measures" label: "Anon Banding U" type:number value_format_name:decimal_1 sql:${TABLE}.anonBandingU;;hidden:yes}
   dimension: tyFrequency_dim {group_label: "Measures" label: "Ty Frequency" type:number value_format_name:decimal_1 sql:${TABLE}.tyFrequency;;hidden:yes}
   dimension: pyFrequency_dim {group_label: "Measures" label: "Py Frequency" type:number value_format_name:decimal_1 sql:${TABLE}.pyFrequency;;hidden:yes}
-  dimension: yoyFrequency_dim {group_label: "Measures" label: "YOY Frequency" type:number value_format_name:percent_1 sql:${TABLE}.yoyFrequency;;hidden:yes}
+  dimension: yoyFrequency_dim {group_label: "Measures" label: "YOY Frequency" type:number value_format_name:percent_2 sql:${TABLE}.yoyFrequency;;hidden:yes}
   dimension: netSales_dim {group_label: "Measures" label: "Net Sales" type:number value_format_name:gbp_0 sql:${TABLE}.netSales;;hidden:yes}
   dimension: pyUnits_dim {group_label: "Measures" label: "Py Units" type:number value_format_name:decimal_1 sql:${TABLE}.pyUnits;;hidden:yes}
   dimension: unitsExCC_dim {group_label: "Measures"  type:number value_format_name:decimal_1 sql:${TABLE}.unitsExCC;;hidden:yes}
@@ -84,7 +84,7 @@ view: scorecard_branch_dev_ytd25 {
   dimension: actual_hours_dim {group_label: "Measures" label: "Actual Hours" type:number value_format_name:decimal_1 sql:${TABLE}.actual_hours;;hidden:yes}
   dimension: aop_hours_dim {group_label: "Measures" label: "AOP Hours" type:number value_format_name:decimal_1 sql:${TABLE}.aop_hours;;hidden:yes}
   dimension: hoursVsAOP_dim {group_label: "Measures" label: "Hours Vs AOP" type:number value_format_name:decimal_1 sql:${TABLE}.hoursVsAOP;;hidden:yes}
-  dimension: labourBudgetPercent_dim {group_label: "Measures" label: "Labour Budget %" type:number value_format_name:percent_1 sql:${TABLE}.labourBudgetPercent;;hidden:yes}
+  dimension: labourBudgetPercent_dim {group_label: "Measures" label: "Labour Budget %" type:number value_format_name:percent_2 sql:${TABLE}.labourBudgetPercent;;hidden:yes}
   dimension: contributionVsBudget_dim {group_label: "Measures" label: "Contribution vs Budget" type:number value_format_name:decimal_1 sql:${TABLE}.contributionVsBudget;;hidden:yes}
   dimension: AOP_dim {group_label: "Measures" label: "AOP" type:number value_format_name:gbp_0 sql:${TABLE}.AOP;;hidden:yes}
   dimension: vsAOP_dim {group_label: "Measures" label: "vs AOP" type:number value_format_name:decimal_1 sql:${TABLE}.vsAOP;;hidden:yes}
@@ -205,7 +205,7 @@ view: scorecard_branch_dev_ytd25 {
     view_label: "P&L"
     group_label: "EBIT"
     label: "EBIT/Net Sales TY%"
-    value_format_name: percent_1
+    value_format_name: percent_2
     type: number
     sql: safe_divide(${tyEBIT},${netSales})  ;;
   }
@@ -214,7 +214,7 @@ view: scorecard_branch_dev_ytd25 {
     view_label: "P&L"
     group_label: "EBIT"
     label: "EBIT/Net Sales PY%"
-    value_format_name: percent_1
+    value_format_name: percent_2
     type: number
     sql: safe_divide(${pyEBIT},${pySales})  ;;
   }
@@ -241,7 +241,7 @@ view: scorecard_branch_dev_ytd25 {
     view_label: "P&L"
     group_label: "EBIT"
     sql: safe_divide(${var_PY_Net_Sales},${netSales})  ;;
-    value_format_name: percent_1
+    value_format_name: percent_2
   }
 
 
