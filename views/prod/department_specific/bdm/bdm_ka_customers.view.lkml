@@ -7,19 +7,12 @@ view: bdm_ka_customers {
     DISTINCT row_number() over () AS prim_key,
     team,
     bdm,
-    bdm.customerUID,
+    customerUID,
     startDate,
     max(coalesce(endDate,current_date)) as endDate,
-    date(min(transactionDate)) as first_transaction,
-    case when extract (year from startDate) < extract (year from current_date) then "Existing"
-    when (date_diff(startDate, min(date(transactionDate)), day))>0 then "New (Existing Toolstation Customer)"
-    else "New (New to Toolstation)"
-    end as classification,
     company as customerName
     from
-    `toolstation-data-storage.retailReporting.BDM_KA_LEDGER` bdm
-    LEFT JOIN `sales.transactions` t
-    on bdm.customerUID = t.customerUID and bdm.startDate >= date(t.transactionDate)
+    `toolstation-data-storage.retailReporting.BDM_KA_LEDGER`
     where bdm is not null
     group by all
     order by startDate desc
@@ -53,11 +46,11 @@ view: bdm_ka_customers {
     sql: ${TABLE}.bdm ;;
   }
 
-  dimension: classification {
-    label: "Customer Classification"
-    type: string
-    sql: ${TABLE}.classification ;;
-  }
+  # dimension: classification {
+  #   label: "Customer Classification"
+  #   type: string
+  #   sql: ${TABLE}.classification ;;
+  # }
 
   dimension_group: start {
     view_label: "Customers"
@@ -73,18 +66,18 @@ view: bdm_ka_customers {
   }
 
 
-  dimension_group: first_transaction {
-    view_label: "Customers"
-    type: time
-    datatype: date
-    sql: ${TABLE}.first_transaction ;;
-    timeframes: [
-      date,
-      raw,
-      month,
-      year
-    ]
-  }
+  # dimension_group: first_transaction {
+  #   view_label: "Customers"
+  #   type: time
+  #   datatype: date
+  #   sql: ${TABLE}.first_transaction ;;
+  #   timeframes: [
+  #     date,
+  #     raw,
+  #     month,
+  #     year
+  #   ]
+  # }
 
   dimension: customer_TY {
     view_label: "Customers"
