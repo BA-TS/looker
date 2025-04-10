@@ -15,7 +15,6 @@ view: bdm_ka_customers {
     `toolstation-data-storage.retailReporting.BDM_KA_LEDGER`
     where bdm is not null
     group by all
-    order by startDate desc
     ;;
     datagroup_trigger: ts_daily_datagroup
   }
@@ -46,11 +45,23 @@ view: bdm_ka_customers {
     sql: ${TABLE}.bdm ;;
   }
 
-  # dimension: classification {
-  #   label: "Customer Classification"
-  #   type: string
-  #   sql: ${TABLE}.classification ;;
-  # }
+  measure: min_start {
+    view_label: "Customers"
+    group_label: "Start and End Dates"
+    type: min
+    sql: ${start_date};;
+    hidden: yes
+  }
+
+  measure: classification {
+    label: "Customer Classification"
+    type: string
+    sql:
+    case when extract (year from ${min_start}) < extract (year from current_date) then "Existing"
+    when date_diff(${min_start}, ${transactions.first_transaction_date}, day)>0 then "New (Existing Toolstation Customer)"
+    else "New (New to Toolstation)"
+    end ;;
+  }
 
   dimension_group: start {
     view_label: "Customers"
@@ -64,20 +75,6 @@ view: bdm_ka_customers {
       year
     ]
   }
-
-
-  # dimension_group: first_transaction {
-  #   view_label: "Customers"
-  #   type: time
-  #   datatype: date
-  #   sql: ${TABLE}.first_transaction ;;
-  #   timeframes: [
-  #     date,
-  #     raw,
-  #     month,
-  #     year
-  #   ]
-  # }
 
   dimension: customer_TY {
     view_label: "Customers"
