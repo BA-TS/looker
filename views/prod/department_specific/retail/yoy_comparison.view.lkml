@@ -48,7 +48,7 @@ view: yoy_comparison {
   measure: number_of_customers_yoy2 {
     type: number
     value_format_name: percent_2
-    label: "Number of Customers YOY2"
+    label: "Number of Customers YOY"
     sql: safe_divide(${number_of_customers}-${number_of_customers_py},${number_of_customers_py}) ;;
   }
 
