@@ -39,7 +39,7 @@ view: pl_sales_total_ytd {
     group_label: "Sales Total YTD"
     label: "Sales Total vs AOP"
     type: number
-    sql: ${TABLE}.AOP ;;
+    sql: ${TABLE}.vsAOP ;;
     value_format_name: gbp_0
   }
 
