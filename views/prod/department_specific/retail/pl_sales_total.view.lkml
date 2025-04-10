@@ -25,6 +25,7 @@ view: pl_sales_total_ytd {
     type: number
     sql: ${TABLE}.AOP ;;
     value_format_name: gbp_0
+    hidden: yes
   }
 
   measure: sales_total_AOP{
@@ -41,6 +42,7 @@ view: pl_sales_total_ytd {
     type: number
     sql: ${TABLE}.vsAOP ;;
     value_format_name: gbp_0
+    hidden: yes
   }
 
   measure: sales_total_vs_AOP{
