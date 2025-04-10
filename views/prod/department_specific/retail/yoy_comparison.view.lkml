@@ -102,6 +102,7 @@ view: yoy_comparison {
   measure: total_units {
     type:  sum
     sql: ${total_units_dim};;
+    hidden: yes
   }
 
   measure: aov_price{

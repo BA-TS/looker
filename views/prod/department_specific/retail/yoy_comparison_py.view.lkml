@@ -84,6 +84,7 @@ required_access_grants: [lz_only]
 
   measure: aov_price{
     type: number
+    label: "Net ASP"
     sql: COALESCE(SAFE_DIVIDE(SAFE_DIVIDE(${total_net_sales}, ${number_of_transactions}), SAFE_DIVIDE(${total_units}, ${number_of_transactions})),0) ;;
     value_format_name: gbp
   }
