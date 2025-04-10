@@ -7,14 +7,22 @@ view: bdm_ka_customers {
     DISTINCT row_number() over () AS prim_key,
     team,
     bdm,
-    customerUID,
-    min(coalesce(startDate,date_sub(current_date,interval 3 year))) as startDate,
+    bdm.customerUID,
+    startDate,
     max(coalesce(endDate,current_date)) as endDate,
+    date(min(transactionDate)) as first_transaction,
+    case when extract (year from startDate) < extract (year from current_date) then "Existing"
+    when (date_diff(startDate, min(date(transactionDate)), day))>0 then "New (Existing Toolstation Customer)"
+    else "New (New to Toolstation)"
+    end as classification,
     company as customerName
     from
-    `toolstation-data-storage.retailReporting.BDM_KA_LEDGER`
+    `toolstation-data-storage.retailReporting.BDM_KA_LEDGER` bdm
+    LEFT JOIN `sales.transactions` t
+    on bdm.customerUID = t.customerUID and bdm.startDate >= date(t.transactionDate)
     where bdm is not null
     group by all
+    order by startDate desc
     ;;
     datagroup_trigger: ts_daily_datagroup
   }
@@ -45,6 +53,12 @@ view: bdm_ka_customers {
     sql: ${TABLE}.bdm ;;
   }
 
+  dimension: classification {
+    label: "Customer Classification"
+    type: string
+    sql: ${TABLE}.classification ;;
+  }
+
   dimension_group: start {
     view_label: "Customers"
     group_label: "Start and End Dates"
@@ -53,6 +67,20 @@ view: bdm_ka_customers {
     sql: ${TABLE}.startDate ;;
     timeframes: [
       date,
+      month,
+      year
+    ]
+  }
+
+
+  dimension_group: first_transaction {
+    view_label: "Customers"
+    type: time
+    datatype: date
+    sql: ${TABLE}.first_transaction ;;
+    timeframes: [
+      date,
+      raw,
       month,
       year
     ]
@@ -111,18 +139,18 @@ view: bdm_ka_customers {
     End ;;
   }
 
-  dimension: classification {
-    view_label: "Customers"
-    label: "Account Classification"
-    type: string
-    sql:
-    case
-      when (date_diff(current_date()-1, ${start_date}, day)) > 364 then 'Existing'
-      when (date_diff(${start_date}, ${transactions.order_completed_date},day)) <= 364 then 'Existing'
-      when (date_diff(${start_date}, ${transactions.order_completed_date}, day)) is null then 'New'
-      when (date_diff(${start_date}, ${transactions.order_completed_date}, day)) > 364 then 'New'
-      else 'Time Traveler' end;;
-  }
+  # dimension: classification {
+  #   view_label: "Customers"
+  #   label: "Account Classification"
+  #   type: string
+  #   sql:
+  #   case
+  #     when (date_diff(current_date()-1, ${start_date}, day)) > 364 then 'Existing'
+  #     when (date_diff(${start_date}, ${transactions.order_completed_date},day)) <= 364 then 'Existing'
+  #     when (date_diff(${start_date}, ${transactions.order_completed_date}, day)) is null then 'New'
+  #     when (date_diff(${start_date}, ${transactions.order_completed_date}, day)) > 364 then 'New'
+  #     else 'Time Traveler' end;;
+  # }
 
   dimension: credit_limit {
     type: number
