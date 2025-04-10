@@ -1,5 +1,5 @@
 view: yoy_comparison_py {
-  fields_hidden_by_default: yes
+required_access_grants: [lz_only]
 
   derived_table: {
     explore_source: retail {
@@ -38,6 +38,7 @@ view: yoy_comparison_py {
   dimension: number_of_customers {
     type: number
     sql: ${TABLE}.number_of_customers ;;
+    hidden: yes
   }
 
   measure: total_number_of_customers {
