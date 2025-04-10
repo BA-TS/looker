@@ -5,9 +5,9 @@ required_access_grants: [lz_only]
     explore_source: retail {
       column: site_uid { field: sites.site_uid }
       column: number_of_customers { field: customers.number_of_customers }
-      # column: total_net_sales { field: customers.total_net_sales }
-      # column: number_of_transactions { field: customers.number_of_transactions }
-      column: aov_price { field: transactions.aov_price }
+      column: total_net_sales { field: transactions.total_net_sales }
+      column: number_of_transactions { field: transactions.number_of_transactions }
+      column: total_units { field: transactions.total_units }
       column: py_calendar_year { field: calendar_completed_date.calendar_year }
       column: month_in_year { field: calendar_completed_date.month_in_year }
 
@@ -47,10 +47,44 @@ required_access_grants: [lz_only]
     sql: ${number_of_customers} ;;
   }
 
-  dimension: aov_price {
-    label: "Net ASP (PY)"
+  dimension: total_net_sales_dim {
     type: number
-    sql: ${TABLE}.aov_price ;;
+    sql: ${TABLE}.total_net_sales ;;
+    hidden: yes
+  }
+
+  measure: total_net_sales {
+    type: sum
+    sql: ${total_net_sales_dim} ;;
+    hidden: yes
+  }
+
+  dimension: number_of_transactions_dim {
+    type: number
+    sql: ${TABLE}.number_of_transactions ;;
+    hidden: yes
+  }
+
+  measure: number_of_transactions {
+    type: sum
+    sql: ${number_of_transactions_dim} ;;
+    hidden: yes
+  }
+
+  dimension: total_units_dim {
+    type: number
+    sql: ${TABLE}.total_units ;;
+    hidden: yes
+  }
+
+  measure: total_units {
+    type:  sum
+    sql: ${total_units_dim};;
+  }
+
+  measure: aov_price{
+    type: number
+    sql: COALESCE(SAFE_DIVIDE(SAFE_DIVIDE(${total_net_sales}, ${number_of_transactions}), SAFE_DIVIDE(${total_units}, ${number_of_transactions})),0) ;;
     value_format_name: gbp
   }
 
@@ -67,41 +101,6 @@ required_access_grants: [lz_only]
   dimension: month_in_year {
     type: number
     sql: ${TABLE}.month_in_year ;;
-  }
-
-  dimension: total_net_sales_dim {
-    type: number
-    sql: ${TABLE}.total_net_sales ;;
-    hidden: yes
-  }
-
-  dimension: number_of_transactions_dim {
-    type: number
-    sql: ${TABLE}.number_of_transactions ;;
-    hidden: yes
-  }
-
-  measure: total_net_sales {
-    type: sum
-    sql: ${total_net_sales_dim} ;;
-    hidden: yes
-  }
-
-  measure: number_of_transactions {
-    type: sum
-    sql: ${number_of_transactions_dim} ;;
-    hidden: yes
-  }
-
-  measure: aov_net_sales {
-    label: "Net Sales AOV"
-    view_label: "Measures"
-    group_label: "AOV"
-    description: "Average net sales per order"
-    type:  number
-    sql: COALESCE(SAFE_DIVIDE(${total_net_sales}, ${number_of_transactions}),0) ;;
-    value_format_name: gbp
-    hidden: yes
   }
 
 }
