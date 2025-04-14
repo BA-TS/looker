@@ -52,9 +52,16 @@ view: products {
   dimension: is_own_brand {
     group_label: "Product Details"
     label: "Own Brand (Y/N/Unknown)"
-    type: yesno
+    type: string
     description: "If brand is Toolstation's own brand, then Y, otherwise N, or Unknown for products which have no brands"
-    sql: ${TABLE}.is_own_brand = 1 ;;
+    sql:
+    case when
+    ${TABLE}.is_own_brand = 1 then "Y"
+    when
+    ${brand} is null then "Unknown"
+    else "N"
+    end
+    ;;
   }
 
   dimension: description {
