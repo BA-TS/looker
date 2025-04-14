@@ -345,7 +345,8 @@ explore: retail {
 }
 
 explore: +retail {
-    aggregate_table: rollup__branch_performance {
+
+  aggregate_table: rollup__branch_performancef {
     query: {
       dimensions: [
         branch_market_share.distance_1km,
@@ -355,18 +356,21 @@ explore: +retail {
         branch_market_share.urban_classification_average,
         break_dates_branch.break_notice_date,
         change_hours.change_hours,
-        retail_trading_profit_ytd.retail_trading_profit_ly,
-        retail_trading_profit_ytd.retail_trading_profit_ty,
+        sfx_impact.sfx_flag,
+        sfx_impact.sfx_month,
         sites.Is_mature_branch,
+        sites.Is_top_50_FY24_maturesales,
         sites.Refurb_start_date,
         sites.date_opened_year,
         sites.division,
         sites.region_name,
         sites.salesTier,
         sites.site_name,
-        sites.site_uid
+        sites.site_uid,
+        ts_impact.ts_flag,
+        ts_impact.ts_month
       ]
-      measures: [availability_branch_ytd.availability, availability_branch_ytd_py.availability, scorecard_branch_dev_ytd25.NPS, scorecard_branch_dev_ytd25.ltoPercent, scorecard_branch_dev_ytd25.netSales, scorecard_branch_dev_ytd25.overallRank, scorecard_branch_dev_ytd25.pillarRankColleague, scorecard_branch_dev_ytd25.pillarRankCust, scorecard_branch_dev_ytd25.pillarRankSimplicityEfficiency, scorecard_branch_dev_ytd25.pyEBIT, scorecard_branch_dev_ytd25.pySales, scorecard_branch_dev_ytd25.py_EBIT_net_sales, scorecard_branch_dev_ytd25.tyEBIT, scorecard_branch_dev_ytd25.ty_EBIT_net_sales, scorecard_branch_dev_ytd25.var_PY_Net_Sales, scorecard_branch_dev_ytd25.var_PY_Sales_Percent, scorecard_branch_dev_ytd25.vs_PY_EBIT, transactions.loyalty_net_sales_percent, transactions.trade_account_net_sales_percent]
+      measures: [pl_sales_total_ytd.sales_total_AOP, pl_sales_total_ytd.sales_total_vs_AOP, pl_sales_total_ytd.sales_total_vs_AOP_percent, scorecard_branch_dev_ytd25.NPS, scorecard_branch_dev_ytd25.ltoPercent, scorecard_branch_dev_ytd25.netSales, scorecard_branch_dev_ytd25.overallRank, scorecard_branch_dev_ytd25.pillarRankColleague, scorecard_branch_dev_ytd25.pillarRankCust, scorecard_branch_dev_ytd25.pillarRankSimplicityEfficiency, scorecard_branch_dev_ytd25.pyEBIT, scorecard_branch_dev_ytd25.pySales, scorecard_branch_dev_ytd25.py_EBIT_net_sales, scorecard_branch_dev_ytd25.tyEBIT, scorecard_branch_dev_ytd25.ty_EBIT_net_sales, scorecard_branch_dev_ytd25.var_PY_Net_Sales, scorecard_branch_dev_ytd25.var_PY_Sales_Percent, scorecard_branch_dev_ytd25.vs_PY_EBIT, scorecard_branch_dev_ytd25.yoyFrequency, scorecard_branch_dev_ytd25.yoyTradeSales, scorecard_branch_dev_ytd25.yoyUPT, transactions.loyalty_net_sales_percent, transactions.trade_account_net_sales_percent, yoy_comparison.aov_price_yoy, yoy_comparison.number_of_customers_yoy2]
       filters: [
         base.select_date_range: "1 month ago for 1 month",
         base.select_date_reference: "Transaction"
