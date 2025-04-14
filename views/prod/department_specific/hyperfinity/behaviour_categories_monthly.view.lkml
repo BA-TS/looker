@@ -42,7 +42,7 @@ view: behaviour_categories_monthly {
   dimension: period_code {
     group_label:"Behaviour Categories History"
     type:string
-    sql:${TABLE}.PERIOD_CODE;;
+    sql:cast(${TABLE}.PERIOD_CODE as string);;
   }
 
   dimension: final_segment{
