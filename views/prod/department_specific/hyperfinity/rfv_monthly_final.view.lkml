@@ -45,6 +45,23 @@ view: rfv_monthly_final {
     ;;
   }
 
+  dimension: loyalty_segment {
+    type: string
+    sql:
+    case when ${rfv_group} ="High Freq High Val" then "Frequent High Spender"
+    when ${rfv_group} ="High Freq High Val" then "Frequent High Spender"
+    when ${rfv_group} ="High Freq Low Val" then "Frequent Low Spender"
+    when ${rfv_group} ="Mid Freq High Val" then "Regular High Spender"
+    when ${rfv_group} ="Mid Freq Low Val" then "Regular Low Spender"
+    when ${rfv_group} ="Low Freq High Val" then "Infrequent High Spender"
+    when ${rfv_group} ="Low Freq Low Val" then "Infrequent Low Spender"
+    when ${rfv_group} ="Single Shoppers" then "Single Shoppers"
+    when ${rfv_group} ="New" then "New"
+    when ${rfv_group} ="Inactive" then "Reactivated (Prev Lapsed/Inactive/Dormant)"
+    ;;
+  }
+
+
   dimension: run_date {
     group_label:"RFV Monthly Final History"
     type:date
