@@ -58,6 +58,8 @@ view: rfv_monthly_final {
     when ${rfv_group} ="Single Shoppers" then "Single Shoppers"
     when ${rfv_group} ="New" then "New"
     when ${rfv_group} ="Inactive" then "Reactivated (Prev Lapsed/Inactive/Dormant)"
+    else "Unknown"
+    end
     ;;
   }
 
