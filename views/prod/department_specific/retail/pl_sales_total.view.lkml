@@ -52,4 +52,12 @@ view: pl_sales_total_ytd {
     sql: ${sales_total_vs_AOP_dim} ;;
     value_format_name: gbp_0
   }
+
+  measure: sales_total_vs_AOP_percent{
+    group_label: "Sales Total YTD"
+    label: "Sales Total vs AOP"
+    type: number
+    sql: safe_divide(${sales_total_vs_AOP},${sales_total_AOP}) ;;
+    value_format_name: percent_2
+  }
 }
