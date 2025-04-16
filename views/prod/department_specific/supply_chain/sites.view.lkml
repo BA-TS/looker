@@ -22,7 +22,7 @@ view: sites {
             ELSE FALSE
           END AS dc_flag,
           CASE
-            WHEN dc_site.dc_name IS NOT NULL
+            WHEN dc_data.dc_name IS NULL
               THEN TRUE
             ELSE FALSE
           END AS store_flag,
