@@ -111,8 +111,8 @@ view: ga4_rjagdev_test {
     group_label: "Event"
     type: string
     sql: case
-    when ${TABLE}.event_name = "videoly" and ${TABLE}.key_1 = "action" and ${label_1} not in ("videoly_progress") then ${label_1}
-    when ${TABLE}.event_name = "videoly" and ${label_1} = "videoly_progress" then concat(${label_1},"-",${label_2},"%")
+    when ${TABLE}.event_name = "videoly" and ${TABLE}.key_1 = "action" and ${TABLE}.label_1 not in ("videoly_progress") then ${TABLE}.label_1
+    when ${TABLE}.event_name = "videoly" and ${TABLE}.label_1 = "videoly_progress" then concat(${TABLE}.label_1,"-",${TABLE}.label_2,"%")
     when ${TABLE}.event_name = "videoly_videostart" then "videoly_start"
     when ${TABLE}.event_name = "videoly_initialize" then "videoly_box_shown"
     when ${TABLE}.event_name = "videoly_videoclosed" then "videoly_closed"
