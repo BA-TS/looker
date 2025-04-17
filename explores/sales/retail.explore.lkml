@@ -296,14 +296,14 @@ explore: retail {
   join:sfx_impact {
     view_label: "TS SFX Impact"
     type: left_outer
-    relationship: many_to_one
+    relationship: many_to_many
     sql_on: ${sfx_impact.site_uid}=${sites.site_uid};;
   }
 
   join:ts_impact {
     view_label: "TS SFX Impact"
     type: left_outer
-    relationship: many_to_one
+    relationship: many_to_many
     sql_on: ${ts_impact.site_uid}=${sites.site_uid};;
   }
 
