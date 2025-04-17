@@ -1315,7 +1315,7 @@ parameter: order_cancelled {
     view_label: "Measures"
     type: number
     sql:safe_divide(${loyalty_club_net_sales}, ${total_net_sales}) ;;
-    value_format_name: percent_1
+    value_format_name: percent_2
   }
 
   measure: trade_account_net_sales {
@@ -1333,7 +1333,7 @@ parameter: order_cancelled {
     view_label: "Measures"
     type: number
     sql:safe_divide(${trade_account_net_sales}, ${total_net_sales}) ;;
-    value_format_name: percent_1
+    value_format_name: percent_2
   }
 
   # LFL #

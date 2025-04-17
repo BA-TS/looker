@@ -19,19 +19,45 @@ view: pl_sales_total_ytd {
     primary_key: yes
   }
 
-  dimension: sales_total_AOP{
+  dimension: sales_total_AOP_dim{
     group_label: "Sales Total YTD"
     label: "Sales Total AOP"
     type: number
     sql: ${TABLE}.AOP ;;
     value_format_name: gbp_0
+    hidden: yes
   }
 
-  dimension: sales_total_vs_AOP{
+  measure: sales_total_AOP{
+    group_label: "Sales Total YTD"
+    label: "Sales Total AOP"
+    type: sum
+    sql: ${sales_total_AOP_dim} ;;
+    value_format_name: gbp_0
+  }
+
+  dimension: sales_total_vs_AOP_dim{
     group_label: "Sales Total YTD"
     label: "Sales Total vs AOP"
     type: number
-    sql: ${TABLE}.AOP ;;
+    sql: ${TABLE}.vsAOP ;;
     value_format_name: gbp_0
+    hidden: yes
+  }
+
+  measure: sales_total_vs_AOP{
+    group_label: "Sales Total YTD"
+    label: "Sales Total vs AOP"
+    type: sum
+    sql: ${sales_total_vs_AOP_dim} ;;
+    value_format_name: gbp_0
+  }
+
+  measure: sales_total_vs_AOP_percent{
+    group_label: "Sales Total YTD"
+    label: "Sales Total vs AOP %"
+    type: number
+    sql: safe_divide(${sales_total_vs_AOP},${sales_total_AOP}) ;;
+    value_format_name: percent_2
   }
 }

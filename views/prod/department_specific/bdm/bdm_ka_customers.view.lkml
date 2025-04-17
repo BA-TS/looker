@@ -8,7 +8,7 @@ view: bdm_ka_customers {
     team,
     bdm,
     customerUID,
-    min(coalesce(startDate,date_sub(current_date,interval 3 year))) as startDate,
+    startDate,
     max(coalesce(endDate,current_date)) as endDate,
     company as customerName
     from
@@ -43,6 +43,24 @@ view: bdm_ka_customers {
     label: "Name of BDM"
     type: string
     sql: ${TABLE}.bdm ;;
+  }
+
+  measure: min_start {
+    view_label: "Customers"
+    group_label: "Start and End Dates"
+    type: min
+    sql: ${start_date};;
+    hidden: yes
+  }
+
+  measure: classification {
+    label: "Customer Classification"
+    type: string
+    sql:
+    case when extract (year from ${min_start}) < extract (year from current_date) then "Existing"
+    when date_diff(${min_start}, ${transactions.first_transaction_date}, day)>0 then "New (Existing Toolstation Customer)"
+    else "New (New to Toolstation)"
+    end ;;
   }
 
   dimension_group: start {
@@ -111,18 +129,18 @@ view: bdm_ka_customers {
     End ;;
   }
 
-  dimension: classification {
-    view_label: "Customers"
-    label: "Account Classification"
-    type: string
-    sql:
-    case
-      when (date_diff(current_date()-1, ${start_date}, day)) > 364 then 'Existing'
-      when (date_diff(${start_date}, ${transactions.order_completed_date},day)) <= 364 then 'Existing'
-      when (date_diff(${start_date}, ${transactions.order_completed_date}, day)) is null then 'New'
-      when (date_diff(${start_date}, ${transactions.order_completed_date}, day)) > 364 then 'New'
-      else 'Time Traveler' end;;
-  }
+  # dimension: classification {
+  #   view_label: "Customers"
+  #   label: "Account Classification"
+  #   type: string
+  #   sql:
+  #   case
+  #     when (date_diff(current_date()-1, ${start_date}, day)) > 364 then 'Existing'
+  #     when (date_diff(${start_date}, ${transactions.order_completed_date},day)) <= 364 then 'Existing'
+  #     when (date_diff(${start_date}, ${transactions.order_completed_date}, day)) is null then 'New'
+  #     when (date_diff(${start_date}, ${transactions.order_completed_date}, day)) > 364 then 'New'
+  #     else 'Time Traveler' end;;
+  # }
 
   dimension: credit_limit {
     type: number
