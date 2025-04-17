@@ -1,6 +1,22 @@
 view: sfx_impact {
 
-  sql_table_name:`toolstation-data-storage.retailReporting.SFX_Impact` ;;
+derived_table: {
+  sql:
+  select
+  *,
+   row_number() over () as prim_key
+  from
+  `toolstation-data-storage.retailReporting.SFX_Impact`
+  ;;
+}
+
+  dimension: prim_key {
+    type: number
+    sql: ${TABLE}.prim_key ;;
+    hidden: yes
+    primary_key: yes
+  }
+
 
   dimension: site_uid {
     type: string

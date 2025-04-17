@@ -1,6 +1,16 @@
 view: ts_impact {
 
-  sql_table_name:`toolstation-data-storage.retailReporting.TS_Impact` ;;
+  derived_table: {
+  sql: select * from
+  `toolstation-data-storage.retailReporting.TS_Impact`;;
+  }
+
+  dimension: prim_key {
+    type: number
+    sql: ${TABLE}.prim_key ;;
+    hidden: yes
+    primary_key: yes
+  }
 
   dimension: site_uid {
     type: string
