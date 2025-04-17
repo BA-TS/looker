@@ -6,10 +6,14 @@ view: products {
   union all
   SELECT "null", "null", "null", "null","null", "null",timestamp("2000-05-23 00:00:00"), "null", "null", "null","null", "null",cast(null as int),"null",cast(null as int),"null",cast(null as int),"null", "null", "null", "null",cast(null as int),cast(null as int),"null", "null", "null", "null",timestamp("2021-04-15 00:00:00 UTC"), timestamp("3000-01-01 00:00:00"), cast(null as int)*/
 
-  SELECT distinct product.*,
+
+  SELECT distinct SELECT distinct product.*,
   case when own.productBrand is not null then 1 else 0 end as is_own_brand
   FROM `toolstation-data-storage.range.products_current`as product
   left join `toolstation-data-storage.range.own_brand_list` own using (productBrand)
+  --need to include a null line to product table, as the ga4 table is left joined to this, if there is an event that does not include a SKU then this is excluded. in the ga4 table where there is no SKU, this is replaced with "null" so it can be joined to productTable and not filtered out
+  union all
+  SELECT "null", "null", "null", "null","null", "null",timestamp("2000-05-23 00:00:00"), "null", "null", "null","null", "null",cast(null as int),"null",cast(null as int),"null",cast(null as int),"null", "null", "null", "null",cast(null as int),cast(null as int),"null", "null", "null", "null",timestamp("2021-04-15 00:00:00 UTC"), timestamp("3000-01-01 00:00:00"), cast(null as int), 0
   ;;
   datagroup_trigger: ts_transactions_datagroup
   }
