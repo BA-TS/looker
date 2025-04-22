@@ -9,7 +9,7 @@ required_access_grants: [lz_only]
       column: number_of_transactions { field: transactions.number_of_transactions }
       column: total_units { field: transactions.total_units }
       column: py_calendar_year { field: calendar_completed_date.calendar_year }
-      column: month_in_year { field: calendar_completed_date.month_in_year }
+      # column: month_in_year { field: calendar_completed_date.month_in_year }
 
       filters: {
         field: base.select_date_reference
@@ -19,12 +19,16 @@ required_access_grants: [lz_only]
         field: base.select_date_range
         value: "last year"
       }
+      filters: {
+        field: calendar_completed_date.ytd_last_complete_months
+        value: "Yes"
+      }
     }
   }
 
   dimension: prim_key {
     type: string
-    sql: concat(${site_uid},${month_in_year},${calendar_year}) ;;
+    sql: concat(${site_uid},${calendar_year}) ;;
     hidden: yes
     primary_key: yes
   }
