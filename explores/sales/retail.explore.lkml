@@ -325,7 +325,7 @@ explore: retail {
   }
 
   join: yoy_comparison {
-    view_label: "YOY Comparison"
+    view_label: "YOY Comparison (YTD)"
     type :  left_outer
     relationship: many_to_one
     sql_on: ${yoy_comparison.site_uid}=${sites.site_uid}
