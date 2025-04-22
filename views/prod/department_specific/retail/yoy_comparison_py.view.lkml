@@ -17,7 +17,7 @@ required_access_grants: [lz_only]
       }
       filters: {
         field: base.select_date_range
-        value: "2019/01/01 to 2031/08/14"
+        value: "last year"
       }
     }
   }

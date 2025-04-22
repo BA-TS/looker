@@ -359,6 +359,15 @@ view: calendar {
       ;;
   }
 
+  dimension: ytd_last_complete_months {
+    group_label: "Flags"
+    required_access_grants: [lz_only]
+    label: "YTD Last Complete Months"
+    type: yesno
+    sql:${month_in_year} <${today_month_in_year}
+      ;;
+  }
+
   dimension: holiday_name {
     group_label: "Holiday"
     type: string

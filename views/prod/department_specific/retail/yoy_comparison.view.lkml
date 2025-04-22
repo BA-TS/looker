@@ -14,7 +14,7 @@ view: yoy_comparison {
       }
       filters: {
         field: base.select_date_range
-        value: "2019/01/01 to 2031/08/14"
+        value: "this year"
       }
     }
   }
