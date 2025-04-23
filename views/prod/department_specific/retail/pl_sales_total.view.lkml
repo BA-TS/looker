@@ -58,6 +58,6 @@ view: pl_sales_total_ytd {
     label: "Sales Total vs AOP %"
     type: number
     sql: safe_divide(${sales_total_vs_AOP},${sales_total_AOP}) ;;
-    value_format_name: percent_2
+    value_format_name: percent_3
   }
 }

@@ -243,8 +243,9 @@ view: scorecard_branch_dev_ytd25 {
     type: number
     view_label: "P&L"
     group_label: "EBIT"
+    label: "Var PY Sales %"
     sql: safe_divide(${var_PY_Net_Sales},${pySales})  ;;
-    value_format_name: percent_2
+    value_format_name: percent_3
   }
 
   # # --Tiers---------------------------
