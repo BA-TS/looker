@@ -843,6 +843,13 @@ explore: base {
     sql_on:  ${bdm_ka_customers_combined.customer_uid}=${transactions.customer_uid} and ${base.base_date_date} between ${bdm_ka_customers_combined.start_date} and date_sub(${bdm_ka_customers_combined.end_date},interval 0 day);;
   }
 
+  join: tradekartcustomer {
+    required_access_grants:  [can_use_customer_information]
+    view_label: "Customers"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${customers.customer_uid} =${tradekartcustomer.customerUID};;
+  }
 }
 
 
