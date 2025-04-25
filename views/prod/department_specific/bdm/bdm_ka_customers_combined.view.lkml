@@ -6,8 +6,8 @@ view: bdm_ka_customers_combined {
        select
         DISTINCT row_number() over () AS prim_key,
         customerUID,
-        min(coalesce(startDate,date_sub(current_date,interval 3 year))) as startDate,
-        max(coalesce(endDate,current_date)) as endDate,
+        min(coalesce(startDate,date_sub(current_date,interval 5 year))) as startDate,
+        max(coalesce(removeDate,current_date)) as endDate,
         from
         `toolstation-data-storage.retailReporting.BDM_KA_CUSTOMERS_LIST`
         where bdm is not null
