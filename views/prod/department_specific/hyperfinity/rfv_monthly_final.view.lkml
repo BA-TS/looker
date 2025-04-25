@@ -14,6 +14,7 @@ view: rfv_monthly_final {
 
   dimension: customerUID {
     group_label:"RFV Monthly Final History"
+    label: "RFV customer UID test"
     type:string
     sql:${TABLE}.UCU_UID;;
     hidden:yes

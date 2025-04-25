@@ -718,21 +718,21 @@ explore: base {
     required_access_grants: [can_use_customer_information]
     type :  left_outer
     relationship: one_to_one
-    sql_on:${behaviour_categories_monthly.prim_key} = ${rfv_monthly_final.prim_key}
-    and ${customers.customer_uid}=${rfv_monthly_final.customerUID}
+    sql_on:
+     ${customers.customer_uid}=${rfv_monthly_final.customerUID}
     and ${rfv_monthly_final.period_code} = ${calendar_completed_date.calendar_year_month2}
       ;;
   }
 
-  join: rfv_monthly_final_most_recent {
-    view_label: "Hyperfinity"
-    required_access_grants: [can_use_customer_information]
-    type :  left_outer
-    relationship: one_to_one
-    sql_on:  ${customers.customer_uid}=${rfv_monthly_final_most_recent.customerUID}
-    and ${customers.customer_uid}=${rfv_monthly_final_most_recent.customerUID}
-    ;;
-  }
+  # join: rfv_monthly_final_most_recent {
+  #   view_label: "Hyperfinity"
+  #   required_access_grants: [can_use_customer_information]
+  #   type :  left_outer
+  #   relationship: one_to_one
+  #   sql_on:  ${customers.customer_uid}=${rfv_monthly_final_most_recent.customerUID}
+  #   and ${customers.customer_uid}=${rfv_monthly_final_most_recent.customerUID}
+  #   ;;
+  # }
 
   join: addresses {
     view_label: "Transactions"
