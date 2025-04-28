@@ -694,33 +694,44 @@ explore: base {
   }
 
 # Hyperfinity------------
-  join: behaviour_categories_monthly {
-    view_label: "Hyperfinity"
-    required_access_grants: [can_use_customer_information]
-    type :  left_outer
-    relationship: one_to_many
-    sql_on: ${customers.customer_uid}=${behaviour_categories_monthly.customerUID}
-    and ${behaviour_categories_monthly.period_code}= ${calendar_completed_date.calendar_year_month2}
-    ;;
-  }
+  # join: behaviour_categories_monthly {
+  #   view_label: "Hyperfinity"
+  #   required_access_grants: [can_use_customer_information]
+  #   type :  left_outer
+  #   relationship: one_to_many
+  #   sql_on: ${customers.customer_uid}=${behaviour_categories_monthly.customerUID}
+  #   and ${behaviour_categories_monthly.period_code}= ${calendar_completed_date.calendar_year_month2}
+  #   ;;
+  # }
 
-  join: behaviour_categories_monthly_most_recent {
-    view_label: "Hyperfinity"
-    required_access_grants: [can_use_customer_information]
-    type :  left_outer
-    relationship: one_to_one
-    sql_on: ${customers.customer_uid}=${behaviour_categories_monthly_most_recent.customerUID}
-    ;;
-  }
+  # join: behaviour_categories_monthly_most_recent {
+  #   view_label: "Hyperfinity"
+  #   required_access_grants: [can_use_customer_information]
+  #   type :  left_outer
+  #   relationship: one_to_one
+  #   sql_on: ${customers.customer_uid}=${behaviour_categories_monthly_most_recent.customerUID}
+  #   ;;
+  # }
 
-  join: rfv_monthly_final {
+  # join: rfv_monthly_final {
+  #   view_label: "Hyperfinity"
+  #   required_access_grants: [can_use_customer_information]
+  #   type :  left_outer
+  #   relationship: one_to_one
+  #   sql_on:
+  #   ${customers.customer_uid}=${rfv_monthly_final.customerUID}
+  #   and ${rfv_monthly_final.period_code} = ${calendar_completed_date.calendar_year_month2}
+  #     ;;
+  # }
+
+  join: hyperfinity_master_table_looker {
     view_label: "Hyperfinity"
     required_access_grants: [can_use_customer_information]
     type :  left_outer
     relationship: one_to_one
     sql_on:
-     ${customers.customer_uid}=${rfv_monthly_final.customerUID}
-    and ${rfv_monthly_final.period_code} = ${calendar_completed_date.calendar_year_month2}
+     ${customers.customer_uid}=${hyperfinity_master_table_looker.customerUID}
+    and ${hyperfinity_master_table_looker.calendar_year_month} = ${calendar_completed_date.calendar_year_month}
       ;;
   }
 
