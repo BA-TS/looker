@@ -4,6 +4,7 @@ include: "/views/**/scmatrix.view"
 include: "/views/**/sites.view"
 include: "/views/**/suppliers.view"
 include: "/views/**/catPromo.view"
+include: "/views/**/supply_chain/**.view"
 
 explore: stock_intake {
   label: "Stock Intake"
@@ -42,5 +43,14 @@ explore: stock_intake {
     type: left_outer
     relationship: one_to_one
     sql_on: ${products.product_code} = ${catPromo.Product_Code} ;;
+  }
+
+  join: srs_mandatory_moves {
+    view_label: "SRS Mandatory Moves"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${srs_mandatory_moves.site_uid} = ${sites.site_uid}
+
+    ;;
   }
 }
