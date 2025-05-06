@@ -304,6 +304,13 @@ explore: GA4_testy {
     sql_on: ${calendar.date} = ${suggested_byprovider_purchase.suggest_viewdate_date} and ${products.product_code} = coalesce(${suggested_byprovider_purchase.sku}, "null") ;;
   }
 
+  join: bulksave_atc_purchase {
+    view_label: "Bulksave Purchases"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${calendar.date} = ${bulksave_atc_purchase.date_date} and  and ${products.product_code} = ${bulksave_atc_purchase.item_id};;
+  }
+
 
 
 }
