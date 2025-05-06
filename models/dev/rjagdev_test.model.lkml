@@ -308,7 +308,7 @@ explore: GA4_testy {
     view_label: "Bulksave Purchases"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${calendar.date} = ${bulksave_atc_purchase.date_date} and  and ${products.product_code} = ${bulksave_atc_purchase.item_id};;
+    sql_on: ${calendar.date} = ${bulksave_atc_purchase.date_date} and  ${products.product_code} = ${bulksave_atc_purchase.item_id};;
   }
 
 
