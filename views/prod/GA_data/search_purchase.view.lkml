@@ -263,6 +263,13 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     sql: ${TABLE}.view_item_sessions_LW ;;
   }
 
+  measure: view_item_sessions_vs_LW {
+    type: number
+    label: "View Item Sessions vs LW"
+    sql: safe_divide(${view_item_sessions} - ${view_item_sessions_LW}, ${view_item_sessions_LW}) ;;
+    value_format_name: percent_2
+  }
+
   measure: atc_sessions {
     type: sum
     label: "atc Sessions"
@@ -275,10 +282,18 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     sql: ${TABLE}.atc_sessions_LW ;;
   }
 
+  measure: atc_sessions_vs_LW {
+    type: number
+    label: "ATC Sessions vs LW"
+    sql: safe_divide(${atc_sessions} - ${atc_sessions_LW}, ${atc_sessions_LW}) ;;
+    value_format_name: percent_2
+  }
+
   measure: atc_rate {
     type: number
     label: "ATC rate"
-    sql: SAFE_DIVIDE(${atc_sessions},${view_item_sessions}) ;;
+    sql: SAFE_DIVIDE(${atc_sessions},${view_item_sessions});;
+    value_format_name: percent_2
 
   }
 
@@ -286,7 +301,15 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     type: number
     label: "ATC rate LW"
     sql: SAFE_DIVIDE(${atc_sessions_LW}, ${view_item_sessions_LW}) ;;
+    value_format_name: percent_2
 
+  }
+
+  measure: atc_rate_vs_LW {
+    type: number
+    label: "ATC Rate vs LW"
+    sql: ${atc_rate} - ${atc_rate_LW} ;;
+    value_format_name: percent_2
   }
 
   measure: atc_quantity {
@@ -301,10 +324,18 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     sql: ${TABLE}.atc_quantity_LW ;;
   }
 
+  measure: atc_quantity_vs_LW {
+    type: number
+    label: "ATC Quantity vs LW"
+    sql: safe_divide(${atc_quantity} - ${atc_quantity_LW}, ${atc_quantity_LW}) ;;
+    value_format_name: percent_2
+  }
+
   measure: atc_avg_basket{
     type: number
     label: "ATC avg basket"
     sql: SAFE_DIVIDE(${atc_quantity},${atc_sessions}) ;;
+    value_format_name: decimal_2
 
   }
 
@@ -312,7 +343,15 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     type: number
     label: "ATC avg basket LW"
     sql: SAFE_DIVIDE(${atc_quantity_LW},${atc_sessions_LW}) ;;
+    value_format_name: decimal_2
 
+  }
+
+  measure: atc_avg_basket_vs_LW {
+    type: number
+    label: "ATC avg basket vs LW"
+    sql: safe_divide(${atc_avg_basket} - ${atc_avg_basket_LW}, ${atc_avg_basket_LW}) ;;
+    value_format_name: percent_2
   }
 
 
@@ -330,19 +369,38 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     sql: ${TABLE}.purchase_sessions_LW ;;
   }
 
+  measure: purchase_sessions_vs_LW {
+    type: number
+    label: "Purchase Sessions vs LW"
+    sql: safe_divide(${purchase_sessions} - ${purchase_sessions_LW}, ${purchase_sessions_LW}) ;;
+    value_format_name: percent_2
+  }
+
   measure: purchase_rate {
     type: number
     label: "Purchase rate"
     sql: SAFE_DIVIDE(${purchase_sessions},${view_item_sessions}) ;;
+    value_format_name: percent_2
 
   }
+
+
 
   measure: Purchase_rate_LW {
     type: number
     label: "Purchase rate LW"
     sql: SAFE_DIVIDE(${purchase_sessions_LW},${view_item_sessions_LW}) ;;
+    value_format_name: percent_2
 
   }
+
+    measure: purchase_rate_vs_LW {
+    type: number
+    label: "Purchase Rate vs LW"
+    sql: ${purchase_rate} - ${Purchase_rate_LW} ;;
+    value_format_name: percent_2
+  }
+
 
   measure: purchase_quantity {
     type: sum
@@ -356,10 +414,18 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     sql: ${TABLE}.purchase_quantity_LW ;;
   }
 
+  measure: purchase_quantity_vs_LW {
+    type: number
+    label: "Purchase Quantity vs LW"
+    sql: safe_divide(${purchase_quantity} - ${purchase_quantity_LW}, ${purchase_quantity_LW}) ;;
+    value_format_name: percent_2
+  }
+
   measure: purchase_avg_basket{
     type: number
     label: "Purchase avg basket"
     sql: SAFE_DIVIDE(${purchase_quantity}, ${purchase_sessions}) ;;
+    value_format_name: decimal_2
 
   }
 
@@ -367,7 +433,15 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     type: number
     label: "Purchase avg basket LW"
     sql: SAFE_DIVIDE(${purchase_quantity_LW},${purchase_sessions_LW}) ;;
+    value_format_name: decimal_2
 
+  }
+
+  measure: purchase_avg_basket_vs_LW {
+    type: number
+    label: "Purchase avg basket vs LW"
+    sql: safe_divide(${purchase_avg_basket} - ${purchase_avg_basket_LW}, ${purchase_avg_basket_LW}) ;;
+    value_format_name: percent_2
   }
 
 
