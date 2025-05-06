@@ -103,18 +103,18 @@ view: bulksave_atc_purchase {
     sql: with sub1 as (select distinct timestamp_add(minTime, interval 1 hour) as minTime, event_name, session_id as session, item_id, item_category, item_category2, item_category3, t.quantity, t.ga4_quantity from
 `toolstation-data-storage.Digital_reporting.GAClientSide_DigitalTransactions_*` left join unnest(transactions) as t
 where
-_TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', date("2025-04-20")) and FORMAT_DATE('%Y%m%d', date_sub(current_date(), interval 1 day))
-#_TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', date("2025-03-01")) and FORMAT_DATE('%Y%m%d', date_sub(current_date(), interval 1 day))
+--_TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', date("2025-04-20")) and FORMAT_DATE('%Y%m%d', date_sub(current_date(), interval 1 day))
+_TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', date("2025-03-01")) and FORMAT_DATE('%Y%m%d', date_sub(current_date(), interval 1 day))
 and event_name in ("add_to_cart", "purchase", "view_item")
 and platform in ("Web")
 and ga4_quantity is not null
--- union distinct
--- select distinct timestamp_add(minTime, interval 1 hour) as minTime, event_name, session_id as session, item_id, item_category, item_category2, item_category3, t.quantity, t.ga4_quantity from
--- `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` left join unnest(transactions) as t
--- WHERE _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', date_trunc(current_date(), year)) and FORMAT_DATE('%Y%m%d', date("2025-02-28"))
--- and event_name in ("add_to_cart", "purchase", "view_item")
--- and platform in ("Web")
--- and ga4_quantity is not null
+ union distinct
+ select distinct timestamp_add(minTime, interval 1 hour) as minTime, event_name, session_id as session, item_id, item_category, item_category2, item_category3, t.quantity, t.ga4_quantity from
+ `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` left join unnest(transactions) as t
+ WHERE _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', date_trunc(current_date(), year)) and FORMAT_DATE('%Y%m%d', date("2025-02-28"))
+ and event_name in ("add_to_cart", "purchase", "view_item")
+ and platform in ("Web")
+ and ga4_quantity is not null
 
 ),
 
