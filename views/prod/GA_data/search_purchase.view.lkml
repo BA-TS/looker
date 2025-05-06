@@ -366,7 +366,7 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
   measure: purchase_sessions_LW {
     type: sum
     label: "purchase Sessions LW"
-    sql: ${TABLE}.purchase_sessions_LW ;;
+    sql: ${TABLE}.purchase_sess_LW ;;
   }
 
   measure: purchase_sessions_vs_LW {
