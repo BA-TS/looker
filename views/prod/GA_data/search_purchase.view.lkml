@@ -278,14 +278,14 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
   measure: atc_rate {
     type: number
     label: "ATC rate"
-    sql: ${atc_sessions}/${view_item_sessions} ;;
+    sql: SAFE_DIVIDE(${atc_sessions},${view_item_sessions}) ;;
 
   }
 
   measure: atc_rate_LW {
     type: number
     label: "ATC rate LW"
-    sql: ${atc_sessions_LW}/${view_item_sessions_LW} ;;
+    sql: SAFE_DIVIDE(${atc_sessions_LW}, ${view_item_sessions_LW}) ;;
 
   }
 
@@ -304,14 +304,14 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
   measure: atc_avg_basket{
     type: number
     label: "ATC avg basket"
-    sql: ${atc_quantity}/${atc_sessions} ;;
+    sql: SAFE_DIVIDE(${atc_quantity},${atc_sessions}) ;;
 
   }
 
   measure: atc_avg_basket_LW {
     type: number
     label: "ATC avg basket LW"
-    sql: ${atc_quantity_LW}/${atc_sessions_LW} ;;
+    sql: SAFE_DIVIDE(${atc_quantity_LW},${atc_sessions_LW}) ;;
 
   }
 
@@ -333,14 +333,14 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
   measure: purchase_rate {
     type: number
     label: "Purchase rate"
-    sql: ${purchase_sessions}/${view_item_sessions} ;;
+    sql: SAFE_DIVIDE(${purchase_sessions},${view_item_sessions}) ;;
 
   }
 
   measure: Purchase_rate_LW {
     type: number
     label: "Purchase rate LW"
-    sql: ${purchase_sessions_LW}/${view_item_sessions_LW} ;;
+    sql: SAFE_DIVIDE(${purchase_sessions_LW},${view_item_sessions_LW}) ;;
 
   }
 
@@ -359,14 +359,14 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
   measure: purchase_avg_basket{
     type: number
     label: "Purchase avg basket"
-    sql: ${purchase_quantity}/${purchase_sessions} ;;
+    sql: SAFE_DIVIDE(${purchase_quantity}, ${purchase_sessions}) ;;
 
   }
 
   measure: purchase_avg_basket_LW {
     type: number
     label: "Purchase avg basket LW"
-    sql: ${purchase_quantity_LW}/${purchase_sessions_LW} ;;
+    sql: SAFE_DIVIDE(${purchase_quantity_LW},${purchase_sessions_LW}) ;;
 
   }
 
