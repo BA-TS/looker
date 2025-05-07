@@ -20,7 +20,7 @@ view: stock_by_location_retail {
     hidden: yes
   }
 
-  dimension: direct_flag {
+  dimension: retail_flag {
     sql: ${site_uid} is not null ;;
     type: yesno
   }

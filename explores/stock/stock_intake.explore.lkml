@@ -53,11 +53,13 @@ explore: stock_intake {
   }
 
   join: stock_by_location_direct {
+    view_label: "Stock by Location"
     relationship: one_to_one
     sql_on: ${stock_by_location_direct.site_uid} = ${sites.site_uid};;
   }
 
   join: stock_by_location_retail {
+    view_label: "Stock by Location"
     relationship: one_to_one
     sql_on: ${stock_by_location_retail.site_uid} = ${sites.site_uid};;
   }
