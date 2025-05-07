@@ -5,7 +5,7 @@ view: stock_by_location_direct {
       select *,
       row_number() over () as prim_key,
       from
-      `toolstation-data-storage.supplyChainReporting.stockByLocationDirect`;;
+      `toolstation-data-storage.supplyChainReporting.stockByLocationDirectLooker`;;
   }
 
   dimension: prim_key {
