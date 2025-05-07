@@ -14,9 +14,15 @@ view: stock_by_location_retail {
     type: number
   }
 
-  dimension: siteUID {
+  dimension: site_uid {
     sql: ${TABLE}.siteUID ;;
     type: string
+    hidden: yes
+  }
+
+  dimension: direct_flag {
+    sql: ${site_uid} is not null ;;
+    type: yesno
   }
 
 }

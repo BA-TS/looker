@@ -49,8 +49,17 @@ explore: stock_intake {
     view_label: "SRS Mandatory Moves"
     type: left_outer
     relationship: one_to_one
-    sql_on: ${srs_mandatory_moves.site_uid} = ${sites.site_uid}
-
-    ;;
+    sql_on: ${srs_mandatory_moves.site_uid} = ${sites.site_uid};;
   }
+
+  join: stock_by_location_direct {
+    relationship: one_to_one
+    sql_on: ${stock_by_location_direct.site_uid} = ${sites.site_uid};;
+  }
+
+  join: stock_by_location_retail {
+    relationship: one_to_one
+    sql_on: ${stock_by_location_retail.site_uid} = ${sites.site_uid};;
+  }
+
 }
