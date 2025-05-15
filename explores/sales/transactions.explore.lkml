@@ -624,7 +624,7 @@ explore: base {
 
   join: ds_assumed_trade_history_new_lake {
     required_access_grants: [lz_testing]
-    view_label: "Customer Classification"
+    view_label: "Customer Classification - Run History"
     type: left_outer
     relationship: many_to_one
     sql_on: ${customers.customer_uid} = ${ds_assumed_trade_history_new_lake.customer_uid} ;;
