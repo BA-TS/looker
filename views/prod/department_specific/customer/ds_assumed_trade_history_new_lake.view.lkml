@@ -41,8 +41,14 @@ view: ds_assumed_trade_history_new_lake {
   dimension: Score_End_Date{
     group_label: "Prediction History"
     type: string
-    # sql: cast(FORMAT_DATE('%Y-%m',${Score_End_Date_raw}) as string);;
     sql: left(replace((cast(date(${Score_End_Date_raw}) as string)),"-",""),6) ;;
+  }
+
+  dimension: Dec_24_run{
+    group_label: "Run Flags"
+    type: yesno
+    # sql: cast(FORMAT_DATE('%Y-%m',${Score_End_Date_raw}) as string);;
+    sql: ${Score_End_Date}="202501" ;;
   }
 
   dimension: AT_monthly_run{
