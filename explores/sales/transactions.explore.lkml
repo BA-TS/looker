@@ -707,7 +707,7 @@ explore: base {
     view_label: "Hyperfinity"
     required_access_grants: [can_use_customer_information]
     type :  left_outer
-    relationship: one_to_one
+    relationship: one_to_many
     sql_on: ${customers.customer_uid}=${behaviour_categories_monthly_most_recent.customerUID}
     ;;
   }
@@ -716,7 +716,7 @@ explore: base {
     view_label: "Hyperfinity"
     required_access_grants: [can_use_customer_information]
     type :  left_outer
-    relationship: one_to_one
+    relationship: one_to_many
     sql_on:
     ${customers.customer_uid}=${rfv_monthly_final.customerUID}
       ;;
@@ -727,9 +727,8 @@ explore: base {
     view_label: "Hyperfinity"
     required_access_grants: [can_use_customer_information]
     type :  left_outer
-    relationship: one_to_one
+    relationship: one_to_many
     sql_on:  ${customers.customer_uid}=${rfv_monthly_final_most_recent.customerUID}
-          and ${customers.customer_uid}=${rfv_monthly_final_most_recent.customerUID}
           ;;
   }
 
