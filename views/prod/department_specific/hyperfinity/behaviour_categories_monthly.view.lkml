@@ -69,4 +69,13 @@ view: behaviour_categories_monthly {
     sql:${TABLE}.MOST_RECENT_PERIOD_CODE;;
   }
 
+
+  dimension: new_customer_flag {
+    group_label:"Behaviour Categories History"
+    type:yesno
+    sql:${TABLE}.NEW_CUSTOMER_FLAG;;
+  }
+
+
+
 }

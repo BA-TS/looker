@@ -47,6 +47,7 @@ view: rfv_monthly_final {
   }
 
   dimension: loyalty_segment {
+    group_label:"RFV Monthly Final History"
     type: string
     sql:
     case when ${rfv_group} ="High Freq High Val" then "Frequent High Spender"
@@ -65,6 +66,7 @@ view: rfv_monthly_final {
   }
 
   dimension: loyalty_segment_number{
+    group_label:"RFV Monthly Final History"
     type: string
     sql:
     case when ${loyalty_segment} = "Frequent High Spender" then "1"
