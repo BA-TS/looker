@@ -76,6 +76,19 @@ view: behaviour_categories_monthly {
     sql:${TABLE}.NEW_CUSTOMER_FLAG;;
   }
 
+  dimension: month_start {
+    group_label:"RFV Monthly Final History"
+    type:string
+    sql:cast(${TABLE}.MONTH_START as string);;
+    hidden:no
+  }
+
+  dimension: month_end {
+    group_label:"RFV Monthly Final History"
+    type:string
+    sql:cast(${TABLE}.MONTH_END as string);;
+    hidden:no
+  }
 
 
 }

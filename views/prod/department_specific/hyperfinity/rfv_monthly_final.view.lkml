@@ -91,10 +91,25 @@ view: rfv_monthly_final {
     hidden:no
   }
 
+
   dimension: period_code {
     group_label:"RFV Monthly Final History"
     type:string
     sql:cast(${TABLE}.PERIOD_CODE as string);;
+    hidden:no
+  }
+
+  dimension: month_start {
+    group_label:"RFV Monthly Final History"
+    type:string
+    sql:cast(${TABLE}.MONTH_START as string);;
+    hidden:no
+  }
+
+  dimension: month_end {
+    group_label:"RFV Monthly Final History"
+    type:string
+    sql:cast(${TABLE}.MONTH_END as string);;
     hidden:no
   }
 
