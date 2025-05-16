@@ -52,6 +52,7 @@ view: rfv_monthly_final_most_recent {
 
   dimension: month_start {
     group_label:"RFV Monthly Final"
+    label: "Month Start (yyyymm)"
     type:string
     sql:cast(${TABLE}.MONTH_START as string);;
     hidden:no
@@ -59,6 +60,7 @@ view: rfv_monthly_final_most_recent {
 
   dimension: month_end {
     group_label:"RFV Monthly Final"
+    label: "Month End (yyyymm)"
     type:string
     sql:cast(${TABLE}.MONTH_END as string);;
     hidden:no

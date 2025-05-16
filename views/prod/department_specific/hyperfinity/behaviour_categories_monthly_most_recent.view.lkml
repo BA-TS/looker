@@ -89,6 +89,7 @@ view: behaviour_categories_monthly_most_recent {
 
   dimension: month_start {
     group_label:"Behaviour Categories"
+    label: "Month Start (yyyymm)"
     type:string
     sql:cast(${TABLE}.MONTH_START as string);;
     hidden:no
@@ -96,6 +97,7 @@ view: behaviour_categories_monthly_most_recent {
 
   dimension: month_end {
     group_label:"Behaviour Categories"
+    label: "Month End (yyyymm)"
     type:string
     sql:cast(${TABLE}.MONTH_END as string);;
     hidden:no

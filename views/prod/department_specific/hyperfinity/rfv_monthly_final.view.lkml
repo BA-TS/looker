@@ -101,6 +101,7 @@ view: rfv_monthly_final {
 
   dimension: month_start {
     group_label:"RFV Monthly Final History"
+    label: "Month Start (yyyymm)"
     type:string
     sql:cast(${TABLE}.MONTH_START as string);;
     hidden:no
@@ -108,6 +109,7 @@ view: rfv_monthly_final {
 
   dimension: month_end {
     group_label:"RFV Monthly Final History"
+    label: "Month End (yyyymm)"
     type:string
     sql:cast(${TABLE}.MONTH_END as string);;
     hidden:no
