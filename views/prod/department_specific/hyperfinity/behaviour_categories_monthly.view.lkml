@@ -52,12 +52,14 @@ view: behaviour_categories_monthly {
     group_label:"Behaviour Categories"
     type:string
     sql:${TABLE}.MOST_RECENT_RUN_DATE;;
+    hidden: yes
   }
 
   dimension: most_recent_period_code {
     group_label:"Behaviour Categories"
     type:string
     sql:${TABLE}.MOST_RECENT_PERIOD_CODE;;
+    hidden: yes
   }
 
   dimension: new_customer_flag {

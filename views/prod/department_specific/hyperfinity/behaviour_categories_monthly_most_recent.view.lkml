@@ -37,6 +37,11 @@ view: behaviour_categories_monthly_most_recent {
     hidden:yes
   }
 
+  dimension: most_recent_run_date {
+    type:yesno
+    sql:${run_date} is not null;;
+  }
+
   dimension: period_code {
     group_label:"Behaviour Categories"
     type:string
@@ -45,12 +50,8 @@ view: behaviour_categories_monthly_most_recent {
   }
 
   dimension: most_recent_period_code {
-    group_label:"Behaviour Categories"
     type:yesno
     sql:${period_code} is not null;;
   }
-
-
-
 
 }
