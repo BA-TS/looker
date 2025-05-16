@@ -77,14 +77,14 @@ view: behaviour_categories_monthly {
   }
 
   dimension: month_start {
-    group_label:"RFV Monthly Final History"
+    group_label:"Behaviour Categories History"
     type:string
     sql:cast(${TABLE}.MONTH_START as string);;
     hidden:no
   }
 
   dimension: month_end {
-    group_label:"RFV Monthly Final History"
+    group_label:"Behaviour Categories History"
     type:string
     sql:cast(${TABLE}.MONTH_END as string);;
     hidden:no
