@@ -29,18 +29,11 @@ view: rfv_monthly_final_most_recent {
     hidden:yes
   }
 
-  dimension: rfv_group {
-    group_label:"RFV Monthly Final"
-    label: "RFV Group"
-    type:string
-    sql:${TABLE}.RFV_GROUP;;
-  }
-
   dimension: run_date {
     group_label:"RFV Monthly Final"
     type:date
     sql:${TABLE}.RUN_DATE;;
-    hidden:no
+    hidden:yes
   }
 
   dimension: period_code {
@@ -50,20 +43,9 @@ view: rfv_monthly_final_most_recent {
     hidden:yes
   }
 
-  dimension: month_start {
+  dimension: most_recent_run {
     group_label:"RFV Monthly Final"
-    label: "Month Start (yyyymm)"
-    type:string
-    sql:cast(${TABLE}.MONTH_START as string);;
-    hidden:yes
+    type:yesno
+    sql:${run_date} is not null;;
   }
-
-  dimension: month_end {
-    group_label:"RFV Monthly Final"
-    label: "Month End (yyyymm)"
-    type:string
-    sql:cast(${TABLE}.MONTH_END as string);;
-    hidden:yes
-  }
-
 }

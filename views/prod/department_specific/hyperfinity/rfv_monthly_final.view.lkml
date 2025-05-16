@@ -5,7 +5,6 @@ view: rfv_monthly_final {
   }
 
   dimension: prim_key {
-    group_label:"RFV Monthly Final History"
     type:string
     sql:${customerUID}||${run_date};;
     primary_key: yes
@@ -13,7 +12,6 @@ view: rfv_monthly_final {
   }
 
   dimension: customerUID {
-    group_label:"RFV Monthly Final History"
     label: "RFV customer UID test"
     type:string
     sql:${TABLE}.UCU_UID;;
@@ -21,14 +19,14 @@ view: rfv_monthly_final {
   }
 
   dimension: rfv_group {
-    group_label:"RFV Monthly Final History"
+    group_label:"RFV Monthly Final"
     label: "RFV Group"
     type:string
     sql:${TABLE}.RFV_GROUP;;
   }
 
   dimension: rfv_group_number {
-    group_label:"RFV Monthly Final History"
+    group_label:"RFV Monthly Final"
     label: "RFV Group Number"
     type:number
     sql:
@@ -47,7 +45,7 @@ view: rfv_monthly_final {
   }
 
   dimension: loyalty_segment {
-    group_label:"RFV Monthly Final History"
+    group_label:"RFV Monthly Final"
     type: string
     sql:
     case when ${rfv_group} ="High Freq High Val" then "Frequent High Spender"
@@ -66,7 +64,7 @@ view: rfv_monthly_final {
   }
 
   dimension: loyalty_segment_number{
-    group_label:"RFV Monthly Final History"
+    group_label:"RFV Monthly Final"
     type: string
     sql:
     case when ${loyalty_segment} = "Frequent High Spender" then "1"
@@ -84,7 +82,7 @@ view: rfv_monthly_final {
   }
 
   dimension: run_date {
-    group_label:"RFV Monthly Final History"
+    group_label:"RFV Monthly Final"
     type:date
     sql:${TABLE}.RUN_DATE;;
     hidden:no
@@ -93,18 +91,21 @@ view: rfv_monthly_final {
   dimension: period_code {
     type:string
     sql:cast(${TABLE}.PERIOD_CODE as string);;
+    hidden: yes
   }
 
   dimension: month_start {
     label: "Month Start (yyyymm)"
     type:string
     sql:cast(${TABLE}.MONTH_START as string);;
+    hidden: yes
   }
 
   dimension: month_end {
     label: "Month End (yyyymm)"
     type:string
     sql:cast(${TABLE}.MONTH_END as string);;
+    hidden: yes
   }
 
 }

@@ -34,19 +34,7 @@ view: behaviour_categories_monthly_most_recent {
     group_label:"Behaviour Categories"
     type:string
     sql:${TABLE}.RUN_DATE;;
-    hidden:no
-  }
-
-  dimension: cluster_high_level {
-    group_label:"Behaviour Categories"
-    type:string
-    sql:${TABLE}.CLUSTER_HIGHLEVEL;;
-  }
-
-  dimension: cluster_low_level {
-    group_label:"Behaviour Categories"
-    type:string
-    sql:${TABLE}.CLUSTER_LOWLEVEL;;
+    hidden:yes
   }
 
   dimension: period_code {
@@ -56,53 +44,13 @@ view: behaviour_categories_monthly_most_recent {
     hidden: yes
   }
 
-  dimension: final_segment{
-    group_label:"Behaviour Categories"
-    type:string
-    sql:coalesce(${TABLE}.FINAL_SEGMENT,"Unknown");;
-  }
-
-  dimension: final_segment_high_level {
-    group_label:"Behaviour Categories"
-    type:string
-    sql:coalesce(${TABLE}.FINAL_SEGMENT_HIGHLEVEL,"Unknown");;
-  }
-
-  dimension: most_recent_run_date {
-    group_label:"Behaviour Categories"
-    type:string
-    sql:${TABLE}.MOST_RECENT_RUN_DATE;;
-    hidden: yes
-  }
-
   dimension: most_recent_period_code {
     group_label:"Behaviour Categories"
-    type:string
-    sql:${TABLE}.MOST_RECENT_PERIOD_CODE;;
-    hidden: yes
-  }
-
-  dimension: new_customer_flag {
-    group_label:"Behaviour Categories"
     type:yesno
-    sql:${TABLE}.NEW_CUSTOMER_FLAG;;
-    hidden: yes
+    sql:${period_code} is not null;;
   }
 
-  dimension: month_start {
-    group_label:"Behaviour Categories"
-    label: "Month Start (yyyymm)"
-    type:string
-    sql:cast(${TABLE}.MONTH_START as string);;
-    hidden:yes
-  }
 
-  dimension: month_end {
-    group_label:"Behaviour Categories"
-    label: "Month End (yyyymm)"
-    type:string
-    sql:cast(${TABLE}.MONTH_END as string);;
-    hidden:yes
-  }
+
 
 }

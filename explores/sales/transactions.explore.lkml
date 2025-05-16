@@ -694,14 +694,6 @@ explore: base {
   #   sql_on: ${customers.customer_uid}=${hyperfinity_customer_flag.customer_uid} ;;
   # }
 
-  join: behaviour_categories_monthly_most_recent {
-    view_label: "Hyperfinity"
-    required_access_grants: [can_use_customer_information]
-    type :  left_outer
-    relationship: one_to_many
-    sql_on: ${customers.customer_uid}=${behaviour_categories_monthly_most_recent.customerUID};;
-  }
-
   join: behaviour_categories_monthly {
     view_label: "Hyperfinity"
     required_access_grants: [can_use_customer_information]
@@ -710,13 +702,23 @@ explore: base {
     sql_on: ${customers.customer_uid}=${behaviour_categories_monthly.customerUID};;
   }
 
+  join: behaviour_categories_monthly_most_recent {
+    view_label: "Hyperfinity"
+    required_access_grants: [can_use_customer_information]
+    type :  left_outer
+    relationship: one_to_many
+    sql_on: ${customers.customer_uid}=${behaviour_categories_monthly_most_recent.customerUID}
+    and ${behaviour_categories_monthly_most_recent.run_date} = ${behaviour_categories_monthly.run_date}
+    ;;
+  }
+
   join: rfv_monthly_final {
     view_label: "Hyperfinity"
     required_access_grants: [can_use_customer_information]
     type :  left_outer
     relationship: one_to_many
     sql_on:
-    ${customers.customer_uid}=${rfv_monthly_final.customerUID} and ${rfv_monthly_final.period_code} = ${behaviour_categories_monthly.period_code};;
+    ${customers.customer_uid}=${rfv_monthly_final.customerUID} and ${rfv_monthly_final.run_date} = ${behaviour_categories_monthly.run_date};;
   }
 
   join: rfv_monthly_final_most_recent {
@@ -724,7 +726,9 @@ explore: base {
     required_access_grants: [can_use_customer_information]
     type :  left_outer
     relationship: one_to_many
-    sql_on:  ${customers.customer_uid}=${rfv_monthly_final_most_recent.customerUID} ;;
+    sql_on:  ${customers.customer_uid}=${rfv_monthly_final_most_recent.customerUID}
+    and ${rfv_monthly_final_most_recent.run_date} = ${rfv_monthly_final.run_date}
+    ;;
   }
 
   # join: hyperfinity_master_table_looker {
