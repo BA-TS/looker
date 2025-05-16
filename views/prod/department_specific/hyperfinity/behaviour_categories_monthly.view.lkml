@@ -47,19 +47,19 @@ view: behaviour_categories_monthly {
     sql:coalesce(${TABLE}.FINAL_SEGMENT_HIGHLEVEL,"Unknown");;
   }
 
-  dimension: most_recent_run_date {
-    group_label:"Behaviour Categories"
-    type:string
-    sql:${TABLE}.MOST_RECENT_RUN_DATE;;
-    hidden: yes
-  }
+  # dimension: most_recent_run_date {
+  #   group_label:"Behaviour Categories"
+  #   type:string
+  #   sql:${TABLE}.MOST_RECENT_RUN_DATE;;
+  #   hidden: yes
+  # }
 
-  dimension: most_recent_period_code {
-    group_label:"Behaviour Categories"
-    type:string
-    sql:${TABLE}.MOST_RECENT_PERIOD_CODE;;
-    hidden: yes
-  }
+  # dimension: is_most_recent_period_code {
+  #   group_label:"Behaviour Categories"
+  #   type:string
+  #   sql:${TABLE}.MOST_RECENT_PERIOD_CODE;;
+  #   hidden: yes
+  # }
 
   dimension: new_customer_flag {
     type:yesno
@@ -81,6 +81,18 @@ view: behaviour_categories_monthly {
   dimension: period_code {
     type:string
     sql:cast(${TABLE}.PERIOD_CODE as string);;
+  }
+
+  measure: most_recent_period_code {
+    type:max
+    sql:${period_code};;
+    value_format: "0"
+  }
+
+  measure: most_recent_month_start {
+    type:max
+    sql:${month_start};;
+    value_format: "0"
   }
 
 }

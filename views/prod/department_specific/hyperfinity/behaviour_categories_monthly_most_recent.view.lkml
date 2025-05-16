@@ -37,7 +37,7 @@ view: behaviour_categories_monthly_most_recent {
     hidden:yes
   }
 
-  dimension: most_recent_run_date {
+  dimension: is_most_recent_run_date {
     type:yesno
     sql:${run_date} is not null;;
   }
@@ -49,7 +49,7 @@ view: behaviour_categories_monthly_most_recent {
     hidden: yes
   }
 
-  dimension: most_recent_period_code {
+  dimension: is_most_recent_period_code {
     type:yesno
     sql:${period_code} is not null;;
   }
