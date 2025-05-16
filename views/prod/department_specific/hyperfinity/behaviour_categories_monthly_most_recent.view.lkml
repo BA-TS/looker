@@ -81,4 +81,24 @@ view: behaviour_categories_monthly_most_recent {
     hidden: yes
   }
 
+  dimension: new_customer_flag {
+    group_label:"Behaviour Categories"
+    type:yesno
+    sql:${TABLE}.NEW_CUSTOMER_FLAG;;
+  }
+
+  dimension: month_start {
+    group_label:"Behaviour Categories"
+    type:string
+    sql:cast(${TABLE}.MONTH_START as string);;
+    hidden:no
+  }
+
+  dimension: month_end {
+    group_label:"Behaviour Categories"
+    type:string
+    sql:cast(${TABLE}.MONTH_END as string);;
+    hidden:no
+  }
+
 }

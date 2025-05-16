@@ -89,6 +89,4 @@ view: behaviour_categories_monthly {
     sql:cast(${TABLE}.MONTH_END as string);;
     hidden:no
   }
-
-
 }
