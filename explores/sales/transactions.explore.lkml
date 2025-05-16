@@ -707,8 +707,7 @@ explore: base {
     required_access_grants: [can_use_customer_information]
     type :  left_outer
     relationship: one_to_many
-    sql_on: ${customers.customer_uid}=${behaviour_categories_monthly.customerUID}
-        and ${behaviour_categories_monthly_most_recent.period_code} = ${behaviour_categories_monthly.period_code};;
+    sql_on: ${customers.customer_uid}=${behaviour_categories_monthly.customerUID};;
   }
 
   join: rfv_monthly_final {
@@ -725,8 +724,7 @@ explore: base {
     required_access_grants: [can_use_customer_information]
     type :  left_outer
     relationship: one_to_many
-    sql_on:  ${customers.customer_uid}=${rfv_monthly_final_most_recent.customerUID}
-    and ${rfv_monthly_final.period_code} = ${rfv_monthly_final_most_recent.period_code} ;;
+    sql_on:  ${customers.customer_uid}=${rfv_monthly_final_most_recent.customerUID} ;;
   }
 
   # join: hyperfinity_master_table_looker {
