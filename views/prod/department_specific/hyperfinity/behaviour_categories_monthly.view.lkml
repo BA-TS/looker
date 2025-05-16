@@ -43,6 +43,7 @@ view: behaviour_categories_monthly {
     group_label:"Behaviour Categories History"
     type:string
     sql:cast(${TABLE}.PERIOD_CODE as string);;
+    hidden: yes
   }
 
   dimension: final_segment{
@@ -71,7 +72,6 @@ view: behaviour_categories_monthly {
 
 
   dimension: new_customer_flag {
-    group_label:"Behaviour Categories History"
     type:yesno
     sql:${TABLE}.NEW_CUSTOMER_FLAG;;
   }
@@ -81,7 +81,7 @@ view: behaviour_categories_monthly {
     label: "Month Start (yyyymm)"
     type:string
     sql:cast(${TABLE}.MONTH_START as string);;
-    hidden:no
+    hidden:yes
   }
 
   dimension: month_end {
@@ -89,6 +89,6 @@ view: behaviour_categories_monthly {
     label: "Month End (yyyymm)"
     type:string
     sql:cast(${TABLE}.MONTH_END as string);;
-    hidden:no
+    hidden:yes
   }
 }

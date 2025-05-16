@@ -53,6 +53,7 @@ view: behaviour_categories_monthly_most_recent {
     group_label:"Behaviour Categories"
     type:string
     sql:${TABLE}.PERIOD_CODE;;
+    hidden: yes
   }
 
   dimension: final_segment{
@@ -85,6 +86,7 @@ view: behaviour_categories_monthly_most_recent {
     group_label:"Behaviour Categories"
     type:yesno
     sql:${TABLE}.NEW_CUSTOMER_FLAG;;
+    hidden: yes
   }
 
   dimension: month_start {
@@ -92,7 +94,7 @@ view: behaviour_categories_monthly_most_recent {
     label: "Month Start (yyyymm)"
     type:string
     sql:cast(${TABLE}.MONTH_START as string);;
-    hidden:no
+    hidden:yes
   }
 
   dimension: month_end {
@@ -100,7 +102,7 @@ view: behaviour_categories_monthly_most_recent {
     label: "Month End (yyyymm)"
     type:string
     sql:cast(${TABLE}.MONTH_END as string);;
-    hidden:no
+    hidden:yes
   }
 
 }

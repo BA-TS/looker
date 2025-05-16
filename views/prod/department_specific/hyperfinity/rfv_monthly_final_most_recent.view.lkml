@@ -47,7 +47,7 @@ view: rfv_monthly_final_most_recent {
     group_label:"RFV Monthly Final"
     type:string
     sql:${TABLE}.PERIOD_CODE;;
-    hidden:no
+    hidden:yes
   }
 
   dimension: month_start {
@@ -55,7 +55,7 @@ view: rfv_monthly_final_most_recent {
     label: "Month Start (yyyymm)"
     type:string
     sql:cast(${TABLE}.MONTH_START as string);;
-    hidden:no
+    hidden:yes
   }
 
   dimension: month_end {
@@ -63,7 +63,7 @@ view: rfv_monthly_final_most_recent {
     label: "Month End (yyyymm)"
     type:string
     sql:cast(${TABLE}.MONTH_END as string);;
-    hidden:no
+    hidden:yes
   }
 
 }
