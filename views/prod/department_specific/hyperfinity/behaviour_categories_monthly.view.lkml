@@ -19,7 +19,6 @@ view: behaviour_categories_monthly {
   }
 
   dimension: run_date {
-    group_label:"Behaviour Categories"
     type:string
     sql:${TABLE}.RUN_DATE;;
     }

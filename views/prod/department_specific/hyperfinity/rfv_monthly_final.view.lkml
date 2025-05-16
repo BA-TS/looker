@@ -85,7 +85,7 @@ view: rfv_monthly_final {
     group_label:"RFV Monthly Final"
     type:date
     sql:${TABLE}.RUN_DATE;;
-    hidden:no
+    hidden:yes
   }
 
   dimension: period_code {

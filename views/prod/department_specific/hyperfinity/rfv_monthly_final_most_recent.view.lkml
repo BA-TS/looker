@@ -47,5 +47,6 @@ view: rfv_monthly_final_most_recent {
     group_label:"RFV Monthly Final"
     type:yesno
     sql:${run_date} is not null;;
+    hidden: yes
   }
 }
