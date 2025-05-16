@@ -686,30 +686,29 @@ explore: base {
     sql_on: ${customers.customer_uid} = ${scorecard_trade_customers_filter.customer_uid};;
   }
 
-  join: hyperfinity_customer_flag {
-    view_label: "Customers"
-    type :  left_outer
-    relationship: one_to_one
-    sql_on: ${customers.customer_uid}=${hyperfinity_customer_flag.customer_uid} ;;
-  }
-
 # Hyperfinity------------
-  join: behaviour_categories_monthly {
-    view_label: "Hyperfinity"
-    required_access_grants: [can_use_customer_information]
-    type :  left_outer
-    relationship: one_to_many
-    sql_on: ${customers.customer_uid}=${behaviour_categories_monthly.customerUID}
-    ;;
-  }
+  # join: hyperfinity_customer_flag {
+  #   view_label: "Customers"
+  #   type :  left_outer
+  #   relationship: one_to_one
+  #   sql_on: ${customers.customer_uid}=${hyperfinity_customer_flag.customer_uid} ;;
+  # }
 
   join: behaviour_categories_monthly_most_recent {
     view_label: "Hyperfinity"
     required_access_grants: [can_use_customer_information]
     type :  left_outer
     relationship: one_to_many
-    sql_on: ${customers.customer_uid}=${behaviour_categories_monthly_most_recent.customerUID}
-    ;;
+    sql_on: ${customers.customer_uid}=${behaviour_categories_monthly_most_recent.customerUID};;
+  }
+
+  join: behaviour_categories_monthly {
+    view_label: "Hyperfinity"
+    required_access_grants: [can_use_customer_information]
+    type :  left_outer
+    relationship: one_to_many
+    sql_on: ${customers.customer_uid}=${behaviour_categories_monthly.customerUID}
+        and ${behaviour_categories_monthly_most_recent.period_code} = ${behaviour_categories_monthly.period_code};;
   }
 
   join: rfv_monthly_final {
@@ -718,10 +717,8 @@ explore: base {
     type :  left_outer
     relationship: one_to_many
     sql_on:
-    ${customers.customer_uid}=${rfv_monthly_final.customerUID}
-      ;;
+    ${customers.customer_uid}=${rfv_monthly_final.customerUID} and ${rfv_monthly_final.period_code} = ${behaviour_categories_monthly.period_code};;
   }
-
 
   join: rfv_monthly_final_most_recent {
     view_label: "Hyperfinity"
@@ -729,7 +726,7 @@ explore: base {
     type :  left_outer
     relationship: one_to_many
     sql_on:  ${customers.customer_uid}=${rfv_monthly_final_most_recent.customerUID}
-          ;;
+    and ${rfv_monthly_final.period_code} = ${rfv_monthly_final_most_recent.period_code} ;;
   }
 
   # join: hyperfinity_master_table_looker {
@@ -743,7 +740,7 @@ explore: base {
   #     ;;
   # }
 
-
+# ------------
   join: addresses {
     view_label: "Transactions"
     type :  left_outer
