@@ -1,3 +1,5 @@
+include: "/views/**/behaviour_categories_monthly_most_recent.view"
+
 view: behaviour_categories_monthly {
   derived_table: {
     sql:
@@ -47,7 +49,7 @@ view: behaviour_categories_monthly {
     sql:coalesce(${TABLE}.FINAL_SEGMENT_HIGHLEVEL,"Unknown");;
   }
 
-  dimension: last_run {
+  dimension: is_lastest_run {
     type: yesno
     sql:${run_date}=${behaviour_categories_monthly_most_recent.run_date};;
   }

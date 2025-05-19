@@ -730,7 +730,7 @@ explore: base {
   }
 
   join: behaviour_categories_monthly_most_recent {
-    view_label: "Hyperfinity (Last Run)"
+    view_label: "Hyperfinity (Lastest)"
     required_access_grants: [can_use_customer_information]
     type :  left_outer
     relationship: one_to_many
