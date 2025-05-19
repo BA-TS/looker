@@ -54,7 +54,6 @@ view: behaviour_categories_monthly {
     sql:${run_date}=${behaviour_categories_monthly_most_recent.run_date};;
   }
 
-
   # dimension: most_recent_run_date {
   #   group_label:"Behaviour Categories"
   #   type:string
@@ -96,17 +95,16 @@ view: behaviour_categories_monthly {
     sql:${period_code} is not null;;
   }
 
-
-  measure: most_recent_period_code {
+  measure: latest_period_code {
     type:max
     sql:${period_code};;
     value_format: "0"
   }
 
-  measure: most_recent_month_start {
-    type:max
-    sql:${month_start};;
-    value_format: "0"
-  }
+  # measure: most_recent_month_start {
+  #   type:max
+  #   sql:${month_start};;
+  #   value_format: "0"
+  # }
 
 }
