@@ -83,6 +83,12 @@ view: behaviour_categories_monthly {
     sql:cast(${TABLE}.PERIOD_CODE as string);;
   }
 
+  dimension: has_a_run{
+    type:yesno
+    sql:${period_code} is not null;;
+  }
+
+
   measure: most_recent_period_code {
     type:max
     sql:${period_code};;

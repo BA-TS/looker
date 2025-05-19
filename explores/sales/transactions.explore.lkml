@@ -702,6 +702,33 @@ explore: base {
     sql_on: ${customers.customer_uid}=${behaviour_categories_monthly.customerUID};;
   }
 
+  join: behaviour_categories_monthly2 {
+    from: behaviour_categories_monthly
+    fields: [behaviour_categories_monthly2.customerUID,behaviour_categories_monthly2.has_a_run,behaviour_categories_monthly2.period_code]
+    view_label: "Hyperfinity (Month End)"
+    required_access_grants: [can_use_customer_information]
+    type :  left_outer
+    relationship: one_to_one
+    sql_on: ${customers.customer_uid}=${behaviour_categories_monthly2.customerUID}
+    and ${behaviour_categories_monthly.period_code} = ${behaviour_categories_monthly2.period_code}
+    and ${behaviour_categories_monthly2.period_code} = ${calendar_completed_date.calendar_year_month2}
+    ;;
+  }
+
+  join: behaviour_categories_monthly3 {
+    from: behaviour_categories_monthly
+    fields: [behaviour_categories_monthly3.customerUID,behaviour_categories_monthly3.has_a_run,behaviour_categories_monthly3.period_code
+      ,behaviour_categories_monthly3.month_start
+      ]
+    view_label: "Hyperfinity (Month Start)"
+    required_access_grants: [can_use_customer_information]
+    type :  left_outer
+    relationship: one_to_one
+    sql_on: ${customers.customer_uid}=${behaviour_categories_monthly3.customerUID}
+          and ${behaviour_categories_monthly3.month_start} = ${calendar_completed_date.calendar_year_month2}
+          ;;
+  }
+
   join: behaviour_categories_monthly_most_recent {
     view_label: "Hyperfinity"
     required_access_grants: [can_use_customer_information]
