@@ -34,14 +34,14 @@ view: behaviour_categories_monthly_most_recent {
     group_label:"Behaviour Categories"
     type:string
     sql:${TABLE}.RUN_DATE;;
-    hidden:yes
+    # hidden:yes
   }
 
   dimension: period_code {
     group_label:"Behaviour Categories"
     type:string
     sql:${TABLE}.PERIOD_CODE;;
-    hidden: yes
+    # hidden: yes
   }
 
   dimension: cluster_high_level {
@@ -66,6 +66,11 @@ view: behaviour_categories_monthly_most_recent {
     group_label:"Behaviour Categories"
     type:string
     sql:coalesce(${TABLE}.FINAL_SEGMENT_HIGHLEVEL,"Unknown");;
+  }
+
+  dimension: new_customer_flag {
+    type:yesno
+    sql:${TABLE}.NEW_CUSTOMER_FLAG;;
   }
 
 }
