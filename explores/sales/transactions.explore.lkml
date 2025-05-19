@@ -730,11 +730,13 @@ explore: base {
   }
 
   join: behaviour_categories_monthly_most_recent {
-    view_label: "Hyperfinity (Lastest)"
+    view_label: "Hyperfinity"
     required_access_grants: [can_use_customer_information]
     type :  left_outer
     relationship: one_to_many
-    sql_on: ${customers.customer_uid}=${behaviour_categories_monthly_most_recent.customerUID};;
+    sql_on: ${customers.customer_uid}=${behaviour_categories_monthly_most_recent.customerUID}
+    and ${behaviour_categories_monthly_most_recent.run_date} = ${behaviour_categories_monthly.run_date}
+    ;;
   }
 
   join: rfv_monthly_final {

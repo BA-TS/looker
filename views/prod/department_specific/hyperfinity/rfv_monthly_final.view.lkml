@@ -22,7 +22,7 @@ view: rfv_monthly_final {
     group_label:"RFV Monthly Final"
     label: "RFV Group"
     type:string
-    sql:${TABLE}.RFV_GROUP;;
+    sql:coalesce(${TABLE}.RFV_GROUP,"New");;
   }
 
   dimension: rfv_group_number {

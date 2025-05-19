@@ -37,40 +37,47 @@ view: behaviour_categories_monthly_most_recent {
     # hidden:yes
   }
 
+  dimension: use_latest_run {
+    group_label:"Behaviour Categories"
+    type:yesno
+    sql:${run_date} is not null;;
+    # hidden:yes
+  }
+
   dimension: period_code {
     group_label:"Behaviour Categories"
     type:string
     sql:${TABLE}.PERIOD_CODE;;
-    # hidden: yes
+    hidden: yes
   }
 
-  dimension: cluster_high_level {
-    group_label:"Behaviour Categories"
-    type:string
-    sql:${TABLE}.CLUSTER_HIGHLEVEL;;
-  }
+  # dimension: cluster_high_level {
+  #   group_label:"Behaviour Categories"
+  #   type:string
+  #   sql:coalesce(${TABLE}.CLUSTER_HIGHLEVEL,"Unknown");;
+  # }
 
-  dimension: cluster_low_level {
-    group_label:"Behaviour Categories"
-    type:string
-    sql:${TABLE}.CLUSTER_LOWLEVEL;;
-  }
+  # dimension: cluster_low_level {
+  #   group_label:"Behaviour Categories"
+  #   type:string
+  #   sql:coalesce(${TABLE}.CLUSTER_LOWLEVEL,"Unknown");;
+  # }
 
-  dimension: final_segment{
-    group_label:"Behaviour Categories"
-    type:string
-    sql:coalesce(${TABLE}.FINAL_SEGMENT,"Unknown");;
-  }
+  # dimension: final_segment{
+  #   group_label:"Behaviour Categories"
+  #   type:string
+  #   sql:coalesce(${TABLE}.FINAL_SEGMENT,"Unknown");;
+  # }
 
-  dimension: final_segment_high_level {
-    group_label:"Behaviour Categories"
-    type:string
-    sql:coalesce(${TABLE}.FINAL_SEGMENT_HIGHLEVEL,"Unknown");;
-  }
+  # dimension: final_segment_high_level {
+  #   group_label:"Behaviour Categories"
+  #   type:string
+  #   sql:coalesce(${TABLE}.FINAL_SEGMENT_HIGHLEVEL,"Unknown");;
+  # }
 
-  dimension: new_customer_flag {
-    type:yesno
-    sql:${TABLE}.NEW_CUSTOMER_FLAG;;
-  }
+  # dimension: new_customer_flag {
+  #   type:yesno
+  #   sql:${TABLE}.NEW_CUSTOMER_FLAG;;
+  # }
 
 }
