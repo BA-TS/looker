@@ -47,6 +47,12 @@ view: behaviour_categories_monthly {
     sql:coalesce(${TABLE}.FINAL_SEGMENT_HIGHLEVEL,"Unknown");;
   }
 
+  dimension: last_run {
+    type: yesno
+    sql:${run_date}=${behaviour_categories_monthly_most_recent.run_date};;
+  }
+
+
   # dimension: most_recent_run_date {
   #   group_label:"Behaviour Categories"
   #   type:string

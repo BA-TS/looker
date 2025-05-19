@@ -37,11 +37,6 @@ view: behaviour_categories_monthly_most_recent {
     hidden:yes
   }
 
-  dimension: is_most_recent_run_date {
-    type:yesno
-    sql:${run_date} is not null;;
-  }
-
   dimension: period_code {
     group_label:"Behaviour Categories"
     type:string
@@ -49,9 +44,28 @@ view: behaviour_categories_monthly_most_recent {
     hidden: yes
   }
 
-  dimension: is_most_recent_period_code {
-    type:yesno
-    sql:${period_code} is not null;;
+  dimension: cluster_high_level {
+    group_label:"Behaviour Categories"
+    type:string
+    sql:${TABLE}.CLUSTER_HIGHLEVEL;;
+  }
+
+  dimension: cluster_low_level {
+    group_label:"Behaviour Categories"
+    type:string
+    sql:${TABLE}.CLUSTER_LOWLEVEL;;
+  }
+
+  dimension: final_segment{
+    group_label:"Behaviour Categories"
+    type:string
+    sql:coalesce(${TABLE}.FINAL_SEGMENT,"Unknown");;
+  }
+
+  dimension: final_segment_high_level {
+    group_label:"Behaviour Categories"
+    type:string
+    sql:coalesce(${TABLE}.FINAL_SEGMENT_HIGHLEVEL,"Unknown");;
   }
 
 }
