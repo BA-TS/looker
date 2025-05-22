@@ -41,6 +41,7 @@ view: behaviour_categories_monthly_most_recent {
     group_label:"Behaviour Categories"
     type:yesno
     sql:${run_date} is not null;;
+    hidden: yes
   }
 
 }
