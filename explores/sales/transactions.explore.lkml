@@ -711,9 +711,9 @@ explore: base {
 
   join: behaviour_categories_monthly3 {
     from: behaviour_categories_monthly
-    fields: [behaviour_categories_monthly3.customerUID,behaviour_categories_monthly3.has_a_run,behaviour_categories_monthly3.period_code
-      ,behaviour_categories_monthly3.month_start
-      ]
+    # fields: [behaviour_categories_monthly3.customerUID,behaviour_categories_monthly3.has_a_run,behaviour_categories_monthly3.period_code
+    #   ,behaviour_categories_monthly3.month_start
+    #   ]
     view_label: "Hyperfinity (Month Start)"
     required_access_grants: [can_use_customer_information]
     type :  left_outer
