@@ -26,7 +26,6 @@ view: behaviour_categories_monthly {
     }
 
   dimension: cluster_high_level {
-    group_label:"Behaviour Categories"
     type:string
     # sql:coalesce(${TABLE}.CLUSTER_HIGHLEVEL,"Unknown");;
     sql:${TABLE}.CLUSTER_HIGHLEVEL;;
@@ -34,21 +33,18 @@ view: behaviour_categories_monthly {
     }
 
   dimension: cluster_low_level {
-    group_label:"Behaviour Categories"
     type:string
     sql:coalesce(${TABLE}.CLUSTER_LOWLEVEL,"Unknown");;
     hidden: yes
   }
 
   dimension: final_segment{
-    group_label:"Behaviour Categories"
     type:string
     sql:coalesce(${TABLE}.FINAL_SEGMENT,"Unknown");;
     hidden: yes
   }
 
   dimension: final_segment_high_level {
-    group_label:"Behaviour Categories"
     type:string
     sql:coalesce(${TABLE}.FINAL_SEGMENT_HIGHLEVEL,"Unknown");;
   }
