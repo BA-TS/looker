@@ -35,7 +35,6 @@ view: behaviour_categories_monthly {
   dimension: cluster_low_level {
     type:string
     sql:coalesce(${TABLE}.CLUSTER_LOWLEVEL,"Unknown");;
-    hidden: yes
   }
 
   dimension: final_segment{
