@@ -15,7 +15,6 @@ view: behaviour_categories_monthly_most_recent_all {
   }
 
   dimension: is_latest_run_all{
-    group_label:"Behaviour Categories"
     label: "Is Latest Run"
     type:yesno
     sql:${run_date} is not null;;
