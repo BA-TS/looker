@@ -5,7 +5,7 @@ view: ecrebo_Flags_BasketDiscounts {
           *,
           row_number () over () as prim_key,
           from `toolstation-data-storage.sales.ecrebo_Flags_BasketDiscounts`
-          where EcreboFlag_ItemDiscount is not null;;
+          where EcreboFlag_BasketDiscount is not null;;
   }
 
   dimension: prim_key {
