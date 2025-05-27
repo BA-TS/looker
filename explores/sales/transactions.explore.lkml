@@ -732,6 +732,14 @@ explore: base {
     and ${behaviour_categories_monthly_most_recent.run_date} = ${behaviour_categories_monthly.run_date};;
   }
 
+  join: behaviour_categories_monthly_most_recent_all {
+    view_label: "Hyperfinity"
+    required_access_grants: [can_use_customer_information]
+    type :  left_outer
+    relationship: one_to_one
+    sql_on: ${behaviour_categories_monthly_most_recent_all.run_date} = ${behaviour_categories_monthly.run_date};;
+  }
+
   join: rfv_monthly_final {
     view_label: "Hyperfinity"
     required_access_grants: [can_use_customer_information]

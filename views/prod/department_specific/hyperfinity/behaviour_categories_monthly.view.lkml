@@ -49,6 +49,7 @@ view: behaviour_categories_monthly {
   }
 
   dimension: is_lastest_run {
+    label: "Is Latest Run (by Customer)"
     type: yesno
     sql:${run_date}=${behaviour_categories_monthly_most_recent.run_date};;
   }
