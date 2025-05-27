@@ -37,7 +37,7 @@ view: ecrebo_Flags_BasketDiscounts {
 
   dimension: loyalty_club {
     type: yesno
-    sql: ${Ecrebo_Flag_Item_Discount} = "Loyalty Club" ;;
+    sql: ${Ecrebo_Flag_Item_Discount} = "Loyalty club" ;;
   }
 
 }
