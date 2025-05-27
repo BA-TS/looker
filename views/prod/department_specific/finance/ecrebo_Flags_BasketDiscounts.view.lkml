@@ -20,24 +20,29 @@ view: ecrebo_Flags_BasketDiscounts {
     hidden: yes
   }
 
-  dimension: Ecrebo_Flag_Item_Discount {
+  dimension: Ecrebo_Flag_Basket_Discount {
     type: string
-    sql: ${TABLE}.EcreboFlag_ItemDiscount ;;
+    sql: ${TABLE}.EcreboFlag_BasketDiscount ;;
   }
 
   dimension: trade_account {
     type: yesno
-    sql: ${Ecrebo_Flag_Item_Discount} = "Trade account" ;;
+    sql: ${Ecrebo_Flag_Basket_Discount} = "Trade account" ;;
   }
 
   dimension: staff_discount {
     type: yesno
-    sql: ${Ecrebo_Flag_Item_Discount} = "Staff discount" ;;
+    sql: ${Ecrebo_Flag_Basket_Discount} = "Staff discount" ;;
   }
 
   dimension: loyalty_club {
     type: yesno
-    sql: ${Ecrebo_Flag_Item_Discount} = "Loyalty club" ;;
+    sql: ${Ecrebo_Flag_Basket_Discount} = "Loyalty club" ;;
+  }
+
+  dimension: other_basket_discount {
+    type: yesno
+    sql: ${Ecrebo_Flag_Basket_Discount} = "Other basket discount" ;;
   }
 
 }
