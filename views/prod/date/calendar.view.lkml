@@ -333,6 +333,18 @@ view: calendar {
     required_access_grants: [lz_only]
   }
 
+  dimension: previous_fiscal_week {
+    group_label: "Flags"
+    type: yesno
+    sql:
+    case when ${today_day_of_week}=1 then
+     cast(${fiscal_year_week} as int) = (cast(${today_fiscal_year_week} as int))
+    else
+         cast(${fiscal_year_week} as int) = (cast(${today_fiscal_year_week} as int)-1)
+    end
+    ;;
+  }
+
   dimension: ty_py_weeks_filter_1 {
     group_label: "Flags"
     label: "TY and PY Wk-1"
