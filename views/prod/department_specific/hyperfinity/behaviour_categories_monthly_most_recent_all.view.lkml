@@ -1,3 +1,6 @@
+include: "/views/**/calendar.view"
+include: "/views/**/base.view"
+
 view: behaviour_categories_monthly_most_recent_all {
   derived_table: {
     sql:
@@ -18,6 +21,11 @@ view: behaviour_categories_monthly_most_recent_all {
     label: "Is Latest Run"
     type:yesno
     sql:${run_date} is not null;;
+  }
+
+  dimension: hyperfinity_latest{
+    type:yesno
+    sql:${is_latest_run_all} is not null and ${calendar_completed_date.previous_fiscal_week} is not null;;
   }
 
 }
