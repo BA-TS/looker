@@ -85,6 +85,7 @@ include: "/views/**/bdm_ka_customers2.view"
 include: "/views/**/bdm_ka_customers_combined.view"
 include: "/views/**/department_group.view"
 include:"/views/prod/department_specific/hyperfinity/*"
+include:"/views/prod/department_specific/finance/*"
 
 explore: base {
   label: "Transactions"
@@ -857,6 +858,15 @@ explore: base {
     type: left_outer
     relationship: many_to_one
     sql_on: ${customers.customer_uid} =${tradekartcustomer.customerUID};;
+  }
+
+  join: ecrebo_Flags_BasketDiscounts {
+    view_label: "Ecrebo Flags Basket Discounts"
+    type: left_outer
+    relationship: many_to_many
+    required_access_grants: [ecrebo]
+    sql_on:
+    ${ecrebo_Flags_BasketDiscounts.parent_order_uid}= ${transactions.parent_order_uid};;
   }
 }
 
