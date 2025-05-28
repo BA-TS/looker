@@ -692,7 +692,7 @@ explore: base {
     view_label: "Hyperfinity"
     required_access_grants: [can_use_customer_information]
     type :  left_outer
-    relationship: one_to_many
+    relationship: many_to_many
     sql_on: ${customers.customer_uid}=${behaviour_categories_monthly.customerUID};;
   }
 
@@ -712,9 +712,6 @@ explore: base {
 
   join: behaviour_categories_monthly3 {
     from: behaviour_categories_monthly
-    # fields: [behaviour_categories_monthly3.customerUID,behaviour_categories_monthly3.has_a_run,behaviour_categories_monthly3.period_code
-    #   ,behaviour_categories_monthly3.month_start
-    #   ]
     view_label: "Hyperfinity (Month Start)"
     required_access_grants: [can_use_customer_information]
     type :  left_outer
@@ -748,6 +745,16 @@ explore: base {
     sql_on:
     ${customers.customer_uid}=${rfv_monthly_final.customerUID} and ${rfv_monthly_final.run_date} = ${behaviour_categories_monthly.run_date};;
   }
+
+
+  join: latest_run_customers_list {
+    view_label: "Hyperfinity"
+    required_access_grants: [can_use_customer_information]
+    type :  left_outer
+    relationship: many_to_many
+    sql_on: ${customers.customer_uid}=${latest_run_customers_list.customer_uid};;
+  }
+
 
 
 # ------------
