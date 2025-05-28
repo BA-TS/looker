@@ -2,17 +2,18 @@ view: ecrebo_discounts {
 
   derived_table: {
     sql:
-       select
+ select
       DISTINCT row_number() over () AS prim_key,
         t.productCode,
         t.parentOrderUID,
         t.transactionLineType,
+        t.vatRate,
         sum(coalesce(grossSalesAdjusted, t.grossSalesValue)) grossSalesAdjusted,
         sum(coalesce(netSalesAdjusted, netSalesValue)) netSalesAdjusted,
         sum(coalesce(marginExclFundingAdjusted, t.marginExclFunding)) marginExclFundingAdjusted,
         sum(coalesce(marginInclFundingAdjusted, t.marginInclFunding)) marginInclFundingAdjusted,
-        sum(itemDiscountGross) itemDiscountGross,
-        sum(itemDiscountNet) itemDiscountNet,
+        sum(`itemPromotionDiscounts`[SAFE_OFFSET(0)].discountValue) itemDiscountGross,
+        SAFE_DIVIDE(sum(`itemPromotionDiscounts`[SAFE_OFFSET(0)].discountValue), t.vatRate) as itemDiscountNet,
         sum(ED.COGS) COGS,
         sum(total_basket_discountGross) basketDiscountGross,
         sum(total_basket_discountNet) basketDiscountNet,
@@ -22,6 +23,7 @@ view: ecrebo_discounts {
        left join `toolstation-data-storage.sales.ecreboDiscounts` ED
         on t.parentOrderUID = ED.parentOrderUID AND t.transactionUID = ED.transactionUID and t.productCode = ED.productCode
         and t.transactionLineType = ED.transactionLineType
+
         where t.productCode NOT IN ('85699', '00053','44842')
         group by all
     ;;
