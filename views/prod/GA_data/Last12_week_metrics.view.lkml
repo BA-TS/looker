@@ -3,7 +3,7 @@ view: last12_week_metrics {
   derived_table: {
     sql:
 
- with sub1 as (
+with sub1 as (
 select distinct
 "Current Year" as year,
 date,
@@ -93,7 +93,100 @@ case when event_name in ("add_to_cart") and platform in ("Web") then regexp_extr
       and _TABLE_Suffix between format_date("%Y%m%d",date_sub(current_date(), interval 12 week)) and format_date("%Y%m%d",current_date())
       group by all)
 
+),
+
+  landing_P as (select distinct session_id as landing_session, page_location as landingPage, screen_name as landingScreen, screen_Type as LandingScreenType
+      from sub1 where landingP = 1),
+
+      exit_P as (select distinct session_id as exit_session, page_location as exitPage, screen_name as exitScreen, screen_Type as exitScreenType
+      from sub1 where exitP = 1),
+
+      purchase as (select distinct session_id as purchase_session, min(minTime) as purchase_time,  sum(net) as net, sum(Quantity) as quantity, count(distinct OrderID) as Orders
+      from sub1 where event_name in ("purchase", "Purchase") and productCode not in ("00021")
+      group by all),
+
+      search as (select distinct session_id as search_session, min(minTime) as search_time
+      from sub1 where regexp_contains(event_name, "search") and event_name not in ("blank_search")
+      group by all),
+
+      blank_search as (select distinct session_id as blanksearch_session
+      from sub1 where event_name in ("blank_search")
+      group by all),
+
+      filters_used as (select distinct session_id as filter_session from sub1
+      where event_name in ("filter_applied", "filter_removed") or filter_label is not null),
+
+      PDP as (select distinct session_id as PDP_session from sub1
+      where event_name in ("view_item") and screen_Type in ("product-detail-page") ),
+
+      megamenu as (select distinct session_id as megamenu_session from sub1
+      where event_name in ("MegaMenu", "navigation") ),
+
+      ATC as (select distinct session_id as atc_session from sub1
+      where event_name in ("add_to_cart") ),
+
+      sub2 as (select distinct
+      sub1.date as date,
+      sub1.year as yearType,
+      platform,
+      deviceCategory,
+      sub1.cookie_consent,
+      sub1.session_id as all_sessions,
+      count(distinct case when screen_name not in ("Trolley | Toolstation", "trolley-page", "Review & Pay","Checkout Confirmation", "checkout-page", "payment-page", "order-confirmation-page") then screen_name else null end) over (partition by sub1.session_id) pages_in_session,
+      --page_location, screen_name,
+    --case when screen_type in ("product-detail-page") and landingScreen not in ("product-detail-page") then "Get_to_PDP" else "Other" end as screen_type_grouped,
+      --landingPage,landingScreen,
+      LandingScreenType,
+      --exitPage,exitScreen,
+      --exitScreenType,
+      PDP_session,
+      search.search_session as search_session,
+      search.search_time as search_time,
+      blanksearch_session as blank_search,
+      purchase_session,
+      purchase.purchase_time as purchase_time,
+      purchase.net as purchase_net,
+      purchase.quantity as purchase_quantity,
+      purchase.Orders as Orders,
+      filters_used.filter_session,
+      megamenu_session,
+      atc_session
+      from sub1
+      inner join landing_P on session_id=landing_session
+      inner join exit_p on session_id=exit_session
+      left join search on session_id=search_session
+      left join purchase on session_id=purchase_session
+      left join blank_search on session_id = blanksearch_session
+      left join filters_used on session_id=filter_session
+      left join PDP on session_id=PDP_session
+      left join megamenu on session_id=megamenu_session
+      left join ATC on session_id=atc_session
+      group by 1,2,3,4,5,6,screen_name,8,9,10,11,12,13,14,15,16,17,18,19, 20)
+
+select distinct concat(cast(row_number() over () as string), all_sessions) as PK,  date,
+yearType,
+platform,
+deviceCategory,
+all_sessions,
+cookie_consent,
+pages_in_session,
+PDP_Session as get_to_product,
+LandingScreenType,
+search_session,
+search_time,
+blank_search,
+purchase_session,
+purchase_time,
+purchase_net,
+purchase_quantity,
+Orders,
+filter_session,
+megamenu_session,
+atc_session
+from sub2
 union distinct
+
+(with sub1 as (
 select distinct
 "Last Year" as year,
 date,
@@ -180,8 +273,9 @@ case when event_name in ("add_to_cart") and platform in ("Web") then regexp_extr
       left join unnest(SPLIT(filters_used, ",")) as fu WITH OFFSET as test2
       where ((aw.item_id = transactions.productCode) or (aw.item_id is not null and transactions.productCode is null) or (aw.item_id is null and transactions.productCode is null))
 
-      and _TABLE_Suffix between format_date("%Y%m%d",date_sub(date_sub(current_date(), interval 12 week), interval 356 day)) and format_date("%Y%m%d",date_sub(current_date(), interval 365 day))
+      and _TABLE_Suffix between format_date("%Y%m%d",date_sub(date_sub(current_date(), interval 12 week), interval 365 day)) and format_date("%Y%m%d",date_sub(current_date(), interval 365 day))
       group by all)
+
 ),
 
   landing_P as (select distinct session_id as landing_session, page_location as landingPage, screen_name as landingScreen, screen_Type as LandingScreenType
@@ -214,9 +308,11 @@ case when event_name in ("add_to_cart") and platform in ("Web") then regexp_extr
       ATC as (select distinct session_id as atc_session from sub1
       where event_name in ("add_to_cart") ),
 
-      sub2 as (select distinct sub1.date as date,
+      sub2 as (select distinct
+      sub1.date as date,
       sub1.year as yearType,
-      platform, deviceCategory,
+      platform,
+      deviceCategory,
       sub1.cookie_consent,
       sub1.session_id as all_sessions,
       count(distinct case when screen_name not in ("Trolley | Toolstation", "trolley-page", "Review & Pay","Checkout Confirmation", "checkout-page", "payment-page", "order-confirmation-page") then screen_name else null end) over (partition by sub1.session_id) pages_in_session,
@@ -248,7 +344,7 @@ case when event_name in ("add_to_cart") and platform in ("Web") then regexp_extr
       left join PDP on session_id=PDP_session
       left join megamenu on session_id=megamenu_session
       left join ATC on session_id=atc_session
-      group by 1,2,3,4,5,screen_name,7,8,9,10,11,12,13,14,15,16,17,18,19)
+      group by 1,2,3,4,5,6,screen_name,8,9,10,11,12,13,14,15,16,17,18,19, 20)
 
 select distinct concat(cast(row_number() over () as string), all_sessions) as PK,  date,
 yearType,
@@ -270,7 +366,7 @@ Orders,
 filter_session,
 megamenu_session,
 atc_session
-from sub2
+from sub2)
       ;;
 
     sql_trigger_value: SELECT EXTRACT(dayofweek FROM CURRENT_DATEtime()) between 2 and 6 and extract(hour from current_datetime()) = 13
