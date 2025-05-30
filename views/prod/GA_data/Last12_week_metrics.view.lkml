@@ -5,7 +5,7 @@ view: last12_week_metrics {
 
  with sub1 as (
 select distinct
-
+"Current Year" as year,
 date,
 minTime,
 platform,
@@ -92,6 +92,96 @@ case when event_name in ("add_to_cart") and platform in ("Web") then regexp_extr
 
       and _TABLE_Suffix between format_date("%Y%m%d",date_sub(current_date(), interval 12 week)) and format_date("%Y%m%d",current_date())
       group by all)
+
+union distinct
+select distinct
+"Last Year" as year,
+date,
+minTime,
+platform,
+deviceCategory,
+session_id,
+cookie_consent,
+page_location,
+screen_name,
+screen_Type,
+event_name,
+key1,
+label_1,
+key_2,
+label_2,
+filter_key,
+filter_label,
+productCode,
+OrderID,
+net,
+Quantity,
+--events,
+row_number () over (partition by session_id order by minTime asc) as landingP,
+row_number () over (partition by session_id order by minTime desc) as exitP
+
+
+
+from
+(SELECT distinct date, minTime, platform, deviceCategory,
+case when session_id is null then cast(user_first_touch_timestamp as string) else session_id end as session_id,
+cookie_consent,
+ page_location,
+case when regexp_contains(page_location,"checkout\\/confirmation") then "Checkout Confirmation" else screen_name end as screen_name,
+
+CASE when regexp_contains(page_location,".*/p[0-9]{5}$|.*/p[0-9]{5}[^0-9a-zA-Z]|.*/p[A-Z]{2}[0-9]{3}$|.*/p[A-Z]{2}[0-9]{3}[^0-9a-zA-Z]") then "product-detail-page"
+else (case when regexp_contains(page_location,".*/c([0-9]*)$|.*/c[0-9]*[^0-9a-zA-Z]") then "product-listing-page"
+else screen_name end) end as screen_Type,
+
+case
+when event_name = "videoly" and key_1 = "action" and label_1 not in ("videoly_progress") then label_1
+when event_name = "videoly" and label_1 = "videoly_progress" then concat(label_1,"-",label_2,"%")
+when event_name = "videoly_videostart" then "videoly_start"
+when event_name = "videoly_initialize" then "videoly_box_shown"
+when event_name = "videoly_videoclosed" then "videoly_closed"
+when event_name = "collection_OOS" and platform = "Web" then "out_of_stock"
+when event_name = "dual_OOS" and platform = "Web" then "out_of_stock"
+when event_name = "Delivery_OOS" and platform = "Web" then "out_of_stock"
+when event_name = "outOfStock" and platform = "Web" then "out_of_stock"
+when event_name = "out_of_stock" and platform = "Web" then null
+else event_name
+end as event_name,
+
+case
+when event_name in ("collection_OOS", "dual_OOS", "Delivery_OOS") and platform = "Web" then "Channel"
+when event_name = "out_of_stock" and platform = "Web" then null
+when event_name = "out_of_stock" and platform = "App" then "Channel"
+when event_name in ("MegaMenu") then label_2
+--and platform in ("Web") then key_2
+when key_1 is null and label_1 is not null then "action"
+else key_1 end key1,
+
+INITCAP(Ltrim(
+case when event_name in ("search", "search_actions", "blank_search") then coalesce(label_1,regexp_replace(regexp_extract(page_location, ".*q\\=(.*)$"), "\\+", " ")) else
+(case when event_name in ("add_to_cart") and platform in ("Web") then regexp_extract(label_1, "^.*\\-(.*)$") else
+(case when event_name = "collection_OOS" and platform = "Web" then "Collection" else
+(case when event_name = "dual_OOS" and platform = "Web" then "Dual" else
+(case when event_name = "Delivery_OOS" and platform = "Web" then "Delivery" else
+(case when event_name in ("add_to_cart") and platform in ("App") and key_1 in ("page") then channel else (case when event_name in ("navigation") then coalesce(key_2,label_1) else label_1 end) end) end) end) end) end) end)) as label_1,
+
+case when key_2 is null and label_2 is not null then "action" else
+(case when event_name in ("navigation") and label_1 is null and key_2 is not null then null else key_2 end) end as key_2,
+
+case when event_name in ("add_to_cart") and platform in ("Web") then regexp_extract(label_2, "^.*\\-(.*)$") else label_2 end as label_2,
+    regexp_extract(fu, "(.*)\\:.*") as filter_key,
+    regexp_extract(fu, ".*\\:(.*)") as filter_label,
+      transactions.productCode,
+      transactions.OrderID,
+      #Filters_used,
+      sum(transactions.net_value) as net,
+      sum(transactions.Quantity) as Quantity,
+      --count(distinct events) as events,
+      FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as transactions
+      left join unnest(SPLIT(filters_used, ",")) as fu WITH OFFSET as test2
+      where ((aw.item_id = transactions.productCode) or (aw.item_id is not null and transactions.productCode is null) or (aw.item_id is null and transactions.productCode is null))
+
+      and _TABLE_Suffix between format_date("%Y%m%d",date_sub(date_sub(current_date(), interval 12 week), interval 356 day)) and format_date("%Y%m%d",date_sub(current_date(), interval 365 day))
+      group by all)
 ),
 
   landing_P as (select distinct session_id as landing_session, page_location as landingPage, screen_name as landingScreen, screen_Type as LandingScreenType
@@ -124,7 +214,9 @@ case when event_name in ("add_to_cart") and platform in ("Web") then regexp_extr
       ATC as (select distinct session_id as atc_session from sub1
       where event_name in ("add_to_cart") ),
 
-      sub2 as (select distinct sub1.date as date, platform, deviceCategory,
+      sub2 as (select distinct sub1.date as date,
+      sub1.year as yearType,
+      platform, deviceCategory,
       sub1.cookie_consent,
       sub1.session_id as all_sessions,
       count(distinct case when screen_name not in ("Trolley | Toolstation", "trolley-page", "Review & Pay","Checkout Confirmation", "checkout-page", "payment-page", "order-confirmation-page") then screen_name else null end) over (partition by sub1.session_id) pages_in_session,
@@ -159,6 +251,7 @@ case when event_name in ("add_to_cart") and platform in ("Web") then regexp_extr
       group by 1,2,3,4,5,screen_name,7,8,9,10,11,12,13,14,15,16,17,18,19)
 
 select distinct concat(cast(row_number() over () as string), all_sessions) as PK,  date,
+yearType,
 platform,
 deviceCategory,
 all_sessions,
@@ -223,6 +316,12 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     description: "if session_id is populated then user did not accept cookies"
     type: yesno
     sql: case when ${TABLE}.cookie_consent in ("session id") then true else false end;;
+  }
+
+  dimension: yearType {
+    group_label: "Last 12 Weeks"
+    type: string
+    sql:  ${TABLE}.yearType ;;
   }
 
   dimension: pagesSessions {
