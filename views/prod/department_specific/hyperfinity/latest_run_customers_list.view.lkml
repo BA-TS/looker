@@ -6,6 +6,7 @@ view: latest_run_customers_list {
       column: is_latest_run_all { field: behaviour_categories_monthly_most_recent_all.is_latest_run_all }
       column: customer_uid { field: customers.customer_uid }
       column: final_segment_high_level { field: behaviour_categories_monthly.final_segment_high_level }
+      column: cluster_low_level { field: behaviour_categories_monthly.cluster_low_level }
       filters: {
         field: base.select_date_reference
         value: "Transaction"
@@ -44,6 +45,12 @@ view: latest_run_customers_list {
     description: ""
     type: string
     sql: coalesce(${TABLE}.final_segment_high_level,"Unknown") ;;
+  }
+
+  dimension: cluster_low_level2 {
+    description: ""
+    type: string
+    sql: coalesce(${TABLE}.cluster_low_level,"Unknown") ;;
   }
 
 
