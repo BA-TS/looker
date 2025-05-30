@@ -50,7 +50,7 @@ view: latest_run_customers_list {
   dimension: cluster_low_level2 {
     description: ""
     type: string
-    sql: coalesce(${TABLE}.cluster_low_level,"Unknown") ;;
+    sql: ${TABLE}.cluster_low_level ;;
   }
 
 
