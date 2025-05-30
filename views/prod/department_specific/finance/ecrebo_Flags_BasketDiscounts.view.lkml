@@ -21,6 +21,7 @@ view: ecrebo_Flags_BasketDiscounts {
   }
 
   dimension: Ecrebo_Flag_Basket_Discount {
+    hidden: yes
     type: string
     sql: ${TABLE}.EcreboFlag_BasketDiscount ;;
   }
