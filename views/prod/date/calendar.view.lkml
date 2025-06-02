@@ -292,7 +292,7 @@ view: calendar {
   dimension: today_fiscal_week_of_year {
     group_label: "Dates Fiscal"
     label: "Today Fiscal Week (ww)"
-    hidden: yes
+    #hidden: yes
     type: number
     sql: ${TABLE}.todayfiscalWeekOfYear;;
   }
