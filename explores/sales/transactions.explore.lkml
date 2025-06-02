@@ -887,7 +887,7 @@ explore: base {
   }
 
   join: ecrebo_Flags_ItemDiscounts {
-    view_label: "Ecrebo Flags Basket Discounts"
+    view_label: "Ecrebo Flags Item Discounts"
     type: left_outer
     relationship: many_to_many
     required_access_grants: [ecrebo]

@@ -5,7 +5,7 @@ view: ecrebo_Flags_ItemDiscounts {
     select *,
     row_number () over () as prim_key
     from
-    "toolstation-data-storage.sales.ecrebo_Flags_ItemDiscounts"
+    `toolstation-data-storage.sales.ecrebo_Flags_ItemDiscounts`
     ;;
   }
 
@@ -48,12 +48,13 @@ view: ecrebo_Flags_ItemDiscounts {
 
   measure: discount_value{
     type: sum
-    sql: ${TABLE}.discountValue_dim ;;
+    sql: ${discountValue_dim} ;;
   }
 
   dimension: category{
     type: string
     sql: ${TABLE}.Category ;;
+    hidden: yes
   }
 
   dimension: bulksave{
