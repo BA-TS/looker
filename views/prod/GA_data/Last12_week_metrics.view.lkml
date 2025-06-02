@@ -411,7 +411,7 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     label: "Accepted Cookies"
     description: "if session_id is populated then user did not accept cookies"
     type: yesno
-    sql: case when ${TABLE}.cookie_consent in ("session id") then true else false end;;
+    sql: case when ${TABLE}.cookie_consent in ("session id") then or  ${date_date} <= date("2025-03-01") then true else false end;;
   }
 
   dimension: yearType {
