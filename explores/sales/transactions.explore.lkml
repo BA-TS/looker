@@ -80,12 +80,14 @@ include: "/views/**/transactions_ecrebo.view"
 include: "/views/**/ecrebo_product_code_flag.view"
 include: "/views/**/product_attributes_pivoted.view"
 include: "/views/**/ecrebo_discounts.view"
+include: "/views/**/ecrebo_Flags_ItemDiscounts.view"
 include: "/views/**/bdm_ka_customers.view"
 include: "/views/**/bdm_ka_customers2.view"
 include: "/views/**/bdm_ka_customers_combined.view"
 include: "/views/**/department_group.view"
 include:"/views/prod/department_specific/hyperfinity/*"
 include:"/views/prod/department_specific/finance/*"
+
 
 explore: base {
   label: "Transactions"
@@ -883,6 +885,23 @@ explore: base {
     sql_on:
     ${ecrebo_Flags_BasketDiscounts.parent_order_uid}= ${transactions.parent_order_uid};;
   }
+
+  join: ecrebo_Flags_ItemDiscounts {
+    view_label: "Ecrebo Flags Basket Discounts"
+    type: left_outer
+    relationship: many_to_many
+    required_access_grants: [ecrebo]
+    sql_on:
+    ${ecrebo_Flags_ItemDiscounts.parent_order_uid}= ${transactions.parent_order_uid}
+    and
+    ${ecrebo_Flags_ItemDiscounts.transactionUID}= ${transactions.transaction_uid}
+    and
+    ${ecrebo_Flags_ItemDiscounts.productCode}= ${transactions.product_code}
+    and
+    ${ecrebo_Flags_ItemDiscounts.transactionLineType}= ${transactions.transaction_line_type}
+    ;;
+  }
+
 }
 
 
