@@ -46,38 +46,38 @@ view: ecrebo_Flags_ItemDiscounts {
     hidden: yes
   }
 
-  measure: discountValue{
+  measure: discount_value{
     type: sum
     sql: ${TABLE}.discountValue_dim ;;
   }
 
-  dimension: Category{
+  dimension: category{
     type: string
     sql: ${TABLE}.Category ;;
   }
 
   dimension: bulksave{
     type: yesno
-    sql: ${Category}="Bulksave" ;;
+    sql: ${category}="Bulksave" ;;
   }
 
   dimension: free_product_offer{
     type: yesno
-    sql: ${Category}="Free product offer" ;;
+    sql: ${category}="Free product offer" ;;
   }
 
   dimension: multibuy{
     type: yesno
-    sql: ${Category}="Multibuy" ;;
+    sql: ${category}="Multibuy" ;;
   }
 
   dimension: other_item_discount{
     type: yesno
-    sql: ${Category}="Other item discount" ;;
+    sql: ${category}="Other item discount" ;;
   }
 
   dimension: Linksave{
     type: yesno
-    sql: ${Category}="Linksave" ;;
+    sql: ${category}="Linksave" ;;
   }
 }
