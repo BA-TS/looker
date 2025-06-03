@@ -6,7 +6,7 @@ view: last12_week_metrics {
 with sub1 as (
 select distinct
 "Current Year" as year,
-date,
+date(timestamp_add(minTime, INTERVAL 1 hour)) as date,
 minTime,
 platform,
 deviceCategory,
@@ -25,6 +25,8 @@ filter_label,
 productCode,
 OrderID,
 net,
+gross,
+ga4_rev,
 Quantity,
 --events,
 row_number () over (partition by session_id order by minTime asc) as landingP,
@@ -84,13 +86,21 @@ case when event_name in ("add_to_cart") and platform in ("Web") then regexp_extr
       transactions.OrderID,
       #Filters_used,
       sum(transactions.net_value) as net,
+      sum(transactions.gross_value) as gross,
+      sum(transactions.ga4_revenue) as ga4_rev,
       sum(transactions.Quantity) as Quantity,
       --count(distinct events) as events,
       FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as transactions
       left join unnest(SPLIT(filters_used, ",")) as fu WITH OFFSET as test2
-      where ((aw.item_id = transactions.productCode) or (aw.item_id is not null and transactions.productCode is null) or (aw.item_id is null and transactions.productCode is null))
+      where
+      --((aw.item_id = transactions.productCode) or (aw.item_id is not null and transactions.productCode is null) or (aw.item_id is null and transactions.productCode is null)) and
 
-      and _TABLE_Suffix between format_date("%Y%m%d",date_sub(current_date(), interval 12 week)) and format_date("%Y%m%d",current_date())
+       _TABLE_SUFFIX between format_date("%Y%m%d",date_trunc(date_sub(current_date(), INTERVAL 12 week), week(sunday))) and format_date("%Y%m%d",current_date())
+
+and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(current_date(), INTERVAL 12 week), week(sunday)) and date(current_date())
+
+
+
       group by all)
 
 ),
@@ -101,8 +111,8 @@ case when event_name in ("add_to_cart") and platform in ("Web") then regexp_extr
       exit_P as (select distinct session_id as exit_session, page_location as exitPage, screen_name as exitScreen, screen_Type as exitScreenType
       from sub1 where exitP = 1),
 
-      purchase as (select distinct session_id as purchase_session, min(minTime) as purchase_time,  sum(net) as net, sum(Quantity) as quantity, count(distinct OrderID) as Orders
-      from sub1 where event_name in ("purchase", "Purchase") and productCode not in ("00021")
+      purchase as (select distinct session_id as purchase_session, min(minTime) as purchase_time,  sum(net) as net, sum(gross) as gross, sum(ga4_rev) as ga4_rev, sum(Quantity) as quantity, OrderID, platform as purchase_platform, year as purchase_year,
+      from sub1 where event_name in ("purchase", "Purchase")
       group by all),
 
       search as (select distinct session_id as search_session, min(minTime) as search_time
@@ -126,9 +136,9 @@ case when event_name in ("add_to_cart") and platform in ("Web") then regexp_extr
       where event_name in ("add_to_cart") ),
 
       sub2 as (select distinct
-      sub1.date as date,
-      sub1.year as yearType,
-      platform,
+      coalesce(sub1.date, date(purchase.purchase_Time)) as date,
+      coalesce(sub1.year, purchase.purchase_year) as yearType,
+      coalesce(platform,purchase.purchase_platform) as platform,
       deviceCategory,
       sub1.cookie_consent,
       sub1.session_id as all_sessions,
@@ -146,8 +156,10 @@ case when event_name in ("add_to_cart") and platform in ("Web") then regexp_extr
       purchase_session,
       purchase.purchase_time as purchase_time,
       purchase.net as purchase_net,
+      purchase.gross as purchase_gross,
+      purchase.ga4_rev as ga4_rev,
       purchase.quantity as purchase_quantity,
-      purchase.Orders as Orders,
+      purchase.OrderID as Orders,
       filters_used.filter_session,
       megamenu_session,
       atc_session
@@ -155,13 +167,13 @@ case when event_name in ("add_to_cart") and platform in ("Web") then regexp_extr
       inner join landing_P on session_id=landing_session
       inner join exit_p on session_id=exit_session
       left join search on session_id=search_session
-      left join purchase on session_id=purchase_session
+      full outer join purchase on session_id=purchase_session
       left join blank_search on session_id = blanksearch_session
       left join filters_used on session_id=filter_session
       left join PDP on session_id=PDP_session
       left join megamenu on session_id=megamenu_session
       left join ATC on session_id=atc_session
-      group by 1,2,3,4,5,6,screen_name,8,9,10,11,12,13,14,15,16,17,18,19, 20)
+      group by 1,2,3,4,5,6,screen_name,8,9,10,11,12,13,14,15,16,17,18,19, 20, 21, 22)
 
 select distinct concat(cast(row_number() over () as string), all_sessions) as PK,  date,
 yearType,
@@ -178,6 +190,8 @@ blank_search,
 purchase_session,
 purchase_time,
 purchase_net,
+purchase_gross,
+ga4_rev,
 purchase_quantity,
 Orders,
 filter_session,
@@ -189,7 +203,7 @@ union distinct
 (with sub1 as (
 select distinct
 "Last Year" as year,
-date,
+date(timestamp_add(minTime, INTERVAL 1 hour)) as date,
 minTime,
 platform,
 deviceCategory,
@@ -208,6 +222,8 @@ filter_label,
 productCode,
 OrderID,
 net,
+gross,
+ga4_rev,
 Quantity,
 --events,
 row_number () over (partition by session_id order by minTime asc) as landingP,
@@ -267,13 +283,20 @@ case when event_name in ("add_to_cart") and platform in ("Web") then regexp_extr
       transactions.OrderID,
       #Filters_used,
       sum(transactions.net_value) as net,
+      sum(transactions.gross_value) as gross,
+      sum(transactions.ga4_revenue) as ga4_rev,
       sum(transactions.Quantity) as Quantity,
       --count(distinct events) as events,
       FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as transactions
       left join unnest(SPLIT(filters_used, ",")) as fu WITH OFFSET as test2
-      where ((aw.item_id = transactions.productCode) or (aw.item_id is not null and transactions.productCode is null) or (aw.item_id is null and transactions.productCode is null))
+      where
+      --((aw.item_id = transactions.productCode) or (aw.item_id is not null and transactions.productCode is null) or (aw.item_id is null and transactions.productCode is null)) and
 
-      and _TABLE_Suffix between format_date("%Y%m%d",date_sub(date_sub(current_date(), interval 12 week), interval 365 day)) and format_date("%Y%m%d",date_sub(current_date(), interval 365 day))
+_TABLE_SUFFIX between format_date("%Y%m%d",date_trunc(date_sub(date_sub(current_date(), INTERVAL 12 week),interval 52 week), week(sunday))) and format_date("%Y%m%d",date_sub(current_date(), interval 52 week))
+
+and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(date_sub(current_date(), INTERVAL 12 week),interval 52 week), week(sunday)) and date_sub(current_date(), interval 52 week)
+
+
       group by all)
 
 ),
@@ -284,8 +307,8 @@ case when event_name in ("add_to_cart") and platform in ("Web") then regexp_extr
       exit_P as (select distinct session_id as exit_session, page_location as exitPage, screen_name as exitScreen, screen_Type as exitScreenType
       from sub1 where exitP = 1),
 
-      purchase as (select distinct session_id as purchase_session, min(minTime) as purchase_time,  sum(net) as net, sum(Quantity) as quantity, count(distinct OrderID) as Orders
-      from sub1 where event_name in ("purchase", "Purchase") and productCode not in ("00021")
+      purchase as (select distinct session_id as purchase_session, min(minTime) as purchase_time, year as purchase_year, sum(net) as net, sum(gross) as gross, sum(ga4_rev) as ga4_rev,sum(Quantity) as quantity,  OrderID, platform as purchase_platform
+      from sub1 where event_name in ("purchase", "Purchase")
       group by all),
 
       search as (select distinct session_id as search_session, min(minTime) as search_time
@@ -309,9 +332,9 @@ case when event_name in ("add_to_cart") and platform in ("Web") then regexp_extr
       where event_name in ("add_to_cart") ),
 
       sub2 as (select distinct
-      sub1.date as date,
-      sub1.year as yearType,
-      platform,
+      coalesce(sub1.date, date(purchase.purchase_time)) as date,
+      coalesce(sub1.year, purchase_year) as yearType,
+      coalesce( sub1.platform,purchase_platform) as platform,
       deviceCategory,
       sub1.cookie_consent,
       sub1.session_id as all_sessions,
@@ -329,8 +352,10 @@ case when event_name in ("add_to_cart") and platform in ("Web") then regexp_extr
       purchase_session,
       purchase.purchase_time as purchase_time,
       purchase.net as purchase_net,
+      purchase.gross as purchase_gross,
+      purchase.ga4_rev as ga4_rev,
       purchase.quantity as purchase_quantity,
-      purchase.Orders as Orders,
+      purchase.OrderID as Orders,
       filters_used.filter_session,
       megamenu_session,
       atc_session
@@ -338,13 +363,13 @@ case when event_name in ("add_to_cart") and platform in ("Web") then regexp_extr
       inner join landing_P on session_id=landing_session
       inner join exit_p on session_id=exit_session
       left join search on session_id=search_session
-      left join purchase on session_id=purchase_session
+      full outer join purchase on session_id=purchase_session
       left join blank_search on session_id = blanksearch_session
       left join filters_used on session_id=filter_session
       left join PDP on session_id=PDP_session
       left join megamenu on session_id=megamenu_session
       left join ATC on session_id=atc_session
-      group by 1,2,3,4,5,6,screen_name,8,9,10,11,12,13,14,15,16,17,18,19, 20)
+      group by 1,2,3,4,5,6,screen_name,8,9,10,11,12,13,14,15,16,17,18,19, 20, 21, 22)
 
 select distinct concat(cast(row_number() over () as string), all_sessions) as PK,  date,
 yearType,
@@ -361,6 +386,8 @@ blank_search,
 purchase_session,
 purchase_time,
 purchase_net,
+purchase_gross,
+ga4_rev,
 purchase_quantity,
 Orders,
 filter_session,
@@ -489,7 +516,7 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
 
   dimension: orders {
     hidden: yes
-    type: number
+    type: string
     sql: ${TABLE}.Orders;;
   }
 
@@ -689,8 +716,9 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
   }
 
   measure: total_orders {
-    hidden: yes
-    type: sum
+    group_label: "Last 12 Weeks"
+    label: "Orders"
+    type: count_distinct
     sql: ${orders} ;;
   }
 
