@@ -59,26 +59,26 @@ view: ecrebo_Flags_ItemDiscounts {
 
   dimension: bulksave{
     type: yesno
-    sql: ${category}="Bulksave" ;;
+    sql: ${TABLE}.Category_Bulksave="Yes" ;;
   }
 
   dimension: free_product_offer{
     type: yesno
-    sql: ${category}="Free product offer" ;;
+    sql: ${TABLE}.Category_Free_product_offer="Yes" ;;
   }
 
   dimension: multibuy{
     type: yesno
-    sql: ${category}="Multibuy" ;;
+    sql: ${TABLE}.Category_Multibuy="Yes" ;;
   }
 
   dimension: other_item_discount{
     type: yesno
-    sql: ${category}="Other item discount" ;;
+    sql: ${TABLE}.Category_Other_item_discount="Yes" ;;
   }
 
   dimension: Linksave{
     type: yesno
-    sql: ${category}="Linksave" ;;
+    sql: ${TABLE}.Category_Linksave="Yes" ;;
   }
 }
