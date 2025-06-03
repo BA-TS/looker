@@ -895,12 +895,10 @@ explore: base {
     ${ecrebo_Flags_ItemDiscounts.parent_order_uid}= ${transactions.parent_order_uid}
         and
     ${ecrebo_Flags_ItemDiscounts.productCode}= ${transactions.product_code}
-    ;;
-    # and
-    # ${ecrebo_Flags_ItemDiscounts.transactionUID}= ${transactions.transaction_uid}
-
-    # and
-    # ${ecrebo_Flags_ItemDiscounts.transactionLineType}= ${transactions.transaction_line_type}
+    and
+    ${ecrebo_Flags_ItemDiscounts.transactionUID}= ${transactions.transaction_uid}
+    and
+    ${ecrebo_Flags_ItemDiscounts.transactionLineType}= ${transactions.transaction_line_type};;
 
   }
 
