@@ -508,6 +508,18 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     sql: ${TABLE}.purchase_net;;
   }
 
+  dimension: purchase_gross {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.purchase_gross;;
+  }
+
+  dimension: ga4_rev {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.ga4_rev;;
+  }
+
   dimension: purchase_quantity {
     hidden: yes
     type: number
@@ -548,6 +560,22 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     type: sum
     value_format_name: gbp
     sql: ${purchase_net} ;;
+  }
+
+  measure: total_gross_rev {
+    group_label: "Last 12 Weeks"
+    label: "Total Gross Revenue"
+    type: sum
+    value_format_name: gbp
+    sql: ${purchase_gross} ;;
+  }
+
+  measure: total_ga4_rev {
+    group_label: "Last 12 Weeks"
+    label: "Total ga4 Revenue"
+    type: sum
+    value_format_name: gbp
+    sql: ${ga4_rev} ;;
   }
 
   measure: get_to_PDP {
