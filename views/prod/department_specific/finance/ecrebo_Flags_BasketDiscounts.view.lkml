@@ -5,7 +5,7 @@ view: ecrebo_Flags_BasketDiscounts {
           *,
           row_number () over () as prim_key,
           from `toolstation-data-storage.sales.ecrebo_Flags_BasketDiscounts`
-          where EcreboFlag_BasketDiscount is not null;;
+          ;;
   }
 
   dimension: prim_key {
@@ -20,30 +20,24 @@ view: ecrebo_Flags_BasketDiscounts {
     hidden: yes
   }
 
-  dimension: Ecrebo_Flag_Basket_Discount {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.EcreboFlag_BasketDiscount ;;
-  }
-
   dimension: trade_account {
     type: yesno
-    sql: ${Ecrebo_Flag_Basket_Discount} = "Trade account" ;;
+    sql: ${TABLE}.Flag_Tradeaccount = "Yes" ;;
   }
 
   dimension: staff_discount {
     type: yesno
-    sql: ${Ecrebo_Flag_Basket_Discount} = "Staff discount" ;;
+    sql: ${TABLE}.Flag_Staffdiscount = "Yes" ;;
   }
 
   dimension: loyalty_club {
     type: yesno
-    sql: ${Ecrebo_Flag_Basket_Discount} = "Loyalty club" ;;
+    sql: ${TABLE}.Flag_Loyaltyclub = "Yes" ;;
   }
 
   dimension: other_basket_discount {
     type: yesno
-    sql: ${Ecrebo_Flag_Basket_Discount} = "Other basket discount" ;;
+    sql: ${TABLE}.Flag_Otherbasket = "Yes" ;;
   }
 
 }
