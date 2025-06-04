@@ -748,13 +748,22 @@ explore: base {
     ${customers.customer_uid}=${rfv_monthly_final.customerUID} and ${rfv_monthly_final.run_date} = ${behaviour_categories_monthly.run_date};;
   }
 
-
   join: latest_run_customers_list {
     view_label: "Hyperfinity"
     required_access_grants: [can_use_customer_information]
     type :  left_outer
     relationship: many_to_many
     sql_on: ${customers.customer_uid}=${latest_run_customers_list.customer_uid};;
+  }
+
+  join: looker_hyperfinity_customer_spending_roll_up {
+    required_access_grants: [can_use_customer_information]
+    view_label: "Hpyerfinity - Customer Spending Roll up"
+    type :  left_outer
+    relationship: many_to_many
+    sql_on: ${customers.customer_uid}=${looker_hyperfinity_customer_spending_roll_up.customer_uid}
+    and ${looker_hyperfinity_customer_spending_roll_up.calendar_year_month} =${calendar_completed_date.calendar_year_month}
+    ;;
   }
 
 
