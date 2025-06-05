@@ -521,7 +521,7 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     group_label: "Last 12 Weeks"
     label: "Trade Flag"
     type: string
-    sql: ${TABLE}.Trade_Flag;;
+    sql: case when ${TABLE}.Trade_Flag is null then "No Trade" else ${TABLE}.Trade_Flag end;;
   }
 
   dimension: cookie_consent {
