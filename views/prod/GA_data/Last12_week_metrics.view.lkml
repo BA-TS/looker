@@ -193,6 +193,10 @@ platform,
 deviceCategory,
 channel_group,
 cust.customerUID,
+guestCheckout,
+case when loyalty_club_member is null then false else loyalty_club_member end as loyalty_club_member,
+Trade_Type,
+Trade_Flag,
 all_sessions,
 cookie_consent,
 pages_in_session,
@@ -212,7 +216,9 @@ filter_session,
 megamenu_session,
 atc_session,
 session_404
-from sub2 left join `toolstation-data-storage.customer.allCustomers` as cust on sub2.customer = cust.customerUID
+from sub2 left join (SELECT distinct cust.customerUID, cust.flags.guestCheckout, cust.loyalty.loyalty_club_member, Trade_Type, Trade_Flag
+FROM `toolstation-data-storage.customer.allCustomers` as cust
+left join `toolstation-data-storage.customer.dbs_trade_customers` as dbc on cust.customerUID = dbc.customer_number) as cust on sub2.customer = cust.customerUID
 union distinct
 
 (with sub1 as (
@@ -404,6 +410,10 @@ platform,
 deviceCategory,
 channel_group,
 cust.customerUID,
+guestCheckout,
+case when loyalty_club_member is null then false else loyalty_club_member end as loyalty_club_member,
+Trade_Type,
+Trade_Flag,
 all_sessions,
 cookie_consent,
 pages_in_session,
@@ -423,7 +433,9 @@ filter_session,
 megamenu_session,
 atc_session,
 session_404
-from sub2 left join `toolstation-data-storage.customer.allCustomers` as cust on sub2.customer = cust.customerUID)
+from sub2 left join (SELECT distinct cust.customerUID, cust.flags.guestCheckout, cust.loyalty.loyalty_club_member, Trade_Type, Trade_Flag
+FROM `toolstation-data-storage.customer.allCustomers` as cust
+left join `toolstation-data-storage.customer.dbs_trade_customers` as dbc on cust.customerUID = dbc.customer_number) as cust on sub2.customer = cust.customerUID)
       ;;
 
     sql_trigger_value: SELECT EXTRACT(dayofweek FROM CURRENT_DATEtime()) between 2 and 6 and extract(hour from current_datetime()) = 13
