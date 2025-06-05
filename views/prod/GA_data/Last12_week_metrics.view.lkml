@@ -762,7 +762,7 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     type: number
     group_label: "Last 12 Weeks"
     label: "AOV (net)"
-    value_format_name: decimal_2
+    value_format_name: gbp
     sql: SAFE_DIVIDE(${total_net_rev}, ${total_orders}) ;;
   }
 
