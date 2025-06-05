@@ -10,6 +10,8 @@ date(timestamp_add(minTime, INTERVAL 1 hour)) as date,
 minTime,
 platform,
 deviceCategory,
+channel_group,
+customer,
 session_id,
 cookie_consent,
 page_location,
@@ -36,7 +38,9 @@ row_number () over (partition by session_id order by minTime desc) as exitP
 
 from
 (SELECT distinct date, minTime, platform, deviceCategory,
+channel_group,
 case when session_id is null then cast(user_first_touch_timestamp as string) else session_id end as session_id,
+case when transactions.customer is null then user else transactions.customer end as customer,
 cookie_consent,
  page_location,
 case when regexp_contains(page_location,"checkout\\/confirmation") then "Checkout Confirmation" else screen_name end as screen_name,
@@ -95,9 +99,9 @@ case when event_name in ("add_to_cart") and platform in ("Web") then regexp_extr
       where
       --((aw.item_id = transactions.productCode) or (aw.item_id is not null and transactions.productCode is null) or (aw.item_id is null and transactions.productCode is null)) and
 
-       _TABLE_SUFFIX between format_date("%Y%m%d",date_trunc(date_sub(current_date(), INTERVAL 12 week), week(sunday))) and format_date("%Y%m%d",current_date())
+       _TABLE_SUFFIX between format_date("%Y%m%d",date_trunc(date_sub(current_date(), interval 12 week), week(sunday))) and format_date("%Y%m%d",current_date())
 
-and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(current_date(), INTERVAL 12 week), week(sunday)) and date(current_date())
+and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(current_date(), interval 12 week), week(sunday)) and date(current_date())
 
 
 
@@ -112,7 +116,7 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(cu
       exit_P as (select distinct session_id as exit_session, page_location as exitPage, screen_name as exitScreen, screen_Type as exitScreenType
       from sub1 where exitP = 1),
 
-      purchase as (select distinct session_id as purchase_session, min(minTime) as purchase_time,  sum(net) as net, sum(gross) as gross, sum(ga4_rev) as ga4_rev, sum(Quantity) as quantity, OrderID, platform as purchase_platform, year as purchase_year,
+      purchase as (select distinct customer, session_id as purchase_session, min(minTime) as purchase_time,  sum(net) as net, sum(gross) as gross, sum(ga4_rev) as ga4_rev, sum(Quantity) as quantity, OrderID, platform as purchase_platform, year as purchase_year,
       from sub1 where event_name in ("purchase", "Purchase")
       group by all),
 
@@ -143,8 +147,10 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(cu
       coalesce(sub1.date, date(purchase.purchase_Time)) as date,
       coalesce(sub1.year, purchase.purchase_year) as yearType,
       coalesce(platform,purchase.purchase_platform) as platform,
+      sub1.channel_group,
       deviceCategory,
       sub1.cookie_consent,
+      coalesce(purchase.customer, sub1.customer) as customer,
       sub1.session_id as all_sessions,
       count(distinct case when screen_name not in ("Trolley | Toolstation", "trolley-page", "Review & Pay","Checkout Confirmation", "checkout-page", "payment-page", "order-confirmation-page") then screen_name else null end) over (partition by sub1.session_id) pages_in_session,
       --page_location, screen_name,
@@ -179,12 +185,14 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(cu
       left join megamenu on session_id=megamenu_session
       left join ATC on session_id=atc_session
       left join page_not_found on session_id=session_404
-      group by 1,2,3,4,5,6,screen_name,8,9,10,11,12,13,14,15,16,17,18,19, 20, 21, 22, 23)
+      group by 1,2,3,4,5,6,7,8,screen_name,10,11,12,13,14,15,16,17,18,19, 20, 21, 22, 23, 24, 25)
 
 select distinct concat(cast(row_number() over () as string), all_sessions) as PK,  date,
 yearType,
 platform,
 deviceCategory,
+channel_group,
+cust.customerUID,
 all_sessions,
 cookie_consent,
 pages_in_session,
@@ -204,7 +212,7 @@ filter_session,
 megamenu_session,
 atc_session,
 session_404
-from sub2
+from sub2 left join `toolstation-data-storage.customer.allCustomers` as cust on sub2.customer = cust.customerUID
 union distinct
 
 (with sub1 as (
@@ -214,6 +222,8 @@ date(timestamp_add(minTime, INTERVAL 1 hour)) as date,
 minTime,
 platform,
 deviceCategory,
+channel_group,
+customer,
 session_id,
 cookie_consent,
 page_location,
@@ -240,6 +250,8 @@ row_number () over (partition by session_id order by minTime desc) as exitP
 
 from
 (SELECT distinct date, minTime, platform, deviceCategory,
+channel_group,
+case when transactions.customer is null then user else transactions.customer end as customer,
 case when session_id is null then cast(user_first_touch_timestamp as string) else session_id end as session_id,
 cookie_consent,
  page_location,
@@ -299,9 +311,9 @@ case when event_name in ("add_to_cart") and platform in ("Web") then regexp_extr
       where
       --((aw.item_id = transactions.productCode) or (aw.item_id is not null and transactions.productCode is null) or (aw.item_id is null and transactions.productCode is null)) and
 
-_TABLE_SUFFIX between format_date("%Y%m%d",date_trunc(date_sub(date_sub(current_date(), INTERVAL 4 week),interval 52 week), week(sunday))) and format_date("%Y%m%d",date_sub(current_date(), interval 52 week))
+_TABLE_SUFFIX between format_date("%Y%m%d",date_trunc(date_sub(date_sub(current_date(),interval 4 week),interval 52 week), week(sunday))) and format_date("%Y%m%d",date_sub(current_date(), interval 52 week))
 
-and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(date_sub(current_date(), INTERVAL 4 week),interval 52 week), week(sunday)) and date_sub(current_date(), interval 52 week)
+and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(date_sub(current_date(),interval 4 week),interval 52 week), week(sunday)) and date_sub(current_date(), interval 52 week)
 
 
       group by all)
@@ -315,7 +327,7 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(da
       exit_P as (select distinct session_id as exit_session, page_location as exitPage, screen_name as exitScreen, screen_Type as exitScreenType
       from sub1 where exitP = 1),
 
-      purchase as (select distinct session_id as purchase_session, min(minTime) as purchase_time, year as purchase_year, sum(net) as net, sum(gross) as gross, sum(ga4_rev) as ga4_rev,sum(Quantity) as quantity,  OrderID, platform as purchase_platform
+      purchase as (select distinct customer, session_id as purchase_session, min(minTime) as purchase_time, year as purchase_year, sum(net) as net, sum(gross) as gross, sum(ga4_rev) as ga4_rev,sum(Quantity) as quantity,  OrderID, platform as purchase_platform
       from sub1 where event_name in ("purchase", "Purchase")
       group by all),
 
@@ -347,7 +359,9 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(da
       coalesce(sub1.year, purchase_year) as yearType,
       coalesce( sub1.platform,purchase_platform) as platform,
       deviceCategory,
+      sub1.channel_group,
       sub1.cookie_consent,
+      coalesce(purchase.customer, sub1.customer) as customer,
       sub1.session_id as all_sessions,
       count(distinct case when screen_name not in ("Trolley | Toolstation", "trolley-page", "Review & Pay","Checkout Confirmation", "checkout-page", "payment-page", "order-confirmation-page") then screen_name else null end) over (partition by sub1.session_id) pages_in_session,
       --page_location, screen_name,
@@ -382,12 +396,14 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(da
       left join megamenu on session_id=megamenu_session
       left join ATC on session_id=atc_session
       left join page_not_found on session_id=session_404
-      group by 1,2,3,4,5,6,screen_name,8,9,10,11,12,13,14,15,16,17,18,19, 20, 21, 22, 23)
+      group by 1,2,3,4,5,6,7,8,screen_name,10,11,12,13,14,15,16,17,18,19, 20, 21, 22, 23, 24, 25)
 
 select distinct concat(cast(row_number() over () as string), all_sessions) as PK,  date,
 yearType,
 platform,
 deviceCategory,
+channel_group,
+cust.customerUID,
 all_sessions,
 cookie_consent,
 pages_in_session,
@@ -407,7 +423,7 @@ filter_session,
 megamenu_session,
 atc_session,
 session_404
-from sub2)
+from sub2 left join `toolstation-data-storage.customer.allCustomers` as cust on sub2.customer = cust.customerUID)
       ;;
 
     sql_trigger_value: SELECT EXTRACT(dayofweek FROM CURRENT_DATEtime()) between 2 and 6 and extract(hour from current_datetime()) = 13
