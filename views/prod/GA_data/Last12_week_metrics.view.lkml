@@ -506,8 +506,8 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
   dimension: loyalty_club_member {
     group_label: "Last 12 Weeks"
     label: "Loyalty Club Member"
-    type: yesno
-    sql: case when ${customerUID} is not null then (case when ${TABLE}.loyalty_club_member is true then true else false end) else null end;;
+    type: string
+    sql: case when ${customerUID} is not null then (case when ${TABLE}.loyalty_club_member is true then "true" else "false" end) else null end;;
   }
 
   dimension: trade_type{
