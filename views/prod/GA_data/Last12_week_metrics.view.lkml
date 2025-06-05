@@ -102,6 +102,7 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(cu
 
 
       group by all)
+      where not regexp_contains(productCode, "^0.*")
 
 ),
 
@@ -304,6 +305,7 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(da
 
 
       group by all)
+      where not regexp_contains(productCode, "^0.*")
 
 ),
 
