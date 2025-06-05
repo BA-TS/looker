@@ -470,6 +470,48 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     sql: ${TABLE}.all_sessions;;
   }
 
+  dimension: user_logged_in {
+    group_label: "Last 12 Weeks"
+    label: "User Logged In"
+    type: yesno
+    sql: case when ${TABLE}.customerUID is not null then true else false end;;
+  }
+
+  dimension: customerUID {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.customerUID;;
+  }
+
+  dimension: guest_checkout {
+    group_label: "Last 12 Weeks"
+    label: "Guest Checkout"
+    type: yesno
+    sql: case when ${TABLE}.guestCheckout is true then true else false end;;
+  }
+
+
+  dimension: loyalty_club_member {
+    group_label: "Last 12 Weeks"
+    label: "Loyalty Club Member"
+    type: yesno
+    sql: case when ${customerUID} is not null then (case when ${TABLE}.loyalty_club_member is true then true else false end) else null end;;
+  }
+
+  dimension: trade_type{
+    group_label: "Last 12 Weeks"
+    label: "Trade Type"
+    type: string
+    sql: ${TABLE}.Trade_Type;;
+  }
+
+  dimension: trade_flag{
+    group_label: "Last 12 Weeks"
+    label: "Trade Flag"
+    type: string
+    sql: ${TABLE}.Trade_Flag;;
+  }
+
   dimension: cookie_consent {
     group_label: "Last 12 Weeks"
     label: "Accepted Cookies"
