@@ -135,6 +135,9 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(cu
       ATC as (select distinct session_id as atc_session from sub1
       where event_name in ("add_to_cart") ),
 
+      page_not_found as (select distinct session_id as session_404 from sub1
+      where event_name in ("404_page_not_found") ),
+
       sub2 as (select distinct
       coalesce(sub1.date, date(purchase.purchase_Time)) as date,
       coalesce(sub1.year, purchase.purchase_year) as yearType,
@@ -162,7 +165,8 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(cu
       purchase.OrderID as Orders,
       filters_used.filter_session,
       megamenu_session,
-      atc_session
+      atc_session,
+      session_404
       from sub1
       inner join landing_P on session_id=landing_session
       inner join exit_p on session_id=exit_session
@@ -173,7 +177,8 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(cu
       left join PDP on session_id=PDP_session
       left join megamenu on session_id=megamenu_session
       left join ATC on session_id=atc_session
-      group by 1,2,3,4,5,6,screen_name,8,9,10,11,12,13,14,15,16,17,18,19, 20, 21, 22)
+      left join page_not_found on session_id=session_404
+      group by 1,2,3,4,5,6,screen_name,8,9,10,11,12,13,14,15,16,17,18,19, 20, 21, 22, 23)
 
 select distinct concat(cast(row_number() over () as string), all_sessions) as PK,  date,
 yearType,
@@ -196,7 +201,8 @@ purchase_quantity,
 Orders,
 filter_session,
 megamenu_session,
-atc_session
+atc_session,
+session_404
 from sub2
 union distinct
 
@@ -292,9 +298,9 @@ case when event_name in ("add_to_cart") and platform in ("Web") then regexp_extr
       where
       --((aw.item_id = transactions.productCode) or (aw.item_id is not null and transactions.productCode is null) or (aw.item_id is null and transactions.productCode is null)) and
 
-_TABLE_SUFFIX between format_date("%Y%m%d",date_trunc(date_sub(date_sub(current_date(), INTERVAL 12 week),interval 52 week), week(sunday))) and format_date("%Y%m%d",date_sub(current_date(), interval 52 week))
+_TABLE_SUFFIX between format_date("%Y%m%d",date_trunc(date_sub(date_sub(current_date(), INTERVAL 4 week),interval 52 week), week(sunday))) and format_date("%Y%m%d",date_sub(current_date(), interval 52 week))
 
-and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(date_sub(current_date(), INTERVAL 12 week),interval 52 week), week(sunday)) and date_sub(current_date(), interval 52 week)
+and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(date_sub(current_date(), INTERVAL 4 week),interval 52 week), week(sunday)) and date_sub(current_date(), interval 52 week)
 
 
       group by all)
@@ -331,6 +337,9 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(da
       ATC as (select distinct session_id as atc_session from sub1
       where event_name in ("add_to_cart") ),
 
+      page_not_found as (select distinct session_id as session_404 from sub1
+      where event_name in ("404_page_not_found") ),
+
       sub2 as (select distinct
       coalesce(sub1.date, date(purchase.purchase_time)) as date,
       coalesce(sub1.year, purchase_year) as yearType,
@@ -358,7 +367,8 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(da
       purchase.OrderID as Orders,
       filters_used.filter_session,
       megamenu_session,
-      atc_session
+      atc_session,
+      session_404
       from sub1
       inner join landing_P on session_id=landing_session
       inner join exit_p on session_id=exit_session
@@ -369,7 +379,8 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(da
       left join PDP on session_id=PDP_session
       left join megamenu on session_id=megamenu_session
       left join ATC on session_id=atc_session
-      group by 1,2,3,4,5,6,screen_name,8,9,10,11,12,13,14,15,16,17,18,19, 20, 21, 22)
+      left join page_not_found on session_id=session_404
+      group by 1,2,3,4,5,6,screen_name,8,9,10,11,12,13,14,15,16,17,18,19, 20, 21, 22, 23)
 
 select distinct concat(cast(row_number() over () as string), all_sessions) as PK,  date,
 yearType,
@@ -392,7 +403,8 @@ purchase_quantity,
 Orders,
 filter_session,
 megamenu_session,
-atc_session
+atc_session,
+session_404
 from sub2)
       ;;
 
@@ -500,6 +512,12 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     hidden: yes
     type: string
     sql: ${TABLE}.atc_session;;
+  }
+
+  dimension: session_404 {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.session_404;;
   }
 
   dimension: purchase_net {
@@ -634,12 +652,27 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     filters: [filter_session: "-NULL"]
   }
 
+  measure: 404_sessions {
+    group_label: "Last 12 Weeks"
+    label: "Page not found 404"
+    type: count_distinct
+    sql: ${session_404} ;;
+  }
+
   measure: filter_usage_rate {
     group_label: "Last 12 Weeks"
     label: "Filter Usage Rate"
     type: number
     value_format_name: percent_2
     sql: safe_divide(${filter_sessions},${total_sessions}) ;;
+  }
+
+  measure: 404_rate {
+    group_label: "Last 12 Weeks"
+    label: "404 Rate"
+    type: number
+    value_format_name: percent_2
+    sql: safe_divide(${404_sessions},${total_sessions}) ;;
   }
 
   measure: sumsearch_sessions {
