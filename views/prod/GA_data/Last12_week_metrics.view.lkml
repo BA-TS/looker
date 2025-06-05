@@ -758,5 +758,13 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     sql: SAFE_DIVIDE(${total_quantity}, ${total_orders}) ;;
   }
 
+  measure: aov_net {
+    type: number
+    group_label: "Last 12 Weeks"
+    label: "AOV (net)"
+    value_format_name: decimal_2
+    sql: SAFE_DIVIDE(${total_net_rev}, ${total_orders}) ;;
+  }
+
 
 }
