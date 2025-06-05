@@ -102,7 +102,7 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(cu
 
 
       group by all)
-      where not regexp_contains(productCode, "^0.*")
+      where not regexp_contains(productCode, "^0.*") or productCode is null
 
 ),
 
@@ -305,7 +305,7 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(da
 
 
       group by all)
-      where not regexp_contains(productCode, "^0.*")
+      where not regexp_contains(productCode, "^0.*") or productCode is null
 
 ),
 
@@ -439,6 +439,13 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     hidden: yes
     type: string
     sql: ${TABLE}.deviceCategory;;
+  }
+
+  dimension: channel_group {
+    type: string
+    group_label: "Last 12 Weeks"
+    label: "Channel Group"
+    sql: ${TABLE}.channel_group;;
   }
 
   dimension: all_sessions {
