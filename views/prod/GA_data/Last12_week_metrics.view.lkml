@@ -498,8 +498,8 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
   dimension: guest_checkout {
     group_label: "Last 12 Weeks"
     label: "Guest Checkout"
-    type: yesno
-    sql: case when ${TABLE}.guestCheckout is true then true else false end;;
+    type: string
+    sql: case when ${customerUID} is not null then (case when ${TABLE}.guestCheckout is true then "true" else "false" end) else "No User" end;;
   }
 
 
