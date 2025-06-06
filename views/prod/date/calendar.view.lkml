@@ -488,6 +488,14 @@ view: calendar {
     sql: {% condition filter_on_field_to_hide %} timestamp(field_to_hide) {% endcondition %} ;;
   }
 
+  measure: last_date_period{
+    group_label: "Flags"
+    type: date
+    required_access_grants: [lz_only]
+    sql: max(timestamp(${date}));;
+    # html: {{ rendered_value | date: "%d/%m/%Y" }};;
+  }
+
   #dimension: field_to_hide2 {
     #group_label: "Dates"
     #label: "HIDE"

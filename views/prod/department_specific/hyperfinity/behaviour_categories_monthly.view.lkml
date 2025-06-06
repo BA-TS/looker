@@ -110,6 +110,13 @@ view: behaviour_categories_monthly {
     value_format: "0"
   }
 
+  measure: latest_run_date {
+    type:max
+    sql:${run_date};;
+    value_format: "0"
+  }
+
+
   # measure: most_recent_month_start {
   #   type:max
   #   sql:${month_start};;
