@@ -88,7 +88,7 @@ explore: hyperfinity {
   }
 
   join: customers {
-    fields: [customers.customer_uid]
+    fields: [customers.customer_uid,customers.number_of_customers]
     required_access_grants: [can_use_customer_information]
     type :  left_outer
     relationship: many_to_many
