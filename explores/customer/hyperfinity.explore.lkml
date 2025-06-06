@@ -110,7 +110,7 @@ explore: hyperfinity {
 
   join: looker_hyperfinity_customer_spending_roll_up {
     required_access_grants: [can_use_customer_information]
-    view_label: "Hpyerfinity"
+    view_label: "Hyperfinity"
     type :  left_outer
     relationship: many_to_many
     sql_on: ${looker_hyperfinity_customer_spending_roll_up.calendar_year_month} =${calendar_completed_date.calendar_year_month}
