@@ -14,6 +14,8 @@ explore: hyperfinity {
   view_name: base
   label: "Hyperfinity"
 
+  required_access_grants: [can_use_customer_information2]
+
   conditionally_filter: {
     filters: [
       select_date_range: "2024-12",
@@ -131,12 +133,19 @@ explore: hyperfinity {
 # }
 
   join: looker_hyperfinity_customer_spending_roll_up {
-    required_access_grants: [can_use_customer_information2]
+
     view_label: "Hyperfinity"
     type :  left_outer
     relationship: many_to_many
     sql_on: ${looker_hyperfinity_customer_spending_roll_up.calendar_year_month} =${calendar_completed_date.calendar_year_month}
           ;;
+  }
+
+  join: hyperfinity_transactions_count {
+    view_label: "Hyperfinity"
+    type :  left_outer
+    relationship: many_to_one
+    sql_on: ${hyperfinity_transactions_count.customer_uid} = ${customers.customer_uid};;
   }
 
   join: promo_orders {
