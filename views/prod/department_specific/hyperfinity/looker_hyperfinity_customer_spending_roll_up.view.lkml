@@ -98,7 +98,7 @@ view: looker_hyperfinity_customer_spending_roll_up {
   }
 
   dimension:transacted {
-    sql: ${TABLE}.transacted ;;
+    sql: cast(${TABLE}.transacted as int) ;;
     type: number
     hidden: yes
   }
