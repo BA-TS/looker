@@ -1040,7 +1040,7 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     label: "Non Rec Purchase Conv Rate"
     type: number
     value_format_name: percent_2
-    sql: safe_divide(count(distinct case when ${recommend_purchase_sess} is null then ${purchase_session} else null),count(distinct case when ${recommend_purchase_sess} is null then ${all_sessions} else null)) ;;
+    sql: safe_divide(count(distinct case when ${recommend_purchase_sess} is null then ${purchase_session} else null end),count(distinct case when ${recommend_purchase_sess} is null then ${all_sessions} else null end)) ;;
   }
 
 
