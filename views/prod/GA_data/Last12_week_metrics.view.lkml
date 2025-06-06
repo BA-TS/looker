@@ -1049,7 +1049,7 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     group_label: "Last 12 Weeks"
     label: "Non Rec Avg Basket Size"
     value_format_name: decimal_2
-    sql:case when ${recommend_purchase_sess} is null then SAFE_DIVIDE(${total_quantity}, ${total_orders}) else 0 end ;;
+    sql: safe_divide(sum(case when ${recommend_purchase_sess} is null then ${purchase_quantity} else null end),count(distinct case when ${recommend_purchase_sess} is null then ${orders} else null end)) ;;
   }
 
   measure: non_rec_aov_net {
@@ -1057,7 +1057,7 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     group_label: "Last 12 Weeks"
     label: "non Rec AOV (net)"
     value_format_name: gbp
-    sql: case when ${recommend_purchase_sess} is null then SAFE_DIVIDE(${total_net_rev}, ${total_orders}) else 0 end ;;
+    sql: safe_divide(sum(case when ${recommend_purchase_sess} is null then ${purchase_net} else null end),count(distinct case when ${recommend_purchase_sess} is null then ${orders} else null end)) ;;
   }
 
 
