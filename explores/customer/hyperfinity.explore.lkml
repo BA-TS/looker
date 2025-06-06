@@ -34,6 +34,9 @@ explore: hyperfinity {
     ]
   }
 
+  sql_always_where:${period_over_period} ;;
+
+
   fields: [
     ALL_FIELDS*,
     -calendar_completed_date.distinct_month_count,
@@ -50,20 +53,6 @@ explore: hyperfinity {
     relationship:  many_to_one
     sql_on: ${base.date_date}=${calendar_completed_date.date} ;;
   }
-
-  # join: site_budget {
-  #   view_label: "Budget"
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${base.date_date} = ${site_budget.date_date};;
-  # }
-
-  # join: sites {
-  #   view_label: "Location"
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${site_budget.site_uid}=${sites.site_uid} ;;
-  # }
 
   join: catalogue {
     view_label: "Catalogue"
