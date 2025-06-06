@@ -10,6 +10,8 @@ date(timestamp_add(minTime, INTERVAL 1 hour)) as date,
 minTime,
 platform,
 deviceCategory,
+channel_group,
+customer,
 session_id,
 cookie_consent,
 page_location,
@@ -36,7 +38,9 @@ row_number () over (partition by session_id order by minTime desc) as exitP
 
 from
 (SELECT distinct date, minTime, platform, deviceCategory,
+channel_group,
 case when session_id is null then cast(user_first_touch_timestamp as string) else session_id end as session_id,
+case when transactions.customer is null then user else transactions.customer end as customer,
 cookie_consent,
  page_location,
 case when regexp_contains(page_location,"checkout\\/confirmation") then "Checkout Confirmation" else screen_name end as screen_name,
@@ -95,13 +99,14 @@ case when event_name in ("add_to_cart") and platform in ("Web") then regexp_extr
       where
       --((aw.item_id = transactions.productCode) or (aw.item_id is not null and transactions.productCode is null) or (aw.item_id is null and transactions.productCode is null)) and
 
-       _TABLE_SUFFIX between format_date("%Y%m%d",date_trunc(date_sub(current_date(), INTERVAL 12 week), week(sunday))) and format_date("%Y%m%d",current_date())
+       _TABLE_SUFFIX between format_date("%Y%m%d",date_trunc(date_sub(current_date(), interval 12 week), week(sunday))) and format_date("%Y%m%d",current_date())
 
-and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(current_date(), INTERVAL 12 week), week(sunday)) and date(current_date())
+and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(current_date(), interval 12 week), week(sunday)) and date(current_date())
 
 
 
       group by all)
+      where not regexp_contains(productCode, "^0.*") or productCode is null
 
 ),
 
@@ -111,7 +116,7 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(cu
       exit_P as (select distinct session_id as exit_session, page_location as exitPage, screen_name as exitScreen, screen_Type as exitScreenType
       from sub1 where exitP = 1),
 
-      purchase as (select distinct session_id as purchase_session, min(minTime) as purchase_time,  sum(net) as net, sum(gross) as gross, sum(ga4_rev) as ga4_rev, sum(Quantity) as quantity, OrderID, platform as purchase_platform, year as purchase_year,
+      purchase as (select distinct customer, session_id as purchase_session, min(minTime) as purchase_time,  sum(net) as net, sum(gross) as gross, sum(ga4_rev) as ga4_rev, sum(Quantity) as quantity, OrderID, platform as purchase_platform, year as purchase_year,
       from sub1 where event_name in ("purchase", "Purchase")
       group by all),
 
@@ -135,12 +140,17 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(cu
       ATC as (select distinct session_id as atc_session from sub1
       where event_name in ("add_to_cart") ),
 
+      page_not_found as (select distinct session_id as session_404 from sub1
+      where event_name in ("404_page_not_found") ),
+
       sub2 as (select distinct
       coalesce(sub1.date, date(purchase.purchase_Time)) as date,
       coalesce(sub1.year, purchase.purchase_year) as yearType,
       coalesce(platform,purchase.purchase_platform) as platform,
+      sub1.channel_group,
       deviceCategory,
       sub1.cookie_consent,
+      coalesce(purchase.customer, sub1.customer) as customer,
       sub1.session_id as all_sessions,
       count(distinct case when screen_name not in ("Trolley | Toolstation", "trolley-page", "Review & Pay","Checkout Confirmation", "checkout-page", "payment-page", "order-confirmation-page") then screen_name else null end) over (partition by sub1.session_id) pages_in_session,
       --page_location, screen_name,
@@ -162,7 +172,8 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(cu
       purchase.OrderID as Orders,
       filters_used.filter_session,
       megamenu_session,
-      atc_session
+      atc_session,
+      session_404
       from sub1
       inner join landing_P on session_id=landing_session
       inner join exit_p on session_id=exit_session
@@ -173,12 +184,19 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(cu
       left join PDP on session_id=PDP_session
       left join megamenu on session_id=megamenu_session
       left join ATC on session_id=atc_session
-      group by 1,2,3,4,5,6,screen_name,8,9,10,11,12,13,14,15,16,17,18,19, 20, 21, 22)
+      left join page_not_found on session_id=session_404
+      group by 1,2,3,4,5,6,7,8,screen_name,10,11,12,13,14,15,16,17,18,19, 20, 21, 22, 23, 24, 25)
 
 select distinct concat(cast(row_number() over () as string), all_sessions) as PK,  date,
 yearType,
 platform,
 deviceCategory,
+channel_group,
+cust.customerUID,
+guestCheckout,
+case when loyalty_club_member is null then false else loyalty_club_member end as loyalty_club_member,
+Trade_Type,
+Trade_Flag,
 all_sessions,
 cookie_consent,
 pages_in_session,
@@ -196,8 +214,11 @@ purchase_quantity,
 Orders,
 filter_session,
 megamenu_session,
-atc_session
-from sub2
+atc_session,
+session_404
+from sub2 left join (SELECT distinct cust.customerUID, cust.flags.guestCheckout, cust.loyalty.loyalty_club_member, Trade_Type, Trade_Flag
+FROM `toolstation-data-storage.customer.allCustomers` as cust
+left join `toolstation-data-storage.customer.dbs_trade_customers` as dbc on cust.customerUID = dbc.customer_number) as cust on sub2.customer = cust.customerUID
 union distinct
 
 (with sub1 as (
@@ -207,6 +228,8 @@ date(timestamp_add(minTime, INTERVAL 1 hour)) as date,
 minTime,
 platform,
 deviceCategory,
+channel_group,
+customer,
 session_id,
 cookie_consent,
 page_location,
@@ -233,6 +256,8 @@ row_number () over (partition by session_id order by minTime desc) as exitP
 
 from
 (SELECT distinct date, minTime, platform, deviceCategory,
+channel_group,
+case when transactions.customer is null then user else transactions.customer end as customer,
 case when session_id is null then cast(user_first_touch_timestamp as string) else session_id end as session_id,
 cookie_consent,
  page_location,
@@ -292,12 +317,13 @@ case when event_name in ("add_to_cart") and platform in ("Web") then regexp_extr
       where
       --((aw.item_id = transactions.productCode) or (aw.item_id is not null and transactions.productCode is null) or (aw.item_id is null and transactions.productCode is null)) and
 
-_TABLE_SUFFIX between format_date("%Y%m%d",date_trunc(date_sub(date_sub(current_date(), INTERVAL 12 week),interval 52 week), week(sunday))) and format_date("%Y%m%d",date_sub(current_date(), interval 52 week))
+_TABLE_SUFFIX between format_date("%Y%m%d",date_trunc(date_sub(date_sub(current_date(),interval 4 week),interval 52 week), week(sunday))) and format_date("%Y%m%d",date_sub(current_date(), interval 52 week))
 
-and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(date_sub(current_date(), INTERVAL 12 week),interval 52 week), week(sunday)) and date_sub(current_date(), interval 52 week)
+and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(date_sub(current_date(),interval 4 week),interval 52 week), week(sunday)) and date_sub(current_date(), interval 52 week)
 
 
       group by all)
+      where not regexp_contains(productCode, "^0.*") or productCode is null
 
 ),
 
@@ -307,7 +333,7 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(da
       exit_P as (select distinct session_id as exit_session, page_location as exitPage, screen_name as exitScreen, screen_Type as exitScreenType
       from sub1 where exitP = 1),
 
-      purchase as (select distinct session_id as purchase_session, min(minTime) as purchase_time, year as purchase_year, sum(net) as net, sum(gross) as gross, sum(ga4_rev) as ga4_rev,sum(Quantity) as quantity,  OrderID, platform as purchase_platform
+      purchase as (select distinct customer, session_id as purchase_session, min(minTime) as purchase_time, year as purchase_year, sum(net) as net, sum(gross) as gross, sum(ga4_rev) as ga4_rev,sum(Quantity) as quantity,  OrderID, platform as purchase_platform
       from sub1 where event_name in ("purchase", "Purchase")
       group by all),
 
@@ -331,12 +357,17 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(da
       ATC as (select distinct session_id as atc_session from sub1
       where event_name in ("add_to_cart") ),
 
+      page_not_found as (select distinct session_id as session_404 from sub1
+      where event_name in ("404_page_not_found") ),
+
       sub2 as (select distinct
       coalesce(sub1.date, date(purchase.purchase_time)) as date,
       coalesce(sub1.year, purchase_year) as yearType,
       coalesce( sub1.platform,purchase_platform) as platform,
       deviceCategory,
+      sub1.channel_group,
       sub1.cookie_consent,
+      coalesce(purchase.customer, sub1.customer) as customer,
       sub1.session_id as all_sessions,
       count(distinct case when screen_name not in ("Trolley | Toolstation", "trolley-page", "Review & Pay","Checkout Confirmation", "checkout-page", "payment-page", "order-confirmation-page") then screen_name else null end) over (partition by sub1.session_id) pages_in_session,
       --page_location, screen_name,
@@ -358,7 +389,8 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(da
       purchase.OrderID as Orders,
       filters_used.filter_session,
       megamenu_session,
-      atc_session
+      atc_session,
+      session_404
       from sub1
       inner join landing_P on session_id=landing_session
       inner join exit_p on session_id=exit_session
@@ -369,12 +401,19 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(da
       left join PDP on session_id=PDP_session
       left join megamenu on session_id=megamenu_session
       left join ATC on session_id=atc_session
-      group by 1,2,3,4,5,6,screen_name,8,9,10,11,12,13,14,15,16,17,18,19, 20, 21, 22)
+      left join page_not_found on session_id=session_404
+      group by 1,2,3,4,5,6,7,8,screen_name,10,11,12,13,14,15,16,17,18,19, 20, 21, 22, 23, 24, 25)
 
 select distinct concat(cast(row_number() over () as string), all_sessions) as PK,  date,
 yearType,
 platform,
 deviceCategory,
+channel_group,
+cust.customerUID,
+guestCheckout,
+case when loyalty_club_member is null then false else loyalty_club_member end as loyalty_club_member,
+Trade_Type,
+Trade_Flag,
 all_sessions,
 cookie_consent,
 pages_in_session,
@@ -392,8 +431,11 @@ purchase_quantity,
 Orders,
 filter_session,
 megamenu_session,
-atc_session
-from sub2)
+atc_session,
+session_404
+from sub2 left join (SELECT distinct cust.customerUID, cust.flags.guestCheckout, cust.loyalty.loyalty_club_member, Trade_Type, Trade_Flag
+FROM `toolstation-data-storage.customer.allCustomers` as cust
+left join `toolstation-data-storage.customer.dbs_trade_customers` as dbc on cust.customerUID = dbc.customer_number) as cust on sub2.customer = cust.customerUID)
       ;;
 
     sql_trigger_value: SELECT EXTRACT(dayofweek FROM CURRENT_DATEtime()) between 2 and 6 and extract(hour from current_datetime()) = 13
@@ -427,10 +469,59 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     sql: ${TABLE}.deviceCategory;;
   }
 
+  dimension: channel_group {
+    type: string
+    group_label: "Last 12 Weeks"
+    label: "Channel Group"
+    sql: ${TABLE}.channel_group;;
+  }
+
   dimension: all_sessions {
     hidden: yes
     type: string
     sql: ${TABLE}.all_sessions;;
+  }
+
+  dimension: user_logged_in {
+    group_label: "Last 12 Weeks"
+    label: "User Logged In"
+    type: yesno
+    sql: case when ${TABLE}.customerUID is not null then true else false end;;
+  }
+
+  dimension: customerUID {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.customerUID;;
+  }
+
+  dimension: guest_checkout {
+    group_label: "Last 12 Weeks"
+    label: "Guest Checkout"
+    type: string
+    sql: case when ${customerUID} is not null then (case when ${TABLE}.guestCheckout is true then "true" else "false" end) else "No User" end;;
+  }
+
+
+  dimension: loyalty_club_member {
+    group_label: "Last 12 Weeks"
+    label: "Loyalty Club Member"
+    type: string
+    sql: case when ${customerUID} is not null then (case when ${TABLE}.loyalty_club_member is true then "True" else "False" end) else "No User" end;;
+  }
+
+  dimension: trade_type{
+    group_label: "Last 12 Weeks"
+    label: "Trade Type"
+    type: string
+    sql: ${TABLE}.Trade_Type;;
+  }
+
+  dimension: trade_flag{
+    group_label: "Last 12 Weeks"
+    label: "Trade Flag"
+    type: string
+    sql: ${TABLE}.Trade_Flag;;
   }
 
   dimension: cookie_consent {
@@ -500,6 +591,12 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     hidden: yes
     type: string
     sql: ${TABLE}.atc_session;;
+  }
+
+  dimension: session_404 {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.session_404;;
   }
 
   dimension: purchase_net {
@@ -634,12 +731,27 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     filters: [filter_session: "-NULL"]
   }
 
+  measure: 404_sessions {
+    group_label: "Last 12 Weeks"
+    label: "Page not found 404"
+    type: count_distinct
+    sql: ${session_404} ;;
+  }
+
   measure: filter_usage_rate {
     group_label: "Last 12 Weeks"
     label: "Filter Usage Rate"
     type: number
     value_format_name: percent_2
     sql: safe_divide(${filter_sessions},${total_sessions}) ;;
+  }
+
+  measure: 404_rate {
+    group_label: "Last 12 Weeks"
+    label: "404 Rate"
+    type: number
+    value_format_name: percent_2
+    sql: safe_divide(${404_sessions},${total_sessions}) ;;
   }
 
   measure: sumsearch_sessions {
@@ -756,6 +868,14 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     label: "Avg Basket Size"
     value_format_name: decimal_2
     sql: SAFE_DIVIDE(${total_quantity}, ${total_orders}) ;;
+  }
+
+  measure: aov_net {
+    type: number
+    group_label: "Last 12 Weeks"
+    label: "AOV (net)"
+    value_format_name: gbp
+    sql: SAFE_DIVIDE(${total_net_rev}, ${total_orders}) ;;
   }
 
 
