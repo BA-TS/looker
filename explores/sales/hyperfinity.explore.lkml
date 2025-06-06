@@ -7,6 +7,7 @@ include: "/views/**/transactions.view"
 include: "/views/**/customers.view"
 include: "/views/**/behaviour_categories_monthly.view"
 include:"/views/prod/department_specific/hyperfinity/*"
+include: "/views/**/promo_orders.view"
 
 explore: hyperfinity {
 
@@ -46,7 +47,24 @@ explore: hyperfinity {
     -calendar_completed_date.distinct_week_count,
     -calendar_completed_date.distinct_year_month_count,
     -calendar_completed_date.distinct_year_count,
-    -catalogue*
+    -catalogue*,
+    -promo_orders*,
+    -customers.is_trade,
+    -transactions.has_trade_account,
+    -transactions.is_new_product,
+    -transactions.promo_in_any,
+    -transactions.customer_cluster,
+    -transactions.net_sales_non_trade_category,
+    -transactions.days_before_refurb,
+    -transactions.promo_in_extra,
+    -transactions.is_closing,
+    -transactions.is_new_product_previous_year,
+    -transactions.is_new_product_current_year,
+    -transactions.days_after_refurb,
+    -transactions.net_sales_trade_category,
+    -transactions.loyalty_club_net_sales,
+    -transactions.promo_in_main_catalogue,
+    -transactions.promoFlag,
   ]
 
   join: calendar_completed_date{
@@ -88,7 +106,9 @@ explore: hyperfinity {
   }
 
   join: customers {
-    fields: [customers.customer_uid,customers.number_of_customers]
+#     fields: [
+#       -customers.is_trade
+# ]
     type :  left_outer
     relationship: many_to_many
     sql_on: ${customers.customer_uid}=${looker_hyperfinity_customer_spending_roll_up.customer_uid};;
@@ -97,7 +117,7 @@ explore: hyperfinity {
   join: transactions {
     type: left_outer
     relationship: one_to_many
-    fields: [transactions.aov_net_sales,transactions.number_of_transactions,transactions.transaction_date,transactions.parent_order_uid,transactions.transaction_frequency,transactions.aov_units]
+    # fields: [transactions.aov_net_sales,transactions.number_of_transactions,transactions.transaction_date,transactions.parent_order_uid,transactions.transaction_frequency,transactions.aov_units]
     sql_on:
         ${base.base_date_date} = ${transactions.transaction_date_filter};;
   }
@@ -116,5 +136,13 @@ explore: hyperfinity {
     sql_on: ${looker_hyperfinity_customer_spending_roll_up.calendar_year_month} =${calendar_completed_date.calendar_year_month}
           ;;
   }
+
+  join: promo_orders {
+    view_label: "Orders using Promo"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.transaction_uid} = ${promo_orders.order_id} and ${base.date_date} = ${promo_orders.date_date} ;;
+  }
+
 
 }
