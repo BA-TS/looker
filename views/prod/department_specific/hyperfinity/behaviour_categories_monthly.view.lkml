@@ -3,7 +3,9 @@ include: "/views/**/behaviour_categories_monthly_most_recent.view"
 view: behaviour_categories_monthly {
   derived_table: {
     sql:
-      select * from `toolstation-data-storage.Hyperfinity.BEHAVIOUR_CATEGORIES_MONTHLY`
+      select *,
+      LEAD(RUN_DATE) OVER(PARTITION BY UCU_UID ORDER BY RUN_DATE) AS end_date
+      from `toolstation-data-storage.Hyperfinity.BEHAVIOUR_CATEGORIES_MONTHLY`
       ;;
   }
 
@@ -24,6 +26,11 @@ view: behaviour_categories_monthly {
     type:string
     sql:${TABLE}.RUN_DATE;;
     }
+
+  dimension: run_date_end {
+    type:string
+    sql:${TABLE}.end_date;;
+  }
 
   dimension: cluster_high_level {
     type:string
@@ -84,6 +91,8 @@ view: behaviour_categories_monthly {
     type:string
     sql:cast(${TABLE}.MONTH_END as string);;
   }
+
+
 
   dimension: period_code {
     type:string
