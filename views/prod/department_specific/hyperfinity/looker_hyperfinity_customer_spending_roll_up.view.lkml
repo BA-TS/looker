@@ -49,29 +49,41 @@ view: looker_hyperfinity_customer_spending_roll_up {
   #   type: string
   # }
 
-  dimension: RFV_group_number_start {
+  # dimension: RFV_group_number_start {
+  #   group_label: "RFV Group"
+  #   sql: ${TABLE}.RFV_GROUP_NUM_START ;;
+  #   type: number
+  # }
+
+  dimension: RFV_group_number {
     group_label: "RFV Group"
-    sql: ${TABLE}.RFV_GROUP_NUM_START ;;
+    sql: ${TABLE}.RFV_GROUP_NUM ;;
     type: number
   }
 
-  dimension: RFV_group_number_end {
-    group_label: "RFV Group"
-    sql: ${TABLE}.RFV_GROUP_NUM_END ;;
-    type: number
-  }
+  # dimension: RFV_group_number_end {
+  #   group_label: "RFV Group"
+  #   sql: ${TABLE}.RFV_GROUP_NUM_END ;;
+  #   type: number
+  # }
 
-  dimension: RFV_group_start {
+    dimension: RFV_group {
     group_label: "RFV Group"
-    sql: ${TABLE}.RFV_GROUP_START ;;
+    sql: ${TABLE}.RFV_GROUP ;;
     type: string
   }
 
-  dimension: RFV_group_end {
-    group_label: "RFV Group"
-    sql: ${TABLE}.RFV_GROUP_END ;;
-    type: string
-  }
+  # dimension: RFV_group_start {
+  #   group_label: "RFV Group"
+  #   sql: ${TABLE}.RFV_GROUP_START ;;
+  #   type: string
+  # }
+
+  # dimension: RFV_group_end {
+  #   group_label: "RFV Group"
+  #   sql: ${TABLE}.RFV_GROUP_END ;;
+  #   type: string
+  # }
 
   dimension:BSEG_high_level {
     group_label: "BSEG"
