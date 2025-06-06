@@ -45,7 +45,7 @@ explore: GA4_testy {
     relationship: many_to_one
     sql_on: ${calendar.date} = ${ga4_rjagdev_test.date_date} and ${products.product_code} = (case when ${ga4_rjagdev_test.itemid} is null or length(${ga4_rjagdev_test.itemid}) != 5 then "null" else ${ga4_rjagdev_test.itemid} end);;
     sql_where: ga4_rjagdev_test._TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', {% date_start calendar.filter_on_field_to_hide %}) and FORMAT_DATE('%Y%m%d', {% date_end calendar.filter_on_field_to_hide %})
-    and date_diff({% date_start calendar.filter_on_field_to_hide %},{% date_end calendar.filter_on_field_to_hide %}, day) < 50 ;;
+      and date_diff({% date_start calendar.filter_on_field_to_hide %},{% date_end calendar.filter_on_field_to_hide %}, day) < 50 ;;
 
 
 
@@ -59,12 +59,12 @@ explore: GA4_testy {
       ;;
   }
 
-      #Start---------------------
-    #((${ga4_rjagdev_test.itemid}=${ga4_transactions.productCode}) or #(${ga4_rjagdev_test.itemid} is not null and ${ga4_transactions#
-    #.productCode} is null) or (${ga4_rjagdev_test.itemid} is null and
-    #--${ga4_transactions.productCode} is null)) and
-    #------------end------------------------
-    #and
+  #Start---------------------
+  #((${ga4_rjagdev_test.itemid}=${ga4_transactions.productCode}) or #(${ga4_rjagdev_test.itemid} is not null and ${ga4_transactions#
+  #.productCode} is null) or (${ga4_rjagdev_test.itemid} is null and
+  #--${ga4_transactions.productCode} is null)) and
+  #------------end------------------------
+  #and
 
   join: fu  {
     view_label: "GA4"
@@ -99,12 +99,12 @@ explore: GA4_testy {
 
 
   #join: calendar_completed_datev2{
-    #from:  calendar
-    #view_label: "Order Placed"
-    #type:  inner
-    #relationship: one_to_many
-    #sql_on: ${ga4_transactions.placed_date}=${calendar_completed_datev2.date} ;;
-    #fields: [calendar_completed_datev2.today_day_in_month,calendar_completed_datev2.today_day_in_week, calendar_completed_datev2.today_day_in_year,calendar_completed_datev2.today_date]
+  #from:  calendar
+  #view_label: "Order Placed"
+  #type:  inner
+  #relationship: one_to_many
+  #sql_on: ${ga4_transactions.placed_date}=${calendar_completed_datev2.date} ;;
+  #fields: [calendar_completed_datev2.today_day_in_month,calendar_completed_datev2.today_day_in_week, calendar_completed_datev2.today_day_in_year,calendar_completed_datev2.today_date]
   #}
 
   join: customers {
@@ -217,14 +217,14 @@ explore: GA4_testy {
     #sql_where: ${ga4_exitpage.LastE} = 1;;
   }
 
-  join: recommend_purchase {
-    view_label: "Last12 Week Metrics"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${calendar.date} = ${recommend_purchase.recommend_date_date} and ${products.product_code} = ${recommend_purchase.item_id};;
-    sql_where: ${recommend_purchase.item_id} not in ("00021", "00099", "00006", "00037", "00004","00033");;
-    #${ga4_rjagdev_test.session_id} = ${recommend_purchase.recommend_ID} and
-  }
+  #join: recommend_purchase {
+  #view_label: "Last12 Week Metrics"
+  #type: left_outer
+  #relationship: many_to_one
+  #sql_on: ${calendar.date} = ${recommend_purchase.recommend_date_date} and #${products.product_code} = ${recommend_purchase.item_id};;
+  #sql_where: ${recommend_purchase.item_id} not in ("00021", "00099", "00006", #"00037", "00004","00033");;
+  #${ga4_rjagdev_test.session_id} = ${recommend_purchase.recommend_ID} and
+  #}
 
   join: last12_week_metrics {
     type: left_outer
@@ -242,12 +242,12 @@ explore: GA4_testy {
   }
 
   #join: recommend_purchase12W {
-    #from: recommend_purchase
-    #view_label: "Last12 Week Metrics"
-    #type: left_outer
-    #relationship: many_to_one
-    #sql_on: ${calendar.date} = ${recommend_purchase12W.recommend_date_date};;
-    #sql_where: ${ga4_exitpage.LastE} = 1;;
+  #from: recommend_purchase
+  #view_label: "Last12 Week Metrics"
+  #type: left_outer
+  #relationship: many_to_one
+  #sql_on: ${calendar.date} = ${recommend_purchase12W.recommend_date_date};;
+  #sql_where: ${ga4_exitpage.LastE} = 1;;
   #}
 
   join: oos_items_l12weeks {

@@ -25,6 +25,7 @@ label_2,
 filter_key,
 filter_label,
 productCode,
+item_id,
 OrderID,
 net,
 gross,
@@ -71,6 +72,7 @@ when event_name in ("MegaMenu") then label_2
 --and platform in ("Web") then key_2
 when key_1 is null and label_1 is not null then "action"
 else key_1 end key1,
+item_id,
 
 INITCAP(Ltrim(
 case when event_name in ("search", "search_actions", "blank_search") then coalesce(label_1,regexp_replace(regexp_extract(page_location, ".*q\\=(.*)$"), "\\+", " ")) else
@@ -120,6 +122,10 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(cu
       from sub1 where event_name in ("purchase", "Purchase")
       group by all),
 
+      purchasePC as (select distinct customer, session_id as purchase_session, min(minTime) as purchase_time, productCode, sum(net) as net, sum(gross) as gross, sum(ga4_rev) as ga4_rev, sum(Quantity) as quantity, OrderID, platform as purchase_platform, year as purchase_year,
+      from sub1 where event_name in ("purchase", "Purchase")
+      group by all),
+
       search as (select distinct session_id as search_session, min(minTime) as search_time
       from sub1 where regexp_contains(event_name, "search") and event_name not in ("blank_search")
       group by all),
@@ -143,6 +149,9 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(cu
       page_not_found as (select distinct session_id as session_404 from sub1
       where event_name in ("404_page_not_found") ),
 
+      rec as (select distinct min(minTime) as recTime, item_id, session_id as recSession from sub1
+      where event_name in ("suggested_item_click", "recommended_item_tapped") group by all),
+
       sub2 as (select distinct
       coalesce(sub1.date, date(purchase.purchase_Time)) as date,
       coalesce(sub1.year, purchase.purchase_year) as yearType,
@@ -163,7 +172,7 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(cu
       search.search_session as search_session,
       search.search_time as search_time,
       blanksearch_session as blank_search,
-      purchase_session,
+      purchase.purchase_session,
       purchase.purchase_time as purchase_time,
       purchase.net as purchase_net,
       purchase.gross as purchase_gross,
@@ -173,7 +182,22 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(cu
       filters_used.filter_session,
       megamenu_session,
       atc_session,
-      session_404
+      session_404,
+      rec.recSession,
+      purchasePC.purchase_session as rec_purchase_session,
+      purchasePC.net as rec_purchase_net,
+      purchasePC.gross as rec_purchase_gross,
+      purchasePC.ga4_rev as rec_ga4_rev,
+      purchasePC.quantity as rec_purchase_quantity,
+      purchasePC.OrderID as rec_Orders,
+      ----search to purchase-------
+      -- searchPurchase.purchase_session as search_purchase_session,
+      -- searchPurchase.net as search_purchase_net,
+      -- searchPurchase.gross as search_purchase_gross,
+      -- searchPurchase.ga4_rev as search_ga4_rev,
+      -- searchPurchase.quantity as search_purchase_quantity,
+      -- searchPurchase.OrderID as search_Orders,
+
       from sub1
       inner join landing_P on session_id=landing_session
       inner join exit_p on session_id=exit_session
@@ -185,7 +209,10 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(cu
       left join megamenu on session_id=megamenu_session
       left join ATC on session_id=atc_session
       left join page_not_found on session_id=session_404
-      group by 1,2,3,4,5,6,7,8,screen_name,10,11,12,13,14,15,16,17,18,19, 20, 21, 22, 23, 24, 25)
+      left join rec on session_id = rec.recSession
+      left join purchasePC on rec.recSession = purchasePC.purchase_session and rec.item_id = purchasePC.productCode and rec.recTime < purchasePC.purchase_time
+      -- left join purchasePC as searchPurchase on search.search_session = searchPurchase.purchase_session and search.search_Time < searchPurchase.purchase_time
+      group by 1,2,3,4,5,6,7,8,screen_name,10,11,12,13,14,15,16,17,18,19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32)
 
 select distinct concat(cast(row_number() over () as string), all_sessions) as PK,  date,
 yearType,
@@ -215,12 +242,24 @@ Orders,
 filter_session,
 megamenu_session,
 atc_session,
-session_404
+session_404,
+recSession,
+rec_purchase_session,
+rec_purchase_net,
+rec_purchase_gross,
+rec_ga4_rev,
+rec_purchase_quantity,
+rec_Orders,
+-- search_purchase_session,
+-- search_purchase_net,
+-- search_purchase_gross,
+-- search_ga4_rev,
+-- search_purchase_quantity,
+-- search_Orders,
 from sub2 left join (SELECT distinct cust.customerUID, cust.flags.guestCheckout, cust.loyalty.loyalty_club_member, Trade_Type, Trade_Flag
 FROM `toolstation-data-storage.customer.allCustomers` as cust
 left join `toolstation-data-storage.customer.dbs_trade_customers` as dbc on cust.customerUID = dbc.customer_number) as cust on sub2.customer = cust.customerUID
 union distinct
-
 (with sub1 as (
 select distinct
 "Last Year" as year,
@@ -243,6 +282,7 @@ label_2,
 filter_key,
 filter_label,
 productCode,
+item_id,
 OrderID,
 net,
 gross,
@@ -257,8 +297,8 @@ row_number () over (partition by session_id order by minTime desc) as exitP
 from
 (SELECT distinct date, minTime, platform, deviceCategory,
 channel_group,
-case when transactions.customer is null then user else transactions.customer end as customer,
 case when session_id is null then cast(user_first_touch_timestamp as string) else session_id end as session_id,
+case when transactions.customer is null then user else transactions.customer end as customer,
 cookie_consent,
  page_location,
 case when regexp_contains(page_location,"checkout\\/confirmation") then "Checkout Confirmation" else screen_name end as screen_name,
@@ -289,6 +329,7 @@ when event_name in ("MegaMenu") then label_2
 --and platform in ("Web") then key_2
 when key_1 is null and label_1 is not null then "action"
 else key_1 end key1,
+item_id,
 
 INITCAP(Ltrim(
 case when event_name in ("search", "search_actions", "blank_search") then coalesce(label_1,regexp_replace(regexp_extract(page_location, ".*q\\=(.*)$"), "\\+", " ")) else
@@ -317,9 +358,10 @@ case when event_name in ("add_to_cart") and platform in ("Web") then regexp_extr
       where
       --((aw.item_id = transactions.productCode) or (aw.item_id is not null and transactions.productCode is null) or (aw.item_id is null and transactions.productCode is null)) and
 
-_TABLE_SUFFIX between format_date("%Y%m%d",date_trunc(date_sub(date_sub(current_date(),interval 4 week),interval 52 week), week(sunday))) and format_date("%Y%m%d",date_sub(current_date(), interval 52 week))
+       _TABLE_SUFFIX between format_date("%Y%m%d",date_trunc(date_sub(date_sub(current_date(), interval 4 week), interval 52 week), week(sunday))) and format_date("%Y%m%d",date_sub(current_date(), interval 52 week))
 
-and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(date_sub(current_date(),interval 4 week),interval 52 week), week(sunday)) and date_sub(current_date(), interval 52 week)
+and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(date_sub(current_date(), interval 4 week), interval 52 week), week(sunday)) and date(date_sub(current_date(), interval 52 week))
+
 
 
       group by all)
@@ -333,7 +375,11 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(da
       exit_P as (select distinct session_id as exit_session, page_location as exitPage, screen_name as exitScreen, screen_Type as exitScreenType
       from sub1 where exitP = 1),
 
-      purchase as (select distinct customer, session_id as purchase_session, min(minTime) as purchase_time, year as purchase_year, sum(net) as net, sum(gross) as gross, sum(ga4_rev) as ga4_rev,sum(Quantity) as quantity,  OrderID, platform as purchase_platform
+      purchase as (select distinct customer, session_id as purchase_session, min(minTime) as purchase_time,  sum(net) as net, sum(gross) as gross, sum(ga4_rev) as ga4_rev, sum(Quantity) as quantity, OrderID, platform as purchase_platform, year as purchase_year,
+      from sub1 where event_name in ("purchase", "Purchase")
+      group by all),
+
+      purchasePC as (select distinct customer, session_id as purchase_session, min(minTime) as purchase_time, productCode, sum(net) as net, sum(gross) as gross, sum(ga4_rev) as ga4_rev, sum(Quantity) as quantity, OrderID, platform as purchase_platform, year as purchase_year,
       from sub1 where event_name in ("purchase", "Purchase")
       group by all),
 
@@ -360,12 +406,15 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(da
       page_not_found as (select distinct session_id as session_404 from sub1
       where event_name in ("404_page_not_found") ),
 
+      rec as (select distinct min(minTime) as recTime, item_id, session_id as recSession from sub1
+      where event_name in ("suggested_item_click", "recommended_item_tapped") group by all),
+
       sub2 as (select distinct
-      coalesce(sub1.date, date(purchase.purchase_time)) as date,
-      coalesce(sub1.year, purchase_year) as yearType,
-      coalesce( sub1.platform,purchase_platform) as platform,
-      deviceCategory,
+      coalesce(sub1.date, date(purchase.purchase_Time)) as date,
+      coalesce(sub1.year, purchase.purchase_year) as yearType,
+      coalesce(platform,purchase.purchase_platform) as platform,
       sub1.channel_group,
+      deviceCategory,
       sub1.cookie_consent,
       coalesce(purchase.customer, sub1.customer) as customer,
       sub1.session_id as all_sessions,
@@ -380,7 +429,7 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(da
       search.search_session as search_session,
       search.search_time as search_time,
       blanksearch_session as blank_search,
-      purchase_session,
+      purchase.purchase_session,
       purchase.purchase_time as purchase_time,
       purchase.net as purchase_net,
       purchase.gross as purchase_gross,
@@ -390,7 +439,22 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(da
       filters_used.filter_session,
       megamenu_session,
       atc_session,
-      session_404
+      session_404,
+      rec.recSession,
+      purchasePC.purchase_session as rec_purchase_session,
+      purchasePC.net as rec_purchase_net,
+      purchasePC.gross as rec_purchase_gross,
+      purchasePC.ga4_rev as rec_ga4_rev,
+      purchasePC.quantity as rec_purchase_quantity,
+      purchasePC.OrderID as rec_Orders,
+      ----search to purchase-------
+      -- searchPurchase.purchase_session as search_purchase_session,
+      -- searchPurchase.net as search_purchase_net,
+      -- searchPurchase.gross as search_purchase_gross,
+      -- searchPurchase.ga4_rev as search_ga4_rev,
+      -- searchPurchase.quantity as search_purchase_quantity,
+      -- searchPurchase.OrderID as search_Orders,
+
       from sub1
       inner join landing_P on session_id=landing_session
       inner join exit_p on session_id=exit_session
@@ -402,7 +466,10 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(da
       left join megamenu on session_id=megamenu_session
       left join ATC on session_id=atc_session
       left join page_not_found on session_id=session_404
-      group by 1,2,3,4,5,6,7,8,screen_name,10,11,12,13,14,15,16,17,18,19, 20, 21, 22, 23, 24, 25)
+      left join rec on session_id = rec.recSession
+      left join purchasePC on rec.recSession = purchasePC.purchase_session and rec.item_id = purchasePC.productCode and rec.recTime < purchasePC.purchase_time
+      -- left join purchasePC as searchPurchase on search.search_session = searchPurchase.purchase_session and search.search_Time < searchPurchase.purchase_time
+      group by 1,2,3,4,5,6,7,8,screen_name,10,11,12,13,14,15,16,17,18,19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32)
 
 select distinct concat(cast(row_number() over () as string), all_sessions) as PK,  date,
 yearType,
@@ -432,7 +499,20 @@ Orders,
 filter_session,
 megamenu_session,
 atc_session,
-session_404
+session_404,
+recSession,
+rec_purchase_session,
+rec_purchase_net,
+rec_purchase_gross,
+rec_ga4_rev,
+rec_purchase_quantity,
+rec_Orders,
+-- search_purchase_session,
+-- search_purchase_net,
+-- search_purchase_gross,
+-- search_ga4_rev,
+-- search_purchase_quantity,
+-- search_Orders,
 from sub2 left join (SELECT distinct cust.customerUID, cust.flags.guestCheckout, cust.loyalty.loyalty_club_member, Trade_Type, Trade_Flag
 FROM `toolstation-data-storage.customer.allCustomers` as cust
 left join `toolstation-data-storage.customer.dbs_trade_customers` as dbc on cust.customerUID = dbc.customer_number) as cust on sub2.customer = cust.customerUID)
@@ -507,7 +587,7 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     group_label: "Last 12 Weeks"
     label: "Loyalty Club Member"
     type: string
-    sql: case when ${customerUID} is not null then (case when ${TABLE}.loyalty_club_member is true then "True" else "False" end) else "No User" end;;
+    sql: case when ${customerUID} is not null then (case when ${TABLE}.guestCheckout is true then "true" else "false" end) else "No User" end;;
   }
 
   dimension: trade_type{
@@ -877,6 +957,110 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     value_format_name: gbp
     sql: SAFE_DIVIDE(${total_net_rev}, ${total_orders}) ;;
   }
+
+  ########recommend to purchase ######
+
+  measure: recommend_sessions {
+    type: count_distinct
+    group_label: "Last 12 Weeks"
+    label: "Recommend Session"
+    sql: ${TABLE}.recSession ;;
+  }
+
+  measure: rec_rate {
+    type: number
+    group_label: "Last 12 Weeks"
+    label: "Recommend Rate"
+    sql: safe_divide(${recommend_sessions} ,${total_sessions}) ;;
+    value_format_name: percent_2
+  }
+
+  measure: recommend_purchase {
+    type: count_distinct
+    hidden: yes
+    sql: ${TABLE}.rec_purchase_session ;;
+  }
+
+  dimension: recommend_purchase_sess {
+    type: string
+    hidden: yes
+    sql: ${TABLE}.rec_purchase_session ;;
+  }
+
+  measure: rec_purchase_rate {
+    type: number
+    group_label: "Last 12 Weeks"
+    label: "Recommend to purchase Rate"
+    sql: safe_divide(${recommend_purchase} ,${recommend_sessions}) ;;
+    value_format_name: percent_2
+  }
+
+  measure: rec_net_rev {
+    type: sum
+    group_label: "Last 12 Weeks"
+    label: "Recommend to purchase Net Rev"
+    sql:  ${TABLE}.rec_purchase_net ;;
+    value_format_name: gbp
+  }
+
+  measure: rec_purch_quantity {
+    type: sum
+    group_label: "Last 12 Weeks"
+    label: "Recommend to purchase Quantity"
+    sql:  ${TABLE}.rec_purchase_quantity ;;
+  }
+
+  measure: rec_order {
+    type: count_distinct
+    group_label: "Last 12 Weeks"
+    label: "Recommend to purchase Orders"
+    sql: ${TABLE}.rec_orders ;;
+  }
+
+  measure: rec_aov {
+    type: number
+    group_label: "Last 12 Weeks"
+    label: "Recommend to purchase AOV"
+    value_format_name: gbp
+    sql: safe_divide(${rec_net_rev}, ${rec_order}) ;;
+  }
+
+  measure: rec_avg_basket_size {
+    type: number
+    group_label: "Last 12 Weeks"
+    label: "Recommend to purchase Avg Basket Size"
+    value_format_name: decimal_2
+    sql: SAFE_DIVIDE(${rec_purch_quantity}, ${rec_order}) ;;
+  }
+
+  #######excluding rec#######
+
+  measure: non_rec_purchase_conv_rate {
+    group_label: "Last 12 Weeks"
+    label: "Non Rec Purchase Conv Rate"
+    type: number
+    value_format_name: percent_2
+    sql: case when is null then safe_divide(${purchase_sessions},${total_sessions}) else 0 end ;;
+  }
+
+
+  measure: non_rec_avg_basket_size {
+    type: number
+    group_label: "Last 12 Weeks"
+    label: "Non Rec Avg Basket Size"
+    value_format_name: decimal_2
+    sql:case when is null then SAFE_DIVIDE(${total_quantity}, ${total_orders}) else 0 end ;;
+  }
+
+  measure: non_rec_aov_net {
+    type: number
+    group_label: "Last 12 Weeks"
+    label: "non Rec AOV (net)"
+    value_format_name: gbp
+    sql: case when is null then SAFE_DIVIDE(${total_net_rev}, ${total_orders}) else 0 end ;;
+  }
+
+
 
 
 }
