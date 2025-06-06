@@ -23,6 +23,7 @@ view: most_recent_run_by_period {
   }
 
   dimension: use_latest {
+    label: "Use Latest Data"
     type: yesno
     sql: ${last_date_period} is not null ;;
   }
