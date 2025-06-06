@@ -90,13 +90,13 @@ explore: hyperfinity {
       and ${behaviour_categories_monthly_most_recent.run_date} = ${behaviour_categories_monthly.run_date};;
   }
 
-  # join: most_recent_run_by_period {
-  #   view_label: "Hyperfinity"
-  #   required_access_grants: [can_use_customer_information]
-  #   type :  left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${most_recent_run_by_period.} ;;
-  # }
+  join: most_recent_run_by_period {
+    view_label: "Hyperfinity"
+    required_access_grants: [can_use_customer_information]
+    type :  left_outer
+    relationship: many_to_one
+    sql_on: ${most_recent_run_by_period.last_date_period} = ${base.base_date_date} ;;
+  }
 
   join: customers {
     fields: [customers.customer_uid]

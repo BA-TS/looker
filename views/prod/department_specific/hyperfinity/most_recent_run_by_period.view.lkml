@@ -17,8 +17,9 @@ view: most_recent_run_by_period {
   dimension: last_date_period {
     label: "Date Last Date Period"
     description: ""
-    type: number
+    type: date
     sql: ${TABLE}.last_date_period ;;
+    hidden: yes
   }
 
   dimension: is_latest_by_period {
