@@ -15,7 +15,7 @@ explore: hyperfinity {
 
   conditionally_filter: {
     filters: [
-      select_date_range: "Yesterday",
+      select_date_range: "2024-12",
       calendar_completed_date.previous_fiscal_week: "",
       most_recent_run_by_period.use_latest: "Yes",
     ]
