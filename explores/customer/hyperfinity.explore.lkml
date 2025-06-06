@@ -9,7 +9,7 @@ include: "/views/**/behaviour_categories_monthly.view"
 include:"/views/prod/department_specific/hyperfinity/*"
 
 explore: hyperfinity {
-  required_access_grants: [can_use_customer_information2]
+
   view_name: base
   label: "Hyperfinity"
 
