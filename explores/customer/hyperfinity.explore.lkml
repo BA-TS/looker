@@ -9,7 +9,7 @@ include: "/views/**/behaviour_categories_monthly.view"
 include:"/views/prod/department_specific/hyperfinity/*"
 
 explore: hyperfinity {
-  required_access_grants: [can_use_customer_information]
+  required_access_grants: [can_use_customer_information2]
   view_name: base
   label: "Hyperfinity"
 
@@ -109,7 +109,7 @@ explore: hyperfinity {
 # }
 
   join: looker_hyperfinity_customer_spending_roll_up {
-    required_access_grants: [can_use_customer_information]
+    required_access_grants: [can_use_customer_information2]
     view_label: "Hyperfinity"
     type :  left_outer
     relationship: many_to_many
