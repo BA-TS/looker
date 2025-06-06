@@ -25,29 +25,29 @@ view: looker_hyperfinity_customer_spending_roll_up {
     hidden: yes
   }
 
-  dimension: cluster_high_level_start {
-    group_label: "Cluster"
-    sql: ${TABLE}.CLUSTER_HIGHLEVEL_START ;;
-    type: string
-  }
+  # dimension: cluster_high_level_start {
+  #   group_label: "Cluster"
+  #   sql: ${TABLE}.CLUSTER_HIGHLEVEL_START ;;
+  #   type: string
+  # }
 
-  dimension: cluster_high_level_end {
-    group_label: "Cluster"
-    sql: ${TABLE}.CLUSTER_HIGHLEVEL_END ;;
-    type: string
-  }
+  # dimension: cluster_high_level_end {
+  #   group_label: "Cluster"
+  #   sql: ${TABLE}.CLUSTER_HIGHLEVEL_END ;;
+  #   type: string
+  # }
 
-  dimension: cluster_low_level_start {
-    group_label: "Cluster"
-    sql: ${TABLE}.CLUSTER_LOWLEVEL_START ;;
-    type: string
-  }
+  # dimension: cluster_low_level_start {
+  #   group_label: "Cluster"
+  #   sql: ${TABLE}.CLUSTER_LOWLEVEL_START ;;
+  #   type: string
+  # }
 
-  dimension: cluster_low_level_end {
-    group_label: "Cluster"
-    sql: ${TABLE}.CLUSTER_LOWLEVEL_END ;;
-    type: string
-  }
+  # dimension: cluster_low_level_end {
+  #   group_label: "Cluster"
+  #   sql: ${TABLE}.CLUSTER_LOWLEVEL_END ;;
+  #   type: string
+  # }
 
   dimension: RFV_group_number_start {
     group_label: "RFV Group"
