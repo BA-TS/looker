@@ -73,7 +73,7 @@ explore: hyperfinity {
   }
 
   join: behaviour_categories_monthly {
-    fields: [behaviour_categories_monthly.cluster_high_level,behaviour_categories_monthly.cluster_low_level,behaviour_categories_monthly.final_segment,behaviour_categories_monthly.final_segment_high_level]
+    fields: [behaviour_categories_monthly.cluster_high_level,behaviour_categories_monthly.cluster_low_level,behaviour_categories_monthly.final_segment,behaviour_categories_monthly.final_segment_high_level,behaviour_categories_monthly.customerUID,behaviour_categories_monthly.run_date,behaviour_categories_monthly.run_date_end]
     view_label: "Hyperfinity Customers"
     type: left_outer
     relationship: many_to_many
