@@ -15,8 +15,9 @@ explore: hyperfinity {
 
   conditionally_filter: {
     filters: [
-      select_date_range: "Yesterday"
+      select_date_range: "Yesterday",
     ]
+
     unless: [
       select_fixed_range,
       dynamic_fiscal_year,
@@ -61,27 +62,24 @@ explore: hyperfinity {
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
   }
 
-  join: behaviour_categories_monthly {
-    # fields: [behaviour_categories_monthly.cluster_high_level,behaviour_categories_monthly.cluster_low_level,behaviour_categories_monthly.final_segment,behaviour_categories_monthly.final_segment_high_level,behaviour_categories_monthly.customerUID,behaviour_categories_monthly.run_date,behaviour_categories_monthly.run_date_end]
-    view_label: "Hyperfinity"
-    type: left_outer
-    relationship: many_to_many
-    sql_on: ${base.date_date} between ${behaviour_categories_monthly.run_date} and  ${behaviour_categories_monthly.run_date_end}
-    ;;
-  }
+  # join: behaviour_categories_monthly {
+  #   view_label: "Hyperfinity"
+  #   type: left_outer
+  #   relationship: many_to_many
+  #   sql_on: ${base.date_date} between ${behaviour_categories_monthly.run_date} and  ${behaviour_categories_monthly.run_date_end}
+  #   ;;
+  # }
 
-  join: behaviour_categories_monthly_most_recent {
-    view_label: "Hyperfinity"
-    required_access_grants: [can_use_customer_information]
-    type :  left_outer
-    relationship: one_to_many
-    sql_on: ${customers.customer_uid}=${behaviour_categories_monthly_most_recent.customerUID}
-      and ${behaviour_categories_monthly_most_recent.run_date} = ${behaviour_categories_monthly.run_date};;
-  }
+  # join: behaviour_categories_monthly_most_recent {
+  #   view_label: "Hyperfinity"
+  #   type :  left_outer
+  #   relationship: one_to_many
+  #   sql_on: ${customers.customer_uid}=${behaviour_categories_monthly_most_recent.customerUID}
+  #     and ${behaviour_categories_monthly_most_recent.run_date} = ${behaviour_categories_monthly.run_date};;
+  # }
 
   join: most_recent_run_by_period {
     view_label: "Hyperfinity"
-    required_access_grants: [can_use_customer_information]
     type :  left_outer
     relationship: many_to_one
     sql_on: ${most_recent_run_by_period.last_date_period} = ${base.base_date_date} ;;
@@ -89,19 +87,32 @@ explore: hyperfinity {
 
   join: customers {
     fields: [customers.customer_uid,customers.number_of_customers]
-    required_access_grants: [can_use_customer_information]
     type :  left_outer
     relationship: many_to_many
-    sql_on: ${customers.customer_uid}=${behaviour_categories_monthly.customerUID};;
+    sql_on: ${customers.customer_uid}=${looker_hyperfinity_customer_spending_roll_up.customer_uid};;
   }
 
   join: transactions {
-    view_label: "Transactions"
     type: left_outer
     relationship: one_to_many
-    fields: [transactions.aov_net_sales,transactions.number_of_transactions,transactions.transaction_date]
+    fields: [transactions.aov_net_sales,transactions.number_of_transactions,transactions.transaction_date,transactions.parent_order_uid]
     sql_on:
         ${base.base_date_date} = ${transactions.transaction_date_filter};;
+  }
+
+join: customers_with_transactions {
+  type: left_outer
+  relationship: one_to_many
+  sql_on:  ${customers_with_transactions.customer_uid} = ${customers.customer_uid};;
+}
+
+  join: looker_hyperfinity_customer_spending_roll_up {
+    required_access_grants: [can_use_customer_information]
+    view_label: "Hpyerfinity - Customer Spending Roll up"
+    type :  left_outer
+    relationship: many_to_many
+    sql_on: ${looker_hyperfinity_customer_spending_roll_up.calendar_year_month} =${calendar_completed_date.calendar_year_month}
+          ;;
   }
 
 }
