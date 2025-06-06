@@ -73,12 +73,21 @@ explore: hyperfinity {
   }
 
   join: behaviour_categories_monthly {
-    fields: [behaviour_categories_monthly.cluster_high_level,behaviour_categories_monthly.cluster_low_level,behaviour_categories_monthly.final_segment,behaviour_categories_monthly.final_segment_high_level,behaviour_categories_monthly.customerUID,behaviour_categories_monthly.run_date,behaviour_categories_monthly.run_date_end]
-    view_label: "Hyperfinity Customers"
+    # fields: [behaviour_categories_monthly.cluster_high_level,behaviour_categories_monthly.cluster_low_level,behaviour_categories_monthly.final_segment,behaviour_categories_monthly.final_segment_high_level,behaviour_categories_monthly.customerUID,behaviour_categories_monthly.run_date,behaviour_categories_monthly.run_date_end]
+    view_label: "Hyperfinity"
     type: left_outer
     relationship: many_to_many
     sql_on: ${base.date_date} between ${behaviour_categories_monthly.run_date} and  ${behaviour_categories_monthly.run_date_end}
     ;;
+  }
+
+  join: behaviour_categories_monthly_most_recent {
+    view_label: "Hyperfinity"
+    required_access_grants: [can_use_customer_information]
+    type :  left_outer
+    relationship: one_to_many
+    sql_on: ${customers.customer_uid}=${behaviour_categories_monthly_most_recent.customerUID}
+      and ${behaviour_categories_monthly_most_recent.run_date} = ${behaviour_categories_monthly.run_date};;
   }
 
   join: customers {
