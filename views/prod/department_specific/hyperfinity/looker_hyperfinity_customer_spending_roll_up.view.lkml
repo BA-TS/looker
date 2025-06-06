@@ -88,5 +88,13 @@ view: looker_hyperfinity_customer_spending_roll_up {
   dimension:transacted {
     sql: ${TABLE}.transacted ;;
     type: number
+    hidden: yes
   }
+
+  measure: number_of_transactions{
+    label: "Number of months (Transacted)"
+    sql: ${transacted} ;;
+    type: sum
+  }
+
 }
