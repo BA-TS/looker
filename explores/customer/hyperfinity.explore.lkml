@@ -16,6 +16,7 @@ explore: hyperfinity {
   conditionally_filter: {
     filters: [
       select_date_range: "Yesterday",
+      most_recent_run_by_period.use_latest: "Yes"
     ]
 
     unless: [
