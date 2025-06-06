@@ -25,29 +25,29 @@ view: looker_hyperfinity_customer_spending_roll_up {
     hidden: yes
   }
 
-  dimension: cluster_high_level_start {
-    group_label: "Cluster"
-    sql: ${TABLE}.CLUSTER_HIGHLEVEL_START ;;
-    type: string
-  }
+  # dimension: cluster_high_level_start {
+  #   group_label: "Cluster"
+  #   sql: ${TABLE}.CLUSTER_HIGHLEVEL_START ;;
+  #   type: string
+  # }
 
-  dimension: cluster_high_level_end {
-    group_label: "Cluster"
-    sql: ${TABLE}.CLUSTER_HIGHLEVEL_END ;;
-    type: string
-  }
+  # dimension: cluster_high_level_end {
+  #   group_label: "Cluster"
+  #   sql: ${TABLE}.CLUSTER_HIGHLEVEL_END ;;
+  #   type: string
+  # }
 
-  dimension: cluster_low_level_start {
-    group_label: "Cluster"
-    sql: ${TABLE}.CLUSTER_LOWLEVEL_START ;;
-    type: string
-  }
+  # dimension: cluster_low_level_start {
+  #   group_label: "Cluster"
+  #   sql: ${TABLE}.CLUSTER_LOWLEVEL_START ;;
+  #   type: string
+  # }
 
-  dimension: cluster_low_level_end {
-    group_label: "Cluster"
-    sql: ${TABLE}.CLUSTER_LOWLEVEL_END ;;
-    type: string
-  }
+  # dimension: cluster_low_level_end {
+  #   group_label: "Cluster"
+  #   sql: ${TABLE}.CLUSTER_LOWLEVEL_END ;;
+  #   type: string
+  # }
 
   dimension: RFV_group_number_start {
     group_label: "RFV Group"
@@ -72,4 +72,29 @@ view: looker_hyperfinity_customer_spending_roll_up {
     sql: ${TABLE}.RFV_GROUP_END ;;
     type: string
   }
+
+  dimension:BSEG_high_level {
+    group_label: "BSEG"
+    sql: ${TABLE}.BSEG_HIGHLEVEL ;;
+    type: string
+  }
+
+  dimension:BSEG_low_level {
+    group_label: "BSEG"
+    sql: ${TABLE}.BSEG_LOWLEVEL ;;
+    type: string
+  }
+
+  dimension:transacted {
+    sql: ${TABLE}.transacted ;;
+    type: number
+    hidden: yes
+  }
+
+  measure: number_of_transactions{
+    label: "Number of months (Transacted)"
+    sql: ${transacted} ;;
+    type: sum
+  }
+
 }
