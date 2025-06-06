@@ -16,7 +16,8 @@ explore: hyperfinity {
   conditionally_filter: {
     filters: [
       select_date_range: "Yesterday",
-      most_recent_run_by_period.use_latest: "Yes"
+      calendar_completed_date.previous_fiscal_week: "",
+      most_recent_run_by_period.use_latest: "Yes",
     ]
 
     unless: [
@@ -96,20 +97,20 @@ explore: hyperfinity {
   join: transactions {
     type: left_outer
     relationship: one_to_many
-    fields: [transactions.aov_net_sales,transactions.number_of_transactions,transactions.transaction_date,transactions.parent_order_uid]
+    fields: [transactions.aov_net_sales,transactions.number_of_transactions,transactions.transaction_date,transactions.parent_order_uid,transactions.transaction_frequency,transactions.aov_units]
     sql_on:
         ${base.base_date_date} = ${transactions.transaction_date_filter};;
   }
 
-join: customers_with_transactions {
-  type: left_outer
-  relationship: one_to_many
-  sql_on:  ${customers_with_transactions.customer_uid} = ${customers.customer_uid};;
-}
+# join: customers_with_transactions {
+#   type: left_outer
+#   relationship: one_to_many
+#   sql_on:  ${customers_with_transactions.customer_uid} = ${customers.customer_uid};;
+# }
 
   join: looker_hyperfinity_customer_spending_roll_up {
     required_access_grants: [can_use_customer_information]
-    view_label: "Hpyerfinity - Customer Spending Roll up"
+    view_label: "Hpyerfinity"
     type :  left_outer
     relationship: many_to_many
     sql_on: ${looker_hyperfinity_customer_spending_roll_up.calendar_year_month} =${calendar_completed_date.calendar_year_month}
