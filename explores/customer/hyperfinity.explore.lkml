@@ -95,5 +95,13 @@ explore: hyperfinity {
     sql_on: ${customers.customer_uid}=${behaviour_categories_monthly.customerUID};;
   }
 
+  join: transactions {
+    view_label: "Transactions"
+    type: left_outer
+    relationship: one_to_many
+    fields: [transactions.aov_net_sales,transactions.number_of_transactions,transactions.transaction_date]
+    sql_on:
+        ${base.base_date_date} = ${transactions.transaction_date_filter};;
+  }
 
 }
