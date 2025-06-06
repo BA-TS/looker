@@ -72,4 +72,21 @@ view: looker_hyperfinity_customer_spending_roll_up {
     sql: ${TABLE}.RFV_GROUP_END ;;
     type: string
   }
+
+  dimension:BSEG_high_level {
+    group_label: "BSEG"
+    sql: ${TABLE}.BSEG_HIGHLEVEL ;;
+    type: string
+  }
+
+  dimension:BSEG_low_level {
+    group_label: "BSEG"
+    sql: ${TABLE}.BSEG_LOWLEVEL ;;
+    type: string
+  }
+
+  dimension:transacted {
+    sql: ${TABLE}.transacted ;;
+    type: number
+  }
 }

@@ -65,6 +65,8 @@ explore: hyperfinity {
     -transactions.loyalty_club_net_sales,
     -transactions.promo_in_main_catalogue,
     -transactions.promoFlag,
+    -transactions.refurb_pre_post,
+    -transactions.product_department,
   ]
 
   join: calendar_completed_date{
