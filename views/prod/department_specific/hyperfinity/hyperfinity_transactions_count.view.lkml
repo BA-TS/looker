@@ -3,7 +3,7 @@ view: hyperfinity_transactions_count {
     explore_source: hyperfinity {
       bind_all_filters: yes
       column: customer_uid { field: customers.customer_uid }
-      column: number_of_transactions { field: looker_hyperfinity_customer_spending_roll_up.number_of_transactions }
+      column: number_of_transactions { field: looker_hyperfinity_customer_spending_roll_up2.number_of_transactions }
     }
   }
   dimension: customer_uid {
