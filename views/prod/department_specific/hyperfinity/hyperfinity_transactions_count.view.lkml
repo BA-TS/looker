@@ -17,6 +17,7 @@ view: hyperfinity_transactions_count {
     description: ""
     type: number
     sql: ${TABLE}.number_of_transactions ;;
+    hidden: yes
   }
 
   dimension: transacted {
