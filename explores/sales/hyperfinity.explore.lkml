@@ -131,7 +131,7 @@ explore: hyperfinity {
   }
 
   join: looker_hyperfinity_customer_spending_roll_up2 {
-    view_label: "Hyperfinity"
+    view_label: "Hyperfinity2"
     type :  left_outer
     relationship: many_to_many
     sql_on: ${looker_hyperfinity_customer_spending_roll_up2.calendar_year_month} =${calendar_completed_date.calendar_year_month} and ${looker_hyperfinity_customer_spending_roll_up2.customer_uid} = ${customers.customer_uid}
