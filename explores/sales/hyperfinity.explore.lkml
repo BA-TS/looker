@@ -110,9 +110,6 @@ explore: hyperfinity {
   }
 
   join: customers {
-#     fields: [
-#       -customers.is_trade
-# ]
     type :  left_outer
     relationship: many_to_many
     sql_on: ${customers.customer_uid}=${looker_hyperfinity_customer_spending_roll_up.customer_uid};;
@@ -121,24 +118,24 @@ explore: hyperfinity {
   join: transactions {
     type: left_outer
     relationship: one_to_many
-    # fields: [transactions.aov_net_sales,transactions.number_of_transactions,transactions.transaction_date,transactions.parent_order_uid,transactions.transaction_frequency,transactions.aov_units]
     sql_on:
         ${base.base_date_date} = ${transactions.transaction_date_filter};;
   }
 
-# join: customers_with_transactions {
-#   type: left_outer
-#   relationship: one_to_many
-#   sql_on:  ${customers_with_transactions.customer_uid} = ${customers.customer_uid};;
-# }
-
   join: looker_hyperfinity_customer_spending_roll_up {
-
     view_label: "Hyperfinity"
     type :  left_outer
     relationship: many_to_many
     sql_on: ${looker_hyperfinity_customer_spending_roll_up.calendar_year_month} =${calendar_completed_date.calendar_year_month}
           ;;
+  }
+
+  join: looker_hyperfinity_customer_spending_roll_up2 {
+    view_label: "Hyperfinity"
+    type :  left_outer
+    relationship: many_to_many
+    sql_on: ${looker_hyperfinity_customer_spending_roll_up2.calendar_year_month} =${calendar_completed_date.calendar_year_month} and ${looker_hyperfinity_customer_spending_roll_up2.customer_uid} = ${customers.customer_uid}
+      ;;
   }
 
   join: hyperfinity_transactions_count {
@@ -154,6 +151,4 @@ explore: hyperfinity {
     relationship: many_to_one
     sql_on: ${transactions.transaction_uid} = ${promo_orders.order_id} and ${base.date_date} = ${promo_orders.date_date} ;;
   }
-
-
 }
