@@ -402,6 +402,15 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     sql: ${TABLE}.platform ;;
   }
 
+
+  dimension: yeartype {
+    description: "Platform used App/Web"
+    group_label: "Non Blank Search"
+    label: "Year Type"
+    type: string
+    sql: ${TABLE}.YearType ;;
+  }
+
   dimension: cookie_consent {
     group_label: "Non Blank Search"
     label: "Accepted Cookies"
