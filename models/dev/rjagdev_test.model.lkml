@@ -288,7 +288,8 @@ explore: GA4_testy {
     type: left_outer
     relationship: many_to_one
     sql_on: ${calendar.date} = ${search_purchase_funnel.search_date_date}
-    and ${last12_week_metrics.customerUID} = ${search_purchase_funnel.customer};;
+    ;;
+    #and ${last12_week_metrics.customerUID} = ${search_purchase_funnel.customer}
   }
 
   join: blank_search_purchase_funnel {
