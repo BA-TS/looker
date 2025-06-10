@@ -1,13 +1,15 @@
 view: search_purchase_funnel {
   derived_table: {
-    sql: with sub1 as (select distinct dense_rank() over (partition by session_id order by minTime asc) as rowNum ,platform, event_name, key_1, page_location, item_id, item_category, productCode, session_id, cookie_consent, minTime, quantity, value, ga4_value, netValue, searchTerm, OrderID
+    sql:
+
+with sub1 as (select distinct dense_rank() over (partition by session_id order by minTime asc) as rowNum ,platform, event_name, key_1, page_location, item_id, item_category, productCode, session_id, cookie_consent, minTime, quantity, value, ga4_value, netValue, searchTerm, OrderID
 
 from
 
 (SELECT distinct  platform, event_name, key_1, page_location, item_id, item_category, tra.productCode, case when session_id is null then cast(user_first_touch_timestamp as string) else session_id end as session_id, cookie_consent, minTime, sum(tra.ga4_quantity) as quantity, sum(value) as value , sum(tra.ga4_revenue) as ga4_value, sum(tra.net_value) as netValue, coalesce(case when regexp_contains(label_1,"^c[0-9]*$") then null else label_1 end,
 regexp_replace(regexp_extract(page_location, ".*q\\=(.*)$"), "\\+", " ")) as searchTerm, tra.ORderID
 FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as tra
-where _TABLE_SUFFIX Between FORMAT_DATE('%Y%m%d', date_sub(current_date(), interval 50 day)) and FORMAT_DATE('%Y%m%d', date_sub(current_date(), interval 1 day))
+where _TABLE_SUFFIX Between FORMAT_DATE('%Y%m%d', date_sub(current_date(), interval 12 week)) and FORMAT_DATE('%Y%m%d', date_sub(current_date(), interval 1 day))
 
 and event_name in ("search", "search_actions", "view_item_list", "add_to_cart","purchase")
 and platform in ("Web")
@@ -25,12 +27,27 @@ where event_name in ("add_to_cart")),
 purchase as (SELECT distinct event_name, session_id, minTime, ORderID, item_id, productCode, quantity, ga4_value, sub1.netValue from sub1
 where event_name in ("purchase"))
 
-SELECT distinct concat( cast(row_number() over() as string), Platform) as PK, searchTime, platform, searchTerm, searchSessionID as searchSession, cookie_consent, VITSession as VITSessions, string_agg(ATCitemID) as item_id, string_agg(item_category) as item_category, string_agg(ATCSessions) as ATCSessions, string_agg(purchaseSession) as purchaseSessions,
-string_Agg(OrderID) as ORders, sum(ga4_value) as GA4Value, sum(netValue) as netValue, sum(purchaseQuant) as productQuant from
+select distinct *
+
+from
+
+(select distinct *, case when Orders is not null then row_number() over (partition by Orders, item_id order by time_diff asc) else 1 end as rowNum, row_number() over () as pk
+
+from
+
+(SELECT distinct
+"Current Year" as yearType,
+searchTime,
+timestamp_diff(purchaseTime, SearchTime, second) as time_diff,
+platform, searchTerm, searchSessionID as searchSession, cookie_consent, VITSession as VITSessions, (ATCitemID) as item_id,
+(item_category) as item_category,  (ATCSessions) as ATCSessions, (purchaseSession) as purchaseSessions,
+string_Agg(distinct OrderID) as ORders, sum(ga4_value) as GA4Value, sum(netValue) as netValue, sum(purchaseQuant) as productQuant from
 
 (SELECT distinct
 
+SearchDate,
 SearchTime,
+datetime_add(PurchaseTime, interval 1 hour) as purchaseTime,
 platform,
 searchSessionID,
 cookie_consent,
@@ -51,7 +68,9 @@ from
 
 (
 
-SELECT distinct search.platform, search.session_id as searchSessionID, search.cookie_consent, date(datetime_add(Search.minTime, interval 1 hour)) as SearchTime, search.page_location as searchPage, search.searchTerm, VIT.session_id as VITSession,
+SELECT distinct search.platform, search.session_id as searchSessionID, search.cookie_consent, date(datetime_add(Search.minTime, interval 1 hour)) as SearchDate,
+datetime_add(Search.minTime, interval 1 hour) as searchTime,
+search.page_location as searchPage, search.searchTerm, VIT.session_id as VITSession,
 coalesce(ATC.session_id, atc2.session_id) as ATCSessions,
 coalesce(ATC.minTime, atc2.minTime) as ATCTIME,
 coalesce(ATC.item_id, atc2.item_id) as ATCitemID,
@@ -75,7 +94,202 @@ left join purchase as p2 on search.session_id = p2.session_id and ATC2.item_id =
 )
 group by all)
 
-group by all
+group by all))
+where rowNum = 1
+union distinct
+
+(
+
+with sub1 as (select distinct dense_rank() over (partition by session_id order by minTime asc) as rowNum ,platform, event_name, key_1, page_location, item_id, item_category, productCode, session_id, cookie_consent, minTime, quantity, value, ga4_value, netValue, searchTerm, OrderID
+
+from
+
+(SELECT distinct  platform, event_name, key_1, cast(page_location as int64) as page_location, item_id, item_category, tra.productCode, case when session_id is null then cast(user_first_touch_timestamp as string) else session_id end as session_id, cookie_consent, minTime, sum(tra.ga4_quantity) as quantity, sum(value) as value , sum(tra.ga4_revenue) as ga4_value, sum(tra.net_value) as netValue, coalesce(case when event_name in ("search") and key_1 in ("search_term") then label_1 else null end, case when event_name in ("search") then item_id else null end
+) as searchTerm, tra.ORderID
+FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as tra
+where _TABLE_SUFFIX Between FORMAT_DATE('%Y%m%d', date_sub(current_date(), interval 12 week)) and FORMAT_DATE('%Y%m%d', date_sub(current_date(), interval 1 day))
+
+and event_name in ("search", "search_actions", "view_item_list", "add_to_cart","purchase")
+and platform in ("App")
+group by all)),
+
+search as (SELECT distinct rowNum, platform, event_name,key_1,page_location, session_id,cookie_consent, minTime, searchTerm from sub1
+where event_name in ("search")),
+
+VIT as (SELECT distinct rowNum, event_name,key_1,page_location, session_id, minTime, item_id, productCode, quantity from sub1
+where event_name in ("view_item_list")),
+
+ATC as (SELECT distinct rowNum, event_name,key_1,page_location, session_id, minTime, item_id, item_category, productCode, quantity from sub1
+where event_name in ("add_to_cart")),
+
+purchase as (SELECT distinct event_name, session_id, minTime, ORderID, item_id, productCode, quantity, ga4_value, sub1.netValue from sub1
+where event_name in ("purchase"))
+
+select distinct *
+
+from
+
+(select distinct *, case when Orders is not null then row_number() over (partition by Orders, item_id order by time_diff asc) else 1 end as rowNum, row_number() over () as pk
+
+from
+
+(
+
+SELECT distinct
+"Current Year" as yearType,
+searchTime, timestamp_diff(purchaseTime, SearchTime, second) as time_diff, platform, searchTerm, searchSessionID as searchSession, cookie_consent, VITSession as VITSessions, (ATCitemID) as item_id, string_agg(distinct item_category) as item_category, string_agg(distinct ATCSessions) as ATCSessions, string_agg(distinct purchaseSession) as purchaseSessions,
+string_Agg(distinct OrderID) as ORders, sum(ga4_value) as GA4Value, sum(netValue) as netValue, sum(purchaseQuant) as productQuant from
+
+(SELECT distinct
+
+SearchTime,
+datetime_add(PurchaseTime, interval 1 hour) as purchaseTime,
+platform,
+searchSessionID,
+cookie_consent,
+searchTerm,
+VITSession,
+ATCSessions,
+ATCitemID,
+item_category,
+ATCQuant,
+purchaseSession,
+OrderID,
+PurchaseITemID,
+purchaseQuant,
+ga4_value,
+netValue
+
+from
+
+(
+
+SELECT distinct search.platform, search.session_id as searchSessionID, search.cookie_consent, (datetime_add(Search.minTime, interval 1 hour)) as SearchTime, search.page_location as searchPage, search.searchTerm,
+VIT.session_id as VITSession,
+coalesce(ATC.session_id, atc2.session_id) as ATCSessions,
+coalesce(ATC.minTime, atc2.minTime) as ATCTIME,
+coalesce(ATC.item_id, atc2.item_id) as ATCitemID,
+coalesce(ATC.item_category, atc2.item_category) as item_category,
+coalesce(ATC.quantity, atc2.Quantity) as ATCQuant,
+coalesce(ATC.page_location, atc2.page_location) as ATCPage, coalesce(ATC.rowNum, atc2.rowNum) as ATCRowNum,
+coalesce(purchase.session_id, p2.session_id) as purchaseSession,
+coalesce(purchase.OrderID, p2.OrderID) as ORderID,
+coalesce(purchase.item_id, p2.item_id) as PurchaseITemID,
+coalesce(purchase.quantity, p2.quantity) as purchaseQuant,
+coalesce(purchase.ga4_value, p2.ga4_value) as ga4_value,
+coalesce(purchase.netValue,p2.netValue) as netValue,
+coalesce(purchase.minTime, p2.minTime) as PurchaseTime
+from search
+left join VIT on search.session_id = VIT.session_id and search.page_location between (VIT.page_location - 2) and (VIT.page_location - 1)
+LEFT join ATC on VIT.session_id = ATC.session_id and VIT.item_id = ATC.item_id and VIT.minTime < ATC.MinTime
+LEFT join ATC as atc2 on VIT.session_id = ATC2.session_id and VIT.page_location = ATC2.page_location and VIT.minTime < ATC2.MinTime and search.rowNum = (ATC2.rowNum -1)
+left join purchase on search.session_id = purchase.session_id and ATC.item_id = purchase.item_id and ATC.minTime < purchase.MinTime
+left join purchase as p2 on search.session_id = p2.session_id and ATC2.item_id = p2.item_id and ATC2.minTime < p2.MinTime
+
+)
+group by all)
+group by all))
+where rowNum = 1
+
+)
+
+union distinct
+
+(with sub1 as (select distinct dense_rank() over (partition by session_id order by minTime asc) as rowNum ,platform, event_name, key_1, page_location, item_id, item_category, productCode, session_id, cookie_consent, minTime, quantity, value, ga4_value, netValue, searchTerm, OrderID
+
+from
+
+(SELECT distinct  platform, event_name, key_1, page_location, item_id, item_category, tra.productCode, case when session_id is null then cast(user_first_touch_timestamp as string) else session_id end as session_id, cookie_consent, minTime, sum(tra.ga4_quantity) as quantity, sum(value) as value , sum(tra.ga4_revenue) as ga4_value, sum(tra.net_value) as netValue, coalesce(case when regexp_contains(label_1,"^c[0-9]*$") then null else label_1 end,
+regexp_replace(regexp_extract(page_location, ".*q\\=(.*)$"), "\\+", " ")) as searchTerm, tra.ORderID
+FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` aw left join unnest(transactions) as tra
+where _TABLE_SUFFIX Between FORMAT_DATE('%Y%m%d', date_sub(date_sub(current_date(), interval 4 week), interval 52 week)) and FORMAT_DATE('%Y%m%d', date_sub(date_sub(current_date(), interval 1 day), interval 52 week))
+
+and event_name in ("search", "search_actions", "view_item_list", "add_to_cart","purchase")
+and platform in ("Web")
+group by all)),
+
+search as (SELECT distinct rowNum, platform, event_name,key_1,page_location, session_id,cookie_consent, minTime, searchTerm from sub1
+where event_name in ("search_actions") and key_1 in ("Searched Term", "search_term", "Search_term")),
+
+VIT as (SELECT distinct rowNum, event_name,key_1,page_location, session_id, minTime, item_id, productCode, quantity from sub1
+where event_name in ("view_item_list")),
+
+ATC as (SELECT distinct rowNum, event_name,key_1,page_location, session_id, minTime, item_id, item_category, productCode, quantity from sub1
+where event_name in ("add_to_cart")),
+
+purchase as (SELECT distinct event_name, session_id, minTime, ORderID, item_id, productCode, quantity, ga4_value, sub1.netValue from sub1
+where event_name in ("purchase"))
+
+select distinct *
+
+from
+
+(
+
+select distinct *, case when Orders is not null then row_number() over (partition by Orders, item_id order by time_diff asc) else 1 end as rowNum, row_number() over () as pk
+
+from
+
+(
+
+SELECT distinct
+"Last Year" as yearType,
+searchTime,
+timestamp_diff(purchaseTime, SearchTime, second) as time_diff,
+platform, searchTerm, searchSessionID as searchSession, cookie_consent, VITSession as VITSessions, (ATCitemID) as item_id, string_agg(item_category) as item_category, (ATCSessions) as ATCSessions, (purchaseSession) as purchaseSessions,
+string_Agg(distinct OrderID) as ORders, sum(ga4_value) as GA4Value, sum(netValue) as netValue, sum(purchaseQuant) as productQuant from
+
+(SELECT distinct
+
+SearchTime,
+(datetime_add(PurchaseTime, interval 1 hour)) as PurchaseTime,
+platform,
+searchSessionID,
+cookie_consent,
+searchTerm,
+VITSession,
+ATCSessions,
+ATCitemID,
+item_category,
+ATCQuant,
+purchaseSession,
+OrderID,
+PurchaseITemID,
+purchaseQuant,
+ga4_value,
+netValue
+
+from
+
+(
+
+SELECT distinct search.platform, search.session_id as searchSessionID, search.cookie_consent, (datetime_add(Search.minTime, interval 1 hour)) as SearchTime, search.page_location as searchPage, search.searchTerm, VIT.session_id as VITSession,
+coalesce(ATC.session_id, atc2.session_id) as ATCSessions,
+coalesce(ATC.minTime, atc2.minTime) as ATCTIME,
+coalesce(ATC.item_id, atc2.item_id) as ATCitemID,
+coalesce(ATC.item_category, atc2.item_category) as item_category,
+coalesce(ATC.quantity, atc2.Quantity) as ATCQuant,
+coalesce(ATC.page_location, atc2.page_location) as ATCPage, coalesce(ATC.rowNum, atc2.rowNum) as ATCRowNum,
+coalesce(purchase.session_id, p2.session_id) as purchaseSession,
+coalesce(purchase.OrderID, p2.OrderID) as ORderID,
+coalesce(purchase.item_id, p2.item_id) as PurchaseITemID,
+coalesce(purchase.quantity, p2.quantity) as purchaseQuant,
+coalesce(purchase.ga4_value, p2.ga4_value) as ga4_value,
+coalesce(purchase.netValue,p2.netValue) as netValue,
+coalesce(purchase.minTime, p2.minTime) as PurchaseTime
+from search
+left join VIT on search.session_id = VIT.session_id and search.page_location = VIT.page_location
+LEFT join ATC on VIT.session_id = ATC.session_id and VIT.item_id = ATC.item_id and VIT.minTime < ATC.MinTime and search.rowNum = (ATC.rowNum -1)
+LEFT join ATC as atc2 on VIT.session_id = ATC2.session_id and VIT.page_location = ATC2.page_location and VIT.minTime < ATC2.MinTime and search.rowNum = (ATC2.rowNum -1)
+left join purchase on search.session_id = purchase.session_id and ATC.item_id = purchase.item_id and ATC.minTime < purchase.MinTime
+left join purchase as p2 on search.session_id = p2.session_id and ATC2.item_id = p2.item_id and ATC2.minTime < p2.MinTime
+
+)
+group by all)
+
+group by all))
+where rowNum = 1)
+
 union distinct
 (with sub1 as (SELECT distinct
 row_number() over (partition by session_id order by minTime asc) as rowNum,
@@ -95,7 +309,7 @@ t.net_value as netValue,
 coalesce(t.Quantity, t.ga4_quantity) as Quantity,
 t.OrderId
 FROM `toolstation-data-storage.Digital_reporting.GA_DigitalTransactions_*` a left join unnest(transactions) as t
- where _TABLE_SUFFIX between FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 50 day)) and FORMAT_DATE('%Y%m%d', date_sub(current_date(), INTERVAL 1 day)) and
+ where _TABLE_SUFFIX Between FORMAT_DATE('%Y%m%d', date_sub(date_sub(current_date(), interval 4 week), interval 52 week)) and FORMAT_DATE('%Y%m%d', date_sub(date_sub(current_date(), interval 1 day), interval 52 week)) and
  event_name in ("add_to_cart", "search", "purchase", "search_product_tapped", "view_item", "product_image_viewed")
  and platform in ("App")
  group by all),
@@ -112,10 +326,22 @@ atc as (Select distinct dateTime as atc_Time, rowNum,event_name, screen_name as 
 
 purchase as (Select distinct dateTime as purchase_Time, rowNum,session_id as purchase_sessionID, item_id as purchase_id, ga4_value,netValue, quantity, OrderID from sub1 where event_name in ("purchase"))
 
-SELECT distinct
-concat( cast(row_number() over() as string), Platform) as PK,
-date(datetime_add(SearchTime, interval 1 hour)) as searchDate,
+select distinct *
 
+from
+
+(
+
+select distinct *, case when Orders is not null then row_number() over (partition by Orders, item_id order by time_diff asc) else 1 end as rowNum, row_number() over () as pk
+
+from
+
+(
+
+SELECT distinct
+"Last Year" as yearType,
+(datetime_add(SearchTime, interval 1 hour)) as searchDate,
+timestamp_diff(datetime_add(purchase_Time, interval 1 hour), SearchTime, second) as time_diff,
 platform,
 searchTerm,
 search_sessionID as searcSessions,
@@ -148,6 +374,10 @@ order by OrderID desc
 
 )
 group by all)
+group by all)
+where rowNum = 1
+
+)
 ;;
 
 sql_trigger_value: SELECT EXTRACT(dayofweek FROM CURRENT_DATEtime()) between 2 and 6 and extract(hour from current_datetime()) = 13
@@ -158,10 +388,10 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
 
   dimension: P_K {
     description: "PK"
-    type: number
+    type: string
     primary_key: yes
     hidden: yes
-    sql: ${TABLE}.PK ;;
+    sql: concat(cast(${TABLE}.PK as string),cast(${TABLE}.searchTime as string), searchSession) ;;
   }
 
   dimension: Platform {
@@ -272,12 +502,27 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     sql: ${TABLE}.netValue ;;
   }
 
+  dimension: ga4_Rev {
+    description: "ga4 item Rev"
+    hidden: yes
+    type: number
+    sql: ${TABLE}.GA4Value ;;
+  }
+
   measure: purchase_rev {
     group_label: "Non Blank Search"
     label: "Item Revenue"
     type: sum
     value_format_name: gbp
     sql:${Rev};;
+  }
+
+  measure: ga4_item_rev {
+    group_label: "Non Blank Search"
+    label: "GA4 Item Revenue"
+    type: sum
+    value_format_name: gbp
+    sql:${ga4_Rev};;
   }
 
   dimension: Quantity {
