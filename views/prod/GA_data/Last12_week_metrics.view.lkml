@@ -127,7 +127,8 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(cu
       group by all),
 
       search as (select distinct session_id as search_session, min(minTime) as search_time
-      from sub1 where regexp_contains(event_name, "search") and event_name not in ("blank_search")
+      from sub1 where (platform in ("Web", "web") and event_name in ("search_actions") and key1 in ("Searched Term", "search_term", "Search_term"))
+      or (platform in ("App", "app") and event_name in ("search"))
       group by all),
 
       blank_search as (select distinct session_id as blanksearch_session
