@@ -131,38 +131,55 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(cu
       or (platform in ("App", "app") and event_name in ("search"))
       group by all),
 
-      blank_search as (select distinct session_id as blanksearch_session
+      blank_search as (select distinct session_id as blanksearch_session, min(minTime) as blankSearchTime
       from sub1 where event_name in ("blank_search")
       group by all),
 
-      filters_used as (select distinct session_id as filter_session from sub1
-      where event_name in ("filter_applied", "filter_removed") or filter_label is not null),
+      filters_used as (select distinct session_id as filter_session,min(minTime) as filterTime from sub1
+      where event_name in ("filter_applied", "filter_removed") or filter_label is not null
+      group by all),
 
-      PDP as (select distinct session_id as PDP_session from sub1
-      where event_name in ("view_item") and screen_Type in ("product-detail-page") ),
+      PDP as (select distinct session_id as PDP_session, min(minTime) as pdpTime from sub1
+      where event_name in ("view_item") and screen_Type in ("product-detail-page")
+      group by all
+      ),
 
-      megamenu as (select distinct session_id as megamenu_session from sub1
-      where event_name in ("MegaMenu", "navigation") ),
+      megamenu as (select distinct session_id as megamenu_session, min(minTime) as MegamenuTime from sub1
+      where event_name in ("MegaMenu", "navigation")
+      group by all ),
 
-      ATC as (select distinct session_id as atc_session from sub1
-      where event_name in ("add_to_cart") ),
+      ATC as (select distinct session_id as atc_session, min(minTime) as ATCTime from sub1
+      where event_name in ("add_to_cart") group by all),
 
-      page_not_found as (select distinct session_id as session_404 from sub1
-      where event_name in ("404_page_not_found") ),
+      page_not_found as (select distinct session_id as session_404, min(minTime) as Time_404 from sub1
+      where event_name in ("404_page_not_found")
+      group by all),
 
       rec as (select distinct min(minTime) as recTime, item_id, session_id as recSession from sub1
-      where event_name in ("suggested_item_click", "recommended_item_tapped") group by all),
+      where event_name in ("suggested_item_click", "recommended_item_tapped") group by all)
 
-      sub2 as (select distinct
-      coalesce(sub1.date, date(purchase.purchase_Time)) as date,
-      coalesce(sub1.year, purchase.purchase_year) as yearType,
-      coalesce(platform,purchase.purchase_platform) as platform,
+      ,
+
+      session_start as (select distinct platform, date, min(minTime) as session_startTime,  session_id as session_startID from sub1
+      where event_name in ("session_start")
+       group by all),
+
+       first_time as (select distinct platform, year, channel_group, deviceCategory, cookie_consent, customer, date, min(minTime) as firstTime,  session_id as first_timeID from sub1
+       group by all),
+
+-- select distinct sub1.session_id, session_startID from sub1 left join session_start on sub1.session_id = session_start.session_startID
+
+sub2 as (select distinct
+      coalesce(first_time.date, date(purchase.purchase_Time)) as date,
+      coalesce(first_time.firstTime, session_start.session_startTime) as first_time,
+      coalesce(first_time.year, purchase.purchase_year) as yearType,
+      coalesce(first_time.platform,purchase.purchase_platform) as platform,
       sub1.channel_group,
-      deviceCategory,
-      sub1.cookie_consent,
-      coalesce(purchase.customer, sub1.customer) as customer,
-      sub1.session_id as all_sessions,
-      count(distinct case when screen_name not in ("Trolley | Toolstation", "trolley-page", "Review & Pay","Checkout Confirmation", "checkout-page", "payment-page", "order-confirmation-page") then screen_name else null end) over (partition by sub1.session_id) pages_in_session,
+      first_time.deviceCategory,
+      first_time.cookie_consent,
+      coalesce(purchase.customer, first_time.customer) as customer,
+      first_time.first_timeID as all_sessions,
+      count(distinct case when screen_name not in ("Trolley | Toolstation", "trolley-page", "Review & Pay","Checkout Confirmation", "checkout-page", "payment-page", "order-confirmation-page") then screen_name else null end) over (partition by first_time.first_timeID) pages_in_session,
       --page_location, screen_name,
     --case when screen_type in ("product-detail-page") and landingScreen not in ("product-detail-page") then "Get_to_PDP" else "Other" end as screen_type_grouped,
       --landingPage,landingScreen,
@@ -170,9 +187,11 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(cu
       --exitPage,exitScreen,
       --exitScreenType,
       PDP_session,
+      pdptime,
       search.search_session as search_session,
       search.search_time as search_time,
       blanksearch_session as blank_search,
+      blankSearchTime,
       purchase.purchase_session,
       purchase.purchase_time as purchase_time,
       purchase.net as purchase_net,
@@ -181,10 +200,15 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(cu
       purchase.quantity as purchase_quantity,
       purchase.OrderID as Orders,
       filters_used.filter_session,
+      filterTime,
       megamenu_session,
+      megamenuTime,
       atc_session,
+      atcTime,
       session_404,
+      time_404,
       rec.recSession,
+      recTime,
       purchasePC.purchase_session as rec_purchase_session,
       purchasePC.net as rec_purchase_net,
       purchasePC.gross as rec_purchase_gross,
@@ -199,23 +223,26 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(cu
       -- searchPurchase.quantity as search_purchase_quantity,
       -- searchPurchase.OrderID as search_Orders,
 
-      from sub1
-      inner join landing_P on session_id=landing_session
-      inner join exit_p on session_id=exit_session
-      left join search on session_id=search_session
-      full outer join purchase on session_id=purchase_session
-      left join blank_search on session_id = blanksearch_session
-      left join filters_used on session_id=filter_session
-      left join PDP on session_id=PDP_session
-      left join megamenu on session_id=megamenu_session
-      left join ATC on session_id=atc_session
-      left join page_not_found on session_id=session_404
-      left join rec on session_id = rec.recSession
+      from first_time
+      left join session_start on first_time.first_timeID = session_startID
+      inner join landing_P on first_time.first_timeID=landing_session
+      inner join exit_p on first_time.first_timeID=exit_session
+      left join search on first_time.first_timeID=search_session
+      full outer join purchase on first_time.first_timeID=purchase_session
+      left join blank_search on first_time.first_timeID = blanksearch_session
+      left join filters_used on first_time.first_timeID=filter_session
+      left join PDP on first_time.first_timeID=PDP_session
+      left join megamenu on first_time.first_timeID=megamenu_session
+      left join ATC on first_time.first_timeID=atc_session
+      left join page_not_found on first_time.first_timeID=session_404
+      left join rec on first_time.first_timeID = rec.recSession
       left join purchasePC on rec.recSession = purchasePC.purchase_session and rec.item_id = purchasePC.productCode and rec.recTime < purchasePC.purchase_time
-      -- left join purchasePC as searchPurchase on search.search_session = searchPurchase.purchase_session and search.search_Time < searchPurchase.purchase_time
-      group by 1,2,3,4,5,6,7,8,screen_name,10,11,12,13,14,15,16,17,18,19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32)
+      left join sub1 on first_time.first_timeID = sub1.session_id
+
+      group by 1,2,3,4,5,6,7,8,9,screen_name,11,12,13,14,15,16,17,18,19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40)
 
 select distinct concat(cast(row_number() over () as string), all_sessions) as PK,  date,
+#first_time,
 yearType,
 platform,
 deviceCategory,
@@ -260,10 +287,21 @@ rec_Orders,
 from sub2 left join (SELECT distinct cust.customerUID, cust.flags.guestCheckout, cust.loyalty.loyalty_club_member, Trade_Type, Trade_Flag
 FROM `toolstation-data-storage.customer.allCustomers` as cust
 left join `toolstation-data-storage.customer.dbs_trade_customers` as dbc on cust.customerUID = dbc.customer_number) as cust on sub2.customer = cust.customerUID
+where (timestamp_diff( pdptime, first_time,hour) <= 3 or pdptime is null)
+and (timestamp_diff( search_time, first_time,hour) <= 3 or search_time is null)
+and (timestamp_diff( blanksearchTime, first_time,hour) <= 3 or blanksearchTime is null)
+and (timestamp_diff( purchase_time, first_time,hour) <= 3 or purchase_time is null)
+and (timestamp_diff( filterTime, first_time,hour) <= 3 or filterTime is null)
+and (timestamp_diff( atcTime, first_time,hour) <= 3 or atcTime is null)
+and (timestamp_diff( megamenuTime, first_time,hour) <= 3 or megamenuTime is null)
+and (timestamp_diff( time_404, first_time,hour) <= 3 or time_404 is null)
+and (timestamp_diff( recTime, first_time,hour) <= 3 or recTime is null)
+
 union distinct
+
 (with sub1 as (
 select distinct
-"Last Year" as year,
+"Current Year" as year,
 date(timestamp_add(minTime, INTERVAL 1 hour)) as date,
 minTime,
 platform,
@@ -385,41 +423,59 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(da
       group by all),
 
       search as (select distinct session_id as search_session, min(minTime) as search_time
-      from sub1 where regexp_contains(event_name, "search") and event_name not in ("blank_search")
+      from sub1 where (platform in ("Web", "web") and event_name in ("search_actions") and key1 in ("Searched Term", "search_term", "Search_term"))
+      or (platform in ("App", "app") and event_name in ("search"))
       group by all),
 
-      blank_search as (select distinct session_id as blanksearch_session
+      blank_search as (select distinct session_id as blanksearch_session, min(minTime) as blankSearchTime
       from sub1 where event_name in ("blank_search")
       group by all),
 
-      filters_used as (select distinct session_id as filter_session from sub1
-      where event_name in ("filter_applied", "filter_removed") or filter_label is not null),
+      filters_used as (select distinct session_id as filter_session,min(minTime) as filterTime from sub1
+      where event_name in ("filter_applied", "filter_removed") or filter_label is not null
+      group by all),
 
-      PDP as (select distinct session_id as PDP_session from sub1
-      where event_name in ("view_item") and screen_Type in ("product-detail-page") ),
+      PDP as (select distinct session_id as PDP_session, min(minTime) as pdpTime from sub1
+      where event_name in ("view_item") and screen_Type in ("product-detail-page")
+      group by all
+      ),
 
-      megamenu as (select distinct session_id as megamenu_session from sub1
-      where event_name in ("MegaMenu", "navigation") ),
+      megamenu as (select distinct session_id as megamenu_session, min(minTime) as MegamenuTime from sub1
+      where event_name in ("MegaMenu", "navigation")
+      group by all ),
 
-      ATC as (select distinct session_id as atc_session from sub1
-      where event_name in ("add_to_cart") ),
+      ATC as (select distinct session_id as atc_session, min(minTime) as ATCTime from sub1
+      where event_name in ("add_to_cart") group by all),
 
-      page_not_found as (select distinct session_id as session_404 from sub1
-      where event_name in ("404_page_not_found") ),
+      page_not_found as (select distinct session_id as session_404, min(minTime) as Time_404 from sub1
+      where event_name in ("404_page_not_found")
+      group by all),
 
       rec as (select distinct min(minTime) as recTime, item_id, session_id as recSession from sub1
-      where event_name in ("suggested_item_click", "recommended_item_tapped") group by all),
+      where event_name in ("suggested_item_click", "recommended_item_tapped") group by all)
 
-      sub2 as (select distinct
-      coalesce(sub1.date, date(purchase.purchase_Time)) as date,
-      coalesce(sub1.year, purchase.purchase_year) as yearType,
-      coalesce(platform,purchase.purchase_platform) as platform,
+      ,
+
+      session_start as (select distinct platform, date, min(minTime) as session_startTime,  session_id as session_startID from sub1
+      where event_name in ("session_start")
+       group by all),
+
+       first_time as (select distinct platform, year, channel_group, deviceCategory, cookie_consent, customer, date, min(minTime) as firstTime,  session_id as first_timeID from sub1
+       group by all),
+
+-- select distinct sub1.session_id, session_startID from sub1 left join session_start on sub1.session_id = session_start.session_startID
+
+sub2 as (select distinct
+      coalesce(first_time.date, date(purchase.purchase_Time)) as date,
+      coalesce(first_time.firstTime, session_start.session_startTime) as first_time,
+      coalesce(first_time.year, purchase.purchase_year) as yearType,
+      coalesce(first_time.platform,purchase.purchase_platform) as platform,
       sub1.channel_group,
-      deviceCategory,
-      sub1.cookie_consent,
-      coalesce(purchase.customer, sub1.customer) as customer,
-      sub1.session_id as all_sessions,
-      count(distinct case when screen_name not in ("Trolley | Toolstation", "trolley-page", "Review & Pay","Checkout Confirmation", "checkout-page", "payment-page", "order-confirmation-page") then screen_name else null end) over (partition by sub1.session_id) pages_in_session,
+      first_time.deviceCategory,
+      first_time.cookie_consent,
+      coalesce(purchase.customer, first_time.customer) as customer,
+      first_time.first_timeID as all_sessions,
+      count(distinct case when screen_name not in ("Trolley | Toolstation", "trolley-page", "Review & Pay","Checkout Confirmation", "checkout-page", "payment-page", "order-confirmation-page") then screen_name else null end) over (partition by first_time.first_timeID) pages_in_session,
       --page_location, screen_name,
     --case when screen_type in ("product-detail-page") and landingScreen not in ("product-detail-page") then "Get_to_PDP" else "Other" end as screen_type_grouped,
       --landingPage,landingScreen,
@@ -427,9 +483,11 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(da
       --exitPage,exitScreen,
       --exitScreenType,
       PDP_session,
+      pdptime,
       search.search_session as search_session,
       search.search_time as search_time,
       blanksearch_session as blank_search,
+      blankSearchTime,
       purchase.purchase_session,
       purchase.purchase_time as purchase_time,
       purchase.net as purchase_net,
@@ -438,10 +496,15 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(da
       purchase.quantity as purchase_quantity,
       purchase.OrderID as Orders,
       filters_used.filter_session,
+      filterTime,
       megamenu_session,
+      megamenuTime,
       atc_session,
+      atcTime,
       session_404,
+      time_404,
       rec.recSession,
+      recTime,
       purchasePC.purchase_session as rec_purchase_session,
       purchasePC.net as rec_purchase_net,
       purchasePC.gross as rec_purchase_gross,
@@ -456,23 +519,26 @@ and date(timestamp_add(minTime, interval 1 hour)) between date_trunc(date_sub(da
       -- searchPurchase.quantity as search_purchase_quantity,
       -- searchPurchase.OrderID as search_Orders,
 
-      from sub1
-      inner join landing_P on session_id=landing_session
-      inner join exit_p on session_id=exit_session
-      left join search on session_id=search_session
-      full outer join purchase on session_id=purchase_session
-      left join blank_search on session_id = blanksearch_session
-      left join filters_used on session_id=filter_session
-      left join PDP on session_id=PDP_session
-      left join megamenu on session_id=megamenu_session
-      left join ATC on session_id=atc_session
-      left join page_not_found on session_id=session_404
-      left join rec on session_id = rec.recSession
+      from first_time
+      left join session_start on first_time.first_timeID = session_startID
+      inner join landing_P on first_time.first_timeID=landing_session
+      inner join exit_p on first_time.first_timeID=exit_session
+      left join search on first_time.first_timeID=search_session
+      full outer join purchase on first_time.first_timeID=purchase_session
+      left join blank_search on first_time.first_timeID = blanksearch_session
+      left join filters_used on first_time.first_timeID=filter_session
+      left join PDP on first_time.first_timeID=PDP_session
+      left join megamenu on first_time.first_timeID=megamenu_session
+      left join ATC on first_time.first_timeID=atc_session
+      left join page_not_found on first_time.first_timeID=session_404
+      left join rec on first_time.first_timeID = rec.recSession
       left join purchasePC on rec.recSession = purchasePC.purchase_session and rec.item_id = purchasePC.productCode and rec.recTime < purchasePC.purchase_time
-      -- left join purchasePC as searchPurchase on search.search_session = searchPurchase.purchase_session and search.search_Time < searchPurchase.purchase_time
-      group by 1,2,3,4,5,6,7,8,screen_name,10,11,12,13,14,15,16,17,18,19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32)
+      left join sub1 on first_time.first_timeID = sub1.session_id
+
+      group by 1,2,3,4,5,6,7,8,9,screen_name,11,12,13,14,15,16,17,18,19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40)
 
 select distinct concat(cast(row_number() over () as string), all_sessions) as PK,  date,
+#first_time,
 yearType,
 platform,
 deviceCategory,
@@ -516,7 +582,16 @@ rec_Orders,
 -- search_Orders,
 from sub2 left join (SELECT distinct cust.customerUID, cust.flags.guestCheckout, cust.loyalty.loyalty_club_member, Trade_Type, Trade_Flag
 FROM `toolstation-data-storage.customer.allCustomers` as cust
-left join `toolstation-data-storage.customer.dbs_trade_customers` as dbc on cust.customerUID = dbc.customer_number) as cust on sub2.customer = cust.customerUID)
+left join `toolstation-data-storage.customer.dbs_trade_customers` as dbc on cust.customerUID = dbc.customer_number) as cust on sub2.customer = cust.customerUID
+where (timestamp_diff( pdptime, first_time,hour) <= 3 or pdptime is null)
+and (timestamp_diff( search_time, first_time,hour) <= 3 or search_time is null)
+and (timestamp_diff( blanksearchTime, first_time,hour) <= 3 or blanksearchTime is null)
+and (timestamp_diff( purchase_time, first_time,hour) <= 3 or purchase_time is null)
+and (timestamp_diff( filterTime, first_time,hour) <= 3 or filterTime is null)
+and (timestamp_diff( atcTime, first_time,hour) <= 3 or atcTime is null)
+and (timestamp_diff( megamenuTime, first_time,hour) <= 3 or megamenuTime is null)
+and (timestamp_diff( time_404, first_time,hour) <= 3 or time_404 is null)
+and (timestamp_diff( recTime, first_time,hour) <= 3 or recTime is null))
       ;;
 
     sql_trigger_value: SELECT EXTRACT(dayofweek FROM CURRENT_DATEtime()) between 2 and 6 and extract(hour from current_datetime()) = 13
