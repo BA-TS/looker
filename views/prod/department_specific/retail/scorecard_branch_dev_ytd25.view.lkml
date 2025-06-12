@@ -324,10 +324,10 @@ view: scorecard_branch_dev_ytd25 {
   dimension: pillarRankSimplicityEfficiency_tier {group_label:"testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${pillarRankSimplicityEfficiency_dim};;}
   dimension: pillarRankCust_tier {group_label:"testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${pillarRankCust_dim};;}
   dimension: overallRank_tier {group_label:"testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${overallRank_dim};;}
-  dimension: ColleagueRag_tier {group_label:"testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${ColleagueRag_dim};;}
-  dimension: SimplicityEfficiencyRag_tier {group_label:"testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${SimplicityEfficiencyRag_dim};;}
-  dimension: CustRag_tier {group_label:"testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${CustRag_dim};;}
-  dimension: OverallRag_tier {group_label:"testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${OverallRag_dim};;}
+  dimension: ColleagueRag_tier {group_label:"testing" type:tier tiers:[0,1,2,3,4] sql:${ColleagueRag_dim};;}
+  dimension: SimplicityEfficiencyRag_tier {group_label:"testing" type:tier tiers:[0,1,2,3, 4] sql:${SimplicityEfficiencyRag_dim};;}
+  dimension: CustRag_tier {group_label:"testing" type:tier tiers:[0,1,2,3, 4] sql:${CustRag_dim};;}
+  dimension: OverallRag_tier {group_label:"testing" type:tier tiers:[0,1,2,3, 4] sql:${OverallRag_dim};;}
 
   # # --Error Flags----------------------
    dimension: ltoPercent_error_flag {group_label:"Error Flags" type:number sql:case when (${ltoPercent_dim} is null) then 1 else 0 end;;}

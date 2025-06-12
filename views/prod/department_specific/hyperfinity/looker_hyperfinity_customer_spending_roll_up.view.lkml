@@ -4,6 +4,7 @@ view: looker_hyperfinity_customer_spending_roll_up {
     select *,
     row_number() over () as prim_key
     from toolstation-data-storage.crm_reporting.LOOKER_HYPERFINITY_CUSTOMER_SPENDING_ROLL_UP  ;;
+   datagroup_trigger: ts_transactions_datagroup
  }
 
   dimension: prim_key {

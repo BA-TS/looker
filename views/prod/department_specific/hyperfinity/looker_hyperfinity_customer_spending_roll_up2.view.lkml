@@ -7,6 +7,7 @@ view: looker_hyperfinity_customer_spending_roll_up2 {
     from toolstation-data-storage.crm_reporting.LOOKER_HYPERFINITY_CUSTOMER_SPENDING_ROLL_UP
     where transacted = "1"
     ;;
+    datagroup_trigger: ts_transactions_datagroup
   }
 
   dimension: prim_key {
