@@ -90,6 +90,7 @@ view: ecrebo_Flags_ItemDiscounts {
   }
 
   measure: discount_value_bulksave{
+    label: "Bulksave Discount Value (gross)"
     type: sum
     sql: ${DiscountValue_Bulksave_dim} ;;
   }
@@ -101,6 +102,7 @@ view: ecrebo_Flags_ItemDiscounts {
   }
 
   measure: discount_value_free_product_offer{
+    label: "Free Product Offer Discount Value (gross)"
     type: sum
     sql: ${DiscountValue_Free_product_offer_dim} ;;
   }
@@ -112,6 +114,7 @@ view: ecrebo_Flags_ItemDiscounts {
   }
 
   measure: discount_value_linksave{
+    label: "Linksave Discount Value (gross)"
     type: sum
     sql: ${DiscountValue_Linksave_dim} ;;
   }
@@ -124,6 +127,7 @@ view: ecrebo_Flags_ItemDiscounts {
 
   measure: discount_value_multibuy{
     type: sum
+    label: "Multibuy Discount Value (gross)"
     sql: ${DiscountValue_Multibuy_dim} ;;
   }
 
@@ -135,6 +139,7 @@ view: ecrebo_Flags_ItemDiscounts {
 
   measure: discount_value_other_item_discount{
     type: sum
+    label: "Other Item Discount Discount Value (gross)"
     sql: ${DiscountValue_Other_item_discount_dim} ;;
   }
 
@@ -146,6 +151,7 @@ view: ecrebo_Flags_ItemDiscounts {
 
   measure: discount_value_net_bulksave{
     type: sum
+    label: "Bulksave Discount Value (net)"
     sql: ${DiscountValue_net_Bulksave_dim} ;;
   }
 
@@ -156,6 +162,7 @@ view: ecrebo_Flags_ItemDiscounts {
   }
 
   measure: DiscountValue_net_Free_product_offer{
+    label: "Free Product Offer Discount Value (net)"
     type: sum
     sql: ${DiscountValue_net_Free_product_offer_dim} ;;
   }
@@ -168,6 +175,7 @@ view: ecrebo_Flags_ItemDiscounts {
 
   measure: discount_value_net_linksave{
     type: sum
+    label: "Linksave Discount Value (net)"
     sql: ${DiscountValue_net_Linksave_dim} ;;
   }
 
@@ -179,6 +187,7 @@ view: ecrebo_Flags_ItemDiscounts {
 
   measure: discount_value_net_multibuy{
     type: sum
+    label: "Multibuy Discount Value (net)"
     sql: ${DiscountValue_net_Multibuy_dim} ;;
   }
 
@@ -190,6 +199,7 @@ view: ecrebo_Flags_ItemDiscounts {
 
   measure: discount_value_net_other_item_discount{
     type: sum
+    label: "Other Item Discount Discount Value (net)"
     sql: ${DiscountValue_net_Other_item_discount_dim} ;;
   }
 }
