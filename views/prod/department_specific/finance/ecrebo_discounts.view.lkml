@@ -19,6 +19,10 @@ view: ecrebo_discounts {
         sum(total_basket_discountNet) basketDiscountNet,
         sum(`basketPromotionDiscounts`[SAFE_OFFSET(0)].discount_amount) basketPromotionDiscountAmount,
         sum(`basketPromotionDiscounts`[SAFE_OFFSET(0)].discount_amount_net) basketPromotionDiscountAmountNet,
+        sum(total_item_discountGross) total_item_discountGross,
+        sum(total_item_discountNet) total_item_discountNet,
+        sum(total_basket_discountGross) total_basket_discountGross,
+        sum(total_basket_discountNet) total_basket_discountNet,
        from `toolstation-data-storage.sales.transactions`  t
        left join `toolstation-data-storage.sales.ecreboDiscounts` ED
         on t.parentOrderUID = ED.parentOrderUID AND t.transactionUID = ED.transactionUID and t.productCode = ED.productCode
@@ -96,14 +100,14 @@ view: ecrebo_discounts {
 
   dimension: item_discount_gross_dim  {
     type: number
-    sql: ${TABLE}.itemDiscountGross;;
+    sql: ${TABLE}.total_item_discountGross;;
     value_format_name: gbp
     hidden: yes
   }
 
   dimension: item_discount_net_dim  {
     type: number
-    sql: ${TABLE}.itemDiscountNet;;
+    sql: ${TABLE}.total_item_discountNet;;
     value_format_name: gbp
     hidden: yes
   }
@@ -145,14 +149,14 @@ view: ecrebo_discounts {
 
   dimension: basket_discount_gross_dim {
     type: number
-    sql: ${TABLE}.basketDiscountGross ;;
+    sql: ${TABLE}.total_basket_discountGross ;;
     value_format_name: gbp
     hidden: yes
   }
 
   dimension: basket_discount_net_dim {
     type: number
-    sql: ${TABLE}.basketDiscountNet ;;
+    sql: ${TABLE}.total_basket_discountNet ;;
     value_format_name: gbp
     hidden: yes
   }
