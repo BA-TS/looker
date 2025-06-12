@@ -20,6 +20,24 @@ view: ecrebo_Flags_BasketDiscounts {
     hidden: yes
   }
 
+  dimension: productCode {
+    type: string
+    sql: ${TABLE}.productCode;;
+    hidden: yes
+  }
+
+  dimension: transactionLineType {
+    type: string
+    sql: ${TABLE}.transactionLineType;;
+    hidden: yes
+  }
+
+  dimension: transactionUID {
+    type: string
+    sql: ${TABLE}.transactionUID;;
+    hidden: yes
+  }
+
   dimension: trade_account {
     type: yesno
     sql: ${TABLE}.Flag_Tradeaccount = "Yes" ;;

@@ -892,7 +892,14 @@ explore: base {
     relationship: many_to_many
     required_access_grants: [ecrebo]
     sql_on:
-    ${ecrebo_Flags_BasketDiscounts.parent_order_uid}= ${transactions.parent_order_uid};;
+    ${ecrebo_Flags_BasketDiscounts.parent_order_uid}= ${transactions.parent_order_uid}
+    and
+    ${ecrebo_Flags_BasketDiscounts.productCode}= ${transactions.product_code}
+    and
+    ${ecrebo_Flags_BasketDiscounts.transactionUID}= ${transactions.transaction_uid}
+    and
+    ${ecrebo_Flags_BasketDiscounts.transactionLineType}= ${transactions.transaction_line_type}
+    ;;
   }
 
   join: ecrebo_Flags_ItemDiscounts {
