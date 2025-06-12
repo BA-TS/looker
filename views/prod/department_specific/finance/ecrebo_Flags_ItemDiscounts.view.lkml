@@ -40,17 +40,6 @@ view: ecrebo_Flags_ItemDiscounts {
     hidden: yes
   }
 
-  dimension: discountValue_dim{
-    type: number
-    sql: ${TABLE}.discountValue ;;
-    hidden: yes
-  }
-
-  measure: discount_value{
-    type: sum
-    sql: ${discountValue_dim} ;;
-  }
-
   dimension: category{
     type: string
     sql: ${TABLE}.Category ;;
@@ -80,5 +69,127 @@ view: ecrebo_Flags_ItemDiscounts {
   dimension: Linksave{
     type: yesno
     sql: ${TABLE}.Category_Linksave="Yes" ;;
+  }
+
+  dimension: discountValue_dim{
+    type: number
+    sql: ${TABLE}.discountValue ;;
+    hidden: yes
+  }
+
+  measure: discount_value{
+    type: sum
+    sql: ${discountValue_dim} ;;
+    hidden: yes
+  }
+
+  dimension: DiscountValue_Bulksave_dim{
+    type: number
+    sql: ${TABLE}.DiscountValue_Bulksave ;;
+    hidden: yes
+  }
+
+  measure: discount_value_bulksave{
+    type: sum
+    sql: ${DiscountValue_Bulksave_dim} ;;
+  }
+
+  dimension: DiscountValue_Free_product_offer_dim{
+    type: number
+    sql: ${TABLE}.DiscountValue_Free_product_offer ;;
+    hidden: yes
+  }
+
+  measure: discount_value_free_product_offer{
+    type: sum
+    sql: ${DiscountValue_Free_product_offer_dim} ;;
+  }
+
+  dimension: DiscountValue_Linksave_dim{
+    type: number
+    sql: ${TABLE}.DiscountValue_Linksave ;;
+    hidden: yes
+  }
+
+  measure: discount_value_linksave{
+    type: sum
+    sql: ${DiscountValue_Linksave_dim} ;;
+  }
+
+  dimension: DiscountValue_Multibuy_dim{
+    type: number
+    sql: ${TABLE}.DiscountValue_Multibuy ;;
+    hidden: yes
+  }
+
+  measure: discount_value_multibuy{
+    type: sum
+    sql: ${DiscountValue_Multibuy_dim} ;;
+  }
+
+  dimension: DiscountValue_Other_item_discount_dim{
+    type: number
+    sql: ${TABLE}.DiscountValue_Other_item_discount ;;
+    hidden: yes
+  }
+
+  measure: discount_value_other_item_discount{
+    type: sum
+    sql: ${DiscountValue_Other_item_discount_dim} ;;
+  }
+
+  dimension: DiscountValue_net_Bulksave_dim{
+    type: number
+    sql: ${TABLE}.DiscountValue_net_Bulksave ;;
+    hidden: yes
+  }
+
+  measure: discount_value_net_bulksave{
+    type: sum
+    sql: ${DiscountValue_net_Bulksave_dim} ;;
+  }
+
+  dimension: DiscountValue_net_Free_product_offer_dim{
+    type: number
+    sql: ${TABLE}.DiscountValue_net_Free_product_offer ;;
+    hidden: yes
+  }
+
+  measure: DiscountValue_net_Free_product_offer{
+    type: sum
+    sql: ${DiscountValue_net_Free_product_offer_dim} ;;
+  }
+
+  dimension: DiscountValue_net_Linksave_dim{
+    type: number
+    sql: ${TABLE}.DiscountValue_net_Linksave ;;
+    hidden: yes
+  }
+
+  measure: discount_value_net_linksave{
+    type: sum
+    sql: ${DiscountValue_net_Linksave_dim} ;;
+  }
+
+  dimension: DiscountValue_net_Multibuy_dim{
+    type: number
+    sql: ${TABLE}.DiscountValue_net_Multibuy ;;
+    hidden: yes
+  }
+
+  measure: discount_value_net_multibuy{
+    type: sum
+    sql: ${DiscountValue_net_Multibuy_dim} ;;
+  }
+
+  dimension: DiscountValue_net_Other_item_discount_dim{
+    type: number
+    sql: ${TABLE}.DiscountValue_net_Other_item_discount ;;
+    hidden: yes
+  }
+
+  measure: discount_value_net_other_item_discount{
+    type: sum
+    sql: ${DiscountValue_net_Other_item_discount_dim} ;;
   }
 }
