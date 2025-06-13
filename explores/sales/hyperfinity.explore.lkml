@@ -112,7 +112,7 @@ explore: hyperfinity {
   join: customers {
     type :  left_outer
     relationship: many_to_many
-    sql_on: ${customers.customer_uid}=${looker_hyperfinity_customer_spending_roll_up2.customer_uid};;
+    sql_on: ${customers.customer_uid}=${looker_hyperfinity_customer_spending_roll_up.customer_uid};;
   }
 
   join: transactions {
@@ -126,7 +126,7 @@ explore: hyperfinity {
     view_label: "Hyperfinity"
     type :  left_outer
     relationship: many_to_many
-    sql_on: ${looker_hyperfinity_customer_spending_roll_up.calendar_year_month} =${calendar_completed_date.calendar_year_month} and ${looker_hyperfinity_customer_spending_roll_up.customer_uid} = ${customers.customer_uid}
+    sql_on: ${looker_hyperfinity_customer_spending_roll_up.calendar_year_month} =${calendar_completed_date.calendar_year_month}
           ;;
   }
 
@@ -134,7 +134,7 @@ explore: hyperfinity {
     view_label: "Hyperfinity2"
     type :  left_outer
     relationship: many_to_many
-    sql_on: ${looker_hyperfinity_customer_spending_roll_up2.calendar_year_month} =${calendar_completed_date.calendar_year_month}
+    sql_on: ${looker_hyperfinity_customer_spending_roll_up2.calendar_year_month} =${calendar_completed_date.calendar_year_month} and ${looker_hyperfinity_customer_spending_roll_up2.customer_uid} = ${customers.customer_uid}
       ;;
   }
 
