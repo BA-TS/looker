@@ -152,3 +152,22 @@ explore: hyperfinity {
     sql_on: ${transactions.transaction_uid} = ${promo_orders.order_id} and ${base.date_date} = ${promo_orders.date_date} ;;
   }
 }
+
+
+explore: +hyperfinity {
+  aggregate_table: rollup__looker_hyperfinity_customer_spending_roll_up_BSEG_high_level {
+    query: {
+      dimensions: [looker_hyperfinity_customer_spending_roll_up.BSEG_high_level]
+      measures: [customers.number_of_customers]
+      filters: [
+        base.select_date_range: "2024",
+        hyperfinity_transactions_count.transacted: "Yes",
+        most_recent_run_by_period.use_latest: "Yes"
+      ]
+    }
+
+    materialization: {
+      datagroup_trigger: ts_transactions_datagroup
+    }
+  }
+}
