@@ -131,7 +131,7 @@ explore: hyperfinity {
   }
 
   join: looker_hyperfinity_customer_spending_roll_up2 {
-    view_label: "Hyperfinity2"
+    view_label: "Hyperfinity"
     type :  left_outer
     relationship: many_to_many
     sql_on: ${looker_hyperfinity_customer_spending_roll_up2.calendar_year_month} =${calendar_completed_date.calendar_year_month} and ${looker_hyperfinity_customer_spending_roll_up2.customer_uid} = ${customers.customer_uid}
@@ -155,9 +155,9 @@ explore: hyperfinity {
 
 
 explore: +hyperfinity {
-  aggregate_table: rollup__looker_hyperfinity_customer_spending_roll_up_BSEG_high_level {
+  aggregate_table: rollup__looker_hyperfinity_customer_spending{
     query: {
-      dimensions: [looker_hyperfinity_customer_spending_roll_up.BSEG_high_level]
+      dimensions: [looker_hyperfinity_customer_spending_roll_up.BSEG_high_level, looker_hyperfinity_customer_spending_roll_up.BSEG_low_level, looker_hyperfinity_customer_spending_roll_up.RFV_group, looker_hyperfinity_customer_spending_roll_up.RFV_group_number]
       measures: [customers.number_of_customers]
       filters: [
         base.select_date_range: "2024",
