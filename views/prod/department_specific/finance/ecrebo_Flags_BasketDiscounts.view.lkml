@@ -154,4 +154,40 @@ view: ecrebo_Flags_BasketDiscounts {
     sql: ${DiscountValue_net_Tradeaccount_dim} ;;
   }
 
+  dimension: DiscountValue_Unallocated_discount_dim{
+    type: number
+    sql: ${TABLE}.DiscountValue_Unallocated_discount ;;
+    hidden: yes
+  }
+
+  measure: DiscountValue_Unallocated_discount{
+    type: sum
+    label: "Unallocated Discount Value (gross)"
+    sql: ${DiscountValue_Unallocated_discount_dim} ;;
+  }
+
+  dimension: Flag_Unallocated_discount_dim{
+    type: number
+    sql: ${TABLE}.Flag_Unallocated_discount ;;
+    hidden: yes
+  }
+
+  measure: Flag_Unallocated_discount{
+    type: sum
+    label: "Unallocated Discount (Yes / No)"
+    sql: ${Flag_Unallocated_discount_dim} ;;
+  }
+
+  dimension: DiscountValue_net_Unallocated_discount_dim{
+    type: number
+    sql: ${TABLE}.DiscountValue_net_Unallocated_discount ;;
+    hidden: yes
+  }
+
+  measure: DiscountValue_net_Unallocated_discount{
+    type: sum
+    label: "Unallocated Discount Value (net)"
+    sql: ${DiscountValue_net_Unallocated_discount_dim} ;;
+  }
+
 }
