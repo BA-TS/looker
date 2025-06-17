@@ -203,17 +203,28 @@ view: ecrebo_Flags_ItemDiscounts {
     sql: ${DiscountValue_net_Other_item_discount_dim} ;;
   }
 
-  dimension: Category_Unallocated_discount_dim{
-    type: number
+  # dimension: Category_Unallocated_discount_dim{
+  #   type: number
+  #   sql: ${TABLE}.Category_Unallocated_discount ;;
+  #   hidden: yes
+  # }
+
+  # measure: Category_Unallocated_discount{
+  #   type: sum
+  #   label: "Unallocated Discount (Yes / No)"
+  #   sql: ${Category_Unallocated_discount_dim} ;;
+  # }
+
+  dimension: Unallocated_discount{
+    type: yesno
     sql: ${TABLE}.Category_Unallocated_discount ;;
-    hidden: yes
   }
 
-  measure: Category_Unallocated_discount{
-    type: sum
-    label: "Unallocated Discount (Yes / No)"
-    sql: ${Category_Unallocated_discount_dim} ;;
-  }
+  # measure: Category_Unallocated_discount{
+  #   type: sum
+  #   label: "Unallocated Discount (Yes / No)"
+  #   sql: ${Category_Unallocated_discount_dim} ;;
+  # }
 
   dimension: DiscountValue_Unallocated_discount_dim{
     type: number
