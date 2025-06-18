@@ -714,7 +714,7 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
   dimension_group: purchase_time {
     hidden: yes
     type: time
-    timeframes: [raw]
+    timeframes: [raw, date]
     sql: ${TABLE}.purchase_time ;;
   }
 
@@ -737,7 +737,7 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     label: "Total Net Revenue"
     type: sum
     value_format_name: gbp
-    sql: ${purchase_net} ;;
+    sql: case when date_diff(date(${purchase_time_date}), ${date_date}, day) between -1 and 1 then ${purchase_net} else 0 end;;
   }
 
   measure: total_gross_rev {
