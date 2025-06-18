@@ -745,7 +745,7 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     label: "Total Gross Revenue"
     type: sum
     value_format_name: gbp
-    sql: ${purchase_gross} ;;
+    sql: case when date_diff(date(${purchase_time_date}), ${date_date}, day) between -1 and 1 then ${purchase_gross} else 0 end;;
   }
 
   measure: total_ga4_rev {
@@ -753,7 +753,7 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
     label: "Total ga4 Revenue"
     type: sum
     value_format_name: gbp
-    sql: ${ga4_rev} ;;
+    sql: case when date_diff(date(${purchase_time_date}), ${date_date}, day) between -1 and 1 then ${ga4_rev} else 0 end ;;
   }
 
   measure: get_to_PDP {
@@ -918,7 +918,7 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
   measure: purchase_sessions {
     hidden: yes
     type: count_distinct
-    sql: ${all_sessions} ;;
+    sql: case when date_diff(date(${purchase_time_date}), ${date_date}, day) between -1 and 1 then ${all_sessions} else null end ;;
     filters: [purchase_session: "-NULL"]
   }
 
@@ -933,14 +933,14 @@ or EXTRACT(dayofweek FROM CURRENT_DATEtime()) = 1 and extract(hour from current_
   measure: total_quantity {
     hidden: yes
     type: sum
-    sql: ${purchase_quantity} ;;
+    sql: case when date_diff(date(${purchase_time_date}), ${date_date}, day) between -1 and 1 then ${purchase_quantity} else 0 end ;;
   }
 
   measure: total_orders {
     group_label: "Last 12 Weeks"
     label: "Orders"
     type: count_distinct
-    sql: ${orders} ;;
+    sql: case when date_diff(date(${purchase_time_date}), ${date_date}, day) between -1 and 1 then ${orders} else null end ;;
   }
 
   measure: avg_basket_size {
