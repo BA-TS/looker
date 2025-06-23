@@ -193,7 +193,7 @@ view: sites {
     label: "Opened"
     description: "Year of when the branch was opened"
     type: time
-    timeframes: [year]
+    timeframes: [year,date]
     sql: ${TABLE}.dateOpened ;;
   }
 
