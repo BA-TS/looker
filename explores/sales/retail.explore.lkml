@@ -353,8 +353,7 @@ explore: retail {
     view_label: "Colleague Information"
     type: left_outer
     relationship: one_to_one
-    sql_on: ${toolstation_google_users.employee_id} = ${store_manager.employee_id}
-    and ${store_manager.site_uid} = ${sites.site_uid}
+    sql_on:  ${store_manager.site_uid} = ${sites.site_uid}
     ;;
   }
 }
