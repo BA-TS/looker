@@ -96,6 +96,12 @@ derived_table: {
     type: number
   }
 
+  dimension: length_of_service_tier{
+    sql: ${length_of_service_years} ;;
+    type: tier
+    tiers: [0,2,5,10]
+  }
+
   measure: number_of_colleagues {
     sql: ${employee_id} ;;
     type: count_distinct
