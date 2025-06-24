@@ -48,6 +48,30 @@ derived_table: {
     type: string
   }
 
+  dimension: is_store_manager {
+    group_label: "Job Title Flags"
+    sql: ${job_title}="Store Manager" ;;
+    type: yesno
+  }
+
+  dimension: is_assistant_store_manager {
+    group_label: "Job Title Flags"
+    sql: ${job_title}="Assistant Store Manager" ;;
+    type: yesno
+  }
+
+  dimension: is_store_supervisor {
+    group_label: "Job Title Flags"
+    sql: ${job_title}="Store Supervisor" ;;
+    type: yesno
+  }
+
+  dimension: is_store_assistant {
+    group_label: "Job Title Flags"
+    sql: ${job_title}="Store Assistant" ;;
+    type: yesno
+  }
+
   dimension: employee_type {
     sql: ${TABLE}.employeeType ;;
     type: string
@@ -60,6 +84,7 @@ derived_table: {
   }
 
   dimension: length_of_service_years{
+    label: "Length of Service (Years)"
     sql: ${TABLE}.lengthOfServiceYears ;;
     type: number
   }
