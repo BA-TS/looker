@@ -50,7 +50,7 @@ derived_table: {
 
   dimension: is_store_manager {
     group_label: "Job Title Flags"
-    sql: ${job_title}="Store Manager" ;;
+    sql: ${job_title} IN ("Store Manager","Store Manager Designate") ;;
     type: yesno
   }
 
@@ -68,7 +68,13 @@ derived_table: {
 
   dimension: is_store_assistant {
     group_label: "Job Title Flags"
-    sql: ${job_title}="Store Assistant" ;;
+    sql: ${job_title} IN ("Senior Store Assistant","Store Assistant") ;;
+    type: yesno
+  }
+
+  dimension: is_apprentice {
+    group_label: "Job Title Flags"
+    sql: ${job_title} IN ("Store Apprentice","Store Supervisor Apprentice") ;;
     type: yesno
   }
 
