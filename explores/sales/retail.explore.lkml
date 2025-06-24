@@ -344,6 +344,13 @@ explore: retail {
     # ;;
   }
 
+  join: toolstation_google_users {
+    view_label: "Colleague Information"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${sites.site_uid} = ${toolstation_google_users.siteUID} ;;
+
+  }
 }
 
 explore: +retail {
