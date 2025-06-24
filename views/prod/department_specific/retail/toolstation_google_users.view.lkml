@@ -15,6 +15,7 @@ derived_table: {
   }
 
   dimension: employee_id {
+    required_access_grants: [lz_testing]
     sql: ${TABLE}.employeeId ;;
     type: string
   }
@@ -35,7 +36,6 @@ derived_table: {
     sql: ${TABLE}.managerID ;;
     type: string
   }
-
 
   dimension: primary_email {
     sql: ${TABLE}.primaryEmail ;;
