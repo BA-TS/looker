@@ -99,7 +99,8 @@ derived_table: {
   dimension: length_of_service_tier{
     sql: ${length_of_service_years} ;;
     type: tier
-    tiers: [0,2,5,10]
+    style: integer
+    tiers: [0,1,2,5,10]
   }
 
   measure: number_of_colleagues {
