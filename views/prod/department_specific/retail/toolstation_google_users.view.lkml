@@ -25,6 +25,12 @@ derived_table: {
     hidden: yes
   }
 
+  dimension: name {
+    required_access_grants: [lz_testing]
+    sql: concat(${TABLE}.firstName," ",${TABLE}.lastName) ;;
+    type: string
+  }
+
   dimension: manager_id {
     sql: ${TABLE}.managerID ;;
     type: string
