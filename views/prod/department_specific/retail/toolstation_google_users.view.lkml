@@ -5,6 +5,7 @@ derived_table: {
   select *,
   row_number () over () as prim_key,
   from `toolstation-data-storage.HR.toolstation_google_users`
+  where department = "Retail"
   ;;
 }
 
