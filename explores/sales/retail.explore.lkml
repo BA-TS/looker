@@ -84,12 +84,12 @@ explore: retail {
     sql_on: ${transactions.site_uid}=${sites.site_uid} ;;
   }
 
-  join: scorecard_branch_dev{
-    view_label: "2024 Scorecard Monthly"
-    type:  left_outer
-    relationship:  many_to_one
-    sql_on: ${scorecard_branch_dev.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${scorecard_branch_dev.siteUID} ;;
-  }
+  # join: scorecard_branch_dev{
+  #   view_label: "2024 Scorecard Monthly"
+  #   type:  left_outer
+  #   relationship:  many_to_one
+  #   sql_on: ${scorecard_branch_dev.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${scorecard_branch_dev.siteUID} ;;
+  # }
 
   join: scorecard_branch_dev25{
     view_label: "2025 Scorecard Monthly"
@@ -98,12 +98,12 @@ explore: retail {
     sql_on: ${scorecard_branch_dev25.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${scorecard_branch_dev25.siteUID} ;;
   }
 
-  join: scorecard_branch_dev_ytd{
-    view_label: "2024 Scorecard YTD"
-    type:  left_outer
-    relationship:  many_to_one
-    sql_on: ${scorecard_branch_dev_ytd.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${scorecard_branch_dev_ytd.siteUID} ;;
-  }
+  # join: scorecard_branch_dev_ytd{
+  #   view_label: "2024 Scorecard YTD"
+  #   type:  left_outer
+  #   relationship:  many_to_one
+  #   sql_on: ${scorecard_branch_dev_ytd.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${scorecard_branch_dev_ytd.siteUID} ;;
+  # }
 
   join: scorecard_branch_dev_ytd25{
     view_label: "2025 Scorecard YTD"
@@ -120,11 +120,11 @@ explore: retail {
     sql_on: ${base.base_date_date} BETWEEN ${catalogue.catalogue_live_date} AND ${catalogue.catalogue_end_date} ;;
   }
 
-  join: google_reviews{
-    type:  left_outer
-    relationship:  many_to_one
-    sql_on: ${google_reviews.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${google_reviews.siteUID} ;;
-  }
+  # join: google_reviews{
+  #   type:  left_outer
+  #   relationship:  many_to_one
+  #   sql_on: ${google_reviews.month}=${calendar_completed_date.calendar_year_month2} and ${sites.site_uid}=${google_reviews.siteUID} ;;
+  # }
 
   join: training{
     type:  left_outer
@@ -340,8 +340,6 @@ explore: retail {
     relationship: many_to_one
     sql_on: ${yoy_comparison_py.site_uid}=${sites.site_uid}
     and  ${yoy_comparison_py.calendar_year}=${calendar_completed_date.calendar_year};;
-    # --and  ${yoy_comparison_py.month_in_year}=${calendar_completed_date.month_in_year}
-    # ;;
   }
 
   join: toolstation_google_users {
@@ -349,7 +347,15 @@ explore: retail {
     type: left_outer
     relationship: many_to_one
     sql_on: ${sites.site_uid} = ${toolstation_google_users.siteUID} ;;
+  }
 
+  join: store_manager {
+    view_label: "Colleague Information"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${toolstation_google_users.employee_id} = ${store_manager.employee_id}
+    and ${store_manager.site_uid} = ${sites.site_uid}
+    ;;
   }
 }
 
