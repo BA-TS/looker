@@ -356,6 +356,15 @@ explore: retail {
     sql_on:  ${store_manager.site_uid} = ${sites.site_uid}
     ;;
   }
+
+  join: branch_performance_rank {
+    view_label: "Colleague Information"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${branch_performance_rank.site_uid}= ${sites.site_uid} ;;
+
+  }
+
 }
 
 explore: +retail {
