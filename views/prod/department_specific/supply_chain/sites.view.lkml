@@ -204,6 +204,15 @@ view: sites {
     sql: ${date_opened_year}=extract(year from current_date) ;;
   }
 
+
+  dimension: opened_after_2020 {
+    required_access_grants: [lz_testing]
+    group_label: "Site Information"
+    label: "Opened After 2020"
+    type: yesno
+    sql: ${date_opened_year}>=2020 ;;
+  }
+
   # dimension_group: date_closed {
   #   required_access_grants: [lz_testing]
   #   group_label: "Site Information"

@@ -49,4 +49,13 @@ view: branch_market_share {
     value_format_name: percent_2
   }
 
+  dimension: market_share {
+    type: number
+    sql:
+    COALESCE(${distance_1km},${distance_2km},,${distance_5km});;
+    value_format_name: percent_2
+  }
+
+
+
 }
