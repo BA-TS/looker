@@ -91,8 +91,8 @@ derived_table: {
   }
 
   dimension: length_of_service_years{
-    label: "Length of Service (Years)"
-    sql: ${TABLE}.lengthOfServiceYears ;;
+    label: "Length of Service"
+    sql: concat(${TABLE}.lengthOfServiceYears," Years") ;;
     type: number
   }
 
