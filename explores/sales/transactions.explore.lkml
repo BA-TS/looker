@@ -700,7 +700,6 @@ explore: base {
 
   join: behaviour_categories_monthly2 {
     from: behaviour_categories_monthly
-    # fields: [behaviour_categories_monthly2.customerUID,behaviour_categories_monthly2.has_a_run,behaviour_categories_monthly2.period_code]
 
     view_label: "Hyperfinity (Month End)"
     required_access_grants: [can_use_customer_information]
@@ -916,6 +915,13 @@ explore: base {
     and
     ${ecrebo_Flags_ItemDiscounts.transactionLineType}= ${transactions.transaction_line_type};;
 
+  }
+
+  join: fasttrack_orderflag {
+    view_label: "Transactions"
+    type: left_outer
+    relationship: many_to_many
+    sql_on: ${transactions.parent_order_uid} = ${fasttrack_orderflag.parent_order_uid} ;;
   }
 
 }
