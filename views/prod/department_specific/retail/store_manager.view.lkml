@@ -32,9 +32,8 @@ view: store_manager {
   }
 
   dimension: store_manager_length_of_service {
-    sql: ${TABLE}.length_of_service_years ;;
-    type: number
     label: "Length of Service (Store Manager)"
-
+    sql: ${TABLE}.length_of_service_years ;;
+    type: string
   }
 }
