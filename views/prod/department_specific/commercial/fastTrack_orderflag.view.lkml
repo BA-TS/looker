@@ -11,7 +11,7 @@ view: fasttrack_orderflag {
     hidden: yes
   }
 
-  dimension: fast_track_order_flag {
+  dimension: fast_track_order {
     group_label: "Flags"
     sql: ${parent_order_uid} is not null;;
     type: yesno
