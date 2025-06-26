@@ -3,7 +3,7 @@ include: "/views/**/retail/**.view"
 include: "/views/**/rm_visits.view"
 include: "/views/**/training.view"
 
-view: scorecard_branch_dev_ytd25 {
+view: scorecard_branch_dev_ytd25_region {
 
   derived_table: {
     sql:
@@ -26,13 +26,7 @@ view: scorecard_branch_dev_ytd25 {
   dimension: siteUID {
     type: string
     sql: ${TABLE}.siteUID ;;
-    # hidden: yes
-  }
-
-  dimension: region_number {
-    type: number
-    sql:case when left(${siteUID},6)= "Region" then CAST(REGEXP_EXTRACT(${siteUID}, r'(\d+)') AS INT64) else null end
-    ;;
+    hidden: yes
   }
 
   dimension: P_K {
@@ -204,7 +198,7 @@ view: scorecard_branch_dev_ytd25 {
   measure: pillarRankColleague {group_label: "Ranking" label: "Pillar Rank Colleague" type: average value_format_name:decimal_0 sql:${pillarRankColleague_dim};;}
   measure: pillarRankSimplicityEfficiency {group_label: "Ranking" label: "Pillar Rank Simplicity Efficiency" type: average value_format_name:decimal_0 sql:${pillarRankSimplicityEfficiency_dim};;}
   measure: pillarRankCust {group_label: "Ranking" label: "Pillar Rank Customer" type: average value_format_name:decimal_0 sql:${pillarRankCust_dim};;}
-  measure: overallRank {group_label: "Ranking" label: "Overall Rank" type: average value_format_name:decimal_0 sql:${overallRank_dim};;}
+  measure: overallRank {group_label: "Ranking" label: "Overall Rank" type: average value_format_name:decimal_1 sql:${overallRank_dim};;}
   measure: ColleagueRag {group_label: "Ranking" label: "Colleague Rag" type: average value_format_name:decimal_0 sql:${ColleagueRag_dim};;}
   measure: SimplicityEfficiencyRag {group_label: "Ranking" label: "Simplicity Efficiency Rag" type: average value_format_name:decimal_0 sql:${SimplicityEfficiencyRag_dim};;}
   measure: CustRag {group_label: "Ranking" label: "Customer Rag" type: average value_format_name:decimal_0 sql:${CustRag_dim};;}
@@ -255,7 +249,7 @@ view: scorecard_branch_dev_ytd25 {
   }
 
   # # --Tiers---------------------------
- dimension: ltoPercent_tier {group_label:"testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${ltoPercent_dim};;}
+  dimension: ltoPercent_tier {group_label:"testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${ltoPercent_dim};;}
 
   dimension: trainingAvailable_tier {group_label:"testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${trainingAvailable_dim};;}
   dimension: trainingCompleted_tier {group_label:"testing" type:tier tiers:[0,1,2, 4,6,8,10] sql:${trainingCompleted_dim};;}
@@ -336,7 +330,7 @@ view: scorecard_branch_dev_ytd25 {
   dimension: OverallRag_tier {group_label:"testing" type:tier tiers:[0,1,2,3, 4] sql:${OverallRag_dim};;}
 
   # # --Error Flags----------------------
-   dimension: ltoPercent_error_flag {group_label:"Error Flags" type:number sql:case when (${ltoPercent_dim} is null) then 1 else 0 end;;}
+  dimension: ltoPercent_error_flag {group_label:"Error Flags" type:number sql:case when (${ltoPercent_dim} is null) then 1 else 0 end;;}
   dimension: trainingAvailable_error_flag {group_label:"Error Flags" type:number sql:case when (${trainingAvailable_dim} is null) then 1 else 0 end;;}
   dimension: trainingCompleted_error_flag {group_label:"Error Flags" type:number sql:case when (${trainingCompleted_dim} is null) then 1 else 0 end;;}
   dimension: trainingPercentCompleted_error_flag {group_label:"Error Flags" type:number sql:case when (${trainingPercentCompleted_dim} is null) then 1 else 0 end;;}

@@ -73,6 +73,19 @@ view: sites {
     sql: ${TABLE}.siteUID ;;
   }
 
+
+  dimension: region_number {
+    type: number
+    sql:CAST(REGEXP_EXTRACT(${region_name}, r'(\d+)') AS INT64) ;;
+    required_access_grants: [lz_only]
+  }
+
+  dimension: region_number_filter {
+    type: yesno
+    sql:${region_number} is not null ;;
+    required_access_grants: [lz_only]
+  }
+
   dimension: location_type {
     group_label: "Site Information"
     label: "DC Type"
