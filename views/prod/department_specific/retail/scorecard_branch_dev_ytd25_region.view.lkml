@@ -43,7 +43,7 @@ view: scorecard_branch_dev_ytd25_region {
     primary_key: yes
   }
 
-  dimension: ltoPercent {group_label: "Measures" label: "LTO %" type:number value_format_name:percent_2 sql:${TABLE}.ltoPercent;;}
+  dimension: ltoPercent {group_label: "Measures" label: "LTO %" type:number value_format_name:percent_1 sql:${TABLE}.ltoPercent;;}
   dimension: trainingAvailable {group_label: "Measures" label: "Training Available" type:number value_format_name:decimal_1 sql:${TABLE}.trainingAvailable;;}
   dimension: trainingCompleted {group_label: "Measures" label: "Training Completed" type:number value_format_name:decimal_1 sql:${TABLE}.trainingCompleted;;}
   dimension: trainingPercentCompleted {group_label: "Measures" label: "Training % Completed" type:number value_format_name:decimal_1 sql:${TABLE}.trainingPercentCompleted;;}
@@ -74,8 +74,8 @@ view: scorecard_branch_dev_ytd25_region {
   dimension: pyOrdersExCC {group_label: "Measures"  type:number value_format_name:decimal_1 sql:${TABLE}.pyOrdersExCC;;}
   dimension: tyTradeSales {group_label: "Measures" label: "Ty Trade Sales" type:number value_format_name:gbp_0 sql:${TABLE}.tyTradeSales;;}
   dimension: pyTradeSales {group_label: "Measures" label: "Py Trade Sales" type:number value_format_name:gbp_0 sql:${TABLE}.pyTradeSales;;}
-  dimension: yoyTradeSales {group_label: "Measures" label: "Trade Sales YOY" type:number value_format_name:gbp_0 sql:${TABLE}.yoyTradeSales;;}
-  dimension: yoyUPT {group_label: "Measures" label: "UPT" type:number value_format_name:decimal_1 sql:${TABLE}.yoyUPT;;}
+  dimension: yoyTradeSales {group_label: "Measures" label: "Trade Sales YOY" type:number value_format_name:percent_2 sql:${TABLE}.yoyTradeSales;;}
+  dimension: yoyUPT {group_label: "Measures" label: "UPT" type:number value_format_name:percent_2 sql:${TABLE}.yoyUPT;;}
   dimension: tySales {group_label: "Measures" label: "Ty Sales" type:number value_format_name:gbp_0 sql:${TABLE}.tySales;;}
   dimension: tyOrders {group_label: "Measures" label: "Ty Orders" type:number value_format_name:decimal_1 sql:${TABLE}.tyOrders;;}
   dimension: tyAOV {group_label: "Measures" label: "Ty AOV" type:number value_format_name:gbp sql:${TABLE}.tyAOV;;}

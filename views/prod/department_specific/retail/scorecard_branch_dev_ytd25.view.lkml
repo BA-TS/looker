@@ -122,7 +122,7 @@ view: scorecard_branch_dev_ytd25 {
   dimension: CustRag_dim {group_label: "Rank" label: "Customer Rag" type:number value_format_name:decimal_0 sql:${TABLE}.CustRag;;hidden:yes}
   dimension: OverallRag_dim {group_label: "Rank" label: "Overall Rag" type:number value_format_name:decimal_0 sql:${TABLE}.OverallRag;;hidden:yes}
 
-  measure: ltoPercent {group_label: "Measures" label: "LTO %" type: average value_format_name:percent_2 sql:${ltoPercent_dim};;}
+  measure: ltoPercent {group_label: "Measures" label: "LTO %" type: average value_format_name:percent_1 sql:${ltoPercent_dim};;}
   measure: trainingAvailable {group_label: "Measures" label: "Training Available" type: average value_format_name:decimal_1 sql:${trainingAvailable_dim};;}
   measure: trainingCompleted {group_label: "Measures" label: "Training Completed" type: average value_format_name:decimal_1 sql:${trainingCompleted_dim};;}
   measure: trainingPercentCompleted {group_label: "Measures" label: "Training Completed % " type: average value_format_name:percent_2 sql:${trainingPercentCompleted_dim};;}
