@@ -108,19 +108,19 @@ view: scorecard_branch_dev_ytd25 {
   dimension: unitsPerTransactionScore_dim {group_label: "Scores" label: "UPT Score" type:number value_format_name:decimal_1 sql:${TABLE}.unitsPerTransactionScore;;hidden:yes}
   dimension: labourBudgetScore_dim {group_label: "Scores" label: "Labour Budget Score" type:number value_format_name:decimal_1 sql:${TABLE}.labourBudgetScore;;hidden:yes}
   dimension: tsClubScore_dim {group_label: "Scores" label: "TS Club Score" type:number value_format_name:decimal_1 sql:${TABLE}.tsClubScore;;hidden:yes}
-  dimension: contributionVsBudgetScore_dim {group_label: "Ranking" label: "Contribution vs Budget Score" type:number value_format_name:decimal_1 sql:${TABLE}.contributionVsBudgetScore;;hidden:yes}
-  dimension: pillarTotalColleague_dim {group_label: "Ranking" label: "Pillar Total Colleague" type:number value_format_name:decimal_1 sql:${TABLE}.pillarTotalColleague;;hidden:yes}
-  dimension: pillarTotalSimplicityEfficiency_dim {group_label: "Ranking" label: "Pillar Total Simplicity Efficiency" type:number value_format_name:decimal_1 sql:${TABLE}.pillarTotalSimplicityEfficiency;;hidden:yes}
-  dimension: pillarTotalCust_dim {group_label: "Ranking" label: "Pillar Total Customer" type:number value_format_name:decimal_1 sql:${TABLE}.pillarTotalCust;;hidden:yes}
-  dimension: pillarTotalOverall_dim {group_label: "Ranking" label: "Pillar Total Overall" type:number value_format_name:decimal_1 sql:${TABLE}.pillarTotalOverall;;hidden:yes}
-  dimension: pillarRankColleague_dim {group_label: "Ranking" label: "Pillar Rank Colleague" type:number value_format_name:decimal_0 sql:${TABLE}.pillarRankColleague;;hidden:yes}
-  dimension: pillarRankSimplicityEfficiency_dim {group_label: "Ranking" label: "Pillar Rank Simplicity Efficiency" type:number value_format_name:decimal_0 sql:${TABLE}.pillarRankSimplicityEfficiency;;hidden:yes}
-  dimension: pillarRankCust_dim {group_label: "Ranking" label: "Pillar Rank Customer" type:number value_format_name:decimal_0 sql:${TABLE}.pillarRankCust;;hidden:yes}
-  dimension: overallRank_dim {group_label: "Ranking" label: "Overall Rank" type:number value_format_name:decimal_1 sql:${TABLE}.overallRank;;hidden:yes}
-  dimension: ColleagueRag_dim {group_label: "Ranking" label: "Colleague Rag" type:number value_format_name:decimal_0 sql:${TABLE}.ColleagueRag;;hidden:yes}
-  dimension: SimplicityEfficiencyRag_dim {group_label: "Ranking" label: "Simplicity Efficiency Rag" type:number value_format_name:decimal_0 sql:${TABLE}.SimplicityEfficiencyRag;;hidden:yes}
-  dimension: CustRag_dim {group_label: "Ranking" label: "Customer Rag" type:number value_format_name:decimal_0 sql:${TABLE}.CustRag;;hidden:yes}
-  dimension: OverallRag_dim {group_label: "Ranking" label: "Overall Rag" type:number value_format_name:decimal_0 sql:${TABLE}.OverallRag;;hidden:yes}
+  dimension: contributionVsBudgetScore_dim {group_label: "Rank" label: "Contribution vs Budget Score" type:number value_format_name:decimal_1 sql:${TABLE}.contributionVsBudgetScore;;hidden:yes}
+  dimension: pillarTotalColleague_dim {group_label: "Rank" label: "Pillar Total Colleague" type:number value_format_name:decimal_1 sql:${TABLE}.pillarTotalColleague;;hidden:yes}
+  dimension: pillarTotalSimplicityEfficiency_dim {group_label: "Rank" label: "Pillar Total Simplicity Efficiency" type:number value_format_name:decimal_1 sql:${TABLE}.pillarTotalSimplicityEfficiency;;hidden:yes}
+  dimension: pillarTotalCust_dim {group_label: "Rank" label: "Pillar Total Customer" type:number value_format_name:decimal_1 sql:${TABLE}.pillarTotalCust;;hidden:yes}
+  dimension: pillarTotalOverall_dim {group_label: "Rank" label: "Pillar Total Overall" type:number value_format_name:decimal_1 sql:${TABLE}.pillarTotalOverall;;hidden:yes}
+  dimension: pillarRankColleague_dim {group_label: "Rank" label: "Pillar Rank Colleague" type:number value_format_name:decimal_0 sql:${TABLE}.pillarRankColleague;;hidden:yes}
+  dimension: pillarRankSimplicityEfficiency_dim {group_label: "Rank" label: "Pillar Rank Simplicity Efficiency" type:number value_format_name:decimal_0 sql:${TABLE}.pillarRankSimplicityEfficiency;;hidden:yes}
+  dimension: pillarRankCust_dim {group_label: "Rank" label: "Pillar Rank Customer" type:number value_format_name:decimal_0 sql:${TABLE}.pillarRankCust;;hidden:yes}
+  dimension: overallRank_dim {group_label: "Rank" label: "Overall Rank" type:number value_format_name:decimal_1 sql:${TABLE}.overallRank;;hidden:yes}
+  dimension: ColleagueRag_dim {group_label: "Rank" label: "Colleague Rag" type:number value_format_name:decimal_0 sql:${TABLE}.ColleagueRag;;hidden:yes}
+  dimension: SimplicityEfficiencyRag_dim {group_label: "Rank" label: "Simplicity Efficiency Rag" type:number value_format_name:decimal_0 sql:${TABLE}.SimplicityEfficiencyRag;;hidden:yes}
+  dimension: CustRag_dim {group_label: "Rank" label: "Customer Rag" type:number value_format_name:decimal_0 sql:${TABLE}.CustRag;;hidden:yes}
+  dimension: OverallRag_dim {group_label: "Rank" label: "Overall Rag" type:number value_format_name:decimal_0 sql:${TABLE}.OverallRag;;hidden:yes}
 
   measure: ltoPercent {group_label: "Measures" label: "LTO %" type: average value_format_name:percent_2 sql:${ltoPercent_dim};;}
   measure: trainingAvailable {group_label: "Measures" label: "Training Available" type: average value_format_name:decimal_1 sql:${trainingAvailable_dim};;}
@@ -187,19 +187,19 @@ view: scorecard_branch_dev_ytd25 {
   measure: unitsPerTransactionScore {group_label: "Scores" label: "UPT Score" type: average value_format_name:decimal_1 sql:${unitsPerTransactionScore_dim};;}
   measure: labourBudgetScore {group_label: "Scores" label: "Labour Budget Score" type: average value_format_name:decimal_1 sql:${labourBudgetScore_dim};;}
   measure: tsClubScore {group_label: "Scores" label: "TS Club Score" type: average value_format_name:decimal_1 sql:${tsClubScore_dim};;}
-  measure: contributionVsBudgetScore {group_label: "Ranking" label: "Contribution vs Budget Score" type: average value_format_name:decimal_1 sql:${contributionVsBudgetScore_dim};;}
-  measure: pillarTotalColleague {group_label: "Ranking" label: "Pillar Total Colleague" type: average value_format_name:decimal_1 sql:${pillarTotalColleague_dim};;}
-  measure: pillarTotalSimplicityEfficiency {group_label: "Ranking" label: "Pillar Total Simplicity Efficiency" type: average value_format_name:decimal_1 sql:${pillarTotalSimplicityEfficiency_dim};;}
-  measure: pillarTotalCust {group_label: "Ranking" label: "Pillar Total Customer" type: average value_format_name:decimal_1 sql:${pillarTotalCust_dim};;}
-  measure: pillarTotalOverall {group_label: "Ranking" label: "Pillar Total Overall" type: average value_format_name:decimal_1 sql:${pillarTotalOverall_dim};;}
-  measure: pillarRankColleague {group_label: "Ranking" label: "Pillar Rank Colleague" type: average value_format_name:decimal_0 sql:${pillarRankColleague_dim};;}
-  measure: pillarRankSimplicityEfficiency {group_label: "Ranking" label: "Pillar Rank Simplicity Efficiency" type: average value_format_name:decimal_0 sql:${pillarRankSimplicityEfficiency_dim};;}
-  measure: pillarRankCust {group_label: "Ranking" label: "Pillar Rank Customer" type: average value_format_name:decimal_0 sql:${pillarRankCust_dim};;}
-  measure: overallRank {group_label: "Ranking" label: "Overall Rank" type: average value_format_name:decimal_0 sql:${overallRank_dim};;}
-  measure: ColleagueRag {group_label: "Ranking" label: "Colleague Rag" type: average value_format_name:decimal_0 sql:${ColleagueRag_dim};;}
-  measure: SimplicityEfficiencyRag {group_label: "Ranking" label: "Simplicity Efficiency Rag" type: average value_format_name:decimal_0 sql:${SimplicityEfficiencyRag_dim};;}
-  measure: CustRag {group_label: "Ranking" label: "Customer Rag" type: average value_format_name:decimal_0 sql:${CustRag_dim};;}
-  measure: OverallRag {group_label: "Ranking" label: "Overall Rag" type: average value_format_name:decimal_0 sql:${OverallRag_dim};;}
+  measure: contributionVsBudgetScore {group_label: "Rank" label: "Contribution vs Budget Score" type: average value_format_name:decimal_1 sql:${contributionVsBudgetScore_dim};;}
+  measure: pillarTotalColleague {group_label: "Rank" label: "Pillar Total Colleague" type: average value_format_name:decimal_1 sql:${pillarTotalColleague_dim};;}
+  measure: pillarTotalSimplicityEfficiency {group_label: "Rank" label: "Pillar Total Simplicity Efficiency" type: average value_format_name:decimal_1 sql:${pillarTotalSimplicityEfficiency_dim};;}
+  measure: pillarTotalCust {group_label: "Rank" label: "Pillar Total Customer" type: average value_format_name:decimal_1 sql:${pillarTotalCust_dim};;}
+  measure: pillarTotalOverall {group_label: "Rank" label: "Pillar Total Overall" type: average value_format_name:decimal_1 sql:${pillarTotalOverall_dim};;}
+  measure: pillarRankColleague {group_label: "Rank" label: "Pillar Rank Colleague" type: average value_format_name:decimal_0 sql:${pillarRankColleague_dim};;}
+  measure: pillarRankSimplicityEfficiency {group_label: "Rank" label: "Pillar Rank Simplicity Efficiency" type: average value_format_name:decimal_0 sql:${pillarRankSimplicityEfficiency_dim};;}
+  measure: pillarRankCust {group_label: "Rank" label: "Pillar Rank Customer" type: average value_format_name:decimal_0 sql:${pillarRankCust_dim};;}
+  measure: overallRank {group_label: "Rank" label: "Overall Rank" type: average value_format_name:decimal_0 sql:${overallRank_dim};;}
+  measure: ColleagueRag {group_label: "Rank" label: "Colleague Rag" type: average value_format_name:decimal_0 sql:${ColleagueRag_dim};;}
+  measure: SimplicityEfficiencyRag {group_label: "Rank" label: "Simplicity Efficiency Rag" type: average value_format_name:decimal_0 sql:${SimplicityEfficiencyRag_dim};;}
+  measure: CustRag {group_label: "Rank" label: "Customer Rag" type: average value_format_name:decimal_0 sql:${CustRag_dim};;}
+  measure: OverallRag {group_label: "Rank" label: "Overall Rag" type: average value_format_name:decimal_0 sql:${OverallRag_dim};;}
 
   measure: ty_EBIT_net_sales  {
     view_label: "P&L"

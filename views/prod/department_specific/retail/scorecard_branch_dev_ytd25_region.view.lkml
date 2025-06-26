@@ -109,10 +109,10 @@ view: scorecard_branch_dev_ytd25_region {
   dimension: labourBudgetScore {group_label: "Scores" label: "Labour Budget Score" type:number value_format_name:decimal_1 sql:${TABLE}.labourBudgetScore;;}
   dimension: tsClubScore {group_label: "Scores" label: "TS Club Score" type:number value_format_name:decimal_1 sql:${TABLE}.tsClubScore;;}
   dimension: contributionVsBudgetScore {group_label: "Scores" label: "Contribution vs Budget Score" type:number value_format_name:decimal_1 sql:${TABLE}.contributionVsBudgetScore;;}
-  dimension: pillarRankColleague {group_label: "Ranking" label: "Pillar Rank Colleague" type:number value_format_name:decimal_0 sql:${TABLE}.pillarRankColleague;;}
-  dimension: pillarRankSimplicityEfficiency {group_label: "Ranking" label: "Pillar Rank Simplicity Efficiency" type:number value_format_name:decimal_0 sql:${TABLE}.pillarRankSimplicityEfficiency;;}
-  dimension: pillarRankCust {group_label: "Ranking" label: "Pillar Rank Customer" type:number value_format_name:decimal_0 sql:${TABLE}.pillarRankCust;;}
-  dimension: overallRank {group_label: "Ranking" label: "Overall Rank" type:number value_format_name:decimal_0 sql:${TABLE}.overallRank;;}
+  dimension: pillarRankColleague {group_label: "Rank" label: "Pillar Rank Colleague" type:number value_format_name:decimal_0 sql:${TABLE}.pillarRankColleague;;}
+  dimension: pillarRankSimplicityEfficiency {group_label: "Rank" label: "Pillar Rank Simplicity Efficiency" type:number value_format_name:decimal_0 sql:${TABLE}.pillarRankSimplicityEfficiency;;}
+  dimension: pillarRankCust {group_label: "Rank" label: "Pillar Rank Customer" type:number value_format_name:decimal_0 sql:${TABLE}.pillarRankCust;;}
+  dimension: overallRank {group_label: "Rank" label: "Overall Rank" type:number value_format_name:decimal_0 sql:${TABLE}.overallRank;;}
 
 
 
