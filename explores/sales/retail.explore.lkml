@@ -18,13 +18,14 @@ explore: retail {
   always_filter: {
     filters: [
       select_date_reference: "Transaction",
-      sites.region_number_filter: "Yes"
     ]
   }
 
   conditionally_filter: {
     filters: [
-      select_date_range: "1 month ago for 1 month"
+      select_date_range: "1 month ago for 1 month",
+      sites.site_uid: "",
+      sites.region_number: ""
     ]
     unless: [
       select_fixed_range,
@@ -46,7 +47,7 @@ explore: retail {
     -catalogue.catalogue_live_date
   ]
 
-  sql_always_where:${period_over_period};;
+  sql_always_where:${period_over_period} and ${sites.region_number_filter};;
 
   join: calendar_completed_date{
     from:  calendar
