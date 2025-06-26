@@ -65,7 +65,7 @@ view: scorecard_branch_dev_ytd25_region {
   dimension: anonBandingU {group_label: "Measures" label: "Anon Banding U" type:number value_format_name:decimal_1 sql:${TABLE}.anonBandingU;;}
   dimension: tyFrequency {group_label: "Measures" label: "Ty Frequency" type:number value_format_name:decimal_1 sql:${TABLE}.tyFrequency;;}
   dimension: pyFrequency {group_label: "Measures" label: "Py Frequency" type:number value_format_name:decimal_1 sql:${TABLE}.pyFrequency;;}
-  dimension: yoyFrequency {group_label: "Measures" label: "YOY Frequency" type:number value_format_name:percent_2 sql:${TABLE}.yoyFrequency;;}
+  dimension: yoyFrequency {group_label: "Measures" label: "Frequency" type:number value_format_name:percent_2 sql:${TABLE}.yoyFrequency;;}
   dimension: netSales {group_label: "Measures" label: "Net Sales" type:number value_format_name:gbp_0 sql:${TABLE}.netSales;;}
   dimension: pyUnits {group_label: "Measures" label: "Py Units" type:number value_format_name:decimal_1 sql:${TABLE}.pyUnits;;}
   dimension: unitsExCC {group_label: "Measures"  type:number value_format_name:decimal_1 sql:${TABLE}.unitsExCC;;}
@@ -74,8 +74,8 @@ view: scorecard_branch_dev_ytd25_region {
   dimension: pyOrdersExCC {group_label: "Measures"  type:number value_format_name:decimal_1 sql:${TABLE}.pyOrdersExCC;;}
   dimension: tyTradeSales {group_label: "Measures" label: "Ty Trade Sales" type:number value_format_name:gbp_0 sql:${TABLE}.tyTradeSales;;}
   dimension: pyTradeSales {group_label: "Measures" label: "Py Trade Sales" type:number value_format_name:gbp_0 sql:${TABLE}.pyTradeSales;;}
-  dimension: yoyTradeSales {group_label: "Measures" label: "YOY Trade Sales" type:number value_format_name:gbp_0 sql:${TABLE}.yoyTradeSales;;}
-  dimension: yoyUPT {group_label: "Measures" label: "YOY UPT" type:number value_format_name:decimal_1 sql:${TABLE}.yoyUPT;;}
+  dimension: yoyTradeSales {group_label: "Measures" label: "Trade Sales YOY" type:number value_format_name:gbp_0 sql:${TABLE}.yoyTradeSales;;}
+  dimension: yoyUPT {group_label: "Measures" label: "UPT" type:number value_format_name:decimal_1 sql:${TABLE}.yoyUPT;;}
   dimension: tySales {group_label: "Measures" label: "Ty Sales" type:number value_format_name:gbp_0 sql:${TABLE}.tySales;;}
   dimension: tyOrders {group_label: "Measures" label: "Ty Orders" type:number value_format_name:decimal_1 sql:${TABLE}.tyOrders;;}
   dimension: tyAOV {group_label: "Measures" label: "Ty AOV" type:number value_format_name:gbp sql:${TABLE}.tyAOV;;}
