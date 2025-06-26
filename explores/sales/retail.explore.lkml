@@ -114,12 +114,19 @@ explore: retail {
     sql_on: ${sites.site_uid}=${scorecard_branch_dev_ytd25.siteUID} ;;
   }
 
-  join: scorecard_branch_dev_ytd25_2{
-    from: scorecard_branch_dev_ytd25
+  # join: scorecard_branch_dev_ytd25_2{
+  #   from: scorecard_branch_dev_ytd25
+  #   view_label: "2025 Scorecard YTD Region"
+  #   type:  left_outer
+  #   relationship:  many_to_one
+  #   sql_on: ${sites.region_number}=${scorecard_branch_dev_ytd25_2.region_number} ;;
+  # }
+
+  join: scorecard_branch_dev_ytd25_region{
     view_label: "2025 Scorecard YTD Region"
     type:  left_outer
     relationship:  many_to_one
-    sql_on: ${sites.region_number}=${scorecard_branch_dev_ytd25_2.region_number} ;;
+    sql_on: ${sites.region_number}=${scorecard_branch_dev_ytd25_region.region_number} ;;
   }
 
   join: catalogue {
