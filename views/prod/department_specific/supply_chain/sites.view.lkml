@@ -77,7 +77,6 @@ view: sites {
   dimension: region_number {
     type: number
     sql:CAST(REGEXP_EXTRACT(${region_name}, r'(\d+)') AS INT64) ;;
-    required_access_grants: [lz_testing]
   }
 
   dimension: region_number_filter {
@@ -297,7 +296,6 @@ view: sites {
   dimension: division_number {
     type: number
     sql:CAST(REGEXP_EXTRACT(${division}, r'(\d+)') AS INT64) ;;
-    required_access_grants: [lz_testing]
   }
 
 
