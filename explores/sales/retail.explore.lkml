@@ -25,7 +25,8 @@ explore: retail {
     filters: [
       select_date_range: "1 month ago for 1 month",
       sites.site_uid: "",
-      sites.region_number: ""
+      sites.region_number: "",
+      sites.division_number: ""
     ]
     unless: [
       select_fixed_range,

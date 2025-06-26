@@ -77,7 +77,7 @@ view: sites {
   dimension: region_number {
     type: number
     sql:CAST(REGEXP_EXTRACT(${region_name}, r'(\d+)') AS INT64) ;;
-    required_access_grants: [lz_only]
+    required_access_grants: [lz_testing]
   }
 
   dimension: region_number_filter {
@@ -217,15 +217,6 @@ view: sites {
     sql: ${date_opened_year}=extract(year from current_date) ;;
   }
 
-
-  dimension: opened_after_2020 {
-    required_access_grants: [lz_testing]
-    group_label: "Site Information"
-    label: "Opened After 2020"
-    type: yesno
-    sql: ${date_opened_year}>=2020 ;;
-  }
-
   # dimension_group: date_closed {
   #   required_access_grants: [lz_testing]
   #   group_label: "Site Information"
@@ -302,6 +293,13 @@ view: sites {
     type: string
     sql: ${TABLE}.division ;;
   }
+
+  dimension: division_number {
+    type: number
+    sql:CAST(REGEXP_EXTRACT(${division}, r'(\d+)') AS INT64) ;;
+    required_access_grants: [lz_testing]
+  }
+
 
   dimension: head_ofdivision {
     label: "Head of Division"
