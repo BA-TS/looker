@@ -114,6 +114,48 @@ view: scorecard_branch_dev_ytd25_region {
   dimension: pillarRankCust {group_label: "Rank" label: "Pillar Rank Customer" type:number value_format_name:decimal_0 sql:${TABLE}.pillarRankCust;;}
   dimension: overallRank {group_label: "Rank" label: "Overall Rank" type:number value_format_name:decimal_0 sql:${TABLE}.overallRank;;}
 
+  dimension: ty_EBIT_net_sales  {
+    view_label: "P&L"
+    group_label: "EBIT Region"
+    label: "EBIT/Net Sales TY%"
+    value_format_name: percent_2
+    type: number
+    sql: safe_divide(${tyEBIT},${netSales})  ;;
+  }
 
+  dimension: py_EBIT_net_sales  {
+    view_label: "P&L"
+    group_label: "EBIT Region"
+    label: "EBIT/Net Sales PY%"
+    value_format_name: percent_2
+    type: number
+    sql: safe_divide(${pyEBIT},${pySales})  ;;
+  }
+
+  dimension: vs_PY_EBIT  {
+    view_label: "P&L"
+    group_label: "EBIT Region"
+    label: "vs EBIT PY"
+    type: number
+    sql: ${tyEBIT} - ${pyEBIT}  ;;
+    value_format_name: gbp_0
+  }
+
+  dimension: var_PY_Net_Sales  {
+    type: number
+    view_label: "P&L"
+    group_label: "EBIT Region"
+    sql: ${netSales} - ${pySales}  ;;
+    value_format_name: gbp_0
+  }
+
+  dimension: var_PY_Sales_Percent  {
+    type: number
+    view_label: "P&L"
+    group_label: "EBIT Region"
+    label: "Var PY Sales %"
+    sql: safe_divide(${var_PY_Net_Sales},${pySales})  ;;
+    value_format_name: percent_3
+  }
 
 }

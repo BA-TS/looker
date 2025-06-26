@@ -203,7 +203,7 @@ view: scorecard_branch_dev_ytd25 {
 
   measure: ty_EBIT_net_sales  {
     view_label: "P&L"
-    group_label: "EBIT"
+    group_label: "EBIT Branch"
     label: "EBIT/Net Sales TY%"
     value_format_name: percent_2
     type: number
@@ -212,7 +212,7 @@ view: scorecard_branch_dev_ytd25 {
 
   measure: py_EBIT_net_sales  {
     view_label: "P&L"
-    group_label: "EBIT"
+    group_label: "EBIT Branch"
     label: "EBIT/Net Sales PY%"
     value_format_name: percent_2
     type: number
@@ -221,7 +221,7 @@ view: scorecard_branch_dev_ytd25 {
 
   measure: vs_PY_EBIT  {
     view_label: "P&L"
-    group_label: "EBIT"
+    group_label: "EBIT Branch"
     label: "vs EBIT PY"
     type: number
     sql: ${tyEBIT} - ${pyEBIT}  ;;
@@ -231,7 +231,7 @@ view: scorecard_branch_dev_ytd25 {
   measure: var_PY_Net_Sales  {
     type: number
     view_label: "P&L"
-    group_label: "EBIT"
+    group_label: "EBIT Branch"
     sql: ${netSales} - ${pySales}  ;;
     value_format_name: gbp_0
   }
@@ -239,7 +239,7 @@ view: scorecard_branch_dev_ytd25 {
   measure: var_PY_Sales_Percent  {
     type: number
     view_label: "P&L"
-    group_label: "EBIT"
+    group_label: "EBIT Branch"
     label: "Var PY Sales %"
     sql: safe_divide(${var_PY_Net_Sales},${pySales})  ;;
     value_format_name: percent_3
