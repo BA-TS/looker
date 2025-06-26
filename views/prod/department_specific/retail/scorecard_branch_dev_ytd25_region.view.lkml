@@ -93,7 +93,7 @@ view: scorecard_branch_dev_ytd25_region {
   dimension: tyEBIT {group_label: "Measures" label: "Ty EBIT" type:number value_format_name:gbp_0 sql:${TABLE}.tyEBIT;;}
   dimension: pyEBIT {group_label: "Measures" label: "Py EBIT" type:number value_format_name:gbp_0 sql:${TABLE}.pyEBIT;;}
   dimension: tsClubSales {group_label: "Measures" label: "TS Club Sales" type:number value_format_name:decimal_1 sql:${TABLE}.tsClubSales;;}
-  dimension: tsClubSalesPercent {group_label: "Scores" label: "TS Club Sales %" type:number value_format_name:decimal_1 sql:${TABLE}.tsClubSalesPercent;;}
+  dimension: tsClubSalesPercent {group_label: "Scores" label: "TS Club Sales %" type:number value_format_name:percent_1 sql:${TABLE}.tsClubSalesPercent;;}
   dimension: ltoScore {group_label: "Scores" label: "LTO Score" type:number value_format_name:decimal_1 sql:${TABLE}.ltoScore;;}
   dimension: trainingScore {group_label: "Scores" label: "Training Score" type:number value_format_name:decimal_1 sql:${TABLE}.trainingScore;;}
   dimension: holidayScore {group_label: "Scores" label: "Holiday Score" type:number value_format_name:decimal_1 sql:${TABLE}.holidayScore;;}
