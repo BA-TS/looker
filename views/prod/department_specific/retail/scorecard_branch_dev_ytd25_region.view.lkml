@@ -33,6 +33,7 @@ view: scorecard_branch_dev_ytd25_region {
     type: number
     sql:case when left(${siteUID},6)= "Region" then CAST(REGEXP_EXTRACT(${siteUID}, r'(\d+)') AS INT64) else null end
       ;;
+      hidden: yes
   }
 
   dimension: P_K {
@@ -41,16 +42,6 @@ view: scorecard_branch_dev_ytd25_region {
     hidden: yes
     primary_key: yes
   }
-
-  measure: siteUID_count {
-    # required_access_grants: [lz_only]
-    type: count_distinct
-    sql: ${siteUID} ;;
-    label: "Number of Sites"
-    group_label: "Measures"
-  }
-
-
 
   dimension: ltoPercent {group_label: "Measures" label: "LTO %" type:number value_format_name:percent_2 sql:${TABLE}.ltoPercent;;}
   dimension: trainingAvailable {group_label: "Measures" label: "Training Available" type:number value_format_name:decimal_1 sql:${TABLE}.trainingAvailable;;}
