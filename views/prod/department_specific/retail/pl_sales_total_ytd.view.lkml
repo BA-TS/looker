@@ -3,22 +3,20 @@ view: pl_sales_total_ytd {
   derived_table: {
     sql:
     select
-    --siteUID,TY,LY,AOP,vsAOP
-    *
+     siteUID,TY,LY,AOP,vsAOP
      from `toolstation-data-storage.retailReporting.PL_DATA_YTD_BUDGET_Final_2025`
-    /*where yearMonth = (select max (yearMonth)
+    where yearMonth = (select max (yearMonth)
      from `toolstation-data-storage.retailReporting.PL_DATA_YTD_BUDGET_Final_2025`
     )
-    and type = "Sales Total"*/
+    and type = "Sales Total"
     ;;
   }
 
   dimension: site_uid {
     type: string
     sql: ${TABLE}.siteUID ;;
-    label: "site UID Lin testing"
-    # hidden: yes
-    # primary_key: yes
+    hidden: yes
+    primary_key: yes
   }
 
   dimension: sales_total_AOP_dim{
