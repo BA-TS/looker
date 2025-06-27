@@ -19,7 +19,7 @@ view: transactions {
         FROM `toolstation-data-storage.sales.transactions` AS transactions
         UNION ALL
         (SELECT
-        incomplete.* EXCEPT(status, rowID),NULL, NULL, NULL, NULL,NULL,NULL,incomplete.rowID,CAST(UPPER(incomplete.status) = "CANCELLED" AS INT64),NULL,NULL,status, "INCOMPLETE"
+        incomplete.* EXCEPT(status, rowID,new_status),NULL, NULL, NULL, NULL,NULL,NULL,incomplete.rowID,CAST(UPPER(incomplete.status) = "CANCELLED" AS INT64),NULL,NULL,status, "INCOMPLETE"
         FROM `toolstation-data-storage.sales.transactions_incomplete` AS incomplete)) AS t
         INNER JOIN `toolstation-data-storage.range.products_current` AS products USING(productUID))
        UNION ALL
